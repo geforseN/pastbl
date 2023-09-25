@@ -4,12 +4,8 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
-    // "@unocss/nuxt",
-    // "@onu-ui/nuxt",
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
-    // "@tailvue/nuxt",
   ],
-  // css: ["onu-ui/dist/style.css"],
 });
