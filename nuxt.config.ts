@@ -8,4 +8,8 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
   ],
+  vue: {
+    propsDestructure: true,
+    defineModel: true,
+  },
 });
