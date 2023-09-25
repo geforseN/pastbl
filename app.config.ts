@@ -1,7 +1,1 @@
-export default defineAppConfig({
-  // ui: {
-  //   notifications: {
-  //     position: "",
-  //   },
-  // },
-});
+export default defineAppConfig({});
