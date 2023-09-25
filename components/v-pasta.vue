@@ -7,6 +7,6 @@
   </li>
 </template>
 <script lang="ts" setup>
-// import { Pasta } from "./store/pastas.store";
-const { text, tags } = defineProps<{ text: string; tags: string[] }>();
+import { Pasta } from "@/store/pastas.store";
+const { text, tags } = defineProps<Pasta>();
 </script>
