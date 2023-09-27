@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2 class="text-3xl font-bold">User settings</h2>
+  <div class="p-2 border-2 border-base-content rounded">
+    <h2 class="text-3xl font-bold mb-2">User settings</h2>
     <div>
       <div class="w-full max-w-xs flex items-center border-2 border-secondary rounded-md">
         <label class="label py-0">
