@@ -11,27 +11,25 @@ export const usePastasStore = defineStore(
     const isLoaded = ref(false);
     const isLoaded_ = useState("isPastasStoreLoaded", () => false);
 
-    async function createPasta(pasta: Pasta) {
-      if (pasta.text.length === 0) {
-        throw new ExtendedError(
-          "Pasta should contain any text, received empty",
-          {
-            title: "Failed to create pasta",
-          }
-        );
-      }
-      pastas.value?.push({
-        tags: pasta.tags,
-        text: pasta.text,
-        createdAt: Date.now(),
-      });
-    }
-
     return {
       pastas,
-      createPasta,
       isLoaded,
       isLoaded_,
+      createPasta: async (pasta: Pasta) => {
+        if (pasta.text.length === 0) {
+          throw new ExtendedError(
+            "Pasta should contain any text, received empty",
+            {
+              title: "Failed to create pasta",
+            }
+          );
+        }
+        pastas.value?.push({
+          tags: pasta.tags,
+          text: pasta.text,
+          createdAt: Date.now(),
+        });
+      },
     };
   },
   {
@@ -43,18 +41,11 @@ export const usePastasStore = defineStore(
         },
       },
       storage: persistedState.localStorage,
-      afterRestore(ctx) {},
+      afterRestore(ctx) {
+        ctx.store.isLoaded = true;
+        ctx.store.isLoaded_ = true;
+      },
       paths: ["pastas", "pasta"],
     },
   }
 );
-
-// setTimeout(() => {
-//   ctx.store.isLoaded_ = true;
-// }, 2_000);
-
-// console.log("loaded");
-// console.log(ctx.store);
-// console.log(ctx.store.pastas);
-// ctx.store.pastas ||= [];
-// isPastasStoreLoaded.value = true;
