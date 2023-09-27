@@ -15,5 +15,4 @@
 <script setup lang="ts">
 const modelValue = defineModel<string>();
 const emit = defineEmits<{ addTag: [tag?: string] }>();
-// , changeTag: []
 </script>
