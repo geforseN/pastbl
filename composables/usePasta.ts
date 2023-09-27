@@ -1,43 +1,41 @@
-import { Pasta } from "~/store/pastas.store";
+type PastaTag = string;
 
 export default function usePasta() {
-  const tag = ref<Pasta["tags"][0]>("");
+  const tag = ref<PastaTag>("");
   const tags = ref<Pasta["tags"]>([]);
   const text = ref<Pasta["text"]>("");
 
-  function onCreationError(
-    error: unknown,
-    event: PointerEvent,
-    notificationsRef: Ref,
-    toast: ReturnType<typeof useToast>
-  ) {
-    if (!(error instanceof ExtendedError)) {
-      return;
+  async function addTagWithClear(newTag: PastaTag) {
+    if (newTag.length === 0) {
+      throw new ExtendedError("Can not add the empty tag");
     }
-    notificationsRef.value.$el.style.position = "absolute";
-    notificationsRef.value.$el.style.right = "auto";
-    notificationsRef.value.$el.style.bottom = "auto";
-    notificationsRef.value.$el.style.left = `${event.clientX + 20}px`;
-    notificationsRef.value.$el.style.top = `${event.clientY + 20}px`;
-    toast.add({
-      ...error,
-      callback: function setDefaultNotificationStyles() {
-        if (!notificationsRef.value.$el) {
-          return console.error("NO notificationsRef.$el", notificationsRef);
-        }
-        notificationsRef.value.$el.style.position = "fixed";
-        notificationsRef.value.$el.style.left = "auto";
-        notificationsRef.value.$el.style.top = "auto";
-        notificationsRef.value.$el.style.right = "0px";
-        notificationsRef.value.$el.style.bottom = "0px";
-      },
-    });
+    if (tags.value.includes(newTag)) {
+      throw new ExtendedError("The tag were already added to pasta");
+    }
+    tags.value.push(newTag);
+    tag.value = "";
+  }
+
+  function removeTag(tagValue: string) {
+    const tagIndex = tags.value.indexOf(tagValue);
+    if (tagIndex === -1) {
+      throw new ExtendedError("Can not remove the tag which is not in tags");
+    }
+    tags.value.splice(tagIndex, 1);
+  }
+
+  function clear() {
+    text.value = "";
+    tags.value = [];
+    tag.value = "";
   }
 
   return {
     tag,
     tags,
     text,
-    onCreationError,
+    clear,
+    removeTag,
+    addTagWithClear,
   };
 }
