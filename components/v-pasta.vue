@@ -1,12 +1,27 @@
 <template>
-  <li class="bg-slate-400 border w-80">
-    <div class>
-      <div v-for="tag of tags" class="badge secondary">{{ tag }}</div>
+  <div class="border border-black">
+    <span class="border w-full flex py-[5px] px-[10px]">
+      <slot />
+      {{ ":" }}
+      <span class="text leading-[19.5px] text-[13px] font-normal align-baseline">
+        {{ pasta.text }}
+      </span>
+    </span>
+    <div class="">
+      <div v-for="tag of pasta.tags" class="badge secondary">{{ tag }}</div>
     </div>
-    {{ text }}
-  </li>
+  </div>
 </template>
 <script lang="ts" setup>
-import { Pasta } from "@/store/pastas.store";
-const { text, tags } = defineProps<Pasta>();
+import { Pasta } from "~/stores/pastas.store";
+
+const { pasta } = defineProps<{ pasta: Pasta }>();
 </script>
+
+<style scoped>
+.text {
+  overflow-wrap: anywhere;
+  text-size-adjust: 100%;
+  font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
