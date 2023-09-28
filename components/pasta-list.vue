@@ -6,15 +6,17 @@
     </div>
     <div v-else class="">
       <div v-if="!clipboard.isSupported">Your browser does not support Clipboard API</div>
-      <div v-for="pasta of pastasStore.pastas" class="flex">
-        <chat-pasta :pasta="pasta" class="w-[340px]">
+      <chat-pasta v-for="pasta of pastasStore.pastas" :pasta="pasta" @pasta-remove="pastasStore.removePasta(pasta)" >
+        <template #user-nickname>
           <slot />
-        </chat-pasta>
-        <button v-if="clipboard.isSupported" class="btn btn-md btn-square rounded-none border-accent border-2 text-xs"
-          @click="handleCopypastaCopy(pasta)">
-          copy pasta
-        </button>
-      </div>
+        </template>
+        <template #copypasta-btn>
+          <button v-if="clipboard.isSupported" class="btn btn-md btn-square rounded-none border-accent border-2 text-xs"
+            @click="handleCopypastaCopy(pasta)">
+            copy pasta
+          </button>
+        </template>
+      </chat-pasta>
     </div>
   </template>
 </template>
