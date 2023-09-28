@@ -2,9 +2,7 @@
   <div class="border-2 rounded border-base-content p-2 h-max">
     <div class="flex gap-x-2 max-h-[75vh]">
       <div class="flex flex-col w-max">
-        <textarea v-model="pastaStore.text" placeholder="Enter a pasta"
-          @keyup.enter="emit('createPastaEnterPressed', $event)"
-          class="w-80 h-[60vh] max-h-[75vh] text box-content textarea leading-[19.5px] text-[13px] font-normal placeholder:text-lg placeholder:text-base-content caret-[#a970ff rounded focus-within:outline-[#a970ff] focus-within:outline-offset-0 focus-within:outline-4 border-base-content border-2 px-[16px] py-[8px] hover:px-[15px] hover:py-[7px] hover:border-[3px]" />
+        <twitch-chat v-model="pastaStore.text" @enter-pressed="emit('createPastaEnterPressed', $event)"></twitch-chat>
       </div>
       <div class="flex flex-col justify-between w-40">
         <div class="flex flex-col items-center">
