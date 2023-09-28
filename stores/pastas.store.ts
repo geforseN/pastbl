@@ -1,4 +1,3 @@
-import { useUserStore } from "./user.store";
 import { defineStore } from "pinia";
 import { stringify, parse } from "zipson";
 
@@ -18,9 +17,9 @@ export const usePastasStore = defineStore(
       isLoaded_,
       latestPasta: computed(() => pastas.value.at(-1)),
       createPasta: async (pasta: Pasta) => {
-        if (pasta.text.length === 0) {
+        if (pasta.text.trim().length === 0) {
           throw new ExtendedError(
-            "Pasta should contain any text, received empty",
+            "Pasta should contain any non space symbol, received empty text",
             {
               title: "Failed to create pasta",
             }
@@ -58,9 +57,9 @@ export const usePastasStore = defineStore(
         ctx.store.isLoaded = true;
         ctx.store.isLoaded_ = true;
         if (ctx.store.pastas.length) {
-          return console.log("has pastas");
+          return console.log("User has pastas");
         }
-        console.log("no pastas, should add funny pasta");
+        console.log("User does not have pastas, should add funny pasta");
         const funnyPasta: MegaPasta = {
           createdAt: Date.UTC(84, 8, 3, 3, 22),
           tags: ["1984", "soySmug"],
