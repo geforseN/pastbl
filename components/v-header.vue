@@ -20,7 +20,6 @@ import { themeChange } from "theme-change";
 // TODO: use cookie instead of session storage
 // NOTE: theme-change does not provide cookie save, only session
 onMounted(() => themeChange(false));
-const userStore = useUserStore()
 
 const colorMode = useColorMode()
 
@@ -30,10 +29,3 @@ onMounted(() => {
   document.documentElement.classList.remove('dark', 'light')
 })
 </script>
-
-<style>
-.oneWordPerLine {
-  word-spacing: 100vw;
-  /* display: table-caption; */
-}
-</style>
