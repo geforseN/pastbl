@@ -8,3 +8,10 @@ const emit = defineEmits<{
   enterPressed: [event: KeyboardEvent];
 }>();
 </script>
+<style scoped>
+.text {
+  overflow-wrap: anywhere;
+  text-size-adjust: 100%;
+  font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
