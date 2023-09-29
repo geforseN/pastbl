@@ -1,16 +1,16 @@
 <template>
   <div class="flex border border-info p-3">
-    <div class="w-[340px] border border-secondary">
-      <span class="w-full flex py-[5px] px-[10px]">
+    <span class="w-[340px] border border-secondary block">
+      <span class="w-full py-[5px] px-[10px] block">
         <slot name="user-nickname" />
-        {{ ":" }}
-        <span class="text leading-[19.5px] text-[13px] font-normal align-baseline">
+        <span>{{ ": " }}</span>
+        <span class="text layout">
           {{ props.pasta.text }}
         </span>
       </span>
-      <div class="ml-2 mb-1">
-        <div v-for="tag of props.pasta.tags" class="badge badge-secondary">{{ tag }}</div>
-      </div>
+      <span class="ml-2 mb-1">
+        <span v-for="tag of props.pasta.tags" class="badge badge-secondary">{{ tag }}</span>
+      </span>
       <div class="m-2 flex justify-between">
         <use-time-ago v-slot="{ timeAgo }" :time="props.pasta.createdAt">
           <time>Created {{ timeAgo }}</time>
@@ -18,7 +18,7 @@
         <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
         <button class="btn btn-xs btn-error" @click="emit('pastaRemove')">DELETE</button>
       </div>
-    </div>
+    </span>
     <slot name='copypasta-btn' />
   </div>
 </template>
@@ -32,7 +32,43 @@ defineSlots<{ 'copypasta-btn': () => any, 'user-nickname': () => any }>();
 <style scoped>
 .text {
   overflow-wrap: anywhere;
-  text-size-adjust: 100%;
+  text-size-adjust: none;
   font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.layout {
+  box-sizing: border-box;
+  display: inline;
+  height: auto;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  width: auto;
+}
+
+.text {
+  font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-size: 13px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-alternates: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-variant-position: normal;
+  font-variation-settings: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-size-adjust: none;
+  vertical-align: baseline
 }
 </style>
