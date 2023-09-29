@@ -8,27 +8,29 @@
         name="badges-count" id="badges-count" class="input rounded-r-none input-secondary flex-1 w-full">
     </div>
     <button
-      class="join-item text-2xl font-medium btn btn-square border border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
-      @click="() => {
-        if (props.badgesCount === 10) {
-          return errorMessage = 'The badges count can not be more than 10';
-        }
-        if (errorMessage) {
-          errorMessage = ''
-        }
-        emit('update:badgesCount', props.badgesCount + 1)
-      }">+</button>
-    <button
       class="pb-1 join-item text-2xl font-medium btn btn-square border border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
       @click="() => {
         if (props.badgesCount === 0) {
-          return errorMessage = 'The badges count can not be negative number';
+          errorMessage = 'The badges count can not be negative number';
+          return;
         }
         if (errorMessage) {
           errorMessage = ''
         }
         emit('update:badgesCount', props.badgesCount - 1)
       }">-</button>
+    <button
+      class="join-item text-2xl font-medium btn btn-square border border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
+      @click="() => {
+        if (props.badgesCount === 10) {
+          errorMessage = 'The badges count can not be more than 10';
+          return;
+        }
+        if (errorMessage) {
+          errorMessage = ''
+        }
+        emit('update:badgesCount', props.badgesCount + 1)
+      }">+</button>
   </div>
 </template>
 
