@@ -11,7 +11,7 @@
           <slot />
         </template>
         <template #copypasta-btn>
-          <button v-if="clipboard.isSupported" class="btn btn-md btn-square rounded-none border-accent border-2 text-xs"
+          <button :disabled="!clipboard.isSupported.value" class="btn btn-md btn-square rounded-none border-accent border-2 text-xs"
             @click="handleCopypastaCopy(pasta)">
             copy pasta
           </button>

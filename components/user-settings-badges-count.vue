@@ -1,11 +1,11 @@
 <template>
   <div class="join relative">
-    <div class="join-item flex-1">
+    <div class="join-item grow">
       <label class="label absolute bottom-10 block w-96">
         <span class="label-text text-error font-bold">{{ errorMessage }}</span>
       </label>
       <input :value="props.badgesCount" @input="handleInputChange($event)" min="0" max="10" type="number"
-        name="badges-count" id="badges-count" class="input rounded-r-none input-secondary flex-1 w-full">
+        name="badges-count" id="badges-count" class="input text-lg rounded-r-none input-secondary w-full">
     </div>
     <button
       class="pb-1 join-item text-2xl font-medium btn btn-square border border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"

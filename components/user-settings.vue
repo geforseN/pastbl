@@ -12,8 +12,8 @@
         <label class="label" for="nickname">
           <span class="text-xl font-medium">Nickname</span>
         </label>
-        <input name="nickname" id="nickname" placeholder="Your Nickname"
-          class="placeholder:text-lg placeholder:text-base-content input input-bordered input-secondary"
+        <input spellcheck="false" name="nickname" id="nickname" placeholder="Your Nickname"
+          class="placeholder:text-lg text-lg placeholder:text-base-content input input-bordered input-secondary"
           v-model="userStore.user.nickname" />
       </div>
     </div>
