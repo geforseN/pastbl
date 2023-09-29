@@ -11,7 +11,7 @@ export const useUserStore = defineStore(
       statistic: { lastCopyPasta?: MegaPasta };
       badges: { count: number };
     }>({
-      nickname: "",
+      nickname: "Kappa",
       preferences: {
         nickname: { color: "red" },
       },
