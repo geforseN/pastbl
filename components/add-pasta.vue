@@ -1,5 +1,17 @@
 <template>
   <div class="border-2 rounded border-base-content p-2 h-max">
+    <!-- FIXME: had strange bug, dynamic classes in template, -->
+    <!-- which used computed below, did not wanted to get required style -->
+    <!-- probably tailwind did not added classes in bundle -->
+    <!-- 
+      so  
+      <span :class="`text-${pastaLengthColor}`">
+        {{ pastaStore.text.length }}
+      </span>
+      did not have required color, text had base text color -->
+    <div hidden class="focus-within:outline-error focus-within:outline-warning focus-within:outline-success" />
+    <div hidden class="text-error text-warning text-success " />
+    <!-- UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  -->
     <div class="flex gap-x-2 max-h-[75vh]">
       <twitch-chat v-model="pastaStore.text" @enter-pressed="emit('createPastaEnterPressed', $event)"></twitch-chat>
       <div class="flex flex-col justify-between w-40">
@@ -51,10 +63,6 @@ async function handleTagAddToPasta(tag: string) {
   }
 }
 
-// FIXME: had strange bug, dynamic classes in template,
-// which used computed below, did not wanted to get required style
-// probably tailwind did not added classes in bundle
-// so {{ pastaStore.text.length }} did not have required color, text had base text color 
 const pastaLengthColor = computed(() => {
   if (pastaStore.text.length === 0 || pastaStore.text.length > 1000) {
     return 'error';
