@@ -13,7 +13,8 @@
     <div hidden class="text-error text-warning text-success " />
     <!-- UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  -->
     <div class="flex gap-x-2 max-h-[75vh]">
-      <twitch-chat v-model="pastaStore.text" @enter-pressed="emit('createPastaEnterPressed', $event)"></twitch-chat>
+      <twitch-chat ref="twitchChatRef" v-model="pastaStore.text"
+        @enter-pressed="emit('createPastaEnterPressed', $event)"></twitch-chat>
       <div class="flex flex-col justify-between w-40">
         <div class="flex flex-col items-center">
           <button :class="`focus-within:outline-${pastaLengthColor}`" class="btn btn-primary w-full text-lg h-max"
@@ -46,6 +47,10 @@ const emit = defineEmits<{
   createPastaClick: [event: MouseEvent];
   createPastaEnterPressed: [event: KeyboardEvent];
 }>();
+
+const twitchChatRef = ref<HTMLInputElement>();
+
+defineExpose({ twitchChatRef })
 
 async function handleTagAddToPasta(tag: string) {
   try {
