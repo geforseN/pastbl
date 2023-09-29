@@ -10,6 +10,8 @@ export const usePastasStore = defineStore(
     const pastas = ref<MegaPasta[]>([]);
     const isLoaded = ref(false);
     const isLoaded_ = useState("isPastasStoreLoaded", () => false);
+    const pastasBin = ref<MegaPasta[]>([]);
+    const toast = useToast();
 
     return {
       pastas,
@@ -40,7 +42,30 @@ export const usePastasStore = defineStore(
             "Can not remove the pasta which is not exist"
           );
         }
-        pastas.value.splice(index, 1);
+        const [removedPasta] = pastas.value.splice(index, 1);
+        pastasBin.value.push(removedPasta);
+        toast.add({
+          timeout: 7_000,
+          title: "Pasta remove",
+          color: "yellow",
+          description: "Pasta got removed and also saved is pastas bin",
+          actions: [
+            {
+              color: "green",
+              label: "Undo pasta remove",
+              block: true,
+              size: "md",
+              click: () => {
+                const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
+                if (index === -1) {
+                  throw new Error("Internal logic error");
+                }
+                pastasBin.value.splice(pastaIndexInBin, 1);
+                pastas.value.splice(index, 0, removedPasta);
+              },
+            },
+          ],
+        });
       },
     };
   },
@@ -67,7 +92,7 @@ export const usePastasStore = defineStore(
         };
         ctx.store.pastas.push(funnyPasta);
       },
-      paths: ["pastas", "pasta"],
+      paths: ["pastas", "pasta", "pastasBin"],
     },
   }
 );
