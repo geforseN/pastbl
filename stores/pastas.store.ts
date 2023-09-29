@@ -22,6 +22,7 @@ export const usePastasStore = defineStore(
       pastasSortedByNewest,
       isLoaded,
       isLoaded_,
+      pastasBin,
       latestPasta: computed(() => pastas.value.at(-1)),
       createPasta: async (pasta: Pasta) => {
         if (pasta.text.trim().length === 0) {
