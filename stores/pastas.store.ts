@@ -13,8 +13,13 @@ export const usePastasStore = defineStore(
     const pastasBin = ref<MegaPasta[]>([]);
     const toast = useToast();
 
+    const pastasSortedByNewest = computed(() =>
+      pastas.value.toSorted((a, b) => b.createdAt - a.createdAt)
+    );
+
     return {
       pastas,
+      pastasSortedByNewest,
       isLoaded,
       isLoaded_,
       latestPasta: computed(() => pastas.value.at(-1)),
@@ -29,7 +34,7 @@ export const usePastasStore = defineStore(
         }
         pastas.value?.push({
           tags: pasta.tags,
-          text: pasta.text,
+          text: pasta.text.trimEnd(),
           createdAt: Date.now(),
         });
       },
