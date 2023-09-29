@@ -18,11 +18,17 @@
     -->
     <client-only>
       <div class="flex justify-center gap-x-12 w-full mt-2">
-        <pasta-list>
-          <user-nickname :user="userStore.user" />
-        </pasta-list>
+        <div>
+          <pasta-list>
+            <user-nickname :user="userStore.user" />
+          </pasta-list>
+          <button class="my-2 btn btn-primary w-full text-xl" @click="addPastaRef.twitchChatRef.textareaRef.focus()">
+            go create pasta
+          </button>
+        </div>
         <div class="flex flex-col gap-y-4">
-          <add-pasta @createPastaClick="handlePastaCreation" @createPastaEnterPressed="handlePastaCreation" />
+          <add-pasta ref="addPastaRef" @createPastaClick="handlePastaCreation"
+            @createPastaEnterPressed="handlePastaCreation" />
           <user-settings />
         </div>
       </div>
@@ -36,6 +42,8 @@ const toast = useToast()
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const userStore = useUserStore();
+
+const addPastaRef = ref<HTMLElement>();
 
 function handlePastaCreation<E extends KeyboardEvent | MouseEvent>(_event: E) {
   pastasStore.createPasta({ tags: pastaStore.tags, text: pastaStore.text })
