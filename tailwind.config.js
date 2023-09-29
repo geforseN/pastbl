@@ -1,3 +1,5 @@
+const daisyuiThemes = require("daisyui/src/theming/themes");
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [],
@@ -9,12 +11,12 @@ export default {
     themes: [
       {
         light: {
-          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
-        }
+          ...daisyuiThemes["[data-theme=light]"],
+        },
       },
       {
         dark: {
-          ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+          ...daisyuiThemes["[data-theme=dark]"],
           "base-content": "#ffffff",
         },
       },
