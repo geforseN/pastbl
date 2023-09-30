@@ -79,9 +79,7 @@ export const usePastasStore = defineStore(
     persist: {
       serializer: {
         deserialize: parse,
-        serialize: (value) => {
-          return stringify(value, {});
-        },
+        serialize: stringify,
       },
       storage: persistedState.localStorage,
       afterRestore(ctx) {
