@@ -21,9 +21,9 @@
 
 <script setup lang="ts">
 // TODO add useSound composable
-// TODO add user.preference.shouldShowToastOnCopypastaSuccess
 
 const pastasStore = usePastasStore()
+const userStore = useUserStore()
 
 const toast = useToast()
 const clipboard = useClipboard({})
@@ -37,7 +37,14 @@ async function handleCopypastaCopy(pasta: Pasta) {
     if (!clipboard.copied) {
       throw new Error('Copypasta was not copied')
     }
-    toast.add({ description: 'Copypasta copied successfully', title: 'Copypasta 🤙🤙🤙', timeout: 1_700 })
+    if (!userStore.preferences.alerts.copypastaCopy.shouldShowOnSuccess) {
+      return;
+    }
+    toast.add({
+      description: 'Copypasta copied successfully',
+      title: 'Copypasta 🤙🤙🤙',
+      timeout: 1_700
+    })
   } catch (error: Error | unknown) {
     const description =
       typeof error === 'object'
