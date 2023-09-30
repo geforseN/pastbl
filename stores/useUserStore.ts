@@ -7,6 +7,11 @@ export const useUserStore = defineStore(
       nickname: string;
       preferences: {
         nickname: { color: string };
+        alerts: {
+          copypastaCopy: {
+            shouldShowOnSuccess: boolean;
+          };
+        };
       };
       statistic: { lastCopyPasta?: MegaPasta };
       badges: { count: number };
@@ -14,13 +19,16 @@ export const useUserStore = defineStore(
       nickname: "Kappa",
       preferences: {
         nickname: { color: "red" },
+        alerts: {
+          copypastaCopy: { shouldShowOnSuccess: true },
+        },
       },
       badges: { count: 1 },
       statistic: {
         lastCopyPasta: undefined,
       },
     });
-    
+
     const pastasStore = usePastasStore();
 
     const preferences = computed(() => user.value.preferences);
