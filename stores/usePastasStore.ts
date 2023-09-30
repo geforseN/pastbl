@@ -8,8 +8,6 @@ export const usePastasStore = defineStore(
   "pastas",
   () => {
     const pastas = ref<MegaPasta[]>([]);
-    const isLoaded = ref(false);
-    const isLoaded_ = useState("isPastasStoreLoaded", () => false);
     const pastasBin = ref<MegaPasta[]>([]);
     const toast = useToast();
 
@@ -20,8 +18,6 @@ export const usePastasStore = defineStore(
     return {
       pastas,
       pastasSortedByNewest,
-      isLoaded,
-      isLoaded_,
       pastasBin,
       latestPasta: computed(() => pastas.value.at(-1)),
       createPasta: async (pasta: Pasta) => {
@@ -83,8 +79,6 @@ export const usePastasStore = defineStore(
       },
       storage: persistedState.localStorage,
       afterRestore(ctx) {
-        ctx.store.isLoaded = true;
-        ctx.store.isLoaded_ = true;
         if (ctx.store.pastas.length) {
           return console.log("User has pastas");
         }
