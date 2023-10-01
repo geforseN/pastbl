@@ -6,7 +6,7 @@
     <div v-for="tag of props.tags" :title="tag" class="bg-secondary flex justify-between px-1 py-0.5 gap-x-1 rounded-lg">
       <span class="line-clamp-4 break-all">{{ tag }}</span>
       <button class="btn block btn-xs h-full text-xs font-normal" :title="`remove tag: ${tag}`"
-        @click="emit('removeTag', tag)">
+        @click.prevent="emit('removeTag', tag)">
         <span>x</span>
       </button>
     </div>
