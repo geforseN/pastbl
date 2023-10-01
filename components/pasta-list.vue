@@ -14,11 +14,11 @@
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-3xl">Change copypasta</h2>
         <button
-          class="btn btn-error"
+          class="btn btn-error focus-within:outline-offset-8 focus-within:outline-4"
           @click="changeCopypastaModalWindow.close()"
         >
-          <span class="text-lg">EXIT</span>
-          <span class="kbd kbd-xs bg-gray-300 text-black">ESC</span>
+          <span class="text-lg">Exit</span>
+          <span class="kbd kbd-xs bg-gray-300 text-black">esc</span>
         </button>
       </div>
       <div class="modal-action">
