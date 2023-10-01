@@ -53,6 +53,7 @@
       class="mb-2"
       v-model="tagToAdd"
       @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
+      :should-become-empty="props.shouldTagModelBecomeEmpty"
     />
   </section>
 </template>
@@ -69,6 +70,7 @@ defineSlots<{
 
 const props = defineProps<{
   pastaTags: Pasta["tags"];
+  shouldTagModelBecomeEmpty?: boolean
 }>();
 
 const emit = defineEmits<{
