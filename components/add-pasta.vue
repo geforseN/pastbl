@@ -6,93 +6,91 @@
     <!-- 
       so  
       <span :class="`text-${pastaLengthColor}`">
-        {{ pastaStore.text.length }}
+        {{ pastaText.length }}
       </span>
       did not have required color, text had base text color -->
-    <div hidden class="focus-within:outline-error focus-within:outline-warning focus-within:outline-success" />
-    <div hidden class="text-error text-warning text-success " />
-    <!-- UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  -->
-    <h2 class="text-3xl font-bold mb-2 border-b p-2 relative">
-      Create pasta
-      <!-- TODO onhover change img to basedge, xdd, aRolf ... -->
-      <div class="relative inline-block">
-        <img class="inline ml-1" src="https://cdn.7tv.app/emote/6306876cbe8c19d70f9d6b22/1x.webp" alt="Jokerge emote">
-        <img class="absolute right-0 bottom-0 scale-150 -translate-y-1 -translate-x-[2.5px] motion-reduce:hidden"
-          src="https://cdn.7tv.app/emote/6216d2f73808dfe5c465bc4a/1x.webp" alt="Alert emote"
-          :hidden="!shouldShowDisgustingAlert">
-      </div>
-    </h2>
+    <div
+      hidden
+      class="focus-within:outline-error focus-within:outline-warning focus-within:outline-success"
+    />
+    <div hidden class="text-error text-warning text-success" />
+    <!-- 
+      UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  
+    -->
+    <slot name="header" />
     <div class="flex gap-x-2 max-h-[75vh]">
-      <twitch-chat ref="twitchChatRef" v-model="pastaStore.text"
-        @enter-pressed="emit('createPastaEnterPressed', $event)"></twitch-chat>
+      <twitch-chat
+        ref="twitchChatRef"
+        v-model="pastaText"
+        @enter-pressed="emit('createPastaEnterPressed', $event)"
+      />
       <div class="flex flex-col justify-between w-40">
         <div class="flex flex-col items-center">
-          <button :class="`focus-within:outline-${pastaLengthColor}`" class="btn btn-primary w-full text-lg h-max"
-            @click="emit('createPastaClick', $event)">
-            create pasta
-          </button>
-          <span>Pasta length:
+          <slot name="topLeftElement" :pastaLengthColor="pastaLengthColor" />
+          <span>
+            Pasta length:
             <span :class="`text-${pastaLengthColor}`">
-              {{ pastaStore.text.length }}
+              {{ pastaText.length }}
             </span>
           </span>
         </div>
         <div class="flex flex-col gap-y-2">
-          <added-tags @remove-tag="tag => pastaStore.removeTag(tag)" :tags="pastaStore.tags" />
-          <button v-if="pastaStore.tags.length !== 0" class="btn btn-sm btn-error" @click="pastaStore.removeAllTags">
+          <added-tags
+            @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
+            :tags="props.pastaTags"
+          />
+          <button
+            v-if="props.pastaTags.length !== 0"
+            class="btn btn-sm btn-error"
+            @click="() => emit('removeAllTags')"
+          >
             remove all tags
           </button>
         </div>
       </div>
     </div>
-    <add-pasta-tags class="mb-2" v-model="pastaStore.tag" @add-tag="(tag = pastaStore.tag) => handleTagAddToPasta(tag)" />
+    <add-pasta-tags
+      class="mb-2"
+      v-model="tagToAdd"
+      @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
+    />
   </section>
 </template>
-
 <script lang="ts" setup>
-const pastaStore = usePastaStore()
-const toast = useToast();
+const tagToAdd = defineModel<string>("tag", { default: "", local: true });
+const pastaText = defineModel<string>("text", { required: true, local: false });
+
+defineSlots<{
+  header: () => VNode;
+  topLeftElement: (props: {
+    pastaLengthColor: "error" | "warning" | "success";
+  }) => VNode;
+}>();
+
+const props = defineProps<{
+  pastaTags: Pasta["tags"];
+}>();
 
 const emit = defineEmits<{
-  createPastaClick: [event: MouseEvent];
   createPastaEnterPressed: [event: KeyboardEvent];
+  addTagToPasta: [tag: string];
+  removeTagFromPasta: [tag: string];
+  removeAllTags: [];
 }>();
 
 const twitchChatRef = ref<HTMLInputElement>();
 
-defineExpose({ twitchChatRef })
-
-async function handleTagAddToPasta(tag: string) {
-  try {
-    await pastaStore.addTag(tag)
-    pastaStore.tag = ''
-  } catch (error) {
-    if (!(error instanceof ExtendedError)) {
-      throw error
-    }
-    toast.add({
-      description: error.description,
-      title: error.title,
-      color: error.color
-    });
-  }
-}
+defineExpose({
+  twitchChatRef,
+});
 
 const pastaLengthColor = computed(() => {
-  if (pastaStore.text.length === 0 || pastaStore.text.length > 1000) {
-    return 'error';
+  if (pastaText.value.length === 0 || pastaText.value.length > 1000) {
+    return "error";
   }
-  if (pastaStore.text.length > 500) {
-    return 'warning';
+  if (pastaText.value.length > 500) {
+    return "warning";
   }
-  return 'success';
-})
-
-const shouldShowDisgustingAlert = ref(true)
-
-onMounted(() => {
-  setTimeout(() => {
-    shouldShowDisgustingAlert.value = false;
-  }, 3_000)
-})
+  return "success";
+});
 </script>
