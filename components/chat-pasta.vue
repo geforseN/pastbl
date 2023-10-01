@@ -1,25 +1,39 @@
 <template>
-  <div class="flex border border-info p-3">
-    <span class="w-[340px] border border-secondary block">
-      <span class="w-full py-[5px] px-[10px] block">
-        <slot name="user-nickname" />
-        <span>{{ ": " }}</span>
-        <span class="text layout">
-          {{ props.pasta.text }}
+  <!-- FIXME: 
+    layout tags are bad
+    e.g span which have 'block' class   
+    most of this were just copied from twitch layout
+    probably this can be refactored and visual regression wont happened
+  -->
+  <div class="flex border border-info p-2 pb-1 gap-x-2">
+    <div class="flex flex-col w-[340px]">
+      <span class="grow border border-secondary block">
+        <span class="w-full py-[5px] px-[10px] block">
+          <slot name="user-nickname" />
+          <span>{{ ": " }}</span>
+          <span class="text layout">
+            {{ props.pasta.text }}
+          </span>
         </span>
       </span>
-      <span class="ml-2 mb-1">
-        <span v-for="tag of props.pasta.tags" class="badge badge-secondary">
-          {{ tag }}
-        </span>
-      </span>
-      <div class="m-2 flex justify-between">
+      <div class="flex justify-between px-1">
         <use-time-ago v-slot="{ timeAgo }" :time="props.pasta.createdAt">
           <time>Created {{ timeAgo }}</time>
         </use-time-ago>
         <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
       </div>
-    </span>
+      <div
+        class="flex flex-wrap gap-x-1 gap-y-0.5"
+        v-if="props.pasta.tags.length !== 0"
+      >
+        <div
+          v-for="tag of props.pasta.tags"
+          class="bg-info text-info-content rounded-lg px-1 py-0.5 text-sm line-clamp-2 break-all"
+        >
+          {{ tag }}
+        </div>
+      </div>
+    </div>
     <div class="flex flex-col justify-between">
       <slot name="copypasta-btn" />
       <button
@@ -45,6 +59,7 @@ const emit = defineEmits<{
   pastaRemove: [];
   showChangeCopypastaModalWindow: [];
 }>();
+
 defineSlots<{
   "copypasta-btn": () => any;
   "user-nickname": () => any;
