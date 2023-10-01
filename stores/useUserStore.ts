@@ -12,6 +12,11 @@ export const useUserStore = defineStore(
             shouldShowOnSuccess: boolean;
           };
         };
+        sounds: {
+          copypastaCopy: {
+            shouldSoundOnSuccess: boolean;
+          };
+        };
       };
       statistic: { lastCopyPasta?: MegaPasta };
       badges: { count: number };
@@ -20,7 +25,14 @@ export const useUserStore = defineStore(
       preferences: {
         nickname: { color: "red" },
         alerts: {
-          copypastaCopy: { shouldShowOnSuccess: true },
+          copypastaCopy: {
+            shouldShowOnSuccess: true,
+          },
+        },
+        sounds: {
+          copypastaCopy: {
+            shouldSoundOnSuccess: true,
+          },
         },
       },
       badges: { count: 1 },
