@@ -6,16 +6,24 @@
     @close="
       () => {
         selectedCopypastaForChange = null;
-        console.log(changeCopypastaModalWindow?.returnValue);
+        console.log({
+          returnValue: (
+            changeCopypastaModalWindow || { returnValue: 'NO VALUE' }
+          ).returnValue,
+        });
       }
     "
   >
-    <div class="modal-box w-max max-w-5xl" v-if="changeCopypastaModalWindow">
+    <div
+      class="modal-box col-start-3 w-max max-w-5xl"
+      v-if="changeCopypastaModalWindow && selectedCopypastaForChange"
+    >
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-3xl">Change copypasta</h2>
         <button
+          ref="closeModalButtonRef"
           class="btn btn-error focus-within:outline-offset-8 focus-within:outline-4"
-          @click="changeCopypastaModalWindow.close()"
+          @click.prevent="changeCopypastaModalWindow.close()"
         >
           <span class="text-lg">Exit</span>
           <span class="kbd kbd-xs bg-gray-300 text-black">esc</span>
@@ -64,9 +72,24 @@
               }
             "
           >
+            <template #topLeftElement>
+              <button
+                class="btn btn-error w-full text-lg h-max"
+                @click.prevent="
+                  () => {
+                    if (!selectedCopypastaForChange) {
+                      throw { message: 'bad' };
+                    }
+                    pastasStore.removePasta(selectedCopypastaForChange);
+                    changeCopypastaModalWindow?.close();
+                  }
+                "
+              >
+                Delete pasta
+              </button>
+            </template>
           </pasta-form>
         </form>
-        <!-- TODO v-else-if !selectedCopypastaForChange-->
       </div>
     </div>
   </dialog>
@@ -89,6 +112,9 @@
           }
           selectedCopypastaForChange = pasta;
           changeCopypastaModalWindow?.showModal();
+          nextTick(() => {
+            closeModalButtonRef?.focus();
+          });
         }
       "
     >
@@ -114,6 +140,9 @@ const userStore = useUserStore();
 
 const changeCopypastaModalWindow = ref<HTMLDialogElement>();
 const selectedCopypastaForChange = ref<MegaPasta | null>(null);
+// NOTE: this ref exist, because default focus on button is not working, so focus should be done manually
+// FIXME: on first modal open no focus on button nor any element (no visible outline found by me)
+const closeModalButtonRef = ref<HTMLButtonElement>();
 
 const clipboard = useClipboard();
 const toast = useToast();
@@ -144,13 +173,9 @@ async function handleCopypastaCopy(pasta: Pasta) {
       // TODO add useSound
     }
   } catch (error: Error | unknown) {
-    const description =
-      typeof error === "object" &&
-      error !== null &&
-      "message" in error &&
-      error.message;
     toast.add({
-      description: description || "Copypasta was not copied",
+      description:
+        error instanceof Error ? error.message : "Something went wrong",
       title: "Copypasta problem",
       timeout: 7_000,
       color: "red",
@@ -158,3 +183,16 @@ async function handleCopypastaCopy(pasta: Pasta) {
   }
 }
 </script>
+<style scoped>
+/* NOTE: below overrides daisyui modal scroll shift, now user can scroll y */
+:root:has(
+    :is(
+        .modal-open,
+        .modal:target,
+        .modal-toggle:checked + .modal,
+        .modal[open]
+      )
+  ) {
+  overflow-y: visible;
+}
+</style>
