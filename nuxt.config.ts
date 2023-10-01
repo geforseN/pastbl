@@ -7,18 +7,16 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  imports: {dirs: [
-    './composables', './utils', './stores'
-  ]},
+  imports: {
+    dirs: ["./composables", "./utils", "./stores"],
+  },
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
-    "@formkit/nuxt",
     "@nuxtjs/color-mode",
-    "nuxt-icon",
   ],
   vue: {
     propsDestructure: true,
