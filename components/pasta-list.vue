@@ -73,7 +73,7 @@
   <div v-if="pastasStore.pastas.length === 0" class="justify-self-center mt-4">
     No pastas were added yet!
   </div>
-  <div v-else class="">
+  <div v-else class="flex flex-col gap-y-2">
     <div v-if="!clipboard.isSupported">
       Your browser does not support Clipboard API
     </div>
