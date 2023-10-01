@@ -9,24 +9,46 @@
         </span>
       </span>
       <span class="ml-2 mb-1">
-        <span v-for="tag of props.pasta.tags" class="badge badge-secondary">{{ tag }}</span>
+        <span v-for="tag of props.pasta.tags" class="badge badge-secondary">
+          {{ tag }}
+        </span>
       </span>
       <div class="m-2 flex justify-between">
         <use-time-ago v-slot="{ timeAgo }" :time="props.pasta.createdAt">
           <time>Created {{ timeAgo }}</time>
         </use-time-ago>
         <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
-        <button class="btn btn-xs btn-error" @click="emit('pastaRemove')">DELETE</button>
       </div>
     </span>
-    <slot name='copypasta-btn' />
+    <div class="flex flex-col justify-between">
+      <slot name="copypasta-btn" />
+      <button
+        class="mt-auto btn btn-md btn-square rounded-none border-neutral-content border-2 text-xs btn-secondary text-secondary-content"
+        @click="emit('showChangeCopypastaModalWindow')"
+      >
+        Change pasta
+      </button>
+      <button
+        class="btn btn-md btn-square rounded-none border-neutral-content border-2 text-xs btn-warning text-warning-content"
+        @click="emit('pastaRemove')"
+      >
+        Delete pasta
+      </button>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { UseTimeAgo } from '@vueuse/components'
+import { UseTimeAgo } from "@vueuse/components";
+
 const props = defineProps<{ pasta: MegaPasta }>();
-const emit = defineEmits<{ pastaRemove: [] }>();
-defineSlots<{ 'copypasta-btn': () => any, 'user-nickname': () => any }>();
+const emit = defineEmits<{
+  pastaRemove: [];
+  showChangeCopypastaModalWindow: [];
+}>();
+defineSlots<{
+  "copypasta-btn": () => any;
+  "user-nickname": () => any;
+}>();
 </script>
 
 <style scoped>
@@ -69,6 +91,6 @@ defineSlots<{ 'copypasta-btn': () => any, 'user-nickname': () => any }>();
   font-weight: 400;
   line-height: 20px;
   text-size-adjust: none;
-  vertical-align: baseline
+  vertical-align: baseline;
 }
 </style>
