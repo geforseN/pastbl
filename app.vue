@@ -1,13 +1,5 @@
 <template>
   <div class="relative">
-    <u-notifications>
-      <template #title="{ title }">
-        <span class="text-xl" v-html="title" />
-      </template>
-      <template #description="{ description }">
-        <span class="font-bold" v-html="description" />
-      </template>
-    </u-notifications>
     <v-header />
     <!-- NOTE: client only is used here because pastaStore and pastasStore persist data in localStorage, which is client only -->
     <!-- NOTE: for persist pinia-plugin-persistedstate is used, 
@@ -15,18 +7,17 @@
       for some reason, pasta with length over ~400 char is not saved in cookie, so 
       localStorage is used for persist, which does not behave like that with long pasta text
     -->
-    <client-only>
-      <main
-        class="flex flex-col gap-y-4 items-center lg:items-start lg:flex-row justify-center gap-x-12 w-full mt-2"
-      >
-        <div class="flex flex-col-reverse lg:flex-col">
+    <main
+      class="flex flex-col gap-y-4 items-center min-[920px]:items-start min-[920px]:flex-row justify-center gap-x-12 w-full mt-2"
+    >
+      <client-only>
+        <div class="flex flex-col-reverse min-[920px]:flex-col">
           <pasta-list>
-            <user-nickname :user="userStore.user" />
+            <template #default>
+              <user-nickname :user="userStore.user" />
+            </template>
           </pasta-list>
-          <button
-            class="my-2 btn btn-primary w-full text-xl"
-            @click="(addPastaRef as any).twitchChatRef.textareaRef.focus()"
-          >
+          <button class="my-2 btn btn-primary w-full text-xl" @click="">
             go create pasta
           </button>
         </div>
