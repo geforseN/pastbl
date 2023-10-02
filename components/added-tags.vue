@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="tags.length !== 0"
-    class="flex flex-wrap gap-2 overflow-y-scroll max-h-[120px] min-w-full"
+    class="flex flex-wrap gap-2 overflow-y-auto max-h-[120px] min-w-full"
   >
     <div
       v-for="tag of props.tags"
