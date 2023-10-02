@@ -1,21 +1,19 @@
 <template>
-  <div class="join mt-2 w-full">
+  <div class="join w-full">
     <input
       type="text"
       id="add-tag"
       @keyup.enter.prevent="emitTag"
       v-model="modelValue"
-      placeholder="Enter a pasta tag"
-      class="input input-bordered w-full border-base-content join-item bg-opposite placeholder:text-base-content"
+      placeholder="Enter a pasta tag (optional)"
+      class="input input-bordered box-content w-full xl:w-auto xl:min-w-[320px] border-base-content join-item placeholder:text-base-content"
     />
     <button
-      class="px-0 join-item btn w-[170px] text-3xl border border-base-content hover:border hover:border-base-content hover:bg-secondary/5"
+      class="join-item btn text-3xl box-content xl:min-w-[120px] border border-base-content hover:border hover:border-base-content hover:bg-secondary/5"
       @click.prevent="emitTag"
     >
-      <span class="inline-flex gap-x-1 items-center">
-        +
-        <span class="text-base">add tag</span>
-      </span>
+      +
+      <span class="text-base">add tag</span>
     </button>
   </div>
 </template>
