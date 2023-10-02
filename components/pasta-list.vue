@@ -15,7 +15,7 @@
     "
   >
     <div
-      class="modal-box col-start-3 w-max max-w-5xl"
+      class="modal-box w-max max-w-5xl"
       v-if="changeCopypastaModalWindow && selectedCopypastaForChange"
     >
       <div class="flex justify-between items-center">
@@ -183,7 +183,7 @@ async function handleCopypastaCopy(pasta: Pasta) {
   }
 }
 </script>
-<style scoped>
+<style>
 /* NOTE: below overrides daisyui modal scroll shift, now user can scroll y */
 :root:has(
     :is(
