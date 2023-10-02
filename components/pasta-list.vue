@@ -13,6 +13,7 @@
         });
       }
     "
+    @keypress.enter.prevent
   >
     <div
       class="modal-box w-max max-w-5xl"
