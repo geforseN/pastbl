@@ -9,7 +9,6 @@
       </template>
     </u-notifications>
     <v-header />
-    <!--  -->
     <!-- NOTE: client only is used here because pastaStore and pastasStore persist data in localStorage, which is client only -->
     <!-- NOTE: for persist pinia-plugin-persistedstate is used, 
       for nuxt3 by default it uses cookie persist, but 
@@ -17,8 +16,10 @@
       localStorage is used for persist, which does not behave like that with long pasta text
     -->
     <client-only>
-      <div class="flex justify-center gap-x-12 w-full mt-2">
-        <div>
+      <main
+        class="flex flex-col gap-y-4 items-center lg:items-start lg:flex-row justify-center gap-x-12 w-full mt-2"
+      >
+        <div class="flex flex-col-reverse lg:flex-col">
           <pasta-list>
             <user-nickname :user="userStore.user" />
           </pasta-list>
@@ -29,7 +30,7 @@
             go create pasta
           </button>
         </div>
-        <div class="flex flex-col gap-y-4">
+        <div class="flex flex-col gap-y-4 w-min">
           <pasta-form
             ref="addPastaRef"
             :pastaTags="pastaStore.tags"
@@ -73,7 +74,7 @@
           </pasta-form>
           <user-settings />
         </div>
-      </div>
+      </main>
     </client-only>
   </div>
 </template>
