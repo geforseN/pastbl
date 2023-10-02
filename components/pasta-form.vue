@@ -18,30 +18,31 @@
       UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  
     -->
     <slot name="header" />
-    <div class="flex gap-x-2">
+    <div
+      class="flex gap-2 flex-col xl:flex-row w-min xl:w-full xl:justify-between"
+    >
       <twitch-chat
         ref="twitchChatRef"
         v-model="pastaText"
         @enter-pressed="emit('createPastaEnterPressed', $event)"
       />
-      <div class="flex flex-col w-40 items-center">
-        <slot name="topLeftElement" :pastaLengthColor="pastaLengthColor" />
-        <span>
-          Pasta length:
-          <span :class="`text-${pastaLengthColor}`">
-            {{ pastaText.length }}
+      <div class="flex items-center gap-1 xl:flex-col xl:w-full ASD">
+        <div>
+          <span class="px-1.5">
+            Pasta length:
+            <span :class="`text-${pastaLengthColor}`">
+              {{ pastaText.length }}
+            </span>
           </span>
-        </span>
-        <div class="mt-auto invisible" />
-        <button
-          v-if="props.pastaTags.length !== 0"
-          class="btn btn-sm btn-error"
-          @click="() => emit('removeAllTags')"
-        >
-          remove all tags
-        </button>
-        <div v-else class="badge badge-lg badge-warning">
-          No tags added
+          <div class="mt-auto invisible" />
+          <button
+            v-if="props.pastaTags.length !== 0"
+            class="btn btn-sm btn-error"
+            @click="() => emit('removeAllTags')"
+          >
+            remove all tags
+          </button>
+          <span v-else class="badge badge-warning badge-lg">No tags added</span>
         </div>
         <div class="mt-auto ml-auto invisible" />
         <slot name="button" :pastaLengthColor="pastaLengthColor" />
