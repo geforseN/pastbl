@@ -5,13 +5,15 @@
     most of this were just copied from twitch layout
     probably this can be refactored and visual regression wont happened
   -->
-  <div class="flex border border-info p-2 pb-1 gap-x-2">
+  <div class="flex flex-col gap-y-1 min-[420px]:flex-row min-[420px]:gap-y-0 border border-info p-2 pb-1 gap-x-2">
     <div class="flex flex-col w-[340px]">
       <span class="grow border border-secondary block">
         <span class="w-full py-[5px] px-[10px] block">
           <slot name="user-nickname" />
           <span>{{ ": " }}</span>
-          <span class="text layout">
+          <span
+            class="text layout box-content textarea leading-[19.5px] text-[13px] font-normal"
+          >
             {{ props.pasta.text }}
           </span>
         </span>
@@ -34,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col justify-between">
+    <div class="flex gap-x-4 flex-row-reverse min-[420px]:flex-col min-[420px]:justify-between min-[420px]:gap-x-0 ">
       <slot name="copypasta-btn" />
       <button
         class="mt-auto btn btn-md btn-square rounded-none border-neutral-content border-2 text-xs btn-secondary text-secondary-content"
@@ -67,12 +69,6 @@ defineSlots<{
 </script>
 
 <style scoped>
-.text {
-  overflow-wrap: anywhere;
-  text-size-adjust: none;
-  font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 .layout {
   box-sizing: border-box;
   display: inline;
@@ -89,23 +85,8 @@ defineSlots<{
 }
 
 .text {
+  overflow-wrap: anywhere;
+  text-size-adjust: 100%;
   font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-feature-settings: normal;
-  font-kerning: auto;
-  font-optical-sizing: auto;
-  font-size: 13px;
-  font-stretch: 100%;
-  font-style: normal;
-  font-variant-alternates: normal;
-  font-variant-caps: normal;
-  font-variant-east-asian: normal;
-  font-variant-ligatures: normal;
-  font-variant-numeric: normal;
-  font-variant-position: normal;
-  font-variation-settings: normal;
-  font-weight: 400;
-  line-height: 20px;
-  text-size-adjust: none;
-  vertical-align: baseline;
 }
 </style>
