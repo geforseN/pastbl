@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@savvywombat/tailwindcss-grid-areas")],
   daisyui: {
     themes: [
       {
