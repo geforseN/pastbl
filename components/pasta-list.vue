@@ -125,7 +125,7 @@
       <template #copypasta-btn>
         <button
           :disabled="!clipboard.isSupported.value"
-          class="btn btn-md btn-square rounded-none border-accent border-2 text-xs"
+          class="btn btn-md btn-square rounded-none border-accent border-2 text-xs ml-auto min-[420px]:ml-0"
           @click="handleCopypastaCopy(pasta)"
         >
           copy pasta
