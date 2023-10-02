@@ -24,7 +24,7 @@
         <pasta-form-responsive />
       </client-only>
     </main>
-    <u-notifications class="w-min sm:w-min">
+    <u-notifications>
       <template #title="{ title }">
         <span class="text-xl" v-html="title" />
       </template>
