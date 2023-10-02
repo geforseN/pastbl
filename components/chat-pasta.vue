@@ -5,7 +5,7 @@
     most of this were just copied from twitch layout
     probably this can be refactored and visual regression wont happened
   -->
-  <div class="flex flex-col gap-y-1 min-[420px]:flex-row min-[420px]:gap-y-0 border border-info p-2 pb-1 gap-x-2">
+  <div class="flex flex-col gap-y-1 min-[420px]:flex-row min-[420px]:gap-y-0 border border-info p-2 gap-x-2">
     <div class="flex flex-col w-[340px]">
       <span class="grow border border-secondary block">
         <span class="w-full py-[5px] px-[10px] block">
@@ -18,14 +18,8 @@
           </span>
         </span>
       </span>
-      <div class="flex justify-between px-1">
-        <use-time-ago v-slot="{ timeAgo }" :time="props.pasta.createdAt">
-          <time>Created {{ timeAgo }}</time>
-        </use-time-ago>
-        <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
-      </div>
       <div
-        class="flex flex-wrap gap-x-1 gap-y-0.5"
+        class="flex flex-wrap gap-x-1 gap-y-0.5 relative top-1"
         v-if="props.pasta.tags.length !== 0"
       >
         <div
@@ -35,8 +29,14 @@
           {{ tag }}
         </div>
       </div>
+      <div class="flex justify-between px-0.5 relative top-[3px]">
+        <use-time-ago v-slot="{ timeAgo }" :time="props.pasta.createdAt">
+          <time>Created {{ timeAgo }}</time>
+        </use-time-ago>
+        <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
+      </div>
     </div>
-    <div class="flex gap-x-4 flex-row-reverse min-[420px]:flex-col min-[420px]:justify-between min-[420px]:gap-x-0 ">
+    <div class="flex gap-x-2 flex-row-reverse min-[420px]:flex-col min-[420px]:justify-between min-[420px]:gap-x-0 ">
       <slot name="copypasta-btn" />
       <button
         class="mt-auto btn btn-md btn-square rounded-none border-neutral-content border-2 text-xs btn-secondary text-secondary-content"
