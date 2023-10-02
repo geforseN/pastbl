@@ -1,5 +1,5 @@
 <template>
-  <section class="border-2 rounded border-base-content p-2 h-max">
+  <section class="flex flex-col h-max gap-y-2 p-2 border-2 border-base-content rounded">
     <!-- FIXME: had strange bug, dynamic classes in template, -->
     <!-- which used computed below, did not wanted to get required style -->
     <!-- probably tailwind did not added classes in bundle -->
@@ -18,39 +18,38 @@
       UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  
     -->
     <slot name="header" />
-    <div class="flex gap-x-2 max-h-[75vh]">
+    <div class="flex gap-x-2">
       <twitch-chat
         ref="twitchChatRef"
         v-model="pastaText"
         @enter-pressed="emit('createPastaEnterPressed', $event)"
       />
-      <div class="flex flex-col justify-between w-40">
-        <div class="flex flex-col items-center">
-          <slot name="topLeftElement" :pastaLengthColor="pastaLengthColor" />
-          <span>
-            Pasta length:
-            <span :class="`text-${pastaLengthColor}`">
-              {{ pastaText.length }}
-            </span>
+      <div class="flex flex-col w-40 items-center">
+        <slot name="topLeftElement" :pastaLengthColor="pastaLengthColor" />
+        <span>
+          Pasta length:
+          <span :class="`text-${pastaLengthColor}`">
+            {{ pastaText.length }}
           </span>
-        </div>
-        <div class="flex flex-col gap-y-2">
-          <added-tags
-            @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
-            :tags="props.pastaTags"
-          />
-          <button
-            v-if="props.pastaTags.length !== 0"
-            class="btn btn-sm btn-error"
-            @click="() => emit('removeAllTags')"
-          >
-            remove all tags
-          </button>
+        </span>
+        <div class="mt-auto invisible" />
+        <button
+          v-if="props.pastaTags.length !== 0"
+          class="btn btn-sm btn-error"
+          @click="() => emit('removeAllTags')"
+        >
+          remove all tags
+        </button>
+        <div v-else class="badge badge-lg badge-warning">
+          No tags added
         </div>
       </div>
     </div>
+    <added-tags
+      @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
+      :tags="props.pastaTags"
+    />
     <add-pasta-tags
-      class="mb-2"
       v-model="tagToAdd"
       @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
       :should-become-empty="props.shouldTagModelBecomeEmpty"
@@ -70,7 +69,7 @@ defineSlots<{
 
 const props = defineProps<{
   pastaTags: Pasta["tags"];
-  shouldTagModelBecomeEmpty?: boolean
+  shouldTagModelBecomeEmpty?: boolean;
 }>();
 
 const emit = defineEmits<{
