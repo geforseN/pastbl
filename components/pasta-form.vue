@@ -43,6 +43,8 @@
         <div v-else class="badge badge-lg badge-warning">
           No tags added
         </div>
+        <div class="mt-auto ml-auto invisible" />
+        <slot name="button" :pastaLengthColor="pastaLengthColor" />
       </div>
     </div>
     <added-tags
@@ -62,7 +64,7 @@ const pastaText = defineModel<string>("text", { required: true, local: false });
 
 defineSlots<{
   header: () => VNode;
-  topLeftElement: (props: {
+  button: (props: {
     pastaLengthColor: "error" | "warning" | "success";
   }) => VNode;
 }>();

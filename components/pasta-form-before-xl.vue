@@ -27,7 +27,7 @@
           >No tags were added</span
         >
       </div>
-      <slot name="topLeftElement" :pastaLengthColor="pastaLengthColor" />
+      <slot name="button" :pastaLengthColor="pastaLengthColor" />
     </div>
     <added-tags
       @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
@@ -46,7 +46,7 @@ const pastaText = defineModel<string>("text", { required: true, local: false });
 
 defineSlots<{
   header: () => VNode;
-  topLeftElement: (props: {
+  button: (props: {
     pastaLengthColor: "error" | "warning" | "success";
   }) => VNode;
 }>();

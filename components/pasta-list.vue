@@ -73,7 +73,7 @@
               }
             "
           >
-            <template #topLeftElement>
+            <template #button>
               <button
                 class="btn btn-error w-full text-lg h-max"
                 @click.prevent="
