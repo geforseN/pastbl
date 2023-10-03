@@ -38,3 +38,9 @@
 <script setup lang="tsx">
 const userStore = useUserStore();
 </script>
+<style>
+html,
+body {
+  scrollbar-gutter: stable;
+}
+</style>
