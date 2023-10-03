@@ -21,7 +21,7 @@
             class="my-2 btn btn-primary w-full text-xl"
             @click="
               () => {
-                console.log((pastaFromResponsiveRef as any).twitchChatRef.textareaRef.focus());
+                (pastaFromResponsiveRef as any).twitchChatRef.textareaRef.focus();
               }
             "
           >
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="tsx">
-const pastaFromResponsiveRef = ref()
+const pastaFromResponsiveRef = ref();
 const userStore = useUserStore();
 </script>
 <style>
