@@ -1,7 +1,7 @@
 <template>
   <div class="join relative">
     <div class="join-item grow">
-      <label for="badges-count" class="label absolute bottom-10 block w-96">
+      <label for="badges-count" class="label absolute bottom-10 block w-max">
         <span class="label-text text-error font-bold">{{ errorMessage }}</span>
       </label>
       <input
