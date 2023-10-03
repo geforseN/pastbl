@@ -77,7 +77,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  createPastaEnterPressed: [event: KeyboardEvent];
   addTagToPasta: [tag: string];
   removeTagFromPasta: [tag: string];
   removeAllTags: [];
