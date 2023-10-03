@@ -28,7 +28,10 @@
             go create pasta
           </button>
         </div>
-        <pasta-form-responsive ref="pastaFromResponsiveRef" />
+        <div class="flex flex-col gap-y-4 w-min">
+          <pasta-form-responsive ref="pastaFromResponsiveRef" />
+          <user-settings />
+        </div>
       </client-only>
     </main>
     <u-notifications>
