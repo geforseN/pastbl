@@ -1,5 +1,9 @@
 <template>
-  <section class="flex flex-col h-max gap-y-2 p-2 border-2 border-base-content rounded">
+  <!-- TODO grid after xl  [twitch-chat_ASD,add-tag-input,add-tag-button] -->
+  <!-- TODO grid before xl  [twitch-chat,ASD,add-tag-input_add-tag-button] -->
+  <!-- TODO also grid for ASD -->
+  <!-- TODO remove xl:min-w-[120px] in add-pasta-button, make grid-col-size instead -->
+  <section class="flex flex-col h-max gap-y-2 p-2 border-2 border-base-content rounded w-min">
     <!-- FIXME: had strange bug, dynamic classes in template, -->
     <!-- which used computed below, did not wanted to get required style -->
     <!-- probably tailwind did not added classes in bundle -->
@@ -21,11 +25,7 @@
     <div
       class="flex gap-2 flex-col xl:flex-row w-min xl:w-full xl:justify-between"
     >
-      <twitch-chat
-        ref="twitchChatRef"
-        v-model="pastaText"
-        @enter-pressed="emit('createPastaEnterPressed', $event)"
-      />
+      <slot name="textarea" />
       <div class="flex items-center gap-1 xl:flex-col xl:w-full ASD">
         <div>
           <span class="px-1.5">
@@ -68,6 +68,7 @@ defineSlots<{
   button: (props: {
     pastaLengthColor: "error" | "warning" | "success";
   }) => VNode;
+  textarea: () => VNode
 }>();
 
 const props = defineProps<{
