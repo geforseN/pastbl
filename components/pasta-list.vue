@@ -36,22 +36,12 @@
             v-model:text="selectedCopypastaForChange.text"
             :pasta-tags="selectedCopypastaForChange.tags"
             :should-tag-model-become-empty="true"
-            @create-pasta-enter-pressed="
-              () => {
-                if (!selectedCopypastaForChange) {
-                  throw { message: 'bad' };
-                }
-                selectedCopypastaForChange.text =
-                  selectedCopypastaForChange.text.trimEnd();
-                changeCopypastaModalWindow?.close();
-              }
-            "
             @remove-all-tags="selectedCopypastaForChange.tags = []"
             @remove-tag-from-pasta="
               (tagToRemove) => {
                 const index =
                   selectedCopypastaForChange?.tags.indexOf(tagToRemove);
-                if (typeof index === 'undefined' || index === -1) {
+                if (index === undefined || index === -1) {
                   throw { message: 'No tag were found' };
                 }
                 selectedCopypastaForChange?.tags.splice(index, 1);
@@ -75,7 +65,7 @@
           >
             <template #button>
               <button
-                class="btn btn-error w-full text-lg h-max"
+                class="btn btn-error text-lg h-max"
                 @click.prevent="
                   () => {
                     if (!selectedCopypastaForChange) {
@@ -88,6 +78,21 @@
               >
                 Delete pasta
               </button>
+            </template>
+            <template #textarea>
+              <twitch-chat
+                @enter-pressed="
+                  () => {
+                    if (!selectedCopypastaForChange) {
+                      throw { message: 'bad' };
+                    }
+                    selectedCopypastaForChange.text =
+                      selectedCopypastaForChange.text.trimEnd();
+                    changeCopypastaModalWindow?.close();
+                  }
+                "
+                v-model="selectedCopypastaForChange.text"
+              ></twitch-chat>
             </template>
           </pasta-form>
         </form>
@@ -184,16 +189,3 @@ async function handleCopypastaCopy(pasta: Pasta) {
   }
 }
 </script>
-<style>
-/* NOTE: below overrides daisyui modal scroll shift, now user can scroll y */
-:root:has(
-    :is(
-        .modal-open,
-        .modal:target,
-        .modal-toggle:checked + .modal,
-        .modal[open]
-      )
-  ) {
-  overflow-y: visible;
-}
-</style>
