@@ -6,10 +6,10 @@
       @keyup.enter.prevent="emitTag"
       v-model="modelValue"
       placeholder="Enter a pasta tag (optional)"
-      class="input input-bordered box-content w-full xl:w-auto xl:min-w-[320px] border-base-content join-item placeholder:text-base-content"
+      class="join-item input input-bordered box-content xl:w-auto w-full xl:min-w-[320px] border-base-content placeholder:text-base-content"
     />
     <button
-      class="join-item btn text-3xl box-content xl:min-w-[120px] border border-base-content hover:border hover:border-base-content hover:bg-secondary/5"
+      class="join-item btn text-3xl box-content px-2 xl:px-0 xl:min-w-[160px] border border-base-content hover:border hover:border-base-content hover:bg-secondary/5"
       @click.prevent="emitTag"
     >
       +
