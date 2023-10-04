@@ -9,7 +9,7 @@ export default {
       xs: "420px",
       sm: defaultTheme.screens.sm,
       md: defaultTheme.screens.md,
-      brr: "890px",
+      "go-brr": "890px",
       lg: defaultTheme.screens.lg,
       xl: defaultTheme.screens.xl,
       "2xl": defaultTheme.screens["2xl"],
