@@ -23,6 +23,7 @@
     <template #textarea>
       <twitch-chat
         class="mx-0.5"
+        id="twitch-chat-pasta-form"
         v-model="pastaStore.text"
         ref="twitchChatRef"
         @enter-pressed="handlePastaCreation"

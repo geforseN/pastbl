@@ -83,6 +83,7 @@
             <template #textarea>
               <twitch-chat
                 v-model="selectedCopypastaForChange.text"
+                :id="`twitch-chat-${selectedCopypastaForChange.createdAt}`"
                 @enter-pressed="
                   () => {
                     if (!selectedCopypastaForChange) {
