@@ -1,14 +1,15 @@
 <template>
   <div
+    class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
     v-if="tags.length !== 0"
-    class="flex flex-wrap gap-2 overflow-y-auto max-h-[120px] min-w-full"
   >
     <div
+      class="flex rounded-lg bg-secondary"
       v-for="tag of props.tags"
       :title="tag"
-      class="flex bg-secondary rounded-lg"
+      :key="tag"
     >
-      <span class="line-clamp-2 break-all pl-1.5 pr-1 pb-0.5">{{ tag }}</span>
+      <span class="line-clamp-2 break-all pb-0.5 pl-1.5 pr-1">{{ tag }}</span>
       <button
         class="btn btn-xs h-full border-0 bg-base-content text-base-100"
         :title="`remove tag: ${tag}`"

@@ -1,20 +1,20 @@
 <template>
   <pasta-form
-    :pastaTags="pastaStore.tags"
     v-model:tag="pastaStore.tag"
     v-model:text="pastaStore.text"
+    :pastaTags="pastaStore.tags"
     :should-tag-model-become-empty="true"
-    @addTagToPasta="() => pastaStore.handleTagAddToPasta()"
-    @removeAllTags="() => pastaStore.removeAllTags()"
-    @removeTagFromPasta="(tag) => pastaStore.removeTag(tag)"
+    @add-tag-to-pasta="() => pastaStore.handleTagAddToPasta()"
+    @remove-all-tags="() => pastaStore.removeAllTags()"
+    @remove-tag-from-pasta="(tag) => pastaStore.removeTag(tag)"
   >
     <template #header>
       <pasta-form-header />
     </template>
     <template #button="props">
       <button
-        :class="`focus-within:outline-${props.pastaLengthColor}`"
-        class="btn btn-primary btn-md xl:w-full xl:text-lg h-max"
+        class="btn btn-primary btn-md h-max xl:w-full xl:text-lg"
+        :class="props.outlineClass[props.pastaStatus]"
         @click="handlePastaCreation"
       >
         Create pasta
@@ -22,8 +22,9 @@
     </template>
     <template #textarea>
       <twitch-chat
-        ref="twitchChatRef"
+        class="ml-0.5"
         v-model="pastaStore.text"
+        ref="twitchChatRef"
         @enter-pressed="handlePastaCreation"
       />
     </template>
@@ -42,7 +43,7 @@ defineExpose({
 });
 
 function handlePastaCreation<_E extends KeyboardEvent | MouseEvent>(
-  _event: _E
+  _event: _E,
 ) {
   pastasStore
     .createPasta({ tags: pastaStore.tags, text: pastaStore.text })

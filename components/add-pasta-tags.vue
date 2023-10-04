@@ -1,15 +1,15 @@
 <template>
   <div class="join w-full">
     <input
-      type="text"
+      class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content xl:w-auto xl:min-w-[320px]"
       id="add-tag"
-      @keyup.enter.prevent="emitTag"
       v-model="modelValue"
+      type="text"
+      @keyup.enter.prevent="emitTag"
       placeholder="Enter a pasta tag (optional)"
-      class="join-item input input-bordered box-content xl:w-auto w-full xl:min-w-[320px] border-base-content placeholder:text-base-content"
     />
     <button
-      class="join-item btn text-3xl box-content px-2 xl:px-0 xl:min-w-[160px] border border-base-content hover:border hover:border-base-content hover:bg-secondary/5"
+      class="btn join-item box-content border border-base-content px-2 text-3xl hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
       @click.prevent="emitTag"
     >
       +

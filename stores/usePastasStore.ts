@@ -12,7 +12,7 @@ export const usePastasStore = defineStore(
     const toast = useToast();
 
     const pastasSortedByNewest = computed(() =>
-      pastas.value.toSorted((a, b) => b.createdAt - a.createdAt)
+      pastas.value.toSorted((a, b) => b.createdAt - a.createdAt),
     );
 
     return {
@@ -26,7 +26,7 @@ export const usePastasStore = defineStore(
             "Pasta should contain any non space symbol, received empty text",
             {
               title: "Failed to create pasta",
-            }
+            },
           );
         }
         pastas.value?.push({
@@ -37,11 +37,11 @@ export const usePastasStore = defineStore(
       },
       removePasta: (pastaToRemove: MegaPasta) => {
         const index = pastas.value.findIndex(
-          (pasta) => pasta.createdAt === pastaToRemove.createdAt
+          (pasta) => pasta.createdAt === pastaToRemove.createdAt,
         );
         if (index === -1) {
           throw new ExtendedError(
-            "Can not remove the pasta which is not exist"
+            "Can not remove the pasta which is not exist",
           );
         }
         const [removedPasta] = pastas.value.splice(index, 1);
@@ -92,5 +92,5 @@ export const usePastasStore = defineStore(
       },
       paths: ["pastas", "pasta", "pastasBin"],
     },
-  }
+  },
 );

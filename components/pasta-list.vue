@@ -1,8 +1,9 @@
 <template>
+  <!-- TODO refactor -->
   <dialog
-    ref="changeCopypastaModalWindow"
-    id="changeCopypasta"
     class="modal"
+    id="changeCopypasta"
+    ref="changeCopypastaModalWindow"
     @close="
       () => {
         selectedCopypastaForChange = null;
@@ -19,11 +20,11 @@
       class="modal-box w-max max-w-5xl"
       v-if="changeCopypastaModalWindow && selectedCopypastaForChange"
     >
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-3xl">Change copypasta</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-bold">Change copypasta</h2>
         <button
+          class="btn btn-error focus-within:outline-4 focus-within:outline-offset-8"
           ref="closeModalButtonRef"
-          class="btn btn-error focus-within:outline-offset-8 focus-within:outline-4"
           @click.prevent="changeCopypastaModalWindow.close()"
         >
           <span class="text-lg">Exit</span>
@@ -31,7 +32,7 @@
         </button>
       </div>
       <div class="modal-action">
-        <form method="dialog" v-if="selectedCopypastaForChange">
+        <form v-if="selectedCopypastaForChange" method="dialog">
           <pasta-form
             v-model:text="selectedCopypastaForChange.text"
             :pasta-tags="selectedCopypastaForChange.tags"
@@ -65,7 +66,7 @@
           >
             <template #button>
               <button
-                class="btn btn-error text-lg h-max"
+                class="btn btn-error h-max text-lg"
                 @click.prevent="
                   () => {
                     if (!selectedCopypastaForChange) {
@@ -81,6 +82,7 @@
             </template>
             <template #textarea>
               <twitch-chat
+                v-model="selectedCopypastaForChange.text"
                 @enter-pressed="
                   () => {
                     if (!selectedCopypastaForChange) {
@@ -91,7 +93,6 @@
                     changeCopypastaModalWindow?.close();
                   }
                 "
-                v-model="selectedCopypastaForChange.text"
               ></twitch-chat>
             </template>
           </pasta-form>
@@ -99,10 +100,10 @@
       </div>
     </div>
   </dialog>
-  <div v-if="pastasStore.pastas.length === 0" class="justify-self-center mt-4">
+  <div class="mt-4 justify-self-center" v-if="pastasStore.pastas.length === 0">
     No pastas were added yet!
   </div>
-  <div v-else class="flex flex-col gap-y-2">
+  <div class="flex flex-col gap-y-2" v-else>
     <div v-if="!clipboard.isSupported">
       Your browser does not support Clipboard API
     </div>
@@ -125,12 +126,12 @@
       "
     >
       <template #user-nickname>
-        <slot />
+        <slot name="user-nickname" />
       </template>
       <template #copypasta-btn>
         <button
+          class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
           :disabled="!clipboard.isSupported.value"
-          class="btn btn-md btn-square rounded-none border-accent border-2 text-xs ml-auto min-[420px]:ml-0"
           @click="handleCopypastaCopy(pasta)"
         >
           copy pasta
@@ -141,6 +142,10 @@
 </template>
 
 <script setup lang="ts">
+defineSlots<{
+  "user-nickname": () => VNode;
+}>();
+
 const pastasStore = usePastasStore();
 const userStore = useUserStore();
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-for="number of count">
+  <div v-for="number of count" :key="number">
     {{ number + ")" }} Lorem ipsum, dolor sit amet consectetur adipisicing elit.
     Debitis quisquam, repellendus asperiores explicabo, modi quibusdam
     distinctio qui quaerat reiciendis temporibus, consequuntur omnis quod rerum
