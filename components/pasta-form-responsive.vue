@@ -22,7 +22,7 @@
     </template>
     <template #textarea>
       <twitch-chat
-        class="ml-0.5"
+        class="mx-0.5"
         v-model="pastaStore.text"
         ref="twitchChatRef"
         @enter-pressed="handlePastaCreation"
