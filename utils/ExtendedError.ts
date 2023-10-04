@@ -9,7 +9,7 @@ export default class ExtendedError extends Error {
       title,
       color = "red",
       timeout = 5_000,
-    }: { title?: string; color?: string; timeout?: number } = {}
+    }: { title?: string; color?: string; timeout?: number } = {},
   ) {
     super(message);
     this.description = message;

@@ -59,7 +59,7 @@ export const useUserStore = defineStore(
         }
         console.log("In watch: New lastCopyPasta", latestPasta);
         user.value.statistic.lastCopyPasta = latestPasta;
-      }
+      },
     );
 
     return { preferences, user, statistic };
@@ -86,5 +86,5 @@ export const useUserStore = defineStore(
         });
       },
     },
-  }
+  },
 );

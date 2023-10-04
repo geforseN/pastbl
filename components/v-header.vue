@@ -1,13 +1,15 @@
 <template>
-  <header class="navbar p-0 h-8 justify-between border-b border-b-base-300">
-    <span class="bg-secondary p-2 font-bold text-5xl h-full border-2 border-neutral">
+  <header class="navbar h-8 justify-between border-b border-b-base-300 p-0">
+    <span
+      class="h-full border-2 border-neutral bg-secondary p-2 text-5xl font-bold"
+    >
       pastbl
     </span>
-    <div class="flex gap-x-2">
-      
-    </div>
-    <button class="btn btn-secondary justify-self-end border-4 border-neutral mr-2 text-base"
-      data-toggle-theme="light,dark" data-act-class="ACTIVECLASS">
+    <button
+      class="btn btn-secondary mr-2 justify-self-end border-4 border-neutral text-base"
+      data-toggle-theme="light,dark"
+      data-act-class="ACTIVECLASS"
+    >
       toggle theme
     </button>
   </header>
@@ -21,11 +23,11 @@ import { themeChange } from "theme-change";
 // NOTE: theme-change does not provide cookie save, only session
 onMounted(() => themeChange(false));
 
-const colorMode = useColorMode()
+const colorMode = useColorMode();
 
-console.log(colorMode)
+console.log(colorMode);
 
 onMounted(() => {
-  document.documentElement.classList.remove('dark', 'light')
-})
+  document.documentElement.classList.remove("dark", "light");
+});
 </script>

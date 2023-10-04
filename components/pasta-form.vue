@@ -3,49 +3,38 @@
   <!-- TODO grid before xl  [twitch-chat,ASD,add-tag-input_add-tag-button] -->
   <!-- TODO also grid for ASD -->
   <!-- TODO remove xl:min-w-[120px] in add-pasta-button, make grid-col-size instead -->
-  <section class="flex flex-col h-max gap-y-2 p-2 border-2 border-base-content rounded w-min">
-    <!-- FIXME: had strange bug, dynamic classes in template, -->
-    <!-- which used computed below, did not wanted to get required style -->
-    <!-- probably tailwind did not added classes in bundle -->
-    <!-- 
-      so  
-      <span :class="`text-${pastaLengthColor}`">
-        {{ pastaText.length }}
-      </span>
-      did not have required color, text had base text color -->
-    <div
-      hidden
-      class="focus-within:outline-error focus-within:outline-warning focus-within:outline-success"
-    />
-    <div hidden class="text-error text-warning text-success" />
-    <!-- 
-      UPD: above two hidden div elements with proper classes are added to fix classes can not came into bundle  
-    -->
+  <section
+    class="flex h-max w-min flex-col gap-y-2 rounded border-2 border-base-content p-2"
+  >
     <slot name="header" />
     <div
-      class="flex gap-2 flex-col xl:flex-row w-min xl:w-full xl:justify-between"
+      class="flex w-min flex-col gap-2 xl:w-full xl:flex-row xl:justify-between"
     >
       <slot name="textarea" />
-      <div class="flex items-center gap-1 xl:flex-col xl:w-full ASD">
+      <div class="ASD flex items-center gap-1 xl:w-full xl:flex-col">
         <div>
           <span class="px-1.5">
             Pasta length:
-            <span :class="`text-${pastaLengthColor}`">
+            <span :class="textClass[pastaStatus]">
               {{ pastaText.length }}
             </span>
           </span>
-          <div class="mt-auto invisible" />
+          <div class="invisible mt-auto" />
           <button
+            class="btn btn-error btn-sm"
             v-if="props.pastaTags.length !== 0"
-            class="btn btn-sm btn-error"
             @click="() => emit('removeAllTags')"
           >
             remove all tags
           </button>
-          <span v-else class="badge badge-warning badge-lg">No tags added</span>
+          <span class="badge badge-warning badge-lg" v-else>No tags added</span>
         </div>
-        <div class="mt-auto ml-auto invisible" />
-        <slot name="button" :pastaLengthColor="pastaLengthColor" />
+        <div class="invisible ml-auto mt-auto" />
+        <slot
+          name="button"
+          :pastaStatus="pastaStatus"
+          :outlineClass="outlineClass"
+        />
       </div>
     </div>
     <added-tags
@@ -66,9 +55,10 @@ const pastaText = defineModel<string>("text", { required: true, local: false });
 defineSlots<{
   header: () => VNode;
   button: (props: {
-    pastaLengthColor: "error" | "warning" | "success";
+    pastaStatus: PastaStatus;
+    outlineClass: Record<PastaStatus, string>;
   }) => VNode;
-  textarea: () => VNode
+  textarea: () => VNode;
 }>();
 
 const props = defineProps<{
@@ -88,7 +78,9 @@ defineExpose({
   twitchChatRef,
 });
 
-const pastaLengthColor = computed(() => {
+type PastaStatus = "error" | "warning" | "success";
+
+const pastaStatus = computed<PastaStatus>(() => {
   if (pastaText.value.length === 0 || pastaText.value.length > 1000) {
     return "error";
   }
@@ -97,4 +89,16 @@ const pastaLengthColor = computed(() => {
   }
   return "success";
 });
+
+const textClass: Record<PastaStatus, string> = {
+  error: "text-error",
+  warning: "text-warning",
+  success: "text-success",
+};
+
+const outlineClass: Record<PastaStatus, string> = {
+  error: "focus-within:outline-error",
+  warning: "focus-within:outline-warning",
+  success: "focus-within:outline-success",
+};
 </script>

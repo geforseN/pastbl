@@ -1,11 +1,11 @@
 <template>
   <section
-    class="border-2 rounded border-base-content p-2 h-max w-min grid gap-y-2"
+    class="grid h-max w-min gap-y-2 rounded border-2 border-base-content p-2"
   >
     <slot name="header" />
     <twitch-chat
-      ref="twitchChatRef"
       v-model="pastaText"
+      ref="twitchChatRef"
       @enter-pressed="emit('createPastaEnterPressed', $event)"
     />
     <div class="flex justify-between gap-x-1">
@@ -17,13 +17,13 @@
           </span>
         </span>
         <button
+          class="btn btn-error btn-sm"
           v-if="props.pastaTags.length !== 0"
-          class="btn btn-sm btn-error"
           @click="() => emit('removeAllTags')"
         >
           remove all tags
         </button>
-        <span v-else class="badge badge-warning badge-lg"
+        <span class="badge badge-warning badge-lg" v-else
           >No tags were added</span
         >
       </div>
