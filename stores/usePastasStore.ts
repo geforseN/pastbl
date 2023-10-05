@@ -1,3 +1,4 @@
+import type { Notification } from "@nuxt/ui/dist/runtime/types/notification";
 import { defineStore } from "pinia";
 import { stringify, parse } from "zipson";
 
@@ -12,10 +13,34 @@ export const usePastasStore = defineStore(
     const toast = useToast();
 
     const pastasSortedByNewest = computed(() =>
-      pastas.value.toSorted((a, b) => b.createdAt - a.createdAt),
+      [...pastas.value].sort((a, b) => b.createdAt - a.createdAt),
     );
 
+    const allTags = computed(() => {
+      return [...new Set(pastas.value.flatMap((pasta) => pasta.tags))];
+    });
+
+    const allTagsSortedByLength = computed(() =>
+      [...allTags.value].sort((a, b) => a.length - b.length),
+    );
+
+    const allTagsMapSortedByMostPopular = computed(() => {
+      return [
+        ...pastas.value
+          .flatMap((pasta) => pasta.tags)
+          .reduce((acc, tag) => {
+            const tagCount = acc.get(tag) || 0;
+            acc.set(tag, tagCount + 1);
+            return acc;
+          }, new Map<string, number>())
+          .entries(),
+      ].sort(([, aCount], [, bCount]) => bCount - aCount);
+    });
+
     return {
+      allTags,
+      allTagsSortedByLength,
+      allTagsMapSortedByMostPopular,
       pastas,
       pastasSortedByNewest,
       pastasBin,
@@ -46,28 +71,15 @@ export const usePastasStore = defineStore(
         }
         const [removedPasta] = pastas.value.splice(index, 1);
         pastasBin.value.push(removedPasta);
-        toast.add({
-          timeout: 7_000,
-          title: "Pasta remove",
-          color: "yellow",
-          description: "Pasta got removed and also saved is pastas bin",
-          actions: [
-            {
-              color: "green",
-              label: "Undo pasta remove",
-              block: true,
-              size: "md",
-              click: () => {
-                const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
-                if (index === -1) {
-                  throw new Error("Internal logic error");
-                }
-                pastasBin.value.splice(pastaIndexInBin, 1);
-                pastas.value.splice(index, 0, removedPasta);
-              },
+        toast.add(
+          new RemovePastaNotification({
+            handleUndo: () => {
+              const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
+              pastasBin.value.splice(pastaIndexInBin, 1);
+              pastas.value.splice(index, 0, removedPasta);
             },
-          ],
-        });
+          }),
+        );
       },
     };
   },
@@ -94,3 +106,21 @@ export const usePastasStore = defineStore(
     },
   },
 );
+
+class RemovePastaNotification implements Partial<Notification> {
+  constructor({ handleUndo }: { handleUndo: () => void }) {
+    this.timeout = 7_000;
+    this.title = "Pasta remove";
+    this.color = "yellow";
+    this.description = "Pasta got removed and also saved is pastas bin";
+    this.actions = [
+      {
+        color: "green",
+        label: "Undo pasta remove",
+        block: true,
+        size: "md",
+        click: handleUndo,
+      },
+    ];
+  }
+}
