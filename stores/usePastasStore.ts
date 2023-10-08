@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { stringify, parse } from "zipson";
 
 export type Pasta = { text: string; tags: string[] };
-export type MegaPasta = Pasta & { createdAt: number };
+export type MegaPasta = Pasta & { createdAt: number; populatedText?: string };
 
 export const usePastasStore = defineStore(
   "pastas",
@@ -90,18 +90,6 @@ export const usePastasStore = defineStore(
         serialize: stringify,
       },
       storage: persistedState.localStorage,
-      afterRestore(ctx) {
-        if (ctx.store.pastas.length) {
-          return console.log("User has pastas");
-        }
-        console.log("User does not have pastas, should add funny pasta");
-        const funnyPasta: MegaPasta = {
-          createdAt: Date.UTC(84, 8, 3, 3, 22),
-          tags: ["1984", "soySmug"],
-          text: "⣿⣿⣿⣿⣿⣿⠛⢉⡠⠴⠒⠚⠛⢛⣛⡂⠒⠀⠈⠙⠻⣿⣿⣿⣿⣿⣷⣿⣿⣿ ⣿⣿⣿⣿⠟⢁⣴⣿⡄⠒⣀⣉⣭⣤⣤⣤⣤⣤⣀⡀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⠏⢠⣿⣿⣿⣿⡟⠉⣠⣤⣤⣤⣄⡈⢹⡿⠛⠷⣦⠈⢿⣿⣿⣿⣿⣿⣿ ⣿⡿⠋⠀⠛⠛⠛⠿⠟⠀⠚⠛⠛⠛⠛⠉⠉⠉⠁⢀⡀⠀⠀⠀⠹⣿⣿⣿⣿⣿ ⣿⠀⢀⣶⣶⣶⠄⢰⣶⣶⡖⢠⣶⣶⣦⣄⠀⣶⠀⢀⣤⣤⡁⠀⠀⣿⣿⣿⣿⣿ ⣿⡄⢸⣿⣿⣿⡇⠸⣿⣿⠀⠛⠛⠛⢛⠛⠀⢸⠀⠈⠁⠠⣄⠀⠀⢿⣿⣿⣿⣿ ⣿⡇⢸⣿⣿⣿⣷⠀⠻⠿⠦⠀⠀⠀⠈⠁⣀⣼⣤⣄⠀⢤⣤⣤⣴⣄⠙⣿⣿⣿ ⣿⠃⠘⣿⣿⣿⣿⣷⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⡄⠙⠻⣿⣿⡇⢹⣿⣿ ⣿⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠿⣿⣿⣄⠀⢸⠿⠁⣾⣿⣿ ⣿⠆⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣀⠐⠷⠆⠸⠿⠟⠁⠉⠀⢸⣿⣿⣿ ⣿⣷⠀⠀⠹⢿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣾⠿⠷⠶⠖⠒⠀⢰⡦⠀⢀⣤⣽⣿⣿ ⣿⣿⠂⡀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣇⠸⢧⣤⣄⣀⣀⣀⣴⣏⠁⠀⣹⣿⣿⣿⣿ ⠛⢁⣴⣿⣄⠀⠀⠛⠿⣿⣿⣿⣿⣿⣶⠾⣿⣿⣿⣿⣿⡿⠁⠀⣰⣿⣿⣿⣿⣿ ⣾⣿⣿⣿⣿⣶⣄⣀⡀⠈⠛⠿⣿⣿⣿⡄⠻⢿⣿⣿⡿⠁⠀⣠⣿⣿⣿⣿⣿⣿ ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣀⢀⠀⠈⠉⠉⠄⠀⠉⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿",
-        };
-        ctx.store.pastas.push(funnyPasta);
-      },
       paths: ["pastas", "pasta", "pastasBin"],
     },
   },
