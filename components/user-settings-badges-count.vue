@@ -1,9 +1,6 @@
 <template>
   <div class="join relative">
     <div class="join-item grow">
-      <label class="label absolute bottom-10 block w-max" for="badges-count">
-        <span class="label-text font-bold text-error">{{ errorMessage }}</span>
-      </label>
       <input
         class="input input-secondary w-full rounded-r-none border-r-0 text-lg"
         id="badges-count"
@@ -14,6 +11,9 @@
         type="number"
         name="badges-count"
       />
+      <label class="label" for="badges-count">
+        <span class="label-text font-bold text-error">{{ errorMessage }}</span>
+      </label>
     </div>
     <button
       class="btn btn-square join-item border border-secondary pb-1 text-2xl font-medium focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
