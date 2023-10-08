@@ -19,7 +19,7 @@
         chrome shows value and label below, value used onclick
       -->
       <option
-        v-for="[tag, count] of pastasStore.allTagsMapSortedByMostPopular"
+        v-for="[tag, count] of pastasStore.mostPopularTagsMap"
         :key="tag"
         :value="tag"
         :label="`${tag}, was used ${count} ${count === 1 ? 'time' : 'times'}`"
