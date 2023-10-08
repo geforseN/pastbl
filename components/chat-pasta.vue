@@ -13,10 +13,11 @@
         <span class="block w-full px-[10px] py-[5px]">
           <slot name="user-nickname" />
           <span>{{ ": " }}</span>
+          <!-- FIXME: XXS vulnerability, use some html sanitizer -->
           <span
             class="twitch-text textarea m-0 box-border p-0 text-[13px] font-normal leading-[19.5px]"
+            v-html="props.pasta.populatedText || props.pasta.text"
           >
-            {{ props.pasta.text }}
           </span>
         </span>
       </span>
