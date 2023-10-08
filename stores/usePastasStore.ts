@@ -20,11 +20,11 @@ export const usePastasStore = defineStore(
       return [...new Set(pastas.value.flatMap((pasta) => pasta.tags))];
     });
 
-    const allTagsSortedByLength = computed(() =>
+    const tagsSortedByLength = computed(() =>
       [...allTags.value].sort((a, b) => a.length - b.length),
     );
 
-    const allTagsMapSortedByMostPopular = computed(() => {
+    const mostPopularTagsMap = computed(() => {
       return [
         ...pastas.value
           .flatMap((pasta) => pasta.tags)
@@ -39,8 +39,8 @@ export const usePastasStore = defineStore(
 
     return {
       allTags,
-      allTagsSortedByLength,
-      allTagsMapSortedByMostPopular,
+      tagsSortedByLength,
+      mostPopularTagsMap,
       pastas,
       pastasSortedByNewest,
       pastasBin,
