@@ -45,12 +45,6 @@
     >
       <slot name="copypasta-btn" />
       <button
-        class="btn btn-square btn-secondary btn-md mt-auto rounded-none border-2 border-neutral-content text-xs text-secondary-content"
-        @click="emit('showChangeCopypastaModalWindow')"
-      >
-        Change pasta
-      </button>
-      <button
         class="btn btn-square btn-warning btn-md rounded-none border-2 border-neutral-content text-xs text-warning-content"
         @click="emit('pastaRemove')"
       >
@@ -65,7 +59,6 @@ import { UseTimeAgo } from "@vueuse/components";
 const props = defineProps<{ pasta: MegaPasta }>();
 const emit = defineEmits<{
   pastaRemove: [];
-  showChangeCopypastaModalWindow: [];
 }>();
 
 defineSlots<{
