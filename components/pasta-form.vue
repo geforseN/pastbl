@@ -1,24 +1,18 @@
 <template>
-  <!-- TODO grid after xl  [twitch-chat_ASD,add-tag-input,add-tag-button] -->
-  <!-- TODO grid before xl  [twitch-chat,ASD,add-tag-input_add-tag-button] -->
-  <!-- TODO also grid for ASD -->
-  <!-- TODO remove xl:min-w-[120px] in add-pasta-button, make grid-col-size instead -->
   <section
-    class="flex h-max w-min flex-col gap-y-2 rounded border-2 border-base-content p-2"
+    class="flex flex-col gap-y-2 rounded border-2 border-base-content p-2"
   >
     <slot name="header" />
     <div
       class="flex w-min flex-col gap-2 xl:w-full xl:flex-row xl:justify-between"
     >
       <slot name="textarea" />
-      <div class="ASD flex items-center gap-1 xl:w-full xl:flex-col">
+      <div class="flex items-center gap-1 xl:w-full xl:flex-col">
         <div>
-          <span class="px-1.5">
-            Pasta length:
-            <span :class="textClass[pastaStatus]">
-              {{ pastaText.length }}
-            </span>
-          </span>
+          <pasta-form-pasta-length
+            :class="textClass[pastaStatus]"
+            :pasta-text="pastaText"
+          />
           <div class="invisible mt-auto" />
           <button
             class="btn btn-error btn-sm"
