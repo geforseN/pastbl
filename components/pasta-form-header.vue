@@ -1,7 +1,7 @@
 <template>
-  <h2 class="border-b p-1 text-3xl font-bold">
+  <h2 class="border-b-2 p-1 text-3xl font-bold">
     Create pasta
-    <!-- TODO onhover change img to basedge, xdd, aRolf ... -->
+    <!-- TODO WHEN hover DO change img to basedge, xdd, aRolf ... -->
     <div class="relative inline-block">
       <img
         class="ml-1 inline"
