@@ -27,9 +27,9 @@ import { themeChange } from "theme-change";
 // NOTE: to fix it should add data-theme="emerald-dark" to index.html <html>
 // TODO: use cookie instead of session storage
 // NOTE: theme-change does not provide cookie save, only session
-onMounted(() => themeChange(false));
 
 onMounted(() => {
+  themeChange(false);
   document.documentElement.classList.remove("dark", "light");
 });
 </script>
