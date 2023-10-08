@@ -1,126 +1,4 @@
 <template>
-  <!-- TODO refactor -->
-  <dialog
-    class="modal"
-    id="changeCopypasta"
-    ref="changeCopypastaModalWindow"
-    @close="
-      () => {
-        console.log({
-          returnValue: (
-            changeCopypastaModalWindow || { returnValue: 'NO VALUE' }
-          ).returnValue,
-        });
-      }
-    "
-    @keypress.enter.prevent
-  >
-    <div
-      class="modal-box w-max max-w-5xl"
-      v-if="changeCopypastaModalWindow && selectedCopypastaForChange"
-    >
-      <div class="flex items-center justify-between">
-        <h2 class="text-3xl font-bold">Change copypasta</h2>
-        <button
-          class="btn btn-error focus-within:outline-4 focus-within:outline-offset-8"
-          ref="closeModalButtonRef"
-          @click.prevent="changeCopypastaModalWindow.close()"
-        >
-          <span class="text-lg">Exit</span>
-          <span class="kbd kbd-xs bg-gray-300 text-black">esc</span>
-        </button>
-      </div>
-      <div class="modal-action">
-        <nuxt-error-boundary
-          @error="
-            (error) => {
-              console.log(
-                error,
-                selectedCopypastaForChange,
-                changeCopypastaModalWindow,
-              );
-              if (error instanceof ExtendedError) {
-                toast.add({ ...error });
-              }
-            }
-          "
-        >
-          <form v-if="selectedCopypastaForChange" method="dialog">
-            <pasta-form
-              v-model:text="selectedCopypastaForChange.text"
-              :pasta-tags="selectedCopypastaForChange.tags"
-              :should-tag-model-become-empty="true"
-              @remove-all-tags="selectedCopypastaForChange.tags = []"
-              @remove-tag-from-pasta="
-                (tagToRemove) => {
-                  const index =
-                    selectedCopypastaForChange?.tags.indexOf(tagToRemove);
-                  if (index === undefined || index === -1) {
-                    throw { message: 'No tag were found' };
-                  }
-                  selectedCopypastaForChange?.tags.splice(index, 1);
-                }
-              "
-              @add-tag-to-pasta="
-                (tagToAdd) => {
-                  if (!selectedCopypastaForChange) {
-                    throw { message: 'Internal problem' };
-                  }
-                  const tag = tagToAdd.trim();
-                  if (!tag) {
-                    console.log(
-                      1,
-                      selectedCopypastaForChange,
-                      changeCopypastaModalWindow,
-                    );
-                    throw new ExtendedError('Can not add empty tag');
-                  }
-                  if (selectedCopypastaForChange.tags.includes(tag)) {
-                    throw new ExtendedError('Can not add same tag');
-                  }
-                  selectedCopypastaForChange.tags.push(tag);
-                }
-              "
-            >
-              <template #button>
-                <button
-                  class="btn btn-error h-max text-lg"
-                  @click.prevent="
-                    () => {
-                      if (!selectedCopypastaForChange) {
-                        throw { message: 'bad 1' };
-                      }
-                      pastasStore.removePasta(selectedCopypastaForChange);
-                      changeCopypastaModalWindow?.close();
-                    }
-                  "
-                >
-                  Delete pasta
-                </button>
-              </template>
-              <template #textarea>
-                <twitch-chat
-                  v-model="selectedCopypastaForChange.text"
-                  :id="`twitch-chat-${selectedCopypastaForChange.createdAt}`"
-                  @enter-pressed="
-                    () => {
-                      if (!selectedCopypastaForChange) {
-                        throw { message: 'bad 2' };
-                      }
-                      selectedCopypastaForChange.text =
-                        selectedCopypastaForChange.text.trimEnd();
-                      changeCopypastaModalWindow?.close();
-                    }
-                  "
-                >
-                </twitch-chat>
-              </template>
-            </pasta-form>
-          </form>
-        </nuxt-error-boundary>
-      </div>
-    </div>
-  </dialog>
   <div
     class="mt-4 flex justify-center font-bold"
     v-if="pastasStore.pastas.length === 0"
@@ -128,30 +6,17 @@
     No pastas were added yet!
   </div>
   <div class="flex flex-col gap-y-2" v-else>
-    <div v-if="!clipboard.isSupported">
-      Your browser does not support Clipboard API
+    <div
+      class="alert alert-warning flex justify-center"
+      v-if="!clipboard.isSupported"
+    >
+      <span class="">Your browser does not support Clipboard API!</span>
     </div>
-    <!--  -->
-    <!--  -->
-    <!--  -->
     <chat-pasta
       v-for="pasta of pastasStore.pastasSortedByNewest"
       :key="pasta.createdAt"
       :pasta="pasta"
       @pasta-remove="pastasStore.removePasta(pasta)"
-      @show-change-copypasta-modal-window="
-        (pastaPrimaryKey) => {
-          console.log(changeCopypastaModalWindow, selectedCopypastaForChange);
-          if (!changeCopypastaModalWindow) {
-            throw { message: 'bad 3' };
-          }
-          selectedCopypastaForChange = pasta;
-          changeCopypastaModalWindow?.showModal();
-          nextTick(() => {
-            closeModalButtonRef?.focus();
-          });
-        }
-      "
     >
       <template #user-nickname>
         <slot name="user-nickname" />
@@ -177,36 +42,8 @@ defineSlots<{
 const pastasStore = usePastasStore();
 const userStore = useUserStore();
 
-const changeCopypastaModalWindow = ref<HTMLDialogElement>();
-const selectedCopypastaForChange = ref<MegaPasta | null>(null);
-// NOTE: this ref exist, because default focus on button is not working, so focus should be done manually
-// FIXME: on first modal open no focus on button nor any element (no visible outline found by me)
-const closeModalButtonRef = ref<HTMLButtonElement>();
-
 const clipboard = useClipboard();
 const toast = useToast();
-
-// watch(
-//   changeCopypastaModalWindow,
-//   (past, next) => {
-//     console.log(
-//       past,
-//       past?.constructor,
-//       past instanceof HTMLDialogElement && next === null,
-//     );
-//     if (past instanceof HTMLDialogElement && next === null) {
-//       changeCopypastaModalWindow.value = past;
-//     }
-//   },
-//   {
-//     onTrack(e) {
-//       debugger;
-//     },
-//     onTrigger(e) {
-//       debugger;
-//     },
-//   },
-// );
 
 if (!clipboard.isSupported) {
   toast.add({
