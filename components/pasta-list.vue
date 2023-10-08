@@ -6,7 +6,6 @@
     ref="changeCopypastaModalWindow"
     @close="
       () => {
-        selectedCopypastaForChange = null;
         console.log({
           returnValue: (
             changeCopypastaModalWindow || { returnValue: 'NO VALUE' }
@@ -32,82 +31,109 @@
         </button>
       </div>
       <div class="modal-action">
-        <form v-if="selectedCopypastaForChange" method="dialog">
-          <pasta-form
-            v-model:text="selectedCopypastaForChange.text"
-            :pasta-tags="selectedCopypastaForChange.tags"
-            :should-tag-model-become-empty="true"
-            @remove-all-tags="selectedCopypastaForChange.tags = []"
-            @remove-tag-from-pasta="
-              (tagToRemove) => {
-                const index =
-                  selectedCopypastaForChange?.tags.indexOf(tagToRemove);
-                if (index === undefined || index === -1) {
-                  throw { message: 'No tag were found' };
-                }
-                selectedCopypastaForChange?.tags.splice(index, 1);
+        <nuxt-error-boundary
+          @error="
+            (error) => {
+              console.log(
+                error,
+                selectedCopypastaForChange,
+                changeCopypastaModalWindow,
+              );
+              if (error instanceof ExtendedError) {
+                toast.add({ ...error });
               }
-            "
-            @add-tag-to-pasta="
-              (tagToAdd) => {
-                if (!selectedCopypastaForChange) {
-                  throw { message: 'Internal problem' };
-                }
-                const tag = tagToAdd.trim();
-                if (!tag) {
-                  throw new ExtendedError('Can not add empty tag');
-                }
-                if (selectedCopypastaForChange.tags.includes(tag)) {
-                  throw new ExtendedError('Can not add same tag');
-                }
-                selectedCopypastaForChange.tags.push(tag);
-              }
-            "
-          >
-            <template #button>
-              <button
-                class="btn btn-error h-max text-lg"
-                @click.prevent="
-                  () => {
-                    if (!selectedCopypastaForChange) {
-                      throw { message: 'bad' };
-                    }
-                    pastasStore.removePasta(selectedCopypastaForChange);
-                    changeCopypastaModalWindow?.close();
+            }
+          "
+        >
+          <form v-if="selectedCopypastaForChange" method="dialog">
+            <pasta-form
+              v-model:text="selectedCopypastaForChange.text"
+              :pasta-tags="selectedCopypastaForChange.tags"
+              :should-tag-model-become-empty="true"
+              @remove-all-tags="selectedCopypastaForChange.tags = []"
+              @remove-tag-from-pasta="
+                (tagToRemove) => {
+                  const index =
+                    selectedCopypastaForChange?.tags.indexOf(tagToRemove);
+                  if (index === undefined || index === -1) {
+                    throw { message: 'No tag were found' };
                   }
-                "
-              >
-                Delete pasta
-              </button>
-            </template>
-            <template #textarea>
-              <twitch-chat
-                v-model="selectedCopypastaForChange.text"
-                :id="`twitch-chat-${selectedCopypastaForChange.createdAt}`"
-                @enter-pressed="
-                  () => {
-                    if (!selectedCopypastaForChange) {
-                      throw { message: 'bad' };
-                    }
-                    selectedCopypastaForChange.text =
-                      selectedCopypastaForChange.text.trimEnd();
-                    changeCopypastaModalWindow?.close();
+                  selectedCopypastaForChange?.tags.splice(index, 1);
+                }
+              "
+              @add-tag-to-pasta="
+                (tagToAdd) => {
+                  if (!selectedCopypastaForChange) {
+                    throw { message: 'Internal problem' };
                   }
-                "
-              ></twitch-chat>
-            </template>
-          </pasta-form>
-        </form>
+                  const tag = tagToAdd.trim();
+                  if (!tag) {
+                    console.log(
+                      1,
+                      selectedCopypastaForChange,
+                      changeCopypastaModalWindow,
+                    );
+                    throw new ExtendedError('Can not add empty tag');
+                  }
+                  if (selectedCopypastaForChange.tags.includes(tag)) {
+                    throw new ExtendedError('Can not add same tag');
+                  }
+                  selectedCopypastaForChange.tags.push(tag);
+                }
+              "
+            >
+              <template #button>
+                <button
+                  class="btn btn-error h-max text-lg"
+                  @click.prevent="
+                    () => {
+                      if (!selectedCopypastaForChange) {
+                        throw { message: 'bad 1' };
+                      }
+                      pastasStore.removePasta(selectedCopypastaForChange);
+                      changeCopypastaModalWindow?.close();
+                    }
+                  "
+                >
+                  Delete pasta
+                </button>
+              </template>
+              <template #textarea>
+                <twitch-chat
+                  v-model="selectedCopypastaForChange.text"
+                  :id="`twitch-chat-${selectedCopypastaForChange.createdAt}`"
+                  @enter-pressed="
+                    () => {
+                      if (!selectedCopypastaForChange) {
+                        throw { message: 'bad 2' };
+                      }
+                      selectedCopypastaForChange.text =
+                        selectedCopypastaForChange.text.trimEnd();
+                      changeCopypastaModalWindow?.close();
+                    }
+                  "
+                >
+                </twitch-chat>
+              </template>
+            </pasta-form>
+          </form>
+        </nuxt-error-boundary>
       </div>
     </div>
   </dialog>
-  <div class="mt-4 justify-self-center" v-if="pastasStore.pastas.length === 0">
+  <div
+    class="mt-4 flex justify-center font-bold"
+    v-if="pastasStore.pastas.length === 0"
+  >
     No pastas were added yet!
   </div>
   <div class="flex flex-col gap-y-2" v-else>
     <div v-if="!clipboard.isSupported">
       Your browser does not support Clipboard API
     </div>
+    <!--  -->
+    <!--  -->
+    <!--  -->
     <chat-pasta
       v-for="pasta of pastasStore.pastasSortedByNewest"
       :key="pasta.createdAt"
@@ -115,8 +141,9 @@
       @pasta-remove="pastasStore.removePasta(pasta)"
       @show-change-copypasta-modal-window="
         (pastaPrimaryKey) => {
+          console.log(changeCopypastaModalWindow, selectedCopypastaForChange);
           if (!changeCopypastaModalWindow) {
-            throw { message: 'bad' };
+            throw { message: 'bad 3' };
           }
           selectedCopypastaForChange = pasta;
           changeCopypastaModalWindow?.showModal();
@@ -158,6 +185,28 @@ const closeModalButtonRef = ref<HTMLButtonElement>();
 
 const clipboard = useClipboard();
 const toast = useToast();
+
+// watch(
+//   changeCopypastaModalWindow,
+//   (past, next) => {
+//     console.log(
+//       past,
+//       past?.constructor,
+//       past instanceof HTMLDialogElement && next === null,
+//     );
+//     if (past instanceof HTMLDialogElement && next === null) {
+//       changeCopypastaModalWindow.value = past;
+//     }
+//   },
+//   {
+//     onTrack(e) {
+//       debugger;
+//     },
+//     onTrigger(e) {
+//       debugger;
+//     },
+//   },
+// );
 
 if (!clipboard.isSupported) {
   toast.add({
