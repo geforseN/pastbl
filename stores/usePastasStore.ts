@@ -1,4 +1,3 @@
-import type { Notification } from "@nuxt/ui/dist/runtime/types/notification";
 import { defineStore } from "pinia";
 import { stringify, parse } from "zipson";
 
@@ -37,7 +36,57 @@ export const usePastasStore = defineStore(
       ].sort(([, aCount], [, bCount]) => bCount - aCount);
     });
 
+    // TODO rename
+    const _pastasWithTokensData = computed(() => {
+      return pastas.value
+        .map((pasta) => {
+          const pastaTokens = [...new Set(pasta.text.split(" "))];
+          return {
+            pasta,
+            pastaTokens: pastaTokens.filter(isValidToken),
+          };
+        })
+        .filter((data) => data.pastaTokens.length !== 0);
+    });
+
+    function populatePastas<Emote extends any>({
+      emoteMap,
+      templateString,
+    }: {
+      emoteMap: ReadonlyMap<string, Emote>;
+      templateString: (emote: Emote) => string;
+    }) {
+      _pastasWithTokensData.value
+        .map((data) => {
+          return {
+            pasta: data.pasta,
+            pastaTokens: data.pastaTokens.filter((token) =>
+              emoteMap.has(token),
+            ),
+          };
+        })
+        .forEach((pastaData) => {
+          const { pasta, pastaTokens } = pastaData;
+          pasta.populatedText = pasta.populatedText || pasta.text;
+          pastaTokens.forEach((token) => {
+            const emote = emoteMap.get(token)!;
+            pasta.populatedText = pasta.populatedText!.replaceAll(
+              token,
+              templateString(emote),
+            );
+          });
+        });
+    }
+
+    function clearPopulatedTexts() {
+      pastas.value.forEach((pasta) => {
+        pasta.populatedText = undefined;
+      });
+    }
+
     return {
+      populatePastas,
+      clearPopulatedTexts,
       allTags,
       tagsSortedByLength,
       mostPopularTagsMap,
@@ -91,15 +140,26 @@ export const usePastasStore = defineStore(
       },
       storage: persistedState.localStorage,
       paths: ["pastas", "pasta", "pastasBin"],
+      afterRestore(context) {
+        // NOTE: this is done because after each page reload text would populated over and over again,
+        // so html tag wraps another html tag and populated text of pasta become invalid
+        context.store.clearPopulatedTexts();
+      },
     },
   },
 );
 
-class RemovePastaNotification implements Partial<Notification> {
+class RemovePastaNotification {
+  title;
+  color;
+  timeout;
+  actions;
+  description;
+
   constructor({ handleUndo }: { handleUndo: () => void }) {
     this.timeout = 7_000;
-    this.title = "Pasta remove";
     this.color = "yellow";
+    this.title = "Pasta remove";
     this.description = "Pasta got removed and also saved is pastas bin";
     this.actions = [
       {
