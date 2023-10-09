@@ -52,50 +52,43 @@ const pastasStore = usePastasStore();
 // WHEN current emote-set changes DO pastas text repopulate
 
 onMounted(async () => {
-  // return
-  const uzySet = await getFirstUzyEmoteSet();
-
-  const emoteMap = new Map<string, SevenTvEmote>(
-    uzySet.emotes.map((emote) => [emote.chatName, emote]),
-  );
-
-  const pastasEmotes = new Map(
-    pastasStore.pastas
-      .map(
-        (pasta) =>
-          [
-            pasta.createdAt,
-            [...new Set(pasta.text.split(" "))]
-              .filter(isValidToken)
-              .filter((token) => emoteMap.has(token)),
-          ] as [number, string[]],
-      )
-      .filter(([, emoteNames]) => emoteNames.length),
-  );
-
-  const pastasToPopulate = pastasStore.pastas.filter((pasta) =>
-    pastasEmotes.has(pasta.createdAt),
-  );
-
-  pastasToPopulate.forEach((pasta) => {
-    const pastaEmoteNames = pastasEmotes.get(pasta.createdAt)!;
-    pasta.populatedText = pasta.text;
-    pastaEmoteNames.forEach((emoteName) => {
-      const emote: SevenTvEmote = emoteMap.get(emoteName);
-      pasta.populatedText = pasta.populatedText!.replaceAll(
-        emoteName,
-        String.raw`
-        <span 
-          class="inline-block" 
-          title="${emote.chatName} emote from SevenTV ${
-            !emote.originalName ? "" : `(aka ${emote.originalName})`
-          }" 
-        >
-          <img src="https:${emote.url}/1x.webp">
-        </span>`,
+  const fulfilledEmotesSets = await Promise.allSettled([
+    (async function populateBetterTTVGlobalEmoteSet() {
+      const bttvGlobalSet = await getBetterTTVGlobalEmoteSet();
+      const bttvGlobalEmotesMap = new Map(
+        bttvGlobalSet.emotes.map((emote) => [emote.chatName, emote]),
       );
-    });
-  });
+      pastasStore.populatePastas({
+        emoteMap: bttvGlobalEmotesMap,
+        templateString: BetterTTVEmoteString,
+      });
+      return bttvGlobalEmotesMap;
+    })(),
+    (async function populateUselessMouthSevenTVFirstEmotesSet() {
+      const uzy7TvSet = await getFirstUzyEmoteSet();
+      const uzy7TvemoteMap = new Map<string, SevenTvEmote>(
+        uzy7TvSet.emotes.map((emote) => [emote.chatName, emote]),
+      );
+      pastasStore.populatePastas({
+        emoteMap: uzy7TvemoteMap,
+        templateString: SevenTVEmoteString,
+      });
+      return uzy7TvemoteMap;
+    })(),
+    (async function populateUselessMouthBetterTTVEmotesSet() {
+      const uzyBttvSet = await getBetterTTVUzyEmotesSet();
+      const uzyBttvEmoteMap = new Map<string, SevenTvEmote>(
+        uzyBttvSet.emotes.map((emote) => [emote.chatName, emote]),
+      );
+      pastasStore.populatePastas({
+        emoteMap: uzyBttvEmoteMap,
+        templateString: BetterTTVEmoteString,
+      });
+      return uzyBttvEmoteMap;
+    })(),
+  ]);
+
+  return console.log(fulfilledEmotesSets);
 });
 </script>
 <style>
