@@ -6,8 +6,8 @@ export function isValidASCIIChar(char: string) {
   return charCode > 32 && charCode < 127;
 }
 
-export function isValidToken(string: string) {
-  for (const char of string) {
+export function isValidToken(word: string) {
+  for (const char of word) {
     if (!isValidASCIIChar(char)) {
       return false;
     }
@@ -17,6 +17,6 @@ export function isValidToken(string: string) {
 
 // NOTE: can use this function instead of isValidToken function, because it easier to read
 // NOTE: _isValidToken function unpack all characters from iterator, which isValidToken function does not
-export function _isValidToken(token: string) {
-  return [...token].every(isValidASCIIChar);
+export function _isValidToken(word: string) {
+  return [...word].every(isValidASCIIChar);
 }
