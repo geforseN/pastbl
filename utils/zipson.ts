@@ -11,3 +11,8 @@ export const zipsonSerializer = {
     return stringify(value);
   },
 };
+
+export const zipsonStoreSerializer = {
+  deserialize: parse,
+  serialize: stringify,
+};
