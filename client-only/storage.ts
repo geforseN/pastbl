@@ -1,4 +1,4 @@
-import { zipsonSerializer } from "./zipson";
+import { zipsonSerializer } from "../utils/zipson";
 
 export function createStorageReader<T>(
   keyPrefix: string,
