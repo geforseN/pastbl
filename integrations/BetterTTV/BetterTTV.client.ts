@@ -2,10 +2,11 @@ import type {
   __BTTV__GlobalEmote__,
   __BTTV__UserEmote__,
 } from "./BetterTTV.api";
+
 import {
   createStorageReader,
   createStorageWriter,
-} from "../../utils/storage.client";
+} from "../../client-only/storage";
 
 export class BetterTTVEmoteImplementation implements BetterTTVEmote {
   id: BetterTTVEmote["id"];
