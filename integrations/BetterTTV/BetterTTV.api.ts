@@ -1,4 +1,5 @@
-import { BetterTTVEmote } from "./BetterTTV";
+import { BetterTTVEmoteImplementation } from "./BetterTTV";
+import type { BetterTTVEmote } from "./BetterTTV";
 
 export type __BTTV__GlobalEmote__ = {
   id: string;
@@ -45,7 +46,7 @@ export async function fetchBetterTTVGlobalEmotes(): Promise<BetterTTVEmote[]> {
       return response.json();
     })
     .then((emotesArray: __BTTV__GlobalEmote__[]) =>
-      emotesArray.map((emote) => new BetterTTVEmote(emote)),
+      emotesArray.map((emote) => new BetterTTVEmoteImplementation(emote)),
     );
 }
 
@@ -58,8 +59,12 @@ export async function fetchBetterTTVUserEmotes(
     })
     .then((data: __BTTV__UserData__) => {
       return [
-        ...data.channelEmotes.map((emote) => new BetterTTVEmote(emote)),
-        ...data.sharedEmotes.map((emote) => new BetterTTVEmote(emote)),
+        ...data.channelEmotes.map(
+          (emote) => new BetterTTVEmoteImplementation(emote),
+        ),
+        ...data.sharedEmotes.map(
+          (emote) => new BetterTTVEmoteImplementation(emote),
+        ),
       ];
     });
 }
