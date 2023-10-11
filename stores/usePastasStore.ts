@@ -1,5 +1,9 @@
+import type {
+  NotificationAction,
+  NotificationColor,
+} from "@nuxt/ui/dist/runtime/types";
 import { defineStore } from "pinia";
-import { stringify, parse } from "zipson";
+import { zipsonStoreSerializer } from "#imports";
 
 export type Pasta = { text: string; tags: string[] };
 export type MegaPasta = Pasta & { createdAt: number; populatedText?: string };
@@ -36,14 +40,12 @@ export const usePastasStore = defineStore(
       ].sort(([, aCount], [, bCount]) => bCount - aCount);
     });
 
-    // TODO rename
-    const _pastasWithTokensData = computed(() => {
+    const pastaDataForPopulation = computed(() => {
       return pastas.value
         .map((pasta) => {
-          const pastaTokens = [...new Set(pasta.text.split(" "))];
           return {
             pasta,
-            pastaTokens: pastaTokens.filter(isValidToken),
+            pastaTokens: getPastaValidTokens(pasta),
           };
         })
         .filter((data) => data.pastaTokens.length !== 0);
@@ -56,17 +58,14 @@ export const usePastasStore = defineStore(
       emoteMap: ReadonlyMap<string, Emote>;
       templateString: (emote: Emote) => string;
     }) {
-      _pastasWithTokensData.value
-        .map((data) => {
+      pastaDataForPopulation.value
+        .map(({ pasta, pastaTokens }) => {
           return {
-            pasta: data.pasta,
-            pastaTokens: data.pastaTokens.filter((token) =>
-              emoteMap.has(token),
-            ),
+            pasta: pasta,
+            pastaTokens: pastaTokens.filter((token) => emoteMap.has(token)),
           };
         })
-        .forEach((pastaData) => {
-          const { pasta, pastaTokens } = pastaData;
+        .forEach(({ pasta, pastaTokens }) => {
           pasta.populatedText = pasta.populatedText || pasta.text;
           pastaTokens.forEach((token) => {
             const emote = emoteMap.get(token)!;
@@ -79,9 +78,7 @@ export const usePastasStore = defineStore(
     }
 
     function clearPopulatedTexts() {
-      pastas.value.forEach((pasta) => {
-        pasta.populatedText = undefined;
-      });
+      pastas.value.forEach((pasta) => (pasta.populatedText = undefined));
     }
 
     return {
@@ -134,10 +131,7 @@ export const usePastasStore = defineStore(
   },
   {
     persist: {
-      serializer: {
-        deserialize: parse,
-        serialize: stringify,
-      },
+      serializer: zipsonStoreSerializer,
       storage: persistedState.localStorage,
       paths: ["pastas", "pasta", "pastasBin"],
       afterRestore(context) {
@@ -150,11 +144,11 @@ export const usePastasStore = defineStore(
 );
 
 class RemovePastaNotification {
-  title;
-  color;
-  timeout;
-  actions;
-  description;
+  title: string;
+  color: NotificationColor;
+  timeout: number;
+  actions: NotificationAction[];
+  description: string;
 
   constructor({ handleUndo }: { handleUndo: () => void }) {
     this.timeout = 7_000;
