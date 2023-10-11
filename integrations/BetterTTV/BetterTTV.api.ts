@@ -1,5 +1,5 @@
-import { BetterTTVEmoteImplementation } from "./BetterTTV";
-import type { BetterTTVEmote } from "./BetterTTV";
+import { BetterTTVEmoteImplementation } from "./BetterTTV.client";
+import type { BetterTTVEmote } from "./BetterTTV.client";
 
 export type __BTTV__GlobalEmote__ = {
   id: string;
