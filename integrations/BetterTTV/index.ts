@@ -1,17 +1,17 @@
-import type { BetterTTVEmote } from "./BetterTTV";
+import type { BetterTTVEmote as _BetterTTVEmote } from "./BetterTTV.client";
 import {
   getBttvEmoteCollectionFromStorage,
   setBttvEmoteCollectionToStorage,
-} from "./BetterTTV";
+} from "./BetterTTV.client";
 import {
   fetchBetterTTVGlobalEmotes,
   fetchBetterTTVUserEmotes,
 } from "./BetterTTV.api";
 
+export type BetterTTVEmote = _BetterTTVEmote;
+
 export function BetterTTVEmoteString(emote: BetterTTVEmote) {
-  return `<span class="inline-block" title="${emote.chatName} emote from BetterTTV">
-    <img src="https:${emote.url}/1x.webp">
-  </span>`;
+  return `<span class="inline-block" title="${emote.chatName} emote from BetterTTV"><img src="https:${emote.url}/1x.webp"></span>`;
 }
 
 export async function getBttvGlobalEmoteCollection() {
