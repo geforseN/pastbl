@@ -28,6 +28,8 @@ async function getBetterTTVEmotesSet<
   const emoteCollectionFromLocalStorage =
     getBttvEmoteCollectionFromStorage(key);
   if (emoteCollectionFromLocalStorage) {
+    // TODO: here we can map over emoteCollectionFromLocalStorage.emotes => new BetterTTVEmote,
+    // so we can use methods from prototype (but for now there no methods, class is dumb)
     return emoteCollectionFromLocalStorage;
   }
   const emoteCollectionFromFetch = {
