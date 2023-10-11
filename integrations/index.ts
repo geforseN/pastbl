@@ -1,6 +1,6 @@
 import { BetterTTVEmoteString } from "./BetterTTV";
 import { sevenTV } from "./SevenTV";
-import type { BetterTTVEmote } from "./BetterTTV/BetterTTV";
+import type { BetterTTVEmote } from "./BetterTTV/BetterTTV.client";
 import type { SevenTvEmote } from "./SevenTV/SevenTV.types";
 
 export const templateStrings = {
@@ -14,3 +14,8 @@ export type Emote = SevenTvEmote | BetterTTVEmote;
 
 type EmoteName = string;
 export type EmoteMap = Map<EmoteName, Emote>;
+
+export {
+  getBttvEmoteCollectionByUserId,
+  getBttvGlobalEmoteCollection,
+} from "./BetterTTV";
