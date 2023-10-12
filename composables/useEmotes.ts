@@ -22,8 +22,7 @@ export default function useEmotes(
             collection.status === "rejected",
         )
         .map((result) => result.reason);
-      import.meta.env.DEV &&
-        console.log(failedEmoteCollectionsReasons, emoteCollections);
+      console.log(failedEmoteCollectionsReasons, emoteCollections);
     },
   );
 
