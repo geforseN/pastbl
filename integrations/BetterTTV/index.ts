@@ -1,5 +1,7 @@
 import type { BetterTTVEmote as _BetterTTVEmote } from "./BetterTTV.client";
 import {
+  BetterTTVCollectionImplementation,
+  BetterTTVEmoteImplementation,
   getBttvEmoteCollectionFromStorage,
   setBttvEmoteCollectionToStorage,
 } from "./BetterTTV.client";
@@ -11,30 +13,45 @@ import {
 export type BetterTTVEmote = _BetterTTVEmote;
 
 export function BetterTTVEmoteString(emote: BetterTTVEmote) {
-  return `<span class="inline-block" title="${emote.chatName} emote from BetterTTV"><img src="https:${emote.url}/1x.webp"></span>`;
+  return `<span class="inline-block" title="${emote.token} emote from BetterTTV"><img src="https:${emote.url}/1x.webp"></span>`;
 }
 
 export async function getBttvGlobalEmoteCollection() {
-  return getBetterTTVEmotesSet("global", fetchBetterTTVGlobalEmotes);
+  const emoteCollectionFromLocalStorage =
+    getBttvEmoteCollectionFromStorage("global");
+  if (emoteCollectionFromLocalStorage) {
+    return emoteCollectionFromLocalStorage;
+  }
+  const emoteCollection = new BetterTTVCollectionImplementation(
+    await fetchBetterTTVGlobalEmotes().then((emotesArray) =>
+      emotesArray.map(
+        (emote) => new BetterTTVEmoteImplementation(emote, "global"),
+      ),
+    ),
+  );
+  setBttvEmoteCollectionToStorage("global", emoteCollection);
+  return emoteCollection;
 }
 
 export async function getBttvEmoteCollectionByUserId(userId: string) {
-  return getBetterTTVEmotesSet(userId, fetchBetterTTVUserEmotes);
-}
-
-async function getBetterTTVEmotesSet<
-  AsyncFetchFunc extends (...args: any[]) => Promise<BetterTTVEmote[]>,
->(key: string, fetchEmotesFromBttvApi: AsyncFetchFunc) {
   const emoteCollectionFromLocalStorage =
-    getBttvEmoteCollectionFromStorage(key);
+    getBttvEmoteCollectionFromStorage(userId);
   if (emoteCollectionFromLocalStorage) {
-    // TODO: here we can map over emoteCollectionFromLocalStorage.emotes => new BetterTTVEmote,
-    // so we can use methods from prototype (but for now there no methods, class is dumb)
     return emoteCollectionFromLocalStorage;
   }
-  const emoteCollectionFromFetch = {
-    emotes: await fetchEmotesFromBttvApi(key),
-  };
-  setBttvEmoteCollectionToStorage(key, emoteCollectionFromFetch);
-  return emoteCollectionFromFetch;
+  const emoteCollection = new BetterTTVCollectionImplementation(
+    await fetchBetterTTVUserEmotes(userId).then((data) => {
+      return [
+        ...data.channelEmotes.map(
+          (emote) => new BetterTTVEmoteImplementation(emote, "channel"),
+        ),
+        ...data.sharedEmotes.map(
+          (emote) => new BetterTTVEmoteImplementation(emote, "shared"),
+        ),
+      ];
+    }),
+  );
+
+  setBttvEmoteCollectionToStorage(userId, emoteCollection);
+  return emoteCollection;
 }
