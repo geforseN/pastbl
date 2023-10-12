@@ -1,23 +1,17 @@
-import { BetterTTVEmoteImplementation } from "./BetterTTV.client";
-import type { BetterTTVEmote } from "./BetterTTV.client";
-
-export type __BTTV__GlobalEmote__ = {
-  id: string;
-  code: string;
-  imageType: "png" | "webp" | "gif";
+type BetterTTVGlobalEmote = {
   animated: boolean;
+  code: string;
+  id: string;
+  imageType: "png" | "webp" | "gif";
   modifier: boolean;
+  userId: string;
   hight?: number;
   width?: number;
-  userId?: string;
-  userName?: string;
-  userDisplayName?: string;
-  userProviderId?: string;
 };
 
-export type __BTTV__UserEmote__ = {
+type BetterTTVBaseUserEmote = {
   animated: boolean;
-  approvalStatus: string;
+  approvalStatus: string | "APPROVED";
   code: string;
   createdAt: ReturnType<Date["toISOString"]>;
   global: boolean;
@@ -26,45 +20,58 @@ export type __BTTV__UserEmote__ = {
   live: boolean;
   sharing: boolean;
   updatedAt: ReturnType<Date["toISOString"]>;
-  userId: string;
 };
 
-export type __BTTV__UserData__ = {
-  bots: unknown[];
-  channelEmotes: __BTTV__UserEmote__[]; // NOTE: type can be wrong
+type BetterTTVChannelEmote = BetterTTVBaseUserEmote & {
+  userId: string; // NOTE: this is equal to __BTTV__UserData__['id']
+};
+
+type BetterTTVSharedEmote = BetterTTVBaseUserEmote & {
+  user: {
+    displayName: string;
+    id: string;
+    name: string;
+    providerId: string; // NOTE: this is equal to __BTTV__UserData__['providerId']
+  };
+};
+
+export type BetterTTVEmoteFromAPI =
+  | BetterTTVGlobalEmote
+  | BetterTTVBaseUserEmote
+  | BetterTTVChannelEmote
+  | BetterTTVSharedEmote;
+
+type BetterTTVUser = {
+  bots: string[];
+  channelEmotes: BetterTTVChannelEmote[];
   displayName: string;
   id: string;
   name: string;
-  providerId: string;
-  sharedEmotes: __BTTV__UserEmote__[]; // NOTE: type can be wrong
+  providerId: string; // NOTE: this is string, which contains numbers and probably no letters
+  sharedEmotes: BetterTTVSharedEmote[];
 };
 
 // NOTE: result of fetch includes modifier emote (e.g. c!, h!, l!) which are not yet supported
-export async function fetchBetterTTVGlobalEmotes(): Promise<BetterTTVEmote[]> {
-  return fetch("https://api.betterttv.net/3/cached/emotes/global")
-    .then((response) => {
+export async function fetchBetterTTVGlobalEmotes(): Promise<
+  BetterTTVGlobalEmote[]
+> {
+  // LINK: https://betterttv.com/developers/api#global-emotes
+  return fetch("https://api.betterttv.net/3/cached/emotes/global").then(
+    (response) => {
       return response.json();
-    })
-    .then((emotesArray: __BTTV__GlobalEmote__[]) =>
-      emotesArray.map((emote) => new BetterTTVEmoteImplementation(emote)),
-    );
+    },
+  );
 }
 
 export async function fetchBetterTTVUserEmotes(
   userId: string,
-): Promise<BetterTTVEmote[]> {
-  return fetch(`https://api.betterttv.net/3/users/${userId}`)
-    .then((response) => {
+): Promise<BetterTTVUser> {
+  // LINK: https://betterttv.com/developers/api#user-emotes
+  // NOTE: url for fetch is on api site is wrong, will be 404
+  // wrong url: fetch('https://api.betterttv.net/3/cached/users/{provider}/{providerId})
+  return fetch(`https://api.betterttv.net/3/users/${userId}`).then(
+    (response) => {
       return response.json();
-    })
-    .then((data: __BTTV__UserData__) => {
-      return [
-        ...data.channelEmotes.map(
-          (emote) => new BetterTTVEmoteImplementation(emote),
-        ),
-        ...data.sharedEmotes.map(
-          (emote) => new BetterTTVEmoteImplementation(emote),
-        ),
-      ];
-    });
+    },
+  );
 }
