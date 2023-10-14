@@ -20,3 +20,11 @@ export function isValidToken(word: string) {
 export function _isValidToken(word: string) {
   return [...word].every(isValidASCIIChar);
 }
+
+function getPastaTokens(pasta: { text: string }) {
+  return [...new Set(pasta.text.split(" "))];
+}
+
+export function getPastaValidTokens(pasta: { text: string }) {
+  return getPastaTokens(pasta).filter(isValidToken);
+}

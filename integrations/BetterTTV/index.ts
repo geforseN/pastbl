@@ -7,7 +7,7 @@ import {
 } from "./BetterTTV.client";
 import {
   fetchBetterTTVGlobalEmotes,
-  fetchBetterTTVUserEmotes,
+  fetchBetterTTVUserById,
 } from "./BetterTTV.api";
 
 export type BetterTTVEmote = _BetterTTVEmote;
@@ -17,10 +17,10 @@ export function BetterTTVEmoteString(emote: BetterTTVEmote) {
 }
 
 export async function getBttvGlobalEmoteCollection() {
-  const emoteCollectionFromLocalStorage =
+  const emoteCollectionFromStorage =
     getBttvEmoteCollectionFromStorage("global");
-  if (emoteCollectionFromLocalStorage) {
-    return emoteCollectionFromLocalStorage;
+  if (emoteCollectionFromStorage) {
+    return emoteCollectionFromStorage;
   }
   const emoteCollection = new BetterTTVCollectionImplementation(
     await fetchBetterTTVGlobalEmotes().then((emotesArray) =>
@@ -40,7 +40,7 @@ export async function getBttvEmoteCollectionByUserId(userId: string) {
     return emoteCollectionFromLocalStorage;
   }
   const emoteCollection = new BetterTTVCollectionImplementation(
-    await fetchBetterTTVUserEmotes(userId).then((data) => {
+    await fetchBetterTTVUserById(userId).then((data) => {
       return [
         ...data.channelEmotes.map(
           (emote) => new BetterTTVEmoteImplementation(emote, "channel"),

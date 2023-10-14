@@ -34,6 +34,7 @@ export interface BaseEmote {
   token: string;
   isAnimated: boolean;
   isModifier: boolean;
+  isZeroWidth: boolean;
   isListed: boolean;
-  source: string;
+  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
 }

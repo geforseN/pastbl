@@ -19,7 +19,7 @@
           class="btn btn-primary my-2 w-full text-xl"
           @click="
               () => {
-                (pastaFromResponsiveRef as any).twitchChatRef.textareaRef.focus();
+                (pastaFormRef as any).twitchChatRef.textareaRef.focus();
               }
             "
         >
@@ -30,8 +30,9 @@
     </client-only>
     <div class="flex w-min flex-col gap-y-4">
       <client-only>
-        <pasta-form-responsive ref="pastaFromResponsiveRef" />
+        <pasta-form-responsive ref="pastaFormRef" />
         <user-settings />
+        <emote-collections />
         <template #fallback>LOADING FORMS</template>
       </client-only>
     </div>
@@ -39,56 +40,132 @@
 </template>
 
 <script setup lang="tsx">
-const pastaFromResponsiveRef = ref();
+const pastaFormRef = ref();
 const userStore = useUserStore();
 
 const pastasStore = usePastasStore();
 
-// TODO watch:
-// WHEN pastasStore.pastas receives new pasta THEN do text populate
-// this may stop doing pasta text population on every page refresh
+const uzySevenTVId = "623dec3a1aeb248de84964bf";
+const uzyFirstEmoteCollectionId = "623dec3a1aeb248de84964bf";
+const uzyBetterTTVUserId = "550ad384a607044d1a3dd29b";
 
 // TODO later...
 // WHEN current emote-set changes DO pastas text repopulate
 
 onMounted(async () => {
-  const fulfilledEmotesSets = await Promise.allSettled([
+  return;
+
+  // const { fetchBetterTTVUserById, fetchBetterTTVGlobalEmotes } = await import(
+  //   "~/integrations/BetterTTV/BetterTTV.api"
+  // );
+  // const { sevenTVApi } = await import("~/integrations/SevenTV/SevenTV.api");
+  const gg = await sevenTVApi.fetchUserBySevenTVId(uzySevenTVId);
+  return console.log(gg);
+  const g = await sevenTVApi.fetchEmoteCollectionById(
+    uzyFirstEmoteCollectionId,
+  );
+  return console.log(g);
+  // return console.log(c)
+  // const d = await fetch(`https://7tv.io/v2`).then(v => v.json())
+  // return console.log(d);
+  // const b = fetchBetterTTVGlobalEmotes();
+  // return console.log(b);
+  const a = await fetchBetterTTVUserEmotes(uzyBetterTTVUserId);
+  return console.log(a);
+
+  const [collection, user] = await Promise.allSettled([
+    sevenTVApi.fetchEmoteCollectionById(uzyFirstEmoteCollectionId),
+    sevenTVApi.fetchUserBySevenTVId(uzySevenTVId),
+  ]);
+  console.log({
+    user,
+    collection,
+    // other: collection.emotes?.map((e) => e.actor_id),
+  });
+
+  return;
+
+  const ffzUzy = await fetch(
+    `https://api.frankerfacez.com/v1/user/${"UselessMouth".toLowerCase()}`,
+  ).then((v) => v.json());
+  const ffzGlobal = await fetch(
+    `https://api.frankerfacez.com/v1/set/global`,
+  ).then((v) => v.json());
+  console.log({ ffzUzy, ffzGlobal });
+
+  const {
+    templateStrings,
+    getBttvEmoteCollectionByUserId,
+    getBttvGlobalEmoteCollection,
+  } = await import("../integrations");
+
+  watch(
+    () => pastasStore.latestPasta,
+    async (latestPasta) => {
+      if (!latestPasta || latestPasta.populatedText !== undefined) {
+        return;
+      }
+      await until(emoteCollections).toMatch((array) => array.length !== 0, {
+        timeout: 10_000,
+        throwOnTimeout: true,
+      });
+      latestPasta.populatedText = getPastaValidTokens(latestPasta).reduce(
+        (text, token) => {
+          const collectionThatHasEmoteByToken = emoteCollections.value.find(
+            (collection) => collection.has(token),
+          );
+          if (!collectionThatHasEmoteByToken) {
+            return text;
+          }
+          const emoteByToken = collectionThatHasEmoteByToken.get(token)!;
+          return text.replaceAll(
+            token,
+            // TODO default template string should be used IF could not specify collection name
+            // collection should have property name, which can be 'SevenTv' or 'BetterTTV'
+            templateStrings["default"](emoteByToken),
+          );
+        },
+        latestPasta.text,
+      );
+    },
+  );
+
+  const { emoteCollections } = useEmotes([
     (async function populateBetterTTVGlobalEmoteSet() {
-      const bttvGlobalSet = await getBetterTTVGlobalEmoteSet();
-      const bttvGlobalEmotesMap = new Map(
-        bttvGlobalSet.emotes.map((emote) => [emote.chatName, emote]),
+      const bttvGlobalCollection = await getBttvGlobalEmoteCollection();
+      const bttvGlobalEmoteMap = new Map(
+        bttvGlobalCollection.emotes.map((emote) => [emote.token, emote]),
       );
       pastasStore.populatePastas({
-        emoteMap: bttvGlobalEmotesMap,
-        templateString: BetterTTVEmoteString,
+        emoteMap: bttvGlobalEmoteMap,
+        templateString: templateStrings["BetterTTV"],
       });
-      return bttvGlobalEmotesMap;
+      return bttvGlobalEmoteMap;
     })(),
-    (async function populateUselessMouthSevenTVFirstEmotesSet() {
-      const uzy7TvSet = await getFirstUzyEmoteSet();
-      const uzy7TvemoteMap = new Map<string, SevenTvEmote>(
-        uzy7TvSet.emotes.map((emote) => [emote.chatName, emote]),
-      );
-      pastasStore.populatePastas({
-        emoteMap: uzy7TvemoteMap,
-        templateString: SevenTVEmoteString,
-      });
-      return uzy7TvemoteMap;
-    })(),
+    // (async function populateUselessMouthSevenTVFirstEmotesSet() {
+    //   const uzy7TVCollection = await getFirstUzyEmoteSet();
+    //   const uzy7TVEmoteMap = new Map<string, SevenTvEmote>(
+    //     uzy7TVCollection.emotes.map((emote) => [emote.chatName, emote]),
+    //   );
+    //   pastasStore.populatePastas({
+    //     emoteMap: uzy7TVEmoteMap,
+    //     templateString: templateStrings["SevenTV"],
+    //   });
+    //   return uzy7TVEmoteMap;
+    // })(),
     (async function populateUselessMouthBetterTTVEmotesSet() {
-      const uzyBttvSet = await getBetterTTVUzyEmotesSet();
-      const uzyBttvEmoteMap = new Map<string, SevenTvEmote>(
-        uzyBttvSet.emotes.map((emote) => [emote.chatName, emote]),
+      const uzyBttvCollection =
+        await getBttvEmoteCollectionByUserId(uzyBetterTTVUserId);
+      const uzyBttvEmoteMap = new Map(
+        uzyBttvCollection.emotes.map((emote) => [emote.token, emote]),
       );
       pastasStore.populatePastas({
         emoteMap: uzyBttvEmoteMap,
-        templateString: BetterTTVEmoteString,
+        templateString: templateStrings["BetterTTV"],
       });
       return uzyBttvEmoteMap;
     })(),
   ]);
-
-  return console.log(fulfilledEmotesSets);
 });
 </script>
 <style>
@@ -97,3 +174,23 @@ body {
   scrollbar-gutter: stable;
 }
 </style>
+
+<!-- 
+        latestPasta.populatedText = latestPasta.text;
+      pastaTokens.forEach((token) => {
+        const collectionThatHasToken = emoteCollections.value.find(
+          (collection) => collection.has(token),
+        );
+        if (!collectionThatHasToken) {
+          return;
+        }
+        const emote = collectionThatHasToken.get(token)!;
+        latestPasta.populatedText = latestPasta.populatedText!.replaceAll(
+          token,
+          // TODO default template string should be used IF could not specify which name has collection that has token
+          // collection should have property name, which can be 'SevenTv' or 'BetterTTV'
+          templateStrings["default"](emote),
+        );
+      });
+
+ -->

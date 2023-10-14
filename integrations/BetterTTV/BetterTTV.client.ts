@@ -15,6 +15,7 @@ export class BetterTTVEmoteImplementation implements BetterTTVEmote {
   isListed: BetterTTVEmote["isListed"];
   source: BetterTTVEmote["source"];
   type: BetterTTVEmote["type"];
+  isZeroWidth: BetterTTVEmote["isZeroWidth"];
 
   constructor(bttvEmote: BetterTTVEmoteFromAPI, type: BetterTTVEmote["type"]) {
     this.id = bttvEmote.id;
@@ -23,6 +24,7 @@ export class BetterTTVEmoteImplementation implements BetterTTVEmote {
     this.isAnimated = bttvEmote.animated;
     this.isModifier = "modifier" in bttvEmote ? bttvEmote.modifier : false;
     this.isListed = true;
+    this.isZeroWidth = false;
     this.source = "BetterTTV";
     this.type = type;
   }
@@ -51,10 +53,10 @@ export class BetterTTVCollectionImplementation implements BttvEmoteCollection {
     this.updatedAt = Date.now();
   }
 }
-const BTTV_EMOTE_SET_STORAGE_PREFIX = "bttv::emote-sets::" as const;
+const COLLECTION_STORAGE_PREFIX = "bttv::emote-sets::" as const;
 
 export const getBttvEmoteCollectionFromStorage =
-  createStorageReader<BttvEmoteCollection>(BTTV_EMOTE_SET_STORAGE_PREFIX);
+  createStorageReader<BttvEmoteCollection>(COLLECTION_STORAGE_PREFIX);
 
 export const setBttvEmoteCollectionToStorage =
-  createStorageWriter<BttvEmoteCollection>(BTTV_EMOTE_SET_STORAGE_PREFIX);
+  createStorageWriter<BttvEmoteCollection>(COLLECTION_STORAGE_PREFIX);
