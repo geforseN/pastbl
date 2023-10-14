@@ -13,7 +13,7 @@
           />
           <span class="text-black">{{ account.displayName }}: </span>
           <span class="text-gray-800/50">{{ account.id }}</span>
-          <use-time-ago v-slot="{ timeAgo }" :time="account.fetchTime">
+          <use-time-ago #="{ timeAgo }" :time="account.fetchTime">
             <span class="text-black">Data was fetched {{ timeAgo }}</span>
           </use-time-ago>
           <button
@@ -39,10 +39,7 @@
 </template>
 <script setup lang="ts">
 import { UseTimeAgo } from "@vueuse/components";
-
-const sevenTvAccounts = await import("~/utils/storage.client").then(
-  (module) => {
-    return module.sevenTvAccounts;
-  },
-);
+onMounted(async () => {
+  const { createStorageReader } = await import("~/client-only/storage");
+});
 </script>

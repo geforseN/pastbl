@@ -20,6 +20,10 @@ export default {
       },
       colors: {
         twitch: "#a970ff",
+        "seventv-logo": "#29d8f6",
+        "bttv-logo": "#d50014",
+        bttv: "#1a202c",
+        ffz: "#375a7f",
       },
     },
   },
@@ -28,6 +32,7 @@ export default {
     require("@savvywombat/tailwindcss-grid-areas"),
     require("tailwindcss-debug-screens"),
     require("tailwind-heropatterns"),
+    require("tailwind-scrollbar"),
   ],
   daisyui: {
     themes: [
