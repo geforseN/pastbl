@@ -8,6 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-// NOTE: propsDestructure in vue config is used, experimental feature
 const { count = 10 } = defineProps<{ count?: number }>();
 </script>
