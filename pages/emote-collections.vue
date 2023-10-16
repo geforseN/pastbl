@@ -18,45 +18,20 @@
         "
         :is-collections-loading="collections.isLoading.value"
       />
-      <div
-        class="flex w-full grow bg-slate-600/20 2xl:max-w-sm"
-        v-if="collections.ffz.state.value"
-      >
-        <img
-          width="64"
-          height="64"
-          :src="collections.ffz.state.value.user.avatar"
-          :alt="collections.ffz.state.value.user.display_name + ' avatar'"
-        />
-        <div class="ml-2">
-          <template v-if="collections.ffz.state.value.user.badges">
-            <img
-              class="inline-block h-twitch-badge w-twitch-badge"
-              v-for="badge of Object.values(collections.ffz.state.value.badges)"
-              :style="{ backgroundColor: badge.color }"
-              :src="badge.image"
-              :alt="badge.title + ' badge'"
-              :title="badge.title"
-            />
-          </template>
-          <span class="ml-1">
-            {{ collections.ffz.state.value.user.display_name }}
-          </span>
-        </div>
-      </div>
+      <emote-collection-user-loaded-data :collections="collections" />
     </div>
     <div class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
       <emote-collection-ffz
-        class="2xl:h-max 2xl:w-80"
+        class="min-h-16 2xl:h-max 2xl:w-80"
         :ffz="collections.ffz"
         :ffz-room="collections.ffzRoom"
       />
       <emote-collection-bttv
-        class="2xl:h-max 2xl:w-80"
+        class="min-h-16 2xl:h-max 2xl:w-80"
         :bttv="collections.bttv"
       />
       <emote-collection-seventv
-        class="2xl:h-max 2xl:w-80"
+        class="min-h-16 2xl:h-max 2xl:w-80"
         :seventv="collections.seventv"
         :seventv-set="collections.seventvSet"
       />
@@ -65,9 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IDBPDatabase, openDB } from "idb";
-import { DBSchema } from "idb";
-import FetchEmoteCollectionsInputGroup from "~/components/fetch-emote-collections-input-group.vue";
+import { openDB } from "idb";
 
 const userNickname = ref("");
 const dbCollections = ref();
@@ -92,39 +65,4 @@ onMounted(async () => {
   });
   dbCollections.value = await db.getAll("saved-collections");
 });
-
-interface EmoteCollection extends DBSchema {
-  "current-collection-name": {
-    key: string;
-    value: string;
-  };
-  "saved-collections": {
-    value: {
-      nickname: string;
-      isLoadedCorrectly: boolean;
-      bttv?: {
-        emotes: {
-          name: string;
-          src: string;
-        }[];
-      };
-      "7tv"?: {
-        emotes: {
-          name: string;
-          src: string;
-        }[];
-      };
-      ffz?: {
-        emotes: {
-          name: string;
-          src: string;
-        }[];
-      };
-    };
-    key: string /* key is twitch nickname */;
-    indexes: { "by-price": number };
-  };
-}
 </script>
-
-<style></style>
