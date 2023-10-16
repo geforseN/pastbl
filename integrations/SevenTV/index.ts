@@ -18,7 +18,7 @@ export async function getSevenTVUserEmoteCollectionByUserId(userId: string) {
   }
   const user = await sevenTVApi.fetchUserBySevenTVId(userId);
   const ungroupedEmoteCollections = await Promise.allSettled(
-    user.emote_sets.map((set) => sevenTVApi.fetchEmoteCollectionById(set.id)),
+    user.emote_sets.map((set) => sevenTVApi.fetchEmoteSetById(set.id)),
   );
   const emoteCollections = groupEmoteCollections(ungroupedEmoteCollections);
 

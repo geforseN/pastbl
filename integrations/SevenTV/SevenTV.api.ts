@@ -16,7 +16,7 @@ export class SevenTVApi {
   }
 
   // LINK: https://7tv.io/docs
-  async fetchEmoteCollectionById(
+  async fetchEmoteSetById(
     collectionId: string,
   ): Promise<__SevenTV__EmoteCollection__> {
     return fetch(`https://7tv.io/v3/emote-sets/${collectionId}`).then(
@@ -29,6 +29,8 @@ export class SevenTVApi {
     emote_set: {
       emotes: __SevenTV__UserCollectionEmote__[];
       name: string;
+      id: string;
+      capacity: number;
     };
   }> {
     // NOTE: error may happen on first request: net::ERR_QUIC_PROTOCOL_ERROR 200 (OK)
