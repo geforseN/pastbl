@@ -13,13 +13,13 @@
       </template>
     </emote-collection-header>
     <main class="pt-1" v-if="seventv.isReady.value && seventv.state.value">
-      <emote-collections-seventv-sets
+      <emote-collection-seventv-sets
         v-for="set of [seventv.state.value.emote_set]"
         :key="set.id"
         :emote-set="set.emotes"
         :emote-set-name="set.name"
         :capacity="set.capacity"
-      ></emote-collections-seventv-sets>
+      ></emote-collection-seventv-sets>
     </main>
   </section>
   <section v-if="seventv.error.value">

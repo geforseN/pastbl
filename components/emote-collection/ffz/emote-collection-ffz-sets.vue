@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="set of props.sets">
-      <div class="collapse-arrow collapse border border-ffz">
+      <div class="collapse collapse-arrow border border-ffz">
         <input
           v-model="isOpen"
           type="checkbox"
