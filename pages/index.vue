@@ -10,11 +10,11 @@
       -->
     <client-only>
       <div class="flex flex-col-reverse go-brr:flex-col">
-        <pasta-list>
+        <chat-pasta-list>
           <template #user-nickname>
             <chat-pasta-nickname :user="userStore.user" />
           </template>
-        </pasta-list>
+        </chat-pasta-list>
         <button
           class="btn btn-primary my-2 w-full text-xl"
           @click="
