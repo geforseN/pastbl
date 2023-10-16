@@ -1,7 +1,12 @@
 <template>
-  <div class="my-2 flex w-full justify-center gap-4">
-    <div class="flex w-96 flex-col items-center bg-black/10">
+  <div
+    class="my-2 flex w-full items-start justify-center gap-4 2xl:flex-col 2xl:items-center"
+  >
+    <div
+      class="flex flex-col items-center rounded border border-base-content bg-black/10 p-2 2xl:w-[60rem] 2xl:flex-row 2xl:items-start 2xl:justify-between"
+    >
       <emote-collection-fetch-input-group
+        class="-mt-2 max-w-md"
         v-model:nickname="userNickname"
         @load-collections="
           () => {
@@ -13,64 +18,45 @@
         "
         :is-collections-loading="collections.isLoading.value"
       />
-      <div class="flex w-full rounded p-1">
-        <div class="h-full grow bg-stone-900">
-          <span class="text-5xl">✅ ❌</span>
-          <span class="loading loading-dots"></span>
-        </div>
-        <div class="grow">
-          <div class="bg-cyan-800">2</div>
-          <div class="bg-gray-700">3</div>
-        </div>
-      </div>
-      <ul class="ml-6 list-disc self-start">
-        <li>FrankerFaceZ user information</li>
-        <ul class="ml-6 list-disc">
-          <li>FrankerFaceZ user emotes</li>
-          <li>BetterTTV user collection</li>
-          <li>SevenTV user collection</li>
-        </ul>
-      </ul>
-      <div class="flex w-full bg-black/20" v-if="collections.ffz.state.value">
+      <div
+        class="flex w-full grow bg-slate-600/20 2xl:max-w-sm"
+        v-if="collections.ffz.state.value"
+      >
         <img
           width="64"
           height="64"
           :src="collections.ffz.state.value.user.avatar"
           :alt="collections.ffz.state.value.user.display_name + ' avatar'"
         />
-        <span class="ml-2">
-          {{ collections.ffz.state.value.user.display_name }}
-        </span>
-        <div class="flex p-1">
+        <div class="ml-2">
           <template v-if="collections.ffz.state.value.user.badges">
             <img
-              class=""
+              class="inline-block h-twitch-badge w-twitch-badge"
               v-for="badge of Object.values(collections.ffz.state.value.badges)"
               :style="{ backgroundColor: badge.color }"
               :src="badge.image"
-              :alt="badge.title + 'badge'"
+              :alt="badge.title + ' badge'"
               :title="badge.title"
             />
           </template>
-          <span class="ml-1">{{
-            collections.ffz.state.value.user.display_name
-          }}</span>
-        </div>
-      </div>
-      <div>
-        db collections
-        <div v-for="collection of dbCollections">
-          {{ collection }}
+          <span class="ml-1">
+            {{ collections.ffz.state.value.user.display_name }}
+          </span>
         </div>
       </div>
     </div>
-    <div class="flex w-96 flex-col gap-1">
+    <div class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
       <emote-collection-ffz
+        class="2xl:h-max 2xl:w-80"
         :ffz="collections.ffz"
         :ffz-room="collections.ffzRoom"
       />
-      <emote-collection-bttv :bttv="collections.bttv" />
+      <emote-collection-bttv
+        class="2xl:h-max 2xl:w-80"
+        :bttv="collections.bttv"
+      />
       <emote-collection-seventv
+        class="2xl:h-max 2xl:w-80"
         :seventv="collections.seventv"
         :seventv-set="collections.seventvSet"
       />

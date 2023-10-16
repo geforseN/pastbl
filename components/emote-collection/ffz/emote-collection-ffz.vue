@@ -41,7 +41,5 @@
 </template>
 
 <script lang="ts" setup>
-import type { FFZ, FFZRoom } from "~/composables/useAsyncEmoteSets";
-
 defineProps<{ ffz: FFZ; ffzRoom: FFZRoom }>();
 </script>
