@@ -32,7 +32,6 @@
       <client-only>
         <pasta-form-responsive ref="pastaFormRef" />
         <user-settings />
-        <emote-collections />
         <template #fallback>LOADING FORMS</template>
       </client-only>
     </div>
@@ -53,37 +52,11 @@ const uzyBetterTTVUserId = "550ad384a607044d1a3dd29b";
 // WHEN current emote-set changes DO pastas text repopulate
 
 onMounted(async () => {
-  return;
-
-  // const { fetchBetterTTVUserById, fetchBetterTTVGlobalEmotes } = await import(
-  //   "~/integrations/BetterTTV/BetterTTV.api"
-  // );
-  // const { sevenTVApi } = await import("~/integrations/SevenTV/SevenTV.api");
-  const gg = await sevenTVApi.fetchUserBySevenTVId(uzySevenTVId);
-  return console.log(gg);
-  const g = await sevenTVApi.fetchEmoteCollectionById(
-    uzyFirstEmoteCollectionId,
-  );
-  return console.log(g);
-  // return console.log(c)
-  // const d = await fetch(`https://7tv.io/v2`).then(v => v.json())
-  // return console.log(d);
-  // const b = fetchBetterTTVGlobalEmotes();
-  // return console.log(b);
-  const a = await fetchBetterTTVUserEmotes(uzyBetterTTVUserId);
-  return console.log(a);
-
-  const [collection, user] = await Promise.allSettled([
-    sevenTVApi.fetchEmoteCollectionById(uzyFirstEmoteCollectionId),
-    sevenTVApi.fetchUserBySevenTVId(uzySevenTVId),
-  ]);
-  console.log({
-    user,
-    collection,
-    // other: collection.emotes?.map((e) => e.actor_id),
-  });
-
-  return;
+  const {
+    templateStrings,
+    getBttvEmoteCollectionByUserId,
+    getBttvGlobalEmoteCollection,
+  } = await import("../integrations");
 
   const ffzUzy = await fetch(
     `https://api.frankerfacez.com/v1/user/${"UselessMouth".toLowerCase()}`,
@@ -92,12 +65,6 @@ onMounted(async () => {
     `https://api.frankerfacez.com/v1/set/global`,
   ).then((v) => v.json());
   console.log({ ffzUzy, ffzGlobal });
-
-  const {
-    templateStrings,
-    getBttvEmoteCollectionByUserId,
-    getBttvGlobalEmoteCollection,
-  } = await import("../integrations");
 
   watch(
     () => pastasStore.latestPasta,
