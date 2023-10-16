@@ -142,23 +142,3 @@ body {
   scrollbar-gutter: stable;
 }
 </style>
-
-<!-- 
-        latestPasta.populatedText = latestPasta.text;
-      pastaTokens.forEach((token) => {
-        const collectionThatHasToken = emoteCollections.value.find(
-          (collection) => collection.has(token),
-        );
-        if (!collectionThatHasToken) {
-          return;
-        }
-        const emote = collectionThatHasToken.get(token)!;
-        latestPasta.populatedText = latestPasta.populatedText!.replaceAll(
-          token,
-          // TODO default template string should be used IF could not specify which name has collection that has token
-          // collection should have property name, which can be 'SevenTv' or 'BetterTTV'
-          templateStrings["default"](emote),
-        );
-      });
-
- -->
