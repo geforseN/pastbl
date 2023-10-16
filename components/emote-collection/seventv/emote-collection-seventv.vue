@@ -21,15 +21,12 @@
         :capacity="set.capacity"
       ></emote-collection-seventv-sets>
     </main>
-  </section>
-  <section v-if="seventv.error.value">
-    <h3>ERROR</h3>
-    {{ seventv.error.value }}
+    <template v-if="seventv.error.value">
+      {{ seventv.error.value }}
+    </template>
   </section>
 </template>
 
 <script lang="ts" setup>
-import type { SevenTV, SevenTVSet } from "~/composables/useAsyncEmoteSets";
-
 defineProps<{ seventv: SevenTV; seventvSet: SevenTVSet }>();
 </script>

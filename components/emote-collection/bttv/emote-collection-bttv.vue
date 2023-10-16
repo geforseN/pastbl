@@ -35,12 +35,12 @@
         <span>Loading</span>
       </div>
     </template>
+    <template v-if="bttv.error.value">{{ bttv.error.value }}</template>
   </section>
-  <template v-if="bttv.error.value">{{ bttv.error.value }}</template>
 </template>
 
 <script lang="ts" setup>
 import type { BetterTTVEmoteFromAPI } from "~/integrations/BetterTTV/BetterTTV.api";
 
-defineProps<{ bttv: BTTVReturn }>();
+defineProps<{ bttv: BTTV }>();
 </script>
