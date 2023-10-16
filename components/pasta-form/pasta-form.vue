@@ -31,11 +31,11 @@
         />
       </div>
     </div>
-    <added-tags
+    <pasta-form-tags
       @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
       :tags="props.pastaTags"
     />
-    <add-pasta-tags
+    <pasta-form-tags-input
       v-model="tagToAdd"
       @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
       :should-become-empty="props.shouldTagModelBecomeEmpty"
