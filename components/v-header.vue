@@ -1,15 +1,20 @@
 <template>
-  <header class="navbar h-8 justify-between border-b border-b-base-300 p-0">
+  <header class="navbar h-8 border-b border-b-base-300 p-1">
     <nav class="contents">
       <ul class="contents">
         <li
-          class="h-full border-2 border-neutral bg-secondary p-2 text-5xl font-bold text-base-content"
+          class="border-2 border-neutral bg-secondary p-1 text-5xl font-bold text-base-content"
         >
-          pastbl
+          <nuxt-link class="text-5xl leading-3" to="/"> pastbl </nuxt-link>
         </li>
-        <li>
+        <li class="ml-2">
+          <nuxt-link class="btn btn-primary" to="/emote-collections">
+            collections
+          </nuxt-link>
+        </li>
+        <li class="ml-auto">
           <button
-            class="btn btn-secondary mr-2 justify-self-end border-2 border-base-content text-base-content"
+            class="btn btn-secondary border-2 border-base-content text-base-content"
             data-toggle-theme="light,dark"
             data-act-class="ACTIVECLASS"
           >
