@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex w-full grow bg-slate-600/20 2xl:max-w-sm"
-    v-if="collections.ffz.state.value"
-  >
+  <div class="flex bg-slate-600/20" v-if="collections.ffz.state.value">
     <img
       width="64"
       height="64"
