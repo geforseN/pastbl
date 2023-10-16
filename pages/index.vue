@@ -12,7 +12,7 @@
       <div class="flex flex-col-reverse go-brr:flex-col">
         <pasta-list>
           <template #user-nickname>
-            <user-nickname :user="userStore.user" />
+            <chat-pasta-nickname :user="userStore.user" />
           </template>
         </pasta-list>
         <button
