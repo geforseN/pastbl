@@ -16,7 +16,7 @@
       class="flex flex-col gap-2 pt-2"
       v-if="bttv.isReady.value && bttv.state.value"
     >
-      <emote-collections-bttv-set
+      <emote-collection-bttv-set
         v-for="[emoteSetName, emoteSet] of <
           [string, BetterTTVEmoteFromAPI[]][]
         >[
@@ -25,7 +25,7 @@
         ]"
         :emote-set="emoteSet"
         :emote-set-name="emoteSetName"
-      ></emote-collections-bttv-set>
+      ></emote-collection-bttv-set>
     </main>
     <template v-if="bttv.isLoading.value">
       <div class="relative w-full">

@@ -28,7 +28,7 @@
     <main
       v-if="ffzRoom.isReady.value && ffzRoom.state.value && !ffz.error.value"
     >
-      <emote-collections-ffz-sets
+      <emote-collection-ffz-sets
         class="mt-1 flex flex-col gap-1"
         :sets="Object.values(ffzRoom.state.value.sets)"
         :maxEmoticons="ffz.state.value?.user.max_emoticons"
