@@ -51,7 +51,7 @@ const showHelpText = ref(false);
 function goToEmoteCollectionsPage() {
   return navigateTo({
     path: "/emote-collections",
-    query: { "user-nickname": userToLoadCollectionsNickname.value },
+    query: { nickname: userToLoadCollectionsNickname.value },
   });
 }
 </script>
