@@ -6,13 +6,13 @@
       <emote-collection-fetch-input-group
         class="-mt-2"
         v-if="shouldShowInput"
-        v-model:nickname="userNickname"
+        v-model:nickname="nickname"
         @load-collections="
           () => {
-            if (doMoreMagic.isLoading.value) {
+            if (fetchCollections.isLoading.value) {
               return;
             }
-            doMoreMagic.execute();
+            fetchCollections.execute();
           }
         "
         :is-collections-loading="collections.isLoading.value"
@@ -49,18 +49,11 @@
 <script lang="ts" setup>
 import { openDB } from "idb";
 
-const route = useRoute();
+const nickname = useUrlQueryParam("nickname");
+const shouldShowInput = !nickname.value;
+const collections = useAsyncEmoteSets(nickname);
 
-const userNickname = ref(
-  typeof route.query["user-nickname"] === "string"
-    ? route.query["user-nickname"]
-    : "",
-);
-const shouldShowInput = readonly(ref(!route.query.userNickname));
-
-const collections = useAsyncEmoteSets(userNickname);
-
-const doMoreMagic = useAsyncState(
+const fetchCollections = useAsyncState(
   async () => {
     await collections.doMagic();
   },
@@ -68,8 +61,8 @@ const doMoreMagic = useAsyncState(
   { immediate: false },
 );
 
-if (userNickname.value) {
-  doMoreMagic.execute();
+if (nickname.value) {
+  fetchCollections.execute();
 }
 
 const dbCollections = ref();
