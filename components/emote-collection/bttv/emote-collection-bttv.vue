@@ -1,6 +1,6 @@
 <template>
   <section
-    class="flex flex-col divide-y divide-[#63b3ed] border-2 border-[#63b3ed] bg-[#1a202c] p-2 text-white"
+    class="flex flex-col divide-y-2 divide-[#63b3ed] border-2 border-[#63b3ed] bg-[#1a202c] p-2 text-white"
   >
     <emote-collection-header
       :is-loading="bttv.isLoading.value"
@@ -16,16 +16,12 @@
       class="flex flex-col gap-2 pt-2"
       v-if="bttv.isReady.value && bttv.state.value"
     >
-      <emote-collection-bttv-set
-        v-for="[emoteSetName, emoteSet] of <
-          [string, BetterTTVEmoteFromAPI[]][]
-        >[
-          ['Channel emotes', bttv.state.value.channelEmotes],
-          ['Shared emotes', bttv.state.value.sharedEmotes],
-        ]"
-        :emote-set="emoteSet"
-        :emote-set-name="emoteSetName"
-      ></emote-collection-bttv-set>
+      <emote-collection-bttv-sets
+        :emote-sets="{
+          'Channel emotes': bttv.state.value.channelEmotes,
+          'Shared emotes': bttv.state.value.sharedEmotes,
+        }"
+      />
     </main>
     <template v-if="bttv.isLoading.value">
       <div class="relative w-full">
@@ -40,7 +36,5 @@
 </template>
 
 <script lang="ts" setup>
-import type { BetterTTVEmoteFromAPI } from "~/integrations/BetterTTV/BetterTTV.api";
-
 defineProps<{ bttv: BTTV }>();
 </script>
