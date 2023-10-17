@@ -1,49 +1,53 @@
 <template>
-  <div>
-    <div v-for="set of props.sets">
-      <div class="collapse collapse-arrow border border-ffz">
-        <input
-          v-model="isOpen"
-          type="checkbox"
-          @keypress.enter="isOpen = !isOpen"
-        />
-        <div class="collapse-title flex items-center">
-          <div title="FrankerFaceZ emote set name">
+  <main>
+    <emote-collection-collapsed-set
+      class="border-2 border-ffz"
+      v-for="set of Object.values(props.sets)"
+      :set="set"
+    >
+      <template #title>
+        <div class="flex items-center">
+          <h3 title="FrankerFaceZ emote set name">
             {{ set.title }}
-          </div>
-          <div class="ml-auto text-sm">
+          </h3>
+          <span class="ml-auto text-sm">
             {{ set.emoticons.length }}
-            {{ props.maxEmoticons !== undefined && ` / ${props.maxEmoticons}` }}
+            <span v-if="props.maxEmoticons">
+              {{ ` / ${props.maxEmoticons}` }}
+            </span>
             emotes
-          </div>
+          </span>
         </div>
+      </template>
+      <template #emoteList>
         <div
-          class="collapse-content max-h-60 overflow-y-scroll border-t"
+          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t border-ffz p-2"
           tabindex="0"
         >
-          <img
-            class="mx-1 my-0.5 inline-block"
+          <div
+            class="flex h-8 min-w-[2rem] flex-col items-center justify-center bg-ffz/20"
             v-for="emote of set.emoticons"
             :key="emote.id"
-            :src="emote.urls[1]"
-            loading="lazy"
-            :title="emote.name"
-            :alt="emote.name + ' emote'"
-          />
+          >
+            <img
+              class="mx-1 my-0.5"
+              :src="emote.urls[1]"
+              loading="lazy"
+              :title="emote.name"
+              :alt="emote.name + ' emote'"
+            />
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </template>
+    </emote-collection-collapsed-set>
+  </main>
 </template>
 
 <script lang="ts" setup>
 import type { fetchFFZUserRoomByTwitchId } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 
-const isOpen = defineModel("isOpen", { local: true, type: Boolean });
 const props = defineProps<{
   sets: Awaited<ReturnType<typeof fetchFFZUserRoomByTwitchId>>["sets"];
   maxEmoticons?: number;
 }>();
 </script>
-
-<style></style>
