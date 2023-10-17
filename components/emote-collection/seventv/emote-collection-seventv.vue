@@ -1,5 +1,5 @@
 <template>
-  <section
+  <li
     class="flex flex-col divide-y-2 divide-[#2599cd] border-2 border-[#2599cd] bg-[#181d1f] p-2 text-white"
   >
     <emote-collection-header
@@ -12,26 +12,23 @@
         <icons-seventv-logo class="max-h-[32px]" height="32" />
       </template>
     </emote-collection-header>
-    <main
+    <emote-collection-seventv-sets
       class="pt-1"
       v-if="
         seventv.isReady.value &&
         seventv.state.value &&
         seventvSet.state.value?.emotes
       "
-    >
-      <emote-collection-seventv-sets
-        :sets="
-          [seventvSet.state.value].filter(
-            (collection) => collection.emotes?.length,
-          )
-        "
-      />
-    </main>
+      :sets="
+        [seventvSet.state.value].filter(
+          (collection) => collection.emotes?.length,
+        )
+      "
+    />
     <template v-if="seventv.error.value">
       {{ seventv.error.value }}
     </template>
-  </section>
+  </li>
 </template>
 
 <script lang="ts" setup>
