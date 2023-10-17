@@ -1,16 +1,17 @@
 <template>
-  <main>
+  <main class="flex flex-col gap-1">
     <emote-collection-collapsed-set
       class="border-2 border-ffz"
-      v-for="set of Object.values(props.sets)"
+      v-for="set of props.sets"
+      :key="set.id"
       :set="set"
     >
       <template #title>
-        <div class="flex items-center">
+        <div class="flex items-baseline justify-between">
           <h3 title="FrankerFaceZ emote set name">
             {{ set.title }}
           </h3>
-          <span class="ml-auto text-sm">
+          <span class="text-sm">
             {{ set.emoticons.length }}
             <span v-if="props.maxEmoticons">
               {{ ` / ${props.maxEmoticons}` }}
@@ -21,7 +22,7 @@
       </template>
       <template #emoteList>
         <div
-          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t border-ffz p-2"
+          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 border-ffz p-2"
           tabindex="0"
         >
           <div
@@ -30,11 +31,11 @@
             :key="emote.id"
           >
             <img
-              class="mx-1 my-0.5"
+              class="m-0.5"
               :src="emote.urls[1]"
               loading="lazy"
               :title="emote.name"
-              :alt="emote.name + ' emote'"
+              :alt="emote.name"
             />
           </div>
         </div>
@@ -46,8 +47,13 @@
 <script lang="ts" setup>
 import type { fetchFFZUserRoomByTwitchId } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 
+type FFZSetRecord = Awaited<
+  ReturnType<typeof fetchFFZUserRoomByTwitchId>
+>["sets"];
+type FFZSet = FFZSetRecord[keyof FFZSetRecord];
+
 const props = defineProps<{
-  sets: Awaited<ReturnType<typeof fetchFFZUserRoomByTwitchId>>["sets"];
+  sets: FFZSet[];
   maxEmoticons?: number;
 }>();
 </script>

@@ -12,14 +12,21 @@
         <icons-seventv-logo class="max-h-[32px]" height="32" />
       </template>
     </emote-collection-header>
-    <main class="pt-1" v-if="seventv.isReady.value && seventv.state.value">
+    <main
+      class="pt-1"
+      v-if="
+        seventv.isReady.value &&
+        seventv.state.value &&
+        seventvSet.state.value?.emotes
+      "
+    >
       <emote-collection-seventv-sets
-        v-for="set of [seventv.state.value.emote_set]"
-        :key="set.id"
-        :emote-set="set.emotes"
-        :emote-set-name="set.name"
-        :capacity="set.capacity"
-      ></emote-collection-seventv-sets>
+        :sets="
+          [seventvSet.state.value].filter(
+            (collection) => collection.emotes?.length,
+          )
+        "
+      />
     </main>
     <template v-if="seventv.error.value">
       {{ seventv.error.value }}
