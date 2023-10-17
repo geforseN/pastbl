@@ -27,7 +27,7 @@
       images from emote collections still can be in loading state
       to cancel image loading src attribute of img should be set to empty string => <img src="" alt="any " />
      -->
-    <div class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
+    <ol class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
       <emote-collection-ffz
         class="min-h-16 2xl:h-max 2xl:w-80"
         :ffz="collections.ffz"
@@ -42,7 +42,7 @@
         :seventv="collections.seventv"
         :seventv-set="collections.seventvSet"
       />
-    </div>
+    </ol>
   </div>
 </template>
 

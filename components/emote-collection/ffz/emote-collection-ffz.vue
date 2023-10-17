@@ -1,5 +1,5 @@
 <template>
-  <section
+  <li
     class="flex flex-col divide-y-2 divide-ffz border-2 border-ffz bg-[#222222] p-2 text-white"
   >
     <emote-collection-header
@@ -25,19 +25,16 @@
         </div>
       </div>
     </template>
-    <main
+    <emote-collection-ffz-sets
+      class="flex flex-col gap-1 pt-1"
       v-if="ffzRoom.isReady.value && ffzRoom.state.value && !ffz.error.value"
-    >
-      <emote-collection-ffz-sets
-        class="mt-1 flex flex-col gap-1"
-        :sets="Object.values(ffzRoom.state.value.sets)"
-        :maxEmoticons="ffz.state.value?.user.max_emoticons"
-      />
-    </main>
+      :sets="Object.values(ffzRoom.state.value.sets)"
+      :maxEmoticons="ffz.state.value?.user.max_emoticons"
+    />
     <div class="animate-pulse" v-if="ffzRoom.isLoading.value">
       Loading emote sets
     </div>
-  </section>
+  </li>
 </template>
 
 <script lang="ts" setup>
