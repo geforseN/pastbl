@@ -2,7 +2,7 @@
   <div class="join relative">
     <div class="join-item grow">
       <input
-        class="input input-secondary w-full rounded-r-none border-r-0 text-lg"
+        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:bg-error"
         id="badges-count"
         :value="props.badgesCount"
         @input="handleInputChange($event)"

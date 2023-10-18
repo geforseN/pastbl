@@ -5,12 +5,14 @@
       <div class="form-control p-2">
         <label class="label" for="user-to-load-collections-nickname">
           <span class="label-text text-xl font-medium"
-            >User Twitch nickname</span
-          >
+            >User Twitch nickname
+          </span>
         </label>
-        <div class="join">
+        <div
+          class="join focus-within:outline focus-within:outline-2 focus-within:outline-base-content"
+        >
           <input
-            class="input join-item input-bordered w-full border-twitch focus-within:outline-twitch"
+            class="input join-item input-bordered w-full border-twitch hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
             id="user-to-load-collections-nickname"
             v-model="userToLoadCollectionsNickname"
             placeholder="Enter twitch nickname"
@@ -21,7 +23,7 @@
             @keypress.enter.exact="goToEmoteCollectionsPage"
           />
           <button
-            class="btn join-item border-twitch bg-twitch focus-within:outline-twitch hover:bg-twitch/90"
+            class="btn join-item border-twitch bg-twitch hover:bg-twitch/90 focus:border-l-2 focus:border-black focus:outline focus:outline-2 focus:outline-twitch"
             type="submit"
             @focus="showHelpText = true"
             @blur="showHelpText = false"
@@ -31,10 +33,14 @@
         </div>
         <label
           class="label-text mt-1 text-xs opacity-75"
-          v-show="showHelpText && userToLoadCollectionsNickname.length"
+          :class="
+            showHelpText && userToLoadCollectionsNickname.trim().length
+              ? 'visible'
+              : 'invisible'
+          "
           for="user-to-load-collections-nickname"
         >
-          You can press
+          Now you can press
           <kbd class="kbd kbd-xs">enter</kbd>
           to load emote collection
         </label>
