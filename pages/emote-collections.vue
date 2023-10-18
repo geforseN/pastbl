@@ -49,6 +49,8 @@
 <script lang="ts" setup>
 import { openDB } from "idb";
 
+useHead({ title: "collections - pastbl" });
+
 const nickname = useUrlQueryParam("nickname");
 const shouldShowInput = !nickname.value;
 const collections = useAsyncEmoteSets(nickname);
