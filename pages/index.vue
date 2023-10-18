@@ -40,6 +40,8 @@
 </template>
 
 <script setup lang="tsx">
+useHead({ title: "pastbl" });
+
 const pastaFormRef = ref();
 const userStore = useUserStore();
 
