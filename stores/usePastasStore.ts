@@ -93,12 +93,9 @@ export const usePastasStore = defineStore(
       latestPasta: computed(() => pastas.value.at(-1)),
       createPasta: async (pasta: Pasta) => {
         if (pasta.text.trim().length === 0) {
-          throw new ExtendedError(
-            "Pasta should contain any non space symbol, received empty text",
-            {
-              title: "Failed to create pasta",
-            },
-          );
+          throw new ExtendedError("Can not create pasta with empty text", {
+            title: "Failed to create pasta",
+          });
         }
         pastas.value?.push({
           tags: pasta.tags,

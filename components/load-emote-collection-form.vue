@@ -4,8 +4,8 @@
     <form action="" @submit.prevent="goToEmoteCollectionsPage">
       <div class="form-control p-2">
         <label class="label" for="user-to-load-collections-nickname">
-          <span class="label-text text-xl font-medium"
-            >User Twitch nickname
+          <span class="label-text text-xl font-medium">
+            Enter user Twitch nickname
           </span>
         </label>
         <div
@@ -15,7 +15,7 @@
             class="input join-item input-bordered w-full border-twitch hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
             id="user-to-load-collections-nickname"
             v-model="userToLoadCollectionsNickname"
-            placeholder="Enter twitch nickname"
+            placeholder="e.g. UselessMouth"
             type="text"
             name="user-to-load-collections-nickname"
             @focus="showHelpText = true"

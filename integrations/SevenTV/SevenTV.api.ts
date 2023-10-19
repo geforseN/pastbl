@@ -37,9 +37,7 @@ export class SevenTVApi {
     // NOTE: so, we need to retry and set timeout for cancel first request
     return $fetch(`https://7tv.io/v3/users/twitch/${twitchId}`, {
       retry: 2,
-      timeout: 10_000,
       ignoreResponseError: true,
-      retryStatusCodes: [200],
     });
   }
 }
