@@ -15,12 +15,12 @@
           <span class="text-xl font-medium">Nickname</span>
         </label>
         <input
-          class="input input-bordered input-secondary text-lg placeholder:text-lg placeholder:text-base-content"
+          class="input input-bordered input-secondary text-lg hover:bg-base-300 focus:bg-base-300"
           id="nickname"
           v-model="userStore.user.nickname"
           spellcheck="false"
           name="nickname"
-          placeholder="Your Nickname"
+          placeholder="e.g. Kappa"
         />
       </div>
     </div>

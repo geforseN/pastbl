@@ -26,7 +26,7 @@
       />
     </datalist>
     <button
-      class="btn join-item box-content border border-base-content px-2 text-3xl hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
+      class="btn btn-secondary join-item box-content border border-base-content px-2 text-3xl text-base-content hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
       @click.prevent="emitTag"
     >
       +
