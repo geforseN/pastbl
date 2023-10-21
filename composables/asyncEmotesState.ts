@@ -12,31 +12,61 @@ export type SevenTV = ReturnType<typeof useAsyncEmotesState>["seventv"];
 export type SevenTVSet = ReturnType<typeof useAsyncEmotesState>["seventvSet"];
 
 export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
-  const ffz = useMyAsyncState(async () => {
-    const ffz = await fetchFFZByUserTwitchNickname(toValue(userTwitchNickname));
-    console.log({ ffz });
-    return ffz;
-  });
+  const ffz = useAsyncState(
+    async () => {
+      const ffz = await fetchFFZByUserTwitchNickname(
+        toValue(userTwitchNickname),
+      );
+      console.log({ ffz });
+      return ffz;
+    },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
+  );
 
-  const ffzRoom = useMyAsyncState(async (twitchId: number) => {
-    const ffzRoom = await fetchFFZUserRoomByTwitchId(twitchId);
-    console.log({ ffzRoom });
-    return ffzRoom;
-  });
+  const ffzRoom = useAsyncState(
+    async (twitchId: number) => {
+      const ffzRoom = await fetchFFZUserRoomByTwitchId(twitchId);
+      console.log({ ffzRoom });
+      return ffzRoom;
+    },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
+  );
 
-  const bttv = useMyAsyncState(async (twitchId: number) => {
-    const bttv = await fetchBetterTTVUserByTwitchId(twitchId);
-    console.log({ bttv });
-    return bttv;
-  });
+  const bttv = useAsyncState(
+    async (twitchId: number) => {
+      const bttv = await fetchBetterTTVUserByTwitchId(twitchId);
+      console.log({ bttv });
+      return bttv;
+    },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
+  );
 
-  const seventv = useMyAsyncState(async (twitchId: number) => {
-    const seventv = await sevenTVApi.fetchUserByTwitchId(twitchId);
-    console.log({ seventv });
-    return seventv;
-  });
+  const seventv = useAsyncState(
+    async (twitchId: number) => {
+      const seventv = await sevenTVApi.fetchUserByTwitchId(twitchId);
+      console.log({ seventv });
+      return seventv;
+    },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
+  );
 
-  const seventvSet = useMyAsyncState(
+  const seventvSet = useAsyncState(
     async (emoteSetId: Nullish<string> = seventv.state.value?.emote_set.id) => {
       if (seventv.state.value?.emote_set.emotes) {
         console.log({
@@ -54,6 +84,11 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
       console.log({ seventvSet, isFastReturn: false });
       return seventvSet;
     },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
   );
 
   function clearEveryState() {
@@ -64,29 +99,35 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
       collection.isLoading.value = false;
     });
   }
-
-  const fetch = useMyAsyncState(async () => {
-    clearEveryState();
-    await ffz.execute().catch((error) => {
-      if (ffz.state.value?.user?.twitch_id) {
-        return;
-      }
-      [bttv, seventv].forEach((state) => {
-        state.error.value = new Error(
-          "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
-        );
+  const fetch = useAsyncState(
+    async () => {
+      clearEveryState();
+      await ffz.execute().catch((error) => {
+        if (ffz.state.value?.user?.twitch_id) {
+          return;
+        }
+        [bttv, seventv].forEach((state) => {
+          state.error.value = new Error(
+            "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+          );
+        });
+        throw error;
       });
-      throw error;
-    });
-    const twitchId = ffz.state.value!.user.twitch_id!;
-    await Promise.allSettled([
-      ffzRoom.execute(0, twitchId),
-      bttv.execute(0, twitchId),
-      seventv
-        .execute(0, twitchId)
-        .then((userOf7TV) => seventvSet.execute(0, userOf7TV?.emote_set.id)),
-    ]);
-  });
+      const twitchId = ffz.state.value!.user.twitch_id!;
+      await Promise.allSettled([
+        ffzRoom.execute(0, twitchId),
+        bttv.execute(0, twitchId),
+        seventv
+          .execute(0, twitchId)
+          .then((userOf7TV) => seventvSet.execute(0, userOf7TV?.emote_set.id)),
+      ]);
+    },
+    null,
+    {
+      immediate: false,
+      throwError: true,
+    },
+  );
 
   return {
     ffz,

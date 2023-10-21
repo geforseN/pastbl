@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { __SevenTV__UserSetEmote__ } from "~/integrations/SevenTV/SevenTV.api";
+import type { __SevenTV__UserSetEmote__ } from "~/integrations/SevenTV/SevenTV.api";
 
 const props = defineProps<{
   sets: {
