@@ -1,6 +1,6 @@
 type PastaTag = string;
 
-export default function usePasta() {
+export const usePasta = () => {
   const tag = ref<PastaTag>("");
   const tags = ref<Pasta["tags"]>([]);
   const text = ref<Pasta["text"]>("");
@@ -38,4 +38,4 @@ export default function usePasta() {
       tags.value.push(newTag);
     },
   };
-}
+};

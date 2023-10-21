@@ -1,4 +1,4 @@
-export default function useUrlQueryParam(queryParamKey: string) {
+export function useUrlQueryParam(queryParamKey: string) {
   const params = useUrlSearchParams("history", {
     //  NOTE: useRoute().query is used, because useUrlSearchParams on server just return reactive initialValue
     //  LINK: https://github.com/vueuse/vueuse/blob/main/packages/core/useUrlSearchParams/index.ts#L52
