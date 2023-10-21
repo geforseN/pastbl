@@ -15,7 +15,7 @@
             collections.fetch.execute();
           }
         "
-        :is-collections-loading="collections.isLoading.value"
+        :is-collections-loading="collections.fetch.isLoading.value"
       />
       <emote-collection-user-loaded-data
         class="w-full"
@@ -95,10 +95,8 @@
 import { openDB } from "idb";
 import type { DBSchema, IDBPDatabase } from "idb";
 import { fetchBetterTTVGlobalEmotes } from "~/integrations/BetterTTV/BetterTTV.api";
-import {
-  FrankerFaceZEmoteFromApi,
-  fetchFFZGlobalEmoteSets,
-} from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
+import { fetchFFZGlobalEmoteSets } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
+import type { FrankerFaceZEmoteFromApi } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 import type { FrankerFaceZEmote } from "~/integrations/FrankerFaceZ/FrankerFaceZ.client";
 import { sevenTVApi } from "~/integrations/SevenTV/SevenTV.api";
 
