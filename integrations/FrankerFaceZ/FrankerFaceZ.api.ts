@@ -18,7 +18,14 @@ export async function fetchFFZByUserTwitchNickname(
 }> {
   return fetch(
     `https://api.frankerfacez.com/v1/user/${userTwitchNickname.toLowerCase()}`,
-  ).then(returnResponseJSON);
+  ).then((response: Response) => {
+    if (response.status === 404) {
+      throw new Error(
+        `FrankerFaceZ does not have user with nickname ${userTwitchNickname}`,
+      );
+    }
+    return responseJson(response);
+  });
 }
 
 export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
@@ -39,7 +46,7 @@ export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
     css: string | null;
   };
   sets: Record<
-    number,
+    `${number}`,
     {
       css: string | null;
       emoticons: {
@@ -74,6 +81,55 @@ export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
   >;
 }> {
   return fetch(`https://api.frankerfacez.com/v1/room/id/${twitchId}`).then(
-    returnResponseJSON,
+    responseJson,
   );
 }
+
+export async function fetchFFZGlobalEmoteSets(): Promise<{
+  default_sets: number[];
+  sets: Record<`${number}`, FrankerFaceZEmoteSetFromApi>;
+  users: Record<`${number}`, string>;
+}> {
+  return fetch("https://api.frankerfacez.com/v1/set/global").then(responseJson);
+}
+
+export type FrankerFaceZEmoteFromApi = {
+  id: number;
+  name: string;
+  height: number;
+  width: number;
+  public: true;
+  hidden: boolean;
+  modifier: boolean;
+  // NOTE: modifier_flags is bitmap
+  // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1#emote-effects
+  modifier_flags: number;
+  // NOTE: offset is DEPRECATED field
+  offset: string | null;
+  // NOTE: margins is DEPRECATED field
+  margins: string | null;
+  // NOTE: css is DEPRECATED field
+  css: string | null;
+  owner: { _id: number; name: string; display_name: string } | null;
+  artist: { _id: number; name: string; display_name: string } | null;
+  urls: {
+    1: `https://cdn.frankerfacez.com/emote/${string}/1`;
+    2: `https://cdn.frankerfacez.com/emote/${string}/2`;
+    4: `https://cdn.frankerfacez.com/emote/${string}/4`;
+  };
+  // NOTE: from FFZ api documentation:
+  // status - A numeric status for emotes in our system. This should always be 1 in APIv1 responses as that represents an emote that has been approved.
+  status: 1;
+  usage_count: number;
+  created_at: ReturnType<Date["toISOString"]>;
+  last_updated: ReturnType<Date["toISOString"]>;
+};
+
+export type FrankerFaceZEmoteSetFromApi = {
+  id: number;
+  _type: number;
+  icon: null;
+  title: string;
+  css: null;
+  emoticons: FrankerFaceZEmoteFromApi[];
+};

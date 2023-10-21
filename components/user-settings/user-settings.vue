@@ -17,7 +17,7 @@
         <input
           class="input input-bordered input-secondary text-lg hover:bg-base-300 focus:bg-base-300"
           id="nickname"
-          v-model="userStore.user.nickname"
+          v-model="userStore.user.nickname.value"
           spellcheck="false"
           name="nickname"
           placeholder="e.g. Kappa"

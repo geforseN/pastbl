@@ -1,7 +1,7 @@
 import type { BetterTTVEmote as _BetterTTVEmote } from "./BetterTTV.client";
 import {
-  BetterTTVCollectionImplementation,
-  BetterTTVEmoteImplementation,
+  BTTVSet,
+  BTTVEmote,
   getBttvEmoteCollectionFromStorage,
   setBttvEmoteCollectionToStorage,
 } from "./BetterTTV.client";
@@ -22,11 +22,9 @@ export async function getBttvGlobalEmoteCollection() {
   if (emoteCollectionFromStorage) {
     return emoteCollectionFromStorage;
   }
-  const emoteCollection = new BetterTTVCollectionImplementation(
+  const emoteCollection = new BTTVSet(
     await fetchBetterTTVGlobalEmotes().then((emotesArray) =>
-      emotesArray.map(
-        (emote) => new BetterTTVEmoteImplementation(emote, "global"),
-      ),
+      emotesArray.map((emote) => new BTTVEmote(emote, "global")),
     ),
   );
   setBttvEmoteCollectionToStorage("global", emoteCollection);
@@ -39,15 +37,11 @@ export async function getBttvEmoteCollectionByUserId(userId: string) {
   if (emoteCollectionFromLocalStorage) {
     return emoteCollectionFromLocalStorage;
   }
-  const emoteCollection = new BetterTTVCollectionImplementation(
+  const emoteCollection = new BTTVSet(
     await fetchBetterTTVUserById(userId).then((data) => {
       return [
-        ...data.channelEmotes.map(
-          (emote) => new BetterTTVEmoteImplementation(emote, "channel"),
-        ),
-        ...data.sharedEmotes.map(
-          (emote) => new BetterTTVEmoteImplementation(emote, "shared"),
-        ),
+        ...data.channelEmotes.map((emote) => new BTTVEmote(emote, "channel")),
+        ...data.sharedEmotes.map((emote) => new BTTVEmote(emote, "shared")),
       ];
     }),
   );

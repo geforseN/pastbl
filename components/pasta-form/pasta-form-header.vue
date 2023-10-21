@@ -22,7 +22,7 @@
             alt="Alert emote"
           />
           <div
-            class="message absolute left-11 top-1 whitespace-nowrap rounded-full rounded-bl-none bg-gradient-to-r from-green-500 via-violet-600 to-green-500 p-1 pb-0.5 pr-1.5 text-xs peer-hover/jokerge:uppercase"
+            class="message absolute left-11 top-1 hidden whitespace-nowrap rounded-full rounded-bl-none bg-gradient-to-r from-green-500 via-violet-600 to-green-500 p-1 pb-0.5 pr-1.5 text-xs peer-hover/jokerge:uppercase lg:block"
             v-if="props.jokergeSuggestionMessage?.length"
           >
             {{ props.jokergeSuggestionMessage }}

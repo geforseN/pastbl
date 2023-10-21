@@ -4,9 +4,9 @@ export const useUserStore = defineStore(
   "user",
   () => {
     const user = ref<{
-      nickname: string;
+      nickname: { value: string; color: string };
+      selectedEmoteCollection?: { name: string };
       preferences: {
-        nickname: { color: string };
         alerts: {
           copypastaCopy: {
             shouldShowOnSuccess: boolean;
@@ -21,9 +21,12 @@ export const useUserStore = defineStore(
       statistic: { lastCopyPasta?: MegaPasta };
       badges: { count: number };
     }>({
-      nickname: "Kappa",
+      nickname: {
+        value: "Kappa",
+        color: "red",
+      },
+      selectedEmoteCollection: { name: "" },
       preferences: {
-        nickname: { color: "red" },
         alerts: {
           copypastaCopy: {
             shouldShowOnSuccess: true,
@@ -67,7 +70,12 @@ export const useUserStore = defineStore(
   {
     persist: {
       storage: persistedState.localStorage,
+      debug: true,
+      beforeRestore() {
+        console.log(11, useMounted().value);
+      },
       afterRestore(ctx) {
+        console.log(22, useMounted().value, typeof window);
         // NOTE: queueMicrotask is used because without queueMicrotask store has not defined yet
         queueMicrotask(() => {
           const pastasStore = usePastasStore();

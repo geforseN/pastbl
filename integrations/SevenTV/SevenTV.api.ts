@@ -4,51 +4,69 @@ export class SevenTVApi {
     sevenTVAccountId: string,
   ): Promise<__SevenTV__UserData__> {
     return fetch(`https://7tv.io/v3/users/${sevenTVAccountId}`).then(
-      (response) => {
-        if (!response.ok) {
-          throw new Error(
-            `HTTP error, status = ${response.status} error: ${response.text()}`,
-          );
-        }
-        return response.json();
-      },
+      responseJson,
     );
   }
 
   // LINK: https://7tv.io/docs
   async fetchEmoteSetById(
     collectionId: string,
-  ): Promise<__SevenTV__EmoteCollection__> {
+  ): Promise<__SevenTV__EmoteSetFromApi__> {
     return fetch(`https://7tv.io/v3/emote-sets/${collectionId}`).then(
-      returnResponseJSON,
+      responseJson,
     );
   }
 
-  // FIXME: update return type
   async fetchUserByTwitchId(twitchId: number): Promise<{
-    emote_set: {
-      emotes: __SevenTV__UserCollectionEmote__[];
-      name: string;
+    display_name: string;
+    emote_capacity: number;
+    emote_set: __SevenTV__EmoteSetFromApi__;
+    emote_set_id: null;
+    id: `${number}`;
+    linked_at: number;
+    platform: "TWITCH" | "7TV";
+    user: {
+      avatar_url: string;
+      biography: string;
+      connections: []; // TODO
+      created_at: ReturnType<typeof Date.now>;
+      display_name: string;
       id: string;
-      capacity: number;
+      roles: string[];
+      style?: { color: number };
+      username: Lowercase<string>;
     };
+    username: Lowercase<string>;
   }> {
-    // NOTE: error may happen on first request: net::ERR_QUIC_PROTOCOL_ERROR 200 (OK)
-    // NOTE: so, we need to retry and set timeout for cancel first request
-    return $fetch(`https://7tv.io/v3/users/twitch/${twitchId}`, {
-      retry: 2,
-      ignoreResponseError: true,
-    });
+    return fetch(`https://7tv.io/v3/users/twitch/${twitchId}`).then(
+      (response) => {
+        if (response.status === 404) {
+          throw new Error(
+            `SevenTV does not have user with twitch id ${twitchId}`,
+          );
+        }
+        return responseJson(response);
+      },
+    );
+  }
+
+  async globalEmotesSet() {
+    return this.fetchEmoteSetById("62cdd34e72a832540de95857");
+  }
+
+  async globalHalloweenEmotesSet() {
+    // NOTE: also can be fetched through https://7tv.io/v3/emote-sets/global until halloween celebration is over i guess
+    return this.fetchEmoteSetById("63237427e062d588b69f84d0");
   }
 }
 
 export const sevenTVApi = new SevenTVApi();
 
-export type __SevenTV__EmoteCollection__ = {
+export type __SevenTV__EmoteSetFromApi__ = {
   capacity: number;
   emote_count: number;
   // NOTE: if no emotes in collection, then api return does not contain emotes field (so emotes field is undefined)
-  emotes?: __SevenTV__UserCollectionEmote__[];
+  emotes?: __SevenTV__UserSetEmote__[];
   flags: number;
   id: string;
   immutable: boolean;
@@ -67,8 +85,8 @@ type __SevenTV__CollectionOwner__ = {
   username: string;
 };
 
-export type __SevenTV__UserCollectionEmote__ = {
-  // NOTE: basicly, this field is equal to __SevenTV__EmoteCollection__['id']
+export type __SevenTV__UserSetEmote__ = {
+  // NOTE: basicly, actor_id field is equal to __SevenTV__EmoteCollection__['id']
   // can be null if emote was add in some early times, at new added emotes it is not null
   actor_id: string | null;
   data: __SevenTV__UserCollectionEmoteData;
@@ -136,7 +154,7 @@ export type __SevenTV__UserData__ = {
     linked_at: number;
     platform: "YOUTUBE" | "TWITCH";
     username: string;
-  }[]; //TODO
+  }[];
   created_at: number;
   display_name: string;
   emote_sets: {

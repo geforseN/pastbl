@@ -37,7 +37,6 @@ type BetterTTVSharedEmote = BetterTTVBaseUserEmote & {
 
 export type BetterTTVEmoteFromAPI =
   | BetterTTVGlobalEmote
-  | BetterTTVBaseUserEmote
   | BetterTTVChannelEmote
   | BetterTTVSharedEmote;
 
@@ -57,7 +56,7 @@ export async function fetchBetterTTVGlobalEmotes(): Promise<
 > {
   // LINK: https://betterttv.com/developers/api#global-emotes
   return fetch("https://api.betterttv.net/3/cached/emotes/global").then(
-    returnResponseJSON,
+    responseJson,
   );
 }
 
@@ -68,7 +67,7 @@ export async function fetchBetterTTVUserById(
   // NOTE: url for fetch is on api site is wrong, will be 404
   // wrong url: fetch('https://api.betterttv.net/3/cached/users/{provider}/{providerId})
   return fetch(`https://api.betterttv.net/3/users/${userId}`).then(
-    returnResponseJSON,
+    responseJson,
   );
 }
 
@@ -80,5 +79,5 @@ export async function fetchBetterTTVUserByTwitchId(
   // wrong url: fetch('https://api.betterttv.net/3/cached/users/{provider}/{providerId})
   return fetch(
     `https://api.betterttv.net/3/cached/users/twitch/${providerId}`,
-  ).then(returnResponseJSON);
+  ).then(responseJson);
 }

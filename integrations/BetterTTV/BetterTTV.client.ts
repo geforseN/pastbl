@@ -4,9 +4,14 @@ import {
   createStorageReader,
   createStorageWriter,
 } from "../../client-only/storage";
-import { BaseEmote, EmoteCollection } from "..";
+import { BaseEmote, EmoteSet } from "..";
 
-export class BetterTTVEmoteImplementation implements BetterTTVEmote {
+export interface BetterTTVEmote extends BaseEmote {
+  url: `//cdn.betterttv.net/emote/${string}`;
+  source: "BetterTTV";
+  type: "shared" | "channel" | "global";
+}
+export class BTTVEmote implements BetterTTVEmote {
   id: BetterTTVEmote["id"];
   url: BetterTTVEmote["url"];
   token: BetterTTVEmote["token"];
@@ -30,25 +35,25 @@ export class BetterTTVEmoteImplementation implements BetterTTVEmote {
   }
 }
 
-export interface BetterTTVEmote extends BaseEmote {
-  url: `//cdn.betterttv.net/emote/${string}`;
-  source: "BetterTTV";
-  type: "shared" | "channel" | "global";
-}
-
-// TODO add more
-interface BttvEmoteCollection extends EmoteCollection {
-  emotes: BetterTTVEmote[];
+// TODO add more properties if needed
+interface BetterTTVEmoteSet extends EmoteSet<BetterTTVEmote> {
   source: "BetterTTV";
 }
 
-export class BetterTTVCollectionImplementation implements BttvEmoteCollection {
-  updatedAt: BttvEmoteCollection["updatedAt"];
-  source: BttvEmoteCollection["source"];
-  emotes: BttvEmoteCollection["emotes"];
+export class BTTVSet implements BetterTTVEmoteSet {
+  updatedAt;
+  source;
+  emotes;
+  name;
+  id;
 
-  constructor(emotes: BetterTTVEmote[]) {
-    this.emotes = emotes;
+  constructor(
+    bttvSetData: { name: string; emotes: BetterTTVEmoteFromAPI[]; id: string },
+    toBTTVEmoteCallback: (value: BetterTTVEmoteFromAPI) => BTTVEmote,
+  ) {
+    this.id = bttvSetData.id;
+    this.name = bttvSetData.name;
+    this.emotes = bttvSetData.emotes.map(toBTTVEmoteCallback);
     this.source = "BetterTTV" as const;
     this.updatedAt = Date.now();
   }
@@ -56,7 +61,19 @@ export class BetterTTVCollectionImplementation implements BttvEmoteCollection {
 const COLLECTION_STORAGE_PREFIX = "bttv::emote-sets::" as const;
 
 export const getBttvEmoteCollectionFromStorage =
-  createStorageReader<BttvEmoteCollection>(COLLECTION_STORAGE_PREFIX);
+  createStorageReader<BetterTTVEmoteSet>(COLLECTION_STORAGE_PREFIX);
 
 export const setBttvEmoteCollectionToStorage =
-  createStorageWriter<BttvEmoteCollection>(COLLECTION_STORAGE_PREFIX);
+  createStorageWriter<BetterTTVEmoteSet>(COLLECTION_STORAGE_PREFIX);
+
+export class BTTVCollection {
+  name;
+  updatedAt;
+  sets;
+
+  constructor(sets: BTTVSet[]) {
+    this.name = "BetterTTV";
+    this.updatedAt = Date.now();
+    this.sets = sets;
+  }
+}
