@@ -111,7 +111,7 @@ onMounted(async () => {
     },
   );
 
-  const { emoteCollections } = useEmotes([
+  const { emoteMaps } = useEmotes([
     (async function populateBetterTTVGlobalEmoteSet() {
       const bttvGlobalCollection = await getBttvGlobalEmoteCollection();
       const bttvGlobalEmoteMap = new Map(
