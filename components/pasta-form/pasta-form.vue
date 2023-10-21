@@ -34,13 +34,30 @@
     <pasta-form-tags-input
       v-model="tagToAdd"
       @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
-      :should-become-empty="props.shouldTagModelBecomeEmptyOnAdd"
-    />
+      :should-become-empty-on-add="props.shouldTagModelBecomeEmptyOnAdd"
+    >
+      <template #addTagSuggestions>
+        <!--   NOTE: TRIED to use <option :value="tag" ...otherAttrs><{{'important message'}}/option>  
+        but it did fail because firefox showed slot value only (no 'important message'), which is not what wanted
+        chrome however works great, showing value attribute with smaller slot text below 
+        SO implemented <option /> uses value, label and no slot, which works ok:
+        firefox shows label only, value used onclick
+        chrome shows value and label below, value used onclick -->
+        <option
+          v-for="[tag, count] of pastasStore.mostPopularTagsMap"
+          :key="tag"
+          :value="tag"
+          :label="`${tag}, was used ${count} ${count === 1 ? 'time' : 'times'}`"
+        />
+      </template>
+    </pasta-form-tags-input>
   </section>
 </template>
 <script lang="ts" setup>
 const tagToAdd = defineModel<string>("tag", { default: "", local: true });
 const pastaText = defineModel<string>("text", { required: true, local: false });
+
+const pastasStore = usePastasStore();
 
 defineSlots<{
   header: () => VNode;

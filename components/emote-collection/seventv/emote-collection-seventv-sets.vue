@@ -30,6 +30,7 @@
             <img
               class="mx-1 my-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
               :src="`https:${emote.data.host.url}/1x.webp`"
+              :width="emote.data.host.files[1].width"
               loading="lazy"
               :title="emote.name"
               :alt="emote.name"
@@ -48,11 +49,11 @@
 </template>
 
 <script lang="ts" setup>
-import { __SevenTV__UserCollectionEmote__ } from "~/integrations/SevenTV/SevenTV.api";
+import { __SevenTV__UserSetEmote__ } from "~/integrations/SevenTV/SevenTV.api";
 
 const props = defineProps<{
   sets: {
-    emotes: __SevenTV__UserCollectionEmote__[];
+    emotes: __SevenTV__UserSetEmote__[];
     name: string;
     capacity: number;
     id: string;

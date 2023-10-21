@@ -2,17 +2,17 @@ import {
   createStorageReader,
   createStorageWriter,
 } from "~/client-only/storage";
-import type { BaseEmote, EmoteCollection } from "..";
+import type { BaseEmote, EmoteSet } from "..";
 import type {
-  __SevenTV__EmoteCollection__,
-  __SevenTV__UserCollectionEmote__,
+  __SevenTV__EmoteSetFromApi__,
+  __SevenTV__UserSetEmote__,
   __SevenTV__UserData__,
 } from "./SevenTV.api";
 
 class SevenTV {
   shouldLog = false;
 
-  getEmoteTemplateString(emote: SevenTvEmote) {
+  getEmoteTemplateString(emote: SevenTVEmoteT) {
     return String.raw`
     <span
       class="inline-block"
@@ -28,84 +28,88 @@ class SevenTV {
 
 export const sevenTV = new SevenTV();
 
-export class SevenTVEmoteImplementation implements SevenTvEmote {
-  id: SevenTvEmote["id"];
-  url: SevenTvEmote["url"];
-  token: SevenTvEmote["token"];
-  source: SevenTvEmote["source"];
-  isAnimated: SevenTvEmote["isAnimated"];
-  isModifier: SevenTvEmote["isModifier"];
-  isListed: SevenTvEmote["isListed"];
-  isZeroWidth: SevenTvEmote["isZeroWidth"];
+export class SevenTVEmote implements SevenTVEmoteT {
+  id;
+  url;
+  token;
+  source;
+  isAnimated;
+  isModifier;
+  isListed;
+  isZeroWidth;
   tags;
 
-  constructor(seventvEmote: __SevenTV__UserCollectionEmote__) {
+  constructor(seventvEmote: __SevenTV__UserSetEmote__) {
     this.id = seventvEmote.id;
-    this.url = `//cdn.7tv.app/emote/${this.id}`;
+    this.url = `//cdn.7tv.app/emote/${this.id}` as const;
+    this.width = seventvEmote.data.host.files[1].width;
     this.token = seventvEmote.name;
     this.isAnimated = seventvEmote.data.animated;
     this.isModifier = seventvEmote.flags !== 0;
     this.isZeroWidth = seventvEmote.flags === 1;
     this.isListed = seventvEmote.data.listed;
-    this.source = "SevenTV";
+    this.source = "SevenTV" as const;
     this.tags = seventvEmote.data.tags;
   }
 }
 
-interface SevenTvEmote extends BaseEmote {
+interface SevenTVEmoteT extends BaseEmote {
   url: `//cdn.7tv.app/emote/${string}`;
   source: "SevenTV";
   originalName?: string;
   tags?: string[];
 }
 
-interface SevenTVCollection extends EmoteCollection {
-  emotes: SevenTvEmote[];
+interface SevenTVSetT extends EmoteSet {
+  emotes: SevenTVEmoteT[];
   source: "SevenTV";
   name: string;
   capacity: number;
   id: string;
 }
 
-export class SevenTVCollectionImplementation implements SevenTVCollection {
-  updatedAt: SevenTVCollection["updatedAt"];
-  source: SevenTVCollection["source"];
-  emotes: SevenTVCollection["emotes"];
-  name: SevenTVCollection["name"];
-  capacity: SevenTVCollection["capacity"];
-  id: SevenTVCollection["id"];
+export class SevenTVSet implements SevenTVSetT {
+  updatedAt;
+  source;
+  emotes;
+  name;
+  capacity;
+  id;
 
   constructor(
-    fetchedCollection: __SevenTV__EmoteCollection__,
-    SevenTVEmote = SevenTVEmoteImplementation,
+    fetchedCollection: __SevenTV__EmoteSetFromApi__,
+    to7TVEmoteCallback: (value: __SevenTV__UserSetEmote__) => SevenTVEmoteT,
   ) {
-    this.emotes = (fetchedCollection.emotes || []).map(
-      (emote) => new SevenTVEmote(emote),
-    );
+    this.id = fetchedCollection.id;
+    this.name = fetchedCollection.name;
+    // FIXME: think about this.emotes set
+    // ? should i throw or use empty array so no throw ?
+    // if (!fetchedCollection.emotes) {
+    //   throw new Error("SevenTV API did not send any emote");
+    // }
+    this.emotes = (fetchedCollection.emotes || []).map(to7TVEmoteCallback);
     this.source = "SevenTV" as const;
     this.updatedAt = Date.now();
-    this.name = fetchedCollection.name;
     this.capacity = fetchedCollection.capacity;
-    this.id = fetchedCollection.id;
   }
 }
 
 const COLLECTION_STORAGE_PREFIX = "7tv::emote-sets::" as const;
 
 export const getSevenTVEmoteCollectionFromStorage =
-  createStorageReader<SevenTVCollection>(COLLECTION_STORAGE_PREFIX);
+  createStorageReader<SevenTVSetT>(COLLECTION_STORAGE_PREFIX);
 
 export const setSevenTVEmoteCollectionToStorage =
-  createStorageWriter<SevenTVCollection>(COLLECTION_STORAGE_PREFIX);
+  createStorageWriter<SevenTVSetT>(COLLECTION_STORAGE_PREFIX);
 
-export const a = createStorageReader<{}>("7tv::users");
-export const b = createStorageWriter("7tv::users");
+export class SevenTVCollection {
+  name;
+  updatedAt;
+  sets;
 
-class SevenTVUser {
-  id: string;
-  name: string;
-  avatarUrl: string;
-  emoteCollections: [];
+  constructor(sets: SevenTVSet[]) {
+    this.name = "SevenTV";
+    this.updatedAt = Date.now();
+    this.sets = sets;
+  }
 }
-
-type g = __SevenTV__UserData__;

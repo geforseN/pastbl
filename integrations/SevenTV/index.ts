@@ -1,6 +1,6 @@
-import { __SevenTV__EmoteCollection__, sevenTVApi } from "./SevenTV.api";
+import { __SevenTV__EmoteSetFromApi__, sevenTVApi } from "./SevenTV.api";
 import {
-  SevenTVCollectionImplementation,
+  SevenTVSet,
   getSevenTVEmoteCollectionFromStorage,
   setSevenTVEmoteCollectionToStorage,
 } from "./SevenTV.client";
@@ -29,21 +29,19 @@ export async function getSevenTVUserEmoteCollectionByUserId(userId: string) {
 }
 
 function groupEmoteCollections(
-  settledCollections: PromiseSettledResult<__SevenTV__EmoteCollection__>[],
+  settledCollections: PromiseSettledResult<__SevenTV__EmoteSetFromApi__>[],
 ) {
   return settledCollections.reduce(
     (collections, settledCollection) => {
       if (settledCollection.status === "fulfilled") {
-        collections.fulfilled.push(
-          new SevenTVCollectionImplementation(settledCollection.value),
-        );
+        collections.fulfilled.push(new SevenTVSet(settledCollection.value));
       } else {
         collections.rejected.push(settledCollection.reason);
       }
       return collections;
     },
     {
-      fulfilled: [] as SevenTVCollectionImplementation[],
+      fulfilled: [] as SevenTVSet[],
       rejected: [] as any[],
     },
   );

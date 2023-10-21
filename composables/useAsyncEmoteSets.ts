@@ -95,6 +95,41 @@ export default function useAsyncEmoteSets(
     });
   }
 
+  const fetch = useAsyncState(
+    async () => {
+      isLoading.value = true;
+      clearAll();
+      await ffz.execute().catch((error) => {
+        [bttv, seventv].forEach((collection) => {
+          console.log({
+            error:
+              "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+          });
+          collection.error.value = new Error(
+            "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+          );
+        });
+        throw ffz.error.value;
+      });
+      const twitchId = ffz.state.value?.user?.twitch_id;
+      console.log({ twitchId });
+      if (!twitchId) {
+        throw new Error(
+          "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+        );
+      }
+      await Promise.allSettled([
+        ffzRoom.execute(0, twitchId),
+        bttv.execute(0, twitchId),
+        seventv
+          .execute(0, twitchId)
+          .catch(() => seventvSet.execute())
+          .then(() => seventvSet.execute()),
+      ]);
+    },
+    null,
+    { immediate: false, throwError: true },
+  );
   return {
     ffz,
     ffzRoom,
@@ -102,41 +137,7 @@ export default function useAsyncEmoteSets(
     seventv,
     seventvSet,
     isLoading,
-    doMagic: async () => {
-      try {
-        isLoading.value = true;
-        clearAll();
-        await ffz.execute().catch(() => {
-          [bttv, seventv].forEach((collection) => {
-            console.log({
-              error: "Can not perform emote collections without user twitch id",
-            });
-            collection.error.value = new Error(
-              "Can not perform emote collections without user twitch id",
-            );
-          });
-        });
-        const twitchId = ffz.state.value?.user?.twitch_id;
-        console.log({ twitchId });
-        if (!twitchId) {
-          throw new Error(
-            "Can not perform emote collections without user twitch id",
-          );
-        }
-        await Promise.all([
-          ffzRoom.execute(0, twitchId),
-          bttv.execute(0, twitchId),
-          seventv
-            .execute(0, twitchId)
-            .catch(() => seventvSet.execute())
-            .then(() => seventvSet.execute()),
-        ]);
-      } catch (error) {
-        throw error;
-      } finally {
-        isLoading.value = false;
-      }
-    },
+    fetch,
   };
 }
 
@@ -145,5 +146,3 @@ export type FFZRoom = ReturnType<typeof useAsyncEmoteSets>["ffzRoom"];
 export type BTTV = ReturnType<typeof useAsyncEmoteSets>["bttv"];
 export type SevenTV = ReturnType<typeof useAsyncEmoteSets>["seventv"];
 export type SevenTVSet = ReturnType<typeof useAsyncEmoteSets>["seventvSet"];
-
-function withLog(key: string) {}

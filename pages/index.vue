@@ -8,15 +8,22 @@
         for some reason, pasta with length over ~400 char is not saved in cookie, so 
         localStorage is used for persist, which does not behave like that with long pasta text
       -->
-    <client-only>
-      <div class="flex flex-col-reverse go-brr:flex-col">
+    <!-- <div class="loading loading-spinner animate-pulse" v-if="!isMounted"></div> -->
+
+    <div class="flex flex-col-reverse go-brr:flex-col">
+      <input
+        class="input input-primary text-base-content placeholder:text-base-content"
+        :class="!isMounted && 'loading loading-dots animate-pulse'"
+        placeholder="remove me remove me remove me remove me remove me"
+      />
+      <client-only>
         <chat-pasta-list>
           <template #user-nickname>
             <chat-pasta-nickname :user="userStore.user" />
           </template>
         </chat-pasta-list>
         <button
-          class="btn btn-primary my-2 w-full text-xl"
+          class="btn btn-primary sticky top-2 my-2 w-full text-xl go-brr:bottom-2"
           @click="
               () => {
                 (pastaFormRef as any).twitchChatRef.textareaRef.focus();
@@ -25,9 +32,9 @@
         >
           go create pasta
         </button>
-      </div>
-      <template #fallback>LOADING LIST AND BUTTON</template>
-    </client-only>
+        <template #fallback>LOADING LIST AND BUTTON</template>
+      </client-only>
+    </div>
     <div class="flex w-min flex-col gap-y-4">
       <client-only>
         <pasta-form-responsive ref="pastaFormRef" />
@@ -54,7 +61,11 @@ const uzyBetterTTVUserId = "550ad384a607044d1a3dd29b";
 // TODO later...
 // WHEN current emote-set changes DO pastas text repopulate
 
+const isMounted = useMounted();
+console.log(1, isMounted.value);
+
 onMounted(async () => {
+  console.log(2, isMounted.value);
   const {
     templateStrings,
     getBttvEmoteCollectionByUserId,

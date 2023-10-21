@@ -28,8 +28,6 @@
 
 <script setup lang="ts">
 import { themeChange } from "theme-change";
-// FIXME: when theme is 'emerald-dark' on page refresh there is FOUC (from 'emerald' to 'emerald-dark')
-// NOTE: to fix it should add data-theme="emerald-dark" to index.html <html>
 // TODO: use cookie instead of session storage
 // NOTE: theme-change does not provide cookie save, only session
 
