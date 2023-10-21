@@ -4,9 +4,13 @@ export const useUserStore = defineStore(
   "user",
   () => {
     const user = ref<{
-      nickname: { value: string; color: string };
+      nickname: string;
       selectedEmoteCollection?: { name: string };
       preferences: {
+        nickname: {
+          // NOTE: color must be HEX format
+          color: string;
+        };
         alerts: {
           copypastaCopy: {
             shouldShowOnSuccess: boolean;
@@ -21,12 +25,10 @@ export const useUserStore = defineStore(
       statistic: { lastCopyPasta?: MegaPasta };
       badges: { count: number };
     }>({
-      nickname: {
-        value: "Kappa",
-        color: "red",
-      },
+      nickname: "Kappa",
       selectedEmoteCollection: { name: "" },
       preferences: {
+        nickname: { color: "#C00" },
         alerts: {
           copypastaCopy: {
             shouldShowOnSuccess: true,
