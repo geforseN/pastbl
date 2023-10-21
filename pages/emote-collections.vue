@@ -106,7 +106,7 @@ useHead({ title: "collections - pastbl" });
 
 const nickname = useUrlQueryParam("nickname");
 const shouldShowInput = nickname.value === "";
-const collections = useAsyncEmoteSets(nickname);
+const collections = useAsyncEmotesState(nickname);
 
 const userStore = useUserStore();
 

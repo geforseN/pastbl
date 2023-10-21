@@ -11,11 +11,6 @@
     <!-- <div class="loading loading-spinner animate-pulse" v-if="!isMounted"></div> -->
 
     <div class="flex flex-col-reverse go-brr:flex-col">
-      <input
-        class="input input-primary text-base-content placeholder:text-base-content"
-        :class="!isMounted && 'loading loading-dots animate-pulse'"
-        placeholder="remove me remove me remove me remove me remove me"
-      />
       <client-only>
         <chat-pasta-list>
           <template #user-nickname>
@@ -52,102 +47,7 @@ useHead({ title: "pastbl" });
 const pastaFormRef = ref();
 const userStore = useUserStore();
 
-const pastasStore = usePastasStore();
-
-const uzySevenTVId = "623dec3a1aeb248de84964bf";
-const uzyFirstEmoteCollectionId = "623dec3a1aeb248de84964bf";
-const uzyBetterTTVUserId = "550ad384a607044d1a3dd29b";
-
-// TODO later...
-// WHEN current emote-set changes DO pastas text repopulate
-
-const isMounted = useMounted();
-console.log(1, isMounted.value);
-
-onMounted(async () => {
-  console.log(2, isMounted.value);
-  const {
-    templateStrings,
-    getBttvEmoteCollectionByUserId,
-    getBttvGlobalEmoteCollection,
-  } = await import("../integrations");
-
-  const ffzUzy = await fetch(
-    `https://api.frankerfacez.com/v1/user/${"UselessMouth".toLowerCase()}`,
-  ).then((v) => v.json());
-  const ffzGlobal = await fetch(
-    `https://api.frankerfacez.com/v1/set/global`,
-  ).then((v) => v.json());
-  console.log({ ffzUzy, ffzGlobal });
-
-  watch(
-    () => pastasStore.latestPasta,
-    async (latestPasta) => {
-      if (!latestPasta || latestPasta.populatedText !== undefined) {
-        return;
-      }
-      await until(emoteCollections).toMatch((array) => array.length !== 0, {
-        timeout: 10_000,
-        throwOnTimeout: true,
-      });
-      latestPasta.populatedText = getPastaValidTokens(latestPasta).reduce(
-        (text, token) => {
-          const collectionThatHasEmoteByToken = emoteCollections.value.find(
-            (collection) => collection.has(token),
-          );
-          if (!collectionThatHasEmoteByToken) {
-            return text;
-          }
-          const emoteByToken = collectionThatHasEmoteByToken.get(token)!;
-          return text.replaceAll(
-            token,
-            // TODO default template string should be used IF could not specify collection name
-            // collection should have property name, which can be 'SevenTv' or 'BetterTTV'
-            templateStrings["default"](emoteByToken),
-          );
-        },
-        latestPasta.text,
-      );
-    },
-  );
-
-  const { emoteMaps } = useEmotes([
-    (async function populateBetterTTVGlobalEmoteSet() {
-      const bttvGlobalCollection = await getBttvGlobalEmoteCollection();
-      const bttvGlobalEmoteMap = new Map(
-        bttvGlobalCollection.emotes.map((emote) => [emote.token, emote]),
-      );
-      pastasStore.populatePastas({
-        emoteMap: bttvGlobalEmoteMap,
-        templateString: templateStrings["BetterTTV"],
-      });
-      return bttvGlobalEmoteMap;
-    })(),
-    // (async function populateUselessMouthSevenTVFirstEmotesSet() {
-    //   const uzy7TVCollection = await getFirstUzyEmoteSet();
-    //   const uzy7TVEmoteMap = new Map<string, SevenTvEmote>(
-    //     uzy7TVCollection.emotes.map((emote) => [emote.chatName, emote]),
-    //   );
-    //   pastasStore.populatePastas({
-    //     emoteMap: uzy7TVEmoteMap,
-    //     templateString: templateStrings["SevenTV"],
-    //   });
-    //   return uzy7TVEmoteMap;
-    // })(),
-    (async function populateUselessMouthBetterTTVEmotesSet() {
-      const uzyBttvCollection =
-        await getBttvEmoteCollectionByUserId(uzyBetterTTVUserId);
-      const uzyBttvEmoteMap = new Map(
-        uzyBttvCollection.emotes.map((emote) => [emote.token, emote]),
-      );
-      pastasStore.populatePastas({
-        emoteMap: uzyBttvEmoteMap,
-        templateString: templateStrings["BetterTTV"],
-      });
-      return uzyBttvEmoteMap;
-    })(),
-  ]);
-});
+onMounted(async () => {});
 </script>
 <style>
 html,
