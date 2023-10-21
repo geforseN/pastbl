@@ -9,10 +9,7 @@
     @remove-tag-from-pasta="(tag) => pastaStore.removeTag(tag)"
   >
     <template #header>
-      <pasta-form-header
-        :jokergeSuggestionMessage="jokergeSuggestionMessage"
-        @jokerge-clicked="handleClickOnJokerge"
-      />
+      <pasta-form-header @require-pasta="pastePastaWithFocus" />
     </template>
     <template #button="{ dynamicClass }">
       <button
@@ -40,7 +37,6 @@ const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const toast = useToast();
 
-const jokergeSuggestionMessage = ref("Click on me");
 const createPastaButton = ref();
 const twitchChatRef = ref();
 
@@ -73,16 +69,9 @@ function handlePastaCreation<_E extends KeyboardEvent | MouseEvent>(
     });
 }
 
-function handleClickOnJokerge() {
-  if (!jokergeSuggestionMessage.value) {
-    return;
-  }
+function pastePastaWithFocus() {
   createPastaButton.value.focus();
   pastaStore.text =
     "⡶⠶⠂⠐⠲⠶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⡶⠶⡶⣶ ⣗⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⣿⠿⣿⣿⣿⣿⠿⠿⠿⠟⠛⠉⠁⠀⠀⠀⢠⣿ ⣿⣷⣀⠀⠈⠛⠢⠥⠴⠟⠂⠀⠀⠀⠉⣛⠉⠁⠀⠐⠲⠤⠖⠛⠁⠀⠀⣐⣿⣿ ⣿⣿⣿⣦⣄⡀⠀⠀⠀⠀⣀⡠⣤⣦⣿⣿⣿⣆⣴⣠⣀⣀⡀⣀⣀⣚⣿⣿⣿⢳ ⣧⠉⠙⢿⣿⣿⣶⣶⣾⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢇⣿ ⣿⣷⡄⠈⣿⣿⣿⣿⣯⣥⣦⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣴⣿⣿ ⣿⣿⣿⣦⣘⠋⢻⠿⢿⣿⣿⣿⣾⣭⣛⣛⣛⣯⣷⣿⣿⠿⠟⠋⠉⣴⣿⣿⣿⣿ ";
-  jokergeSuggestionMessage.value = "Well done";
-  setTimeout(() => {
-    jokergeSuggestionMessage.value = "";
-  }, 5_000);
 }
 </script>
