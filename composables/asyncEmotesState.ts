@@ -11,9 +11,7 @@ export type BTTV = ReturnType<typeof useAsyncEmotesState>["bttv"];
 export type SevenTV = ReturnType<typeof useAsyncEmotesState>["seventv"];
 export type SevenTVSet = ReturnType<typeof useAsyncEmotesState>["seventvSet"];
 
-export default function useAsyncEmotesState(
-  userTwitchNickname: MaybeRef<string>,
-) {
+export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   const ffz = useMyAsyncState(async () => {
     const ffz = await fetchFFZByUserTwitchNickname(toValue(userTwitchNickname));
     console.log({ ffz });
@@ -98,4 +96,4 @@ export default function useAsyncEmotesState(
     seventvSet,
     fetch,
   };
-}
+};
