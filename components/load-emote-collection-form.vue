@@ -10,16 +10,17 @@
         </label>
         <div class="join">
           <input
-            class="input join-item input-bordered w-full border-twitch hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
+            class="input join-item input-bordered w-full border-twitch invalid:bg-red-100 hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
             id="user-to-load-collections-nickname"
             v-model="userNickname"
             placeholder="e.g. UselessMouth"
             type="text"
+            pattern="^\s*(\S\s*){4,25}$"
             name="user-to-load-collections-nickname"
             @keypress.enter.exact="
               navigateTo({
                 path: '/emote-collections',
-                query: { nickname: validUserNickname },
+                query: { nickname: trimmedUserNickname },
               })
             "
           />
@@ -27,7 +28,7 @@
             class="btn join-item border-twitch bg-twitch hover:bg-twitch/90 focus:border-black focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-twitch"
             :to="{
               path: '/emote-collections',
-              query: { nickname: validUserNickname },
+              query: { nickname: trimmedUserNickname },
             }"
           >
             Load
@@ -41,8 +42,10 @@
             Now you can press
             <kbd class="kbd kbd-xs">
               <nuxt-link
-                :to="`/emote-collections?nickname=${validUserNickname}`"
-                @click.prevent="goToEmoteCollectionsPage"
+                :to="{
+                  path: '/emote-collections',
+                  query: { nickname: trimmedUserNickname },
+                }"
               >
                 enter
               </nuxt-link>
@@ -50,7 +53,7 @@
             to load emote collection
           </span>
           <span v-else>
-            Please, provide at least 3 non whitespace characters.
+            Please, enter a string of 4-25 non-whitespace characters
           </span>
         </label>
       </div>
@@ -61,16 +64,20 @@
 <script lang="ts" setup>
 const userNickname = ref("");
 
-const validUserNickname = computed(() =>
+const trimmedUserNickname = computed(() =>
   userNickname.value.trim().replaceAll(" ", ""),
 );
 
-const isValidUserNickname = computed(() => validUserNickname.value.length >= 3);
+const isValidUserNickname = computed(
+  () =>
+    trimmedUserNickname.value.length >= 4 &&
+    trimmedUserNickname.value.length <= 25,
+);
 
 function goToEmoteCollectionsPage() {
   return navigateTo({
     path: "/emote-collections",
-    query: { nickname: validUserNickname.value },
+    query: { nickname: trimmedUserNickname.value },
   });
 }
 </script>
