@@ -11,7 +11,7 @@
     </div>
     <span
       class="twitch-tex align-baseline text-[13px] font-bold leading-[19.5px]"
-      :class="`text-${user.preferences.nickname.color}-500`"
+      :style="{ color: user.preferences.nickname.color }"
     >
       {{ user.nickname }}
     </span>
@@ -20,12 +20,6 @@
 
 <script lang="ts" setup>
 const { user } = defineProps<{
-  user: {
-    nickname: string;
-    badges: { count: number };
-    preferences: {
-      nickname: { color: string };
-    };
-  };
+  user: ReturnType<typeof useUserStore>["user"];
 }>();
 </script>
