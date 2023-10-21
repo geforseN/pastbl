@@ -23,9 +23,11 @@
             width="34"
             height="32"
             @mouseover="
+              isOverJokerge = true;
               if (whatToShow === 'point') whatToShow = 'pointWithAlert';
             "
             @mouseout="
+              isOverJokerge = false;
               if (whatToShow === 'pointWithAlert') whatToShow = 'point';
             "
             @click="
@@ -61,6 +63,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["requirePasta"]);
 
+const isOverJokerge = ref(false);
 const whatToShow = ref<"clap" | "nothing" | "point" | "pointWithAlert">(
   "pointWithAlert",
 );
@@ -75,7 +78,7 @@ whenever(
 
 onMounted(() => {
   setTimeout(() => {
-    if (whatToShow.value === "pointWithAlert") {
+    if (whatToShow.value === "pointWithAlert" && !isOverJokerge.value) {
       whatToShow.value = "point";
     }
   }, 3_000);

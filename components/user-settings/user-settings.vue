@@ -1,7 +1,7 @@
 <template>
   <section class="divide-y-2 rounded border-2 border-base-content p-2">
     <h2 class="p-2 text-3xl font-bold">Change user settings</h2>
-    <div class="grid grid-cols-1 divide-y divide-base-content">
+    <div class="grid grid-cols-1 divide-y">
       <div class="form-control p-2">
         <label class="label text-xl font-medium" for="badges-count">
           Badges count
