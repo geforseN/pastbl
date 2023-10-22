@@ -2,7 +2,7 @@
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
 // FIXME: add better type
-export async function fetchFFZByUserTwitchNickname(
+export async function getFFZByUserTwitchNickname(
   userTwitchNickname: string,
 ): Promise<{
   badges: object;
@@ -20,7 +20,7 @@ export async function fetchFFZByUserTwitchNickname(
   return responseJson(response);
 }
 
-export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
+export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
   room: FrankerFaceZApiRoom;
   sets: Record<`${number}`, FrankerFaceZApiEmote>;
 }> {
@@ -30,7 +30,7 @@ export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
   return responseJson(response);
 }
 
-export async function fetchFFZGlobalEmoteSets(): Promise<{
+export async function getFFZGlobalEmoteSets(): Promise<{
   default_sets: number[];
   sets: Record<`${number}`, FrankerFaceZApiEmoteSet>;
   users: Record<`${number}`, string>;
