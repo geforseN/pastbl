@@ -1,9 +1,13 @@
-import { fetchBetterTTVUserByTwitchId } from "~/integrations/BetterTTV/BetterTTV.api";
-import { sevenTVApi } from "~/integrations/SevenTV/SevenTV.api";
+import { getBetterTTVUserByTwitchId } from "~/integrations/BetterTTV/BetterTTV.api";
 import {
-  fetchFFZByUserTwitchNickname,
-  fetchFFZUserRoomByTwitchId,
+  getFFZByUserTwitchNickname,
+  getFFZUserRoomByTwitchId,
 } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
+import {
+  get7TVSetById,
+  get7TVUserByTwitchId,
+} from "~/integrations/SevenTV/SevenTV.api";
+import { create7TVChannelSet } from "~/integrations/SevenTV/entity/create7TVChannelSet";
 
 export type FFZ = ReturnType<typeof useAsyncEmotesState>["ffz"];
 export type FFZRoom = ReturnType<typeof useAsyncEmotesState>["ffzRoom"];
@@ -14,9 +18,7 @@ export type SevenTVSet = ReturnType<typeof useAsyncEmotesState>["seventvSet"];
 export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   const ffz = useAsyncState(
     async () => {
-      const ffz = await fetchFFZByUserTwitchNickname(
-        toValue(userTwitchNickname),
-      );
+      const ffz = await getFFZByUserTwitchNickname(toValue(userTwitchNickname));
       console.log({ ffz });
       return ffz;
     },
@@ -29,7 +31,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
 
   const ffzRoom = useAsyncState(
     async (twitchId: number) => {
-      const ffzRoom = await fetchFFZUserRoomByTwitchId(twitchId);
+      const ffzRoom = await getFFZUserRoomByTwitchId(twitchId);
       console.log({ ffzRoom });
       return ffzRoom;
     },
@@ -42,7 +44,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
 
   const bttv = useAsyncState(
     async (twitchId: number) => {
-      const bttv = await fetchBetterTTVUserByTwitchId(twitchId);
+      const bttv = await getBetterTTVUserByTwitchId("uselessmouth");
       console.log({ bttv });
       return bttv;
     },
@@ -55,7 +57,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
 
   const seventv = useAsyncState(
     async (twitchId: number) => {
-      const seventv = await sevenTVApi.fetchUserByTwitchId(twitchId);
+      const seventv = await get7TVUserByTwitchId(twitchId);
       console.log({ seventv });
       return seventv;
     },
@@ -68,21 +70,27 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
 
   const seventvSet = useAsyncState(
     async (emoteSetId: Nullish<string> = seventv.state.value?.emote_set.id) => {
-      if (seventv.state.value?.emote_set.emotes) {
+      const sevenTVUserEmoteSet = seventv.state.value?.emote_set;
+      if (Array.isArray(sevenTVUserEmoteSet?.emotes)) {
         console.log({
-          seventvSet: seventv.state.value.emote_set,
+          seventvSet: sevenTVUserEmoteSet,
+          // @ts-expect-error
+          createdSet: create7TVChannelSet(sevenTVUserEmoteSet),
           isFastReturn: true,
         });
-        return seventv.state.value.emote_set;
+        // @ts-expect-error ? ts is stupid or what ? i checked in if statement that there is 'emotes' in set
+        return create7TVChannelSet(sevenTVUserEmoteSet);
       }
       if (!emoteSetId) {
         throw new Error("Can not load 7TV emote set without 7TV set id");
       }
-      const seventvSet =
-        (await sevenTVApi.fetchEmoteSetById(emoteSetId)) ||
-        raise("SevenTV failed to load emote collection");
+      const seventvSet = await get7TVSetById(emoteSetId);
+      if (!Array.isArray(seventvSet?.emotes)) {
+        throw new Error("Failed to load user emotes from SevenTV");
+      }
       console.log({ seventvSet, isFastReturn: false });
-      return seventvSet;
+      // @ts-expect-error
+      return create7TVChannelSet(seventvSet);
     },
     null,
     {
