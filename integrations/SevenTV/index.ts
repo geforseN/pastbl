@@ -1,48 +1,19 @@
-import { __SevenTV__EmoteSetFromApi__, sevenTVApi } from "./SevenTV.api";
-import {
-  SevenTVSet,
-  getSevenTVEmoteCollectionFromStorage,
-  setSevenTVEmoteCollectionToStorage,
-} from "./SevenTV.client";
+import type { I7TVEmote } from "./entity/SevenTVEmote";
 
-export { sevenTV } from "./SevenTV.client";
+class SevenTV {
+  shouldLog = false;
 
-export async function getSevenTVUserEmoteCollectionByUserId(userId: string) {
-  const emoteCollectionFromStorage =
-    getSevenTVEmoteCollectionFromStorage(userId);
-
-  //
-  type coll = {};
-  if (emoteCollectionFromStorage) {
-    return emoteCollectionFromStorage;
+  getEmoteTemplateString(emote: I7TVEmote) {
+    return `<span class="inline-block" title="${
+      emote.token
+    } emote from SevenTV ${
+      emote.originalName ? `(aka ${emote.originalName})` : ""
+    }">
+<img src="https:${emote.url}/1x.webp">
+</span>
+  `;
   }
-  const user = await sevenTVApi.fetchUserBySevenTVId(userId);
-  const ungroupedEmoteCollections = await Promise.allSettled(
-    user.emote_sets.map((set) => sevenTVApi.fetchEmoteSetById(set.id)),
-  );
-  const emoteCollections = groupEmoteCollections(ungroupedEmoteCollections);
-
-  emoteCollections.fulfilled.forEach((emoteCollection) => {
-    setSevenTVEmoteCollectionToStorage(emoteCollection.id, emoteCollection);
-  });
-  return emoteCollections;
 }
 
-function groupEmoteCollections(
-  settledCollections: PromiseSettledResult<__SevenTV__EmoteSetFromApi__>[],
-) {
-  return settledCollections.reduce(
-    (collections, settledCollection) => {
-      if (settledCollection.status === "fulfilled") {
-        collections.fulfilled.push(new SevenTVSet(settledCollection.value));
-      } else {
-        collections.rejected.push(settledCollection.reason);
-      }
-      return collections;
-    },
-    {
-      fulfilled: [] as SevenTVSet[],
-      rejected: [] as any[],
-    },
-  );
-}
+export const sevenTV = new SevenTV();
+export { create7TVGlobalCollection } from "./entity/create7TVGlobalCollection";
