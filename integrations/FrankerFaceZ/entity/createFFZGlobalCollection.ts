@@ -1,4 +1,4 @@
-import type { fetchFFZGlobalEmoteSets } from "../FrankerFaceZ.api";
+import type { getFFZGlobalEmoteSets } from "../FrankerFaceZ.api";
 import {
   FFZCollection,
   type FrankerFaceZCollection,
@@ -7,7 +7,7 @@ import { FFZEmote } from "./FrankerFaceZEmote";
 import { FFZSet } from "./FrankerFaceZSet";
 
 export async function createFFZGlobalCollection(
-  ffzGlobalSetsJson: Awaited<ReturnType<typeof fetchFFZGlobalEmoteSets>>,
+  ffzGlobalSetsJson: Awaited<ReturnType<typeof getFFZGlobalEmoteSets>>,
 ): Promise<FrankerFaceZCollection> {
   const ffzSets = Object.values(ffzGlobalSetsJson.sets).map(
     (apiSet) =>
