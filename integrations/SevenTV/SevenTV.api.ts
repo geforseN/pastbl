@@ -1,95 +1,70 @@
-export class SevenTVApi {
-  // LINK: https://7tv.io/docs
-  async fetchUserBySevenTVId(
-    sevenTVAccountId: string,
-  ): Promise<__SevenTV__UserData__> {
-    return fetch(`https://7tv.io/v3/users/${sevenTVAccountId}`).then(
-      responseJson,
-    );
+// LINK: https://7tv.io/docs
+class SevenTVApi {
+  async getUserBy7TVId(accountId: string): Promise<SevenTVApiUserData> {
+    const response = await fetch(`https://7tv.io/v3/users/${accountId}`);
+    return responseJson(response);
   }
 
-  // LINK: https://7tv.io/docs
-  async fetchEmoteSetById(
-    collectionId: string,
-  ): Promise<__SevenTV__EmoteSetFromApi__> {
-    return fetch(`https://7tv.io/v3/emote-sets/${collectionId}`).then(
-      responseJson,
-    );
+  async getEmoteSetById(setId: string): Promise<SevenTVApiEmoteSet> {
+    const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
+    return responseJson(response);
   }
 
-  async fetchUserByTwitchId(twitchId: number): Promise<{
-    display_name: string;
-    emote_capacity: number;
-    emote_set: __SevenTV__EmoteSetFromApi__;
-    emote_set_id: null;
-    id: `${number}`;
-    linked_at: number;
-    platform: "TWITCH" | "7TV";
-    user: {
-      avatar_url: string;
-      biography: string;
-      connections: []; // TODO
-      created_at: ReturnType<typeof Date.now>;
-      display_name: string;
-      id: string;
-      roles: string[];
-      style?: { color: number };
-      username: Lowercase<string>;
-    };
-    username: Lowercase<string>;
-  }> {
-    return fetch(`https://7tv.io/v3/users/twitch/${twitchId}`).then(
-      (response) => {
-        if (response.status === 404) {
-          throw new Error(
-            `SevenTV does not have user with twitch id ${twitchId}`,
-          );
-        }
-        return responseJson(response);
-      },
-    );
+  async getUserByTwitchId(twitchId: number): Promise<SevenTVApiUserByTwitch> {
+    const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
+    if (response.status === 404) {
+      throw new Error(`SevenTV does not have user with twitch id ${twitchId}`);
+    }
+    return responseJson(response);
   }
 
   async globalEmotesSet() {
-    return this.fetchEmoteSetById("62cdd34e72a832540de95857");
+    return this.getEmoteSetById("62cdd34e72a832540de95857");
   }
 
+  // NOTE: also can be fetched through https://7tv.io/v3/emote-sets/global until halloween celebration is over i guess
   async globalHalloweenEmotesSet() {
-    // NOTE: also can be fetched through https://7tv.io/v3/emote-sets/global until halloween celebration is over i guess
-    return this.fetchEmoteSetById("63237427e062d588b69f84d0");
+    return this.getEmoteSetById("63237427e062d588b69f84d0");
   }
 }
 
 export const sevenTVApi = new SevenTVApi();
 
-export type __SevenTV__EmoteSetFromApi__ = {
+export type SevenTVApiEmoteSet = {
   capacity: number;
   emote_count: number;
   // NOTE: if no emotes in collection, then api return does not contain emotes field (so emotes field is undefined)
-  emotes?: __SevenTV__UserSetEmote__[];
+  emotes?: SevenTVApiSetEmote[];
   flags: number;
   id: string;
   immutable: boolean;
   name: string;
-  owner: __SevenTV__CollectionOwner__;
+  owner: SevenTVApiSetOwner;
   privileged: boolean;
   tags: string[];
 };
 
-type __SevenTV__CollectionOwner__ = {
+type SevenTVApiUser = SevenTVApiSetOwner & {
+  biography: string;
+  // FIXME: add type for connections
+  connections: unknown[];
+  created_at: ReturnType<typeof Date.now>;
+};
+
+type SevenTVApiSetOwner = {
   avatar_url: string;
   display_name: string;
   id: string;
   roles: string[];
   style: { color?: number };
-  username: string;
+  username: Lowercase<SevenTVApiSetOwner["display_name"]>;
 };
 
-export type __SevenTV__UserSetEmote__ = {
+export type SevenTVApiSetEmote = {
   // NOTE: basicly, actor_id field is equal to __SevenTV__EmoteCollection__['id']
   // can be null if emote was add in some early times, at new added emotes it is not null
   actor_id: string | null;
-  data: __SevenTV__UserCollectionEmoteData;
+  data: SevenTVApiEmoteData;
   id: string;
   name: string;
   // NOTE: as i could understand, flags is bit map
@@ -99,7 +74,7 @@ export type __SevenTV__UserSetEmote__ = {
   timestamp: number;
 };
 
-type __SevenTV__UserCollectionEmoteData = {
+type SevenTVApiEmoteData = {
   id: string;
   name: string;
   // NOTE: as i could understand, flags is bit map
@@ -110,12 +85,12 @@ type __SevenTV__UserCollectionEmoteData = {
   state: ("NO_PERSONAL" | "LISTED" | "PERSONAL")[];
   listed: boolean;
   animated: boolean;
-  owner: __SevenTV__CollectionOwner__;
+  owner: SevenTVApiSetOwner;
   tags?: string[];
-  host: EmoteDataHost;
+  host: SevenTVApiEmoteDataHost;
 };
 
-type EmoteDataHost = {
+type SevenTVApiEmoteDataHost = {
   url: string;
   files: {
     format: Uppercase<EmoteFileFormat>;
@@ -131,7 +106,7 @@ type EmoteDataHost = {
 type EmoteFileFormat = "webp" | "avif";
 type EmoteFileSize = "1x" | "2x" | "3x" | "4x";
 
-export type __SevenTV__UserData__ = {
+export type SevenTVApiUserData = {
   avatar_url: string;
   biography: string;
   connections: {
@@ -168,4 +143,16 @@ export type __SevenTV__UserData__ = {
   roles: string[];
   style: { color?: number };
   username: string;
+};
+
+type SevenTVApiUserByTwitch = {
+  display_name: string;
+  emote_capacity: number;
+  emote_set_id: null;
+  emote_set: SevenTVApiEmoteSet;
+  id: `${number}`;
+  linked_at: number;
+  platform: "TWITCH" | "7TV";
+  user: SevenTVApiUser;
+  username: Lowercase<string>;
 };
