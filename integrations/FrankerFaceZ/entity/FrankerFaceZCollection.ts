@@ -1,13 +1,20 @@
-import type { FrankerFaceZEmoteSet } from "./FrankerFaceZSet";
+import type { EmoteCollection } from "~/integrations";
+import type { FFZSet, FrankerFaceZSet } from "./FrankerFaceZSet";
 
-export class FFZCollection {
+export interface FrankerFaceZCollection extends EmoteCollection<FFZSet> {
+  source: "FrankerFaceZ";
+}
+
+export class FFZCollection implements FrankerFaceZCollection {
   name;
-  updatedAt;
   sets;
+  source;
+  updatedAt;
 
-  constructor(sets: FrankerFaceZEmoteSet[]) {
-    this.name = "FrankerFaceZ";
-    this.updatedAt = Date.now();
+  constructor(name: string, sets: FrankerFaceZSet[]) {
+    this.name = name;
     this.sets = sets;
+    this.source = "FrankerFaceZ" as const;
+    this.updatedAt = Date.now();
   }
 }

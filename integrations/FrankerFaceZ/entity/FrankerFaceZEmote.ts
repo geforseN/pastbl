@@ -1,7 +1,7 @@
-import type { BaseEmote } from "~/integrations";
+import type { Emote } from "~/integrations";
 import type { FrankerFaceZApiEmote } from "../FrankerFaceZ.api";
 
-export interface FrankerFaceZEmote extends BaseEmote {
+export interface FrankerFaceZEmote extends Emote {
   type: "channel" | "global";
   width: number;
   source: "FrankerFaceZ";
