@@ -1,135 +1,111 @@
+// NOTE: FFZ documentation
+// LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
+
+// FIXME: add better type
 export async function fetchFFZByUserTwitchNickname(
   userTwitchNickname: string,
 ): Promise<{
   badges: object;
   sets: object;
-  user: {
-    avatar: string;
-    badges: number[];
-    display_name: string;
-    emote_sets: unknown[];
-    id: number;
-    is_donor: boolean;
-    max_emoticons: number;
-    name: string;
-    twitch_id: number | null; // NOTE: maybe twitch_id can be bot null, because ffz allows registration only with TwitchOAuth
-    youtube_id: number | null;
-  };
+  user: FrankerFaceZApiUser;
 }> {
-  return fetch(
+  const response = await fetch(
     `https://api.frankerfacez.com/v1/user/${userTwitchNickname.toLowerCase()}`,
-  ).then((response: Response) => {
-    if (response.status === 404) {
-      throw new Error(
-        `FrankerFaceZ does not have user with nickname ${userTwitchNickname}`,
-      );
-    }
-    return responseJson(response);
-  });
+  );
+  if (response.status === 404) {
+    throw new Error(
+      `FrankerFaceZ does not have user with nickname ${userTwitchNickname}`,
+    );
+  }
+  return responseJson(response);
 }
 
 export async function fetchFFZUserRoomByTwitchId(twitchId: number): Promise<{
-  room: {
-    _id: number;
-    twitch_id: number;
-    youtube_id: string | null;
-    nullable: true;
-    id: string;
-    is_group: boolean;
-    display_name: string | null;
-    set: number;
-    moderator_badge: string | null;
-    vip_badge: { 1: string; 2: string | null; 4: string | null } | null;
-    mod_urls: { 1: string; 2: string | null; 4: string | null } | null;
-    user_badges: Record<string, never>;
-    user_badge_ids: Record<string, never>;
-    css: string | null;
-  };
-  sets: Record<
-    `${number}`,
-    {
-      css: string | null;
-      emoticons: {
-        artist: { _id: number; name: string; display_name: string } | null;
-        created_at: ReturnType<Date["toISOString"]>;
-        css: string | null; // NOTE: DEPRECATED field
-        height: number;
-        hidden: boolean;
-        id: number;
-        last_updated: ReturnType<Date["toISOString"]>;
-        margins: string | null; // NOTE: DEPRECATED field
-        modifier: boolean;
-        modifier_flags: number;
-        name: string;
-        offset: string | null; // NOTE: DEPRECATED field
-        owner: { _id: number; name: string; display_name: string } | null;
-        public: true;
-        status: 1;
-        urls: {
-          1: `https://cdn.frankerfacez.com/emote/${string}/1`;
-          2: `https://cdn.frankerfacez.com/emote/${string}/2`;
-          4: `https://cdn.frankerfacez.com/emote/${string}/4`;
-        };
-        usage_count: number;
-        width: number;
-      }[];
-      icon: string | null;
-      id: number;
-      title: string | null;
-      _type: number;
-    }
-  >;
+  room: FrankerFaceZApiRoom;
+  sets: Record<`${number}`, FrankerFaceZApiEmote>;
 }> {
-  return fetch(`https://api.frankerfacez.com/v1/room/id/${twitchId}`).then(
-    responseJson,
+  const response = await fetch(
+    `https://api.frankerfacez.com/v1/room/id/${twitchId}`,
   );
+  return responseJson(response);
 }
 
 export async function fetchFFZGlobalEmoteSets(): Promise<{
   default_sets: number[];
-  sets: Record<`${number}`, FrankerFaceZEmoteSetFromApi>;
+  sets: Record<`${number}`, FrankerFaceZApiEmoteSet>;
   users: Record<`${number}`, string>;
 }> {
-  return fetch("https://api.frankerfacez.com/v1/set/global").then(responseJson);
+  const response = await fetch("https://api.frankerfacez.com/v1/set/global");
+  return responseJson(response);
 }
 
-export type FrankerFaceZEmoteFromApi = {
-  id: number;
-  name: string;
+export type FrankerFaceZApiEmote = {
+  artist: { _id: number; name: string; display_name: string } | null;
+  created_at: ReturnType<Date["toISOString"]>;
+  // NOTE: css is DEPRECATED field
+  css: string | null;
   height: number;
-  width: number;
-  public: true;
   hidden: boolean;
-  modifier: boolean;
+  id: number;
+  last_updated: ReturnType<Date["toISOString"]>;
+  // NOTE: margins is DEPRECATED field
+  margins: string | null;
   // NOTE: modifier_flags is bitmap
   // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1#emote-effects
   modifier_flags: number;
+  modifier: boolean;
+  name: string;
   // NOTE: offset is DEPRECATED field
   offset: string | null;
-  // NOTE: margins is DEPRECATED field
-  margins: string | null;
-  // NOTE: css is DEPRECATED field
-  css: string | null;
   owner: { _id: number; name: string; display_name: string } | null;
-  artist: { _id: number; name: string; display_name: string } | null;
+  public: true;
+  // NOTE: status is a numeric status for emotes in our system. This should always be 1 in APIv1 responses as that represents an emote that has been approved.
+  status: 1;
   urls: {
     1: `https://cdn.frankerfacez.com/emote/${string}/1`;
     2: `https://cdn.frankerfacez.com/emote/${string}/2`;
     4: `https://cdn.frankerfacez.com/emote/${string}/4`;
   };
-  // NOTE: from FFZ api documentation:
-  // status - A numeric status for emotes in our system. This should always be 1 in APIv1 responses as that represents an emote that has been approved.
-  status: 1;
   usage_count: number;
-  created_at: ReturnType<Date["toISOString"]>;
-  last_updated: ReturnType<Date["toISOString"]>;
+  width: number;
 };
 
-export type FrankerFaceZEmoteSetFromApi = {
-  id: number;
+export type FrankerFaceZApiEmoteSet = {
   _type: number;
-  icon: null;
-  title: string;
   css: null;
-  emoticons: FrankerFaceZEmoteFromApi[];
+  emoticons: FrankerFaceZApiEmote[];
+  icon: null;
+  id: number;
+  title: string;
+};
+
+type FrankerFaceZApiRoom = {
+  _id: number;
+  twitch_id: number;
+  youtube_id: string | null;
+  nullable: true;
+  id: string;
+  is_group: boolean;
+  display_name: string | null;
+  set: number;
+  moderator_badge: string | null;
+  vip_badge: { 1: string; 2: string | null; 4: string | null } | null;
+  mod_urls: { 1: string; 2: string | null; 4: string | null } | null;
+  user_badges: Record<string, never>;
+  user_badge_ids: Record<string, never>;
+  css: string | null;
+};
+
+type FrankerFaceZApiUser = {
+  avatar: string;
+  badges: number[];
+  display_name: string;
+  emote_sets: unknown[];
+  id: number;
+  is_donor: boolean;
+  max_emoticons: number;
+  name: string;
+  // NOTE: maybe twitch_id can not be null, because ffz allows registration only with TwitchOAuth
+  twitch_id: number | null;
+  youtube_id: number | null;
 };
