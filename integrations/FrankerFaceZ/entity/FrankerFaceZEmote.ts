@@ -2,9 +2,10 @@ import type { Emote } from "~/integrations";
 import type { FrankerFaceZApiEmote } from "../FrankerFaceZ.api";
 
 export interface FrankerFaceZEmote extends Emote {
-  type: "channel" | "global";
-  width: number;
   source: "FrankerFaceZ";
+  type: "channel" | "global";
+  url: `//cdn.frankerfacez.com/emote/${Emote["id"]}`;
+  width: number;
 }
 
 export class FFZEmote implements FrankerFaceZEmote {

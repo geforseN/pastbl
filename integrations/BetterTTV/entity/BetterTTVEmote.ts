@@ -2,9 +2,9 @@ import type { Emote } from "~/integrations";
 import type { BetterTTVApiEmote } from "../BetterTTV.api";
 
 export interface BetterTTVEmote extends Emote {
-  url: `//cdn.betterttv.net/emote/${string}`;
   source: "BetterTTV";
   type: "shared" | "channel" | "global";
+  url: `//cdn.betterttv.net/emote/${string}`;
 }
 
 export class BTTVEmote implements BetterTTVEmote {
