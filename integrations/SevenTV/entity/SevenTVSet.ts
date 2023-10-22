@@ -19,16 +19,16 @@ export class SevenTVSet implements I7TVSet {
   id;
 
   constructor(
-    fetchedCollection: SevenTVApiEmoteSet & {
+    apiSet: SevenTVApiEmoteSet & {
       emotes: NonNullable<SevenTVApiEmoteSet["emotes"]>;
     },
     to7TVEmoteCallback: (value: SevenTVApiSetEmote) => I7TVEmote,
   ) {
-    this.id = fetchedCollection.id;
-    this.name = fetchedCollection.name;
-    this.emotes = fetchedCollection.emotes.map(to7TVEmoteCallback);
+    this.id = apiSet.id;
+    this.name = apiSet.name;
+    this.emotes = apiSet.emotes.map(to7TVEmoteCallback);
     this.source = "SevenTV" as const;
     this.updatedAt = Date.now();
-    this.capacity = fetchedCollection.capacity;
+    this.capacity = apiSet.capacity;
   }
 }

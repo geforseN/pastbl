@@ -18,22 +18,22 @@ export class SevenTVEmote implements I7TVEmote {
   isAnimated;
   isModifier;
   isListed;
-  isZeroWidth;
+  isWrapper;
   tags;
   width;
   type;
 
-  constructor(seventvEmote: SevenTVApiSetEmote, type: I7TVEmote["type"]) {
-    this.id = seventvEmote.id;
-    this.isAnimated = seventvEmote.data.animated;
-    this.isListed = seventvEmote.data.listed;
-    this.isModifier = seventvEmote.flags !== 0;
-    this.isZeroWidth = seventvEmote.flags === 1;
+  constructor(apiEmote: SevenTVApiSetEmote, type: I7TVEmote["type"]) {
+    this.id = apiEmote.id;
+    this.isAnimated = apiEmote.data.animated;
+    this.isListed = apiEmote.data.listed;
+    this.isModifier = apiEmote.flags !== 0;
+    this.isWrapper = apiEmote.flags === 1;
     this.source = "SevenTV" as const;
-    this.tags = seventvEmote.data.tags;
-    this.token = seventvEmote.name;
+    this.tags = apiEmote.data.tags;
+    this.token = apiEmote.name;
     this.type = type;
     this.url = `//cdn.7tv.app/emote/${this.id}` as const;
-    this.width = seventvEmote.data.host.files[1].width;
+    this.width = apiEmote.data.host.files[1].width;
   }
 }
