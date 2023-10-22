@@ -1,12 +1,11 @@
 // NOTE: FFZ documentation
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
-// FIXME: add better type
 export async function getFFZByUserTwitchNickname(
   userTwitchNickname: string,
 ): Promise<{
-  badges: object;
-  sets: object;
+  badges: Record<`${number}`, FrankerFaceZApiBadge>;
+  sets: Record<string, never>;
   user: FrankerFaceZApiUser;
 }> {
   const response = await fetch(
@@ -108,4 +107,21 @@ type FrankerFaceZApiUser = {
   // NOTE: maybe twitch_id can not be null, because ffz allows registration only with TwitchOAuth
   twitch_id: number | null;
   youtube_id: number | null;
+};
+
+type FrankerFaceZApiBadge = {
+  id: number;
+  name: string;
+  title: string;
+  slot: number;
+  replaces: null;
+  // NOTE: color is HEX format
+  color: string;
+  image: `https://cdn.frankerfacez.com/badge/${FrankerFaceZApiBadge["id"]}/1`;
+  urls: {
+    "1": `https://cdn.frankerfacez.com/badge/${FrankerFaceZApiBadge["id"]}/1`;
+    "2": `https://cdn.frankerfacez.com/badge/${FrankerFaceZApiBadge["id"]}/2`;
+    "4": `https://cdn.frankerfacez.com/badge/${FrankerFaceZApiBadge["id"]}/4`;
+  };
+  css: null;
 };
