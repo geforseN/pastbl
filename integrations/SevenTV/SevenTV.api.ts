@@ -1,34 +1,39 @@
 // LINK: https://7tv.io/docs
-class SevenTVApi {
-  async getUserBy7TVId(accountId: string): Promise<SevenTVApiUserData> {
-    const response = await fetch(`https://7tv.io/v3/users/${accountId}`);
-    return responseJson(response);
-  }
 
-  async getEmoteSetById(setId: string): Promise<SevenTVApiEmoteSet> {
-    const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
-    return responseJson(response);
-  }
-
-  async getUserByTwitchId(twitchId: number): Promise<SevenTVApiUserByTwitch> {
-    const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-    if (response.status === 404) {
-      throw new Error(`SevenTV does not have user with twitch id ${twitchId}`);
-    }
-    return responseJson(response);
-  }
-
-  async globalEmotesSet() {
-    return this.getEmoteSetById("62cdd34e72a832540de95857");
-  }
-
-  // NOTE: also can be fetched through https://7tv.io/v3/emote-sets/global until halloween celebration is over i guess
-  async globalHalloweenEmotesSet() {
-    return this.getEmoteSetById("63237427e062d588b69f84d0");
-  }
+export async function get7TVUserBy7TVId(
+  accountId: string,
+): Promise<SevenTVApiUserData> {
+  const response = await fetch(`https://7tv.io/v3/users/${accountId}`);
+  return responseJson(response);
 }
 
-export const sevenTVApi = new SevenTVApi();
+export async function get7TVSetById(
+  setId: string,
+): Promise<SevenTVApiEmoteSet> {
+  const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
+  return responseJson(response);
+}
+
+export async function get7TVUserByTwitchId(
+  twitchId: number,
+): Promise<SevenTVApiUserByTwitch> {
+  const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
+  if (response.status === 404) {
+    throw new Error(`SevenTV does not have user with twitch id ${twitchId}`);
+  }
+  return responseJson(response);
+}
+
+export async function get7TVGlobalEmotesSet() {
+  return get7TVSetById("62cdd34e72a832540de95857");
+}
+
+// NOTE -
+// also can be fetched through https://7tv.io/v3/emote-sets/global
+// probably it will work until halloween celebration is over i guess
+export async function get7TVGlobalHalloweenEmotesSet() {
+  return get7TVSetById("63237427e062d588b69f84d0");
+}
 
 export type SevenTVApiEmoteSet = {
   capacity: number;

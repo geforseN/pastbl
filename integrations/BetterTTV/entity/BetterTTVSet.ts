@@ -14,12 +14,12 @@ export class BTTVSet implements BetterTTVSet {
   updatedAt;
 
   constructor(
-    bttvSetData: { name: string; emotes: BetterTTVApiEmote[]; id: string },
+    apiSetData: { name: string; emotes: BetterTTVApiEmote[]; id: string },
     toBTTVEmoteCallback: (value: BetterTTVApiEmote) => BTTVEmote,
   ) {
-    this.id = bttvSetData.id;
-    this.name = bttvSetData.name;
-    this.emotes = bttvSetData.emotes.map(toBTTVEmoteCallback);
+    this.id = apiSetData.id;
+    this.name = apiSetData.name;
+    this.emotes = apiSetData.emotes.map(toBTTVEmoteCallback);
     this.source = "BetterTTV" as const;
     this.updatedAt = Date.now();
   }
