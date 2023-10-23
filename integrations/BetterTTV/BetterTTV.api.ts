@@ -1,5 +1,4 @@
-// LINK: https://betterttv.com/developers/api
-
+// LINK: https://betterttv.com/developers/api#global-emotes
 export async function getBetterTTVGlobalEmotes(): Promise<
   BetterTTVApiGlobalEmote[]
 > {
@@ -9,23 +8,12 @@ export async function getBetterTTVGlobalEmotes(): Promise<
   return responseJson(response);
 }
 
-export async function getBetterTTVUserById(
-  userId: string,
-): Promise<BetterTTVApiUser> {
-  // NOTE: url for fetch is on api site is wrong, will be 404
-  // wrong url: fetch('https://api.betterttv.net/3/cached/users/{provider}/{providerId})
-  const response = await fetch(`https://api.betterttv.net/3/users/${userId}`);
-  return responseJson(response);
-}
-
+// LINK: https://betterttv.com/developers/api#user
 export async function getBetterTTVUserByTwitchId(
-  providerId: number | string /* providerId means twitchId or youtubeId */,
+  twitchId: number | string,
 ): Promise<BetterTTVApiUser> {
-  // LINK: https://betterttv.com/developers/api#user-emotes
-  // NOTE: url for fetch is on api site is wrong, will be 404
-  // wrong url: fetch('https://api.betterttv.net/3/cached/users/{provider}/{providerId})
   const response = await fetch(
-    `https://apibetterttv.net/3/cached/users/twitch/${providerId}`,
+    `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
   );
   return responseJson(response);
 }
