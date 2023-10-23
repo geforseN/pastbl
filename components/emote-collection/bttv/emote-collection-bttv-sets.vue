@@ -43,10 +43,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { BetterTTVEmoteFromAPI } from "~/integrations/BetterTTV/BetterTTV.api";
+import type { BetterTTVApiEmote } from "~/integrations/BetterTTV/BetterTTV.api";
 
 const props = defineProps<{
-  emoteSets: Record<string, BetterTTVEmoteFromAPI[]>;
+  emoteSets: Record<string, BetterTTVApiEmote[]>;
 }>();
 </script>
 

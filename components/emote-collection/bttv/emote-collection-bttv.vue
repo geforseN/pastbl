@@ -31,7 +31,6 @@
     <template v-if="bttv.error.value">{{ bttv.error.value }}</template>
   </li>
 </template>
-
 <script lang="ts" setup>
-defineProps<{ bttv: BTTV }>();
+defineProps<{ bttv: BTTVAsyncState }>();
 </script>
