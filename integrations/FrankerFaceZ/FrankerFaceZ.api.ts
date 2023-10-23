@@ -21,7 +21,7 @@ export async function getFFZByUserTwitchNickname(
 
 export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
   room: FrankerFaceZApiRoom;
-  sets: Record<`${number}`, FrankerFaceZApiEmote>;
+  sets: Record<`${number}`, FrankerFaceZApiEmoteSet>;
 }> {
   const response = await fetch(
     `https://api.frankerfacez.com/v1/room/id/${twitchId}`,
