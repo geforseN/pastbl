@@ -3,9 +3,9 @@
     class="flex flex-col divide-y-2 divide-[#2599cd] border-2 border-[#2599cd] bg-[#181d1f] p-2 text-white"
   >
     <emote-collection-header
-      :is-loading="seventv.isLoading.value"
-      :is-ready="seventv.isReady.value"
-      :is-error="!!seventv.error.value"
+      :is-loading="seventv.isLoading.value || seventvSet.isLoading.value"
+      :is-ready="seventv.isReady.value && seventvSet.isReady.value"
+      :is-error="!!seventv.error.value || !!seventvSet.error.value"
     >
       <h3>SevenTV</h3>
       <template #collection-logo>
@@ -19,18 +19,13 @@
         seventv.state.value &&
         seventvSet.state.value?.emotes
       "
-      :sets="
-        [seventvSet.state.value].filter(
-          (collection) => collection.emotes?.length,
-        )
-      "
+      :sets="[seventvSet.state.value]"
     />
     <template v-if="seventv.error.value">
       {{ seventv.error.value }}
     </template>
   </li>
 </template>
-
 <script lang="ts" setup>
-defineProps<{ seventv: SevenTV; seventvSet: SevenTVSet }>();
+defineProps<{ seventv: SevenTVAsyncState; seventvSet: SevenTVSetAsyncState }>();
 </script>

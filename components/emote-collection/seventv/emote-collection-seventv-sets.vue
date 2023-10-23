@@ -23,23 +23,17 @@
           tabindex="0"
         >
           <div
-            class="flex h-8 min-w-[2rem] flex-col items-center justify-center bg-[#2599cd]/20"
+            class="grid h-8 place-items-center bg-[#2599cd]/20"
             v-for="emote of set.emotes"
             :key="emote.id"
           >
             <img
-              class="mx-1 my-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
-              :src="`https:${emote.data.host.url}/1x.webp`"
-              :width="emote.data.host.files[1].width"
+              class="m-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
+              :src="`https:${emote.url}/1x.webp`"
+              :width="emote.width"
               loading="lazy"
-              :title="emote.name"
-              :alt="emote.name"
-              @error.prevent="
-                (event) => {
-                  event.preventDefault();
-                  console.log(event);
-                }
-              "
+              :title="emote.token"
+              :alt="emote.token"
             />
           </div>
         </div>
@@ -47,18 +41,10 @@
     </emote-collection-collapsed-set>
   </main>
 </template>
-
 <script lang="ts" setup>
-import type { __SevenTV__UserSetEmote__ } from "~/integrations/SevenTV/SevenTV.api";
+import type { I7TVSet } from "~/integrations/SevenTV/entity/SevenTVSet";
 
 const props = defineProps<{
-  sets: {
-    emotes: __SevenTV__UserSetEmote__[];
-    name: string;
-    capacity: number;
-    id: string;
-  }[];
+  sets: I7TVSet[];
 }>();
 </script>
-
-<style></style>

@@ -36,7 +36,6 @@
     </div>
   </li>
 </template>
-
 <script lang="ts" setup>
-defineProps<{ ffz: FFZ; ffzRoom: FFZRoom }>();
+defineProps<{ ffz: FFZAsyncState; ffzRoom: FFZRoomAsyncState }>();
 </script>

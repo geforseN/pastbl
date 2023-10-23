@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { fetchFFZUserRoomByTwitchId } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
+import type { getFFZUserRoomByTwitchId } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 
 const selectedEmote = ref<Record<string, any> | null>(null);
 
@@ -107,7 +107,7 @@ function handleEmoteDataPopoverRemove(event: MouseEvent) {
 }
 
 type FFZSetRecord = Awaited<
-  ReturnType<typeof fetchFFZUserRoomByTwitchId>
+  ReturnType<typeof getFFZUserRoomByTwitchId>
 >["sets"];
 type FFZSet = FFZSetRecord[keyof FFZSetRecord];
 
