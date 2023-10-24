@@ -58,8 +58,6 @@
 
 <script lang="ts" setup>
 import { UseTimeAgo } from "@vueuse/components";
-import { openDB } from "idb";
-import type { EmoteCollection } from "~/integrations";
 
 const dbGlobalEmotesCollections = ref<any[]>([]);
 
@@ -82,17 +80,7 @@ const globalBTTV = computed(
     ),
 );
 
-onMounted(async () => {
-  const db = await openDB("emote-collections", 1, {
-    upgrade(db) {
-      db.createObjectStore("@@global", {
-        keyPath: "name",
-      });
-    },
-  });
-
-  dbGlobalEmotesCollections.value = await db.getAll("@@global");
-});
+onMounted(async () => {});
 </script>
 
 <style></style>
