@@ -92,13 +92,11 @@
 </template>
 
 <script lang="ts" setup>
-import { openDB } from "idb";
-import type { DBSchema, IDBPDatabase } from "idb";
-import { fetchBetterTTVGlobalEmotes } from "~/integrations/BetterTTV/BetterTTV.api";
-import { fetchFFZGlobalEmoteSets } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
-import type { FrankerFaceZEmoteFromApi } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
-import type { FrankerFaceZEmote } from "~/integrations/FrankerFaceZ/FrankerFaceZ.client";
-import { sevenTVApi } from "~/integrations/SevenTV/SevenTV.api";
+import {
+  createBTTVUserCollection,
+  createFFZUserCollection,
+  create7TVUserCollection,
+} from "~/integrations";
 
 useHead({ title: "collections - pastbl" });
 
@@ -108,20 +106,108 @@ const collections = useAsyncEmotesState(nickname);
 
 const userStore = useUserStore();
 
-if (nickname.value) {
+if (false && nickname.value) {
   collections.fetch.execute();
 }
-const DB = ref<IDBPDatabase<EmoteCollectionDB>>();
+
+const user = ref();
+
 onMounted(async () => {
-  const { SevenTVCollection, SevenTVEmote, SevenTVSet } = await import(
-    "~/integrations/SevenTV/SevenTV.client"
+  const { openUserEmoteCollectionsDB, getMappedEmotesFromIdb } = await import(
+    "~/client-only/IndexedDB"
   );
-  const { FFZCollection, FFZEmote, FFZEmoteSet } = await import(
-    "~/integrations/FrankerFaceZ/FrankerFaceZ.client"
+
+  return;
+  //
+
+  const ffzCollection = await createFFZUserCollection(
+    collections.ffz.state.value || raise("No ffz"),
+    collections.ffzRoom.state.value || raise("No ffz room"),
   );
-  const { BTTVCollection, BTTVEmote, BTTVSet } = await import(
-    "~/integrations/BetterTTV/BetterTTV.client"
+
+  createBTTVUserCollection(
+    collections.bttv.state.value || raise("No bttv"),
+    ffzCollection.owner.displayName,
   );
+
+  create7TVUserCollection(
+    collections.seventv.state.value || raise("No seventv"),
+    collections.seventvSet.state.value || raise("No seventv set"),
+  );
+
+  //
+
+  const db = await openUserEmoteCollectionsDB();
+
+  const userFromStore = await db.get("profiles", nickname.value);
+
+  if (userFromStore) {
+    user.value; // FIXME - here put value from idb to user ref
+    const emotes = getMappedEmotesFromIdb(userFromStore, db);
+    console.log({ emotesFromDB: emotes });
+    // isLoading can be true in ssr mode (if user made GET request of this page instead of vue-router)
+    // we can use this to update userFromStore with more new data
+    if (collections.fetch.isLoading.value) {
+      await until(collections.fetch.isReady).toBe(true, {
+        timeout: 30_000,
+        throwOnTimeout: true,
+      });
+      // HERE need to map all this collection properties below
+      collections.ffz;
+      collections.ffzRoom;
+      collections.bttv;
+      collections.seventv;
+      collections.seventvSet;
+      // AND THEN HERE put new value to store and set user ref to new value
+      // db.put('users')
+      // db.put('collections')
+      // db.put('sets')
+      // db.put('emotes')
+      user.value =
+        userFromStore; /* here need set new value, not userFromStore */
+    }
+    return;
+  }
+  if (collections.fetch.isReady.value) {
+    collections;
+    // map fetched data and save it
+  }
+
+  return;
+  await until(collections.fetch.isReady).toBe(true, {
+    timeout: 30_000,
+    throwOnTimeout: true,
+  });
+  // NOW CAN ADD MAPPED COLLECTION TO STORE
+
+  return;
+
+  // when collections loaded
+  //   => save to IndexedDB
+  //
+});
+</script>
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!-- 
+  export interface EmoteCollectionDB extends DBSchema {
+  "@@global": any;
+  saved: any;
+}
+ -->
+
+<!-- 
+
+onMounted(async () => {
+  return
   const db = await openDB<EmoteCollectionDB>("emote-collections", 1, {
     upgrade(db) {
       db.createObjectStore("saved", {
@@ -133,75 +219,36 @@ onMounted(async () => {
     },
   });
   console.log(await db.getAll("@@global"));
-  async function getCollectionFromFFZSets(
-    ffzGlobalSet: Awaited<ReturnType<typeof fetchFFZGlobalEmoteSets>>,
-    toFFZEmoteCallback: (value: FrankerFaceZEmoteFromApi) => FrankerFaceZEmote,
-  ) {
-    const ffzSets = Object.values(ffzGlobalSet.sets).map(
-      (apiSet) => new FFZEmoteSet(apiSet, toFFZEmoteCallback),
-    );
-    return new FFZCollection(ffzSets);
-  }
 
-  async function addBTTVGlobalCollectionToIndexedDB(
-    db: IDBPDatabase<EmoteCollectionDB>,
-    bttvGlobalEmotes: Awaited<ReturnType<typeof fetchBetterTTVGlobalEmotes>>,
-  ) {
-    const bttvGlobalSets = [
-      new BTTVSet(
-        {
-          emotes: bttvGlobalEmotes,
-          name: "Global BetterTTV emotes",
-          id: "bttv::global",
-        },
-        (emote) => new BTTVEmote(emote, "global"),
-      ),
-    ];
-    const bttvGlobalCollection = new BTTVCollection(bttvGlobalSets);
-    const bttvGlobal = await db.add("@@global", bttvGlobalCollection);
-    console.log({ bttvGlobal, bttvGlobalCollection });
-  }
-
-  async function addSevenTVGlobalCollectionToIndexedDB(
-    db: IDBPDatabase<EmoteCollectionDB>,
-  ) {
-    const sevenTVHalloweenEmotesSet =
-      await sevenTVApi.globalHalloweenEmotesSet();
-    const sevenTVEmotesSet = await sevenTVApi.globalEmotesSet();
-
-    const sevenTVSets = [
-      new SevenTVSet(
-        sevenTVHalloweenEmotesSet,
-        (emote) => new SevenTVEmote(emote),
-      ),
-      new SevenTVSet(sevenTVEmotesSet, (emote) => new SevenTVEmote(emote)),
-    ];
-    const sevenTVCollection = new SevenTVCollection(sevenTVSets);
-    const sevenTVGlobal = await db.add("@@global", sevenTVCollection);
-    console.log({ sevenTVGlobal, sevenTVGlobalCollection: sevenTVCollection });
-  }
   try {
-    // FIXME: here should handle rejected promises
-    await Promise.allSettled([
-      fetchBetterTTVGlobalEmotes().then((bttvGlobalEmotes) =>
-        addBTTVGlobalCollectionToIndexedDB(db, bttvGlobalEmotes),
-      ),
-      fetchFFZGlobalEmoteSets()
-        .then((ffzSets) => console.log({ ffzSets }) || ffzSets)
-        .then((ffzSets) =>
-          getCollectionFromFFZSets(
-            ffzSets,
-            (apiEmote) => new FFZEmote(apiEmote, "global"),
-          ),
-        )
-        .then(
-          (ffzCollection) =>
-            console.log({ ffzCollection }) || db.add("@@global", ffzCollection),
-        ),
-      addSevenTVGlobalCollectionToIndexedDB(db),
-    ]);
+    const [fulfilledCollections, rejectReasons] = tupleSettledPromises(
+      await Promise.allSettled([
+        getBetterTTVGlobalEmotes().then((bttvEmotes) => {
+          console.log({ bttvEmotes });
+          return createBTTVGlobalCollection(bttvEmotes);
+        }),
+        getFFZGlobalEmoteSets().then((ffzSets) => {
+          console.log({ ffzSets });
+          return createFFZGlobalCollection(ffzSets);
+        }),
+        Promise.all([
+          sevenTVApi.globalHalloweenEmotesSet(),
+          sevenTVApi.globalEmotesSet(),
+        ]).then((sevenTVSets) => {
+          console.log({ sevenTVSets });
+          return create7TVGlobalCollection(sevenTVSets);
+        }),
+      ]),
+    );
+    fulfilledCollections.forEach((collections) => {});
   } catch {}
 });
+
+
+ -->
+
+<!-- 
+
 async function handleSave() {
   const { SevenTVCollection, SevenTVEmote, SevenTVSet } = await import(
     "~/integrations/SevenTV/SevenTV.client"
@@ -274,8 +321,5 @@ async function handleSave() {
     DB.value!.add("saved", collection),
   );
 }
-export interface EmoteCollectionDB extends DBSchema {
-  "@@global": any;
-  saved: any;
-}
-</script>
+
+ -->
