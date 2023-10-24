@@ -42,7 +42,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-import type { I7TVSet } from "~/integrations/SevenTV/entity/SevenTVSet";
+import type { I7TVSet } from "~/integrations/SevenTV";
 
 const props = defineProps<{
   sets: I7TVSet[];
