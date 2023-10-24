@@ -6,7 +6,11 @@ import { defineStore } from "pinia";
 import { zipsonStoreSerializer } from "#imports";
 
 export type Pasta = { text: string; tags: string[] };
-export type MegaPasta = Pasta & { createdAt: number; populatedText?: string };
+export type MegaPasta = Pasta & {
+  length: number;
+  createdAt: number;
+  populatedText?: string;
+};
 
 export const usePastasStore = defineStore(
   "pastas",
@@ -97,9 +101,11 @@ export const usePastasStore = defineStore(
             title: "Failed to create pasta",
           });
         }
+        const trimmedText = pasta.text.trim().replaceAll("\n", "");
         pastas.value?.push({
           tags: pasta.tags,
-          text: pasta.text.trimEnd(),
+          text: trimmedText,
+          length: trimmedText.length,
           createdAt: Date.now(),
         });
       },
@@ -132,6 +138,18 @@ export const usePastasStore = defineStore(
       storage: persistedState.localStorage,
       paths: ["pastas", "pasta", "pastasBin"],
       afterRestore(context) {
+        // console.log({
+        //   pastas: context.store.pastas.map((pasta) => ({
+        //     ...pasta,
+        //     text: pasta.text.trim().replaceAll("\n", ""),
+        //     length: pasta.text.trim().replaceAll("\n", "").length,
+        //   })),
+        // });
+        // context.store.pastas = context.store.pastas.map((pasta) => ({
+        //   ...pasta,
+        //   text: pasta.text.trim().replaceAll("\n", ""),
+        //   length: pasta.text.trim().replaceAll("\n", "").length,
+        // }));
         // NOTE: this is done because after each page reload text would populated over and over again,
         // so html tag wraps another html tag and populated text of pasta become invalid
         context.store.clearPopulatedTexts();
