@@ -8,18 +8,22 @@
           <nuxt-link class="text-5xl leading-3" to="/"> pastbl </nuxt-link>
         </li>
         <li class="ml-2">
-          <nuxt-link class="btn btn-primary" to="/emote-collections">
-            collections
+          <nuxt-link class="btn btn-primary text-black" to="/emote-collections">
+            load emotes
           </nuxt-link>
         </li>
-        <li class="ml-auto">
-          <button
-            class="btn btn-secondary border-2 border-base-content text-base-content"
-            data-toggle-theme="light,dark"
-            data-act-class="ACTIVECLASS"
-          >
-            toggle theme
+        <li class="ml-2">
+          <button class="btn btn-info">
+            Find Own Pasta
+            <icons-search />
           </button>
+        </li>
+        <li class="ml-auto">
+          <select class="select select-bordered" data-choose-theme>
+            <option value="">Default theme</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
         </li>
       </ul>
     </nav>
@@ -28,8 +32,6 @@
 
 <script setup lang="ts">
 import { themeChange } from "theme-change";
-// TODO: use cookie instead of session storage
-// NOTE: theme-change does not provide cookie save, only session
 
 onMounted(() => {
   themeChange(false);
