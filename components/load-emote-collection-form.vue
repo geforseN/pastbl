@@ -60,7 +60,6 @@
     </form>
   </section>
 </template>
-
 <script lang="ts" setup>
 const userNickname = ref("");
 
@@ -73,13 +72,4 @@ const isValidUserNickname = computed(
     trimmedUserNickname.value.length >= 4 &&
     trimmedUserNickname.value.length <= 25,
 );
-
-function goToEmoteCollectionsPage() {
-  return navigateTo({
-    path: "/emote-collections",
-    query: { nickname: trimmedUserNickname.value },
-  });
-}
 </script>
-
-<style></style>
