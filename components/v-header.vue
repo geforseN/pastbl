@@ -8,7 +8,7 @@
           <nuxt-link class="text-5xl leading-3" to="/"> pastbl </nuxt-link>
         </li>
         <li class="ml-2">
-          <nuxt-link class="btn btn-primary text-black" to="/emote-collections">
+          <nuxt-link class="btn btn-primary text-black" to="/collections">
             load emotes
           </nuxt-link>
         </li>
