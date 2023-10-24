@@ -19,7 +19,7 @@
             name="user-to-load-collections-nickname"
             @keypress.enter.exact="
               navigateTo({
-                path: '/emote-collections',
+                path: '/collections',
                 query: { nickname: trimmedUserNickname },
               })
             "
@@ -27,7 +27,7 @@
           <nuxt-link
             class="btn join-item border-twitch bg-twitch hover:bg-twitch/90 focus:border-black focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-twitch"
             :to="{
-              path: '/emote-collections',
+              path: '/collections',
               query: { nickname: trimmedUserNickname },
             }"
           >
@@ -43,7 +43,7 @@
             <kbd class="kbd kbd-xs">
               <nuxt-link
                 :to="{
-                  path: '/emote-collections',
+                  path: '/collections',
                   query: { nickname: trimmedUserNickname },
                 }"
               >
