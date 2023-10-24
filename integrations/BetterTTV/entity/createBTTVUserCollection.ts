@@ -23,7 +23,7 @@ export async function createBTTVUserCollection(
   ] as const;
 
   return new BTTVCollection(
-    `BetterTTV ${userTwitchNickname} Global Emotes Collection`,
+    `BetterTTV ${userTwitchNickname} Emotes Collection`,
     setEntries
       .filter(([, emotesList]) => emotesList.length)
       .map(([name, emotes, emoteType]) => {
