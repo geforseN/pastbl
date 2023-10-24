@@ -24,5 +24,5 @@
   </div>
 </template>
 <script lang="ts" setup>
-defineProps<{ collections: ReturnType<typeof useAsyncEmoteSets> }>();
+defineProps<{ collections: ReturnType<typeof useAsyncEmotesState> }>();
 </script>
