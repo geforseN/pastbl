@@ -15,7 +15,7 @@
           <span>{{ ": " }}</span>
           <!-- FIXME: XXS vulnerability, use some html sanitizer -->
           <span
-            class="twitch-text textarea m-0 box-border p-0 text-[13px] font-normal leading-[19.5px]"
+            class="twitch-text p-0 text-[13px]/[18px]"
             v-html="props.pasta.populatedText || props.pasta.text"
           >
           </span>
