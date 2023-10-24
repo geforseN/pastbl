@@ -5,144 +5,151 @@ import {
 } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 import {
   get7TVSetById,
-  get7TVUserByTwitchId,
+  get7TVUserProfileByTwitchId,
+  type SevenTVApiUserProfile,
 } from "~/integrations/SevenTV/SevenTV.api";
-import { create7TVChannelSet } from "~/integrations/SevenTV/entity/create7TVChannelSet";
+import {
+  create7TVUserChannelSet,
+  create7TVUserCollection,
+  createBTTVUserCollection,
+  createFFZUserCollection,
+} from "~/integrations";
 
-export type FFZ = ReturnType<typeof useAsyncEmotesState>["ffz"];
-export type FFZRoom = ReturnType<typeof useAsyncEmotesState>["ffzRoom"];
-export type BTTV = ReturnType<typeof useAsyncEmotesState>["bttv"];
-export type SevenTV = ReturnType<typeof useAsyncEmotesState>["seventv"];
-export type SevenTVSet = ReturnType<typeof useAsyncEmotesState>["seventvSet"];
+const asyncStateArgs = [
+  null,
+  {
+    immediate: false,
+    throwError: true,
+  },
+] as const;
 
 export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   const ffz = useAsyncState(
     async () => {
-      const ffz = await getFFZByUserTwitchNickname(toValue(userTwitchNickname));
-      console.log({ ffz });
-      return ffz;
+      return withLog(
+        () => getFFZByUserTwitchNickname(toValue(userTwitchNickname)),
+        {
+          logKey: "ffz",
+        },
+      );
     },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
+    ...asyncStateArgs,
   );
 
   const ffzRoom = useAsyncState(
     async (twitchId: number) => {
-      const ffzRoom = await getFFZUserRoomByTwitchId(twitchId);
-      console.log({ ffzRoom });
-      return ffzRoom;
+      return withLog(() => getFFZUserRoomByTwitchId(twitchId), {
+        logKey: "ffzRoom",
+      });
     },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
+    ...asyncStateArgs,
   );
 
   const bttv = useAsyncState(
     async (twitchId: number) => {
-      const bttv = await getBetterTTVUserByTwitchId("uselessmouth");
-      console.log({ bttv });
-      return bttv;
+      return withLog(() => getBetterTTVUserByTwitchId(twitchId), {
+        logKey: "bttv",
+      });
     },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
+    ...asyncStateArgs,
   );
 
   const seventv = useAsyncState(
     async (twitchId: number) => {
-      const seventv = await get7TVUserByTwitchId(twitchId);
-      console.log({ seventv });
-      return seventv;
+      return withLog(() => get7TVUserProfileByTwitchId(twitchId), {
+        logKey: "seventv",
+      });
     },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
+    ...asyncStateArgs,
   );
 
   const seventvSet = useAsyncState(
-    async (emoteSetId: Nullish<string> = seventv.state.value?.emote_set.id) => {
-      const sevenTVUserEmoteSet = seventv.state.value?.emote_set;
-      if (Array.isArray(sevenTVUserEmoteSet?.emotes)) {
+    async (sevenTvUser: SevenTVApiUserProfile) => {
+      console.log(sevenTvUser);
+      if (Array.isArray(sevenTvUser.emote_set.emotes)) {
         console.log({
-          seventvSet: sevenTVUserEmoteSet,
+          seventvSet: sevenTvUser.emote_set,
           // @ts-expect-error
-          createdSet: create7TVChannelSet(sevenTVUserEmoteSet),
+          createdSet: create7TVUserChannelSet(sevenTvUser.emote_set),
           isFastReturn: true,
         });
-        // @ts-expect-error ? ts is stupid or what ? i checked in if statement that there is 'emotes' in set
-        return create7TVChannelSet(sevenTVUserEmoteSet);
+        // @ts-expect-error
+        return create7TVUserChannelSet(sevenTvUser.emote_set);
       }
-      if (!emoteSetId) {
+      if (!sevenTvUser.emote_set.id) {
         throw new Error("Can not load 7TV emote set without 7TV set id");
       }
-      const seventvSet = await get7TVSetById(emoteSetId);
-      if (!Array.isArray(seventvSet?.emotes)) {
-        throw new Error("Failed to load user emotes from SevenTV");
-      }
+      const seventvSet = await get7TVSetById(sevenTvUser.emote_set.id);
       console.log({ seventvSet, isFastReturn: false });
-      // @ts-expect-error
-      return create7TVChannelSet(seventvSet);
+      return create7TVUserChannelSet(seventvSet);
     },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
+    ...asyncStateArgs,
   );
 
   function clearEveryState() {
     [ffz, ffzRoom, bttv, seventv, seventvSet].forEach((collection) => {
       collection.state.value = null;
-      collection.error.value = undefined;
+      collection.error.value = null;
       collection.isReady.value = false;
       collection.isLoading.value = false;
     });
   }
-  const fetch = useAsyncState(
-    async () => {
-      clearEveryState();
-      await ffz.execute().catch((error) => {
-        if (ffz.state.value?.user?.twitch_id) {
-          return;
-        }
-        [bttv, seventv].forEach((state) => {
-          state.error.value = new Error(
-            "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
-          );
-        });
-        throw error;
-      });
-      const twitchId = ffz.state.value!.user.twitch_id!;
-      await Promise.allSettled([
-        ffzRoom.execute(0, twitchId),
-        bttv.execute(0, twitchId),
-        seventv
-          .execute(0, twitchId)
-          .then((userOf7TV) => seventvSet.execute(0, userOf7TV?.emote_set.id)),
-      ]);
-    },
-    null,
-    {
-      immediate: false,
-      throwError: true,
-    },
-  );
-
   return {
     ffz,
     ffzRoom,
     bttv,
     seventv,
     seventvSet,
-    fetch,
+    fetch: useAsyncState(
+      async () => {
+        clearEveryState();
+        await ffz.execute().catch((error) => {
+          if (ffz.state.value?.user.twitch_id) {
+            return;
+          }
+          [bttv, seventv].forEach((state) => {
+            state.error.value = new Error(
+              "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+            );
+          });
+          throw error;
+        });
+        const twitchId = ffz.state.value!.user.twitch_id!;
+        await Promise.allSettled([
+          ffzRoom.execute(0, twitchId),
+          bttv.execute(0, twitchId),
+          seventv
+            .execute(0, twitchId)
+            .then((sevenTvUser) =>
+              seventvSet.execute(0, sevenTvUser || raise("No 7TV user found")),
+            ),
+        ]);
+        const ffzCollection = await createFFZUserCollection(
+          ffz.state.value || raise("No ffz"),
+          ffzRoom.state.value || raise("No ffz room"),
+        );
+        return {
+          ffzCollection,
+          bttvCollection: await createBTTVUserCollection(
+            bttv.state.value || raise("No bttv"),
+            ffzCollection.owner.displayName,
+          ),
+          seventTvCollection: await create7TVUserCollection(
+            seventv.state.value || raise("No seventv"),
+            seventvSet.state.value || raise("No seventv set"),
+          ),
+        };
+      },
+      ...asyncStateArgs,
+    ),
   };
 };
+
+async function withLog<T>(
+  cb: () => T | Promise<T>,
+  { logKey }: { logKey: string },
+): Promise<T> {
+  const returnvalue = await cb();
+  console.log({ [logKey]: returnvalue });
+  return returnvalue;
+}
