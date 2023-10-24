@@ -3,6 +3,7 @@ import daisyuiThemes from "daisyui/src/theming/themes";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
+  darkMode: ["class", '[data-theme="dark"]'],
   content: [],
   theme: {
     screens: {
