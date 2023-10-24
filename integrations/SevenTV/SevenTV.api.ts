@@ -9,14 +9,18 @@ export async function get7TVUserBy7TVId(
 
 export async function get7TVSetById(
   setId: string,
-): Promise<SevenTVApiEmoteSet> {
+): Promise<Required<SevenTVApiEmoteSet>> {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
-  return responseJson(response);
+  const json = await responseJson(response);
+  if (!Array.isArray(json?.emotes)) {
+    throw new Error("Failed to load user emotes from SevenTV");
+  }
+  return json;
 }
 
-export async function get7TVUserByTwitchId(
+export async function get7TVUserProfileByTwitchId(
   twitchId: number,
-): Promise<SevenTVApiUserByTwitch> {
+): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   if (response.status === 404) {
     throw new Error(`SevenTV does not have user with twitch id ${twitchId}`);
@@ -54,6 +58,13 @@ type SevenTVApiUser = SevenTVApiSetOwner & {
   // FIXME: add type for connections
   connections: unknown[];
   created_at: ReturnType<typeof Date.now>;
+  emote_sets: {
+    capacity: number;
+    flags: number;
+    id: string;
+    name: string;
+    tags: string[];
+  }[];
 };
 
 type SevenTVApiSetOwner = {
@@ -150,11 +161,11 @@ export type SevenTVApiUserData = {
   username: string;
 };
 
-type SevenTVApiUserByTwitch = {
+export type SevenTVApiUserProfile = {
   display_name: string;
   emote_capacity: number;
-  emote_set_id: null;
   emote_set: SevenTVApiEmoteSet;
+  emote_set_id: null;
   id: `${number}`;
   linked_at: number;
   platform: "TWITCH" | "7TV";

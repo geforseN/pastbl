@@ -5,7 +5,7 @@ export interface BetterTTVCollection extends EmoteCollection<BetterTTVSet> {
   source: "BetterTTV";
 }
 
-export class BTTVCollection {
+export class BTTVCollection implements BetterTTVCollection {
   name;
   sets;
   source;
@@ -14,7 +14,7 @@ export class BTTVCollection {
   constructor(name: string, sets: BetterTTVSet[]) {
     this.name = name;
     this.sets = sets;
-    this.source = "BetterTTV";
+    this.source = "BetterTTV" as const;
     this.updatedAt = Date.now();
   }
 }

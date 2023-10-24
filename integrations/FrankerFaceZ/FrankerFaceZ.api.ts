@@ -78,7 +78,7 @@ export type FrankerFaceZApiEmoteSet = {
   title: string;
 };
 
-type FrankerFaceZApiRoom = {
+export type FrankerFaceZApiRoom = {
   _id: number;
   twitch_id: number;
   youtube_id: string | null;
@@ -95,21 +95,21 @@ type FrankerFaceZApiRoom = {
   css: string | null;
 };
 
-type FrankerFaceZApiUser = {
-  avatar: string;
+export type FrankerFaceZApiUser = {
+  avatar: `https://cdn.frankerfacez.com/avatar/${"twitch"}/${number}`;
   badges: number[];
   display_name: string;
   emote_sets: unknown[];
   id: number;
   is_donor: boolean;
   max_emoticons: number;
-  name: string;
+  name: Lowercase<FrankerFaceZApiUser["display_name"]>;
   // NOTE: maybe twitch_id can not be null, because ffz allows registration only with TwitchOAuth
   twitch_id: number | null;
   youtube_id: number | null;
 };
 
-type FrankerFaceZApiBadge = {
+export type FrankerFaceZApiBadge = {
   id: number;
   name: string;
   title: string;

@@ -3,6 +3,7 @@ import type { BTTVEmote, BetterTTVEmote } from "./BetterTTVEmote";
 import type { BetterTTVApiEmote } from "../BetterTTV.api";
 
 export interface BetterTTVSet extends EmoteSet<BetterTTVEmote> {
+  id: string;
   source: "BetterTTV";
 }
 

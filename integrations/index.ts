@@ -1,18 +1,26 @@
-import { BTTVEmoteString } from "./BetterTTV";
-import { SevenTVEmoteString } from "./SevenTV";
+import { BTTVEmoteString } from "./BetterTTV/index";
+import { SevenTVEmoteString } from "./SevenTV/index";
+import { FFZEmoteString } from "./FrankerFaceZ/index";
+import type { ConditionalExpression } from "typescript";
 
-// FIXME: add template string for FrankerFaceZ
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
   SevenTV: SevenTVEmoteString,
-  default: (emote: Emote) =>
-    `<span class="inline-block" title="${emote.token} emote"><img src="https:${emote.url}/1x.webp"></span>`,
+  FFZ: FFZEmoteString,
 };
 
 export interface EmoteSet<EmoteT extends Emote = Emote> {
   emotes: EmoteT[];
   // NOTE: FFZ api returns set with typeof id === 'number', but in collection instance id converted to string
+  // NOTE -
+  // BTTV api does not have term 'set'
+  // BTTV api return record with 'channelEmotes' and 'sharedEmotes'
+  // BTTV api return array of emotes for global bttv emotes
+  // for global bttv 'set' id 'bttv::global' is used
+  // for user 'set' id twitch nickname is used
   id: string;
+  // NOTE - BTTV doesn't have term 'name'
+  // BTTV set can be named only as 'Channel emotes' or as 'Global emotes'
   name: string;
   source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
   updatedAt: ReturnType<(typeof Date)["now"]>;
@@ -40,3 +48,19 @@ export interface EmoteCollection<EmoteSetT extends EmoteSet = EmoteSet> {
 
 type EmoteName = string;
 export type EmoteMap = Map<EmoteName, Emote>;
+
+export {
+  createFFZGlobalCollection,
+  createFFZUserCollection,
+} from "./FrankerFaceZ/index";
+
+export {
+  createBTTVGlobalCollection,
+  createBTTVUserCollection,
+} from "./BetterTTV/index";
+
+export {
+  create7TVUserChannelSet,
+  create7TVUserCollection,
+  create7TVGlobalCollection,
+} from "./SevenTV/index";
