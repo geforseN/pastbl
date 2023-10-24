@@ -9,12 +9,7 @@ export async function create7TVGlobalCollection(
   const sevenTVSets = sets
     .filter((set) => set.emotes?.length)
     .map((set) => {
-      return new SevenTVSet(
-        set as typeof set & {
-          emotes: NonNullable<typeof set.emotes>;
-        },
-        (emote) => new SevenTVEmote(emote, "global"),
-      );
+      return new SevenTVSet(set, (emote) => new SevenTVEmote(emote, "global"));
     });
   return new SevenTVCollection("SevenTV Global Emotes Collection", sevenTVSets);
 }

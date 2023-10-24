@@ -5,3 +5,4 @@ export function BTTVEmoteString(emote: BetterTTVEmote) {
 }
 
 export { createBTTVGlobalCollection } from "./entity/createBTTVGlobalCollection";
+export { createBTTVUserCollection } from "./entity/createBTTVUserCollection";

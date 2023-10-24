@@ -18,7 +18,7 @@ export async function getBetterTTVUserByTwitchId(
   return responseJson(response);
 }
 
-type BetterTTVApiGlobalEmote = {
+export type BetterTTVApiGlobalEmote = {
   animated: boolean;
   code: string;
   id: string;
@@ -29,7 +29,7 @@ type BetterTTVApiGlobalEmote = {
   width?: number;
 };
 
-type _BetterTTVApiBaseUserEmote = {
+export type _BetterTTVApiBaseUserEmote = {
   animated: boolean;
   approvalStatus: string | "APPROVED";
   code: string;
@@ -42,11 +42,11 @@ type _BetterTTVApiBaseUserEmote = {
   updatedAt: ReturnType<Date["toISOString"]>;
 };
 
-type BetterTTVApiChannelEmote = _BetterTTVApiBaseUserEmote & {
+export type BetterTTVApiChannelEmote = _BetterTTVApiBaseUserEmote & {
   userId: string;
 };
 
-type BetterTTVApiSharedEmote = _BetterTTVApiBaseUserEmote & {
+export type BetterTTVApiSharedEmote = _BetterTTVApiBaseUserEmote & {
   user: {
     displayName: string;
     id: string;
@@ -60,12 +60,10 @@ export type BetterTTVApiEmote =
   | BetterTTVApiChannelEmote
   | BetterTTVApiSharedEmote;
 
-type BetterTTVApiUser = {
+export type BetterTTVApiUser = {
   bots: string[];
   channelEmotes: BetterTTVApiChannelEmote[];
-  displayName: string;
   id: string;
-  name: string;
-  providerId: string;
+  avatar: string;
   sharedEmotes: BetterTTVApiSharedEmote[];
 };
