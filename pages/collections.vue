@@ -4,9 +4,10 @@
       class="flex w-96 flex-col items-center gap-2 rounded border border-base-content bg-black/10 p-2"
     >
       <emote-collection-fetch-input-group
-        class="-mt-2"
         v-if="shouldShowInput"
         v-model:nickname="nickname"
+        class="-mt-2"
+        :is-collections-loading="collections.fetch.isLoading.value"
         @load-collections="
           () => {
             if (collections.fetch.isLoading.value) {
@@ -15,15 +16,14 @@
             collections.fetch.execute();
           }
         "
-        :is-collections-loading="collections.fetch.isLoading.value"
       />
       <emote-collection-user-loaded-data
         class="w-full"
         :collections="collections"
       />
       <div
-        class="flex w-full justify-end gap-2"
         v-if="collections.fetch.isReady.value"
+        class="flex w-full justify-end gap-2"
       >
         <button class="btn btn-success" @click="handleSave">Save</button>
         <div
@@ -31,8 +31,8 @@
           data-tip="You can use collection only if you saved it"
         >
           <button
-            class="btn btn-success"
             v-if="collections.fetch.isReady.value"
+            class="btn btn-success"
             :disabled="
               userStore.user.selectedEmoteCollection?.name !== nickname
             "
@@ -41,12 +41,11 @@
           </button>
         </div>
       </div>
-      <span class="text-error" v-if="collections.fetch.error.value">
+      <span v-if="collections.fetch.error.value" class="text-error">
         {{ collections.fetch.error.value }}
       </span>
       <!-- TODO: make below form control work: user should enter user twitch id and then we fetch bttv and 7tv -->
       <div
-        class="form-control w-full"
         v-if="
           collections.fetch.error.value &&
           typeof collections.fetch.error.value === 'object' &&
@@ -57,11 +56,12 @@
             'FrankerFaceZ does not have user with nickname',
           )
         "
+        class="form-control w-full"
       >
         <label class="label" for="user-twitch-id">Enter user Twitch id</label>
         <input
-          class="input w-full border-twitch"
           id="user-twitch-id "
+          class="input w-full border-twitch"
           type="number"
           placeholder="User Twitch id, must be number"
         />
@@ -84,19 +84,19 @@
       />
       <emote-collection-seventv
         class="min-h-16 2xl:h-max 2xl:w-80"
-        :seventv="collections.seventv"
-        :seventv-set="collections.seventvSet"
+        :seventv="collections.sevenTv"
+        :seventv-set="collections.sevenTvSet"
       />
     </ol>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  createBTTVUserCollection,
-  createFFZUserCollection,
-  create7TVUserCollection,
-} from "~/integrations";
+import type {
+  EmoteCollectionWithSetsLike,
+  ProfileT,
+} from "~/client-only/IndexedDB/UserProfileCollections";
+import type { Emote, EmoteCollection } from "~/integrations";
 
 useHead({ title: "collections - pastbl" });
 
@@ -106,45 +106,24 @@ const collections = useAsyncEmotesState(nickname);
 
 const userStore = useUserStore();
 
-if (false && nickname.value) {
-  collections.fetch.execute();
-}
-
 const user = ref();
 
 onMounted(async () => {
-  const { openUserEmoteCollectionsDB, getMappedEmotesFromIdb } = await import(
+  const { openUserEmoteCollectionsDB, addUserEmotesToDB } = await import(
     "~/client-only/IndexedDB"
   );
-
-  return;
-  //
-
-  const ffzCollection = await createFFZUserCollection(
-    collections.ffz.state.value || raise("No ffz"),
-    collections.ffzRoom.state.value || raise("No ffz room"),
+  const { UserProfile } = await import(
+    "~/client-only/IndexedDB/UserProfileCollections"
   );
 
-  createBTTVUserCollection(
-    collections.bttv.state.value || raise("No bttv"),
-    ffzCollection.owner.displayName,
-  );
-
-  create7TVUserCollection(
-    collections.seventv.state.value || raise("No seventv"),
-    collections.seventvSet.state.value || raise("No seventv set"),
-  );
-
-  //
-
+  if (nickname.value) {
+    collections.fetch.execute();
+  }
   const db = await openUserEmoteCollectionsDB();
-
   const userFromStore = await db.get("profiles", nickname.value);
 
   if (userFromStore) {
     user.value; // FIXME - here put value from idb to user ref
-    const emotes = getMappedEmotesFromIdb(userFromStore, db);
-    console.log({ emotesFromDB: emotes });
     // isLoading can be true in ssr mode (if user made GET request of this page instead of vue-router)
     // we can use this to update userFromStore with more new data
     if (collections.fetch.isLoading.value) {
@@ -156,8 +135,8 @@ onMounted(async () => {
       collections.ffz;
       collections.ffzRoom;
       collections.bttv;
-      collections.seventv;
-      collections.seventvSet;
+      collections.sevenTv;
+      collections.sevenTvSet;
       // AND THEN HERE put new value to store and set user ref to new value
       // db.put('users')
       // db.put('collections')
@@ -169,18 +148,76 @@ onMounted(async () => {
     return;
   }
   if (collections.fetch.isReady.value) {
-    collections;
+    return console.log({ state1: collections.fetch.state.value });
     // map fetched data and save it
   }
-
-  return;
   await until(collections.fetch.isReady).toBe(true, {
     timeout: 30_000,
     throwOnTimeout: true,
   });
-  // NOW CAN ADD MAPPED COLLECTION TO STORE
+  const userCollections = collections.fetch.state.value;
+  if (!userCollections) {
+    throw 1;
+  }
 
-  return;
+  const allUserEmotes: Emote[] = Object.values(userCollections).flatMap(
+    (collection: EmoteCollection) =>
+      collection.sets.flatMap((set) => set.emotes),
+  );
+
+  const collectionEntries = [
+    ["FrankerFaceZ", userCollections.ffzCollection],
+    ["BetterTTV", userCollections.bttvCollection],
+    ["SevenTV", userCollections.sevenTvCollection],
+  ] as const;
+  const betterCollections = collectionEntries.reduce(
+    (record, [name, collection]) => {
+      record[name] = {
+        ...collection,
+        sets: collection.sets.map((set) => ({
+          id: set.id,
+          name: set.name,
+          source: set.source,
+          updatedAt: set.updatedAt,
+          emoteIds: set.emotes.map((emote) => emote.id),
+        })),
+      };
+      return record;
+    },
+    {} as Record<
+      "FrankerFaceZ" | "BetterTTV" | "SevenTV",
+      EmoteCollectionWithSetsLike
+    >,
+  );
+  const data: ProfileT = {
+    user: {
+      twitch: {
+        id:
+          userCollections.ffzCollection.owner.twitchId ||
+          raise("No twitchId, can save profile to idb"),
+        nickname: userCollections.ffzCollection.owner.displayName,
+        username:
+          userCollections.ffzCollection.owner.displayName.toLowerCase() as Lowercase<string>,
+      },
+      avatarSources: {
+        FrankerFaceZ: userCollections.ffzCollection.owner.avatarUrl as string,
+        SevenTV: userCollections.sevenTvCollection.owner.avatarUrl as string,
+        // FIXME: add avatarUrl from BetterTTV
+        // BetterTTV: userCollections.bttvCollection,
+        // FIXME: add avatarUrl from Twitch
+      } as ProfileT["user"]["avatarSources"],
+    },
+    collectionsRecord: betterCollections,
+  };
+  const userProfile = new UserProfile(data);
+  console.log({ data, userProfile });
+  const result = await addUserEmotesToDB(allUserEmotes, db);
+  return console.log({
+    state2: collections.fetch.state.value,
+    result,
+  });
+
+  // NOW CAN ADD MAPPED COLLECTION TO STORE
 
   // when collections loaded
   //   => save to IndexedDB

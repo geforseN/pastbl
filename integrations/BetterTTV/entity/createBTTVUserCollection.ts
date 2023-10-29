@@ -16,11 +16,17 @@ export async function createBTTVUserCollection(
       "channel",
     ],
     [
-      `BetterTTV ${userTwitchNickname}Shared emotes`,
+      `BetterTTV ${userTwitchNickname} Shared emotes`,
       bttvState.sharedEmotes,
       "shared",
     ],
   ] as const;
+
+  // TODO add BTTVUserCollection with third arg => owner
+  const owner = {
+    avatarUrl: bttvState.avatar,
+    id: bttvState.id,
+  };
 
   return new BTTVCollection(
     `BetterTTV ${userTwitchNickname} Emotes Collection`,
@@ -31,6 +37,8 @@ export async function createBTTVUserCollection(
           {
             emotes,
             name,
+            // NOTE: here we do not guarantee that id is unique, it is not
+            // ChannelEmotes and SharedEmotes will have the same id
             id: bttvState.id,
           },
           (emote) => new BTTVEmote(emote, emoteType),
