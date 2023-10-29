@@ -2,14 +2,14 @@
   <div class="join relative">
     <div class="join-item grow">
       <input
-        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error hover:bg-base-300 focus:bg-base-300"
         id="badges-count"
+        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error hover:bg-base-300 focus:bg-base-300"
         :value="props.badgesCount"
-        @input="handleInputChange($event)"
         min="0"
         max="10"
         type="number"
         name="badges-count"
+        @input="handleInputChange($event)"
       />
       <label class="label" for="badges-count">
         <span class="label-text font-bold text-error">{{ errorMessage }}</span>
@@ -57,23 +57,23 @@ const props = defineProps<{ badgesCount: number }>();
 const emit = defineEmits<{ "update:badgesCount": [value: number] }>();
 const errorMessage = ref("");
 
-async function handleInputChange(event: unknown) {
+function handleInputChange(event: unknown) {
   if (typeof event !== "object" || event === null) {
-    throw new TypeError();
+    throw new TypeError("No event provided");
   }
   if (
     !("target" in event) ||
     typeof event.target !== "object" ||
     event.target === null
   ) {
-    throw new TypeError();
+    throw new TypeError("No target provided");
   }
   if (!("value" in event.target)) {
-    throw new TypeError();
+    throw new TypeError("No value provided");
   }
   const value = Number(event.target.value);
   if (!Number.isInteger(value)) {
-    throw new TypeError();
+    throw new TypeError("Badge count must be an integer");
   }
   if (value > 10) {
     return (errorMessage.value = "The badges count can not be more than 10");

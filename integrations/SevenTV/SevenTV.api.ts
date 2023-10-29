@@ -13,7 +13,7 @@ export async function get7TVSetById(
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
   const json = await responseJson(response);
   if (!Array.isArray(json?.emotes)) {
-    throw new Error("Failed to load user emotes from SevenTV");
+    throw new TypeError("Failed to load user emotes from SevenTV");
   }
   return json;
 }
@@ -28,14 +28,14 @@ export async function get7TVUserProfileByTwitchId(
   return responseJson(response);
 }
 
-export async function get7TVGlobalEmotesSet() {
+export function get7TVGlobalEmotesSet() {
   return get7TVSetById("62cdd34e72a832540de95857");
 }
 
 // NOTE -
 // also can be fetched through https://7tv.io/v3/emote-sets/global
 // probably it will work until halloween celebration is over i guess
-export async function get7TVGlobalHalloweenEmotesSet() {
+export function get7TVGlobalHalloweenEmotesSet() {
   return get7TVSetById("63237427e062d588b69f84d0");
 }
 

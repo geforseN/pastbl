@@ -25,7 +25,7 @@ const asyncStateArgs = [
 
 export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   const ffz = useAsyncState(
-    async () => {
+    () => {
       return withLog(
         () => getFFZByUserTwitchNickname(toValue(userTwitchNickname)),
         {
@@ -37,7 +37,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   );
 
   const ffzRoom = useAsyncState(
-    async (twitchId: number) => {
+    (twitchId: number) => {
       return withLog(() => getFFZUserRoomByTwitchId(twitchId), {
         logKey: "ffzRoom",
       });
@@ -46,7 +46,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   );
 
   const bttv = useAsyncState(
-    async (twitchId: number) => {
+    (twitchId: number) => {
       return withLog(() => getBetterTTVUserByTwitchId(twitchId), {
         logKey: "bttv",
       });
@@ -54,8 +54,8 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
     ...asyncStateArgs,
   );
 
-  const seventv = useAsyncState(
-    async (twitchId: number) => {
+  const sevenTv = useAsyncState(
+    (twitchId: number) => {
       return withLog(() => get7TVUserProfileByTwitchId(twitchId), {
         logKey: "seventv",
       });
@@ -63,9 +63,8 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
     ...asyncStateArgs,
   );
 
-  const seventvSet = useAsyncState(
+  const sevenTvSet = useAsyncState(
     async (sevenTvUser: SevenTVApiUserProfile) => {
-      console.log(sevenTvUser);
       if (Array.isArray(sevenTvUser.emote_set.emotes)) {
         console.log({
           seventvSet: sevenTvUser.emote_set,
@@ -79,15 +78,15 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
       if (!sevenTvUser.emote_set.id) {
         throw new Error("Can not load 7TV emote set without 7TV set id");
       }
-      const seventvSet = await get7TVSetById(sevenTvUser.emote_set.id);
-      console.log({ seventvSet, isFastReturn: false });
-      return create7TVUserChannelSet(seventvSet);
+      const sevenTvSet = await get7TVSetById(sevenTvUser.emote_set.id);
+      console.log({ sevenTvSet, isFastReturn: false });
+      return create7TVUserChannelSet(sevenTvSet);
     },
     ...asyncStateArgs,
   );
 
   function clearEveryState() {
-    [ffz, ffzRoom, bttv, seventv, seventvSet].forEach((collection) => {
+    [ffz, ffzRoom, bttv, sevenTv, sevenTvSet].forEach((collection) => {
       collection.state.value = null;
       collection.error.value = null;
       collection.isReady.value = false;
@@ -98,8 +97,8 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
     ffz,
     ffzRoom,
     bttv,
-    seventv,
-    seventvSet,
+    sevenTv,
+    sevenTvSet,
     fetch: useAsyncState(
       async () => {
         clearEveryState();
@@ -107,7 +106,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
           if (ffz.state.value?.user.twitch_id) {
             return;
           }
-          [bttv, seventv].forEach((state) => {
+          [bttv, sevenTv].forEach((state) => {
             state.error.value = new Error(
               "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
             );
@@ -118,10 +117,10 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
         await Promise.allSettled([
           ffzRoom.execute(0, twitchId),
           bttv.execute(0, twitchId),
-          seventv
+          sevenTv
             .execute(0, twitchId)
             .then((sevenTvUser) =>
-              seventvSet.execute(0, sevenTvUser || raise("No 7TV user found")),
+              sevenTvSet.execute(0, sevenTvUser || raise("No 7TV user found")),
             ),
         ]);
         const ffzCollection = await createFFZUserCollection(
@@ -134,9 +133,9 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
             bttv.state.value || raise("No bttv"),
             ffzCollection.owner.displayName,
           ),
-          seventTvCollection: await create7TVUserCollection(
-            seventv.state.value || raise("No seventv"),
-            seventvSet.state.value || raise("No seventv set"),
+          sevenTvCollection: await create7TVUserCollection(
+            sevenTv.state.value || raise("No seventv"),
+            sevenTvSet.state.value || raise("No seventv set"),
           ),
         };
       },
@@ -149,7 +148,7 @@ async function withLog<T>(
   cb: () => T | Promise<T>,
   { logKey }: { logKey: string },
 ): Promise<T> {
-  const returnvalue = await cb();
-  console.log({ [logKey]: returnvalue });
-  return returnvalue;
+  const returnValue = await cb();
+  console.log({ [logKey]: returnValue });
+  return returnValue;
 }
