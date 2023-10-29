@@ -1,27 +1,11 @@
 import { openDB, type DBSchema, type IDBPDatabase } from "idb";
-import type { Emote, EmoteCollection, EmoteSet } from "~/integrations";
-
-type Profile = {
-  twitch: {
-    nickname: string;
-    id: string;
-  };
-  updatedAt: number;
-  info: Record<string, any>;
-  collections: Record<
-    "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch",
-    Omit<EmoteCollection, "sets"> & {
-      sets: (Omit<EmoteSet, "emotes"> & {
-        emoteIds: Emote["id"][];
-      })[];
-    }
-  >;
-};
+import type { UserProfile } from "./IndexedDB/UserProfileCollections";
+import type { Emote } from "~/integrations";
 
 interface UsersEmoteCollectionsDB extends DBSchema {
   profiles: {
     key: string;
-    value: Profile;
+    value: UserProfile;
   };
   emotes: {
     key: [Emote["id"], Emote["source"]];
@@ -56,7 +40,7 @@ export function openUserEmoteCollectionsDB() {
   });
 }
 
-export function addUserEmotesToDB(
+export function putUserEmotesToDB(
   userEmotes: Emote[],
   db: IDBPDatabase<UsersEmoteCollectionsDB>,
 ) {
@@ -70,9 +54,12 @@ export function addUserEmotesToDB(
   );
 }
 
-export function addUserProfileToDB(db: IDBPDatabase<UsersEmoteCollectionsDB>) {
+export function putUserProfileToDB(
+  profile: UserProfile,
+  db: IDBPDatabase<UsersEmoteCollectionsDB>,
+) {
   const profileStore = db
     .transaction("profiles", "readwrite")
     .objectStore("profiles");
-  console.log({ profileStore, TODO: "go make me work" });
+  return profileStore.put(profile);
 }

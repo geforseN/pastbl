@@ -92,9 +92,9 @@
 </template>
 
 <script lang="ts" setup>
-import type {
-  EmoteCollectionWithSetsLike,
-  ProfileT,
+import {
+  type EmoteCollectionWithSetsLike,
+  type ProfileT,
 } from "~/client-only/IndexedDB/UserProfileCollections";
 import type { Emote, EmoteCollection } from "~/integrations";
 
@@ -109,10 +109,9 @@ const userStore = useUserStore();
 const user = ref();
 
 onMounted(async () => {
-  const { openUserEmoteCollectionsDB, addUserEmotesToDB } = await import(
-    "~/client-only/IndexedDB"
-  );
-  const { UserProfile } = await import(
+  const { openUserEmoteCollectionsDB, putUserEmotesToDB, putUserProfileToDB } =
+    await import("~/client-only/IndexedDB");
+  const { createUserEmotes, createUserProfile } = await import(
     "~/client-only/IndexedDB/UserProfileCollections"
   );
 
@@ -160,58 +159,10 @@ onMounted(async () => {
     throw 1;
   }
 
-  const allUserEmotes: Emote[] = Object.values(userCollections).flatMap(
-    (collection: EmoteCollection) =>
-      collection.sets.flatMap((set) => set.emotes),
-  );
-
-  const collectionEntries = [
-    ["FrankerFaceZ", userCollections.ffzCollection],
-    ["BetterTTV", userCollections.bttvCollection],
-    ["SevenTV", userCollections.sevenTvCollection],
-  ] as const;
-  const betterCollections = collectionEntries.reduce(
-    (record, [name, collection]) => {
-      record[name] = {
-        ...collection,
-        sets: collection.sets.map((set) => ({
-          id: set.id,
-          name: set.name,
-          source: set.source,
-          updatedAt: set.updatedAt,
-          emoteIds: set.emotes.map((emote) => emote.id),
-        })),
-      };
-      return record;
-    },
-    {} as Record<
-      "FrankerFaceZ" | "BetterTTV" | "SevenTV",
-      EmoteCollectionWithSetsLike
-    >,
-  );
-  const data: ProfileT = {
-    user: {
-      twitch: {
-        id:
-          userCollections.ffzCollection.owner.twitchId ||
-          raise("No twitchId, can save profile to idb"),
-        nickname: userCollections.ffzCollection.owner.displayName,
-        username:
-          userCollections.ffzCollection.owner.displayName.toLowerCase() as Lowercase<string>,
-      },
-      avatarSources: {
-        FrankerFaceZ: userCollections.ffzCollection.owner.avatarUrl as string,
-        SevenTV: userCollections.sevenTvCollection.owner.avatarUrl as string,
-        // FIXME: add avatarUrl from BetterTTV
-        // BetterTTV: userCollections.bttvCollection,
-        // FIXME: add avatarUrl from Twitch
-      } as ProfileT["user"]["avatarSources"],
-    },
-    collectionsRecord: betterCollections,
-  };
-  const userProfile = new UserProfile(data);
+  const allUserEmotes = createUserEmotes(userCollections);
+  const userProfile = createUserProfile(userCollections);
   console.log({ data, userProfile });
-  const result = await addUserEmotesToDB(allUserEmotes, db);
+  const result = await putUserEmotesToDB(allUserEmotes, db);
   return console.log({
     state2: collections.fetch.state.value,
     result,
