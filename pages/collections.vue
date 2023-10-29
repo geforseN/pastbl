@@ -1,102 +1,101 @@
 <template>
-  <div class="my-2 flex w-full items-start justify-center gap-4">
-    <div
-      class="flex w-96 flex-col items-center gap-2 rounded border border-base-content bg-black/10 p-2"
-    >
-      <emote-collection-fetch-input-group
-        v-if="shouldShowInput"
-        v-model:nickname="nickname"
-        class="-mt-2"
-        :is-collections-loading="collections.fetch.isLoading.value"
-        @load-collections="
-          () => {
-            if (collections.fetch.isLoading.value) {
-              return;
-            }
-            collections.fetch.execute();
-          }
-        "
-      />
-      <emote-collection-user-loaded-data
-        class="w-full"
-        :collections="collections"
-      />
+  <div>
+    <div class="my-2 flex w-full items-start justify-center gap-4">
       <div
-        v-if="collections.fetch.isReady.value"
-        class="flex w-full justify-end gap-2"
+        class="flex w-96 flex-col items-center gap-2 rounded border border-base-content bg-black/10 p-2"
       >
-        <button class="btn btn-success" @click="handleSave">Save</button>
+        <emote-collection-fetch-input-group
+          v-if="shouldShowInput"
+          v-model:nickname="nickname"
+          class="-mt-2"
+          :is-collections-loading="collections.fetch.isLoading.value"
+          @load-collections="
+            () => {
+              if (collections.fetch.isLoading.value) {
+                return;
+              }
+              collections.fetch.execute();
+            }
+          "
+        />
+        <emote-collection-user-loaded-data
+          class="w-full"
+          :collections="collections"
+        />
         <div
-          class="tooltip tooltip-info before:border before:border-current before:p-2 before:text-base"
-          data-tip="You can use collection only if you saved it"
+          v-if="collections.fetch.isReady.value"
+          class="flex w-full justify-end gap-2"
         >
-          <button
-            v-if="collections.fetch.isReady.value"
-            class="btn btn-success"
-            :disabled="
-              userStore.user.selectedEmoteCollection?.name !== nickname
-            "
+          <button class="btn btn-success" @click="handleSave">Save</button>
+          <div
+            class="tooltip tooltip-info before:border before:border-current before:p-2 before:text-base"
+            data-tip="You can use collection only if you saved it"
           >
-            Use
-          </button>
+            <button
+              v-if="collections.fetch.isReady.value"
+              class="btn btn-success"
+              :disabled="
+                userStore.user.selectedEmoteCollection?.name !== nickname
+              "
+            >
+              Use
+            </button>
+          </div>
+        </div>
+        <span v-if="collections.fetch.error.value" class="text-error">
+          {{ collections.fetch.error.value }}
+        </span>
+        <!-- TODO: make below form control work: user should enter user twitch id and then we fetch bttv and 7tv -->
+        <div
+          v-if="
+            collections.fetch.error.value &&
+            typeof collections.fetch.error.value === 'object' &&
+            collections.fetch.error.value !== null &&
+            'message' in collections.fetch.error.value &&
+            typeof collections.fetch.error.value.message === 'string' &&
+            collections.fetch.error.value.message.includes(
+              'FrankerFaceZ does not have user with nickname',
+            )
+          "
+          class="form-control w-full"
+        >
+          <label class="label" for="user-twitch-id">Enter user Twitch id</label>
+          <input
+            id="user-twitch-id "
+            class="input w-full border-twitch"
+            type="number"
+            placeholder="User Twitch id, must be number"
+          />
         </div>
       </div>
-      <span v-if="collections.fetch.error.value" class="text-error">
-        {{ collections.fetch.error.value }}
-      </span>
-      <!-- TODO: make below form control work: user should enter user twitch id and then we fetch bttv and 7tv -->
-      <div
-        v-if="
-          collections.fetch.error.value &&
-          typeof collections.fetch.error.value === 'object' &&
-          collections.fetch.error.value !== null &&
-          'message' in collections.fetch.error.value &&
-          typeof collections.fetch.error.value.message === 'string' &&
-          collections.fetch.error.value.message.includes(
-            'FrankerFaceZ does not have user with nickname',
-          )
-        "
-        class="form-control w-full"
-      >
-        <label class="label" for="user-twitch-id">Enter user Twitch id</label>
-        <input
-          id="user-twitch-id "
-          class="input w-full border-twitch"
-          type="number"
-          placeholder="User Twitch id, must be number"
-        />
-      </div>
-    </div>
-    <!-- NOTE: 
+      <!-- NOTE: 
       when user goes to another site page,
       images from emote collections still can be in loading state
       to cancel image loading src attribute of img should be set to empty string => <img src="" alt="any " />
      -->
-    <ol class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
-      <emote-collection-ffz
-        class="min-h-16 2xl:h-max 2xl:w-80"
-        :ffz="collections.ffz"
-        :ffz-room="collections.ffzRoom"
-      />
-      <emote-collection-bttv
-        class="min-h-16 2xl:h-max 2xl:w-80"
-        :bttv="collections.bttv"
-      />
-      <emote-collection-seventv
-        class="min-h-16 2xl:h-max 2xl:w-80"
-        :seventv="collections.sevenTv"
-        :seventv-set="collections.sevenTvSet"
-      />
-    </ol>
+      <ol class="flex w-96 flex-col gap-1 2xl:w-auto 2xl:flex-row">
+        <emote-collection-ffz
+          class="min-h-16 2xl:h-max 2xl:w-80"
+          :ffz="collections.ffz"
+          :ffz-room="collections.ffzRoom"
+        />
+        <emote-collection-bttv
+          class="min-h-16 2xl:h-max 2xl:w-80"
+          :bttv="collections.bttv"
+        />
+        <emote-collection-seventv
+          class="min-h-16 2xl:h-max 2xl:w-80"
+          :seventv="collections.sevenTv"
+          :seventv-set="collections.sevenTvSet"
+        />
+      </ol>
+    </div>
+    <vue-dd v-if="user" v-model="user" font-size="14px" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  type EmoteCollectionWithSetsLike,
-  type ProfileT,
-} from "~/client-only/IndexedDB/UserProfileCollections";
-import type { Emote, EmoteCollection } from "~/integrations";
+import { VueDd } from "vue-dd";
 
 useHead({ title: "collections - pastbl" });
 
@@ -108,48 +107,69 @@ const userStore = useUserStore();
 
 const user = ref();
 
+onErrorCaptured((error) => {
+  // TODO: here can check instanceof error
+  // if extended error then put at least toast
+  console.log({ error, captured: true });
+});
+
 onMounted(async () => {
   const { openUserEmoteCollectionsDB, putUserEmotesToDB, putUserProfileToDB } =
     await import("~/client-only/IndexedDB");
-  const { createUserEmotes, createUserProfile } = await import(
+  const { createUserEmotesForIDB, createUserProfileForIDB } = await import(
     "~/client-only/IndexedDB/UserProfileCollections"
   );
 
-  if (nickname.value) {
-    collections.fetch.execute();
-  }
   const db = await openUserEmoteCollectionsDB();
   const userFromStore = await db.get("profiles", nickname.value);
-
   if (userFromStore) {
-    user.value; // FIXME - here put value from idb to user ref
-    // isLoading can be true in ssr mode (if user made GET request of this page instead of vue-router)
-    // we can use this to update userFromStore with more new data
-    if (collections.fetch.isLoading.value) {
-      await until(collections.fetch.isReady).toBe(true, {
-        timeout: 30_000,
-        throwOnTimeout: true,
-      });
-      // HERE need to map all this collection properties below
-      collections.ffz;
-      collections.ffzRoom;
-      collections.bttv;
-      collections.sevenTv;
-      collections.sevenTvSet;
-      // AND THEN HERE put new value to store and set user ref to new value
-      // db.put('users')
-      // db.put('collections')
-      // db.put('sets')
-      // db.put('emotes')
-      user.value =
-        userFromStore; /* here need set new value, not userFromStore */
-    }
+    user.value = userFromStore;
+    type T = "BetterTTV" | "FrankerFaceZ" | "SevenTV";
+    const emotesIDBStore = db.transaction("emotes").store;
+    const asd = Object.entries(userFromStore.collections).reduce(
+      (record, [name, collection]) => {
+        record[name as T] = collection.sets.map((set) => ({
+          id: set.id,
+          name: set.name,
+          source: set.source,
+          updatedAt: set.updatedAt,
+          emotes: set.emoteIds.map((id) => emotesIDBStore.get([id, name as T])),
+        }));
+        return record;
+      },
+      {} as Record<T, any>,
+    );
+    console.log({
+      asd,
+      0: userFromStore.collections,
+      1: Object.entries(userFromStore.collections),
+    });
+    console.log(
+      await Promise.all(
+        Object.values(asd).map(
+          (setsArr) => setsArr /* .map((set) => set.emotes) */,
+        ),
+      ),
+    );
+
+    // ****************************************************************************
+    // collections.fetch.state.value = Object.entries(
+    //   userFromStore.collections,
+    // ).reduce((record, [name, collection]) => {
+    //   const nameRecord = {
+    //     FrankerFaceZ: "ffzCollection",
+    //     BetterTTV: "bttvCollection",
+    //     SevenTV: "sevenTvCollection",
+    //   };
+    //   record[nameRecord[name]] = collection;
+    //   return record;
+    // }, {});
+    // TODO: also map emotes
+
     return;
   }
-  if (collections.fetch.isReady.value) {
-    return console.log({ state1: collections.fetch.state.value });
-    // map fetched data and save it
-  }
+  collections.fetch.execute();
+
   await until(collections.fetch.isReady).toBe(true, {
     timeout: 30_000,
     throwOnTimeout: true,
@@ -159,10 +179,13 @@ onMounted(async () => {
     throw 1;
   }
 
-  const allUserEmotes = createUserEmotes(userCollections);
-  const userProfile = createUserProfile(userCollections);
-  console.log({ data, userProfile });
-  const result = await putUserEmotesToDB(allUserEmotes, db);
+  const allUserEmotes = createUserEmotesForIDB(userCollections);
+  const userProfile = createUserProfileForIDB(userCollections);
+  console.log({ allUserEmotes, userProfile });
+  const result = await Promise.all([
+    putUserProfileToDB(userProfile, db),
+    putUserEmotesToDB(allUserEmotes, db),
+  ]);
   return console.log({
     state2: collections.fetch.state.value,
     result,

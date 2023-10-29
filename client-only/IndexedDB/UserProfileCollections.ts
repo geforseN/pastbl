@@ -62,7 +62,7 @@ export function toSetLike(set: EmoteSet) {
   };
 }
 
-export function createUserProfile(
+export function createUserProfileForIDB(
   userCollections: NonNullable<
     Awaited<ReturnType<typeof useAsyncEmotesState>>["fetch"]["state"]["value"]
   >,
@@ -108,7 +108,7 @@ export function createUserProfile(
   return new UserProfile(data);
 }
 
-export function createUserEmotes(
+export function createUserEmotesForIDB(
   userCollections: Record<string, EmoteCollection>,
 ) {
   return Object.values(userCollections).flatMap((collection: EmoteCollection) =>
