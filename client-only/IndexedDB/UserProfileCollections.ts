@@ -1,5 +1,13 @@
 import type { Emote, EmoteCollection, EmoteSet } from "~/integrations";
 
+export type EmoteSetWithEmoteIds = Omit<EmoteSet, "emotes"> & {
+  emoteIds: Emote["id"][];
+};
+
+export type EmoteCollectionWithSetsLike = Omit<EmoteCollection, "sets"> & {
+  sets: EmoteSetWithEmoteIds[];
+};
+
 export type ProfileT = {
   user: {
     twitch: {
@@ -18,14 +26,6 @@ export type ProfileT = {
   >;
 };
 
-export type EmoteSetWithEmoteIds = Omit<EmoteSet, "emotes"> & {
-  emoteIds: Emote["id"][];
-};
-
-export type EmoteCollectionWithSetsLike = Omit<EmoteCollection, "sets"> & {
-  sets: EmoteSetWithEmoteIds[];
-};
-
 export interface IUserProfile {
   twitch: {
     nickname: string;
@@ -34,9 +34,8 @@ export interface IUserProfile {
   };
   updatedAt: number;
   collections: Record<
-    "BetterTTV" | "SevenTV" | "FrankerFaceZ",
-    // FIXME: uncomment me when will be implemented
-    // | "Twitch"
+    "BetterTTV" /* | "Twitch" */ | "SevenTV" | "FrankerFaceZ",
+    // FIXME: uncomment above when twitch will be implemented
     EmoteCollectionWithSetsLike
   >;
 }
@@ -51,4 +50,68 @@ export class UserProfile implements IUserProfile {
     this.updatedAt = Date.now();
     this.collections = data.collectionsRecord;
   }
+}
+
+export function toSetLike(set: EmoteSet) {
+  return {
+    id: set.id,
+    name: set.name,
+    source: set.source,
+    updatedAt: set.updatedAt,
+    emoteIds: set.emotes.map((emote) => emote.id),
+  };
+}
+
+export function createUserProfile(
+  userCollections: NonNullable<
+    Awaited<ReturnType<typeof useAsyncEmotesState>>["fetch"]["state"]["value"]
+  >,
+) {
+  const collectionEntries = [
+    ["FrankerFaceZ", userCollections.ffzCollection],
+    ["BetterTTV", userCollections.bttvCollection],
+    ["SevenTV", userCollections.sevenTvCollection],
+  ] as const;
+  const betterCollections = collectionEntries.reduce(
+    (record, [name, collection]) => {
+      record[name] = {
+        ...collection,
+        sets: collection.sets.map(toSetLike),
+      };
+      return record;
+    },
+    {} as Record<
+      "FrankerFaceZ" | "BetterTTV" | "SevenTV",
+      EmoteCollectionWithSetsLike
+    >,
+  );
+  const data: ProfileT = {
+    user: {
+      twitch: {
+        id:
+          userCollections.ffzCollection.owner.twitchId ||
+          raise("No twitchId, can save profile to idb"),
+        nickname: userCollections.ffzCollection.owner.displayName,
+        username:
+          userCollections.ffzCollection.owner.displayName.toLowerCase() as Lowercase<string>,
+      },
+      avatarSources: {
+        FrankerFaceZ: userCollections.ffzCollection.owner.avatarUrl as string,
+        SevenTV: userCollections.sevenTvCollection.owner.avatarUrl as string,
+        // FIXME: add avatarUrl from BetterTTV
+        // BetterTTV: userCollections.bttvCollection,
+        // FIXME: add avatarUrl from Twitch
+      } as ProfileT["user"]["avatarSources"],
+    },
+    collectionsRecord: betterCollections,
+  };
+  return new UserProfile(data);
+}
+
+export function createUserEmotes(
+  userCollections: Record<string, EmoteCollection>,
+) {
+  return Object.values(userCollections).flatMap((collection: EmoteCollection) =>
+    collection.sets.flatMap((set) => set.emotes),
+  );
 }
