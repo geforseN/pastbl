@@ -3,9 +3,9 @@
     class="flex flex-col divide-y-2 divide-[#2599cd] border-2 border-[#2599cd] bg-[#181d1f] p-2 text-white"
   >
     <emote-collection-header
-      :is-loading="seventv.isLoading.value || seventvSet.isLoading.value"
-      :is-ready="seventv.isReady.value && seventvSet.isReady.value"
-      :is-error="!!seventv.error.value || !!seventvSet.error.value"
+      :is-loading="sevenTv.isLoading.value || sevenTvSet.isLoading.value"
+      :is-ready="sevenTv.isReady.value && sevenTvSet.isReady.value"
+      :is-error="!!sevenTv.error.value || !!sevenTvSet.error.value"
     >
       <h3>SevenTV</h3>
       <template #collection-logo>
@@ -13,19 +13,19 @@
       </template>
     </emote-collection-header>
     <emote-collection-seventv-sets
-      class="pt-1"
       v-if="
-        seventv.isReady.value &&
-        seventv.state.value &&
-        seventvSet.state.value?.emotes
+        sevenTv.isReady.value &&
+        sevenTv.state.value &&
+        sevenTvSet.state.value?.emotes
       "
-      :sets="[seventvSet.state.value]"
+      class="pt-1"
+      :sets="[sevenTvSet.state.value]"
     />
-    <template v-if="seventv.error.value">
-      {{ seventv.error.value }}
+    <template v-if="sevenTv.error.value">
+      {{ sevenTv.error.value }}
     </template>
   </li>
 </template>
 <script lang="ts" setup>
-defineProps<{ seventv: SevenTVAsyncState; seventvSet: SevenTVSetAsyncState }>();
+defineProps<{ sevenTv: SevenTVAsyncState; sevenTvSet: SevenTVSetAsyncState }>();
 </script>
