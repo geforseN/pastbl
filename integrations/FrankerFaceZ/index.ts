@@ -6,3 +6,5 @@ export function FFZEmoteString(emote: FrankerFaceZEmote) {
 
 export { createFFZGlobalCollection } from "./entity/createFFZGlobalCollection";
 export { createFFZUserCollection } from "./entity/createFFZUserCollection";
+export { createFFZUserSets } from "./entity/createFFZUserSets";
+export { createFFZPartialUserCollection } from "./entity/createFFZPartialUserCollection";

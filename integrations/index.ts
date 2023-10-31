@@ -1,13 +1,25 @@
 import { BTTVEmoteString } from "./BetterTTV/index";
 import { SevenTVEmoteString } from "./SevenTV/index";
 import { FFZEmoteString } from "./FrankerFaceZ/index";
-import type { ConditionalExpression } from "typescript";
 
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
   SevenTV: SevenTVEmoteString,
   FFZ: FFZEmoteString,
 };
+
+export interface Emote {
+  // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
+  id: string;
+  isAnimated: boolean;
+  isListed: boolean;
+  isModifier: boolean;
+  // NOTE: FFZ use term 'Hidden', SevenTV uses 'isZeroWidth'
+  isWrapper: boolean;
+  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+  token: string;
+  url: string;
+}
 
 export interface EmoteSet<EmoteT extends Emote = Emote> {
   emotes: EmoteT[];
@@ -26,19 +38,6 @@ export interface EmoteSet<EmoteT extends Emote = Emote> {
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
 
-export interface Emote {
-  // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
-  id: string;
-  isAnimated: boolean;
-  isListed: boolean;
-  isModifier: boolean;
-  // NOTE: FFZ use term 'Hidden', SevenTV uses 'isZeroWidth'
-  isWrapper: boolean;
-  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
-  token: string;
-  url: string;
-}
-
 export interface EmoteCollection<EmoteSetT extends EmoteSet = EmoteSet> {
   name: string;
   sets: EmoteSetT[];
@@ -52,6 +51,8 @@ export type EmoteMap = Map<EmoteName, Emote>;
 export {
   createFFZGlobalCollection,
   createFFZUserCollection,
+  createFFZUserSets,
+  createFFZPartialUserCollection,
 } from "./FrankerFaceZ/index";
 
 export {

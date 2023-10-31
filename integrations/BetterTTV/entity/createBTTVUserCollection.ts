@@ -7,51 +7,8 @@ import {
 } from "./BetterTTVUserCollection";
 
 export function createBTTVUserCollection(
-  bttvState: NonNullable<BTTVAsyncState["state"]["value"]>,
-  userTwitchUsername: Lowercase<string>,
-): BetterTTVUserCollection {
-  const setEntries = [
-    [
-      `BetterTTV ${userTwitchUsername} Channel emotes`,
-      bttvState.channelEmotes,
-      "channel",
-    ],
-    [
-      `BetterTTV ${userTwitchUsername} Shared emotes`,
-      bttvState.sharedEmotes,
-      "shared",
-    ],
-  ] as const;
-
-  // TODO add BTTVUserCollection with third arg => owner
-  const owner = {
-    avatarUrl: bttvState.avatar,
-    id: bttvState.id,
-    twitch: { username: userTwitchUsername },
-  };
-
-  return new BTTVUserCollection(
-    owner,
-    setEntries
-      .filter(([, emotesList]) => emotesList.length)
-      .map(([name, emotes, emoteType]) => {
-        return new BTTVSet(
-          {
-            emotes,
-            name,
-            // NOTE: here we do not guarantee that id is unique, it is not
-            // ChannelEmotes and SharedEmotes will have the same id
-            id: bttvState.id,
-          },
-          (emote) => new BTTVEmote(emote, emoteType),
-        );
-      }),
-  );
-}
-
-export function createBTTVUserCollection2(
   user: BetterTTVApiUser & { twitch: { username: Lowercase<string> } },
-) {
+): BetterTTVUserCollection {
   const setEntries = [
     [
       `BetterTTV ${user.twitch.username} Channel emotes`,
