@@ -1,5 +1,5 @@
-import type { Emote } from "~/integrations";
 import type { SevenTVApiSetEmote } from "../SevenTV.api";
+import type { Emote } from "~/integrations";
 
 export interface I7TVEmote extends Emote {
   originalName?: string;

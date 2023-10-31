@@ -1,15 +1,18 @@
 import type { get7TVGlobalEmotesSet } from "../SevenTV.api";
-import { SevenTVCollection, type I7TVCollection } from "./SevenTVCollection";
+import {
+  SevenTVGlobalCollection,
+  type I7TVGlobalCollection,
+} from "./SevenTVGlobalCollection";
 import { SevenTVEmote } from "./SevenTVEmote";
 import { SevenTVSet } from "./SevenTVSet";
 
-export async function create7TVGlobalCollection(
+export function create7TVGlobalCollection(
   sets: Awaited<ReturnType<typeof get7TVGlobalEmotesSet>>[],
-): Promise<I7TVCollection> {
+): I7TVGlobalCollection {
   const sevenTVSets = sets
     .filter((set) => set.emotes?.length)
     .map((set) => {
       return new SevenTVSet(set, (emote) => new SevenTVEmote(emote, "global"));
     });
-  return new SevenTVCollection("SevenTV Global Emotes Collection", sevenTVSets);
+  return new SevenTVGlobalCollection(sevenTVSets);
 }
