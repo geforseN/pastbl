@@ -1,8 +1,10 @@
-import type { FrankerFaceZCollection } from "./FrankerFaceZCollection";
+import type { FrankerFaceZGlobalCollection } from "./FrankerFaceZGlobalCollection";
 import type { FrankerFaceZCollectionOwner } from "./FrankerFaceZCollectionOwner";
+import type { FFZPartialUserCollection } from "./FrankerFaceZPartialUserCollection";
 import type { FrankerFaceZSet } from "./FrankerFaceZSet";
 
-export interface FrankerFaceZUserCollection extends FrankerFaceZCollection {
+export interface FrankerFaceZUserCollection
+  extends FrankerFaceZGlobalCollection {
   owner: FrankerFaceZCollectionOwner;
 }
 
@@ -13,11 +15,14 @@ export class FFZUserCollection implements FrankerFaceZUserCollection {
   updatedAt;
   owner;
 
-  constructor(sets: FrankerFaceZSet[], owner: FrankerFaceZCollectionOwner) {
-    this.name = `FrankerFaceZ ${owner.displayName} Emotes Collection`;
+  constructor(
+    partialCollection: FFZPartialUserCollection,
+    sets: FrankerFaceZSet[],
+  ) {
+    this.name = partialCollection.name;
     this.sets = sets;
-    this.source = "FrankerFaceZ" as const;
+    this.source = partialCollection.source;
     this.updatedAt = Date.now();
-    this.owner = owner;
+    this.owner = partialCollection.owner;
   }
 }

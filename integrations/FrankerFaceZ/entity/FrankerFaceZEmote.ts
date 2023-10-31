@@ -1,5 +1,5 @@
-import type { Emote } from "~/integrations";
 import type { FrankerFaceZApiEmote } from "../FrankerFaceZ.api";
+import type { Emote } from "~/integrations";
 
 export interface FrankerFaceZEmote extends Emote {
   source: "FrankerFaceZ";
