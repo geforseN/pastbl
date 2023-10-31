@@ -11,5 +11,6 @@ export function createFFZPartialUserCollection(
       profile.user,
       Object.values(profile.badges).map((badge) => new FFZUserBadge(badge)),
     ),
+    profile.user.max_emoticons,
   );
 }

@@ -1,6 +1,6 @@
 import type { FrankerFaceZGlobalCollection } from "./FrankerFaceZGlobalCollection";
 import type { FrankerFaceZCollectionOwner } from "./FrankerFaceZCollectionOwner";
-import type { FFZPartialUserCollection } from "./FrankerFaceZPartialUserCollection";
+import type { FrankerFaceZPartialUserCollection } from "./FrankerFaceZPartialUserCollection";
 import type { FrankerFaceZSet } from "./FrankerFaceZSet";
 
 export interface FrankerFaceZUserCollection
@@ -16,7 +16,7 @@ export class FFZUserCollection implements FrankerFaceZUserCollection {
   owner;
 
   constructor(
-    partialCollection: FFZPartialUserCollection,
+    partialCollection: FrankerFaceZPartialUserCollection,
     sets: FrankerFaceZSet[],
   ) {
     this.name = partialCollection.name;
