@@ -19,6 +19,9 @@ export default {
       spacing: {
         "twitch-badge": "18px",
       },
+      gridTemplateRows: {
+        layout: "4rem 1fr 4rem auto",
+      },
       colors: {
         twitch: "#a970ff",
         "seventv-logo": "#29d8f6",
