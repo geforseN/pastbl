@@ -1,6 +1,21 @@
 import type { NotificationColor } from "@nuxt/ui/dist/runtime/types";
 
-export default class ExtendedError extends Error {
+export function assertIsError(
+  maybeError: unknown,
+): asserts maybeError is Error {
+  if (maybeError instanceof Error) {
+    return;
+  }
+  throw new Error("Expected an error");
+}
+
+export function raise(messageOrError: string | Error): never {
+  throw typeof messageOrError === "string"
+    ? new Error(messageOrError as string)
+    : (messageOrError as Error);
+}
+
+export class ExtendedError extends Error {
   description: string;
   title?: string;
   color: NotificationColor;

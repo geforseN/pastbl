@@ -1,6 +1,7 @@
-export default <T, E extends unknown>(
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any
+export function tupleSettledPromises<T, E extends any = unknown>(
   settledValues: PromiseSettledResult<T>[],
-): [T[], E[]] => {
+): [T[], E[]] {
   return [
     settledValues
       .filter(
@@ -15,4 +16,4 @@ export default <T, E extends unknown>(
       )
       .map((result) => result.reason),
   ];
-};
+}
