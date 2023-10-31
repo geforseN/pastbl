@@ -1,22 +1,23 @@
-import { create7TVUserChannelSet } from "~/integrations";
-import { UserNotFoundError } from "~/integrations/UserNotFoundError";
 import {
-  getFFZProfileByTwitchUsername,
-  getFFZUserRoomByTwitchId,
-} from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
-import { getBetterTTVUserByTwitchId } from "~/integrations/BetterTTV/BetterTTV.api";
-import { createBTTVUserCollection2 } from "~/integrations/BetterTTV/entity/createBTTVUserCollection";
+  create7TVUserChannelSet,
+  createBTTVUserCollection,
+  create7TVUserCollection,
+  createFFZUserCollection,
+  createFFZUserSets,
+  createFFZPartialUserCollection,
+} from "~/integrations";
 
-import { createFFZPartialUserCollection } from "~/integrations/FrankerFaceZ/entity/createFFZPartialUserCollection";
-import { createFFZUserCollection2 } from "~/integrations/FrankerFaceZ/entity/createFFZUserCollection";
-import { createFFZUserSets } from "~/integrations/FrankerFaceZ/entity/createFFZUserSets";
 import {
+  getBetterTTVUserByTwitchId,
   get7TVSetById,
   get7TVUserProfileByTwitchId,
-} from "~/integrations/SevenTV/SevenTV.api";
+  getFFZProfileByTwitchUsername,
+  getFFZUserRoomByTwitchId,
+  UserNotFoundError,
+} from "~/integrations/api";
+
 import type { I7TVSet } from "~/integrations/SevenTV";
 import type { I7TVUserCollection } from "~/integrations/SevenTV/entity/SevenTVUserCollection";
-import { create7TVUserCollection2 } from "~/integrations/SevenTV/entity/create7TVUserCollection";
 
 function useMyAsyncState<
   Data,
@@ -78,7 +79,7 @@ const useFFZUser = () => {
     const ffzSets = sets.state.value;
     assert.ok(ffzSets, "Can not get full collection without sets");
     return withLog(
-      () => createFFZUserCollection2(ffzPartialCollection, ffzSets),
+      () => createFFZUserCollection(ffzPartialCollection, ffzSets),
       {
         logKey: "FFZFullCollection",
       },
@@ -103,7 +104,7 @@ const useBTTVUser = () => {
           ...(await getBetterTTVUserByTwitchId(twitch.id, twitch.username)),
           twitch: { username: twitch.username },
         };
-        return withLog(() => createBTTVUserCollection2(user), {
+        return withLog(() => createBTTVUserCollection(user), {
           logKey: "BTTV",
         });
       } catch (error) {
@@ -130,7 +131,7 @@ const use7TVUser = () => {
           twitch.username,
         );
         isServiceHasUser.value = true;
-        return withLog(() => create7TVUserCollection2(profile), {
+        return withLog(() => create7TVUserCollection(profile), {
           logKey: "7TVCollection",
         });
       } catch (error) {
