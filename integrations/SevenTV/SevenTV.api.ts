@@ -1,9 +1,9 @@
-// LINK: https://7tv.io/docs
-
-import { SevenTVUserNotFoundError } from "./UserNotFoundError";
-
-// NOTE: using rule below because ts types are defined at the bottom
+// NOTE: using rule disable below because ts types are defined at the bottom
 /* eslint-disable no-use-before-define */
+
+import { UserNotFoundError } from "../UserNotFoundError";
+
+// LINK: https://7tv.io/docs
 
 export async function get7TVUserBy7TVId(
   accountId: string,
@@ -14,7 +14,7 @@ export async function get7TVUserBy7TVId(
 
 export async function get7TVSetById(
   setId: string,
-): Promise<Required<SevenTVApiEmoteSet<true>>> {
+): Promise<SevenTVApiEmoteSet<true>> {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
   const json = await responseJson(response);
   if (!Array.isArray(json?.emotes)) {
@@ -25,13 +25,13 @@ export async function get7TVSetById(
 
 export async function get7TVUserProfileByTwitchId(
   twitchId: number,
-  nickname?: string,
+  username?: Lowercase<string>,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   if (response.status === 404) {
-    throw new SevenTVUserNotFoundError(
+    throw new UserNotFoundError(
       `SevenTV does not have ${
-        nickname ? `user with nickname ${nickname}` : "such user"
+        username ? `user with username ${username}` : "such user"
       }`,
     );
   }
