@@ -2,6 +2,7 @@
 
 import { SevenTVUserNotFoundError } from "./UserNotFoundError";
 
+// NOTE: using rule below because ts types are defined at the bottom
 /* eslint-disable no-use-before-define */
 
 export async function get7TVUserBy7TVId(
