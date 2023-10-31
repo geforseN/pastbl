@@ -1,5 +1,5 @@
-import type { Emote } from "~/integrations";
 import type { BetterTTVApiEmote } from "../BetterTTV.api";
+import type { Emote } from "~/integrations";
 
 export interface BetterTTVEmote extends Emote {
   source: "BetterTTV";
