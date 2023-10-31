@@ -9,6 +9,20 @@ export function assertIsError(
   throw new Error("Expected an error");
 }
 
+export const assert: {
+  ok: (_value: unknown, _messageOrError?: string | Error) => asserts _value;
+} = {
+  ok: function (
+    value: unknown,
+    messageOrError?: string | Error,
+  ): asserts value {
+    if (value) {
+      return;
+    }
+    raise(messageOrError || "Assertion failed");
+  },
+};
+
 export function raise(messageOrError: string | Error): never {
   throw typeof messageOrError === "string"
     ? new Error(messageOrError as string)
