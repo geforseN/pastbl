@@ -5,6 +5,7 @@ import type { FrankerFaceZSet } from "./FrankerFaceZSet";
 export interface FrankerFaceZPartialUserCollection
   extends FrankerFaceZGlobalCollection {
   owner: FrankerFaceZCollectionOwner;
+  capacity: number;
 }
 
 export class FFZPartialUserCollection
@@ -15,12 +16,14 @@ export class FFZPartialUserCollection
   source;
   updatedAt;
   owner;
+  capacity;
 
-  constructor(owner: FrankerFaceZCollectionOwner) {
+  constructor(owner: FrankerFaceZCollectionOwner, capacity: number) {
     this.name = `FrankerFaceZ ${owner.displayName} Emotes Collection`;
     this.sets = [] as FrankerFaceZSet[];
     this.source = "FrankerFaceZ" as const;
     this.updatedAt = Date.now();
     this.owner = owner;
+    this.capacity = capacity;
   }
 }
