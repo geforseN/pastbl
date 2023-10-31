@@ -1,11 +1,14 @@
 import type { getBetterTTVGlobalEmotes } from "../BetterTTV.api";
-import { BTTVCollection } from "./BetterTTVCollection";
+import {
+  BTTVGlobalCollection,
+  type BetterTTVGlobalCollection,
+} from "./BetterTTVGlobalCollection";
 import { BTTVEmote } from "./BetterTTVEmote";
 import { BTTVSet } from "./BetterTTVSet";
 
-export async function createBTTVGlobalCollection(
+export function createBTTVGlobalCollection(
   bttvGlobalEmotes: Awaited<ReturnType<typeof getBetterTTVGlobalEmotes>>,
-) {
+): BetterTTVGlobalCollection {
   const bttvSets = [
     new BTTVSet(
       {
@@ -16,5 +19,5 @@ export async function createBTTVGlobalCollection(
       (emote) => new BTTVEmote(emote, "global"),
     ),
   ];
-  return new BTTVCollection("BetterTTV Global Emotes Collection", bttvSets);
+  return new BTTVGlobalCollection(bttvSets);
 }
