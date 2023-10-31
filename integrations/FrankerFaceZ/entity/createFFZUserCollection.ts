@@ -3,23 +3,32 @@ import {
   type FrankerFaceZUserCollection,
 } from "./FrankerFaceZUserCollection";
 import { FFZCollectionOwner } from "./FrankerFaceZCollectionOwner";
-import { FFZEmote } from "./FrankerFaceZEmote";
-import { FFZSet } from "./FrankerFaceZSet";
 import { FFZUserBadge } from "./FrankerFaceZUserBadge";
+import {
+  FFZPartialUserCollection,
+  type FrankerFaceZPartialUserCollection,
+} from "./FrankerFaceZPartialUserCollection";
+import { createFFZUserSets } from "./createFFZUserSets";
+import type { FrankerFaceZSet } from "./FrankerFaceZSet";
 
-export async function createFFZUserCollection(
+export function createFFZUserCollection(
   ffzState: NonNullable<FFZAsyncState["state"]["value"]>,
   ffzRoomState: NonNullable<FFZRoomAsyncState["state"]["value"]>,
-): Promise<FrankerFaceZUserCollection> {
-  const ffzSets = Object.values(ffzRoomState.sets).map(
-    (apiSet) =>
-      new FFZSet(apiSet, (apiEmote) => new FFZEmote(apiEmote, "channel")),
-  );
+): FrankerFaceZUserCollection {
   return new FFZUserCollection(
-    ffzSets,
-    new FFZCollectionOwner(
-      ffzState.user,
-      Object.values(ffzState.badges).map((badge) => new FFZUserBadge(badge)),
+    new FFZPartialUserCollection(
+      new FFZCollectionOwner(
+        ffzState.user,
+        Object.values(ffzState.badges).map((badge) => new FFZUserBadge(badge)),
+      ),
     ),
+    createFFZUserSets(ffzRoomState.sets),
   );
+}
+
+export function createFFZUserCollection2(
+  partialCollection: FrankerFaceZPartialUserCollection,
+  sets: FrankerFaceZSet[],
+): FrankerFaceZUserCollection {
+  return new FFZUserCollection(partialCollection, sets);
 }
