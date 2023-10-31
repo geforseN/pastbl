@@ -1,3 +1,8 @@
+// NOTE: using rule disable below because ts types are defined at the bottom
+/* eslint-disable no-use-before-define */
+
+import { UserNotFoundError } from "../UserNotFoundError";
+
 // LINK: https://betterttv.com/developers/api#global-emotes
 export async function getBetterTTVGlobalEmotes(): Promise<
   BetterTTVApiGlobalEmote[]
@@ -10,11 +15,19 @@ export async function getBetterTTVGlobalEmotes(): Promise<
 
 // LINK: https://betterttv.com/developers/api#user
 export async function getBetterTTVUserByTwitchId(
-  twitchId: number | string,
+  twitchId: number,
+  username?: Lowercase<string>,
 ): Promise<BetterTTVApiUser> {
   const response = await fetch(
     `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
   );
+  if (response.status === 404) {
+    throw new UserNotFoundError(
+      `BetterTTV does not have ${
+        username ? `user with nickname ${username}` : "such user"
+      }`,
+    );
+  }
   return responseJson(response);
 }
 
