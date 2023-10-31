@@ -1,6 +1,6 @@
 import { getBetterTTVUserByTwitchId } from "~/integrations/BetterTTV/BetterTTV.api";
 import {
-  getFFZByUserTwitchNickname,
+  getFFZProfileByTwitchUsername,
   getFFZUserRoomByTwitchId,
 } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 import {
@@ -27,7 +27,10 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
   const ffz = useAsyncState(
     () => {
       return withLog(
-        () => getFFZByUserTwitchNickname(toValue(userTwitchNickname)),
+        () =>
+          getFFZProfileByTwitchUsername(
+            toValue(userTwitchNickname).toLowerCase() as Lowercase<string>,
+          ),
         {
           logKey: "ffz",
         },
@@ -93,6 +96,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
       collection.isLoading.value = false;
     });
   }
+
   return {
     ffz,
     ffzRoom,
@@ -123,7 +127,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
               sevenTvSet.execute(0, sevenTvUser || raise("No 7TV user found")),
             ),
         ]);
-        const ffzCollection = await createFFZUserCollection(
+        const ffzCollection = createFFZUserCollection(
           ffz.state.value || raise("No ffz"),
           ffzRoom.state.value || raise("No ffz room"),
         );
@@ -133,7 +137,7 @@ export const useAsyncEmotesState = (userTwitchNickname: MaybeRef<string>) => {
             bttv.state.value || raise("No bttv"),
             ffzCollection.owner.displayName,
           ),
-          sevenTvCollection: await create7TVUserCollection(
+          sevenTvCollection: create7TVUserCollection(
             sevenTv.state.value || raise("No seventv"),
             sevenTvSet.state.value || raise("No seventv set"),
           ),
