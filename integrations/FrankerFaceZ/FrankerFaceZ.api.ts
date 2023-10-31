@@ -1,19 +1,24 @@
+// NOTE: using rule disable below because ts types are defined at the bottom
+/* eslint-disable no-use-before-define */
+
+import { UserNotFoundError } from "../UserNotFoundError";
+
 // NOTE: FFZ documentation
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
-export async function getFFZByUserTwitchNickname(
-  userTwitchNickname: string,
+export async function getFFZProfileByTwitchUsername(
+  username: Lowercase<string>,
 ): Promise<{
   badges: Record<`${number}`, FrankerFaceZApiBadge>;
-  sets: Record<string, never>;
+  sets: Record<`${number}`, never>;
   user: FrankerFaceZApiUser;
 }> {
   const response = await fetch(
-    `https://api.frankerfacez.com/v1/user/${userTwitchNickname.toLowerCase()}`,
+    `https://api.frankerfacez.com/v1/user/${username}`,
   );
   if (response.status === 404) {
-    throw new Error(
-      `FrankerFaceZ does not have user with nickname ${userTwitchNickname}`,
+    throw new UserNotFoundError(
+      `FrankerFaceZ does not have user with username ${username}`,
     );
   }
   return responseJson(response);
