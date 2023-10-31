@@ -1,5 +1,9 @@
 // LINK: https://7tv.io/docs
 
+import { SevenTVUserNotFoundError } from "./UserNotFoundError";
+
+/* eslint-disable no-use-before-define */
+
 export async function get7TVUserBy7TVId(
   accountId: string,
 ): Promise<SevenTVApiUserData> {
@@ -9,7 +13,7 @@ export async function get7TVUserBy7TVId(
 
 export async function get7TVSetById(
   setId: string,
-): Promise<Required<SevenTVApiEmoteSet>> {
+): Promise<Required<SevenTVApiEmoteSet<true>>> {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
   const json = await responseJson(response);
   if (!Array.isArray(json?.emotes)) {
@@ -20,10 +24,15 @@ export async function get7TVSetById(
 
 export async function get7TVUserProfileByTwitchId(
   twitchId: number,
+  nickname?: string,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   if (response.status === 404) {
-    throw new Error(`SevenTV does not have user with twitch id ${twitchId}`);
+    throw new SevenTVUserNotFoundError(
+      `SevenTV does not have ${
+        nickname ? `user with nickname ${nickname}` : "such user"
+      }`,
+    );
   }
   return responseJson(response);
 }
@@ -39,11 +48,11 @@ export function get7TVGlobalHalloweenEmotesSet() {
   return get7TVSetById("63237427e062d588b69f84d0");
 }
 
-export type SevenTVApiEmoteSet = {
+export type SevenTVApiEmoteSet<IsEmotesIncluded extends boolean = false> = {
   capacity: number;
   emote_count: number;
   // NOTE: if no emotes in collection, then api return does not contain emotes field (so emotes field is undefined)
-  emotes?: SevenTVApiSetEmote[];
+  emotes: IsEmotesIncluded extends true ? SevenTVApiSetEmote[] : undefined;
   flags: number;
   id: string;
   immutable: boolean;

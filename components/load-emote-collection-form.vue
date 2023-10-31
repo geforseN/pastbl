@@ -3,20 +3,20 @@
     <h2 class="p-2 text-3xl font-bold">Load emote collection</h2>
     <form action="" @submit.prevent>
       <div class="form-control p-2">
-        <label class="label" for="user-to-load-collections-nickname">
+        <label class="label" for="twitch-nickname">
           <span class="label-text text-xl font-medium">
-            Enter user Twitch nickname
+            Enter Twitch nickname
           </span>
         </label>
         <div class="join">
           <input
-            class="input join-item input-bordered w-full border-twitch invalid:bg-red-100 hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
-            id="user-to-load-collections-nickname"
+            id="twitch-nickname"
             v-model="userNickname"
+            class="input join-item input-bordered w-full border-twitch invalid:bg-red-100 hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
             placeholder="e.g. UselessMouth"
             type="text"
             pattern="^\s*(\S\s*){4,25}$"
-            name="user-to-load-collections-nickname"
+            name="twitch-nickname"
             @keypress.enter.exact="
               navigateTo({
                 path: '/collections',
@@ -34,10 +34,7 @@
             Load
           </nuxt-link>
         </div>
-        <label
-          class="label-text mt-1 text-xs"
-          for="user-to-load-collections-nickname"
-        >
+        <label class="label-text mt-1 text-xs" for="twitch-nickname">
           <span v-if="isValidUserNickname">
             Now you can press
             <kbd class="kbd kbd-xs">
