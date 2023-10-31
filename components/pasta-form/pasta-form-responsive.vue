@@ -2,7 +2,7 @@
   <pasta-form
     v-model:tag="pastaStore.tag"
     v-model:text="pastaStore.text"
-    :pastaTags="pastaStore.tags"
+    :pasta-tags="pastaStore.tags"
     :should-tag-model-become-empty-on-add="true"
     @add-tag-to-pasta="() => pastaStore.handleTagAddToPasta()"
     @remove-all-tags="() => pastaStore.removeAllTags()"
@@ -13,8 +13,8 @@
     </template>
     <template #button="{ dynamicClass }">
       <button
-        class="btn btn-md h-max focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full xl:text-lg"
         ref="createPastaButton"
+        class="btn btn-md h-max focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full xl:text-lg"
         :class="`${dynamicClass}`"
         @click="handlePastaCreation"
       >
@@ -23,10 +23,10 @@
     </template>
     <template #textarea>
       <pasta-form-twitch-chat
-        class="mx-0.5"
         id="twitch-chat-pasta-form"
-        v-model="pastaStore.text"
         ref="twitchChatRef"
+        v-model="pastaStore.text"
+        class="mx-0.5"
         @enter-pressed="handlePastaCreation"
       />
     </template>
@@ -47,26 +47,24 @@ defineExpose({
 function handlePastaCreation<_E extends KeyboardEvent | MouseEvent>(
   _event: _E,
 ) {
-  pastasStore
-    .createPasta({ tags: pastaStore.tags, text: pastaStore.text })
-    .then(() => {
-      pastaStore.clear();
-      toast.add({
-        description: "Pasta added successfully",
-        title: "Pasta 🤙🤙🤙",
-      });
-    })
-    .catch((error) => {
-      if (!(error instanceof ExtendedError)) {
-        throw error;
-      }
-      toast.add({
-        description: error.message,
-        title: "Pasta creation went wrong",
-        color: "red",
-        timeout: 10_000,
-      });
+  try {
+    pastasStore.createPasta({ tags: pastaStore.tags, text: pastaStore.text });
+    pastaStore.clear();
+    toast.add({
+      description: "Pasta added successfully",
+      title: "Pasta 🤙🤙🤙",
     });
+  } catch (error) {
+    if (!(error instanceof ExtendedError)) {
+      throw error;
+    }
+    toast.add({
+      description: error.message,
+      title: "Pasta creation went wrong",
+      color: "red",
+      timeout: 10_000,
+    });
+  }
 }
 
 function pastePastaWithFocus() {

@@ -27,5 +27,23 @@
   </li>
 </template>
 <script lang="ts" setup>
-defineProps<{ sevenTv: SevenTVAsyncState; sevenTvSet: SevenTVSetAsyncState }>();
+import type { UseAsyncStateReturn } from "@vueuse/core";
+import type { create7TVUserChannelSet } from "~/integrations";
+import type {
+  SevenTVApiUserProfile,
+  get7TVUserBy7TVId,
+} from "~/integrations/SevenTV/SevenTV.api";
+
+type VueUseUseAsyncStateReturn<
+  F extends (..._: any) => any,
+  T extends any[] = [],
+> = UseAsyncStateReturn<Awaited<ReturnType<F>>, T, true>;
+
+defineProps<{
+  sevenTv: VueUseUseAsyncStateReturn<typeof get7TVUserBy7TVId>;
+  sevenTvSet: VueUseUseAsyncStateReturn<
+    typeof create7TVUserChannelSet,
+    [sevenTvUser: SevenTVApiUserProfile]
+  >;
+}>();
 </script>

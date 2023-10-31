@@ -4,12 +4,15 @@ import type {
 } from "@nuxt/ui/dist/runtime/types";
 import { defineStore } from "pinia";
 import { zipsonStoreSerializer } from "#imports";
+import type { Emote } from "~/integrations";
 
 export type Pasta = { text: string; tags: string[] };
 export type MegaPasta = Pasta & {
   length: number;
   createdAt: number;
   populatedText?: string;
+  // TODO use me
+  lastCopiedAt?: number;
 };
 
 export const usePastasStore = defineStore(
@@ -55,7 +58,7 @@ export const usePastasStore = defineStore(
         .filter((data) => data.pastaTokens.length !== 0);
     });
 
-    function populatePastas<Emote extends any>({
+    function populatePastas({
       emoteMap,
       templateString,
     }: {
@@ -65,7 +68,7 @@ export const usePastasStore = defineStore(
       pastaDataForPopulation.value
         .map(({ pasta, pastaTokens }) => {
           return {
-            pasta: pasta,
+            pasta,
             pastaTokens: pastaTokens.filter((token) => emoteMap.has(token)),
           };
         })
@@ -95,7 +98,7 @@ export const usePastasStore = defineStore(
       pastasSortedByNewest,
       pastasBin,
       latestPasta: computed(() => pastas.value.at(-1)),
-      createPasta: async (pasta: Pasta) => {
+      createPasta: (pasta: Pasta) => {
         if (pasta.text.trim().length === 0) {
           throw new ExtendedError("Can not create pasta with empty text", {
             title: "Failed to create pasta",

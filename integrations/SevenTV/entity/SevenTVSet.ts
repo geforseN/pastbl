@@ -8,25 +8,32 @@ export interface I7TVSet extends EmoteSet {
   name: string;
   capacity: number;
   id: string;
+  isValid: boolean;
 }
 
 export class SevenTVSet implements I7TVSet {
   updatedAt;
   source;
   emotes;
+  #isValid;
   name;
   capacity;
   id;
 
   constructor(
-    apiSet: Required<SevenTVApiEmoteSet>,
-    to7TVEmoteCallback: (value: SevenTVApiSetEmote) => I7TVEmote,
+    apiSet: SevenTVApiEmoteSet<true | false>,
+    to7TVEmoteCallback: (_value: SevenTVApiSetEmote) => I7TVEmote,
   ) {
     this.id = apiSet.id;
     this.name = apiSet.name;
-    this.emotes = apiSet.emotes.map(to7TVEmoteCallback);
+    this.#isValid = Boolean(apiSet.emotes);
+    this.emotes = (apiSet.emotes || []).map(to7TVEmoteCallback);
     this.source = "SevenTV" as const;
     this.updatedAt = Date.now();
     this.capacity = apiSet.capacity;
+  }
+
+  get isValid() {
+    return this.#isValid;
   }
 }

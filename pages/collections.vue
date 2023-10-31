@@ -85,8 +85,8 @@
         />
         <emote-collection-seventv
           class="min-h-16 2xl:h-max 2xl:w-80"
-          :seventv="collections.sevenTv"
-          :seventv-set="collections.sevenTvSet"
+          :seven-tv="collections.sevenTv"
+          :seven-tv-set="collections.sevenTvSet"
         />
       </ol>
     </div>
@@ -119,6 +119,15 @@ onMounted(async () => {
   const { createUserEmotesForIDB, createUserProfileForIDB } = await import(
     "~/client-only/IndexedDB/UserProfileCollections"
   );
+  collections.fetch.execute();
+
+  const sevenTvUser = use7TVUser(22877031);
+  const fc7 = await sevenTvUser.fullCollection.execute();
+  setTimeout(() => {
+    console.log({ sevenTvUser, fc7 });
+  }, 5_000);
+  console.log({ sevenTvUser, fc7 });
+  const stv = ref(sevenTvUser);
 
   const db = await openUserEmoteCollectionsDB();
   const userFromStore = await db.get("profiles", nickname.value);
@@ -126,28 +135,34 @@ onMounted(async () => {
     user.value = userFromStore;
     type T = "BetterTTV" | "FrankerFaceZ" | "SevenTV";
     const emotesIDBStore = db.transaction("emotes").store;
-    const asd = Object.entries(userFromStore.collections).reduce(
-      (record, [name, collection]) => {
-        record[name as T] = collection.sets.map((set) => ({
-          id: set.id,
-          name: set.name,
-          source: set.source,
-          updatedAt: set.updatedAt,
-          emotes: set.emoteIds.map((id) => emotesIDBStore.get([id, name as T])),
-        }));
-        return record;
+
+    const collections = Object.entries(userFromStore.collections).map(
+      ([name, collection]) => {
+        return {
+          ...collection,
+          source: name,
+          sets: collection.sets.map((set) => ({
+            id: set.id,
+            name: set.name,
+            source: set.source,
+            updatedAt: set.updatedAt,
+            emotes: set.emoteIds.map((id) =>
+              emotesIDBStore.get([id, name as T]),
+            ),
+          })),
+        };
       },
-      {} as Record<T, any>,
     );
     console.log({
-      asd,
+      collections,
       0: userFromStore.collections,
       1: Object.entries(userFromStore.collections),
+      stv,
     });
     console.log(
       await Promise.all(
-        Object.values(asd).map(
-          (setsArr) => setsArr /* .map((set) => set.emotes) */,
+        Object.values(collections).map((collection) =>
+          Promise.all(collection.sets.map((set) => Promise.all(set.emotes))),
         ),
       ),
     );
@@ -169,7 +184,8 @@ onMounted(async () => {
     return;
   }
   collections.fetch.execute();
-
+  /// FIXME: REMOVE
+  return;
   await until(collections.fetch.isReady).toBe(true, {
     timeout: 30_000,
     throwOnTimeout: true,
