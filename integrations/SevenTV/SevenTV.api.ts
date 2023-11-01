@@ -30,7 +30,7 @@ export async function get7TVUserProfileByTwitchId(
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   if (response.status === 404) {
     throw new UserNotFoundError(
-      `SevenTV does not have ${
+      `⚠️ SevenTV does not have ${
         username ? `user with username ${username}` : "such user"
       }`,
     );
