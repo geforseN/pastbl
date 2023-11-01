@@ -10,29 +10,20 @@ export function createBTTVUserCollection(
   user: BetterTTVApiUser & { twitch: { username: Lowercase<string> } },
 ): BetterTTVUserCollection {
   const setEntries = [
-    [
-      `BetterTTV ${user.twitch.username} Channel emotes`,
-      user.channelEmotes,
-      "channel",
-    ],
-    [
-      `BetterTTV ${user.twitch.username} Shared emotes`,
-      user.sharedEmotes,
-      "shared",
-    ],
+    [`Channel emotes`, user.channelEmotes, "channel", `channel${user.id}`],
+    [`Shared emotes`, user.sharedEmotes, "shared", `shared${user.id}`],
   ] as const;
 
   return new BTTVUserCollection(
     { ...user, avatarUrl: user.avatar },
     setEntries
       .filter(([, emotesList]) => emotesList.length)
-      .map(([name, emotes, emoteType]) => {
+      .map(([name, emotes, emoteType, id]) => {
         return new BTTVSet(
           {
             emotes,
             name,
-            // NOTE: user channelEmotes and sharedEmotes will have the same id
-            id: user.id,
+            id,
           },
           (emote) => new BTTVEmote(emote, emoteType),
         );
