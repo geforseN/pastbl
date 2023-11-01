@@ -1,4 +1,4 @@
-import { EmoteMap } from "~/integrations";
+import type { EmoteMap } from "~/integrations";
 
 export const useEmotes = (emoteCollectionsGetters: Promise<EmoteMap>[]) => {
   const emoteMaps = ref<EmoteMap[]>([]);

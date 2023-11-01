@@ -4,8 +4,8 @@ export function createStorageReader<T>(
   keyPrefix: string,
   parse = zipsonSerializer.read,
   storage = localStorage,
-): (k: string) => T | "" {
-  return (nonPrefixedKey: string) => {
+): (nonPrefixedKey: string) => T | "" {
+  return function get(nonPrefixedKey: string) {
     return parse(storage.getItem(`${keyPrefix}${nonPrefixedKey}`) ?? "");
   };
 }
@@ -15,7 +15,7 @@ export function createStorageWriter<T>(
   stringify = zipsonSerializer.write,
   storage = localStorage,
 ) {
-  return (nonPrefixedKey: string, value: T) => {
+  return function set(nonPrefixedKey: string, value: T) {
     storage.setItem(`${keyPrefix}${nonPrefixedKey}`, stringify(value));
   };
 }
