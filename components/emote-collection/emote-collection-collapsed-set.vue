@@ -3,25 +3,27 @@
     <input
       v-model="isOpen"
       type="checkbox"
-      @keypress.enter.exact="isOpen = !isOpen"
+      @input="shouldShowContent = true"
+      @keypress.enter.exact="
+        shouldShowContent = true;
+        isOpen = !isOpen;
+      "
     />
     <header class="collapse-title">
       <slot name="title" />
     </header>
     <main class="collapse-content -mb-4 p-0">
-      <!-- NOTE: div has v-if for lazy loading images, so user will start fetch images only when collapse component open    -->
-      <!-- NOTE: v-show wont help with lazy loading, images will be loaded even if collapse is closed    -->
-      <div v-if="isOpen">
-        <slot name="emoteList" :is-open="isOpen" />
-      </div>
+      <slot v-if="shouldShowContent" name="emoteList" />
     </main>
   </div>
 </template>
 <script lang="ts" setup generic="EmoteSet">
 const isOpen = ref(false);
+const shouldShowContent = ref(false);
+
 defineProps<{ set: EmoteSet }>();
 defineSlots<{
   title: () => any;
-  emoteList: (listProps: { isOpen: boolean }) => any;
+  emoteList: () => any;
 }>();
 </script>
