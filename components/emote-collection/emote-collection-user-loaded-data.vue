@@ -1,28 +1,34 @@
 <template>
-  <div class="flex bg-slate-600/20" v-if="collections.ffz.state.value">
+  <div
+    v-if="collections.ffz.partialCollection.state.value"
+    class="flex bg-slate-600/20"
+  >
     <img
       width="64"
       height="64"
-      :src="collections.ffz.state.value.user.avatar"
-      :alt="collections.ffz.state.value.user.display_name + ' avatar'"
+      :src="collections.ffz.partialCollection.state.value.owner.avatarUrl"
+      :alt="
+        collections.ffz.partialCollection.state.value.owner.displayName +
+        ' avatar'
+      "
     />
     <div class="ml-2">
-      <template v-if="collections.ffz.state.value.user.badges">
-        <img
-          class="inline-block h-twitch-badge w-twitch-badge"
-          v-for="badge of Object.values(collections.ffz.state.value.badges)"
-          :style="{ backgroundColor: badge.color }"
-          :src="badge.image"
-          :alt="badge.title + ' badge'"
-          :title="badge.title"
-        />
-      </template>
+      <img
+        v-for="badge of collections.ffz.partialCollection.state.value.owner
+          .badges"
+        :key="badge.id"
+        class="inline-block h-twitch-badge w-twitch-badge"
+        :style="{ backgroundColor: badge.color }"
+        :src="badge.url"
+        :alt="badge.title + ' badge'"
+        :title="badge.title"
+      />
       <span class="ml-1">
-        {{ collections.ffz.state.value.user.display_name }}
+        {{ collections.ffz.partialCollection.state.value.owner.displayName }}
       </span>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-defineProps<{ collections: ReturnType<typeof useAsyncEmotesState> }>();
+defineProps<{ collections: ReturnType<typeof useUserIntegrations> }>();
 </script>
