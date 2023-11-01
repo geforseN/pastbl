@@ -13,12 +13,9 @@
       </template>
     </emote-collection-header>
     <emote-collection-bttv-sets
-      class="pt-1"
       v-if="bttv.isReady.value && bttv.state.value"
-      :emote-sets="{
-        'Channel emotes': bttv.state.value.channelEmotes,
-        'Shared emotes': bttv.state.value.sharedEmotes,
-      }"
+      class="pt-1"
+      :sets="bttv.state.value.sets"
     />
     <template v-if="bttv.isLoading.value">
       <div class="relative w-full">
@@ -32,5 +29,5 @@
   </li>
 </template>
 <script lang="ts" setup>
-defineProps<{ bttv: BTTVAsyncState }>();
+defineProps<{ bttv: UseBTTVReturn }>();
 </script>

@@ -93,6 +93,7 @@ const useFFZUser = () => {
     fullCollection,
   };
 };
+export type UseFFZReturn = ReturnType<typeof useFFZUser>;
 
 const useBTTVUser = () => {
   const { isServiceHasUser, serviceErrorHandler } = useUserService();
@@ -116,9 +117,10 @@ const useBTTVUser = () => {
 
   return {
     isServiceHasUser,
-    bttv,
+    ...bttv,
   };
 };
+export type UseBTTVReturn = ReturnType<typeof useBTTVUser>;
 
 const use7TVUser = () => {
   const { isServiceHasUser, serviceErrorHandler } = useUserService();
@@ -188,12 +190,12 @@ const use7TVUser = () => {
   };
 };
 
-export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
-  const username = toValue(twitchNickname).toLowerCase() as Lowercase<string>;
+export type Use7TVReturn = ReturnType<typeof use7TVUser>;
 
+export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
   const ffz = useFFZUser();
   const bttv = useBTTVUser();
-  const stv = use7TVUser();
+  const sevenTv = use7TVUser();
 
   const twitch = { id: ffz.partialCollection.state.value?.owner.twitchId };
   assert.ok(typeof twitch.id !== "number");
@@ -203,10 +205,10 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
       ffz.partialCollection,
       ffz.sets,
       ffz.fullCollection,
-      bttv.bttv,
-      stv.activeSet,
-      stv.collection,
-      stv.fullCollection,
+      bttv,
+      sevenTv.activeSet,
+      sevenTv.collection,
+      sevenTv.fullCollection,
     ].forEach((collection) => {
       collection.state.value = null;
       collection.error.value = null;
@@ -216,12 +218,13 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
   }
 
   const integrations = useMyAsyncState(async () => {
+    const username = toValue(twitchNickname).toLowerCase() as Lowercase<string>;
     clearEveryState();
     await ffz.partialCollection.execute(0, username).catch((error) => {
       if (ffz.partialCollection.state.value?.owner.twitchId) {
         return;
       }
-      [bttv.bttv, stv.collection].forEach((state) => {
+      [bttv, sevenTv.collection].forEach((state) => {
         state.error.value = new Error(
           "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
         );
@@ -236,8 +239,8 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
     };
     await Promise.allSettled([
       ffz.sets.execute(0, twitch.id).then(() => ffz.fullCollection.execute()),
-      bttv.bttv.execute(0, twitch),
-      stv.fullCollection.execute(0, twitch),
+      bttv.execute(0, twitch),
+      sevenTv.fullCollection.execute(0, twitch),
     ]);
     /* TODO: add return of full loaded collections 
     return {
@@ -250,7 +253,7 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
   return {
     ffz,
     bttv,
-    stv,
+    sevenTv,
     integrations,
   };
 }

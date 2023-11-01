@@ -3,21 +3,21 @@
     class="flex flex-col divide-y-2 divide-ffz border-2 border-ffz bg-[#222222] p-2 text-white"
   >
     <emote-collection-header
-      :is-loading="ffz.isLoading.value || ffzRoom.isLoading.value"
-      :is-ready="ffz.isReady.value && ffzRoom.isReady.value"
-      :is-error="!!(ffz.error.value || ffzRoom.error.value)"
+      :is-loading="ffz.fullCollection.isLoading.value"
+      :is-ready="ffz.fullCollection.isReady.value"
+      :is-error="!!ffz.fullCollection.error.value"
     >
       <h3>FrankerFaceZ</h3>
       <template #collection-logo>
         <icons-ffz-logo class="max-h-[32px]" height="32" />
       </template>
     </emote-collection-header>
-    <template v-if="ffz.error.value">
+    <template v-if="ffz.fullCollection.error.value">
       <div class="p-1">
-        {{ ffz.error.value }}
+        {{ ffz.fullCollection.error.value }}
       </div>
     </template>
-    <template v-if="ffz.isLoading.value">
+    <template v-if="ffz.partialCollection.isLoading.value">
       <div class="relative">
         <div class="p-1">Loading</div>
         <div class="absolute inset-0 w-full animate-pulse bg-slate-500/20">
@@ -26,16 +26,18 @@
       </div>
     </template>
     <emote-collection-ffz-sets
+      v-if="
+        ffz.sets.isReady.value && ffz.sets.state.value && !ffz.sets.error.value
+      "
       class="flex flex-col gap-1 pt-1"
-      v-if="ffzRoom.isReady.value && ffzRoom.state.value && !ffz.error.value"
-      :sets="Object.values(ffzRoom.state.value.sets)"
-      :maxEmoticons="ffz.state.value?.user.max_emoticons"
+      :sets="ffz.sets.state.value"
+      :capacity="ffz.partialCollection.state.value?.capacity"
     />
-    <div class="animate-pulse" v-if="ffzRoom.isLoading.value">
+    <div v-if="ffz.sets.isLoading.value" class="animate-pulse">
       Loading emote sets
     </div>
   </li>
 </template>
 <script lang="ts" setup>
-defineProps<{ ffz: FFZAsyncState; ffzRoom: FFZRoomAsyncState }>();
+defineProps<{ ffz: UseFFZReturn }>();
 </script>

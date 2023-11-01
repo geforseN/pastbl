@@ -1,9 +1,9 @@
 <template>
   <main class="flex flex-col gap-1">
     <emote-collection-collapsed-set
-      class="border-2 border-[#2599cd]"
       v-for="set of props.sets"
       :key="set.id"
+      class="border-2 border-[#2599cd]"
       :set="set"
     >
       <template #title>
@@ -23,9 +23,9 @@
           tabindex="0"
         >
           <div
-            class="grid h-8 place-items-center bg-[#2599cd]/20"
             v-for="emote of set.emotes"
             :key="emote.id"
+            class="grid h-8 place-items-center bg-[#2599cd]/20"
           >
             <img
               class="m-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
