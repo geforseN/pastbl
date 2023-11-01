@@ -18,7 +18,7 @@ export async function getFFZProfileByTwitchUsername(
   );
   if (response.status === 404) {
     throw new UserNotFoundError(
-      `FrankerFaceZ does not have user with username ${username}`,
+      `⚠️ FrankerFaceZ does not have user with username ${username}`,
     );
   }
   return responseJson(response);
