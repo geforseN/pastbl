@@ -1,45 +1,28 @@
 <template>
-  <nav class="navbar border-b border-b-base-300 p-1">
-    <ul class="contents">
+  <nav class="navbar border-b-2 border-b-secondary/50 p-1">
+    <ol class="contents">
       <li
         class="border-2 border-neutral bg-secondary p-1 text-5xl font-bold text-base-content"
       >
         <nuxt-link class="text-5xl leading-3" to="/">pastbl</nuxt-link>
       </li>
-      <li class="ml-2 hidden md:block">
-        <nuxt-link class="btn btn-primary text-black" to="/collections">
+      <li class="ml-2 hidden go-brr:block">
+        <nuxt-link
+          class="btn btn-ghost border-twitch text-twitch"
+          to="/collections"
+        >
           load emotes
+          <icons-ffz-logo width="24" heigth="24" />
+          <icons-bttv-logo width="24" heigth="24" />
+          <icons-seventv-logo width="24" heigth="24" />
         </nuxt-link>
       </li>
-      <li class="ml-2 hidden md:block">
-        <div class="flex h-12 items-center gap-2 rounded-lg bg-info p-2 pr-1">
-          <label
-            class="label label-text font-bold uppercase text-info-content"
-            for="search-pasta"
-          >
-            Find Own Pasta
-          </label>
-          <input
-            id="search-pasta"
-            class="input input-primary h-11"
-            name="search-pasta"
-            type="search"
-          />
-        </div>
+      <li class="ml-2 hidden go-brr:block">
+        <button class="btn btn-info" @click="emit('openFindPastaModal')">
+          find pasta
+          <icons-search width="24" heigth="24" />
+        </button>
       </li>
-      <!-- <li>
-          <div class="form-control relative">
-            <label class="absolute left-2 top-0" for="search-pasta"
-              >search pasta</label
-            >
-            <input
-              class="input input-primary"
-              id="search-pasta"
-              name="search-pasta"
-              type="search"
-            />
-          </div>
-        </li> -->
       <li class="ml-auto">
         <select class="select select-bordered" data-choose-theme>
           <option value="">Default theme</option>
@@ -47,17 +30,10 @@
           <option value="light">Light</option>
         </select>
       </li>
-    </ul>
+    </ol>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { themeChange } from "theme-change";
-
-onMounted(() => {
-  themeChange(false);
-  document.documentElement.classList.remove("dark", "light");
-});
-
-function showFindInput() {}
+const emit = defineEmits(["openFindPastaModal"]);
 </script>
