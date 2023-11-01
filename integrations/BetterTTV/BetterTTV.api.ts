@@ -42,7 +42,7 @@ export type BetterTTVApiGlobalEmote = {
   width?: number;
 };
 
-export type _BetterTTVApiBaseUserEmote = {
+export type BetterTTVApiBaseUserEmote = {
   animated: boolean;
   approvalStatus: string | "APPROVED";
   code: string;
@@ -55,11 +55,11 @@ export type _BetterTTVApiBaseUserEmote = {
   updatedAt: ReturnType<Date["toISOString"]>;
 };
 
-export type BetterTTVApiChannelEmote = _BetterTTVApiBaseUserEmote & {
+export type BetterTTVApiChannelEmote = BetterTTVApiBaseUserEmote & {
   userId: string;
 };
 
-export type BetterTTVApiSharedEmote = _BetterTTVApiBaseUserEmote & {
+export type BetterTTVApiSharedEmote = BetterTTVApiBaseUserEmote & {
   user: {
     displayName: string;
     id: string;

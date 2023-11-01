@@ -10,7 +10,7 @@ export function assertIsError(
 }
 
 export const assert: {
-  ok: (_value: unknown, _messageOrError?: string | Error) => asserts _value;
+  ok: (value: unknown, messageOrError?: string | Error) => asserts value;
 } = {
   ok: function (
     value: unknown,

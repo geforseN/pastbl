@@ -24,7 +24,7 @@ function useMyAsyncState<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Params extends any[] = [],
   Shallow extends boolean = true,
->(promise: Promise<Data> | ((..._args: Params) => Promise<Data>)) {
+>(promise: Promise<Data> | ((...args: Params) => Promise<Data>)) {
   return useAsyncState<Data | null, Params, Shallow>(promise, null, {
     immediate: false,
     throwError: true,

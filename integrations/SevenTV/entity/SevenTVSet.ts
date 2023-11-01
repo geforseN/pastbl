@@ -22,7 +22,7 @@ export class SevenTVSet implements I7TVSet {
 
   constructor(
     apiSet: SevenTVApiEmoteSet<true | false>,
-    to7TVEmoteCallback: (_value: SevenTVApiSetEmote) => I7TVEmote,
+    to7TVEmoteCallback: (value: SevenTVApiSetEmote) => I7TVEmote,
   ) {
     this.id = apiSet.id;
     this.name = apiSet.name;

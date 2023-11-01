@@ -18,7 +18,7 @@ export class FFZSet implements FrankerFaceZSet {
 
   constructor(
     ffzApiSet: FrankerFaceZApiEmoteSet,
-    toFFZEmoteCallback: (_value: FrankerFaceZApiEmote) => FrankerFaceZEmote,
+    toFFZEmoteCallback: (value: FrankerFaceZApiEmote) => FrankerFaceZEmote,
   ) {
     this.emotes = ffzApiSet.emoticons.map(toFFZEmoteCallback);
     this.id = ffzApiSet.id.toString();

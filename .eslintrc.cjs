@@ -13,6 +13,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:vue/vue3-essential",
     "@nuxtjs/eslint-config-typescript",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
@@ -29,7 +30,7 @@ module.exports = {
   ],
   plugins: ["@typescript-eslint", "vue"],
   rules: {
-    "no-undef": "off",
-    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-unused-vars": "off",
   },
 };
