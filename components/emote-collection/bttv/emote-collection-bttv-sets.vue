@@ -28,12 +28,13 @@
             class="flex h-8 min-w-[2rem] flex-col items-center justify-center bg-[#63b3ed]/20"
           >
             <img
-              :key="emote.id"
-              class="m-0.5"
               :src="`https:${emote.url}/1x.webp`"
-              loading="lazy"
-              :title="emote.token"
               :alt="emote.token"
+              :title="emote.token"
+              width="32"
+              height="32"
+              class="m-0.5"
+              loading="lazy"
             />
           </div>
         </div>
