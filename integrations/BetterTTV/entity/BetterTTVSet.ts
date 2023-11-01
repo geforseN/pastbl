@@ -16,7 +16,7 @@ export class BTTVSet implements BetterTTVSet {
 
   constructor(
     apiSetData: { name: string; emotes: BetterTTVApiEmote[]; id: string },
-    toBTTVEmoteCallback: (_value: BetterTTVApiEmote) => BTTVEmote,
+    toBTTVEmoteCallback: (value: BetterTTVApiEmote) => BTTVEmote,
   ) {
     this.id = apiSetData.id;
     this.name = apiSetData.name;

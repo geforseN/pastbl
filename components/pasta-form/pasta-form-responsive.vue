@@ -44,9 +44,7 @@ defineExpose({
   twitchChatRef,
 });
 
-function handlePastaCreation<_E extends KeyboardEvent | MouseEvent>(
-  _event: _E,
-) {
+function handlePastaCreation<E extends KeyboardEvent | MouseEvent>(_event: E) {
   try {
     pastasStore.createPasta({ tags: pastaStore.tags, text: pastaStore.text });
     pastaStore.clear();
