@@ -5,16 +5,16 @@
     </label>
     <div class="join">
       <input
-        class="input join-item input-primary w-full"
         id="user-emote-collections"
         v-model="userNickname"
+        class="input join-item input-primary w-full"
         type="text"
         placeholder="Enter twitch nickname"
       />
       <button
         class="btn btn-primary join-item w-40 max-w-[40%]"
-        @click="emitLoadCollections(userNickname)"
         :disabled="props.isCollectionsLoading"
+        @click="emitLoadCollections(userNickname)"
       >
         {{ props.isCollectionsLoading ? "loading" : "load" }}
       </button>

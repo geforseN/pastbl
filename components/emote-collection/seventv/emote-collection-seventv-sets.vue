@@ -28,12 +28,13 @@
             class="grid h-8 place-items-center bg-[#2599cd]/20"
           >
             <img
-              class="m-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
               :src="`https:${emote.url}/1x.webp`"
-              :width="emote.width"
-              loading="lazy"
-              :title="emote.token"
               :alt="emote.token"
+              :title="emote.token"
+              :width="emote.width"
+              height="32"
+              class="m-0.5 inline-block hover:scale-110 hover:outline hover:outline-1 hover:outline-[#2599cd]"
+              loading="lazy"
             />
           </div>
         </div>

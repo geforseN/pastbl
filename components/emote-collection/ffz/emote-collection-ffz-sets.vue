@@ -31,12 +31,13 @@
             class="flex h-8 min-w-[2rem] flex-col items-center justify-center bg-ffz/20"
           >
             <img
-              class="m-0.5"
-              loading="lazy"
-              :width="emote.width"
-              :title="emote.token"
               :src="emote.url + '/1'"
               :alt="emote.token"
+              :title="emote.token"
+              :width="emote.width"
+              height="32"
+              class="m-0.5"
+              loading="lazy"
             />
           </div>
         </div>
