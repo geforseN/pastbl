@@ -8,7 +8,7 @@ export const templateStrings = {
   FFZ: FFZEmoteString,
 };
 
-export interface Emote {
+export interface IEmote {
   // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
   id: string;
   isAnimated: boolean;
@@ -21,7 +21,7 @@ export interface Emote {
   url: string;
 }
 
-export interface EmoteSet<EmoteT extends Emote = Emote> {
+export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
   emotes: EmoteT[];
   // NOTE: FFZ api returns set with typeof id === 'number', but in collection instance id converted to string
   // NOTE -
@@ -38,15 +38,32 @@ export interface EmoteSet<EmoteT extends Emote = Emote> {
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
 
-export interface EmoteCollection<EmoteSetT extends EmoteSet = EmoteSet> {
+export interface IEmoteCollection<EmoteSetT extends IEmoteSet = IEmoteSet> {
   name: string;
   sets: EmoteSetT[];
   source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
 
+export interface IUserEmoteCollection {
+  twitch: {
+    nickname: string;
+    id: number;
+    username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
+  };
+  updatedAt: number;
+  collections: Record<
+    "BetterTTV" /* | "Twitch" */ | "SevenTV" | "FrankerFaceZ",
+    // FIXME: uncomment above when twitch api calls will be implemented
+    IEmoteCollection
+  >;
+  failedCollectionsReasons:
+    | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
+    | Record<string, never>;
+}
+
 type EmoteName = string;
-export type EmoteMap = Map<EmoteName, Emote>;
+export type EmoteMap = Map<EmoteName, IEmote>;
 
 export {
   createFFZGlobalCollection,

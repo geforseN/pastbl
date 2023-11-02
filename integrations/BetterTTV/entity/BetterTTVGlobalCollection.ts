@@ -1,8 +1,8 @@
 import type { BetterTTVSet } from "./BetterTTVSet";
-import type { EmoteCollection } from "~/integrations";
+import type { IEmoteCollection } from "~/integrations";
 
 export interface BetterTTVGlobalCollection
-  extends EmoteCollection<BetterTTVSet> {
+  extends IEmoteCollection<BetterTTVSet> {
   name: "BetterTTV Global Emotes Collection";
   source: "BetterTTV";
 }

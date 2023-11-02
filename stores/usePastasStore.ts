@@ -4,7 +4,7 @@ import type {
 } from "@nuxt/ui/dist/runtime/types";
 import { defineStore } from "pinia";
 import { zipsonStoreSerializer } from "#imports";
-import type { Emote } from "~/integrations";
+import type { IEmote } from "~/integrations";
 
 export type Pasta = { text: string; tags: string[] };
 export type MegaPasta = Pasta & {
@@ -62,8 +62,8 @@ export const usePastasStore = defineStore(
       emoteMap,
       templateString,
     }: {
-      emoteMap: ReadonlyMap<string, Emote>;
-      templateString: (emote: Emote) => string;
+      emoteMap: ReadonlyMap<string, IEmote>;
+      templateString: (emote: IEmote) => string;
     }) {
       pastaDataForPopulation.value
         .map(({ pasta, pastaTokens }) => {

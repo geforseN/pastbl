@@ -1,8 +1,8 @@
 import type { FrankerFaceZSet } from "./FrankerFaceZSet";
-import type { EmoteCollection } from "~/integrations";
+import type { IEmoteCollection } from "~/integrations";
 
 export interface FrankerFaceZGlobalCollection
-  extends EmoteCollection<FrankerFaceZSet> {
+  extends IEmoteCollection<FrankerFaceZSet> {
   source: "FrankerFaceZ";
 }
 

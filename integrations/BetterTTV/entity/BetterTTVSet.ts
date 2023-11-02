@@ -1,8 +1,8 @@
 import type { BetterTTVApiEmote } from "../BetterTTV.api";
 import type { BTTVEmote, BetterTTVEmote } from "./BetterTTVEmote";
-import type { EmoteSet } from "~/integrations";
+import type { IEmoteSet } from "~/integrations";
 
-export interface BetterTTVSet extends EmoteSet<BetterTTVEmote> {
+export interface BetterTTVSet extends IEmoteSet<BetterTTVEmote> {
   id: string;
   source: "BetterTTV";
 }
