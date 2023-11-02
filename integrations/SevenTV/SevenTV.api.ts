@@ -29,11 +29,7 @@ export async function get7TVUserProfileByTwitchId(
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   if (response.status === 404) {
-    throw new UserNotFoundError(
-      `⚠️ SevenTV does not have ${
-        username ? `user with username ${username}` : "such user"
-      }`,
-    );
+    throw new UserNotFoundError("SevenTV", username);
   }
   return responseJson(response);
 }

@@ -22,11 +22,7 @@ export async function getBetterTTVUserByTwitchId(
     `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
   );
   if (response.status === 404) {
-    throw new UserNotFoundError(
-      `⚠️ BetterTTV does not have ${
-        username ? `user with nickname ${username}` : "such user"
-      }`,
-    );
+    throw new UserNotFoundError("BetterTTV", username);
   }
   return responseJson(response);
 }
