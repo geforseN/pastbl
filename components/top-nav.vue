@@ -2,9 +2,11 @@
   <nav class="navbar border-b-2 border-b-secondary/50 p-1">
     <ol class="contents">
       <li
-        class="border-2 border-neutral bg-secondary p-1 text-5xl font-bold text-base-content"
+        class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
-        <nuxt-link class="text-5xl leading-3" to="/">pastbl</nuxt-link>
+        <nuxt-link class="relative bottom-[1px] text-5xl" to="/">
+          pastbl
+        </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link

@@ -8,10 +8,10 @@
           active-class="border-t-2 border-t-twitch"
         >
           <span class="w-min break-words xs:w-auto">load emotes</span>
-          <span class="flex flex-col xs:flex-row">
+          <span class="flex flex-col gap-1 xs:flex-row">
             <icons-ffz-logo width="24" heigth="24" />
             <icons-bttv-logo
-              class="absolute translate-x-6 translate-y-1.5 xs:static xs:translate-x-0 xs:translate-y-0"
+              class="absolute translate-x-6 translate-y-2 xs:static xs:translate-x-0 xs:translate-y-0"
               width="24"
               heigth="24"
             />
