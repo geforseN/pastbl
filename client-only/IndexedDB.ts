@@ -1,97 +1,174 @@
-import {
-  openDB,
-  type DBSchema,
-  type IDBPDatabase,
-  type IDBPObjectStore,
-} from "idb";
+import { openDB, type DBSchema, type IDBPDatabase } from "idb";
 import type {
-  EmoteIDBCollection,
-  IUserProfile,
-} from "./IndexedDB/UserProfileCollections";
-import type { Emote } from "~/integrations";
-import { EmoteCollection } from "~/integrations/EmoteCollection";
+  IEmote,
+  IEmoteCollection,
+  IEmoteSet,
+  IUserEmoteCollection,
+} from "~/integrations";
+import type { IGlobalEmoteCollection } from "~/integrations/GlobalEmoteCollection";
+import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
-export interface UsersEmoteCollectionsDB extends DBSchema {
-  profiles: {
-    key: IUserProfile["twitch"]["username"];
-    value: IUserProfile;
+export type IndexedDBEmoteSet = Omit<IEmoteSet, "emotes"> & {
+  emoteIds: IEmote["id"][];
+};
+
+export type IndexedDBEmoteCollection = Omit<IEmoteCollection, "sets"> & {
+  sets: IndexedDBEmoteSet[];
+};
+
+export interface IndexedDBUserCollection {
+  twitch: {
+    nickname: string;
+    id: number;
+    username: Lowercase<IndexedDBUserCollection["twitch"]["nickname"]>;
   };
+  updatedAt: number;
+  collections: Record<
+    "BetterTTV" /* | "Twitch" */ | "SevenTV" | "FrankerFaceZ",
+    // FIXME: uncomment above when twitch api calls will be implemented
+    IndexedDBEmoteCollection
+  >;
+  failedCollectionsReasons:
+    | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
+    | Record<string, never>;
+}
+
+export interface EmoteCollectionsDBSchema extends DBSchema {
+  users: {
+    key: IndexedDBUserCollection["twitch"]["username"];
+    value: IndexedDBUserCollection;
+  };
+  global: {
+    key: IGlobalEmoteCollection["source"];
+    value: IGlobalEmoteCollection;
+  };
+  "key-value": {
+    key: "activeUserCollectionKey" | "activeGlobalCollectionKeys";
+    value:
+      | Lowercase<string>
+      | "BetterTTV"
+      | "SevenTV"
+      | "FrankerFaceZ"
+      | "Twitch"[];
+  };
+}
+
+export interface EmotesDBSchema {
   emotes: {
-    key: [Emote["id"], Emote["source"]];
-    value: Emote & { updatedAt: number };
+    key: [IEmote["id"], IEmote["source"]];
+    value: IEmote & { updatedAt: number };
     indexes: {
-      byId: Emote["id"];
+      byId: IEmote["id"];
       bySource: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
-      byToken: Emote["token"];
+      byToken: IEmote["token"];
       byTags: string[];
     };
   };
-  // NOTE: emoteIds and usedEmotes are in schema, no emotes in schema
-  // activeProfile:
 }
 
-export function openUserEmoteCollectionsDB() {
-  return openDB<UsersEmoteCollectionsDB>("user-emote-collections", 1, {
-    upgrade(database) {
-      database.createObjectStore("profiles", {
-        keyPath: "twitch.username",
-      });
-      const emotesStore = database.createObjectStore("emotes", {
-        keyPath: ["id", "source"],
-      });
-      emotesStore.createIndex("bySource", "source", { unique: false });
-      emotesStore.createIndex("byId", "id", { unique: false });
-      emotesStore.createIndex("byToken", "token", { unique: false });
-      // NOTE: tags only exist in 7TV emotes
-      emotesStore.createIndex("byTags", "tags", {
-        unique: false,
-        multiEntry: true,
-      });
-    },
-  });
+export async function openDBs() {
+  const [collectionsDB, emotesDB] = await Promise.all([
+    openDB<EmoteCollectionsDBSchema>("emote-collections", 2, {
+      upgrade(database) {
+        database.createObjectStore("users", {
+          keyPath: "twitch.username",
+        });
+        // TODO in version 3 REMOVE @@global and saved from emote-collections database
+        // database.deleteObjectStore("@@global");
+        // database.deleteObjectStore("saved");
+        database.createObjectStore("global", {
+          keyPath: "source",
+        });
+        database.createObjectStore("key-value");
+      },
+    }),
+    openDB<EmotesDBSchema>("emotes", 1, {
+      upgrade(database) {
+        const emotesStore = database.createObjectStore("emotes", {
+          keyPath: ["id", "source"],
+        });
+        emotesStore.createIndex("bySource", "source", { unique: false });
+        emotesStore.createIndex("byId", "id", { unique: false });
+        emotesStore.createIndex("byToken", "token", { unique: false });
+        // NOTE: tags only exist in 7TV emotes (as i know)
+        emotesStore.createIndex("byTags", "tags", {
+          unique: false,
+          multiEntry: true,
+        });
+      },
+    }),
+  ]);
+
+  return { collectionsDB, emotesDB };
 }
 
 export function putUserEmotesToDB(
-  userEmotes: Emote[],
-  db: IDBPDatabase<UsersEmoteCollectionsDB>,
+  db: IDBPDatabase<EmotesDBSchema>,
+  userEmoteCollection: IUserEmoteCollection,
 ) {
-  const emoteStore = db
-    .transaction("emotes", "readwrite")
-    .objectStore("emotes");
+  const emotes = createUserEmotesForIDB(userEmoteCollection);
+  const emoteStore = db.transaction("emotes", "readwrite").store;
   return Promise.all(
-    userEmotes.map((emote) =>
-      emoteStore.put({ ...emote, updatedAt: Date.now() }),
-    ),
+    emotes.map((emote) => emoteStore.put({ ...emote, updatedAt: Date.now() })),
   );
 }
 
-export function putUserProfileToDB(
-  profile: IUserProfile,
-  db: IDBPDatabase<UsersEmoteCollectionsDB>,
+export function putUserToDB(
+  db: IDBPDatabase<EmoteCollectionsDBSchema>,
+  userEmoteCollection: IUserEmoteCollection,
 ) {
-  const profileStore = db
-    .transaction("profiles", "readwrite")
-    .objectStore("profiles");
-  return profileStore.put(profile);
+  const user = createUserEmoteCollectionForIDB(userEmoteCollection);
+  const usersStore = db.transaction("users", "readwrite").store;
+  return usersStore.put({ ...user, updatedAt: Date.now() });
 }
 
-export function getProperUserCollectionFromIDB(
-  idbCollectionsRecord: Record<
-    "BetterTTV" | "SevenTV" | "FrankerFaceZ",
-    EmoteIDBCollection
-  >,
-  emoteIDBStore: IDBPObjectStore<
-    UsersEmoteCollectionsDB,
-    ["emotes"],
-    "emotes",
-    "readonly"
-  >,
-) {
-  return Promise.all(
-    Object.values(idbCollectionsRecord).map((idbCollection) =>
-      EmoteCollection.fromIDBCollection(idbCollection, (emoteId) =>
-        emoteIDBStore.get([emoteId, idbCollection.source]),
+export async function getProperUserCollectionFromIDB(
+  db: IDBPDatabase<EmotesDBSchema>,
+  userFromStore: IndexedDBUserCollection,
+): Promise<IUserEmoteCollection> {
+  const emoteStore = db.transaction("emotes").store;
+  return {
+    ...userFromStore,
+    collections: await Promise.all(
+      Object.values(userFromStore.collections).map((idbCollection) =>
+        UserEmoteCollection.fromIDBCollection(idbCollection, (emoteId) =>
+          emoteStore.get([emoteId, idbCollection.source]),
+        ),
       ),
+    ).then((collections) =>
+      makeRecordFromObjectArrayByEntry(collections, "source"),
     ),
+  };
+}
+
+export function createUserEmotesForIDB(
+  userEmoteCollection: IUserEmoteCollection,
+) {
+  return Object.values(userEmoteCollection.collections).flatMap((collection) =>
+    collection.sets.flatMap((set) => set.emotes),
   );
+}
+
+export function createUserEmoteCollectionForIDB(
+  userEmoteCollection: IUserEmoteCollection,
+): IndexedDBUserCollection {
+  const collectionsList = Object.values(userEmoteCollection.collections).map(
+    (collection) => ({
+      name: collection.name,
+      source: collection.source,
+      updatedAt: collection.updatedAt,
+      sets: collection.sets.map((set) => ({
+        id: set.id,
+        name: set.name,
+        source: set.source,
+        updatedAt: set.updatedAt,
+        emoteIds: set.emotes.map((emote) => emote.id),
+      })),
+    }),
+  );
+
+  return {
+    ...userEmoteCollection,
+    collections: makeRecordFromObjectArrayByEntry(collectionsList, "source"),
+  };
 }
