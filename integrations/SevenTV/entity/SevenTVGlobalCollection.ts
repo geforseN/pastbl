@@ -1,7 +1,7 @@
 import type { I7TVSet } from "./SevenTVSet";
-import type { EmoteCollection } from "~/integrations";
+import type { IEmoteCollection } from "~/integrations";
 
-export interface I7TVGlobalCollection extends EmoteCollection<I7TVSet> {
+export interface I7TVGlobalCollection extends IEmoteCollection<I7TVSet> {
   source: "SevenTV";
 }
 

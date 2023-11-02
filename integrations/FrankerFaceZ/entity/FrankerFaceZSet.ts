@@ -3,9 +3,9 @@ import type {
   FrankerFaceZApiEmoteSet,
 } from "../FrankerFaceZ.api";
 import type { FrankerFaceZEmote } from "./FrankerFaceZEmote";
-import type { EmoteSet } from "~/integrations";
+import type { IEmoteSet } from "~/integrations";
 
-export interface FrankerFaceZSet extends EmoteSet<FrankerFaceZEmote> {
+export interface FrankerFaceZSet extends IEmoteSet<FrankerFaceZEmote> {
   source: "FrankerFaceZ";
 }
 

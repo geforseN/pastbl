@@ -1,7 +1,8 @@
 import type { BetterTTVSet } from "./BetterTTVSet";
-import type { EmoteCollection } from "~/integrations";
+import type { IEmoteCollection } from "~/integrations";
 
-export interface BetterTTVUserCollection extends EmoteCollection<BetterTTVSet> {
+export interface BetterTTVUserCollection
+  extends IEmoteCollection<BetterTTVSet> {
   source: "BetterTTV";
   owner: {
     avatarUrl: string;

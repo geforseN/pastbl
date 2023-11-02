@@ -1,8 +1,8 @@
 import type { SevenTVApiEmoteSet, SevenTVApiSetEmote } from "../SevenTV.api";
 import type { I7TVEmote } from "./SevenTVEmote";
-import type { EmoteSet } from "~/integrations";
+import type { IEmoteSet } from "~/integrations";
 
-export interface I7TVSet extends EmoteSet {
+export interface I7TVSet extends IEmoteSet {
   emotes: I7TVEmote[];
   source: "SevenTV";
   name: string;

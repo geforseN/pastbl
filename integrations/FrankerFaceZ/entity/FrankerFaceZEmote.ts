@@ -1,10 +1,10 @@
 import type { FrankerFaceZApiEmote } from "../FrankerFaceZ.api";
-import type { Emote } from "~/integrations";
+import type { IEmote } from "~/integrations";
 
-export interface FrankerFaceZEmote extends Emote {
+export interface FrankerFaceZEmote extends IEmote {
   source: "FrankerFaceZ";
   type: "channel" | "global";
-  url: `//cdn.frankerfacez.com/emote/${Emote["id"]}`;
+  url: `//cdn.frankerfacez.com/emote/${IEmote["id"]}`;
   width: number;
 }
 
