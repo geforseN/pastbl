@@ -1,11 +1,20 @@
-import { openDB, type DBSchema, type IDBPDatabase } from "idb";
-import type { UserProfile } from "./IndexedDB/UserProfileCollections";
+import {
+  openDB,
+  type DBSchema,
+  type IDBPDatabase,
+  type IDBPObjectStore,
+} from "idb";
+import type {
+  EmoteIDBCollection,
+  IUserProfile,
+} from "./IndexedDB/UserProfileCollections";
 import type { Emote } from "~/integrations";
+import { EmoteCollection } from "~/integrations/EmoteCollection";
 
-interface UsersEmoteCollectionsDB extends DBSchema {
+export interface UsersEmoteCollectionsDB extends DBSchema {
   profiles: {
-    key: string;
-    value: UserProfile;
+    key: IUserProfile["twitch"]["username"];
+    value: IUserProfile;
   };
   emotes: {
     key: [Emote["id"], Emote["source"]];
@@ -17,13 +26,15 @@ interface UsersEmoteCollectionsDB extends DBSchema {
       byTags: string[];
     };
   };
+  // NOTE: emoteIds and usedEmotes are in schema, no emotes in schema
+  // activeProfile:
 }
 
 export function openUserEmoteCollectionsDB() {
   return openDB<UsersEmoteCollectionsDB>("user-emote-collections", 1, {
     upgrade(database) {
       database.createObjectStore("profiles", {
-        keyPath: "twitch.nickname",
+        keyPath: "twitch.username",
       });
       const emotesStore = database.createObjectStore("emotes", {
         keyPath: ["id", "source"],
@@ -55,11 +66,32 @@ export function putUserEmotesToDB(
 }
 
 export function putUserProfileToDB(
-  profile: UserProfile,
+  profile: IUserProfile,
   db: IDBPDatabase<UsersEmoteCollectionsDB>,
 ) {
   const profileStore = db
     .transaction("profiles", "readwrite")
     .objectStore("profiles");
   return profileStore.put(profile);
+}
+
+export function getProperUserCollectionFromIDB(
+  idbCollectionsRecord: Record<
+    "BetterTTV" | "SevenTV" | "FrankerFaceZ",
+    EmoteIDBCollection
+  >,
+  emoteIDBStore: IDBPObjectStore<
+    UsersEmoteCollectionsDB,
+    ["emotes"],
+    "emotes",
+    "readonly"
+  >,
+) {
+  return Promise.all(
+    Object.values(idbCollectionsRecord).map((idbCollection) =>
+      EmoteCollection.fromIDBCollection(idbCollection, (emoteId) =>
+        emoteIDBStore.get([emoteId, idbCollection.source]),
+      ),
+    ),
+  );
 }
