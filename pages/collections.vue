@@ -33,20 +33,11 @@
       images from emote collections still can be in loading state
       to cancel image loading src attribute of img should be set to empty string => <img src="" alt="any " />
      -->
-      <ol class="flex w-full flex-col gap-1 xs:w-96 2xl:w-auto 2xl:flex-row">
-        <emote-collection-ffz
-          class="min-h-16 2xl:h-max 2xl:w-80"
-          :ffz="collections.ffz"
-        />
-        <emote-collection-bttv
-          class="min-h-16 2xl:h-max 2xl:w-80"
-          :bttv="collections.bttv"
-        />
-        <emote-collection-seventv
-          class="min-h-16 2xl:h-max 2xl:w-80"
-          :seven-tv="collections.sevenTv"
-        />
-      </ol>
+      <emote-collection-list
+        v-if="collections.integrations.state.value"
+        :collections="collections"
+      />
+      <emote-collection-list-sync v-else-if="user" :user="user" />
     </div>
   </div>
   <!-- FIXME: make nuxt-loading-indicator work  -->
@@ -54,7 +45,7 @@
   <!-- <nuxt-loading-indicator />  -->
 </template>
 <script lang="ts" setup>
-import { EmoteCollection } from "~/integrations/EmoteCollection";
+import type { IUserEmoteCollection } from "~/integrations";
 /* eslint-disable no-console */
 
 useHead({ title: "collections - pastbl" });
@@ -63,9 +54,7 @@ const nickname = useUrlQueryParam("nickname");
 const shouldShowInput = nickname.value === "";
 const collections = useUserIntegrations(nickname);
 
-const userStore = useUserStore();
-
-const user = ref();
+const user = ref<IUserEmoteCollection>();
 
 onErrorCaptured((error) => {
   // TODO: here can check instanceof error
@@ -74,100 +63,36 @@ onErrorCaptured((error) => {
 });
 
 onMounted(async () => {
-  const { openUserEmoteCollectionsDB, putUserEmotesToDB, putUserProfileToDB } =
-    await import("~/client-only/IndexedDB");
-  const { createUserEmotesForIDB, createUserProfileForIDB } = await import(
-    "~/client-only/IndexedDB/UserProfileCollections"
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const userStore = useUserStore();
+
+  if (!nickname.value.length) {
+    throw new Error("Must enter a nickname");
+  }
+
+  const { openDBs } = await import("~/client-only/IndexedDB");
+  const dbs = await openDBs();
+
+  const idbUser = await dbs.collectionsDB.get(
+    "users",
+    nickname.value.toLowerCase() as Lowercase<string>,
   );
-  if (nickname.value.length) {
-    await collections.integrations.execute();
-  }
-  console.log({ collections });
-
-  const db = await openUserEmoteCollectionsDB();
-  const userFromStore = await db.get("profiles", nickname.value);
-  if (userFromStore) {
-    user.value = userFromStore;
-    const emotesIDBStore = db.transaction("emotes").store;
-
-    console.time("fromIDBCollection");
-    const fromIDBCollection = await Promise.all(
-      Object.values(userFromStore.collections).map((idbCollection) =>
-        EmoteCollection.fromIDBCollection2(idbCollection, (emoteId) =>
-          emotesIDBStore.get([emoteId, idbCollection.source]),
-        ),
-      ),
+  if (idbUser) {
+    const { getProperUserCollectionFromIDB } = await import(
+      "~/client-only/IndexedDB"
     );
-
-    console.timeEnd("fromIDBCollection");
-
-    console.log({
-      fromIDBCollection,
-    });
-    return;
+    user.value = await getProperUserCollectionFromIDB(dbs.emotesDB, idbUser);
+  } else {
+    const { putUserEmotesToDB, putUserToDB } = await import(
+      "~/client-only/IndexedDB"
+    );
+    user.value =
+      (await collections.integrations.execute()) ||
+      raise("Failed to load emote collection");
+    putUserToDB(dbs.collectionsDB, toRaw(user.value));
+    putUserEmotesToDB(dbs.emotesDB, toRaw(user.value));
   }
-  console.log("no such user found in idb store");
-  // const allUserEmotes = createUserEmotesForIDB(userCollections);
-  // const userProfile = createUserProfileForIDB(userCollections);
-  // console.log({ allUserEmotes, userProfile });
-  // const result = await Promise.all([
-  //   putUserProfileToDB(userProfile, db),
-  //   putUserEmotesToDB(allUserEmotes, db),
-  // ]);
-  // return console.log({
-  //   state2: collections.integrations.state.value,
-  //   result,
-  // });
+
+  console.log({ user: user.value });
 });
 </script>
-
-<!-- 
-
-    // console.time("collectionsFromIDB");
-    // const collectionsFromIDB = Object.values(userFromStore.collections).map(
-    //   (collection) => {
-    //     return {
-    //       ...collection,
-    //       sets: collection.sets.map((setLike) =>
-    //         toSet(setLike, (emoteId) =>
-    //           emotesIDBStore.get([emoteId, setLike.name as Integration]),
-    //         ),
-    //       ),
-    //     };
-    //   },
-    // );
-    // console.timeEnd("collectionsFromIDB");
-
-    // console.time("populatedCollections");
-    // const populatedCollections = await Promise.all(
-    //   Object.values(userFromStore.collections).map(async (collection) => {
-    //     return {
-    //       ...collection,
-    //       sets: await Promise.all(
-    //         collection.sets.map(async (set) => ({
-    //           id: set.id,
-    //           name: set.name,
-    //           source: set.source,
-    //           updatedAt: set.updatedAt,
-    //           emotes: await Promise.all(
-    //             set.emoteIds.map((id) =>
-    //               emotesIDBStore.get([id, set.name as Integration]),
-    //             ),
-    //           ),
-    //         })),
-    //       ),
-    //     };
-    //   }),
-    // );
-    // console.timeEnd("populatedCollections");
-
-
-    // console.time("emotes");
-    // const emotes = await Promise.all(
-    //   Object.values(collectionsFromIDB).map((collection) =>
-    //     Promise.all(collection.sets.map((set) => Promise.all(set.emotes))),
-    //   ),
-    // );
-    // console.timeEnd("emotes");
-
- -->

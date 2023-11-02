@@ -20,9 +20,9 @@
       class="pt-1"
       :sets="[props.sevenTv.activeSet.state.value]"
     />
-    <template v-if="props.sevenTv.fullCollection.error.value">
-      {{ props.sevenTv.fullCollection.error.value }}
-    </template>
+    <div v-if="(props.sevenTv.fullCollection.error.value as Error)?.message">
+      {{ (props.sevenTv.fullCollection.error.value as Error).message }}
+    </div>
   </li>
 </template>
 <script lang="ts" setup>
