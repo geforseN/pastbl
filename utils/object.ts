@@ -19,3 +19,20 @@ export function makeObjectFromMap<K extends string, V>(
   }
   return object;
 }
+
+export function makeRecordFromObjectArrayByEntry<
+  O extends object,
+  K extends keyof O,
+  V extends O[K] extends string | number | symbol ? O[K] : never,
+>(array: O[], key: V extends O[K] ? K : never) {
+  return array.reduce(
+    (record, object) => {
+      const value = object[key] as V;
+      const type = typeof value;
+      assert.ok(type === "string" || type === "number" || type === "symbol");
+      record[value] = object;
+      return record;
+    },
+    {} as Record<V, O>,
+  );
+}
