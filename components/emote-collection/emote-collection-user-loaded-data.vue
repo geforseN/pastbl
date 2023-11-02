@@ -30,5 +30,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-defineProps<{ collections: ReturnType<typeof useUserIntegrations> }>();
+const { collections } = defineProps<{
+  collections: ReturnType<typeof useUserIntegrations>;
+}>();
 </script>

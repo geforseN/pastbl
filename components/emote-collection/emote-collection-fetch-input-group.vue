@@ -39,10 +39,13 @@ watchDebounced(userNickname, emitLoadCollections, { debounce: 1_500 });
 
 function emitLoadCollections(userNickname: string) {
   if (!userNickname.length) {
-    return;
+    return toast.add({
+      description: "Enter twitch nickname",
+      title: "Error",
+    });
   }
   if (props.isCollectionsLoading) {
-    return void toast.add({
+    return toast.add({
       description: "Collections already loading",
       title: "Error",
     });
