@@ -1,11 +1,14 @@
 import type { getFFZProfileByTwitchUsername } from "../FrankerFaceZ.api";
 import { FFZCollectionOwner } from "./FrankerFaceZCollectionOwner";
-import { FFZPartialUserCollection } from "./FrankerFaceZPartialUserCollection";
+import {
+  FFZPartialUserCollection,
+  type FrankerFaceZPartialUserCollection,
+} from "./FrankerFaceZPartialUserCollection";
 import { FFZUserBadge } from "./FrankerFaceZUserBadge";
 
 export function createFFZPartialUserCollection(
   profile: Awaited<ReturnType<typeof getFFZProfileByTwitchUsername>>,
-) {
+): FrankerFaceZPartialUserCollection {
   return new FFZPartialUserCollection(
     new FFZCollectionOwner(
       profile.user,

@@ -8,6 +8,9 @@ export const templateStrings = {
   FFZ: FFZEmoteString,
 };
 
+export type EmoteSource = "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+export type AvailableEmoteSources = Exclude<EmoteSource, "Twitch">;
+
 export interface IEmote {
   // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
   id: string;
@@ -16,7 +19,7 @@ export interface IEmote {
   isModifier: boolean;
   // NOTE: FFZ use term 'Hidden', SevenTV uses 'isZeroWidth'
   isWrapper: boolean;
-  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+  source: EmoteSource;
   token: string;
   url: string;
 }
@@ -34,15 +37,31 @@ export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
   // NOTE - BTTV doesn't have term 'name'
   // BTTV set can be named only as 'Channel emotes' or as 'Global emotes'
   name: string;
-  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+  source: EmoteSource;
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
 
-export interface IEmoteCollection<EmoteSetT extends IEmoteSet = IEmoteSet> {
-  name: string;
-  sets: EmoteSetT[];
-  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+export interface IEmoteCollectionOwner {}
+
+export interface IGlobalEmoteCollection<
+  SourceT extends EmoteSource = EmoteSource,
+  SetT extends IEmoteSet = IEmoteSet,
+> {
+  name: `${SourceT} Global Emotes Collection`;
+  sets: SetT[];
+  source: SourceT;
   updatedAt: ReturnType<(typeof Date)["now"]>;
+}
+
+export interface IEmoteCollection<
+  SourceT extends EmoteSource = EmoteSource,
+  SetT extends IEmoteSet = IEmoteSet,
+> {
+  name: string;
+  sets: SetT[];
+  source: SourceT;
+  updatedAt: ReturnType<(typeof Date)["now"]>;
+  owner: IEmoteCollectionOwner;
 }
 
 export interface IUserEmoteCollection {
@@ -53,12 +72,11 @@ export interface IUserEmoteCollection {
   };
   updatedAt: number;
   collections: Record<
-    "BetterTTV" /* | "Twitch" */ | "SevenTV" | "FrankerFaceZ",
-    // FIXME: uncomment above when twitch api calls will be implemented
-    IEmoteCollection
+    AvailableEmoteSources,
+    IEmoteCollection<AvailableEmoteSources>
   >;
   failedCollectionsReasons:
-    | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
+    | Record<AvailableEmoteSources, string>
     | Record<string, never>;
 }
 

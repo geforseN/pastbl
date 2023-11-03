@@ -16,10 +16,9 @@
       <emote-collection-ffz-sets
         class="flex flex-col gap-1 pt-1"
         :sets="props.user.collections.FrankerFaceZ.sets"
-        :capacity="100"
+        :capacity="props.user.collections.FrankerFaceZ.owner.maxEmotes"
       />
     </li>
-    <!-- props.user.collections.FrankerFaceZ.owner.maxEmotes -->
     <li
       v-if="props.user.collections.BetterTTV"
       class="flex flex-col divide-y-2 divide-[#63b3ed] border-2 border-[#63b3ed] bg-[#1a202c] p-2 text-white"

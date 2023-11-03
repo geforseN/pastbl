@@ -1,9 +1,8 @@
 import type { I7TVSet } from "./SevenTVSet";
-import type { IEmoteCollection } from "~/integrations";
+import type { IGlobalEmoteCollection } from "~/integrations";
 
-export interface I7TVGlobalCollection extends IEmoteCollection<I7TVSet> {
-  source: "SevenTV";
-}
+export interface I7TVGlobalCollection
+  extends IGlobalEmoteCollection<"SevenTV", I7TVSet> {}
 
 export class SevenTVGlobalCollection implements I7TVGlobalCollection {
   name;
@@ -12,7 +11,7 @@ export class SevenTVGlobalCollection implements I7TVGlobalCollection {
   updatedAt;
 
   constructor(sets: I7TVSet[]) {
-    this.name = "SevenTV Global Emotes Collection";
+    this.name = "SevenTV Global Emotes Collection" as const;
     this.sets = sets;
     this.source = "SevenTV" as const;
     this.updatedAt = Date.now();

@@ -2,6 +2,7 @@ import type { SevenTVApiUserProfile } from "../SevenTV.api";
 
 export interface I7TVCollectionOwner {
   avatarUrl: string;
+  capacity: number;
   displayName: string;
   linkedAt: number;
   biography: string;
@@ -11,6 +12,7 @@ export interface I7TVCollectionOwner {
 
 export class SevenTVCollectionOwner implements I7TVCollectionOwner {
   avatarUrl;
+  capacity;
   displayName;
   linkedAt;
   style;
@@ -19,6 +21,7 @@ export class SevenTVCollectionOwner implements I7TVCollectionOwner {
 
   constructor(profile: SevenTVApiUserProfile) {
     this.avatarUrl = `https:${profile.user.avatar_url}`;
+    this.capacity = profile.emote_capacity;
     this.displayName = profile.display_name;
     this.username = profile.username;
     this.style = profile.user.style;
