@@ -23,16 +23,42 @@ export function makeObjectFromMap<K extends string, V>(
 export function makeRecordFromObjectArrayByEntry<
   O extends object,
   K extends keyof O,
-  V extends O[K] extends string | number | symbol ? O[K] : never,
->(array: O[], key: V extends O[K] ? K : never) {
-  return array.reduce(
+  V extends O[K],
+>(objectArray: O[], key: V extends string | number | symbol ? K : never) {
+  return objectArray.reduce(
     (record, object) => {
       const value = object[key] as V;
-      const type = typeof value;
-      assert.ok(type === "string" || type === "number" || type === "symbol");
       record[value] = object;
       return record;
     },
+    // @ts-expect-error IF instead of:
+    // V extends O[K]
+    // DO:
+    // V extends O[K] extends string | number | symbol ? O[K] : never
+    // THEN no autosuggestion in code editor BUT error in below Record<V, O>
     {} as Record<V, O>,
   );
 }
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const record1 = {
+  c: 3,
+  g: 4,
+  f: [1],
+} as const;
+
+const record2 = {
+  c: "c",
+  g: 1,
+  f: [3],
+} as const;
+
+const records = [record1, record2];
+
+const good1 = makeRecordFromObjectArrayByEntry(records, "c");
+const good2 = makeRecordFromObjectArrayByEntry(records, "g");
+type Good1 = typeof good1;
+type Good2 = typeof good2;
+// @ts-expect-error value of record1['f'] (and record2['f']) is an array, only string | number | symbol allowed
+const bad1 = makeRecordFromObjectArrayByEntry(records, "f");
+type Bad1 = typeof bad1;
