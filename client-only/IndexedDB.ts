@@ -4,8 +4,8 @@ import type {
   IEmoteCollection,
   IEmoteSet,
   IUserEmoteCollection,
+  IGlobalEmoteCollection,
 } from "~/integrations";
-import type { IGlobalEmoteCollection } from "~/integrations/GlobalEmoteCollection";
 import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
 export type IndexedDBEmoteSet = Omit<IEmoteSet, "emotes"> & {
@@ -42,15 +42,15 @@ export interface EmoteCollectionsDBSchema extends DBSchema {
     key: IGlobalEmoteCollection["source"];
     value: IGlobalEmoteCollection;
   };
-  "key-value": {
-    key: "activeUserCollectionKey" | "activeGlobalCollectionKeys";
-    value:
-      | Lowercase<string>
-      | "BetterTTV"
-      | "SevenTV"
-      | "FrankerFaceZ"
-      | "Twitch"[];
-  };
+  "key-value":
+    | {
+        key: "activeUserCollection";
+        value: Lowercase<string>;
+      }
+    | {
+        key: "activeGlobalCollections";
+        value: ("BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch")[];
+      };
 }
 
 export interface EmotesDBSchema {
@@ -157,13 +157,14 @@ export function createUserEmoteCollectionForIDB(
       name: collection.name,
       source: collection.source,
       updatedAt: collection.updatedAt,
-      sets: collection.sets.map((set) => ({
-        id: set.id,
-        name: set.name,
-        source: set.source,
-        updatedAt: set.updatedAt,
-        emoteIds: set.emotes.map((emote) => emote.id),
-      })),
+      owner: collection.owner,
+      sets: collection.sets.map((setToInclude) => {
+        const { emotes, ...set } = setToInclude;
+        return {
+          ...set,
+          emoteIds: emotes.map((emote) => emote.id),
+        };
+      }),
     }),
   );
 

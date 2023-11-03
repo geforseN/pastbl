@@ -276,7 +276,6 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
       {} as
         | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
         | Record<string, never>,
-      // | { [x in "BetterTTV" | "SevenTV" | "FrankerFaceZ"]: string }
     );
     /* eslint-disable no-console */
     console.log({

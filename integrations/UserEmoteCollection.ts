@@ -1,4 +1,9 @@
-import type { IEmote, IEmoteSet, IEmoteCollection } from ".";
+import type {
+  IEmote,
+  IEmoteSet,
+  IEmoteCollection,
+  IEmoteCollectionOwner,
+} from ".";
 import type { IndexedDBEmoteCollection } from "~/client-only/IndexedDB";
 
 export class UserEmoteCollection implements IEmoteCollection {
@@ -8,6 +13,7 @@ export class UserEmoteCollection implements IEmoteCollection {
     public source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch",
     public updatedAt: number,
     public sets: IEmoteSet[],
+    public owner: IEmoteCollectionOwner,
   ) {}
 
   static async fromIDBCollection(
@@ -21,19 +27,18 @@ export class UserEmoteCollection implements IEmoteCollection {
       idbCollection.source,
       idbCollection.updatedAt,
       await Promise.all(
-        idbCollection.sets.map(async (idbSet) => ({
-          id: idbSet.id,
-          name: idbSet.name,
-          source: idbSet.source,
-          updatedAt: idbSet.updatedAt,
-          emotes: await Promise.all(
-            idbSet.emoteIds.map(loadEmoteFromIdbCB),
-          ).then(
-            (emoteSet) =>
-              emoteSet.filter((emote) => emote !== undefined) as IEmote[],
-          ),
-        })),
+        idbCollection.sets.map(async (idbSet) => {
+          const { emoteIds, ...set } = idbSet;
+          return {
+            ...set,
+            emotes: await Promise.all(emoteIds.map(loadEmoteFromIdbCB)).then(
+              (emoteSet) =>
+                emoteSet.filter((emote) => emote !== undefined) as IEmote[],
+            ),
+          };
+        }),
       ),
+      idbCollection.owner,
     );
   }
 }

@@ -1,10 +1,9 @@
-import type { FrankerFaceZGlobalCollection } from "./FrankerFaceZGlobalCollection";
 import type { FrankerFaceZCollectionOwner } from "./FrankerFaceZCollectionOwner";
 import type { FrankerFaceZPartialUserCollection } from "./FrankerFaceZPartialUserCollection";
 import type { FrankerFaceZSet } from "./FrankerFaceZSet";
+import type { IEmoteCollection } from "~/integrations";
 
-export interface FrankerFaceZUserCollection
-  extends FrankerFaceZGlobalCollection {
+export interface FrankerFaceZUserCollection extends IEmoteCollection {
   owner: FrankerFaceZCollectionOwner;
 }
 
