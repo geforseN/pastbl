@@ -3,9 +3,9 @@
     class="overflow-wrap-anywhere -m-[.2rem] inline-block break-all p-[.2rem] align-baseline"
   >
     <div
-      class="mr-[1.5px] inline-flex h-twitch-badge w-twitch-badge items-center justify-center bg-red-600 align-middle"
       v-for="badgeNumber of user.badges.count"
       :key="badgeNumber"
+      class="mr-[1.5px] inline-flex h-twitch-badge w-twitch-badge items-center justify-center bg-red-600 align-middle"
     >
       {{ badgeNumber }}
     </div>

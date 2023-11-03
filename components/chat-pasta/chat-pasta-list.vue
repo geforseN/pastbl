@@ -1,14 +1,14 @@
 <template>
   <div
-    class="mt-4 flex justify-center font-bold"
     v-if="pastasStore.pastas.length === 0"
+    class="mt-4 flex justify-center font-bold"
   >
     No pastas were added yet!
   </div>
-  <div class="flex flex-col gap-y-2" v-else>
+  <div v-else class="flex flex-col gap-y-2">
     <div
-      class="alert alert-warning flex justify-center"
       v-if="!clipboard.isSupported"
+      class="alert alert-warning flex justify-center"
     >
       <span class="">Your browser does not support Clipboard API!</span>
     </div>
