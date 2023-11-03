@@ -13,12 +13,12 @@
         <span class="block w-full px-[10px] py-[5px]">
           <slot name="user-nickname" />
           <span>{{ ": " }}</span>
-          <!-- FIXME: XXS vulnerability, use some html sanitizer -->
+          <!-- eslint-disable vue/no-v-html -->
           <span
             class="twitch-text p-0 text-[13px]/[18px]"
-            v-html="props.pasta.populatedText || props.pasta.text"
-          >
-          </span>
+            v-html="sanitize(props.pasta.populatedText || props.pasta.text)"
+          />
+          <!-- eslint-enable vue/no-v-html -->
         </span>
       </span>
       <div
@@ -54,6 +54,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+import sanitize from "sanitize-html";
+
 import { UseTimeAgo } from "@vueuse/components";
 
 const props = defineProps<{ pasta: MegaPasta }>();
