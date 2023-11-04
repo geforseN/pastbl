@@ -31,9 +31,8 @@
               :src="`https:${emote.url}/1x.webp`"
               :alt="emote.token"
               :title="emote.token"
-              width="32"
               height="32"
-              class="m-0.5"
+              class="m-0.5 min-w-[32px]"
               loading="lazy"
             />
           </div>
