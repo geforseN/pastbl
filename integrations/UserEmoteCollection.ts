@@ -12,8 +12,8 @@ export class UserEmoteCollection implements IEmoteCollection {
     public name: string,
     public source: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch",
     public updatedAt: number,
-    public sets: IEmoteSet[],
     public owner: IEmoteCollectionOwner,
+    public sets: IEmoteSet[],
   ) {}
 
   static async fromIDBCollection(
@@ -21,11 +21,12 @@ export class UserEmoteCollection implements IEmoteCollection {
     loadEmoteFromIdbCB: (
       idbEmoteId: IEmote["id"],
     ) => Promise<IEmote | undefined>,
-  ) {
+  ): Promise<IEmoteCollection> {
     return new UserEmoteCollection(
       idbCollection.name,
       idbCollection.source,
       idbCollection.updatedAt,
+      idbCollection.owner,
       await Promise.all(
         idbCollection.sets.map(async (idbSet) => {
           const { emoteIds, ...set } = idbSet;
@@ -33,12 +34,13 @@ export class UserEmoteCollection implements IEmoteCollection {
             ...set,
             emotes: await Promise.all(emoteIds.map(loadEmoteFromIdbCB)).then(
               (emoteSet) =>
-                emoteSet.filter((emote) => emote !== undefined) as IEmote[],
+                emoteSet.filter(
+                  (emote): emote is IEmote => emote !== undefined,
+                ),
             ),
           };
         }),
       ),
-      idbCollection.owner,
     );
   }
 }

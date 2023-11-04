@@ -5,6 +5,7 @@ import type {
   IEmoteSet,
   IUserEmoteCollection,
   IGlobalEmoteCollection,
+  EmoteCollectionsRecord,
 } from "~/integrations";
 import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
@@ -158,10 +159,7 @@ export function createUserEmoteCollectionForIDB(
 ): IndexedDBUserCollection {
   const collectionsList = Object.values(userEmoteCollection.collections).map(
     (collection) => ({
-      name: collection.name,
-      source: collection.source,
-      updatedAt: collection.updatedAt,
-      owner: collection.owner,
+      ...collection,
       sets: collection.sets.map((setToInclude) => {
         const { emotes, ...set } = setToInclude;
         return {
