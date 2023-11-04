@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-wrap-anywhere -m-[.2rem] inline-block break-all p-[.2rem] align-baseline"
+    class="overflow-wrap-anywhere -m-[.2rem] inline-block break-all p-[0.2rem] align-baseline"
   >
     <div
       v-for="badgeNumber of user.badges.count"
