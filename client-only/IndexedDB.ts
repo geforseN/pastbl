@@ -107,7 +107,7 @@ export function putUserEmotesToDB(
   db: IDBPDatabase<EmotesDBSchema>,
   userEmoteCollection: IUserEmoteCollection,
 ) {
-  const emotes = createUserEmotesForIDB(userEmoteCollection);
+  const emotes = prepareUserEmotesForIDB(userEmoteCollection);
   const emoteStore = db.transaction("emotes", "readwrite").store;
   return Promise.all(
     emotes.map((emote) => emoteStore.put({ ...emote, updatedAt: Date.now() })),
@@ -118,7 +118,7 @@ export function putUserToDB(
   db: IDBPDatabase<EmoteCollectionsDBSchema>,
   userEmoteCollection: IUserEmoteCollection,
 ) {
-  const user = createUserEmoteCollectionForIDB(userEmoteCollection);
+  const user = prepareUserEmoteCollectionForIDB(userEmoteCollection);
   const usersStore = db.transaction("users", "readwrite").store;
   return usersStore.put({ ...user, updatedAt: Date.now() });
 }
@@ -146,7 +146,7 @@ export async function getProperUserCollectionFromIDB(
   };
 }
 
-export function createUserEmotesForIDB(
+export function prepareUserEmotesForIDB(
   userEmoteCollection: IUserEmoteCollection,
 ) {
   return Object.values(userEmoteCollection.collections).flatMap((collection) =>
@@ -154,7 +154,7 @@ export function createUserEmotesForIDB(
   );
 }
 
-export function createUserEmoteCollectionForIDB(
+export function prepareUserEmoteCollectionForIDB(
   userEmoteCollection: IUserEmoteCollection,
 ): IndexedDBUserCollection {
   const collectionsList = Object.values(userEmoteCollection.collections).map(
