@@ -10,7 +10,7 @@
       </li>
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link
-          class="btn btn-ghost border-twitch text-twitch"
+          class="btn btn-outline border-twitch text-twitch"
           to="/collections"
         >
           load emotes
@@ -26,7 +26,12 @@
         </button>
       </li>
       <li class="ml-auto">
-        <select class="select select-bordered" data-choose-theme>
+        <select
+          id="app-theme"
+          class="select select-bordered"
+          data-choose-theme
+          name="select-app-theme"
+        >
           <option value="">Default theme</option>
           <option value="dark">Dark</option>
           <option value="light">Light</option>
