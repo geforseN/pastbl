@@ -258,7 +258,7 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
 
     const [fulfilledCollections, rejectReasons] =
       tupleSettledPromises(settledCollections);
-    const collections = makeRecordFromObjectArrayByEntry(
+    const collections = arrayToRecordByValueOfKey(
       fulfilledCollections,
       "source",
     );
