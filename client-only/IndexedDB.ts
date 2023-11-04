@@ -135,8 +135,12 @@ export async function getProperUserCollectionFromIDB(
           emoteStore.get([emoteId, idbCollection.source]),
         ),
       ),
-    ).then((collections) =>
-      makeRecordFromObjectArrayByEntry(collections, "source"),
+    ).then(
+      (collections) =>
+        arrayToRecordByValueOfKey(
+          collections,
+          "source",
+        ) as EmoteCollectionsRecord,
     ),
   };
 }
@@ -170,6 +174,6 @@ export function createUserEmoteCollectionForIDB(
 
   return {
     ...userEmoteCollection,
-    collections: makeRecordFromObjectArrayByEntry(collectionsList, "source"),
+    collections: arrayToRecordByValueOfKey(collectionsList, "source"),
   };
 }
