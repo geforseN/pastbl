@@ -64,6 +64,10 @@ export interface IEmoteCollection<
   owner: IEmoteCollectionOwner;
 }
 
+export type EmoteCollectionsRecord =
+  | Record<AvailableEmoteSources, IEmoteCollection<AvailableEmoteSources>>
+  | Record<AvailableEmoteSources, never>;
+
 export interface IUserEmoteCollection {
   twitch: {
     nickname: string;
@@ -71,10 +75,7 @@ export interface IUserEmoteCollection {
     username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
   };
   updatedAt: number;
-  collections: Record<
-    AvailableEmoteSources,
-    IEmoteCollection<AvailableEmoteSources>
-  >;
+  collections: EmoteCollectionsRecord;
   failedCollectionsReasons:
     | Record<AvailableEmoteSources, string>
     | Record<string, never>;
