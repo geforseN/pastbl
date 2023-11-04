@@ -10,31 +10,31 @@
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
-        <slot name="button" :dynamicClass="createPastaButtonClass" />
+        <slot name="button" :dynamic-class="createPastaButtonClass" />
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
             :class="pastaLengthClass[pastaStatus]"
             :pasta-text="pastaText.trim()"
           />
           <button
-            class="btn btn-error btn-sm"
             v-if="props.pastaTags.length !== 0"
+            class="btn btn-error btn-sm"
             @click="() => emit('removeAllTags')"
           >
             remove all tags
           </button>
-          <span class="badge badge-warning badge-lg" v-else>No tags added</span>
+          <span v-else class="badge badge-warning badge-lg">No tags added</span>
         </div>
       </div>
     </div>
     <pasta-form-tags
-      @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
       :tags="props.pastaTags"
+      @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
     />
     <pasta-form-tags-input
       v-model="tagToAdd"
-      @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
       :should-become-empty-on-add="props.shouldTagModelBecomeEmptyOnAdd"
+      @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
     >
       <template #addTagSuggestions>
         <!--   NOTE: TRIED to use <option :value="tag" ...otherAttrs><{{'important message'}}/option>  
