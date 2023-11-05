@@ -33,7 +33,7 @@
     />
     <pasta-form-tags-input
       v-model="tagToAdd"
-      :should-become-empty-on-add="props.shouldTagModelBecomeEmptyOnAdd"
+      :must-become-empty-on-add="props.mustTagModelBecomeEmptyOnAdd"
       @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
     >
       <template #addTagSuggestions>
@@ -67,7 +67,7 @@ defineSlots<{
 
 const props = defineProps<{
   pastaTags: Pasta["tags"];
-  shouldTagModelBecomeEmptyOnAdd?: boolean;
+  mustTagModelBecomeEmptyOnAdd?: boolean;
 }>();
 
 const emit = defineEmits<{

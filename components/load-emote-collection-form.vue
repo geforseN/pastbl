@@ -1,7 +1,7 @@
 <template>
   <section class="divide-y-2 border-2 border-base-content p-2">
     <h2 class="p-2 text-3xl font-bold">Load emote collection</h2>
-    <form action="" @submit.prevent>
+    <form @submit.prevent>
       <div class="form-control p-2">
         <label class="label" for="twitch-nickname">
           <span class="label-text text-xl font-medium">
@@ -34,25 +34,23 @@
             Load
           </nuxt-link>
         </div>
-        <label class="label-text mt-1 text-xs" for="twitch-nickname">
-          <span v-if="isValidUserNickname">
-            Now you can press
-            <kbd class="kbd kbd-xs">
-              <nuxt-link
-                :to="{
-                  path: '/collections',
-                  query: { nickname: trimmedUserNickname },
-                }"
-              >
-                enter
-              </nuxt-link>
-            </kbd>
-            to load emote collection
-          </span>
-          <span v-else>
-            Please, enter a string of 4-25 non-whitespace characters
-          </span>
-        </label>
+        <span v-if="isValidUserNickname" class="label-text mt-1 text-xs">
+          Now you can press
+          <kbd class="kbd kbd-xs">
+            <nuxt-link
+              :to="{
+                path: '/collections',
+                query: { nickname: trimmedUserNickname },
+              }"
+            >
+              enter
+            </nuxt-link>
+          </kbd>
+          to load emote collection
+        </span>
+        <span v-else>
+          Please, enter a string of 4-25 non-whitespace characters
+        </span>
       </div>
     </form>
   </section>

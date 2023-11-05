@@ -51,19 +51,18 @@
           class="flex items-center justify-between rounded border-2 border-base-content px-2"
         >
           <label
-            for="should-show-alert-pasta-copied"
+            for="must-show-alert-pasta-copied"
             class="label cursor-pointer text-xl font-medium"
           >
             <h3>Pasta Copied</h3>
           </label>
           <input
-            id="should-show-alert-pasta-copied"
+            id="must-show-alert-pasta-copied"
             v-model="
-              userStore.user.preferences.alerts.copypastaCopy
-                .shouldShowOnSuccess
+              userStore.user.preferences.alerts.copypastaCopy.mustShowOnSuccess
             "
             class="toggle toggle-secondary"
-            name="should-show-alert-pasta-copied"
+            name="must-show-alert-pasta-copied"
             type="checkbox"
             label="Pasta Created"
           />

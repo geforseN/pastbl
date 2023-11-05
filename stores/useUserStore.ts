@@ -9,12 +9,12 @@ type User = {
     };
     alerts: {
       copypastaCopy: {
-        shouldShowOnSuccess: boolean;
+        mustShowOnSuccess: boolean;
       };
     };
     sounds: {
       copypastaCopy: {
-        shouldSoundOnSuccess: boolean;
+        mustSoundOnSuccess: boolean;
       };
     };
   };
@@ -30,12 +30,12 @@ export const useUserStore = defineStore(
         nickname: { color: "#C00" },
         alerts: {
           copypastaCopy: {
-            shouldShowOnSuccess: true,
+            mustShowOnSuccess: true,
           },
         },
         sounds: {
           copypastaCopy: {
-            shouldSoundOnSuccess: true,
+            mustSoundOnSuccess: true,
           },
         },
       },

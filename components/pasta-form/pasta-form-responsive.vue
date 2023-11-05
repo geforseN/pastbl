@@ -3,7 +3,7 @@
     v-model:tag="pastaStore.tag"
     v-model:text="pastaStore.text"
     :pasta-tags="pastaStore.tags"
-    :should-tag-model-become-empty-on-add="true"
+    :must-tag-model-become-empty-on-add="true"
     @add-tag-to-pasta="() => pastaStore.handleTagAddToPasta()"
     @remove-all-tags="() => pastaStore.removeAllTags()"
     @remove-tag-from-pasta="(tag) => pastaStore.removeTag(tag)"

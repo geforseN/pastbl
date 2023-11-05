@@ -60,14 +60,14 @@ async function handleCopypastaCopy(pasta: Pasta) {
     if (!clipboard.copied) {
       throw new Error("Copypasta was not copied");
     }
-    if (userStore.preferences.alerts.copypastaCopy.shouldShowOnSuccess) {
+    if (userStore.preferences.alerts.copypastaCopy.mustShowOnSuccess) {
       toast.add({
         description: "Copypasta copied successfully",
         title: "Copypasta 🤙🤙🤙",
         timeout: 1_700,
       });
     }
-    if (userStore.preferences.sounds.copypastaCopy.shouldSoundOnSuccess) {
+    if (userStore.preferences.sounds.copypastaCopy.mustSoundOnSuccess) {
       // TODO add useSound
     }
   } catch (error: Error | unknown) {

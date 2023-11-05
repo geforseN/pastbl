@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
     v-if="tags.length !== 0"
+    class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
   >
     <div
-      class="flex rounded-lg bg-secondary"
       v-for="tag of props.tags"
-      :title="tag"
       :key="tag"
+      class="flex rounded-lg bg-secondary"
+      :title="tag"
     >
       <span class="line-clamp-2 break-all pb-0.5 pl-1.5 pr-1">{{ tag }}</span>
       <button
