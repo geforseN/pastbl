@@ -103,6 +103,37 @@ export async function openDBs() {
   return { collectionsDB, emotesDB };
 }
 
+export function putUserToDB(
+  db: IDBPDatabase<EmoteCollectionsSchema>,
+  userEmoteCollection: IUserEmoteCollection,
+) {
+  const user = prepareUserEmoteCollectionForIDB(userEmoteCollection);
+  const usersStore = db.transaction("users", "readwrite").store;
+  return usersStore.put({ ...user, updatedAt: Date.now() });
+}
+
+export function prepareUserEmoteCollectionForIDB(
+  userEmoteCollection: IUserEmoteCollection,
+): IndexedDBUserCollection {
+  const collectionsList = Object.values(userEmoteCollection.collections).map(
+    (collection) => ({
+      ...collection,
+      sets: collection.sets.map((setToInclude) => {
+        const { emotes, ...set } = setToInclude;
+        return {
+          ...set,
+          emoteIds: emotes.map((emote) => emote.id),
+        };
+      }),
+    }),
+  );
+
+  return {
+    ...userEmoteCollection,
+    collections: arrayToRecordByValueOfKey(collectionsList, "source"),
+  };
+}
+
 export function putUserEmotesToDB(
   db: IDBPDatabase<EmotesSchema>,
   userEmoteCollection: IUserEmoteCollection,
@@ -114,13 +145,12 @@ export function putUserEmotesToDB(
   );
 }
 
-export function putUserToDB(
-  db: IDBPDatabase<EmoteCollectionsSchema>,
+export function prepareUserEmotesForIDB(
   userEmoteCollection: IUserEmoteCollection,
 ) {
-  const user = prepareUserEmoteCollectionForIDB(userEmoteCollection);
-  const usersStore = db.transaction("users", "readwrite").store;
-  return usersStore.put({ ...user, updatedAt: Date.now() });
+  return Object.values(userEmoteCollection.collections).flatMap((collection) =>
+    collection.sets.flatMap((set) => set.emotes),
+  );
 }
 
 export async function getProperUserCollectionFromIDB(
@@ -143,35 +173,5 @@ export async function getProperUserCollectionFromIDB(
           "source",
         ) as EmoteCollectionsRecord,
     ),
-  };
-}
-
-export function prepareUserEmotesForIDB(
-  userEmoteCollection: IUserEmoteCollection,
-) {
-  return Object.values(userEmoteCollection.collections).flatMap((collection) =>
-    collection.sets.flatMap((set) => set.emotes),
-  );
-}
-
-export function prepareUserEmoteCollectionForIDB(
-  userEmoteCollection: IUserEmoteCollection,
-): IndexedDBUserCollection {
-  const collectionsList = Object.values(userEmoteCollection.collections).map(
-    (collection) => ({
-      ...collection,
-      sets: collection.sets.map((setToInclude) => {
-        const { emotes, ...set } = setToInclude;
-        return {
-          ...set,
-          emoteIds: emotes.map((emote) => emote.id),
-        };
-      }),
-    }),
-  );
-
-  return {
-    ...userEmoteCollection,
-    collections: arrayToRecordByValueOfKey(collectionsList, "source"),
   };
 }
