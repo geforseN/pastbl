@@ -7,7 +7,7 @@
         class="flex w-full max-w-sm flex-col items-center gap-2 rounded border border-base-content bg-black/10 p-2"
       >
         <emote-collection-fetch-input-group
-          v-if="shouldShowInput"
+          v-if="mustShowInput"
           v-model:nickname="nickname"
           class="-mt-2"
           :is-collections-loading="collections.integrations.isLoading.value"
@@ -51,7 +51,7 @@ import type { IUserEmoteCollection } from "~/integrations";
 useHead({ title: "collections - pastbl" });
 
 const nickname = useUrlQueryParam("nickname");
-const shouldShowInput = nickname.value === "";
+const mustShowInput = nickname.value === "";
 const collections = useUserIntegrations(nickname);
 
 const user = ref<IUserEmoteCollection>();

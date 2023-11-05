@@ -34,7 +34,7 @@ export interface IndexedDBUserCollection {
     | Record<string, never>;
 }
 
-export interface EmoteCollectionsDBSchema extends DBSchema {
+export interface EmoteCollectionsSchema extends DBSchema {
   users: {
     key: IndexedDBUserCollection["twitch"]["username"];
     value: IndexedDBUserCollection;
@@ -54,7 +54,7 @@ export interface EmoteCollectionsDBSchema extends DBSchema {
       };
 }
 
-export interface EmotesDBSchema {
+export interface EmotesSchema {
   emotes: {
     key: [IEmote["id"], IEmote["source"]];
     value: IEmote & { updatedAt: number };
@@ -69,7 +69,7 @@ export interface EmotesDBSchema {
 
 export async function openDBs() {
   const [collectionsDB, emotesDB] = await Promise.all([
-    openDB<EmoteCollectionsDBSchema>("emote-collections", 2, {
+    openDB<EmoteCollectionsSchema>("emote-collections", 2, {
       upgrade(database) {
         database.createObjectStore("users", {
           keyPath: "twitch.username",
@@ -83,7 +83,7 @@ export async function openDBs() {
         database.createObjectStore("key-value");
       },
     }),
-    openDB<EmotesDBSchema>("emotes", 1, {
+    openDB<EmotesSchema>("emotes", 1, {
       upgrade(database) {
         const emotesStore = database.createObjectStore("emotes", {
           keyPath: ["id", "source"],
@@ -104,7 +104,7 @@ export async function openDBs() {
 }
 
 export function putUserEmotesToDB(
-  db: IDBPDatabase<EmotesDBSchema>,
+  db: IDBPDatabase<EmotesSchema>,
   userEmoteCollection: IUserEmoteCollection,
 ) {
   const emotes = prepareUserEmotesForIDB(userEmoteCollection);
@@ -115,7 +115,7 @@ export function putUserEmotesToDB(
 }
 
 export function putUserToDB(
-  db: IDBPDatabase<EmoteCollectionsDBSchema>,
+  db: IDBPDatabase<EmoteCollectionsSchema>,
   userEmoteCollection: IUserEmoteCollection,
 ) {
   const user = prepareUserEmoteCollectionForIDB(userEmoteCollection);
@@ -124,7 +124,7 @@ export function putUserToDB(
 }
 
 export async function getProperUserCollectionFromIDB(
-  db: IDBPDatabase<EmotesDBSchema>,
+  db: IDBPDatabase<EmotesSchema>,
   userFromStore: IndexedDBUserCollection,
 ): Promise<IUserEmoteCollection> {
   const emoteStore = db.transaction("emotes").store;

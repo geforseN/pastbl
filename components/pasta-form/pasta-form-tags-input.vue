@@ -1,13 +1,13 @@
 <template>
   <div class="join w-full">
     <input
-      class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content xl:w-auto xl:min-w-[320px]"
       id="add-tag"
       v-model="modelValue"
+      class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content xl:w-auto xl:min-w-[320px]"
       type="text"
-      @keyup.enter.prevent="emitTag"
       placeholder="Enter a pasta tag (optional)"
       list="add-tag-suggestions"
+      @keyup.enter.prevent="emitTag"
     />
 
     <datalist id="add-tag-suggestions">
@@ -25,8 +25,8 @@
 <script setup lang="ts">
 const modelValue = defineModel<string>({ required: true });
 
-const { shouldBecomeEmptyOnAdd = false } = defineProps<{
-  shouldBecomeEmptyOnAdd?: boolean;
+const { mustBecomeEmptyOnAdd = false } = defineProps<{
+  mustBecomeEmptyOnAdd?: boolean;
 }>();
 const emit = defineEmits<{ addTag: [tagToAdd: string] }>();
 
@@ -36,7 +36,7 @@ defineSlots<{
 
 function emitTag() {
   emit("addTag", modelValue.value);
-  if (shouldBecomeEmptyOnAdd) {
+  if (mustBecomeEmptyOnAdd) {
     modelValue.value = "";
   }
 }

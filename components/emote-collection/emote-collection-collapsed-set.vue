@@ -1,25 +1,25 @@
 <template>
   <div class="collapse collapse-arrow">
     <input
-      v-model="isOpen"
+      v-model="isCollapseOpen"
       type="checkbox"
-      @input="shouldShowContent = true"
+      @input="mustRenderContent = true"
       @keypress.enter.exact="
-        shouldShowContent = true;
-        isOpen = !isOpen;
+        mustRenderContent = true;
+        isCollapseOpen = !isCollapseOpen;
       "
     />
     <header class="collapse-title">
       <slot name="title" />
     </header>
     <main class="collapse-content -mb-4 p-0">
-      <slot v-if="shouldShowContent" name="emoteList" />
+      <slot v-if="mustRenderContent" name="emoteList" />
     </main>
   </div>
 </template>
 <script lang="ts" setup generic="EmoteSet">
-const isOpen = ref(false);
-const shouldShowContent = ref(false);
+const isCollapseOpen = ref(false);
+const mustRenderContent = ref(false);
 
 defineProps<{ set: EmoteSet }>();
 defineSlots<{
