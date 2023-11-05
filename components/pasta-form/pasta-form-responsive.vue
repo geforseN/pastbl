@@ -22,8 +22,8 @@
       </button>
     </template>
     <template #textarea>
-      <pasta-form-twitch-chat
-        id="twitch-chat-pasta-form"
+      <pasta-form-textarea
+        id="twitch-chat-textarea"
         ref="twitchChatRef"
         v-model="pastaStore.text"
         class="mx-0.5"
