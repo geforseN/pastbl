@@ -15,7 +15,6 @@ const emit = defineEmits<{
 const { textarea, input } = useTextareaAutosize({
   input: modelValue,
 });
-
 defineExpose({
   textareaRef: textarea,
 });
