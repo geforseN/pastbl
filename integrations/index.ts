@@ -5,7 +5,7 @@ import { FFZEmoteString } from "./FrankerFaceZ/index";
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
   SevenTV: SevenTVEmoteString,
-  FFZ: FFZEmoteString,
+  FrankerFaceZ: FFZEmoteString,
 };
 
 export type EmoteSource = "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
