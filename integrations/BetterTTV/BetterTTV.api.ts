@@ -10,6 +10,9 @@ export async function getBetterTTVGlobalEmotes(): Promise<
   const response = await fetch(
     "https://api.betterttv.net/3/cached/emotes/global",
   );
+  if (response.statusText.startsWith("4")) {
+    throw new Error("Failed to load BetterTTV global emotes");
+  }
   return responseJson(response);
 }
 
