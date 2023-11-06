@@ -7,14 +7,14 @@ import {
 
 export interface PastasSchema extends DBSchema {
   list: {
-    key: number;
-    value: MegaPasta /* TODO uncomment later, all old pastas has no ids & { id: number } */;
+    key: IDBMegaPasta["id"];
+    value: MegaPasta /* NOTE: actually it is IDBMegaPasta, but we use MegaPasta because of TypeScript yell */;
     indexes: {
-      byLength: MegaPasta["length"];
-      byCreatedAt: MegaPasta["createdAt"];
-      byText: MegaPasta["text"];
-      byTags: MegaPasta["tags"];
-      byValidTokens: MegaPasta["validTokens"];
+      byLength: IDBMegaPasta["length"];
+      byCreatedAt: IDBMegaPasta["createdAt"];
+      byText: IDBMegaPasta["text"];
+      byTags: IDBMegaPasta["tags"];
+      byValidTokens: IDBMegaPasta["validTokens"];
     };
   };
 }
@@ -41,7 +41,17 @@ class PastasStore {
     const allPastaCount = await store.count();
     const indexToStart =
       allPastaCount > countToGet ? allPastaCount - countToGet : 0;
-    return store.getAll(IDBKeyRange.lowerBound(indexToStart, true));
+    return store.getAll(IDBKeyRange.lowerBound(indexToStart, true)) as Promise<
+      IDBMegaPasta[]
+    >;
+  }
+
+  addPasta(pasta: MegaPasta): Promise<IDBMegaPasta["id"]> {
+    return this.idb.transaction("list", "readwrite").store.add(pasta);
+  }
+
+  removePastaById(id: IDBMegaPasta["id"]) {
+    return this.idb.transaction("list", "readwrite").store.delete(id);
   }
 }
 
