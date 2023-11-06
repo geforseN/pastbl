@@ -44,9 +44,14 @@ defineExpose({
   twitchChatRef,
 });
 
-function handlePastaCreation<E extends KeyboardEvent | MouseEvent>(_event: E) {
+async function handlePastaCreation<E extends KeyboardEvent | MouseEvent>(
+  _event: E,
+) {
   try {
-    pastasStore.createPasta({ tags: pastaStore.tags, text: pastaStore.text });
+    await pastasStore.createPasta({
+      tags: pastaStore.tags,
+      text: pastaStore.text,
+    });
     pastaStore.clear();
     toast.add({
       description: "Pasta added successfully",
