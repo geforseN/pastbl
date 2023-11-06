@@ -1,6 +1,12 @@
-import { BTTVEmoteString } from "./BetterTTV/index";
-import { SevenTVEmoteString } from "./SevenTV/index";
-import { FFZEmoteString } from "./FrankerFaceZ/index";
+import { BTTVEmoteString, createBTTVGlobalCollection } from "./BetterTTV/index";
+import { SevenTVEmoteString, create7TVGlobalCollection } from "./SevenTV/index";
+import {
+  FFZEmoteString,
+  createFFZGlobalCollection,
+} from "./FrankerFaceZ/index";
+import { getFFZGlobalEmoteSets } from "./FrankerFaceZ/FrankerFaceZ.api";
+import { getBetterTTVGlobalEmotes } from "./BetterTTV/BetterTTV.api";
+import { get7TVGlobalEmotesSet } from "./SevenTV/SevenTV.api";
 
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
@@ -52,6 +58,24 @@ export interface IGlobalEmoteCollection<
   source: SourceT;
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
+
+export const globalEmotesGetters: Record<
+  AvailableEmoteSources,
+  () => Promise<IGlobalEmoteCollection>
+> = {
+  FrankerFaceZ: async () => {
+    const globalEmotes = await getFFZGlobalEmoteSets();
+    return createFFZGlobalCollection(globalEmotes);
+  },
+  BetterTTV: async () => {
+    const globalEmotes = await getBetterTTVGlobalEmotes();
+    return createBTTVGlobalCollection(globalEmotes);
+  },
+  SevenTV: async () => {
+    const globalEmotes = await get7TVGlobalEmotesSet();
+    return create7TVGlobalCollection(globalEmotes);
+  },
+};
 
 export interface IEmoteCollection<
   SourceT extends EmoteSource = EmoteSource,
