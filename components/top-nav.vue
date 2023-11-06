@@ -14,7 +14,7 @@
           to="/collections"
         >
           load emotes
-          <icons-ffz-logo width="24" heigth="24" />
+          <icons-ffz-logo class="max-h-[24px] text-xs" width="24" heigth="24" />
           <icons-bttv-logo width="24" heigth="24" />
           <icons-seventv-logo width="24" heigth="24" />
         </nuxt-link>
