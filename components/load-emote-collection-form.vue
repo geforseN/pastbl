@@ -1,57 +1,42 @@
 <template>
   <section class="divide-y-2 border-2 border-base-content p-2">
     <h2 class="p-2 text-3xl font-bold">Load emote collection</h2>
-    <form @submit.prevent>
-      <div class="form-control p-2">
-        <label class="label" for="twitch-nickname">
-          <span class="label-text text-xl font-medium">
-            Enter Twitch nickname
-          </span>
-        </label>
-        <div class="join">
-          <input
-            id="twitch-nickname"
-            v-model="userNickname"
-            class="input join-item input-bordered w-full border-twitch invalid:bg-red-100 hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
-            placeholder="e.g. UselessMouth"
-            type="text"
-            pattern="^\s*(\S\s*){4,25}$"
-            name="twitch-nickname"
-            @keypress.enter.exact="
-              navigateTo({
-                path: '/collections',
-                query: { nickname: trimmedUserNickname },
-              })
-            "
-          />
-          <nuxt-link
-            class="btn join-item border-twitch bg-twitch hover:bg-twitch/90 focus:border-black focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-twitch"
-            :to="{
-              path: '/collections',
-              query: { nickname: trimmedUserNickname },
-            }"
-          >
-            Load
-          </nuxt-link>
-        </div>
-        <span v-if="isValidUserNickname" class="label-text mt-1 text-xs">
+    <form class="form-control p-2" @submit.prevent>
+      <label class="label" for="twitch-nickname">
+        <span class="label-text text-xl font-medium">
+          Enter Twitch nickname
+        </span>
+      </label>
+      <div class="join">
+        <input
+          id="twitch-nickname"
+          v-model="userNickname"
+          class="input join-item input-bordered w-full border-twitch invalid:bg-red-100 hover:bg-base-300 focus:bg-base-300 focus:outline focus:outline-2 focus:outline-twitch"
+          placeholder="e.g. UselessMouth"
+          type="text"
+          pattern="^\s*(\S\s*){4,25}$"
+          name="twitch-nickname"
+          @keypress.enter.exact="navigateTo(collectionsRoute)"
+        />
+        <nuxt-link
+          class="btn join-item border-twitch bg-twitch hover:bg-twitch/90 focus:border-black focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-twitch"
+          :to="collectionsRoute"
+        >
+          Load
+        </nuxt-link>
+      </div>
+      <span class="label-text mt-1 text-xs">
+        <template v-if="isValidUserNickname">
           Now you can press
           <kbd class="kbd kbd-xs">
-            <nuxt-link
-              :to="{
-                path: '/collections',
-                query: { nickname: trimmedUserNickname },
-              }"
-            >
-              enter
-            </nuxt-link>
+            <nuxt-link :to="collectionsRoute"> enter </nuxt-link>
           </kbd>
           to load emote collection
-        </span>
-        <span v-else>
+        </template>
+        <template v-else>
           Please, enter a string of 4-25 non-whitespace characters
-        </span>
-      </div>
+        </template>
+      </span>
     </form>
   </section>
 </template>
@@ -67,4 +52,11 @@ const isValidUserNickname = computed(
     trimmedUserNickname.value.length >= 4 &&
     trimmedUserNickname.value.length <= 25,
 );
+
+const collectionsRoute = computed(() => ({
+  path: "/collections",
+  query: trimmedUserNickname.value.length
+    ? { nickname: trimmedUserNickname.value }
+    : undefined,
+}));
 </script>
