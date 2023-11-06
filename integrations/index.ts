@@ -15,7 +15,12 @@ export const templateStrings = {
 };
 
 export type EmoteSource = "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
-export type AvailableEmoteSources = Exclude<EmoteSource, "Twitch">;
+export const availableEmoteSources = [
+  "FrankerFaceZ",
+  "SevenTV",
+  "BetterTTV",
+] as const;
+export type AvailableEmoteSources = (typeof availableEmoteSources)[number];
 
 export interface IEmote {
   // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
