@@ -87,6 +87,14 @@ export const usePastasStore = defineStore(
     function clearPopulatedTexts() {
       pastas.value.forEach((pasta) => (pasta.populatedText = undefined));
     }
+    if (typeof window !== "undefined") {
+      import("~/client-only/IndexedDB/pastas")
+        .then(({ pastasIdb }) => pastasIdb.getLastPastasInCount(10))
+        .then((addedPastas) => {
+          process.dev && console.log({ addedPastas });
+          pastas.value = addedPastas;
+        });
+    }
 
     return {
       populatePastas,
