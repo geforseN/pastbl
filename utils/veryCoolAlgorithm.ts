@@ -9,25 +9,49 @@ const _orderedSources = ["FrankerFaceZ", "BetterTTV", "SevenTV"] as const;
 
 // TODO: to global emotes user should decide which sources to include
 
+// FIXME: refactor code, remove repetitions
+// TODO: should add IndexedDB store, which will have indexes for global emotes and current user emotes
+// TODO: should move 'find emotes logic' to store indexes
+// NOTE: now all global emotes and current user emotes loaded in RAM, can cache it (should compute again once global emotes or current user emotes changed)
 export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
-  const keyValueStore = await import("~/client-only/IndexedDB").then(
-    ({ getKeyValueStore }) => getKeyValueStore(),
+  const dbs = await import("~/client-only/IndexedDB").then(({ openDBs }) =>
+    openDBs(),
   );
-  const activeUserCollection = (await keyValueStore.transaction.store.get(
+  const keyValueStore = dbs.collectionsDB.transaction("key-value").store;
+  const activeUserCollection = (await keyValueStore.get(
     "activeUserCollection",
   )) as IUserEmoteCollection | undefined;
+  // TODO use emotesStore more
   const emotesStore = useEmotesStore();
   assert.ok(activeUserCollection);
   const validTokensToGet = [
     ...new Set(newPastas.flatMap((pasta) => pasta.validTokens)),
   ];
-  const emoteEntries = Object.values(activeUserCollection.collections).map(
+  const globalEmoteCollections = await dbs.collectionsDB
+    .transaction("global")
+    .store.getAll();
+
+  const globalEmoteEntries = Object.values(globalEmoteCollections).map(
     (collection) => {
       return [collection.source, collection.sets.flatMap((set) => set.emotes)];
     },
   ) as [AvailableEmoteSources, IEmote[]][];
-  // TODO sort emoteEntries in some order
-  // now order is unpredictable, probably FFZ => BTTV => 7TV
+
+  const currentCollectionEmoteEntries = Object.values(
+    activeUserCollection.collections,
+  ).map((collection) => {
+    return [collection.source, collection.sets.flatMap((set) => set.emotes)];
+  });
+
+  const emoteEntries = [
+    // TODO sort emoteEntries in some order
+    // now order is unpredictable, probably FFZ => BTTV => 7TV
+    ...globalEmoteEntries,
+    // TODO sort emoteEntries in some order
+    // now order is unpredictable, probably FFZ => BTTV => 7TV
+    ...currentCollectionEmoteEntries,
+  ] as [AvailableEmoteSources, IEmote[]][];
+
   const foundEmotes = validTokensToGet.reduce((emotes, token) => {
     const tokenList = emoteEntries.find(([, emotes]) =>
       emotes.some((emote) => emote.token === token),
@@ -42,6 +66,7 @@ export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
     return emotes;
   }, [] as IEmote[]);
 
+  // TODO: line below is very useless, can remove it when will can data properly
   foundEmotes.forEach((emote) => emotesStore.emotes.set(emote.token, emote));
   console.log({ foundEmotes });
   return foundEmotes;
