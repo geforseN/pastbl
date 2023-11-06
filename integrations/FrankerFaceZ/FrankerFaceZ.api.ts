@@ -38,6 +38,9 @@ export async function getFFZGlobalEmoteSets(): Promise<{
   users: Record<`${number}`, string>;
 }> {
   const response = await fetch("https://api.frankerfacez.com/v1/set/global");
+  if (response.statusText.startsWith("4")) {
+    throw new Error("Failed to load FrankerFaceZ global emotes");
+  }
   return responseJson(response);
 }
 
