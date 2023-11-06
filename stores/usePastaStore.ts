@@ -27,7 +27,7 @@ export const usePastaStore = defineStore(
     };
   },
   {
-    persist: {
+    persist: false && {
       storage: persistedState.localStorage,
     },
   },

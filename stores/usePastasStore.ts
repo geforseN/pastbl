@@ -136,23 +136,11 @@ export const usePastasStore = defineStore(
     };
   },
   {
-    persist: {
+    persist: false && {
       serializer: zipsonStoreSerializer,
       storage: persistedState.localStorage,
       paths: ["pastas", "pasta", "pastasBin"],
       afterRestore(context) {
-        // console.log({
-        //   pastas: context.store.pastas.map((pasta) => ({
-        //     ...pasta,
-        //     text: pasta.text.trim().replaceAll("\n", ""),
-        //     length: pasta.text.trim().replaceAll("\n", "").length,
-        //   })),
-        // });
-        // context.store.pastas = context.store.pastas.map((pasta) => ({
-        //   ...pasta,
-        //   text: pasta.text.trim().replaceAll("\n", ""),
-        //   length: pasta.text.trim().replaceAll("\n", "").length,
-        // }));
         // NOTE: this is done because after each page reload text would populated over and over again,
         // so html tag wraps another html tag and populated text of pasta become invalid
         context.store.clearPopulatedTexts();
