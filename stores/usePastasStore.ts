@@ -1,10 +1,14 @@
-import type {
+/* import type {
   NotificationAction,
   NotificationColor,
-} from "@nuxt/ui/dist/runtime/types";
+} from "@nuxt/ui/dist/runtime/types"; */
 import { defineStore } from "pinia";
 import { zipsonStoreSerializer } from "#imports";
-import type { IEmote } from "~/integrations";
+import {
+  templateStrings,
+  type IEmote,
+  type AvailableEmoteSources,
+} from "~/integrations";
 
 export type Pasta = { text: string; tags: string[] };
 export type MegaPasta = Pasta & {
@@ -13,14 +17,19 @@ export type MegaPasta = Pasta & {
   populatedText?: string;
   // TODO use me
   lastCopiedAt?: number;
+  validTokens: string[];
 };
+
+export type IDBMegaPasta = {
+  id: number;
+} & MegaPasta;
 
 export const usePastasStore = defineStore(
   "pastas",
   () => {
-    const pastas = ref<MegaPasta[]>([]);
-    const pastasBin = ref<MegaPasta[]>([]);
-    const toast = useToast();
+    const pastas = ref<IDBMegaPasta[]>([]);
+    const pastasBin = ref<IDBMegaPasta[]>([]);
+    // const toast = useToast();
 
     const pastasSortedByNewest = computed(() =>
       [...pastas.value].sort((a, b) => b.createdAt - a.createdAt),
@@ -58,6 +67,27 @@ export const usePastasStore = defineStore(
         .filter((data) => data.pastaTokens.length !== 0);
     });
 
+    watchArray(pastas, async (_, __, addedPastas) => {
+      const foundEmotes = await veryCoolAlgorithm(addedPastas);
+      for (const pasta of addedPastas) {
+        pasta.populatedText = pasta.populatedText || pasta.text;
+        for (const token of pasta.validTokens) {
+          const emote = foundEmotes.find((emote) => emote.token === token);
+          if (!emote) {
+            continue;
+          }
+          const emoteTemplate: (emote: IEmote) => string = templateStrings[
+            emote.source as AvailableEmoteSources
+          ] as (emote: IEmote) => string;
+          const emoteAsString = emoteTemplate(emote);
+          pasta.populatedText = pasta.populatedText.replaceAll(
+            token,
+            emoteAsString,
+          );
+        }
+      }
+    });
+
     function populatePastas({
       emoteMap,
       templateString,
@@ -87,6 +117,7 @@ export const usePastasStore = defineStore(
     function clearPopulatedTexts() {
       pastas.value.forEach((pasta) => (pasta.populatedText = undefined));
     }
+
     if (typeof window !== "undefined") {
       import("~/client-only/IndexedDB/pastas")
         .then(({ pastasIdb }) => pastasIdb.getLastPastasInCount(10))
@@ -106,21 +137,31 @@ export const usePastasStore = defineStore(
       pastasSortedByNewest,
       pastasBin,
       latestPasta: computed(() => pastas.value.at(-1)),
-      createPasta: (pasta: Pasta) => {
+      createPasta: async (pasta: Pasta) => {
         if (pasta.text.trim().length === 0) {
           throw new ExtendedError("Can not create pasta with empty text", {
             title: "Failed to create pasta",
           });
         }
         const trimmedText = pasta.text.trim().replaceAll("\n", "");
-        pastas.value?.push({
-          tags: pasta.tags,
+        // TODO add save to idb
+        const newPasta = {
+          tags: toRaw(pasta.tags),
           text: trimmedText,
           length: trimmedText.length,
           createdAt: Date.now(),
-        });
+          validTokens: getPastaValidTokens(pasta),
+          lastCopiedAt: undefined,
+          populatedText: undefined,
+        } satisfies MegaPasta;
+        const { pastasIdb } = await import("~/client-only/IndexedDB/pastas");
+        // TODO: add toast if failed to add pasta
+        const pastaId = await pastasIdb.addPasta(newPasta);
+        const idbPasta: IDBMegaPasta = { ...newPasta, id: pastaId };
+        pastas.value.push(idbPasta);
+        return idbPasta;
       },
-      removePasta: (pastaToRemove: MegaPasta) => {
+      removePasta: async (pastaToRemove: IDBMegaPasta) => {
         const index = pastas.value.findIndex(
           (pasta) => pasta.createdAt === pastaToRemove.createdAt,
         );
@@ -130,8 +171,12 @@ export const usePastasStore = defineStore(
           );
         }
         const [removedPasta] = pastas.value.splice(index, 1);
+        const { pastasIdb } = await import("~/client-only/IndexedDB/pastas");
+        await pastasIdb.removePastaById(pastaToRemove.id);
+        // TODO: replace pinia store pastasBin to idb 'bin' store
+        // NOTE: now store is not persisted, so deleted pastas can not be restored (so now pastasBin is useless)
         pastasBin.value.push(removedPasta);
-        toast.add(
+        /*  toast.add(
           new RemovePastaNotification({
             handleUndo: () => {
               const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
@@ -139,7 +184,7 @@ export const usePastasStore = defineStore(
               pastas.value.splice(index, 0, removedPasta);
             },
           }),
-        );
+        ); */
       },
     };
   },
@@ -157,6 +202,7 @@ export const usePastasStore = defineStore(
   },
 );
 
+/* 
 class RemovePastaNotification {
   title: string;
   color: NotificationColor;
@@ -180,3 +226,4 @@ class RemovePastaNotification {
     ];
   }
 }
+ */
