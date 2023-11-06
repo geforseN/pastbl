@@ -14,26 +14,9 @@ export interface PastasSchema extends DBSchema {
       byCreatedAt: MegaPasta["createdAt"];
       byText: MegaPasta["text"];
       byTags: MegaPasta["tags"];
+      byValidTokens: MegaPasta["validTokens"];
     };
   };
-}
-
-export function openPastasDB() {
-  return openDB<PastasSchema>("pastas", 1, {
-    upgrade(database) {
-      const pastasStore = database.createObjectStore("list", {
-        keyPath: "id",
-        autoIncrement: true,
-      });
-      pastasStore.createIndex("byLength", "length", { unique: false });
-      pastasStore.createIndex("byCreatedAt", "createdAt", { unique: true });
-      pastasStore.createIndex("byText", "token", { unique: true });
-      pastasStore.createIndex("byTags", "tags", {
-        unique: false,
-        multiEntry: true,
-      });
-    },
-  });
 }
 
 export async function getLastPastasInCount(
@@ -46,7 +29,7 @@ export async function getLastPastasInCount(
   return await store.getAll(IDBKeyRange.lowerBound(indexToStart, true));
 }
 
-export class PastasStore {
+class PastasStore {
   idb;
 
   constructor(idb: IDBPDatabase<PastasSchema>) {
@@ -64,15 +47,19 @@ export class PastasStore {
 
 export const pastasIdb = new PastasStore(
   await openDB<PastasSchema>("pastas", 1, {
-    upgrade(database) {
+    upgrade(database, _oldVersion, _newVersion, _transaction) {
       const pastasStore = database.createObjectStore("list", {
         keyPath: "id",
         autoIncrement: true,
       });
       pastasStore.createIndex("byLength", "length", { unique: false });
       pastasStore.createIndex("byCreatedAt", "createdAt", { unique: true });
-      pastasStore.createIndex("byText", "token", { unique: true });
       pastasStore.createIndex("byTags", "tags", {
+        unique: false,
+        multiEntry: true,
+      });
+      pastasStore.createIndex("byText", "text", { unique: true });
+      pastasStore.createIndex("byValidTokens", "validTokens", {
         unique: false,
         multiEntry: true,
       });
