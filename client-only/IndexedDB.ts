@@ -46,7 +46,7 @@ export interface EmoteCollectionsSchema extends DBSchema {
   "key-value":
     | {
         key: "activeUserCollection";
-        value: Lowercase<string>;
+        value: IUserEmoteCollection;
       }
     | {
         key: "activeGlobalCollections";
@@ -69,14 +69,11 @@ export interface EmotesSchema {
 
 export async function openDBs() {
   const [collectionsDB, emotesDB] = await Promise.all([
-    openDB<EmoteCollectionsSchema>("emote-collections", 2, {
+    openDB<EmoteCollectionsSchema>("emote-collections", 3, {
       upgrade(database) {
         database.createObjectStore("users", {
           keyPath: "twitch.username",
         });
-        // TODO in version 3 REMOVE @@global and saved from emote-collections database
-        // database.deleteObjectStore("@@global");
-        // database.deleteObjectStore("saved");
         database.createObjectStore("global", {
           keyPath: "source",
         });
@@ -101,6 +98,11 @@ export async function openDBs() {
   ]);
 
   return { collectionsDB, emotesDB };
+}
+
+export async function getKeyValueStore() {
+  const db = await openDB<EmoteCollectionsSchema>("emote-collections");
+  return db.transaction("key-value", "readwrite").store;
 }
 
 export function putUserToDB(
