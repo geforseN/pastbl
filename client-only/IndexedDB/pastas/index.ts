@@ -46,6 +46,12 @@ class PastasStore {
     >;
   }
 
+  getAllPastas() {
+    return this.idb.transaction("list").store.getAll() as Promise<
+      IDBMegaPasta[]
+    >;
+  }
+
   addPasta(pasta: MegaPasta): Promise<IDBMegaPasta["id"]> {
     return this.idb.transaction("list", "readwrite").store.add(pasta);
   }
