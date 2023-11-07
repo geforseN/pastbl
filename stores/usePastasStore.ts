@@ -120,7 +120,7 @@ export const usePastasStore = defineStore(
 
     if (typeof window !== "undefined") {
       import("~/client-only/IndexedDB/pastas")
-        .then(({ pastasIdb }) => pastasIdb.getLastPastasInCount(10))
+        .then(({ pastasIdb }) => pastasIdb.getAllPastas())
         .then((addedPastas) => {
           process.dev && console.log({ addedPastas });
           pastas.value = addedPastas;
