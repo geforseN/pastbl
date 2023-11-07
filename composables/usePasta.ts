@@ -9,10 +9,10 @@ export const usePasta = () => {
     tag,
     tags,
     text,
-    clear: () => {
-      text.value = "";
-      tags.value = [];
+    $reset() {
       tag.value = "";
+      tags.value = [];
+      text.value = "";
     },
     removeTag: (tagValue: string) => {
       const tagIndex = tags.value.indexOf(tagValue);
@@ -24,7 +24,7 @@ export const usePasta = () => {
     removeAllTags: () => {
       tags.value = [];
     },
-    addTag: async (newTag: PastaTag) => {
+    addTag: (newTag: PastaTag) => {
       if (newTag.length === 0) {
         throw new ExtendedError("Can not add the empty tag", {
           title: "Pasta tag was not added",
