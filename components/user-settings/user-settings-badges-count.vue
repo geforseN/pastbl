@@ -3,11 +3,12 @@
     <div class="join-item grow">
       <input
         id="badges-count"
-        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error hover:bg-base-300 focus:bg-base-300"
+        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300"
         :value="props.badgesCount"
         min="0"
         max="10"
         type="number"
+        inputmode="numeric"
         name="badges-count"
         @input="handleInputChange($event)"
       />
@@ -57,6 +58,8 @@ const props = defineProps<{ badgesCount: number }>();
 const emit = defineEmits<{ "update:badgesCount": [value: number] }>();
 const errorMessage = ref("");
 
+// TODO: use ValidityState
+// LINK: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
 function handleInputChange(event: unknown) {
   if (typeof event !== "object" || event === null) {
     throw new TypeError("No event provided");
