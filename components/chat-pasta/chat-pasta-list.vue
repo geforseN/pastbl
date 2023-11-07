@@ -30,7 +30,7 @@
           <button
             class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
             :disabled="!clipboard.isSupported.value"
-            @click="handlePastaCopy(pasta)"
+            @click="copyPasta(pasta)"
           >
             Copy pasta
           </button>
@@ -53,5 +53,5 @@ defineSlots<{
 const clipboard = useClipboard();
 const pastasStore = usePastasStore();
 
-const { handlePastaCopy } = usePastaCopy({ clipboard, pastasStore });
+const { copyPasta } = usePastaCopy({ clipboard, pastasStore });
 </script>
