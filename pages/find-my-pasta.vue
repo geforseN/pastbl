@@ -14,7 +14,7 @@
           <button
             class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
             :disabled="!clipboard.isSupported.value"
-            @click="handlePastaCopy(pasta)"
+            @click="copyPasta(pasta)"
           >
             copy pasta
           </button>
@@ -87,7 +87,8 @@
 <script lang="ts" setup>
 const pastasStore = usePastasStore();
 
-const { handlePastaCopy } = usePastaCopy({ pastasStore });
+const clipboard = useClipboard();
+const { copyPasta } = usePastaCopy({ pastasStore, clipboard });
 
 const textToFind = ref("");
 const mustRespectSelectedTags = ref(false);
