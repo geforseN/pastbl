@@ -3,7 +3,7 @@ import type { PiniaPluginContext } from "pinia";
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
     // eslint-disable-next-line no-console
-    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}`);
+    process.dev && console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}`);
   });
   return { creationTime: new Date() };
 }
