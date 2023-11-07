@@ -59,7 +59,7 @@ const user = ref<IUserEmoteCollection>();
 onErrorCaptured((error) => {
   // TODO: here can check instanceof error
   // if extended error then put at least toast
-  console.log({ error, captured: true });
+  process.dev && console.log({ error, captured: true });
 });
 
 onMounted(async () => {
@@ -90,6 +90,6 @@ onMounted(async () => {
     putUserToDB(dbs.collectionsDB, toRaw(user.value));
     putUserEmotesToDB(dbs.emotesDB, toRaw(user.value));
   }
-  console.log({ user: user.value });
+  process.dev && console.log({ user: user.value });
 });
 </script>

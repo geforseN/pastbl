@@ -278,13 +278,14 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
         | Record<string, never>,
     );
     /* eslint-disable no-console */
-    console.log({
-      settledCollections,
-      fulfilledCollections,
-      rejectReasons,
-      failedCollectionsReasons,
-      collections,
-    });
+    process.dev &&
+      console.log({
+        settledCollections,
+        fulfilledCollections,
+        rejectReasons,
+        failedCollectionsReasons,
+        collections,
+      });
     return {
       twitch: {
         ...twitchUser,

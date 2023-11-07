@@ -7,6 +7,6 @@ export async function withLog<T>(
 ): Promise<T> {
   const returnValue = await cb();
   // eslint-disable-next-line no-console
-  console.log({ [logKey]: returnValue, ...additionalMessage });
+  process.dev && console.log({ [logKey]: returnValue, ...additionalMessage });
   return returnValue;
 }
