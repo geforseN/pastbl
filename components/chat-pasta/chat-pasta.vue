@@ -11,12 +11,12 @@
     <div class="flex w-[340px] flex-col">
       <span class="block grow border border-secondary">
         <span class="block w-full px-[10px] py-[5px]">
-          <slot name="user-nickname" />
+          <slot name="userNickname" />
           <span>{{ ": " }}</span>
           <!-- eslint-disable vue/no-v-html -->
           <span
             class="twitch-text p-0 text-[13px]/[18px]"
-            v-html="sanitize(props.pasta.populatedText || props.pasta.text)"
+            v-html="props.pasta.populatedText || props.pasta.text"
           />
           <!-- eslint-enable vue/no-v-html -->
         </span>
@@ -40,31 +40,15 @@
         <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
       </div>
     </div>
-    <div
-      class="flex flex-row-reverse gap-x-2 xs:flex-col xs:justify-between xs:gap-x-0"
-    >
-      <slot name="copypasta-btn" />
-      <button
-        class="btn btn-square btn-warning btn-md rounded-none border-2 border-neutral-content text-xs text-warning-content"
-        @click="emit('pastaRemove')"
-      >
-        Delete pasta
-      </button>
-    </div>
+    <slot name="sidebar" />
   </div>
 </template>
 <script lang="ts" setup>
-import sanitize from "sanitize-html";
-
 import { UseTimeAgo } from "@vueuse/components";
-
 const props = defineProps<{ pasta: MegaPasta }>();
-const emit = defineEmits<{
-  pastaRemove: [];
-}>();
 
 defineSlots<{
-  "copypasta-btn": () => any;
-  "user-nickname": () => any;
+  userNickname: () => unknown;
+  sidebar: () => unknown;
 }>();
 </script>
