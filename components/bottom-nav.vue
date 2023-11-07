@@ -27,7 +27,7 @@
         <button
           class="btn btn-info h-16 w-full rounded-none border-0 bg-info/10 text-info hover:bg-info/20"
           for="search-pasta"
-          @click="emit('openFindPastaModal')"
+          @click="emit('findPastaButtonClicked')"
         >
           find pasta
           <icons-search width="24" heigth="24" />
@@ -37,5 +37,5 @@
   </nav>
 </template>
 <script lang="ts" setup>
-const emit = defineEmits(["openFindPastaModal"]);
+const emit = defineEmits(["findPastaButtonClicked"]);
 </script>

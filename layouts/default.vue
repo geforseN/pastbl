@@ -1,8 +1,8 @@
 <template>
   <div class="relative grid grid-rows-layout">
-    <top-nav @open-find-pasta-modal="openFindPastaModal" />
+    <top-nav @find-pasta-button-clicked="$router.push('/find-my-pasta')" />
     <slot />
-    <bottom-nav @open-find-pasta-modal="openFindPastaModal" />
+    <bottom-nav @find-pasta-button-clicked="$router.push('/find-my-pasta')" />
     <u-notifications>
       <template #title="{ title }">
         <span class="text-xl">{{ title }}</span>
@@ -20,11 +20,4 @@ onMounted(() => {
   themeChange(false);
   document.documentElement.classList.remove("dark", "light");
 });
-
-// TODO
-// TODO
-// TODO: add logic fro openFindPastaModal
-function openFindPastaModal() {
-  return "TODO";
-}
 </script>

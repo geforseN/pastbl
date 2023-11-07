@@ -20,7 +20,7 @@
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <button class="btn btn-info" @click="emit('openFindPastaModal')">
+        <button class="btn btn-info" @click="emit('findPastaButtonClicked')">
           find pasta
           <icons-search width="24" heigth="24" />
         </button>
@@ -42,5 +42,5 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["openFindPastaModal"]);
+const emit = defineEmits(["findPastaButtonClicked"]);
 </script>
