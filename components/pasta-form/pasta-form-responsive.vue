@@ -52,7 +52,7 @@ async function handlePastaCreation<E extends KeyboardEvent | MouseEvent>(
       tags: pastaStore.tags,
       text: pastaStore.text,
     });
-    pastaStore.clear();
+    pastaStore.$reset();
     toast.add({
       description: "Pasta added successfully",
       title: "Pasta 🤙🤙🤙",

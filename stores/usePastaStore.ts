@@ -6,9 +6,9 @@ export const usePastaStore = defineStore(
     const pasta = usePasta();
     const toast = useToast();
 
-    async function handleTagAddToPasta() {
+    function handleTagAddToPasta() {
       try {
-        await pasta.addTag(pasta.tag.value);
+        pasta.addTag(pasta.tag.value);
       } catch (error) {
         if (!(error instanceof ExtendedError)) {
           throw error;
