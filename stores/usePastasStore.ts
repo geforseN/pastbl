@@ -132,6 +132,25 @@ export const usePastasStore = defineStore(
       clearPopulatedTexts,
       allTags,
       tagsSortedByLength,
+      shallowRawPastas: computed(() =>
+        pastas.value.map((pasta) => ({
+          ...pasta,
+          validTokens: toRaw(pasta.validTokens),
+          tags: toRaw(pasta.tags),
+        })),
+      ),
+      minPastaTextLengthInPastas: computed(() =>
+        pastas.value.reduce(
+          (min, pasta) => Math.min(min, pasta.text.length),
+          Number.POSITIVE_INFINITY,
+        ),
+      ),
+      maxPastaTextLengthInPastas: computed(() =>
+        pastas.value.reduce(
+          (max, pasta) => Math.max(max, pasta.text.length),
+          Number.NEGATIVE_INFINITY,
+        ),
+      ),
       mostPopularTagsMap,
       pastas,
       pastasSortedByNewest,
@@ -176,15 +195,18 @@ export const usePastasStore = defineStore(
         // TODO: replace pinia store pastasBin to idb 'bin' store
         // NOTE: now store is not persisted, so deleted pastas can not be restored (so now pastasBin is useless)
         pastasBin.value.push(removedPasta);
-        /*  toast.add(
-          new RemovePastaNotification({
-            handleUndo: () => {
-              const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
-              pastasBin.value.splice(pastaIndexInBin, 1);
-              pastas.value.splice(index, 0, removedPasta);
-            },
-          }),
-        ); */
+        // toast.add(
+        //   new RemovePastaNotification({
+        //     handleUndo: () => {
+        //       // TODO: remove  pastasBin, use idb 'bin' store
+        //       const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
+        //       // TODO: remove  pastasBin, use idb 'bin' store
+        //       pastasBin.value.splice(pastaIndexInBin, 1);
+        //       pastas.value.splice(index, 0, removedPasta);
+        //       pastasIdb.idb.put("list", toRaw(removedPasta));
+        //     },
+        //   }),
+        // );
       },
     };
   },
