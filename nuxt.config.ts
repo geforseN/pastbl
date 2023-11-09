@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
-    "@nuxtjs/color-mode",
   ],
   vue: {
     propsDestructure: true,
