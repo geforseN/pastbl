@@ -12,7 +12,7 @@
       <span class="block grow border border-secondary">
         <span class="block w-full px-[10px] py-[5px]">
           <slot name="userNickname" />
-          <span>{{ ": " }}</span>
+          <span aria-hidden="true">{{ ": " }}</span>
           <!-- eslint-disable vue/no-v-html -->
           <span
             class="twitch-text p-0 text-[13px]/[18px]"
@@ -52,3 +52,9 @@ defineSlots<{
   sidebar: () => unknown;
 }>();
 </script>
+<style scoped>
+:deep(img) {
+  display: inline;
+  margin: -5px 0;
+}
+</style>
