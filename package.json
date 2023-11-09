@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
@@ -57,7 +56,7 @@
     "zipson": "^0.2.12"
   },
   "peerDependencies": {
-    "vue": "^3.3.7"
+    "vue": "^3.3.8"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
