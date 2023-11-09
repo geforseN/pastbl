@@ -10,7 +10,7 @@
       {{ badgeNumber }}
     </div>
     <span
-      class="twitch-tex align-baseline text-[13px] font-bold leading-[19.5px]"
+      class="twitch-text text-[13px]/[18px] font-bold"
       :style="{ color: user.preferences.nickname.color }"
     >
       {{ user.nickname }}
