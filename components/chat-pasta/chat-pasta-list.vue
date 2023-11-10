@@ -47,7 +47,7 @@
 </template>
 <script setup lang="ts">
 defineSlots<{
-  userNickname: () => VNode;
+  userNickname: () => unknown;
 }>();
 
 const clipboard = useClipboard();

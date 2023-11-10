@@ -60,9 +60,9 @@ const pastaText = defineModel<string>("text", { required: true, local: false });
 const pastasStore = usePastasStore();
 
 defineSlots<{
-  header: () => VNode;
-  button: (props: { dynamicClass: string }) => VNode;
-  textarea: () => VNode;
+  header: () => unknown;
+  button: (props: { dynamicClass: string }) => unknown;
+  textarea: () => unknown;
 }>();
 
 const props = defineProps<{

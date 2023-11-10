@@ -23,7 +23,7 @@ const mustRenderContent = ref(false);
 
 defineProps<{ set: EmoteSet }>();
 defineSlots<{
-  title: () => any;
-  emoteList: () => any;
+  title: () => unknown;
+  emoteList: () => unknown;
 }>();
 </script>
