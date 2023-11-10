@@ -12,6 +12,7 @@ export interface FrankerFaceZSet extends IEmoteSet<FrankerFaceZEmote> {
 export class FFZSet implements FrankerFaceZSet {
   emotes;
   id;
+  isActive;
   name;
   source;
   updatedAt;
@@ -22,6 +23,7 @@ export class FFZSet implements FrankerFaceZSet {
   ) {
     this.emotes = ffzApiSet.emoticons.map(toFFZEmoteCallback);
     this.id = ffzApiSet.id.toString();
+    this.isActive = true;
     this.name = ffzApiSet.title;
     this.source = "FrankerFaceZ" as const;
     this.updatedAt = Date.now();
