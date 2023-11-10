@@ -31,6 +31,7 @@
     <div class="flex w-min flex-col gap-y-4">
       <pasta-form-responsive ref="pastaFormRef" />
       <load-emote-collection-form />
+      <change-emote-collection />
       <user-settings />
     </div>
   </main>
