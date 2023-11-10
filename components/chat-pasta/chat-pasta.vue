@@ -33,7 +33,10 @@
           {{ tag }}
         </div>
       </div>
-      <div class="relative top-[3px] flex justify-between px-0.5">
+      <div
+        class="relative top-[3px] flex justify-between px-0.5"
+        :title="new Date(props.pasta.createdAt).toString()"
+      >
         <use-time-ago #="{ timeAgo }" :time="props.pasta.createdAt">
           <time>Created {{ timeAgo }}</time>
         </use-time-ago>
