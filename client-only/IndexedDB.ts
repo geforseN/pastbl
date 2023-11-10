@@ -67,19 +67,25 @@ export interface EmotesSchema {
   };
 }
 
+export const openEmoteCollections = openDB<EmoteCollectionsSchema>(
+  "emote-collections",
+  3,
+  {
+    upgrade(database) {
+      database.createObjectStore("users", {
+        keyPath: "twitch.username",
+      });
+      database.createObjectStore("global", {
+        keyPath: "source",
+      });
+      database.createObjectStore("key-value");
+    },
+  },
+);
+
 export async function openDBs() {
   const [collectionsDB, emotesDB] = await Promise.all([
-    openDB<EmoteCollectionsSchema>("emote-collections", 3, {
-      upgrade(database) {
-        database.createObjectStore("users", {
-          keyPath: "twitch.username",
-        });
-        database.createObjectStore("global", {
-          keyPath: "source",
-        });
-        database.createObjectStore("key-value");
-      },
-    }),
+    openEmoteCollections,
     openDB<EmotesSchema>("emotes", 1, {
       upgrade(database) {
         const emotesStore = database.createObjectStore("emotes", {
