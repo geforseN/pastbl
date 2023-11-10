@@ -4,7 +4,7 @@ type User = {
   nickname: string;
   preferences: {
     nickname: {
-      // NOTE: color must be HEX format
+      // NOTE: color must be HEX format (# and 6 digits)
       color: string;
     };
     alerts: {
@@ -27,7 +27,7 @@ export const useUserStore = defineStore(
     const user = ref<User>({
       nickname: "Kappa",
       preferences: {
-        nickname: { color: "#C00" },
+        nickname: { color: "#CC0000" },
         alerts: {
           copypastaCopy: {
             mustShowOnSuccess: true,
