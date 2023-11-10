@@ -2,7 +2,7 @@
   <header class="flex gap-x-2 p-1 text-xl font-medium">
     <slot />
     <div class="ml-auto"></div>
-    <span class="loading" v-if="props.isLoading" />
+    <span v-if="props.isLoading" class="loading" />
     <span v-if="props.isReady">✅</span>
     <span v-if="props.isError">❌</span>
     <slot name="collection-logo" />
@@ -17,8 +17,8 @@ const props = defineProps<{
 }>();
 
 defineSlots<{
-  default: () => any;
-  "collection-logo": () => any;
+  default: () => unknown;
+  "collection-logo": () => unknown;
 }>();
 </script>
 
