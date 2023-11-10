@@ -37,6 +37,7 @@ export interface IEmote {
 
 export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
   emotes: EmoteT[];
+  isActive: boolean;
   // NOTE: FFZ api returns set with typeof id === 'number', but in collection instance id converted to string
   // NOTE -
   // BTTV api does not have term 'set'
@@ -62,6 +63,7 @@ export interface IGlobalEmoteCollection<
   sets: SetT[];
   source: SourceT;
   updatedAt: ReturnType<(typeof Date)["now"]>;
+  isActive: boolean;
 }
 
 export const globalEmotesGetters: Record<

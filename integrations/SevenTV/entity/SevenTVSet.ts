@@ -2,34 +2,33 @@ import type { SevenTVApiEmoteSet, SevenTVApiSetEmote } from "../SevenTV.api";
 import type { I7TVEmote } from "./SevenTVEmote";
 import type { IEmoteSet } from "~/integrations";
 
-export interface I7TVSet extends IEmoteSet {
-  emotes: I7TVEmote[];
+export interface I7TVSet extends IEmoteSet<I7TVEmote> {
   source: "SevenTV";
-  name: string;
   capacity: number;
-  id: string;
   isValid: boolean;
 }
 
 export class SevenTVSet implements I7TVSet {
-  updatedAt;
-  source;
+  capacity;
   emotes;
+  id;
+  isActive;
   readonly isValid;
   name;
-  capacity;
-  id;
+  source;
+  updatedAt;
 
   constructor(
     apiSet: SevenTVApiEmoteSet<true | false>,
     to7TVEmoteCallback: (value: SevenTVApiSetEmote) => I7TVEmote,
   ) {
-    this.id = apiSet.id;
-    this.name = apiSet.name;
-    this.isValid = "emotes" in apiSet;
+    this.capacity = apiSet.capacity;
     this.emotes = (apiSet.emotes || []).map(to7TVEmoteCallback);
+    this.id = apiSet.id;
+    this.isActive = true;
+    this.isValid = "emotes" in apiSet;
+    this.name = apiSet.name;
     this.source = "SevenTV" as const;
     this.updatedAt = Date.now();
-    this.capacity = apiSet.capacity;
   }
 }
