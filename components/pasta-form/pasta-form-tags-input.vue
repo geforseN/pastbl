@@ -31,7 +31,7 @@ const { mustBecomeEmptyOnAdd = false } = defineProps<{
 const emit = defineEmits<{ addTag: [tagToAdd: string] }>();
 
 defineSlots<{
-  addTagSuggestions: () => any;
+  addTagSuggestions: () => unknown;
 }>();
 
 function emitTag() {
