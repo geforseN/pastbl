@@ -1,12 +1,8 @@
 <template>
   <div>
-    <fieldset class="rounded border-2 border-base-content p-2">
-      <legend class="-ml-1 -translate-x-1 pl-2 text-xl font-bold">
-        Show alert on:
-      </legend>
-      <article
-        class="flex items-center justify-between rounded border-2 border-base-content px-2"
-      >
+    <fieldset class="rounded border-2 p-2">
+      <legend class="-ml-1 -translate-x-1 pl-2 text-xl">Show alert on:</legend>
+      <article class="flex items-center justify-between rounded border-2 px-2">
         <label
           for="must-show-alert-pasta-copied"
           class="label cursor-pointer text-xl font-medium"
