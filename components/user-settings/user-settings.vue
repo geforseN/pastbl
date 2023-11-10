@@ -19,7 +19,12 @@ const userStore = useUserStore();
 <style scoped>
 article:focus-within {
   position: relative;
+  border-color: theme(colors.base-content);
   background-color: theme(colors.base-300);
+}
+
+article:focus-within + article {
+  border-top-color: theme(colors.base-content);
 }
 
 article:focus-within::before,
