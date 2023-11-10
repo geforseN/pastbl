@@ -22,7 +22,7 @@
         </td>
         <td>
           <div>
-            <label for="7tv-active" class="sr-only">
+            <label :for="'isActive' + source" class="sr-only">
               Make {{ source }} active
             </label>
             <!-- TODO make value binding -->
