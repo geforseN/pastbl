@@ -16,8 +16,8 @@ export type GlobalEmoteCollectionEntry = [
 ];
 
 export const useCollectionsStore = defineStore("collections", () => {
-  const globalCollectionsEntries = ref<UserEmoteCollectionEntry[]>([]);
-  const usersCollectionsEntries = ref<GlobalEmoteCollectionEntry[]>([]);
+  const globalCollectionsEntries = ref<GlobalEmoteCollectionEntry[]>([]);
+  const usersCollectionsEntries = ref<UserEmoteCollectionEntry[]>([]);
 
   const activeUserCollectionNickname = ref<string>();
   const activeGlobalCollectionSources = ref<AvailableEmoteSource[]>([]);
@@ -65,16 +65,14 @@ export const useCollectionsStore = defineStore("collections", () => {
 
       watchArray(
         () => activeGlobalCollectionSources.value,
-        async (_, __, [newActiveSource], [newInactiveSource]) => {
+        async (_, __, [activeSource], [inactiveSource]) => {
           const sourceToUpdate =
-            newActiveSource ||
-            newInactiveSource ||
-            raise("Impossible condition");
+            activeSource || inactiveSource || raise("Impossible condition");
           const collectionToUpdate = globalCollectionsEntries.value.find(
             ([source]) => source === sourceToUpdate,
           )?.[1];
           assert.ok(collectionToUpdate);
-          const isCollectionActive = sourceToUpdate === newActiveSource;
+          const isCollectionActive = sourceToUpdate === activeSource;
           await idb.emoteCollections.global.updateCollectionActivity(
             collectionToUpdate,
             isCollectionActive,
@@ -93,7 +91,7 @@ export const useCollectionsStore = defineStore("collections", () => {
     selectedUserCollection: computed(
       () =>
         usersCollectionsEntries.value.find(
-          ([, collection]) => collection.isActive,
+          ([nickname]) => activeUserCollectionNickname.value === nickname,
         )?.[1],
     ),
   };
