@@ -76,7 +76,7 @@ const props = defineProps<{
   ][];
 }>();
 
-const collectionsStore = useCollectionStore();
+const collectionsStore = useCollectionsStore();
 </script>
 <style scoped>
 .nickname {
