@@ -13,14 +13,16 @@
     </thead>
     <tbody v-for="[source, collection] of props.entries" :key="source">
       <tr class="hover">
-        <td class="flex items-center gap-2">
-          <div class="w-6">
-            <icons-emote-integration-logo width="24" :source="source" />
+        <td>
+          <div class="flex items-center gap-2">
+            <div class="w-6">
+              <icons-emote-integration-logo width="24" :source="source" />
+            </div>
+            <span class="w-[6.5rem]">{{ source }}</span>
           </div>
-          <span class="w-[6.5rem]">{{ source }}</span>
         </td>
         <td>
-          <div>
+          <div class="flex justify-center">
             <label :for="'isActive' + source" class="sr-only">
               Make {{ collection.name }} active
             </label>
