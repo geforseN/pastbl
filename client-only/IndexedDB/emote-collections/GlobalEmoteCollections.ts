@@ -24,6 +24,14 @@ export class GlobalEmoteCollections {
     ][];
   }
 
+  getAllCollectionsKeys() {
+    return this.db.getAllKeys("global");
+  }
+
+  addCollection(collection: IGlobalEmoteCollection) {
+    return this.db.add("global", collection);
+  }
+
   putCollection(collection: IGlobalEmoteCollection) {
     return this.db
       .transaction("global", "readwrite")

@@ -1,9 +1,13 @@
 import { type IDBPDatabase, openDB } from "idb";
 import {
-  prepareUserEmotesForIDB,
   type EmotesSchema,
+  type IndexedDBUserCollection,
 } from "~/client-only/IndexedDB";
-import type { IUserEmoteCollection } from "~/integrations";
+import type {
+  EmoteCollectionsRecord,
+  IUserEmoteCollection,
+} from "~/integrations";
+import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
 class Emotes {
   db;
@@ -13,8 +17,26 @@ class Emotes {
   }
 
   putEmotesOfUserCollection(collection: IUserEmoteCollection) {
-    const emotes = prepareUserEmotesForIDB(collection);
+    const emotes = Object.values(collection.collections).flatMap((collection) =>
+      collection.sets.flatMap((set) => toRaw(set.emotes)),
+    );
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
+  }
+
+  async populateUserCollectionWithEmotes(collection: IndexedDBUserCollection) {
+    const emoteStore = this.db.transaction("emotes").store;
+    const collectionsArray = await Promise.all(
+      Object.values(collection.collections).map((idbCollection) =>
+        UserEmoteCollection.fromIDBCollection(idbCollection, (emoteId) =>
+          emoteStore.get([emoteId, idbCollection.source]),
+        ),
+      ),
+    );
+    const collections = arrayToRecordByValueOfKey(
+      collectionsArray,
+      "source",
+    ) as EmoteCollectionsRecord;
+    return { ...collection, collections };
   }
 }
 
