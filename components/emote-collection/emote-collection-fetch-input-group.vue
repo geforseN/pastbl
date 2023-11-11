@@ -1,7 +1,7 @@
 <template>
   <div class="grid w-full grid-cols-1 p-2">
     <label class="label" for="user-emote-collections">
-      <span class="text-xl font-medium">Load twitch user</span>
+      <span class="text-xl font-medium">Load twitch user emotes</span>
     </label>
     <div class="join">
       <input
