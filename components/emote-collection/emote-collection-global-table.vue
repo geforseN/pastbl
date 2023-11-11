@@ -42,7 +42,14 @@
             </span>
           </use-time-ago>
         </td>
-        <td><button class="btn btn-accent btn-xs">Update</button></td>
+        <td>
+          <button
+            class="btn btn-accent btn-xs"
+            @click="collectionsStore.updateGlobalCollection(collection)"
+          >
+            Update
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
