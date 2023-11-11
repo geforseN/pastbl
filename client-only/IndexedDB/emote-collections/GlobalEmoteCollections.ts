@@ -2,7 +2,6 @@ import type { IDBPDatabase } from "idb";
 import type { EmoteCollectionsSchema } from "~/client-only/IndexedDB";
 import {
   globalEmotesGetters,
-  type AvailableEmoteSource,
   type IGlobalEmoteCollection,
 } from "~/integrations";
 
@@ -32,14 +31,14 @@ export class GlobalEmoteCollections {
       .put({ ...collection, updatedAt: Date.now() });
   }
 
-  async updateCollection(collectionName: AvailableEmoteSource) {
-    const getCollection = globalEmotesGetters[collectionName];
-    const collection = await getCollection();
+  async updateCollection(collection: IGlobalEmoteCollection) {
+    const getCollection = globalEmotesGetters[collection.source];
+    const newCollection = await getCollection();
     await this.db
       .transaction("global", "readwrite")
       .objectStore("global")
-      .put(collection);
-    return collection;
+      .put(newCollection);
+    return newCollection;
   }
 
   updateCollectionActivity(
