@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { AvailableEmoteSources } from "~/integrations";
+import type { AvailableEmoteSource } from "~/integrations";
 
-const props = defineProps<{ source: AvailableEmoteSources }>();
+const props = defineProps<{ source: AvailableEmoteSource }>();
 </script>
