@@ -33,12 +33,13 @@ export class GlobalEmoteCollections {
   }
 
   async updateCollection(collectionName: AvailableEmoteSource) {
-    const collectionGetter = globalEmotesGetters[collectionName];
-    const collection = await collectionGetter();
-    return this.db
+    const getCollection = globalEmotesGetters[collectionName];
+    const collection = await getCollection();
+    await this.db
       .transaction("global", "readwrite")
       .objectStore("global")
       .put(collection);
+    return collection;
   }
 
   updateCollectionActivity(

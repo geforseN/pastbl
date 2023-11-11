@@ -103,5 +103,19 @@ export const useCollectionsStore = defineStore("collections", () => {
       assert.ok(index >= 0, "Can not remove the collection which is not exist");
       usersCollectionsEntries.value.splice(index, 1);
     },
+    async updateGlobalCollection(collection: IGlobalEmoteCollection) {
+      const { idb } = await import("~/client-only/IndexedDB");
+      const newCollection = await idb.emoteCollections.global.updateCollection(
+        collection.source,
+      );
+      const index = globalCollectionsEntries.value.findIndex(
+        ([source]) => source === collection.source,
+      );
+      assert.ok(index >= 0, "Can not update the collection which is not exist");
+      globalCollectionsEntries.value.splice(index, 1, [
+        newCollection.source,
+        newCollection,
+      ]);
+    },
   };
 });
