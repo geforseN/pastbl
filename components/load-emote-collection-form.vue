@@ -34,7 +34,7 @@
           to load emote collection
         </template>
         <template v-else>
-          Please enter a string of 4-25 non-whitespace characters
+          Please enter a string of 3-25 non-whitespace characters
         </template>
       </span>
     </form>
