@@ -34,6 +34,10 @@ export class UsersEmoteCollections {
       .objectStore("users")
       .put({ ...toRawCollection(collection), isActive });
   }
+
+  removeCollection(collection: IndexedDBUserCollection) {
+    return this.db.delete("users", collection.twitch.username);
+  }
 }
 
 function toRawCollection(

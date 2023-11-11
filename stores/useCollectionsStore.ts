@@ -94,5 +94,14 @@ export const useCollectionsStore = defineStore("collections", () => {
           ([nickname]) => activeUserCollectionNickname.value === nickname,
         )?.[1],
     ),
+    async removeUserCollection(collection: IndexedDBUserCollection) {
+      const { idb } = await import("~/client-only/IndexedDB");
+      await idb.emoteCollections.users.removeCollection(collection);
+      const index = usersCollectionsEntries.value.findIndex(
+        ([nickname]) => nickname === collection.twitch.nickname,
+      );
+      assert.ok(index >= 0, "Can not remove the collection which is not exist");
+      usersCollectionsEntries.value.splice(index, 1);
+    },
   };
 });
