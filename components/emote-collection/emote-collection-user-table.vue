@@ -59,7 +59,12 @@
         </td>
         <td class="flex flex-col">
           <button class="btn btn-accent btn-xs">Update</button>
-          <button class="btn btn-error btn-xs">Remove</button>
+          <button
+            class="btn btn-error btn-xs"
+            @click="collectionsStore.removeUserCollection(collection)"
+          >
+            Remove
+          </button>
         </td>
       </tr>
     </tbody>
