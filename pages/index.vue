@@ -50,21 +50,16 @@ onMounted(() => {
 });
 
 async function tryAddGlobalEmotes() {
-  const dbs = await import("~/client-only/IndexedDB").then(({ openDBs }) =>
-    openDBs(),
-  );
-  const addedGlobalCollectionNames = await dbs.collectionsDB
-    .transaction("global")
-    .store.getAllKeys();
+  const { idb } = await import("~/client-only/IndexedDB");
+  const addedGlobalCollectionNames =
+    await idb.emoteCollections.global.getAllCollectionsKeys();
   const sourcesToLoad = availableEmoteSources.filter(
     (source) => !addedGlobalCollectionNames.includes(source),
   );
   for (const source of sourcesToLoad) {
-    const globalCollectionGetter = globalEmotesGetters[source];
-    const globalCollection = await globalCollectionGetter();
-    dbs.collectionsDB
-      .transaction("global", "readwrite")
-      .store.add(globalCollection);
+    const getGlobalCollection = globalEmotesGetters[source];
+    const globalCollection = await getGlobalCollection();
+    idb.emoteCollections.global.addCollection(globalCollection);
   }
 }
 </script>
