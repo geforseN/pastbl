@@ -5,25 +5,24 @@
     </caption>
     <thead>
       <tr>
-        <th>Logo</th>
-        <th>Name</th>
+        <th class="relative left-8">Name</th>
         <th>Active</th>
         <th>Update time</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody v-for="[source, collection] of props.entries" :key="source">
-      <tr>
-        <td>
-          <icons-emote-integration-logo :source="source" />
-        </td>
-        <td>
-          {{ source }}
+      <tr class="hover">
+        <td class="flex items-center gap-2">
+          <div class="w-6">
+            <icons-emote-integration-logo width="24" :source="source" />
+          </div>
+          <span class="w-[6.5rem]">{{ source }}</span>
         </td>
         <td>
           <div>
             <label :for="'isActive' + source" class="sr-only">
-              Make {{ source }} active
+              Make {{ collection.name }} active
             </label>
             <!-- TODO make value binding -->
             <input
