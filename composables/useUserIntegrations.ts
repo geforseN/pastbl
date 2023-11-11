@@ -293,6 +293,7 @@ export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
       failedCollectionsReasons,
       updatedAt: Date.now(),
       collections,
+      isActive: false,
     } as IUserEmoteCollection;
   });
 
