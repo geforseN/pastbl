@@ -24,7 +24,7 @@ export const useCollectionsStore = defineStore("collections", () => {
   const activeGlobalCollectionSources = ref<AvailableEmoteSource[]>([]);
 
   if (typeof window !== "undefined") {
-    import("~/client-only/IndexedDB").then(({ idb }) => {
+    import("~/client-only/IndexedDB/index").then(({ idb }) => {
       Promise.all([
         idb.emoteCollections.users
           .getAllCollectionsEntries()
@@ -112,7 +112,7 @@ export const useCollectionsStore = defineStore("collections", () => {
     activeGlobalCollectionSources,
     selectedUserCollection,
     async removeUserCollection(collection: IndexedDBUserCollection) {
-      const { idb } = await import("~/client-only/IndexedDB");
+      const { idb } = await import("~/client-only/IndexedDB/index");
       await idb.emoteCollections.users.removeCollection(collection);
       const index = usersCollectionsEntries.value.findIndex(
         ([nickname]) => nickname === collection.twitch.nickname,
@@ -125,7 +125,7 @@ export const useCollectionsStore = defineStore("collections", () => {
       }
     },
     async updateUserCollection(oldCollection: IndexedDBUserCollection) {
-      const { idb } = await import("~/client-only/IndexedDB");
+      const { idb } = await import("~/client-only/IndexedDB/index");
       const collections = useUserIntegrations();
       const newCollection = await collections.integrations
         .execute(0, oldCollection.twitch.username)
@@ -147,7 +147,7 @@ export const useCollectionsStore = defineStore("collections", () => {
       ]);
     },
     async updateGlobalCollection(collection: IGlobalEmoteCollection) {
-      const { idb } = await import("~/client-only/IndexedDB");
+      const { idb } = await import("~/client-only/IndexedDB/index");
       const newCollection =
         await idb.emoteCollections.global.updateCollection(collection);
       const index = globalCollectionsEntries.value.findIndex(

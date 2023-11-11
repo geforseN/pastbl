@@ -50,7 +50,7 @@ onMounted(() => {
 });
 
 async function tryAddGlobalEmotes() {
-  const { idb } = await import("~/client-only/IndexedDB");
+  const { idb } = await import("~/client-only/IndexedDB/index");
   const addedGlobalCollectionNames =
     await idb.emoteCollections.global.getAllCollectionsKeys();
   const sourcesToLoad = availableEmoteSources.filter(
