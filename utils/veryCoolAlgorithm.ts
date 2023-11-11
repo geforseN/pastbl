@@ -1,5 +1,5 @@
 import type {
-  AvailableEmoteSources,
+  AvailableEmoteSource,
   IEmote,
   IUserEmoteCollection,
 } from "~/integrations";
@@ -14,31 +14,25 @@ const _orderedSources = ["FrankerFaceZ", "BetterTTV", "SevenTV"] as const;
 // TODO: should move 'find emotes logic' to store indexes
 // NOTE: now all global emotes and current user emotes loaded in RAM, can cache it (should compute again once global emotes or current user emotes changed)
 export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
-  const dbs = await import("~/client-only/IndexedDB").then(({ openDBs }) =>
-    openDBs(),
-  );
-  const keyValueStore = dbs.collectionsDB.transaction("key-value").store;
-  const activeUserCollection = (await keyValueStore.get(
-    "activeUserCollection",
-  )) as IUserEmoteCollection | undefined;
+  const { idb } = await import("~/client-only/IndexedDB");
+  const activeUserCollection = {
+    collections: [],
+  } as unknown as IUserEmoteCollection;
   // TODO use emotesStore more
   const emotesStore = useEmotesStore();
-  assert.ok(activeUserCollection);
   const validTokensToGet = [
     ...new Set(newPastas.flatMap((pasta) => pasta.validTokens)),
   ];
-  const globalEmoteCollections = await dbs.collectionsDB
-    .transaction("global")
-    .store.getAll();
-
+  const globalEmoteCollections =
+    await idb.emoteCollections.global.getAllCollections();
   const globalEmoteEntries = Object.values(globalEmoteCollections).map(
     (collection) => {
       return [collection.source, collection.sets.flatMap((set) => set.emotes)];
     },
-  ) as [AvailableEmoteSources, IEmote[]][];
+  ) as [AvailableEmoteSource, IEmote[]][];
 
   const currentCollectionEmoteEntries = Object.values(
-    activeUserCollection.collections,
+    activeUserCollection?.collections || {},
   ).map((collection) => {
     return [collection.source, collection.sets.flatMap((set) => set.emotes)];
   });
@@ -50,7 +44,7 @@ export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
     // TODO sort emoteEntries in some order
     // now order is unpredictable, probably FFZ => BTTV => 7TV
     ...currentCollectionEmoteEntries,
-  ] as [AvailableEmoteSources, IEmote[]][];
+  ] as [AvailableEmoteSource, IEmote[]][];
 
   const foundEmotes = validTokensToGet.reduce((emotes, token) => {
     const tokenList = emoteEntries.find(([, emotes]) =>
