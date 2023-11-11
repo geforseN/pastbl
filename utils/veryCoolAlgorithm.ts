@@ -14,7 +14,7 @@ const _orderedSources = ["FrankerFaceZ", "BetterTTV", "SevenTV"] as const;
 // TODO: should move 'find emotes logic' to store indexes
 // NOTE: now all global emotes and current user emotes loaded in RAM, can cache it (should compute again once global emotes or current user emotes changed)
 export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
-  const { idb } = await import("~/client-only/IndexedDB");
+  const { idb } = await import("~/client-only/IndexedDB/index");
   const activeUserCollection = {
     collections: [],
   } as unknown as IUserEmoteCollection;

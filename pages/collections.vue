@@ -70,7 +70,7 @@ onMounted(async () => {
   if (!nickname.value.length) {
     throw new Error("Must enter a nickname");
   }
-  const { idb } = await import("~/client-only/IndexedDB");
+  const { idb } = await import("~/client-only/IndexedDB/index");
   const loadStrategy = ref<"fromIDB" | "fromAPI" | null>(null);
   const username = nickname.value.toLowerCase() as Lowercase<string>;
   const idbCollection =
