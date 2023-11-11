@@ -13,29 +13,31 @@
     </thead>
     <tbody v-for="[nickname, collection] of props.entries" :key="nickname">
       <tr class="hover">
-        <td class="flex items-center gap-2">
-          <div class="w-8">
-            <img
-              width="32"
-              class="rounded-full"
-              :src="collection.collections.FrankerFaceZ.owner.avatarUrl"
-              :alt="`${nickname} avatar`"
-            />
-          </div>
-          <div class="flex w-24 flex-col">
-            <span class="nickname" :title="nickname">
-              {{ nickname }}
-            </span>
-            <nuxt-link
-              class="link text-xs text-twitch"
-              :to="`https://www.twitch.tv/${collection.twitch.username}`"
-            >
-              Twitch
-            </nuxt-link>
+        <td>
+          <div class="flex items-center gap-2">
+            <div class="w-8">
+              <img
+                width="32"
+                class="rounded-full"
+                :src="collection.collections.FrankerFaceZ.owner.avatarUrl"
+                :alt="`${nickname} avatar`"
+              />
+            </div>
+            <div class="flex w-24 flex-col">
+              <span class="nickname" :title="nickname">
+                {{ nickname }}
+              </span>
+              <nuxt-link
+                class="link text-xs text-twitch"
+                :to="`https://www.twitch.tv/${collection.twitch.username}`"
+              >
+                Twitch
+              </nuxt-link>
+            </div>
           </div>
         </td>
         <td>
-          <div class="h-max">
+          <div class="flex justify-center">
             <label :for="'isActive' + nickname" class="sr-only">
               Make {{ nickname }} emote collection active
             </label>
@@ -57,14 +59,21 @@
             </span>
           </use-time-ago>
         </td>
-        <td class="flex flex-col">
-          <button class="btn btn-accent btn-xs">Update</button>
-          <button
-            class="btn btn-error btn-xs"
-            @click="collectionsStore.removeUserCollection(collection)"
-          >
-            Remove
-          </button>
+        <td>
+          <div class="flex flex-col justify-center">
+            <button
+              class="btn btn-accent btn-xs"
+              @click="collectionsStore.updateUserCollection(collection)"
+            >
+              Update
+            </button>
+            <button
+              class="btn btn-error btn-xs"
+              @click="collectionsStore.removeUserCollection(collection)"
+            >
+              Remove
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
