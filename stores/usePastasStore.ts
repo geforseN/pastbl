@@ -7,7 +7,7 @@ import { zipsonStoreSerializer } from "#imports";
 import {
   templateStrings,
   type IEmote,
-  type AvailableEmoteSources,
+  type AvailableEmoteSource,
 } from "~/integrations";
 
 export type Pasta = { text: string; tags: string[] };
@@ -77,7 +77,7 @@ export const usePastasStore = defineStore(
             continue;
           }
           const emoteTemplate: (emote: IEmote) => string = templateStrings[
-            emote.source as AvailableEmoteSources
+            emote.source as AvailableEmoteSource
           ] as (emote: IEmote) => string;
           const emoteAsString = emoteTemplate(emote);
           pasta.populatedText = pasta.populatedText.replaceAll(

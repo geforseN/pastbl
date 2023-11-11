@@ -8,6 +8,7 @@ import type {
   EmoteCollectionsRecord,
 } from "~/integrations";
 import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
+import { emoteCollectionsIdb } from "~/client-only/IndexedDB/emote-collections";
 
 export type IndexedDBEmoteSet = Omit<IEmoteSet, "emotes"> & {
   emoteIds: IEmote["id"][];
@@ -18,6 +19,7 @@ export type IndexedDBEmoteCollection = Omit<IEmoteCollection, "sets"> & {
 };
 
 export interface IndexedDBUserCollection {
+  isActive: boolean;
   twitch: {
     nickname: string;
     id: number;
@@ -183,3 +185,9 @@ export async function getProperUserCollectionFromIDB(
     ),
   };
 }
+const idb = {
+  emoteCollections: emoteCollectionsIdb,
+};
+export { idb };
+export { emoteCollectionsIdb };
+export { pastasIdb } from "~/client-only/IndexedDB/pastas";

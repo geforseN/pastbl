@@ -20,7 +20,7 @@ export const availableEmoteSources = [
   "SevenTV",
   "BetterTTV",
 ] as const;
-export type AvailableEmoteSources = (typeof availableEmoteSources)[number];
+export type AvailableEmoteSource = (typeof availableEmoteSources)[number];
 
 export interface IEmote {
   // NOTE: FFZ api returns emotes with typeof id === 'number', but in emote instance id converted to string
@@ -56,7 +56,7 @@ export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
 export interface IEmoteCollectionOwner {}
 
 export interface IGlobalEmoteCollection<
-  SourceT extends EmoteSource = EmoteSource,
+  SourceT extends EmoteSource = AvailableEmoteSource,
   SetT extends IEmoteSet = IEmoteSet,
 > {
   name: `${SourceT} Global Emotes Collection`;
@@ -67,7 +67,7 @@ export interface IGlobalEmoteCollection<
 }
 
 export const globalEmotesGetters: Record<
-  AvailableEmoteSources,
+  AvailableEmoteSource,
   () => Promise<IGlobalEmoteCollection>
 > = {
   FrankerFaceZ: async () => {
@@ -96,10 +96,11 @@ export interface IEmoteCollection<
 }
 
 export type EmoteCollectionsRecord =
-  | Record<AvailableEmoteSources, IEmoteCollection<AvailableEmoteSources>>
-  | Record<AvailableEmoteSources, never>;
+  | Record<AvailableEmoteSource, IEmoteCollection<AvailableEmoteSource>>
+  | Record<AvailableEmoteSource, never>;
 
 export interface IUserEmoteCollection {
+  isActive: boolean;
   twitch: {
     nickname: string;
     id: number;
@@ -108,7 +109,7 @@ export interface IUserEmoteCollection {
   updatedAt: number;
   collections: EmoteCollectionsRecord;
   failedCollectionsReasons:
-    | Record<AvailableEmoteSources, string>
+    | Record<AvailableEmoteSource, string>
     | Record<string, never>;
 }
 
