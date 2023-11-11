@@ -27,7 +27,9 @@
             <!-- TODO make value binding -->
             <input
               :id="'isActive' + source"
+              v-model="collectionsStore.activeGlobalCollectionSources"
               type="checkbox"
+              :value="source"
               :name="'isActive' + source"
               class="checkbox-accent checkbox"
             />
@@ -49,6 +51,7 @@
 import { UseTimeAgo } from "@vueuse/components";
 import type { IGlobalEmoteCollection } from "~/integrations";
 
+const collectionsStore = useCollectionsStore();
 const props = defineProps<{
   entries: [IGlobalEmoteCollection["source"], IGlobalEmoteCollection][];
 }>();

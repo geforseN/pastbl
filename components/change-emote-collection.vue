@@ -25,5 +25,5 @@
 </template>
 
 <script lang="ts" setup>
-const collectionsStore = useCollectionStore();
+const collectionsStore = useCollectionsStore();
 </script>

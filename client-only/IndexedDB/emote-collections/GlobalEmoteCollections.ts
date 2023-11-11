@@ -41,19 +41,14 @@ export class GlobalEmoteCollections {
       .put(collection);
   }
 
-  async updateCollectionActivity(
-    collectionName: AvailableEmoteSource,
+  updateCollectionActivity(
+    collection: IGlobalEmoteCollection,
     isActive: boolean,
   ) {
-    const collection = await this.db.get("global", collectionName);
-    assert.ok(
-      collection,
-      "You must have an existing collection to update activity",
-    );
     const newCollection = {
       ...collection,
+      sets: toRaw(collection.sets),
       isActive,
-      updatedAt: Date.now(),
     };
     return this.db
       .transaction("global", "readwrite")

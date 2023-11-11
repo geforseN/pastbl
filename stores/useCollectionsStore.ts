@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import type { IndexedDBUserCollection } from "~/client-only/IndexedDB";
-import type { IGlobalEmoteCollection } from "~/integrations";
+import type {
+  AvailableEmoteSource,
+  IGlobalEmoteCollection,
+} from "~/integrations";
 
 export type UserEmoteCollectionEntry = [
   IndexedDBUserCollection["twitch"]["nickname"],
@@ -12,11 +15,12 @@ export type GlobalEmoteCollectionEntry = [
   IGlobalEmoteCollection,
 ];
 
-export const useCollectionStore = defineStore("collections", () => {
+export const useCollectionsStore = defineStore("collections", () => {
   const globalCollectionsEntries = ref<UserEmoteCollectionEntry[]>([]);
   const usersCollectionsEntries = ref<GlobalEmoteCollectionEntry[]>([]);
 
   const activeUserCollectionNickname = ref<string>();
+  const activeGlobalCollectionSources = ref<AvailableEmoteSource[]>([]);
 
   if (typeof window !== "undefined") {
     import("~/client-only/IndexedDB").then(({ idb }) => {
@@ -33,6 +37,9 @@ export const useCollectionStore = defineStore("collections", () => {
           .getAllCollectionsEntries()
           .then((entries) => {
             globalCollectionsEntries.value = entries;
+            activeGlobalCollectionSources.value = entries
+              .filter(([, collection]) => collection.isActive)
+              .map(([, collection]) => collection.source);
           }),
       ]);
 
@@ -40,31 +47,39 @@ export const useCollectionStore = defineStore("collections", () => {
         () => activeUserCollectionNickname.value,
         async (newNickname, oldNickname) => {
           console.log({ newNickname, oldNickname });
-          if (newNickname === oldNickname) {
-            return;
-          }
-          if (oldNickname) {
-            const oldActive = usersCollectionsEntries.value.find(
-              ([nickname]) => nickname === oldNickname,
-            )?.[1];
-            if (oldActive) {
-              await idb.emoteCollections.users.updateCollectionActive(
-                oldActive,
-                false,
-              );
-              oldActive.isActive = false;
-            }
-          }
-          const newActive = usersCollectionsEntries.value.find(
-            ([nickname]) => nickname === newNickname,
+          assert.ok(newNickname !== oldNickname, "Impossible condition");
+          const nicknameToUpdate =
+            newNickname || oldNickname || raise("Impossible condition");
+          const collectionToUpdate = usersCollectionsEntries.value.find(
+            ([nickname]) => nickname === nicknameToUpdate,
           )?.[1];
-          if (newActive) {
-            await idb.emoteCollections.users.updateCollectionActive(
-              newActive,
-              true,
-            );
-            newActive.isActive = true;
-          }
+          assert.ok(collectionToUpdate);
+          const isCollectionActive = nicknameToUpdate === newNickname;
+          await idb.emoteCollections.users.updateCollectionActive(
+            collectionToUpdate,
+            isCollectionActive,
+          );
+          collectionToUpdate.isActive = isCollectionActive;
+        },
+      );
+
+      watchArray(
+        () => activeGlobalCollectionSources.value,
+        async (_, __, [newActiveSource], [newInactiveSource]) => {
+          const sourceToUpdate =
+            newActiveSource ||
+            newInactiveSource ||
+            raise("Impossible condition");
+          const collectionToUpdate = globalCollectionsEntries.value.find(
+            ([source]) => source === sourceToUpdate,
+          )?.[1];
+          assert.ok(collectionToUpdate);
+          const isCollectionActive = sourceToUpdate === newActiveSource;
+          await idb.emoteCollections.global.updateCollectionActivity(
+            collectionToUpdate,
+            isCollectionActive,
+          );
+          collectionToUpdate.isActive = isCollectionActive;
         },
       );
     });
@@ -74,6 +89,7 @@ export const useCollectionStore = defineStore("collections", () => {
     usersCollectionsEntries,
     globalCollectionsEntries,
     activeUserCollectionNickname,
+    activeGlobalCollectionSources,
     selectedUserCollection: computed(
       () =>
         usersCollectionsEntries.value.find(
