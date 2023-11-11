@@ -1,5 +1,5 @@
 import { type DBSchema } from "idb";
-import { emotesIdb } from "./IndexedDB/emotes";
+import { emotesIdb } from "./emotes";
 import type {
   IEmote,
   IEmoteCollection,
