@@ -1,8 +1,10 @@
 import type { IDBPDatabase } from "idb";
-import type {
-  EmoteCollectionsSchema,
-  IndexedDBUserCollection,
+import {
+  prepareUserEmoteCollectionForIDB,
+  type EmoteCollectionsSchema,
+  type IndexedDBUserCollection,
 } from "~/client-only/IndexedDB";
+import type { IUserEmoteCollection } from "~/integrations";
 
 export class UsersEmoteCollections {
   db;
@@ -25,28 +27,29 @@ export class UsersEmoteCollections {
     ][];
   }
 
-  updateCollectionActive(
-    collection: IndexedDBUserCollection,
-    isActive: boolean,
-  ) {
+  updateCollection(idbCollection: IndexedDBUserCollection) {
+    const raIdbCollection: IndexedDBUserCollection = {
+      ...idbCollection,
+      collections: toRaw(idbCollection.collections),
+      failedCollectionsReasons: toRaw(idbCollection.failedCollectionsReasons),
+      twitch: toRaw(idbCollection.twitch),
+    };
     return this.db
       .transaction("users", "readwrite")
       .objectStore("users")
-      .put({ ...toRawCollection(collection), isActive });
+      .put(raIdbCollection);
   }
 
   removeCollection(collection: IndexedDBUserCollection) {
     return this.db.delete("users", collection.twitch.username);
   }
-}
 
-function toRawCollection(
-  collection: IndexedDBUserCollection,
-): IndexedDBUserCollection {
-  return {
-    ...collection,
-    twitch: toRaw(collection.twitch),
-    collections: toRaw(collection.collections),
-    failedCollectionsReasons: toRaw(collection.failedCollectionsReasons),
-  };
+  async putCollection(collection: IUserEmoteCollection) {
+    const idbCollection = prepareUserEmoteCollectionForIDB(collection);
+    await this.db
+      .transaction("users", "readwrite")
+      .objectStore("users")
+      .put(idbCollection);
+    return idbCollection;
+  }
 }
