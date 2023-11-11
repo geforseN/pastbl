@@ -16,6 +16,7 @@ export type GlobalEmoteCollectionEntry = [
 ];
 
 export const useCollectionsStore = defineStore("collections", () => {
+  // TODO: refactor two below, make them computed
   const globalCollectionsEntries = ref<GlobalEmoteCollectionEntry[]>([]);
   const usersCollectionsEntries = ref<UserEmoteCollectionEntry[]>([]);
 
@@ -46,20 +47,34 @@ export const useCollectionsStore = defineStore("collections", () => {
       watch(
         () => activeUserCollectionNickname.value,
         async (newNickname, oldNickname) => {
-          console.log({ newNickname, oldNickname });
           assert.ok(newNickname !== oldNickname, "Impossible condition");
-          const nicknameToUpdate =
-            newNickname || oldNickname || raise("Impossible condition");
+          // NOTE: if old nickname is not found, it means it collection was active and it was removed
+          if (!newNickname) {
+            return;
+          }
           const collectionToUpdate = usersCollectionsEntries.value.find(
-            ([nickname]) => nickname === nicknameToUpdate,
+            ([nickname]) => nickname === newNickname,
           )?.[1];
           assert.ok(collectionToUpdate);
-          const isCollectionActive = nicknameToUpdate === newNickname;
-          await idb.emoteCollections.users.updateCollectionActive(
-            collectionToUpdate,
-            isCollectionActive,
-          );
-          collectionToUpdate.isActive = isCollectionActive;
+          if (oldNickname) {
+            const oldCollection = usersCollectionsEntries.value.find(
+              ([nickname]) => nickname === oldNickname,
+            )?.[1];
+            // NOTE: if old collection is not found, it means it was active and it was removed
+            if (!oldCollection) {
+              return;
+            }
+            await idb.emoteCollections.users.updateCollection({
+              ...oldCollection,
+              isActive: false,
+            });
+            oldCollection.isActive = false;
+          }
+          await idb.emoteCollections.users.updateCollection({
+            ...collectionToUpdate,
+            isActive: true,
+          });
+          collectionToUpdate.isActive = true;
         },
       );
 
@@ -72,28 +87,30 @@ export const useCollectionsStore = defineStore("collections", () => {
             ([source]) => source === sourceToUpdate,
           )?.[1];
           assert.ok(collectionToUpdate);
-          const isCollectionActive = sourceToUpdate === activeSource;
-          await idb.emoteCollections.global.updateCollectionActivity(
-            collectionToUpdate,
-            isCollectionActive,
-          );
-          collectionToUpdate.isActive = isCollectionActive;
+          const isActive = sourceToUpdate === activeSource;
+          await idb.emoteCollections.global.updateCollection({
+            ...collectionToUpdate,
+            isActive,
+          });
+          collectionToUpdate.isActive = isActive;
         },
       );
     });
   }
+
+  const selectedUserCollection = computed(
+    () =>
+      usersCollectionsEntries.value.find(
+        ([nickname]) => activeUserCollectionNickname.value === nickname,
+      )?.[1],
+  );
 
   return {
     usersCollectionsEntries,
     globalCollectionsEntries,
     activeUserCollectionNickname,
     activeGlobalCollectionSources,
-    selectedUserCollection: computed(
-      () =>
-        usersCollectionsEntries.value.find(
-          ([nickname]) => activeUserCollectionNickname.value === nickname,
-        )?.[1],
-    ),
+    selectedUserCollection,
     async removeUserCollection(collection: IndexedDBUserCollection) {
       const { idb } = await import("~/client-only/IndexedDB");
       await idb.emoteCollections.users.removeCollection(collection);
@@ -101,13 +118,38 @@ export const useCollectionsStore = defineStore("collections", () => {
         ([nickname]) => nickname === collection.twitch.nickname,
       );
       assert.ok(index >= 0, "Can not remove the collection which is not exist");
-      usersCollectionsEntries.value.splice(index, 1);
+      const [collectionEntry] = usersCollectionsEntries.value.splice(index, 1);
+      const nickname = collectionEntry[0];
+      if (activeUserCollectionNickname.value === nickname) {
+        activeUserCollectionNickname.value = undefined;
+      }
+    },
+    async updateUserCollection(oldCollection: IndexedDBUserCollection) {
+      const { idb } = await import("~/client-only/IndexedDB");
+      const collections = useUserIntegrations();
+      const newCollection = await collections.integrations
+        .execute(0, oldCollection.twitch.username)
+        .then((collection) => {
+          assert.ok(collection, "Failed to load new collection");
+          return { ...collection, isActive: oldCollection.isActive };
+        });
+      const [newIdbCollection] = await Promise.all([
+        idb.emoteCollections.users.putCollection(newCollection),
+        idb.emotes.putEmotesOfUserCollection(newCollection),
+      ]);
+      const index = usersCollectionsEntries.value.findIndex(
+        ([nickname]) => nickname === oldCollection.twitch.nickname,
+      );
+      assert.ok(index >= 0, "Can not update the collection which is not exist");
+      usersCollectionsEntries.value.splice(index, 1, [
+        newIdbCollection.twitch.nickname,
+        newIdbCollection,
+      ]);
     },
     async updateGlobalCollection(collection: IGlobalEmoteCollection) {
       const { idb } = await import("~/client-only/IndexedDB");
-      const newCollection = await idb.emoteCollections.global.updateCollection(
-        collection.source,
-      );
+      const newCollection =
+        await idb.emoteCollections.global.updateCollection(collection);
       const index = globalCollectionsEntries.value.findIndex(
         ([source]) => source === collection.source,
       );
