@@ -16,7 +16,7 @@
               if (collections.integrations.isLoading.value) {
                 return;
               }
-              collections.integrations.execute();
+              collections.integrations.execute(0, nickname);
             }
           "
         />
@@ -37,7 +37,10 @@
         v-if="collections.integrations.state.value"
         :collections="collections"
       />
-      <lazy-emote-collection-list-sync v-else-if="user" :user="user" />
+      <lazy-emote-collection-list-sync
+        v-else-if="collection"
+        :user="collection"
+      />
     </div>
   </div>
   <!-- FIXME: make nuxt-loading-indicator work  -->
@@ -52,9 +55,10 @@ useHead({ title: "collections - pastbl" });
 
 const nickname = useUrlQueryParam("nickname");
 const mustShowInput = nickname.value === "";
-const collections = useUserIntegrations(nickname);
+const collections = useUserIntegrations();
 
-const user = ref<IUserEmoteCollection>();
+const collection = ref<IUserEmoteCollection>();
+const collectionsStore = useCollectionsStore();
 
 onErrorCaptured((error) => {
   // TODO: here can check instanceof error
@@ -66,30 +70,29 @@ onMounted(async () => {
   if (!nickname.value.length) {
     throw new Error("Must enter a nickname");
   }
-  const { openDBs } = await import("~/client-only/IndexedDB");
-  const dbs = await openDBs();
+  const { idb } = await import("~/client-only/IndexedDB");
   const loadStrategy = ref<"fromIDB" | "fromAPI" | null>(null);
-  const idbUser = await dbs.collectionsDB.get(
-    "users",
-    nickname.value.toLowerCase() as Lowercase<string>,
-  );
-  if (idbUser) {
+  const username = nickname.value.toLowerCase() as Lowercase<string>;
+  const idbCollection =
+    await idb.emoteCollections.users.getUserCollectionByUsername(username);
+  if (idbCollection) {
     loadStrategy.value = "fromIDB";
-    const { getProperUserCollectionFromIDB } = await import(
-      "~/client-only/IndexedDB"
-    );
-    user.value = await getProperUserCollectionFromIDB(dbs.emotesDB, idbUser);
+    collection.value =
+      await idb.emotes.populateUserCollectionWithEmotes(idbCollection);
   } else {
     loadStrategy.value = "fromAPI";
-    const { putUserEmotesToDB, putUserToDB } = await import(
-      "~/client-only/IndexedDB"
-    );
-    user.value =
-      (await collections.integrations.execute()) ||
+    collection.value =
+      (await collections.integrations.execute(0, nickname)) ||
       raise("Failed to load emote collection");
-    putUserToDB(dbs.collectionsDB, toRaw(user.value));
-    putUserEmotesToDB(dbs.emotesDB, toRaw(user.value));
+    const [idbUser] = await Promise.all([
+      idb.emoteCollections.users.putCollection(collection.value),
+      idb.emotes.putEmotesOfUserCollection(collection.value),
+    ]);
+    collectionsStore.usersCollectionsEntries.push([
+      idbUser.twitch.nickname,
+      idbUser,
+    ]);
   }
-  process.dev && console.log({ user: user.value });
+  process.dev && console.log({ user: collection.value });
 });
 </script>
