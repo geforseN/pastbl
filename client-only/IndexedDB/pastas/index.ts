@@ -1,33 +1,5 @@
-import {
-  openDB,
-  type DBSchema,
-  type IDBPObjectStore,
-  type IDBPDatabase,
-} from "idb";
-
-export interface PastasSchema extends DBSchema {
-  list: {
-    key: IDBMegaPasta["id"];
-    value: MegaPasta /* NOTE: actually it is IDBMegaPasta, but we use MegaPasta because of TypeScript yell */;
-    indexes: {
-      byLength: IDBMegaPasta["length"];
-      byCreatedAt: IDBMegaPasta["createdAt"];
-      byText: IDBMegaPasta["text"];
-      byTags: IDBMegaPasta["tags"];
-      byValidTokens: IDBMegaPasta["validTokens"];
-    };
-  };
-}
-
-export async function getLastPastasInCount(
-  store: IDBPObjectStore<PastasSchema, ["list"], "list", "readonly">,
-  countToGet: number,
-) {
-  const allPastaCount = await store.count();
-  const indexToStart =
-    allPastaCount > countToGet ? allPastaCount - countToGet : 0;
-  return await store.getAll(IDBKeyRange.lowerBound(indexToStart, true));
-}
+import { openDB, type IDBPDatabase } from "idb";
+import type { PastasSchema } from "..";
 
 class PastasStore {
   idb;
@@ -46,6 +18,16 @@ class PastasStore {
     >;
   }
 
+  updatePastaLastCopied(pasta: IDBMegaPasta) {
+    return this.idb.put("list", {
+      ...pasta,
+      tags: toRaw(pasta.tags),
+      validTokens: toRaw(pasta.validTokens),
+      populatedText: undefined,
+      lastCopiedAt: Date.now(),
+    });
+  }
+
   getAllPastas() {
     return this.idb.transaction("list").store.getAll() as Promise<
       IDBMegaPasta[]
@@ -61,8 +43,8 @@ class PastasStore {
   }
 }
 
-export const pastasIdb = new PastasStore(
-  await openDB<PastasSchema>("pastas", 1, {
+function openPastasDB() {
+  return openDB<PastasSchema>("pastas", 1, {
     upgrade(database, _oldVersion, _newVersion, _transaction) {
       const pastasStore = database.createObjectStore("list", {
         keyPath: "id",
@@ -80,5 +62,7 @@ export const pastasIdb = new PastasStore(
         multiEntry: true,
       });
     },
-  }),
-);
+  });
+}
+
+export const pastasIdb = new PastasStore(await openPastasDB());

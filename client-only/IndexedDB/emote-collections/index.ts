@@ -24,7 +24,6 @@ export const emoteCollectionsIdb = new EmoteCollections(
       database.createObjectStore("global", {
         keyPath: "source",
       });
-      database.createObjectStore("key-value");
     },
   }),
 );

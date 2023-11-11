@@ -1,6 +1,5 @@
 import type { IDBPDatabase } from "idb";
 import {
-  prepareUserEmoteCollectionForIDB,
   type EmoteCollectionsSchema,
   type IndexedDBUserCollection,
 } from "~/client-only/IndexedDB";
@@ -10,6 +9,12 @@ export class UsersEmoteCollections {
   db;
   constructor(db: IDBPDatabase<EmoteCollectionsSchema>) {
     this.db = db;
+  }
+
+  getUserCollectionByUsername(
+    username: IndexedDBUserCollection["twitch"]["username"],
+  ) {
+    return this.db.transaction("users").store.get(username);
   }
 
   getAllCollections() {
@@ -45,7 +50,25 @@ export class UsersEmoteCollections {
   }
 
   async putCollection(collection: IUserEmoteCollection) {
-    const idbCollection = prepareUserEmoteCollectionForIDB(collection);
+    const collectionCollections = Object.values(collection.collections).map(
+      (collection) => ({
+        ...collection,
+        owner: toRaw(collection.owner),
+        sets: collection.sets.map((set) => {
+          const { emotes, ...setToInclude } = set;
+          return {
+            ...setToInclude,
+            emoteIds: emotes.map((emote) => emote.id),
+          };
+        }),
+      }),
+    );
+    const idbCollection = {
+      ...collection,
+      failedCollectionsReasons: toRaw(collection.failedCollectionsReasons),
+      twitch: toRaw(collection.twitch),
+      collections: arrayToRecordByValueOfKey(collectionCollections, "source"),
+    };
     await this.db
       .transaction("users", "readwrite")
       .objectStore("users")
