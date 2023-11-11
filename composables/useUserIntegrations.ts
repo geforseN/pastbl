@@ -216,86 +216,91 @@ const use7TVUser = () => {
 
 export type Use7TVReturn = ReturnType<typeof use7TVUser>;
 
-export function useUserIntegrations(twitchNickname: MaybeRef<string>) {
+export function useUserIntegrations() {
   const ffz = useFFZUser();
   const bttv = useBTTVUser();
   const sevenTv = use7TVUser();
 
-  const integrations = useMyAsyncState(async () => {
-    const username = toValue(twitchNickname).toLowerCase() as Lowercase<string>;
-    for (const integration of [ffz, bttv, sevenTv]) {
-      integration.clearState();
-    }
-    await ffz.partialCollection.execute(0, username).catch((error) => {
-      for (const state of [bttv, sevenTv.collection]) {
-        state.error.value = new Error(
-          "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
-        );
+  const integrations = useMyAsyncState(
+    async (twitchNickname: MaybeRef<string>) => {
+      const username = toValue(
+        twitchNickname,
+      ).toLowerCase() as Lowercase<string>;
+      for (const integration of [ffz, bttv, sevenTv]) {
+        integration.clearState();
       }
-      throw error;
-    });
-    const twitchUser = {
-      id:
-        ffz.partialCollection.state.value?.owner.twitchId ||
-        raise("No twitch id found"),
-      username,
-      nickname:
-        ffz.partialCollection.state.value?.owner.displayName ||
-        raise("No twitch nickname found"),
-    };
-    const settledCollections = await Promise.allSettled<IEmoteCollection>([
-      ffz.sets
-        .execute(0, twitchUser.id)
-        .then(() => ffz.fullCollection.execute())
-        .then((v) => v || raise("No FrankerFaceZ collection found")),
-      bttv
-        .execute(0, twitchUser)
-        .then((v) => v || raise("No BetterTTV collection found")),
-      sevenTv.fullCollection
-        .execute(0, twitchUser)
-        .then((v) => v || raise("No SevenTV collection found")),
-    ]);
-
-    const [fulfilledCollections, rejectReasons] =
-      tupleSettledPromises(settledCollections);
-    const collections = arrayToRecordByValueOfKey(
-      fulfilledCollections,
-      "source",
-    );
-    assert.ok(
-      rejectReasons.every(
-        (reason): reason is UserNotFoundError =>
-          reason instanceof UserNotFoundError,
-      ),
-    );
-    const failedCollectionsReasons = rejectReasons.reduce(
-      (reasonRecord, notFoundError) => {
-        reasonRecord[notFoundError.source] = notFoundError.message;
-        return reasonRecord;
-      },
-      {} as
-        | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
-        | Record<string, never>,
-    );
-    /* eslint-disable no-console */
-    process.dev &&
-      console.log({
-        settledCollections,
-        fulfilledCollections,
-        rejectReasons,
-        failedCollectionsReasons,
-        collections,
+      await ffz.partialCollection.execute(0, username).catch((error) => {
+        for (const state of [bttv, sevenTv.collection]) {
+          state.error.value = new Error(
+            "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+          );
+        }
+        throw error;
       });
-    return {
-      twitch: {
-        ...twitchUser,
-      },
-      failedCollectionsReasons,
-      updatedAt: Date.now(),
-      collections,
-      isActive: false,
-    } as IUserEmoteCollection;
-  });
+      const twitchUser = {
+        id:
+          ffz.partialCollection.state.value?.owner.twitchId ||
+          raise("No twitch id found"),
+        username,
+        nickname:
+          ffz.partialCollection.state.value?.owner.displayName ||
+          raise("No twitch nickname found"),
+      };
+      const settledCollections = await Promise.allSettled<IEmoteCollection>([
+        ffz.sets
+          .execute(0, twitchUser.id)
+          .then(() => ffz.fullCollection.execute())
+          .then((v) => v || raise("No FrankerFaceZ collection found")),
+        bttv
+          .execute(0, twitchUser)
+          .then((v) => v || raise("No BetterTTV collection found")),
+        sevenTv.fullCollection
+          .execute(0, twitchUser)
+          .then((v) => v || raise("No SevenTV collection found")),
+      ]);
+
+      const [fulfilledCollections, rejectReasons] =
+        tupleSettledPromises(settledCollections);
+      const collections = arrayToRecordByValueOfKey(
+        fulfilledCollections,
+        "source",
+      );
+      assert.ok(
+        rejectReasons.every(
+          (reason): reason is UserNotFoundError =>
+            reason instanceof UserNotFoundError,
+        ),
+      );
+      const failedCollectionsReasons = rejectReasons.reduce(
+        (reasonRecord, notFoundError) => {
+          reasonRecord[notFoundError.source] = notFoundError.message;
+          return reasonRecord;
+        },
+        {} as
+          | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
+          | Record<string, never>,
+      );
+      /* eslint-disable no-console */
+      process.dev &&
+        console.log({
+          settledCollections,
+          fulfilledCollections,
+          rejectReasons,
+          failedCollectionsReasons,
+          collections,
+          twitchUser,
+        });
+      return {
+        twitch: {
+          ...twitchUser,
+        },
+        failedCollectionsReasons,
+        updatedAt: Date.now(),
+        collections,
+        isActive: false,
+      } as IUserEmoteCollection;
+    },
+  );
 
   return {
     ffz,
