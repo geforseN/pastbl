@@ -65,12 +65,14 @@
               class="btn btn-accent btn-xs"
               @click="collectionsStore.refreshUserCollection(collection)"
             >
+              <icon-refresh width="16" height="16" />
               Refresh
             </button>
             <button
               class="btn btn-error btn-xs"
               @click="collectionsStore.removeUserCollection(collection)"
             >
+              <icon-xmark class="-mx-[5px]" />
               Remove
             </button>
           </div>

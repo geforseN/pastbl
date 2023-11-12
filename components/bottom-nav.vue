@@ -9,17 +9,17 @@
         >
           <span class="w-min break-words xs:w-auto">load emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
-            <icons-ffz-logo
+            <icon-ffz-logo
               class="max-h-[24px] text-xs"
               width="24"
               heigth="24"
             />
-            <icons-bttv-logo
+            <icon-bttv-logo
               class="absolute translate-x-6 translate-y-2 xs:static xs:translate-x-0 xs:translate-y-0"
               width="24"
               heigth="24"
             />
-            <icons-seventv-logo width="24" heigth="24" />
+            <icon-seventv-logo width="24" heigth="24" />
           </span>
         </nuxt-link>
       </li>
@@ -30,7 +30,7 @@
           @click="emit('findPastaButtonClicked')"
         >
           find pasta
-          <icons-search width="24" heigth="24" />
+          <icon-search width="24" heigth="24" />
         </button>
       </li>
     </ol>
