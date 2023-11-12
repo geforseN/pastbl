@@ -14,15 +14,15 @@
           to="/collections"
         >
           load emotes
-          <icons-ffz-logo class="max-h-[24px] text-xs" width="24" heigth="24" />
-          <icons-bttv-logo width="24" heigth="24" />
-          <icons-seventv-logo width="24" heigth="24" />
+          <icon-ffz-logo class="max-h-[24px] text-xs" width="24" heigth="24" />
+          <icon-bttv-logo width="24" heigth="24" />
+          <icon-seventv-logo width="24" heigth="24" />
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
         <button class="btn btn-info" @click="emit('findPastaButtonClicked')">
           find pasta
-          <icons-search width="24" heigth="24" />
+          <icon-search width="24" heigth="24" />
         </button>
       </li>
       <li class="ml-auto">

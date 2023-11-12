@@ -7,7 +7,7 @@
     >
       <h3>FrankerFaceZ</h3>
       <template #collection-logo>
-        <icons-ffz-logo class="max-h-[32px]" height="32" />
+        <icon-ffz-logo class="max-h-[32px]" height="32" />
       </template>
     </emote-collection-header>
     <emote-collection-ffz-sets

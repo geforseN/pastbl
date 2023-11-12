@@ -7,7 +7,7 @@
     >
       <h3>BetterTTV</h3>
       <template #collection-logo>
-        <icons-bttv-logo class="max-h-[32px]" height="32" />
+        <icon-bttv-logo class="max-h-[32px]" height="32" />
       </template>
     </emote-collection-header>
     <emote-collection-bttv-sets class="pt-1" :sets="props.sets" />

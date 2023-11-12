@@ -16,13 +16,13 @@
         <td>
           <div class="flex items-center gap-2">
             <div class="w-6">
-              <icons-emote-integration-logo width="24" :source="source" />
+              <icon-emote-integration-logo width="24" :source="source" />
             </div>
             <span class="w-[6.5rem]">{{ source }}</span>
           </div>
         </td>
         <td>
-          <div class="flex justify-center">
+          <div class="flex w-full justify-center">
             <label :for="'isActive' + source" class="sr-only">
               Make {{ collection.name }} active
             </label>
@@ -45,12 +45,15 @@
           </use-time-ago>
         </td>
         <td>
-          <button
-            class="btn btn-accent btn-xs"
-            @click="collectionsStore.refreshGlobalCollection(collection)"
-          >
-            Refresh
-          </button>
+          <div class="flex flex-col gap-1">
+            <button
+              class="btn btn-accent btn-xs"
+              @click="collectionsStore.refreshGlobalCollection(collection)"
+            >
+              Refresh
+            </button>
+            <button class="btn btn-info btn-xs">Details</button>
+          </div>
         </td>
       </tr>
     </tbody>
