@@ -23,6 +23,13 @@ export const useCollectionsStore = defineStore("collections", () => {
   const activeUserCollectionNickname = ref<string>();
   const activeGlobalCollectionSources = ref<AvailableEmoteSource[]>([]);
 
+  const selectedUserCollection = computed(
+    () =>
+      usersCollectionsEntries.value.find(
+        ([nickname]) => activeUserCollectionNickname.value === nickname,
+      )?.[1],
+  );
+
   if (typeof window !== "undefined") {
     import("~/client-only/IndexedDB/index").then(({ idb }) => {
       Promise.all([
@@ -80,30 +87,28 @@ export const useCollectionsStore = defineStore("collections", () => {
 
       watchArray(
         () => activeGlobalCollectionSources.value,
-        async (_, __, [activeSource], [inactiveSource]) => {
-          const sourceToUpdate =
-            activeSource || inactiveSource || raise("Impossible condition");
+        async (sources, oldSources, [activeSource], [inactiveSource]) => {
+          const isInitialSourcesLoaded =
+            Math.abs(oldSources.length - sources.length) > 1 ||
+            !(activeSource || inactiveSource);
+          if (isInitialSourcesLoaded) {
+            return;
+          }
+          const sourceToUpdate = activeSource || inactiveSource;
           const collectionToUpdate = globalCollectionsEntries.value.find(
             ([source]) => source === sourceToUpdate,
           )?.[1];
           assert.ok(collectionToUpdate);
           const isActive = sourceToUpdate === activeSource;
-          await idb.emoteCollections.global.updateCollection({
-            ...collectionToUpdate,
+          await idb.emoteCollections.global.updateCollectionActivity(
+            collectionToUpdate,
             isActive,
-          });
+          );
           collectionToUpdate.isActive = isActive;
         },
       );
     });
   }
-
-  const selectedUserCollection = computed(
-    () =>
-      usersCollectionsEntries.value.find(
-        ([nickname]) => activeUserCollectionNickname.value === nickname,
-      )?.[1],
-  );
 
   return {
     usersCollectionsEntries,
