@@ -63,9 +63,9 @@
           <div class="flex flex-col justify-center">
             <button
               class="btn btn-accent btn-xs"
-              @click="collectionsStore.updateUserCollection(collection)"
+              @click="collectionsStore.refreshUserCollection(collection)"
             >
-              Update
+              Refresh
             </button>
             <button
               class="btn btn-error btn-xs"
