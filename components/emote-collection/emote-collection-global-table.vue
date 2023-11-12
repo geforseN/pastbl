@@ -47,9 +47,9 @@
         <td>
           <button
             class="btn btn-accent btn-xs"
-            @click="collectionsStore.updateGlobalCollection(collection)"
+            @click="collectionsStore.refreshGlobalCollection(collection)"
           >
-            Update
+            Refresh
           </button>
         </td>
       </tr>

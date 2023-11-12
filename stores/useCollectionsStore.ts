@@ -124,7 +124,7 @@ export const useCollectionsStore = defineStore("collections", () => {
         activeUserCollectionNickname.value = undefined;
       }
     },
-    async updateUserCollection(oldCollection: IndexedDBUserCollection) {
+    async refreshUserCollection(oldCollection: IndexedDBUserCollection) {
       const { idb } = await import("~/client-only/IndexedDB/index");
       const collections = useUserIntegrations();
       const newCollection = await collections.integrations
@@ -146,10 +146,10 @@ export const useCollectionsStore = defineStore("collections", () => {
         newIdbCollection,
       ]);
     },
-    async updateGlobalCollection(collection: IGlobalEmoteCollection) {
+    async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
       const { idb } = await import("~/client-only/IndexedDB/index");
       const newCollection =
-        await idb.emoteCollections.global.updateCollection(collection);
+        await idb.emoteCollections.global.refreshCollection(collection);
       const index = globalCollectionsEntries.value.findIndex(
         ([source]) => source === collection.source,
       );

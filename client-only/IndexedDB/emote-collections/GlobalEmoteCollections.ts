@@ -39,7 +39,7 @@ export class GlobalEmoteCollections {
       .put({ ...collection, updatedAt: Date.now() });
   }
 
-  async updateCollection(collection: IGlobalEmoteCollection) {
+  async refreshCollection(collection: IGlobalEmoteCollection) {
     const getCollection = globalEmotesGetters[collection.source];
     const newCollection = await getCollection();
     await this.db
