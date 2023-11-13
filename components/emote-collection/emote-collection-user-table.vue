@@ -62,14 +62,14 @@
         <td>
           <div class="flex flex-col justify-center">
             <button
-              class="btn btn-accent btn-xs"
+              class="btn btn-accent btn-xs flex-nowrap"
               @click="collectionsStore.refreshUserCollection(collection)"
             >
               <icon-refresh width="16" height="16" />
               Refresh
             </button>
             <button
-              class="btn btn-error btn-xs"
+              class="btn btn-error btn-xs flex-nowrap"
               @click="collectionsStore.removeUserCollection(collection)"
             >
               <icon-xmark class="-mx-[5px]" />
