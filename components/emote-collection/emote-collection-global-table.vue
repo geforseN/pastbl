@@ -26,7 +26,6 @@
             <label :for="'isActive' + source" class="sr-only">
               Make {{ collection.name }} active
             </label>
-            <!-- TODO make value binding -->
             <input
               :id="'isActive' + source"
               v-model="collectionsStore.activeGlobalCollectionSources"
@@ -52,7 +51,12 @@
             >
               Refresh
             </button>
-            <button class="btn btn-info btn-xs">Details</button>
+            <button
+              class="btn btn-info btn-xs"
+              @click="emit('showDetails', source)"
+            >
+              Details
+            </button>
           </div>
         </td>
       </tr>
@@ -66,5 +70,8 @@ import type { IGlobalEmoteCollection } from "~/integrations";
 const collectionsStore = useCollectionsStore();
 const props = defineProps<{
   entries: [IGlobalEmoteCollection["source"], IGlobalEmoteCollection][];
+}>();
+const emit = defineEmits<{
+  showDetails: [soruce: IGlobalEmoteCollection["source"]];
 }>();
 </script>
