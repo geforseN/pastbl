@@ -9,7 +9,7 @@
       v-if="props.user.collections.BetterTTV"
       :sets="props.user.collections.BetterTTV.sets"
     />
-    <emote-collection-seventv-global
+    <emote-collection-seventv-sync
       v-if="props.user.collections.SevenTV"
       :sets="props.user.collections.SevenTV.sets"
     />
