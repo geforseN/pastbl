@@ -10,7 +10,7 @@
       <div v-else class="flex max-h-[83dvh] flex-col gap-y-2 overflow-y-auto">
         <chat-pasta
           v-for="pasta of pastasToShowOnPage"
-          :key="pasta.createdAt"
+          :key="pasta.id"
           :pasta="pasta"
         >
           <template #userNickname>
@@ -63,27 +63,24 @@
             "
           />
         </div>
-        <!-- TODO -->
         <div class="flex items-center justify-between">
-          <label class="label cursor-pointer text-2xl" for="ggg">
-            Must be no tags in pasta
+          <label class="label cursor-pointer text-2xl" for="mustBeTagsInPasta">
+            Must be at least one tag in pasta
           </label>
-          <input id="ggg" type="checkbox" class="toggle" />
-        </div>
-        <!-- TODO -->
-        <div>
-          <label for="gggg">SELECT MIN AND MAX PASTA TEXT LENGTH</label>
+          <!-- FIXME: on checkbox change pastasToShowOnPage are changed very slow, also   -->
           <input
-            id="gggg"
-            v-model="selectedPastaTextLength"
-            type="range"
-            :max="maxPastaTextLength"
-            :min="minPastaTextLength"
+            id="mustBeTagsInPasta"
+            v-model="mustBeTagsInPasta"
+            type="checkbox"
+            class="toggle"
           />
-          <div>min : {{ minPastaTextLength }}</div>
-          <div>max : {{ maxPastaTextLength }}</div>
-          <div>selected: {{ selectedPastaTextLength }}</div>
         </div>
+        <find-my-pasta-length-range
+          v-model:min="range[0]"
+          v-model:max="range[1]"
+          :min-value="minValue"
+          :max-value="maxValue"
+        />
         <div class="flex flex-col rounded border px-2 py-0">
           <label for="selectedPastaTags" class="label cursor-pointer text-2xl">
             Select tags
@@ -130,57 +127,67 @@ onMounted(() => {
   textToFindInputRef.value?.focus();
 });
 
-// TODO think how it will be represented if user has no pastas
-const maxPastaTextLength = computed(() =>
-  pastasStore.pastas.reduce(
-    (max, pasta) => Math.max(max, pasta.text.length),
-    Number.NEGATIVE_INFINITY,
-  ),
-);
-// TODO think how it will be represented if user has no pastas
-const minPastaTextLength = computed(() =>
-  pastasStore.pastas.reduce(
-    (min, pasta) => Math.min(min, pasta.text.length),
-    Number.POSITIVE_INFINITY,
-  ),
-);
-
-// TODO: use query params for three below refs
-const textToFind = ref("");
+// TODO: use query params for below refs
+const textToFind = useUrlQueryParam("text-to-find");
 const mustRespectSelectedTags = ref(true);
 const selectedPastaTags = ref([]);
-// NOTE: initial value is maxPastaTextLength.length, which is gonna be Number.NEGATIVE_INFINITY (because at the start there is no pastas)
-const selectedPastaTextLength = ref(maxPastaTextLength.value);
-
-// NOTE: because pastas loaded async from IndexedDB, there is no pastas at the start, so we must use watch and set value
-watchOnce(
-  maxPastaTextLength,
-  () => (selectedPastaTextLength.value = maxPastaTextLength.value),
-);
+const mustBeTagsInPasta = ref(false);
+const {
+  range /* NOTE: range also must be in quey params */,
+  minValue,
+  maxValue,
+} = useFindMyPastaRange();
 
 function hasPastaTextToFindOccurrence(pasta: IDBMegaPasta) {
   return pasta.text.toLowerCase().includes(textToFind.value.toLowerCase());
 }
 
-const foundedPastas = computed(() =>
-  pastasStore.pastas.filter(hasPastaTextToFindOccurrence),
+function hasPastaSelectedTags(pasta: IDBMegaPasta) {
+  return selectedPastaTags.value.every((selectedPastaTags) =>
+    pasta.tags.includes(selectedPastaTags),
+  );
+}
+
+const pastasWithTags = computedEager(() => {
+  return pastasStore.pastas.filter((pasta) => pasta.tags.length !== 0);
+});
+
+const pastasWithSelectedTags = computedEager(() =>
+  pastasStore.pastas.filter(hasPastaSelectedTags),
 );
 
-const tagRespectedPastas = computed(() =>
-  pastasStore.pastas.filter((pasta) =>
-    selectedPastaTags.value.every((selectedPastaTags) =>
-      pasta.tags.includes(selectedPastaTags),
-    ),
+const pastasToIterate = computedEager(() => {
+  if (mustBeTagsInPasta.value) {
+    return pastasWithTags.value;
+  }
+  if (mustRespectSelectedTags.value) {
+    return pastasWithSelectedTags.value;
+  }
+  return pastasStore.shallowRawPastas;
+});
+
+const lengthAppropriatePastas = computedEager(() =>
+  pastasStore.shallowRawPastas.filter(
+    (pasta) =>
+      pasta.text.length >= range.value[0] &&
+      pasta.text.length <= range.value[1],
   ),
 );
 
-const pastasToShowOnPage = computed(() => {
+const lengthAppropriatePastasWithTags = computedEager(() =>
+  lengthAppropriatePastas.value.filter((pasta) => pasta.tags.length !== 0),
+);
+
+const pastasToShowOnPage = computedEager(() => {
   if (!textToFind.value.length && !selectedPastaTags.value.length) {
-    return pastasStore.pastas;
+    return mustBeTagsInPasta.value
+      ? lengthAppropriatePastasWithTags.value
+      : lengthAppropriatePastas.value;
   }
-  if (mustRespectSelectedTags.value) {
-    return tagRespectedPastas.value.filter(hasPastaTextToFindOccurrence);
-  }
-  return foundedPastas.value;
+  const pastaToIterate2 = mustRespectSelectedTags.value
+    ? pastasToIterate.value.filter(hasPastaSelectedTags)
+    : pastasToIterate.value;
+
+  return pastaToIterate2.filter(hasPastaTextToFindOccurrence);
 });
 </script>
