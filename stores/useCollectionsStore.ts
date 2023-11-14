@@ -153,15 +153,15 @@ export const useCollectionsStore = defineStore("collections", () => {
     },
     async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
       const { idb } = await import("~/client-only/IndexedDB/index");
-      const newCollection =
+      const newIdbCollection =
         await idb.emoteCollections.global.refreshCollection(collection);
       const index = globalCollectionsEntries.value.findIndex(
         ([source]) => source === collection.source,
       );
       assert.ok(index >= 0, "Can not update the collection which is not exist");
       globalCollectionsEntries.value.splice(index, 1, [
-        newCollection.source,
-        newCollection,
+        newIdbCollection.source,
+        newIdbCollection,
       ]);
     },
   };
