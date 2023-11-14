@@ -70,23 +70,25 @@ onMounted(async () => {
   if (!nickname.value.length) {
     throw new Error("Must enter a nickname");
   }
-  const { idb } = await import("~/client-only/IndexedDB/index");
+  const [emoteCollectionsIdb, emotesIdb] = await import(
+    "~/client-only/IndexedDB/index"
+  ).then(({ idb }) => Promise.all([idb.emoteCollections, idb.emotes]));
   const loadStrategy = ref<"fromIDB" | "fromAPI" | null>(null);
   const username = nickname.value.toLowerCase() as Lowercase<string>;
   const idbCollection =
-    await idb.emoteCollections.users.getUserCollectionByUsername(username);
+    await emoteCollectionsIdb.users.getUserCollectionByUsername(username);
   if (idbCollection) {
     loadStrategy.value = "fromIDB";
     collection.value =
-      await idb.emotes.populateUserCollectionWithEmotes(idbCollection);
+      await emotesIdb.populateUserCollectionWithEmotes(idbCollection);
   } else {
     loadStrategy.value = "fromAPI";
     collection.value =
       (await collections.integrations.execute(0, nickname)) ||
       raise("Failed to load emote collection");
     const [idbUser] = await Promise.all([
-      idb.emoteCollections.users.putCollection(collection.value),
-      idb.emotes.putEmotesOfUserCollection(collection.value),
+      emoteCollectionsIdb.users.putCollection(collection.value),
+      emotesIdb.putEmotesOfUserCollection(collection.value),
     ]);
     collectionsStore.usersCollectionsEntries.push([
       idbUser.twitch.nickname,

@@ -120,7 +120,8 @@ export const usePastasStore = defineStore(
 
     if (typeof window !== "undefined") {
       import("~/client-only/IndexedDB/index")
-        .then(({ idb }) => idb.pastas.getAllPastas())
+        .then(({ idb }) => idb.pastas)
+        .then((pastasIdb) => pastasIdb.getAllPastas())
         .then((addedPastas) => {
           process.dev && console.log({ addedPastas });
           pastas.value = addedPastas;
@@ -173,9 +174,11 @@ export const usePastasStore = defineStore(
           lastCopiedAt: undefined,
           populatedText: undefined,
         } satisfies MegaPasta;
-        const { idb } = await import("~/client-only/IndexedDB/index");
+        const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+          ({ pastasIdb }) => pastasIdb,
+        );
         // TODO: add toast if failed to add pasta
-        const pastaId = await idb.pastas.addPasta(newPasta);
+        const pastaId = await pastasIdb.addPasta(newPasta);
         const idbPasta: IDBMegaPasta = { ...newPasta, id: pastaId };
         pastas.value.push(idbPasta);
         return idbPasta;
@@ -190,8 +193,10 @@ export const usePastasStore = defineStore(
           );
         }
         const [removedPasta] = pastas.value.splice(index, 1);
-        const { idb } = await import("~/client-only/IndexedDB/index");
-        await idb.pastas.removePastaById(pastaToRemove.id);
+        const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+          ({ pastasIdb }) => pastasIdb,
+        );
+        await pastasIdb.removePastaById(pastaToRemove.id);
         // TODO: replace pinia store pastasBin to idb 'bin' store
         // NOTE: now store is not persisted, so deleted pastas can not be restored (so now pastasBin is useless)
         pastasBin.value.push(removedPasta);
