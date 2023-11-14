@@ -46,10 +46,10 @@ const pastaFormRef = ref();
 const userStore = useUserStore();
 
 onMounted(() => {
-  tryAddGlobalEmotes();
+  addMissingGlobalEmotesCollections();
 });
 
-async function tryAddGlobalEmotes() {
+async function addMissingGlobalEmotesCollections() {
   const { idb } = await import("~/client-only/IndexedDB/index");
   const addedGlobalCollectionNames =
     await idb.emoteCollections.global.getAllCollectionsKeys();
