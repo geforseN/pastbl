@@ -40,20 +40,20 @@ class Emotes {
   }
 }
 
-export const emotesIdb = new Emotes(
-  await openDB<EmotesSchema>("emotes", 1, {
-    upgrade(database) {
-      const emotesStore = database.createObjectStore("emotes", {
-        keyPath: ["id", "source"],
-      });
-      emotesStore.createIndex("bySource", "source", { unique: false });
-      emotesStore.createIndex("byId", "id", { unique: false });
-      emotesStore.createIndex("byToken", "token", { unique: false });
-      // NOTE: tags only exist in 7TV emotes (as i know)
-      emotesStore.createIndex("byTags", "tags", {
-        unique: false,
-        multiEntry: true,
-      });
-    },
-  }),
-);
+const openEmotesIdb = openDB<EmotesSchema>("emotes", 1, {
+  upgrade(database) {
+    const emotesStore = database.createObjectStore("emotes", {
+      keyPath: ["id", "source"],
+    });
+    emotesStore.createIndex("bySource", "source", { unique: false });
+    emotesStore.createIndex("byId", "id", { unique: false });
+    emotesStore.createIndex("byToken", "token", { unique: false });
+    // NOTE: tags only exist in 7TV emotes (as i know)
+    emotesStore.createIndex("byTags", "tags", {
+      unique: false,
+      multiEntry: true,
+    });
+  },
+});
+
+export const emotesIdb = openEmotesIdb.then((idb) => new Emotes(idb));

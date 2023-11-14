@@ -42,8 +42,10 @@ export function usePastaCopy({
         if (userStore.preferences.sounds.copypastaCopy.mustSoundOnSuccess) {
           // TODO add useSound
         }
-        const { idb } = await import("~/client-only/IndexedDB/index");
-        idb.pastas.updatePastaLastCopied(piniaStorePasta);
+        const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+          ({ idb }) => idb.pastas,
+        );
+        pastasIdb.updatePastaLastCopied(piniaStorePasta);
       } catch (error: Error | unknown) {
         toast.add({
           description:

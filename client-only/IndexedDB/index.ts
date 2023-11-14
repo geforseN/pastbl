@@ -80,3 +80,5 @@ export const idb = {
   emotes: emotesIdb,
   pastas: pastasIdb,
 };
+
+export { emoteCollectionsIdb, emotesIdb, pastasIdb };

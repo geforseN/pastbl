@@ -15,8 +15,10 @@ class EmoteCollections {
   }
 }
 
-export const emoteCollectionsIdb = new EmoteCollections(
-  await openDB<EmoteCollectionsSchema>("emote-collections", 3, {
+const openEmoteCollectionsIdb = openDB<EmoteCollectionsSchema>(
+  "emote-collections",
+  3,
+  {
     upgrade(database) {
       database.createObjectStore("users", {
         keyPath: "twitch.username",
@@ -25,5 +27,9 @@ export const emoteCollectionsIdb = new EmoteCollections(
         keyPath: "source",
       });
     },
-  }),
+  },
+);
+
+export const emoteCollectionsIdb = openEmoteCollectionsIdb.then(
+  (idb) => new EmoteCollections(idb),
 );

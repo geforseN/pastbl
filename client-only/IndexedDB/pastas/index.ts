@@ -43,7 +43,7 @@ class PastasStore {
   }
 }
 
-function openPastasDB() {
+function openPastasIdb() {
   return openDB<PastasSchema>("pastas", 1, {
     upgrade(database, _oldVersion, _newVersion, _transaction) {
       const pastasStore = database.createObjectStore("list", {
@@ -65,4 +65,4 @@ function openPastasDB() {
   });
 }
 
-export const pastasIdb = new PastasStore(await openPastasDB());
+export const pastasIdb = openPastasIdb().then((idb) => new PastasStore(idb));

@@ -50,16 +50,18 @@ onMounted(() => {
 });
 
 async function addMissingGlobalEmotesCollections() {
-  const { idb } = await import("~/client-only/IndexedDB/index");
+  const emoteCollectionsIdb = await import(
+    "~/client-only/IndexedDB/index"
+  ).then(({ idb }) => idb.emoteCollections);
   const addedGlobalCollectionNames =
-    await idb.emoteCollections.global.getAllCollectionsKeys();
+    await emoteCollectionsIdb.global.getAllCollectionsKeys();
   const sourcesToLoad = availableEmoteSources.filter(
     (source) => !addedGlobalCollectionNames.includes(source),
   );
   for (const source of sourcesToLoad) {
     const getGlobalCollection = globalEmotesGetters[source];
     const globalCollection = await getGlobalCollection();
-    idb.emoteCollections.global.addCollection(globalCollection);
+    emoteCollectionsIdb.global.addCollection(globalCollection);
   }
 }
 </script>
