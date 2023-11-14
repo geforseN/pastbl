@@ -60,6 +60,9 @@ export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
     );
     return emotes;
   }, [] as IEmote[]);
-  console.log({ foundEmotes });
+  if (process.dev) {
+    // eslint-disable-next-line no-console
+    console.log({ foundEmotes });
+  }
   return foundEmotes;
 }
