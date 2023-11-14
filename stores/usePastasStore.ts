@@ -123,7 +123,10 @@ export const usePastasStore = defineStore(
         .then(({ idb }) => idb.pastas)
         .then((pastasIdb) => pastasIdb.getAllPastas())
         .then((addedPastas) => {
-          process.dev && console.log({ addedPastas });
+          if (process.dev) {
+            // eslint-disable-next-line no-console
+            console.log({ addedPastas });
+          }
           pastas.value = addedPastas;
         });
     }

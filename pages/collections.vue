@@ -49,7 +49,6 @@
 </template>
 <script lang="ts" setup>
 import type { IUserEmoteCollection } from "~/integrations";
-/* eslint-disable no-console */
 
 useHead({ title: "collections - pastbl" });
 
@@ -63,7 +62,10 @@ const collectionsStore = useCollectionsStore();
 onErrorCaptured((error) => {
   // TODO: here can check instanceof error
   // if extended error then put at least toast
-  process.dev && console.log({ error, captured: true });
+  if (process.dev) {
+    // eslint-disable-next-line no-console
+    console.log({ error, captured: true });
+  }
 });
 
 onMounted(async () => {
@@ -95,6 +97,9 @@ onMounted(async () => {
       idbUser,
     ]);
   }
-  process.dev && console.log({ user: collection.value });
+  if (process.dev) {
+    // eslint-disable-next-line no-console
+    console.log({ user: collection.value });
+  }
 });
 </script>

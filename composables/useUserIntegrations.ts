@@ -280,8 +280,8 @@ export function useUserIntegrations() {
           | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
           | Record<string, never>,
       );
-      /* eslint-disable no-console */
-      process.dev &&
+      if (process.dev) {
+        // eslint-disable-next-line no-console
         console.log({
           settledCollections,
           fulfilledCollections,
@@ -290,6 +290,7 @@ export function useUserIntegrations() {
           collections,
           twitchUser,
         });
+      }
       return {
         twitch: {
           ...twitchUser,
