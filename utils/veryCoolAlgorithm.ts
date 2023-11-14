@@ -19,7 +19,6 @@ export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
     collections: [],
   } as unknown as IUserEmoteCollection;
   // TODO use emotesStore more
-  const emotesStore = useEmotesStore();
   const validTokensToGet = [
     ...new Set(newPastas.flatMap((pasta) => pasta.validTokens)),
   ];
@@ -59,9 +58,6 @@ export async function veryCoolAlgorithm(newPastas: MegaPasta[]) {
     );
     return emotes;
   }, [] as IEmote[]);
-
-  // TODO: line below is very useless, can remove it when will can data properly
-  foundEmotes.forEach((emote) => emotesStore.emotes.set(emote.token, emote));
   console.log({ foundEmotes });
   return foundEmotes;
 }
