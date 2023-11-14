@@ -6,7 +6,9 @@ export async function withLog<T>(
   }: { logKey: string; additionalMessage?: Record<string, unknown | never> },
 ): Promise<T> {
   const returnValue = await cb();
-  // eslint-disable-next-line no-console
-  process.dev && console.log({ [logKey]: returnValue, ...additionalMessage });
+  if (process.dev) {
+    // eslint-disable-next-line no-console
+    console.log({ [logKey]: returnValue, ...additionalMessage });
+  }
   return returnValue;
 }
