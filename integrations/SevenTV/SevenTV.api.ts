@@ -9,14 +9,16 @@ export async function get7TVUserBy7TVId(
   accountId: string,
 ): Promise<SevenTVApiUserData> {
   const response = await fetch(`https://7tv.io/v3/users/${accountId}`);
-  return responseJson(response);
+  assertResponse(response);
+  return response.json();
 }
 
 export async function get7TVSetById(
   setId: string,
 ): Promise<SevenTVApiEmoteSet<true>> {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
-  const json = await responseJson(response);
+  assertResponse(response);
+  const json = await response.json();
   if (!Array.isArray(json?.emotes)) {
     throw new TypeError("Failed to load user emotes from SevenTV");
   }
@@ -28,10 +30,10 @@ export async function get7TVUserProfileByTwitchId(
   username?: Lowercase<string>,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-  if (response.status === 404) {
+  if (response.statusText.startsWith("4")) {
     throw new UserNotFoundError("SevenTV", username);
   }
-  return responseJson(response);
+  return response.json();
 }
 
 export async function get7TVGlobalEmotesSet(): Promise<
@@ -41,7 +43,7 @@ export async function get7TVGlobalEmotesSet(): Promise<
   if (response.statusText.startsWith("4")) {
     throw new Error("Failed to load SevenTV global emotes");
   }
-  return responseJson(response);
+  return response.json();
 }
 
 export type SevenTVApiEmoteSet<IsEmotesIncluded extends boolean = false> = {
