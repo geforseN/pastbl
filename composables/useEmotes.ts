@@ -6,9 +6,10 @@ export const useEmotes = (emoteCollectionsGetters: Promise<EmoteMap>[]) => {
   const isLoaded = ref(false);
 
   Promise.allSettled<Promise<EmoteMap>>(emoteCollectionsGetters).then(
-    (settledEmotes) =>
-      ([emoteMaps.value, failReasons.value] =
-        tupleSettledPromises(settledEmotes)),
+    (settledEmotes) => {
+      [emoteMaps.value, failReasons.value] =
+        tupleSettledPromises(settledEmotes);
+    },
   );
 
   return {
