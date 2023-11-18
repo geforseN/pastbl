@@ -19,7 +19,7 @@ export async function getFFZProfileByTwitchUsername(
   if (response.status === 404) {
     throw new UserNotFoundError("FrankerFaceZ", username);
   }
-  return responseJson(response);
+  return response.json();
 }
 
 export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
@@ -29,7 +29,8 @@ export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
   const response = await fetch(
     `https://api.frankerfacez.com/v1/room/id/${twitchId}`,
   );
-  return responseJson(response);
+  assertResponse(response);
+  return response.json();
 }
 
 export async function getFFZGlobalEmoteSets(): Promise<{
@@ -41,7 +42,7 @@ export async function getFFZGlobalEmoteSets(): Promise<{
   if (response.statusText.startsWith("4")) {
     throw new Error("Failed to load FrankerFaceZ global emotes");
   }
-  return responseJson(response);
+  return response.json();
 }
 
 export type FrankerFaceZApiEmote = {

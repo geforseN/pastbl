@@ -13,7 +13,7 @@ export async function getBetterTTVGlobalEmotes(): Promise<
   if (response.statusText.startsWith("4")) {
     throw new Error("Failed to load BetterTTV global emotes");
   }
-  return responseJson(response);
+  return response.json();
 }
 
 // LINK: https://betterttv.com/developers/api#user
@@ -24,10 +24,10 @@ export async function getBetterTTVUserByTwitchId(
   const response = await fetch(
     `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
   );
-  if (response.status === 404) {
+  if (response.statusText.startsWith("4")) {
     throw new UserNotFoundError("BetterTTV", username);
   }
-  return responseJson(response);
+  return response.json();
 }
 
 export type BetterTTVApiGlobalEmote = {
