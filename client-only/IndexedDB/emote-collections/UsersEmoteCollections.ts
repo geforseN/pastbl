@@ -67,7 +67,10 @@ export class UsersEmoteCollections {
       ...collection,
       failedCollectionsReasons: toRaw(collection.failedCollectionsReasons),
       twitch: toRaw(collection.twitch),
-      collections: arrayToRecordByValueOfKey(collectionCollections, "source"),
+      collections: groupBy(
+        collectionCollections,
+        (collection) => collection.source,
+      ),
     };
     await this.db
       .transaction("users", "readwrite")
