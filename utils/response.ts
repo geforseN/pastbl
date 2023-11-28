@@ -4,9 +4,11 @@ export function assertResponse(
     `HTTP error, status = ${response.status} error: ${response.text()}`,
   ),
 ) {
-  if (!response.ok) {
-    throw messageOrError instanceof Error
-      ? (messageOrError as Error)
-      : new Error(messageOrError as string);
+  if (response.ok) {
+    return;
   }
+  if (messageOrError instanceof Error) {
+    throw messageOrError;
+  }
+  throw new Error(messageOrError);
 }
