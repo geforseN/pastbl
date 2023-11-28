@@ -32,9 +32,9 @@ class Emotes {
         ),
       ),
     );
-    const collections = arrayToRecordByValueOfKey(
+    const collections = groupBy(
       collectionsArray,
-      "source",
+      (collection) => collection.source,
     ) as EmoteCollectionsRecord;
     return { ...collection, collections };
   }

@@ -261,9 +261,9 @@ export function useUserIntegrations() {
 
       const [fulfilledCollections, rejectReasons] =
         tupleSettledPromises(settledCollections);
-      const collections = arrayToRecordByValueOfKey(
+      const collections = groupBy(
         fulfilledCollections,
-        "source",
+        (collection) => collection.source,
       );
       assert.ok(
         rejectReasons.every(
