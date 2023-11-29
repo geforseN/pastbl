@@ -2,11 +2,8 @@ import { openDB, type IDBPDatabase } from "idb";
 import type { PastasSchema } from "..";
 
 class PastasStore {
-  idb;
-
-  constructor(idb: IDBPDatabase<PastasSchema>) {
-    this.idb = idb;
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
   async getLastPastasInCount(countToGet: number) {
     const store = this.idb.transaction("list").store;

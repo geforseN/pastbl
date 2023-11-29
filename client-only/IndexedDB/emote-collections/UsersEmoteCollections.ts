@@ -6,10 +6,8 @@ import {
 import type { IUserEmoteCollection } from "~/integrations";
 
 export class UsersEmoteCollections {
-  db;
-  constructor(db: IDBPDatabase<EmoteCollectionsSchema>) {
-    this.db = db;
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly db: IDBPDatabase<EmoteCollectionsSchema>) {}
 
   getUserCollectionByUsername(
     username: IndexedDBUserCollection["twitch"]["username"],
