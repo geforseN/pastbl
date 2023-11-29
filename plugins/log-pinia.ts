@@ -1,6 +1,6 @@
 import type { PiniaPluginContext } from "pinia";
 
-function MyPiniaPlugin({ store }: PiniaPluginContext) {
+function piniaLogPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
     if (process.dev) {
       // eslint-disable-next-line no-console
@@ -12,5 +12,5 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
 
 export default defineNuxtPlugin(({ $pinia }) => {
   // @ts-expect-error do not know how to TypeScript this
-  $pinia.use(MyPiniaPlugin);
+  $pinia.use(piniaLogPlugin);
 });
