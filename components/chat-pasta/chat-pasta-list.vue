@@ -20,8 +20,8 @@
       :key="pasta.createdAt"
       :pasta="pasta"
     >
-      <template #userNickname>
-        <slot name="userNickname" />
+      <template #creatorData>
+        <slot name="creatorData" />
       </template>
       <template #sidebar>
         <div
@@ -47,11 +47,15 @@
 </template>
 <script setup lang="ts">
 defineSlots<{
-  userNickname: () => unknown;
+  creatorData?: () => unknown;
 }>();
 
 const clipboard = useClipboard();
 const pastasStore = usePastasStore();
 
 const { copyPasta } = usePastaCopy({ clipboard, pastasStore });
+
+onMounted(() => {
+  console.log("list mounted");
+});
 </script>

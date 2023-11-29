@@ -3,7 +3,7 @@
     class="overflow-wrap-anywhere -m-[.2rem] inline-block break-all p-[0.2rem] align-baseline"
   >
     <div
-      v-for="badgeNumber of user.badges.count"
+      v-for="badgeNumber of props.badgesCount"
       :key="badgeNumber"
       class="mr-[1.5px] inline-flex h-twitch-badge w-twitch-badge items-center justify-center bg-red-600 align-middle"
     >
@@ -11,15 +11,16 @@
     </div>
     <span
       class="twitch-text text-[13px]/[18px] font-bold"
-      :style="{ color: user.preferences.nickname.color }"
+      :style="{ color: props.nicknameColor }"
     >
-      {{ user.nickname }}
+      {{ props.nickname }}
     </span>
   </div>
 </template>
-
 <script lang="ts" setup>
-const { user } = defineProps<{
-  user: ReturnType<typeof useUserStore>["user"];
+const props = defineProps<{
+  nickname: string;
+  nicknameColor: string;
+  badgesCount: number;
 }>();
 </script>

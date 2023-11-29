@@ -13,8 +13,12 @@
           :key="pasta.id"
           :pasta="pasta"
         >
-          <template #userNickname>
-            <chat-pasta-nickname :user="userStore.user" />
+          <template #creatorData>
+            <chat-pasta-creator-data
+              :badges-count="userStore.user.badges.count"
+              :nickname="userStore.user.nickname"
+              :nickname-color="userStore.user.preferences.nickname.color"
+            />
           </template>
           <template #sidebar>
             <button
