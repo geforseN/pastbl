@@ -11,7 +11,7 @@
     <div class="flex w-[340px] flex-col">
       <span class="block grow border border-secondary">
         <span class="block w-full px-[10px] py-[5px]">
-          <slot name="userNickname" />
+          <slot name="creatorData" />
           <span aria-hidden="true">{{ ": " }}</span>
           <!-- eslint-disable vue/no-v-html -->
           <span
@@ -51,7 +51,7 @@ import { UseTimeAgo } from "@vueuse/components";
 const props = defineProps<{ pasta: MegaPasta }>();
 
 defineSlots<{
-  userNickname: () => unknown;
+  creatorData?: () => unknown;
   sidebar: () => unknown;
 }>();
 </script>
