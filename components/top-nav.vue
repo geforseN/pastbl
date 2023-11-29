@@ -13,17 +13,31 @@
           class="btn btn-outline border-twitch text-twitch"
           to="/collections"
         >
-          load emotes
-          <icon-ffz-logo class="max-h-[24px] text-xs" width="24" heigth="24" />
-          <icon-bttv-logo width="24" heigth="24" />
-          <icon-seventv-logo width="24" heigth="24" />
+          emotes
+          <icon-emote-integration-logo
+            v-for="source of ['FrankerFaceZ', 'BetterTTV', 'SevenTV']"
+            v-once
+            :key="source"
+            :source="source"
+            width="24"
+            heigth="24"
+            class="max-h-[24px] text-xs"
+          />
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
         <button class="btn btn-info" @click="emit('findPastaButtonClicked')">
           find pasta
-          <icon-search width="24" heigth="24" />
+          <span class="text-lg">🔍</span>
+          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:search" /> -->
         </button>
+      </li>
+      <li class="ml-2 hidden go-brr:block">
+        <nuxt-link to="/settings" class="btn btn-neutral">
+          settings
+          <span class="text-lg">⚙️</span>
+          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:settings-fill" /> -->
+        </nuxt-link>
       </li>
       <li class="ml-auto">
         <select

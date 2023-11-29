@@ -9,17 +9,19 @@
         >
           <span class="w-min break-words xs:w-auto">load emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
-            <icon-ffz-logo
+            <icon-emote-integration-logo
+              v-for="source of ['FrankerFaceZ', 'BetterTTV', 'SevenTV']"
+              v-once
+              :key="source"
+              :class="
+                source === 'BetterTTV' &&
+                'absolute translate-x-6 translate-y-2 xs:static xs:translate-x-0 xs:translate-y-0'
+              "
+              :source="source"
+              width="24"
+              heigth="24"
               class="max-h-[24px] text-xs"
-              width="24"
-              heigth="24"
             />
-            <icon-bttv-logo
-              class="absolute translate-x-6 translate-y-2 xs:static xs:translate-x-0 xs:translate-y-0"
-              width="24"
-              heigth="24"
-            />
-            <icon-seventv-logo width="24" heigth="24" />
           </span>
         </nuxt-link>
       </li>
@@ -30,7 +32,8 @@
           @click="emit('findPastaButtonClicked')"
         >
           find pasta
-          <icon-search width="24" heigth="24" />
+          <span class="text-lg">🔍</span>
+          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:search" /> -->
         </button>
       </li>
     </ol>

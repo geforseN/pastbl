@@ -9,7 +9,11 @@
     >
       <h3>FrankerFaceZ</h3>
       <template #collection-logo>
-        <icon-ffz-logo class="max-h-[32px]" height="32" />
+        <icon-emote-integration-logo
+          source="FrankerFaceZ"
+          class="max-h-[32px]"
+          height="32"
+        />
       </template>
     </emote-collection-header>
     <template v-if="ffz.fullCollection.error.value">
