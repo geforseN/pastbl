@@ -7,7 +7,11 @@
       >
         No pastas with such criteria founded!
       </div>
-      <div v-else class="flex max-h-[83dvh] flex-col gap-y-2 overflow-y-auto">
+      <div
+        v-else
+        v-auto-animate
+        class="flex max-h-[83dvh] flex-col gap-y-2 overflow-y-auto"
+      >
         <chat-pasta
           v-for="pasta of pastasToShowOnPage"
           :key="pasta.id"
@@ -30,10 +34,10 @@
             </button>
           </template>
         </chat-pasta>
-        <span class="ml-1 text-xl">
-          Founded {{ pastasToShowOnPage.length }} pastas
-        </span>
       </div>
+      <span class="ml-1 text-xl">
+        Founded {{ pastasToShowOnPage.length }} pastas
+      </span>
     </div>
     <div class="flex h-fit max-w-lg flex-col divide-y-2 rounded border-2 p-2">
       <div class="form-control p-2">
