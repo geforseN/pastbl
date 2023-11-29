@@ -4,15 +4,11 @@ import { UsersEmoteCollections } from "./UsersEmoteCollections";
 import { type EmoteCollectionsSchema } from "~/client-only/IndexedDB";
 
 class EmoteCollections {
-  db;
-  global;
-  users;
-
-  constructor(db: IDBPDatabase<EmoteCollectionsSchema>) {
-    this.db = db;
-    this.global = new GlobalEmoteCollections(db);
-    this.users = new UsersEmoteCollections(db);
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    public readonly global: GlobalEmoteCollections,
+    public readonly users: UsersEmoteCollections,
+  ) {}
 }
 
 const openEmoteCollectionsIdb = openDB<EmoteCollectionsSchema>(
@@ -31,5 +27,9 @@ const openEmoteCollectionsIdb = openDB<EmoteCollectionsSchema>(
 );
 
 export const emoteCollectionsIdb = openEmoteCollectionsIdb.then(
-  (idb) => new EmoteCollections(idb),
+  (idb) =>
+    new EmoteCollections(
+      new GlobalEmoteCollections(idb),
+      new UsersEmoteCollections(idb),
+    ),
 );

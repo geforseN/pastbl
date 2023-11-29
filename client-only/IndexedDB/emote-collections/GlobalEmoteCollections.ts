@@ -6,11 +6,8 @@ import {
 } from "~/integrations";
 
 export class GlobalEmoteCollections {
-  db;
-
-  constructor(db: IDBPDatabase<EmoteCollectionsSchema>) {
-    this.db = db;
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly db: IDBPDatabase<EmoteCollectionsSchema>) {}
 
   getAllCollections() {
     return this.db.getAll("global");

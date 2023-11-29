@@ -10,11 +10,8 @@ import type {
 import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
 class Emotes {
-  db;
-
-  constructor(db: IDBPDatabase<EmotesSchema>) {
-    this.db = db;
-  }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
 
   putEmotesOfUserCollection(collection: IUserEmoteCollection) {
     const emotes = Object.values(collection.collections).flatMap((collection) =>
