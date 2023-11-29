@@ -15,9 +15,12 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
+    "@formkit/auto-animate/nuxt",
+    "nuxt-scheduler",
   ],
   vue: {
     propsDestructure: true,
     defineModel: true,
   },
+  hooks: {},
 });
