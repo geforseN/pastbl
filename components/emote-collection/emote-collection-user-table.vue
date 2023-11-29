@@ -65,14 +65,20 @@
               class="btn btn-accent btn-xs flex-nowrap"
               @click="collectionsStore.refreshUserCollection(collection)"
             >
-              <icon-refresh width="16" height="16" />
+              <icon
+                name="material-symbols-light:refresh-rounded"
+                class="-mx-[5px]"
+              />
               Refresh
             </button>
             <button
               class="btn btn-error btn-xs flex-nowrap"
               @click="collectionsStore.removeUserCollection(collection)"
             >
-              <icon-xmark class="-mx-[5px]" />
+              <icon
+                name="material-symbols-light:cancel-outline"
+                class="-mx-[5px]"
+              />
               Remove
             </button>
           </div>

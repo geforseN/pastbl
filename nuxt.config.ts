@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@formkit/auto-animate/nuxt",
     "nuxt-scheduler",
+    "nuxt-icon",
   ],
   vue: {
     propsDestructure: true,

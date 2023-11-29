@@ -9,7 +9,11 @@
     >
       <h3>SevenTV</h3>
       <template #collection-logo>
-        <icon-seventv-logo class="max-h-[32px]" height="32" />
+        <icon-emote-integration-logo
+          source="SevenTV"
+          class="max-h-[32px]"
+          height="32"
+        />
       </template>
     </emote-collection-header>
     <emote-collection-seventv-sets
