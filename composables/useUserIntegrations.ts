@@ -17,7 +17,7 @@ import {
   get7TVUserProfileByTwitchId,
   getFFZProfileByTwitchUsername,
   getFFZUserRoomByTwitchId,
-  UserNotFoundError,
+  isUserNotFoundError,
 } from "~/integrations/api";
 
 function useMyAsyncState<
@@ -36,7 +36,7 @@ function useUserService() {
   const isServiceHasUser = ref<boolean | undefined>(undefined);
 
   function serviceErrorHandler(error: Error) {
-    if (error instanceof UserNotFoundError) {
+    if (isUserNotFoundError(error)) {
       isServiceHasUser.value = false;
       throw error;
     }
@@ -264,12 +264,7 @@ export function useUserIntegrations() {
         fulfilledCollections,
         (collection) => collection.source,
       );
-      assert.ok(
-        rejectReasons.every(
-          (reason): reason is UserNotFoundError =>
-            reason instanceof UserNotFoundError,
-        ),
-      );
+      assert.ok(rejectReasons.every(isUserNotFoundError));
       const failedCollectionsReasons = rejectReasons.reduce(
         (reasonRecord, notFoundError) => {
           reasonRecord[notFoundError.source] = notFoundError.message;
