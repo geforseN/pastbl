@@ -28,10 +28,6 @@ export function usePastaCopy({
         if (!clipboard.copied) {
           throw new Error("Pasta was not copied");
         }
-        const piniaStorePasta = pastasStore.pastas.find(
-          (pasta) => pasta.id === pastaToCopy.id,
-        );
-        assert.ok(piniaStorePasta);
         if (userStore.preferences.alerts.copypastaCopy.mustShowOnSuccess) {
           toast.add({
             description: "Pasta copied successfully",
@@ -45,7 +41,7 @@ export function usePastaCopy({
         const pastasIdb = await import("~/client-only/IndexedDB/index").then(
           ({ idb }) => idb.pastas,
         );
-        pastasIdb.updatePastaLastCopied(piniaStorePasta);
+        await pastasIdb.updatePastaLastCopied(pastaToCopy);
       } catch (error: Error | unknown) {
         toast.add({
           description:
