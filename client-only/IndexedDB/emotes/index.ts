@@ -3,11 +3,11 @@ import {
   type EmotesSchema,
   type IndexedDBUserCollection,
 } from "~/client-only/IndexedDB";
-import type {
-  EmoteCollectionsRecord,
-  IUserEmoteCollection,
+import {
+  type EmoteCollectionsRecord,
+  type IUserEmoteCollection,
+  populateUserEmoteCollection,
 } from "~/integrations";
-import { UserEmoteCollection } from "~/integrations/UserEmoteCollection";
 
 class Emotes {
   // eslint-disable-next-line no-useless-constructor
@@ -20,20 +20,22 @@ class Emotes {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
   }
 
-  async populateUserCollectionWithEmotes(collection: IndexedDBUserCollection) {
-    const emoteStore = this.db.transaction("emotes").store;
-    const collectionsArray = await Promise.all(
-      Object.values(collection.collections).map((idbCollection) =>
-        UserEmoteCollection.fromIDBCollection(idbCollection, (emoteId) =>
-          emoteStore.get([emoteId, idbCollection.source]),
+  async populateUserCollectionWithEmotes(
+    userIdbCollection: IndexedDBUserCollection,
+  ) {
+    const emoteIdbStore = this.db.transaction("emotes").store;
+    const emoteCollections = await Promise.all(
+      Object.values(userIdbCollection.collections).map((idbCollection) =>
+        populateUserEmoteCollection(idbCollection, (emoteId) =>
+          emoteIdbStore.get([emoteId, idbCollection.source]),
         ),
       ),
     );
-    const collections = groupBy(
-      collectionsArray,
+    const emoteCollectionsRecord = groupBy(
+      emoteCollections,
       (collection) => collection.source,
     ) as EmoteCollectionsRecord;
-    return { ...collection, collections };
+    return { ...userIdbCollection, collections: emoteCollectionsRecord };
   }
 }
 

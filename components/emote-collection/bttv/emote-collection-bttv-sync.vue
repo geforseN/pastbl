@@ -18,7 +18,7 @@
   </li>
 </template>
 <script lang="ts" setup>
-import type { BetterTTVSet } from "~/integrations/BetterTTV";
+import type { BetterTTVSet } from "~/integrations";
 
 const props = defineProps<{ sets: BetterTTVSet[] }>();
 </script>

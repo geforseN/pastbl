@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { FrankerFaceZSet } from "~/integrations/FrankerFaceZ/";
+import type { FrankerFaceZSet } from "~/integrations";
 
 const props = defineProps<{
   sets: FrankerFaceZSet[];

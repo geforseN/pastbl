@@ -7,7 +7,9 @@ export function SevenTVEmoteString(emote: I7TVEmote) {
 }
 
 export type { I7TVGlobalCollection } from "./entity/SevenTVGlobalCollection";
+export type { I7TVUserCollection } from "./entity/SevenTVUserCollection";
 export type { I7TVSet } from "./entity/SevenTVSet";
 export { create7TVGlobalCollection } from "./entity/create7TVGlobalCollection";
 export { create7TVUserChannelSet } from "./entity/create7TVUserChannelSet";
 export { create7TVUserCollection } from "./entity/create7TVUserCollection";
+export { recreate7TVUserCollection } from "./entity/recreate7TVUserCollection";
