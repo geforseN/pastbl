@@ -1,3 +1,5 @@
+import { UserNotFoundError } from "~/integrations/UserNotFoundError";
+
 export {
   getFFZProfileByTwitchUsername,
   getFFZUserRoomByTwitchId,
@@ -7,5 +9,10 @@ export {
   get7TVUserProfileByTwitchId,
 } from "~/integrations/SevenTV/SevenTV.api";
 export { getBetterTTVUserByTwitchId } from "~/integrations/BetterTTV/BetterTTV.api";
+export { UserNotFoundError };
 
-export { UserNotFoundError } from "~/integrations/UserNotFoundError";
+export function isUserNotFoundError(
+  error: unknown,
+): error is UserNotFoundError {
+  return error instanceof UserNotFoundError;
+}
