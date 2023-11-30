@@ -9,6 +9,7 @@ export const useEmotes = (emoteCollectionsGetters: Promise<EmoteMap>[]) => {
     (settledEmotes) => {
       [emoteMaps.value, failReasons.value] =
         tupleSettledPromises(settledEmotes);
+      isLoaded.value = true;
     },
   );
 
