@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { BetterTTVSet } from "~/integrations/BetterTTV/entity/BetterTTVSet";
+import type { BetterTTVSet } from "~/integrations";
 
 const props = defineProps<{
   sets: BetterTTVSet[];

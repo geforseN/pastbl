@@ -121,15 +121,22 @@ export {
   createFFZUserCollection,
   createFFZUserSets,
   createFFZPartialUserCollection,
+  type FrankerFaceZSet,
 } from "./FrankerFaceZ/index";
 
 export {
   createBTTVGlobalCollection,
   createBTTVUserCollection,
+  type BetterTTVSet,
 } from "./BetterTTV/index";
 
 export {
   create7TVUserChannelSet,
   create7TVUserCollection,
   create7TVGlobalCollection,
+  recreate7TVUserCollection,
+  type I7TVUserCollection,
+  type I7TVSet,
 } from "./SevenTV/index";
+
+export { populateUserEmoteCollection } from "./UserEmoteCollection";

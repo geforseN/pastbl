@@ -5,8 +5,10 @@ import {
   createFFZUserCollection,
   createFFZUserSets,
   createFFZPartialUserCollection,
+  recreate7TVUserCollection,
   type IEmoteCollection,
   type IUserEmoteCollection,
+  type I7TVUserCollection,
 } from "~/integrations";
 
 import {
@@ -17,9 +19,6 @@ import {
   getFFZUserRoomByTwitchId,
   UserNotFoundError,
 } from "~/integrations/api";
-
-import { recreate7TVUserCollection } from "~/integrations/SevenTV/entity/recreate7TVUserCollection";
-import { type I7TVUserCollection } from "~/integrations/SevenTV/entity/SevenTVUserCollection";
 
 function useMyAsyncState<
   Data,
