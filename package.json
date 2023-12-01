@@ -50,6 +50,7 @@
     "@formkit/auto-animate": "^0.8.1",
     "@nuxt/ui": "^2.11.0",
     "@pinia/nuxt": "^0.5.1",
+    "@vuestic/nuxt": "^1.0.17",
     "@vueuse/components": "^10.6.1",
     "@vueuse/integrations": "^10.6.1",
     "drizzle-orm": "^0.29.1",
