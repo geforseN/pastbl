@@ -127,7 +127,7 @@ const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
 const clipboard = useClipboard();
-const { copyPasta } = usePastaCopy({ userStore, pastasStore, clipboard });
+const { copyPasta } = usePastaCopy({ userStore, clipboard });
 
 const textToFindInputRef = ref<HTMLInputElement | null>(null);
 
