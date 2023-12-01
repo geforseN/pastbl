@@ -53,7 +53,7 @@ defineSlots<{
 const clipboard = useClipboard();
 const pastasStore = usePastasStore();
 
-const { copyPasta } = usePastaCopy({ clipboard, pastasStore });
+const { copyPasta } = usePastaCopy({ clipboard });
 
 onMounted(() => {
   console.log("list mounted");
