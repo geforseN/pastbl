@@ -121,8 +121,9 @@
     </div>
   </div>
 </template>
-
 <script lang="ts" setup>
+definePageMeta({ layout: "basic" });
+
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
