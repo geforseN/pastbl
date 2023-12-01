@@ -76,12 +76,35 @@
             class="toggle"
           />
         </div>
-        <find-my-pasta-length-range
-          v-model:min="range[0]"
-          v-model:max="range[1]"
-          :min-value="minValue"
-          :max-value="maxValue"
-        />
+        <VaSlider
+          v-model="range"
+          range
+          :min="minValue"
+          :max="maxValue"
+          track-label-visible
+        >
+          <template #prepend>
+            <VaCounter
+              v-model="range[0]"
+              :min="minValue"
+              :max="range[1]"
+              class="w-32"
+            />
+          </template>
+          <template #trackLabel="{ value }">
+            <VaChip size="small">
+              {{ value }}
+            </VaChip>
+          </template>
+          <template #append>
+            <VaCounter
+              v-model="range[1]"
+              :min="range[0]"
+              :max="maxValue"
+              class="w-32"
+            />
+          </template>
+        </VaSlider>
         <div class="flex flex-col rounded border px-2 py-0">
           <label for="selectedPastaTags" class="label cursor-pointer text-2xl">
             Select tags

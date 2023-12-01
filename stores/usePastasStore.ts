@@ -145,16 +145,10 @@ export const usePastasStore = defineStore("pastas", () => {
       })),
     ),
     minPastaTextLengthInPastas: computed(() =>
-      pastas.value.reduce(
-        (min, pasta) => Math.min(min, pasta.text.length),
-        Number.POSITIVE_INFINITY,
-      ),
+      pastas.value.reduce((min, pasta) => Math.min(min, pasta.text.length), 0),
     ),
     maxPastaTextLengthInPastas: computed(() =>
-      pastas.value.reduce(
-        (max, pasta) => Math.max(max, pasta.text.length),
-        Number.NEGATIVE_INFINITY,
-      ),
+      pastas.value.reduce((max, pasta) => Math.max(max, pasta.text.length), 0),
     ),
     mostPopularTagsMap,
     pastas,
