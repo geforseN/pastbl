@@ -1,13 +1,46 @@
 <template>
-  <main>
-    <div>I'm from index.vue</div>
-    <div class="flex w-min flex-col gap-y-4">
-      <nuxt-link to="/pastas/create">Create pasta</nuxt-link>
-      <nuxt-link to="/pastas/find">Find pasta</nuxt-link>
-      <nuxt-link to="/emotes">Emotes emotes</nuxt-link>
-      <nuxt-link to="/settings">Change settings</nuxt-link>
+  <div class="flex flex-col">
+    <nuxt-link to="/pastas/find">Find pasta</nuxt-link>
+    <pasta-form-collapse />
+    <div class="collapse bg-base-300">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Work with emotes</div>
+      <div class="collapse-content">
+        <change-emote-collection />
+        <load-emote-collection-form />
+      </div>
     </div>
-  </main>
+    <div class="collapse bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Change settings</div>
+      <div class="collapse-content">
+        <user-settings />
+      </div>
+    </div>
+    <div
+      role="tablist"
+      class="tabs tabs-lifted rounded-box border-2 bg-slate-500"
+    >
+      <template
+        v-for="source in (['BetterTTV', 'FrankerFaceZ', 'SevenTV'] as const)"
+        :key="source"
+      >
+        <input
+          type="radio"
+          name="my_tabs_2"
+          role="tab"
+          class="tab"
+          :aria-label="source"
+        />
+        <div
+          role="tabpanel"
+          class="tab-content rounded-box border-base-300 bg-base-100 p-6"
+        >
+          {{ source }}
+        </div>
+      </template>
+    </div>
+  </div>
 </template>
 
 <script setup lang="tsx">
