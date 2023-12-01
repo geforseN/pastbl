@@ -42,12 +42,12 @@ export default {
     themes: [
       {
         light: {
-          ...daisyuiThemes["[data-theme=light]"],
+          ...daisyuiThemes["light"],
         },
       },
       {
         dark: {
-          ...daisyuiThemes["[data-theme=dark]"],
+          ...daisyuiThemes["dark"],
           "base-content": "#ffffff",
         },
       },
