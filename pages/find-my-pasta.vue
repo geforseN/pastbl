@@ -2,13 +2,6 @@
   <div class="mx-auto flex gap-3 px-10 py-4">
     <div class="min-w-[414px]">
       <div
-        v-if="!pastasToShowOnPage.length"
-        class="alert alert-warning flex justify-center"
-      >
-        No pastas with such criteria founded!
-      </div>
-      <div
-        v-else
         v-auto-animate
         class="flex max-h-[83dvh] flex-col gap-y-2 overflow-y-auto"
       >
@@ -36,7 +29,7 @@
         </chat-pasta>
       </div>
       <span class="ml-1 text-xl">
-        Founded {{ pastasToShowOnPage.length }} pastas
+        Found {{ pastasToShowOnPage.length }} pastes
       </span>
     </div>
     <div class="flex h-fit max-w-lg flex-col divide-y-2 rounded border-2 p-2">
