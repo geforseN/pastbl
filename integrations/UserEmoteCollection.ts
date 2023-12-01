@@ -8,7 +8,7 @@ import type { IndexedDBEmoteCollection } from "~/client-only/IndexedDB";
 
 export async function populateUserEmoteCollection(
   idbCollection: IndexedDBEmoteCollection,
-  loadEmoteFromIdbCB: (idbEmoteId: IEmote["id"]) => Promise<IEmote | undefined>,
+  loadEmoteFromIdb: (idbEmoteId: IEmote["id"]) => Promise<IEmote | undefined>,
 ): Promise<IEmoteCollection> {
   return new UserEmoteCollection(
     idbCollection.name,
@@ -20,7 +20,7 @@ export async function populateUserEmoteCollection(
         const { emoteIds, ...set } = idbSet;
         return {
           ...set,
-          emotes: await Promise.all(emoteIds.map(loadEmoteFromIdbCB)).then(
+          emotes: await Promise.all(emoteIds.map(loadEmoteFromIdb)).then(
             (emoteSet) =>
               emoteSet.filter((emote): emote is IEmote => emote !== undefined),
           ),
@@ -30,7 +30,7 @@ export async function populateUserEmoteCollection(
   );
 }
 
-export class UserEmoteCollection implements IEmoteCollection {
+class UserEmoteCollection implements IEmoteCollection {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     public name: string,
