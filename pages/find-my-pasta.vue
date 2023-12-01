@@ -102,7 +102,7 @@
             class="select select-info !h-96 p-2"
           >
             <option
-              v-for="tag of pastasStore.allTags"
+              v-for="tag of pastaTagsToShow"
               :key="tag"
               :value="tag"
               class="h-6"
@@ -150,6 +150,13 @@ const {
 function hasPastaTextToFindOccurrence(pasta: IDBMegaPasta) {
   return pasta.text.toLowerCase().includes(textToFind.value.toLowerCase());
 }
+
+const pastaTagsToShow = computed(() => {
+  if (selectedPastaTags.value.length === 0) {
+    return pastasStore.allTags;
+  }
+  return [...new Set(pastasToShowOnPage.value.flatMap((pasta) => pasta.tags))];
+});
 
 function hasPastaSelectedTags(pasta: IDBMegaPasta) {
   return selectedPastaTags.value.every((selectedPastaTags) =>
