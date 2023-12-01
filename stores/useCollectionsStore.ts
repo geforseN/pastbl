@@ -30,6 +30,79 @@ export const useCollectionsStore = defineStore("collections", () => {
       )?.[1],
   );
 
+  watch(
+    () => activeUserCollectionNickname.value,
+    async (newNickname, oldNickname) => {
+      console.log("activeUserCollectionNickname", {
+        newNickname,
+        oldNickname,
+      });
+      assert.ok(newNickname !== oldNickname, "Impossible condition");
+      // NOTE: if old nickname is not found, it means it collection was active and it was removed
+      if (!newNickname) {
+        return;
+      }
+      const collectionToUpdate = usersCollectionsEntries.value.find(
+        ([nickname]) => nickname === newNickname,
+      )?.[1];
+      assert.ok(collectionToUpdate);
+      const emoteCollectionsIdb = await import(
+        "~/client-only/IndexedDB/index"
+      ).then(({ idb }) => idb.emoteCollections);
+      if (oldNickname) {
+        const oldCollection = usersCollectionsEntries.value.find(
+          ([nickname]) => nickname === oldNickname,
+        )?.[1];
+        // NOTE: if old collection is not found, it means it was active and it was removed
+        if (!oldCollection) {
+          return;
+        }
+        await emoteCollectionsIdb.users.updateCollection({
+          ...oldCollection,
+          isActive: false,
+        });
+        oldCollection.isActive = false;
+      }
+      await emoteCollectionsIdb.users.updateCollection({
+        ...collectionToUpdate,
+        isActive: true,
+      });
+      collectionToUpdate.isActive = true;
+    },
+  );
+
+  watchArray(
+    () => activeGlobalCollectionSources.value,
+    async (sources, oldSources, [activeSource], [inactiveSource]) => {
+      console.log("activeGlobalCollectionSources", {
+        sources,
+        oldSources,
+        activeSource,
+        inactiveSource,
+      });
+      const isInitialSourcesLoaded =
+        Math.abs(oldSources.length - sources.length) > 1 ||
+        !(activeSource || inactiveSource);
+      if (isInitialSourcesLoaded) {
+        return;
+      }
+      const sourceToUpdate = activeSource || inactiveSource;
+      const collectionToUpdate = globalCollectionsEntries.value.find(
+        ([source]) => source === sourceToUpdate,
+      )?.[1];
+      assert.ok(collectionToUpdate);
+      const isActive = sourceToUpdate === activeSource;
+      const emoteCollectionsIdb = await import(
+        "~/client-only/IndexedDB/index"
+      ).then(({ idb }) => idb.emoteCollections);
+      await emoteCollectionsIdb.global.updateCollectionActivity(
+        collectionToUpdate,
+        isActive,
+      );
+      collectionToUpdate.isActive = isActive;
+    },
+  );
+
   if (typeof window !== "undefined") {
     import("~/client-only/IndexedDB/index")
       .then(({ idb }) => idb.emoteCollections)
@@ -52,63 +125,6 @@ export const useCollectionsStore = defineStore("collections", () => {
                 .map(([, collection]) => collection.source);
             }),
         ]);
-
-        watch(
-          () => activeUserCollectionNickname.value,
-          async (newNickname, oldNickname) => {
-            assert.ok(newNickname !== oldNickname, "Impossible condition");
-            // NOTE: if old nickname is not found, it means it collection was active and it was removed
-            if (!newNickname) {
-              return;
-            }
-            const collectionToUpdate = usersCollectionsEntries.value.find(
-              ([nickname]) => nickname === newNickname,
-            )?.[1];
-            assert.ok(collectionToUpdate);
-            if (oldNickname) {
-              const oldCollection = usersCollectionsEntries.value.find(
-                ([nickname]) => nickname === oldNickname,
-              )?.[1];
-              // NOTE: if old collection is not found, it means it was active and it was removed
-              if (!oldCollection) {
-                return;
-              }
-              await emoteCollectionsIdb.users.updateCollection({
-                ...oldCollection,
-                isActive: false,
-              });
-              oldCollection.isActive = false;
-            }
-            await emoteCollectionsIdb.users.updateCollection({
-              ...collectionToUpdate,
-              isActive: true,
-            });
-            collectionToUpdate.isActive = true;
-          },
-        );
-
-        watchArray(
-          () => activeGlobalCollectionSources.value,
-          async (sources, oldSources, [activeSource], [inactiveSource]) => {
-            const isInitialSourcesLoaded =
-              Math.abs(oldSources.length - sources.length) > 1 ||
-              !(activeSource || inactiveSource);
-            if (isInitialSourcesLoaded) {
-              return;
-            }
-            const sourceToUpdate = activeSource || inactiveSource;
-            const collectionToUpdate = globalCollectionsEntries.value.find(
-              ([source]) => source === sourceToUpdate,
-            )?.[1];
-            assert.ok(collectionToUpdate);
-            const isActive = sourceToUpdate === activeSource;
-            await emoteCollectionsIdb.global.updateCollectionActivity(
-              collectionToUpdate,
-              isActive,
-            );
-            collectionToUpdate.isActive = isActive;
-          },
-        );
       });
   }
 
