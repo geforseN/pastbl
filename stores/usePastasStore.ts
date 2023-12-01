@@ -51,7 +51,10 @@ export const usePastasStore = defineStore("pastas", () => {
           return acc;
         }, new Map<string, number>())
         .entries(),
-    ].sort(([, aCount], [, bCount]) => bCount - aCount);
+    ].sort(([, aCount], [, bCount]) => bCount - aCount) satisfies [
+      tagValue: string,
+      tagCount: number,
+    ][];
   });
 
   const pastaDataForPopulation = computed(() => {
