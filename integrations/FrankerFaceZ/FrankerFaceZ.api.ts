@@ -29,7 +29,7 @@ export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
   const response = await fetch(
     `https://api.frankerfacez.com/v1/room/id/${twitchId}`,
   );
-  assertResponse(response);
+  assertResponse(response.clone());
   return response.json();
 }
 
