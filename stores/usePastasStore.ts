@@ -1,21 +1,15 @@
-/* import type {
-  NotificationAction,
-  NotificationColor,
-} from "@nuxt/ui/dist/runtime/types"; */
 import { defineStore } from "pinia";
-import { zipsonStoreSerializer } from "#imports";
 import {
   templateStrings,
   type IEmote,
   type AvailableEmoteSource,
 } from "~/integrations";
 
-export type Pasta = { text: string; tags: string[] };
-export type MegaPasta = Pasta & {
+export type BasePasta = { text: string; tags: string[] };
+export type MegaPasta = BasePasta & {
   length: number;
   createdAt: number;
   populatedText?: string;
-  // TODO use me
   lastCopiedAt?: number;
   validTokens: string[];
 };
@@ -24,22 +18,29 @@ export type IDBMegaPasta = {
   id: number;
 } & MegaPasta;
 
+export function createMegaPasta(
+  trimmedText: BasePasta["text"],
+  tags: BasePasta["tags"],
+): MegaPasta {
+  return {
+    tags: toRaw(tags),
+    text: trimmedText,
+    length: trimmedText.length,
+    createdAt: Date.now(),
+    validTokens: getPastaValidTokens({ text: trimmedText }),
+    lastCopiedAt: undefined,
+    populatedText: undefined,
+  };
+}
+
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = ref<IDBMegaPasta[]>([]);
-  const pastasBin = ref<IDBMegaPasta[]>([]);
-  // const toast = useToast();
 
-  const pastasSortedByNewest = computed(() =>
-    [...pastas.value].sort((a, b) => b.createdAt - a.createdAt),
-  );
+  const toast = useNuxtToast();
 
   const allTags = computed(() => {
     return [...new Set(pastas.value.flatMap((pasta) => pasta.tags))];
   });
-
-  const tagsSortedByLength = computed(() =>
-    [...allTags.value].sort((a, b) => a.length - b.length),
-  );
 
   const mostPopularTagsMap = computed(() => {
     return [
@@ -55,17 +56,6 @@ export const usePastasStore = defineStore("pastas", () => {
       tagValue: string,
       tagCount: number,
     ][];
-  });
-
-  const pastaDataForPopulation = computed(() => {
-    return pastas.value
-      .map((pasta) => {
-        return {
-          pasta,
-          pastaTokens: getPastaValidTokens(pasta),
-        };
-      })
-      .filter((data) => data.pastaTokens.length !== 0);
   });
 
   watchArray(pastas, async (_, __, addedPastas) => {
@@ -89,35 +79,20 @@ export const usePastasStore = defineStore("pastas", () => {
     }
   });
 
-  function populatePastas({
-    emoteMap,
-    templateString,
-  }: {
-    emoteMap: ReadonlyMap<string, IEmote>;
-    templateString: (emote: IEmote) => string;
-  }) {
-    pastaDataForPopulation.value
-      .map(({ pasta, pastaTokens }) => {
-        return {
-          pasta,
-          pastaTokens: pastaTokens.filter((token) => emoteMap.has(token)),
-        };
-      })
-      .forEach(({ pasta, pastaTokens }) => {
-        pasta.populatedText = pasta.populatedText || pasta.text;
-        pastaTokens.forEach((token) => {
-          const emote = emoteMap.get(token)!;
-          pasta.populatedText = pasta.populatedText!.replaceAll(
-            token,
-            templateString(emote),
-          );
-        });
-      });
-  }
-
-  function clearPopulatedTexts() {
-    pastas.value.forEach((pasta) => (pasta.populatedText = undefined));
-  }
+  const pastas2 = useAsyncState(async () => {
+    if (typeof window === "undefined") {
+      return [];
+    }
+    const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+      ({ idb }) => idb.pastas,
+    );
+    const idbPastas = await pastasIdb.getAllPastas();
+    if (process.dev) {
+      // eslint-disable-next-line no-console
+      console.log({ idbPastas });
+    }
+    return idbPastas;
+  }, []);
 
   if (typeof window !== "undefined") {
     import("~/client-only/IndexedDB/index")
@@ -132,17 +107,37 @@ export const usePastasStore = defineStore("pastas", () => {
       });
   }
 
+  function getPastaIndexById(id: IDBMegaPasta["id"]) {
+    const index = pastas.value.findIndex((pasta) => pasta.id === id);
+    if (index === -1) {
+      throw new ExtendedError(`Could not find pasta with id=${id}`, {
+        title: "Failed to find pasta",
+      });
+    }
+    return index;
+  }
+
+  const shallowRawPastas = computed(() =>
+    pastas.value.map((pasta) => ({
+      ...pasta,
+      validTokens: toRaw(pasta.validTokens),
+      tags: toRaw(pasta.tags),
+    })),
+  );
+
   return {
-    populatePastas,
-    clearPopulatedTexts,
     allTags,
-    tagsSortedByLength,
-    shallowRawPastas: computed(() =>
-      pastas.value.map((pasta) => ({
-        ...pasta,
-        validTokens: toRaw(pasta.validTokens),
-        tags: toRaw(pasta.tags),
-      })),
+    allTagsSortedByLength: computed(() =>
+      [...allTags.value].sort((a, b) => a.length - b.length),
+    ),
+    allTagsSorted: computed(() =>
+      [...allTags.value].sort((a, b) =>
+        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
+      ),
+    ),
+    shallowRawPastas,
+    shallowRawNewestPastas: computed(() =>
+      [...shallowRawPastas.value].sort((a, b) => b.createdAt - a.createdAt),
     ),
     minPastaTextLengthInPastas: computed(() =>
       pastas.value.reduce((min, pasta) => Math.min(min, pasta.text.length), 0),
@@ -152,72 +147,64 @@ export const usePastasStore = defineStore("pastas", () => {
     ),
     mostPopularTagsMap,
     pastas,
-    pastasSortedByNewest,
-    pastasBin,
+    pastas2,
+    pastasSortedByNewest: computed(() =>
+      [...pastas.value].sort((a, b) => b.createdAt - a.createdAt),
+    ),
     latestPasta: computed(() => pastas.value.at(-1)),
-    createPasta: async (pasta: Pasta) => {
-      if (pasta.text.trim().length === 0) {
+    async createPasta(basePasta: BasePasta) {
+      if (basePasta.text.trim().length === 0) {
         throw new ExtendedError("Can not create pasta with empty text", {
           title: "Failed to create pasta",
         });
       }
-      const trimmedText = pasta.text.trim().replaceAll("\n", "");
-      // TODO add save to idb
-      const newPasta = {
-        tags: toRaw(pasta.tags),
-        text: trimmedText,
-        length: trimmedText.length,
-        createdAt: Date.now(),
-        validTokens: getPastaValidTokens(pasta),
-        lastCopiedAt: undefined,
-        populatedText: undefined,
-      } satisfies MegaPasta;
+      const trimmedText = basePasta.text.trim().replaceAll("\n", "");
+      const newPasta = createMegaPasta(trimmedText, basePasta.tags);
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      // TODO: add toast if failed to add pasta
-      const pastaId = await pastasIdb.addPasta(newPasta);
+      const pastaId = await pastasIdb.addPasta(newPasta).catch(() => {
+        const error = new ExtendedError(
+          "Pasta with the same text already exist",
+          {
+            title: "Failed to create pasta",
+          },
+        );
+        // TODO: add action in toast, on click should focus to pasta with such text
+        toast.add(error);
+        throw error;
+      });
       const idbPasta: IDBMegaPasta = { ...newPasta, id: pastaId };
       pastas.value.push(idbPasta);
-      return idbPasta;
     },
-    removePasta: async (pastaToRemove: IDBMegaPasta) => {
-      const index = pastas.value.findIndex(
-        (pasta) => pasta.createdAt === pastaToRemove.createdAt,
-      );
-      if (index === -1) {
-        throw new ExtendedError("Can not remove the pasta which is not exist");
-      }
+    async removePasta(pastaToRemove: IDBMegaPasta) {
+      const index = getPastaIndexById(pastaToRemove.id);
       const [removedPasta] = pastas.value.splice(index, 1);
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
+      // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
+      await pastasIdb.addPastaToBin(toRaw(pastaToRemove));
       await pastasIdb.removePastaById(pastaToRemove.id);
-      // TODO: replace pinia store pastasBin to idb 'bin' store
-      // NOTE: now store is not persisted, so deleted pastas can not be restored (so now pastasBin is useless)
-      pastasBin.value.push(removedPasta);
-      // toast.add(
-      //   new RemovePastaNotification({
-      //     handleUndo: () => {
-      //       // TODO: remove  pastasBin, use idb 'bin' store
-      //       const pastaIndexInBin = pastasBin.value.indexOf(removedPasta);
-      //       // TODO: remove  pastasBin, use idb 'bin' store
-      //       pastasBin.value.splice(pastaIndexInBin, 1);
-      //       pastas.value.splice(index, 0, removedPasta);
-      //       pastasIdb.idb.put("list", toRaw(removedPasta));
-      //     },
-      //   }),
-      // );
+      toast.add(
+        new RemovePastaNotification({
+          handleUndo: async () => {
+            pastas.value.splice(index, 0, removedPasta);
+            // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
+            await pastasIdb.removePastaFromBinById(removedPasta.id);
+            await pastasIdb.addPasta(toRaw(removedPasta));
+          },
+        }),
+      );
     },
   };
 });
 
-/* 
 class RemovePastaNotification {
   title: string;
-  color: NotificationColor;
+  color: import("@nuxt/ui/dist/runtime/types").NotificationColor;
   timeout: number;
-  actions: NotificationAction[];
+  actions: import("@nuxt/ui/dist/runtime/types").NotificationAction[];
   description: string;
 
   constructor({ handleUndo }: { handleUndo: () => void }) {
@@ -236,4 +223,3 @@ class RemovePastaNotification {
     ];
   }
 }
- */
