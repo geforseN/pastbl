@@ -2,15 +2,13 @@ import { defineStore } from "pinia";
 
 export const usePastaStore = defineStore("pasta", () => {
   const pasta = usePasta();
-  const toast = useToast();
+  const toast = useNuxtToast();
 
   function handleTagAddToPasta() {
     try {
       pasta.addTag(pasta.tag.value);
     } catch (error) {
-      if (!(error instanceof ExtendedError)) {
-        throw error;
-      }
+      assert.ok(error instanceof ExtendedError);
       toast.add({
         description: error.description,
         title: error.title,
