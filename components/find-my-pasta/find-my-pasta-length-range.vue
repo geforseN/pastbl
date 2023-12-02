@@ -1,40 +1,65 @@
 <template>
-  <section class="flex items-baseline justify-between px-1 py-2">
-    <h2 class="text-2xl">Pasta Length</h2>
-    <div class="flex gap-8">
-      <div class="flex items-baseline gap-1">
-        <label for="min">from</label>
-        <input
-          id="min"
-          v-model="min"
-          class="input input-secondary input-sm w-20"
-          type="number"
-          name="min"
-          :min="props.minValue"
-          :max="max"
-        />
+  <section class="flex flex-col">
+    <div class="flex flex-col justify-between">
+      <h2>Pasta Length</h2>
+      <div>
+        <VaSlider
+          v-model="range"
+          range
+          :min="minValue"
+          :max="maxValue"
+          color="secondary"
+          track-label-visible
+        >
+          <template #trackLabel="{ value }">
+            <span class="text-base-content">{{ value }}</span>
+          </template>
+        </VaSlider>
       </div>
-      <div class="flex items-baseline gap-1">
-        <label for="max">to</label>
-        <input
-          id="max"
-          v-model="max"
-          class="input input-secondary input-sm w-20"
-          type="number"
-          name="max"
-          :min="min"
-          :max="props.maxValue"
-        />
+      <div class="flex justify-evenly">
+        <div class="flex flex-col">
+          <label for="pasta-to-find-min-length">min</label>
+          <VaCounter
+            id="pasta-to-find-min-length"
+            v-model="range[0]"
+            :min="minValue"
+            :max="range[1]"
+            buttons
+            :flat="false"
+            margins="0"
+            color="secondary"
+            class="w-28"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="pasta-to-find-max-length">max</label>
+          <VaCounter
+            id="pasta-to-find-max-length"
+            v-model="range[1]"
+            :min="range[0]"
+            :max="maxValue"
+            buttons
+            :flat="false"
+            margins="0"
+            color="secondary"
+            class="w-28"
+          />
+        </div>
       </div>
     </div>
   </section>
 </template>
 <script lang="ts" setup>
-const min = defineModel("min", { required: true, type: Number });
-const max = defineModel("max", { required: true, type: Number });
-
-const props = defineProps<{
-  minValue: number;
-  maxValue: number;
-}>();
+const range = defineModel<number[]>({
+  required: true,
+});
+const minValue = defineModel("minValue", { required: true, type: Number });
+const maxValue = defineModel("maxValue", { required: true, type: Number });
 </script>
+<style scoped>
+:deep(.va-slider__container)
+  *:where(.va-slider__track--selected, .va-slider__handler) {
+  background-color: theme(colors.secondary) !important;
+  border-color: theme(colors.secondary) !important;
+}
+</style>
