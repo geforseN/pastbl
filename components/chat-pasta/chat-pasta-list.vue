@@ -1,6 +1,12 @@
 <template>
   <div
-    v-if="pastasStore.pastas.length === 0"
+    v-if="pastasStore.pastas.isLoading"
+    class="skeleton flex h-[80dvh] w-[429px] justify-center rounded-none p-2"
+  >
+    Loading pastas
+  </div>
+  <div
+    v-if="pastasStore.pastas.isReady && !pastasStore.pastas.state.length"
     class="mt-4 flex justify-center font-bold"
   >
     No pastas were added yet!
@@ -54,8 +60,4 @@ const clipboard = useClipboard();
 const pastasStore = usePastasStore();
 
 const { copyPasta } = usePastaCopy({ clipboard });
-
-onMounted(() => {
-  console.log("list mounted");
-});
 </script>

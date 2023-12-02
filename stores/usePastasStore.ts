@@ -56,24 +56,7 @@ async function handleEmotePopulateForPastas(addedPastas: MegaPasta[]) {
 }
 
 export const usePastasStore = defineStore("pastas", () => {
-  const pastas = ref<IDBMegaPasta[]>([]);
-  if (typeof window !== "undefined") {
-    import("~/client-only/IndexedDB/index")
-      .then(({ idb }) => idb.pastas)
-      .then((pastasIdb) => pastasIdb.getAllPastas())
-      .then((addedPastas) => {
-        if (process.dev) {
-          // eslint-disable-next-line no-console
-          console.log({ addedPastas });
-        }
-        pastas.value = addedPastas;
-      });
-  }
-
-  const pastas2 = useAsyncState(async () => {
-    if (typeof window === "undefined") {
-      return [];
-    }
+  const pastas = useAsyncState(async () => {
     const pastasIdb = await import("~/client-only/IndexedDB/index").then(
       ({ idb }) => idb.pastas,
     );
@@ -87,12 +70,12 @@ export const usePastasStore = defineStore("pastas", () => {
 
   const toast = useNuxtToast();
 
-  watchArray(pastas, (_, __, addedPastas) => {
+  watchArray(pastas.state, (_, __, addedPastas) => {
     handleEmotePopulateForPastas(addedPastas);
   });
 
   function getPastaIndexById(id: IDBMegaPasta["id"]) {
-    const index = pastas.value.findIndex((pasta) => pasta.id === id);
+    const index = pastas.state.value.findIndex((pasta) => pasta.id === id);
     if (index === -1) {
       throw new ExtendedError(`Could not find pasta with id=${id}`, {
         title: "Failed to find pasta",
@@ -102,7 +85,7 @@ export const usePastasStore = defineStore("pastas", () => {
   }
 
   const shallowRawPastas = computed(() =>
-    pastas.value.map((pasta) => ({
+    pastas.state.value.map((pasta) => ({
       ...pasta,
       validTokens: toRaw(pasta.validTokens),
       tags: toRaw(pasta.tags),
@@ -110,12 +93,14 @@ export const usePastasStore = defineStore("pastas", () => {
   );
 
   const allTags = computed(() => {
-    return [...new Set(pastas.value.flatMap((pasta) => pasta.tags))];
+    return [...new Set(pastas.state.value.flatMap((pasta) => pasta.tags))];
   });
 
   return {
     pastas,
-    pastas2,
+    pastasSortedByNewest: computed(() =>
+      [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
+    ),
     shallowRawPastas,
     shallowRawNewestPastas: computed(() =>
       [...shallowRawPastas.value].sort((a, b) => b.createdAt - a.createdAt),
@@ -131,7 +116,7 @@ export const usePastasStore = defineStore("pastas", () => {
     ),
     mostPopularTagsEntries: computed(() => {
       return [
-        ...pastas.value
+        ...pastas.state.value
           .flatMap((pasta) => pasta.tags)
           .reduce((acc, tag) => {
             const tagCount = acc.get(tag) || 0;
@@ -145,13 +130,16 @@ export const usePastasStore = defineStore("pastas", () => {
       ][];
     }),
     minPastaTextLengthInPastas: computed(() =>
-      pastas.value.reduce((min, pasta) => Math.min(min, pasta.text.length), 0),
+      pastas.state.value.reduce(
+        (min, pasta) => Math.min(min, pasta.text.length),
+        0,
+      ),
     ),
     maxPastaTextLengthInPastas: computed(() =>
-      pastas.value.reduce((max, pasta) => Math.max(max, pasta.text.length), 0),
-    ),
-    pastasSortedByNewest: computed(() =>
-      [...pastas.value].sort((a, b) => b.createdAt - a.createdAt),
+      pastas.state.value.reduce(
+        (max, pasta) => Math.max(max, pasta.text.length),
+        0,
+      ),
     ),
     async createPasta(basePasta: BasePasta) {
       if (basePasta.text.trim().length === 0) {
@@ -176,11 +164,11 @@ export const usePastasStore = defineStore("pastas", () => {
         throw error;
       });
       const idbPasta: IDBMegaPasta = { ...newPasta, id: pastaId };
-      pastas.value.push(idbPasta);
+      pastas.state.value.push(idbPasta);
     },
     async removePasta(pastaToRemove: IDBMegaPasta) {
       const index = getPastaIndexById(pastaToRemove.id);
-      const [removedPasta] = pastas.value.splice(index, 1);
+      const [removedPasta] = pastas.state.value.splice(index, 1);
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
@@ -190,7 +178,7 @@ export const usePastasStore = defineStore("pastas", () => {
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
-            pastas.value.splice(index, 0, removedPasta);
+            pastas.state.value.splice(index, 0, removedPasta);
             // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
             await pastasIdb.removePastaFromBinById(removedPasta.id);
             await pastasIdb.addPasta(toRaw(removedPasta));

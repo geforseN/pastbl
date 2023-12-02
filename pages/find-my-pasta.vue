@@ -83,11 +83,11 @@ function hasPastaSelectedTags(pasta: IDBMegaPasta) {
 }
 
 const pastasWithTags = computedEager(() => {
-  return pastasStore.pastas.filter((pasta) => pasta.tags.length !== 0);
+  return pastasStore.pastas.state.filter((pasta) => pasta.tags.length !== 0);
 });
 
 const pastasWithSelectedTags = computedEager(() =>
-  pastasStore.pastas.filter(hasPastaSelectedTags),
+  pastasStore.pastas.state.filter(hasPastaSelectedTags),
 );
 
 const pastasToIterate = computedEager(() => {
