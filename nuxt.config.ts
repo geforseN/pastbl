@@ -8,6 +8,18 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: ["./composables", "./utils", "./stores"],
+    imports: [
+      {
+        from: "../../node_modules/@nuxt/ui/dist/runtime/composables/useToast.mjs",
+        name: "useToast",
+        as: "useNuxtToast",
+      },
+      {
+        from: "../../node_modules/@vuestic/nuxt/dist/runtime/composables",
+        name: "useToast",
+        as: "useVuesticToast",
+      },
+    ],
   },
   modules: [
     "@pinia/nuxt",

@@ -2,12 +2,12 @@ import type { UseClipboardReturn } from "@vueuse/core";
 
 export function usePastaCopy({
   userStore = useUserStore(),
-  toast = useToast(),
+  toast = useNuxtToast(),
   clipboard = useClipboard(),
 }: {
   userStore?: ReturnType<typeof useUserStore>;
   clipboard?: UseClipboardReturn<false | true>;
-  toast?: ReturnType<typeof useToast>;
+  toast?: ReturnType<typeof useNuxtToast>;
 } = {}) {
   if (!clipboard.isSupported) {
     toast.add({
