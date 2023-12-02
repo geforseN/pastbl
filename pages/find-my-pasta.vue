@@ -101,7 +101,7 @@ const pastasToIterate = computedEager(() => {
 });
 
 const lengthAppropriatePastas = computedEager(() =>
-  pastasStore.shallowRawPastas.filter(
+  pastasStore.shallowRawNewestPastas.filter(
     (pasta) =>
       pasta.text.length >= range.value[0] &&
       pasta.text.length <= range.value[1],
