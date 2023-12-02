@@ -1,50 +1,49 @@
 <template>
-  <section class="flex flex-col">
-    <div class="flex flex-col justify-between">
-      <h2>Pasta Length</h2>
-      <div>
-        <VaSlider
-          v-model="range"
-          range
+  <section class="form-control rounded border p-2">
+    <div class="flex items-center gap-6">
+      <h3 class="whitespace-nowrap text-xl font-bold">Length</h3>
+      <VaSlider
+        v-model="range"
+        range
+        :min="minValue"
+        :max="maxValue"
+        color="secondary"
+        class="w-full px-2 pt-2"
+        track-label-visible
+      >
+        <template #trackLabel="{ value }">
+          <span class="text-base-content">{{ value }}</span>
+        </template>
+      </VaSlider>
+    </div>
+    <div class="flex justify-between p-1">
+      <div class="flex flex-col">
+        <label for="pasta-to-find-min-length">min length</label>
+        <VaCounter
+          id="pasta-to-find-min-length"
+          v-model="range[0]"
           :min="minValue"
-          :max="maxValue"
+          :max="range[1]"
+          buttons
+          :flat="false"
+          margins="0"
           color="secondary"
-          track-label-visible
-        >
-          <template #trackLabel="{ value }">
-            <span class="text-base-content">{{ value }}</span>
-          </template>
-        </VaSlider>
+          class="w-28"
+        />
       </div>
-      <div class="flex justify-evenly">
-        <div class="flex flex-col">
-          <label for="pasta-to-find-min-length">min</label>
-          <VaCounter
-            id="pasta-to-find-min-length"
-            v-model="range[0]"
-            :min="minValue"
-            :max="range[1]"
-            buttons
-            :flat="false"
-            margins="0"
-            color="secondary"
-            class="w-28"
-          />
-        </div>
-        <div class="flex flex-col">
-          <label for="pasta-to-find-max-length">max</label>
-          <VaCounter
-            id="pasta-to-find-max-length"
-            v-model="range[1]"
-            :min="range[0]"
-            :max="maxValue"
-            buttons
-            :flat="false"
-            margins="0"
-            color="secondary"
-            class="w-28"
-          />
-        </div>
+      <div class="flex flex-col">
+        <label for="pasta-to-find-max-length">max length</label>
+        <VaCounter
+          id="pasta-to-find-max-length"
+          v-model="range[1]"
+          :min="range[0]"
+          :max="maxValue"
+          buttons
+          :flat="false"
+          margins="0"
+          color="secondary"
+          class="w-28"
+        />
       </div>
     </div>
   </section>

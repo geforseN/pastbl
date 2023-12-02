@@ -8,10 +8,13 @@
       <find-my-pasta-list :pastas="pastasToShowOnPage" />
       <span class="ml-1"> Found {{ pastasToShowOnPage.length }} pastes </span>
     </div>
-    <div class="flex h-fit w-full max-w-lg flex-col rounded border-2">
-      <div class="form-control">
+    <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
+      <h2 class="p-2 text-2xl font-bold xs:text-3xl">
+        Pasta search parameters
+      </h2>
+      <article class="form-control border p-2">
         <label for="text-to-find" class="cursor-pointer">
-          Input text to find in pasta
+          <h3 class="text-xl font-bold">Text to find</h3>
         </label>
         <input
           id="text-to-find"
@@ -21,45 +24,20 @@
           class="input input-secondary border-2"
           placeholder="Search pasta with text"
         />
-      </div>
-      <div class="form-control">
-        <div class="flex items-center">
-          <label class="cursor-pointer" for="must-be-tags-in-pasta">
-            Must be at least one tag in pasta
-          </label>
-          <input
-            id="must-be-tags-in-pasta"
-            v-model="mustBeTagsInPasta"
-            type="checkbox"
-            class="toggle toggle-primary"
-          />
-        </div>
-        <find-my-pasta-length-range
-          v-model="range"
-          v-model:max-value="maxValue"
-          v-model:min-value="minValue"
-        />
-        <div class="flex flex-col rounded border">
-          <div class="flex items-center justify-between">
-            <label class="cursor-pointer" for="must-respect-selected-tags">
-              Take into account selected tags
-            </label>
-            <input
-              id="must-respect-selected-tags"
-              v-model="mustRespectSelectedTags"
-              type="checkbox"
-              class="toggle toggle-primary"
-            />
-          </div>
-          <find-my-pasta-tags
-            v-model:selected-pasta-tags="selectedPastaTags"
-            :must-select-be-disabled="!mustRespectSelectedTags"
-            :pasta-tags-to-show="pastaTagsToShow"
-            :all-tags="pastasStore.allTagsSorted"
-          />
-        </div>
-      </div>
-    </div>
+      </article>
+      <find-my-pasta-length-range
+        v-model="range"
+        v-model:max-value="maxValue"
+        v-model:min-value="minValue"
+      />
+      <find-my-pasta-tags
+        v-model:selected-pasta-tags="selectedPastaTags"
+        v-model:must-be-tags-in-pasta="mustBeTagsInPasta"
+        v-model:must-respect-selected-tags="mustRespectSelectedTags"
+        :must-select-be-disabled="!mustRespectSelectedTags"
+        :pasta-tags-to-show="pastaTagsToShow"
+      />
+    </section>
   </div>
 </template>
 <script lang="ts" setup>
