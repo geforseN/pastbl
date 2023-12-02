@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col gap-1 rounded border bg-slate-700 p-2">
+  <section class="flex flex-col gap-1 rounded border p-2">
     <label for="selected-pasta-tags" class="cursor-pointer">
       <h2 class="text-xl font-bold">Tags</h2>
     </label>
@@ -43,29 +43,13 @@
         </option>
       </select>
       <div class="px-1">
-        <div>
-          <span class="font-bold text-warning">NOTE:</span>
-          <span>
-            &nbsp;for select multiple tags use&nbsp;
-            <span class="inline-flex items-baseline">
-              <kbd class="kbd kbd-sm">CTRL</kbd>&nbsp;+&nbsp;click
-            </span>
-          </span>
-        </div>
-        <span
-          v-if="selectedPastaTags.length"
-          class="inline-flex flex-wrap gap-1"
-        >
-          <span
-            v-for="tag of selectedPastaTags"
-            :key="tag"
-            class="overflow-wrap-anywhere rounded bg-info/50"
-            :title="tag"
-          >
-            {{ tag }}
+        <span class="font-bold text-warning">NOTE:</span>
+        <span>
+          &nbsp;for select multiple tags use&nbsp;
+          <span class="inline-flex items-baseline">
+            <kbd class="kbd kbd-sm">CTRL</kbd>&nbsp;+&nbsp;click
           </span>
         </span>
-        <span v-else>No selected tags</span>
       </div>
     </div>
   </section>
