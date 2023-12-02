@@ -1,136 +1,83 @@
 <template>
-  <div class="mx-auto flex gap-3 px-10 py-4">
-    <div class="min-w-[414px]">
-      <div
-        v-auto-animate
-        class="flex max-h-[83dvh] flex-col gap-y-2 overflow-y-auto"
-      >
-        <chat-pasta
-          v-for="pasta of pastasToShowOnPage"
-          :key="pasta.id"
-          :pasta="pasta"
-        >
-          <template #creatorData>
-            <chat-pasta-creator-data
-              :badges-count="userStore.user.badges.count"
-              :nickname="userStore.user.nickname"
-              :nickname-color="userStore.user.preferences.nickname.color"
-            />
-          </template>
-          <template #sidebar>
-            <button
-              class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-              :disabled="!clipboard.isSupported.value"
-              @click="copyPasta(pasta)"
-            >
-              copy pasta
-            </button>
-          </template>
-        </chat-pasta>
-      </div>
-      <span class="ml-1 text-xl">
-        Found {{ pastasToShowOnPage.length }} pastes
-      </span>
+  <div
+    class="flex w-full flex-col-reverse items-center gap-3 go-brr:flex-row go-brr:items-start"
+  >
+    <!-- TODO: media query for sizes of texts, inputs, etc. -->
+    <!-- NOTE: for below div w-full is necessary for no layout shift -->
+    <div class="w-full max-w-[414px]">
+      <find-my-pasta-list :pastas="pastasToShowOnPage" />
+      <span class="ml-1"> Found {{ pastasToShowOnPage.length }} pastes </span>
     </div>
-    <div class="flex h-fit max-w-lg flex-col divide-y-2 rounded border-2 p-2">
-      <div class="form-control p-2">
-        <label for="textToFind" class="label cursor-pointer text-3xl">
+    <div class="flex h-fit w-full max-w-lg flex-col rounded border-2">
+      <div class="form-control">
+        <label for="text-to-find" class="cursor-pointer">
           Input text to find in pasta
         </label>
         <input
-          id="textToFind"
+          id="text-to-find"
           ref="textToFindInputRef"
           v-model="textToFind"
           type="search"
-          class="input input-info"
+          class="input input-secondary border-2"
           placeholder="Search pasta with text"
         />
       </div>
-      <div class="overflow-wrap-anywhere flex h-max flex-col divide-y p-2">
-        <div class="flex items-center justify-between">
-          <label
-            class="label cursor-pointer text-2xl"
-            for="mustRespectSelectedTags"
-          >
-            Take into account selected tags
-          </label>
-          <input
-            id="mustRespectSelectedTags"
-            v-model="mustRespectSelectedTags"
-            type="checkbox"
-            class="toggle"
-            @keyup.enter.exact="
-              mustRespectSelectedTags = !mustRespectSelectedTags
-            "
-          />
-        </div>
-        <div class="flex items-center justify-between">
-          <label class="label cursor-pointer text-2xl" for="mustBeTagsInPasta">
+      <div class="form-control">
+        <div class="flex items-center">
+          <label class="cursor-pointer" for="must-be-tags-in-pasta">
             Must be at least one tag in pasta
           </label>
-          <!-- FIXME: on checkbox change pastasToShowOnPage are changed very slow, also   -->
           <input
-            id="mustBeTagsInPasta"
+            id="must-be-tags-in-pasta"
             v-model="mustBeTagsInPasta"
             type="checkbox"
-            class="toggle"
+            class="toggle toggle-primary"
           />
         </div>
-        <VaSlider
+        <find-my-pasta-length-range
           v-model="range"
-          range
-          :min="minValue"
-          :max="maxValue"
-          track-label-visible
-        >
-          <template #prepend>
-            <VaCounter
-              v-model="range[0]"
-              :min="minValue"
-              :max="range[1]"
-              class="w-32"
+          v-model:max-value="maxValue"
+          v-model:min-value="minValue"
+        />
+        <div class="flex flex-col rounded border">
+          <div class="flex items-center justify-between">
+            <label class="cursor-pointer" for="must-respect-selected-tags">
+              Take into account selected tags
+            </label>
+            <input
+              id="must-respect-selected-tags"
+              v-model="mustRespectSelectedTags"
+              type="checkbox"
+              class="toggle toggle-primary"
             />
-          </template>
-          <template #trackLabel="{ value }">
-            <VaChip size="small">
-              {{ value }}
-            </VaChip>
-          </template>
-          <template #append>
-            <VaCounter
-              v-model="range[1]"
-              :min="range[0]"
-              :max="maxValue"
-              class="w-32"
-            />
-          </template>
-        </VaSlider>
-        <div class="flex flex-col rounded border px-2 py-0">
-          <label for="selectedPastaTags" class="label cursor-pointer text-2xl">
+          </div>
+          <input list="selected-pasta-tags-hints" type="search" />
+          <datalist id="selected-pasta-tags-hints">
+            <option v-for="tag of pastaTagsToShow" :key="tag" :value="tag" />
+          </datalist>
+          <label for="selected-pasta-tags" class="cursor-pointer">
             Select tags
           </label>
-          <!-- TODO: also add input search here to find tag quickly -->
           <select
-            id="selectedPastaTags"
+            id="selected-pasta-tags"
             v-model="selectedPastaTags"
             :disabled="!mustRespectSelectedTags"
             multiple
-            class="select select-info !h-96 p-2"
+            class="select select-primary !h-40 w-full"
           >
             <option
               v-for="tag of pastaTagsToShow"
               :key="tag"
               :value="tag"
-              class="h-6"
+              class="h-6 odd:bg-base-200"
             >
               {{ tag }}
             </option>
           </select>
-          <div class="p-2">
+          <div>
             <span class="font-bold text-warning">NOTE:</span>
             for select multiple tags use
-            <kbd class="kbd kbd-sm">CTRL</kbd>
-            + click
+            <span><kbd class="kbd kbd-sm">CTRL</kbd> + click</span>
           </div>
         </div>
       </div>
@@ -140,11 +87,7 @@
 <script lang="ts" setup>
 definePageMeta({ layout: "basic" });
 
-const userStore = useUserStore();
 const pastasStore = usePastasStore();
-
-const clipboard = useClipboard();
-const { copyPasta } = usePastaCopy({ userStore, clipboard });
 
 const textToFindInputRef = ref<HTMLInputElement | null>(null);
 
@@ -169,9 +112,12 @@ function hasPastaTextToFindOccurrence(pasta: IDBMegaPasta) {
 
 const pastaTagsToShow = computed(() => {
   if (selectedPastaTags.value.length === 0) {
-    return pastasStore.allTags;
+    return pastasStore.allTagsSorted;
   }
-  return [...new Set(pastasToShowOnPage.value.flatMap((pasta) => pasta.tags))];
+  const tagsOfShowedPastas = pastasToShowOnPage.value.flatMap(
+    (pasta) => pasta.tags,
+  );
+  return [...new Set(tagsOfShowedPastas)];
 });
 
 function hasPastaSelectedTags(pasta: IDBMegaPasta) {
