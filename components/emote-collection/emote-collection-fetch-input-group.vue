@@ -33,7 +33,7 @@ const emit = defineEmits<{
   "load-collections": [];
 }>();
 
-const toast = useToast();
+const toast = useNuxtToast();
 
 watchDebounced(userNickname, emitLoadCollections, { debounce: 1_500 });
 
