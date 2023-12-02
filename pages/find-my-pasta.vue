@@ -51,34 +51,12 @@
               class="toggle toggle-primary"
             />
           </div>
-          <input list="selected-pasta-tags-hints" type="search" />
-          <datalist id="selected-pasta-tags-hints">
-            <option v-for="tag of pastaTagsToShow" :key="tag" :value="tag" />
-          </datalist>
-          <label for="selected-pasta-tags" class="cursor-pointer">
-            Select tags
-          </label>
-          <select
-            id="selected-pasta-tags"
-            v-model="selectedPastaTags"
-            :disabled="!mustRespectSelectedTags"
-            multiple
-            class="select select-primary !h-40 w-full"
-          >
-            <option
-              v-for="tag of pastaTagsToShow"
-              :key="tag"
-              :value="tag"
-              class="h-6 odd:bg-base-200"
-            >
-              {{ tag }}
-            </option>
-          </select>
-          <div>
-            <span class="font-bold text-warning">NOTE:</span>
-            for select multiple tags use
-            <span><kbd class="kbd kbd-sm">CTRL</kbd> + click</span>
-          </div>
+          <find-my-pasta-tags
+            v-model:selected-pasta-tags="selectedPastaTags"
+            :must-select-be-disabled="!mustRespectSelectedTags"
+            :pasta-tags-to-show="pastaTagsToShow"
+            :all-tags="pastasStore.allTagsSorted"
+          />
         </div>
       </div>
     </div>
