@@ -1,47 +1,90 @@
 <template>
-  <section>
+  <section class="flex flex-col gap-1 rounded border bg-slate-700 p-2">
     <label for="selected-pasta-tags" class="cursor-pointer">
-      <h2>Select tags</h2>
+      <h2 class="text-xl font-bold">Tags</h2>
     </label>
-    <input
-      list="selected-pasta-tags-hints"
-      type="search"
-      class="input input-primary input-xs mb-1 w-full"
-    />
-    <datalist id="selected-pasta-tags-hints">
-      <option v-for="tag of props.pastaTagsToShow" :key="tag" :value="tag" />
-    </datalist>
-    <select
-      id="selected-pasta-tags"
-      v-model="selectedTagsModel"
-      :disabled="props.mustSelectBeDisabled"
-      multiple
-      class="select select-primary !h-40 w-full p-2"
-    >
-      <option
-        v-for="tag of props.pastaTagsToShow"
-        :key="tag"
-        :value="tag"
-        class="h-6 p-1 odd:bg-base-300"
-      >
-        {{ tag }}
-      </option>
-    </select>
-
+    <article class="flex items-center justify-between">
+      <label class="cursor-pointer" for="must-be-tags-in-pasta">
+        <h3>Must be at least one tag</h3>
+      </label>
+      <input
+        id="must-be-tags-in-pasta"
+        v-model="mustBeTagsInPasta"
+        type="checkbox"
+        class="toggle toggle-primary"
+      />
+    </article>
+    <article class="flex items-center justify-between">
+      <label class="cursor-pointer" for="must-respect-selected-tags">
+        <h3>Take into account selected tags</h3>
+      </label>
+      <input
+        id="must-respect-selected-tags"
+        v-model="mustRespectSelectedTags"
+        type="checkbox"
+        class="toggle toggle-primary"
+      />
+    </article>
     <div>
-      <span class="font-bold text-warning">NOTE:</span>
-      for select multiple tags on PC use
-      <span><kbd class="kbd kbd-sm">CTRL</kbd> + click</span>
+      <select
+        id="selected-pasta-tags"
+        v-model="selectedTagsModel"
+        :disabled="props.mustSelectBeDisabled"
+        multiple
+        class="select select-primary !h-40 w-full p-2"
+      >
+        <option
+          v-for="tag of props.pastaTagsToShow"
+          :key="tag"
+          :value="tag"
+          class="h-6 p-1 odd:bg-base-300"
+        >
+          {{ tag }}
+        </option>
+      </select>
+      <div class="px-1">
+        <div>
+          <span class="font-bold text-warning">NOTE:</span>
+          <span>
+            &nbsp;for select multiple tags use&nbsp;
+            <span class="inline-flex items-baseline">
+              <kbd class="kbd kbd-sm">CTRL</kbd>&nbsp;+&nbsp;click
+            </span>
+          </span>
+        </div>
+        <span
+          v-if="selectedPastaTags.length"
+          class="inline-flex flex-wrap gap-1"
+        >
+          <span
+            v-for="tag of selectedPastaTags"
+            :key="tag"
+            class="overflow-wrap-anywhere rounded bg-info/50"
+            :title="tag"
+          >
+            {{ tag }}
+          </span>
+        </span>
+        <span v-else>No selected tags</span>
+      </div>
     </div>
   </section>
 </template>
 <script setup lang="ts">
-const selectedTagsModel = defineModel<string[]>("selectedPastaTags", {
+const mustRespectSelectedTags = defineModel("mustRespectSelectedTags", {
   required: true,
+  type: Boolean,
+});
+const mustBeTagsInPasta = defineModel("mustBeTagsInPasta", {
+  required: true,
+  type: Boolean,
+});
+const selectedTagsModel = defineModel("selectedPastaTags", {
+  required: true,
+  type: Array<string>,
 });
 const props = defineProps<{
   pastaTagsToShow: string[];
   mustSelectBeDisabled: boolean;
-  allTags?: string[];
 }>();
 </script>
