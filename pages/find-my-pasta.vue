@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="flex w-full flex-col-reverse items-center gap-3 go-brr:flex-row go-brr:items-start"
-  >
-    <!-- TODO: media query for sizes of texts, inputs, etc. -->
-    <!-- NOTE: for below div w-full is necessary for no layout shift -->
-    <div class="w-full max-w-[414px]">
-      <find-my-pasta-list :pastas="pastasToShowOnPage" />
-      <span class="ml-1"> Found {{ pastasToShowOnPage.length }} pastes </span>
-    </div>
+  <nuxt-layout name="default">
+    <template #leftColumn>
+      <!-- NOTE: for below div w-full is necessary for no layout shift -->
+      <div class="w-full max-w-[414px]">
+        <find-my-pasta-list :pastas="pastasToShowOnPage" />
+        <span class="ml-1"> Found {{ pastasToShowOnPage.length }} pastes </span>
+      </div>
+    </template>
     <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
       <h2 class="p-2 text-2xl font-bold xs:text-3xl">
         Pasta search parameters
@@ -38,11 +37,12 @@
         :pasta-tags-to-show="pastaTagsToShow"
       />
     </section>
-  </div>
+  </nuxt-layout>
 </template>
 <script lang="ts" setup>
-definePageMeta({ layout: "basic" });
-
+definePageMeta({
+  layout: false,
+});
 const pastasStore = usePastasStore();
 
 const textToFindInputRef = ref<HTMLInputElement | null>(null);
