@@ -73,6 +73,10 @@ export interface PastasSchema extends DBSchema {
       byValidTokens: IDBMegaPasta["validTokens"];
     };
   };
+  bin: {
+    key: IDBMegaPasta["id"];
+    value: IDBMegaPasta;
+  };
 }
 
 export const idb = {

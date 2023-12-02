@@ -38,10 +38,24 @@ class PastasStore {
   removePastaById(id: IDBMegaPasta["id"]) {
     return this.idb.transaction("list", "readwrite").store.delete(id);
   }
+
+  addPastaToBin(pasta: IDBMegaPasta) {
+    return this.idb
+      .transaction("bin", "readwrite")
+      .objectStore("bin")
+      .add(pasta);
+  }
+
+  removePastaFromBinById(id: IDBMegaPasta["id"]) {
+    return this.idb
+      .transaction("bin", "readwrite")
+      .objectStore("bin")
+      .delete(id);
+  }
 }
 
 function openPastasIdb() {
-  return openDB<PastasSchema>("pastas", 1, {
+  return openDB<PastasSchema>("pastas", 2, {
     upgrade(database, _oldVersion, _newVersion, _transaction) {
       const pastasStore = database.createObjectStore("list", {
         keyPath: "id",
@@ -57,6 +71,9 @@ function openPastasIdb() {
       pastasStore.createIndex("byValidTokens", "validTokens", {
         unique: false,
         multiEntry: true,
+      });
+      database.createObjectStore("bin", {
+        keyPath: "id",
       });
     },
   });
