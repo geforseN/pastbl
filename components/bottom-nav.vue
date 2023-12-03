@@ -5,17 +5,17 @@
       <li class="w-1/2">
         <nuxt-link
           class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch bg-twitch/10 text-twitch hover:bg-twitch/20 hover:underline focus:underline"
-          to="/collections"
+          to="/"
           active-class="border-t-2 border-t-twitch"
         >
-          <span class="w-min break-words xs:w-auto">load emotes</span>
+          <span class="w-min break-words uppercase xs:w-auto">my emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
             <icon-emote-integration-logo
               v-for="source of [
                 'FrankerFaceZ',
                 'BetterTTV',
                 'SevenTV',
-              ] as const"
+              ] satisfies AvailableEmoteSource[]"
               v-once
               :key="source"
               :class="
@@ -31,19 +31,19 @@
         </nuxt-link>
       </li>
       <li class="w-1/2">
-        <button
-          class="btn btn-info h-16 w-full rounded-none border-0 bg-info/10 text-info hover:bg-info/20"
-          for="search-pasta"
-          @click="emit('findPastaButtonClicked')"
+        <nuxt-link
+          class="btn btn-info h-16 w-full rounded-none border-0 bg-info/10 uppercase text-info hover:bg-info/20"
+          to="/pastas/find#pasta-search-parameters-heading"
+          active-class="border-t-2 border-t-info"
         >
           find pasta
           <span class="text-lg">🔍</span>
           <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:search" /> -->
-        </button>
+        </nuxt-link>
       </li>
     </ol>
   </nav>
 </template>
 <script lang="ts" setup>
-const emit = defineEmits(["findPastaButtonClicked"]);
+import type { AvailableEmoteSource } from "~/integrations";
 </script>

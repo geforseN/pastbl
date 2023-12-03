@@ -10,39 +10,49 @@
       </li>
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link
-          class="btn btn-outline border-twitch text-twitch"
-          to="/collections"
+          class="btn btn-outline border-twitch text-lg text-twitch"
+          to="/user/_emotes"
         >
-          emotes
+          my emotes
           <icon-emote-integration-logo
-            v-for="source of ['FrankerFaceZ', 'BetterTTV', 'SevenTV']"
+            v-for="source of [
+              'FrankerFaceZ',
+              'BetterTTV',
+              'SevenTV',
+            ] satisfies AvailableEmoteSource[]"
             v-once
             :key="source"
             :source="source"
             width="24"
-            heigth="24"
+            height="24"
             class="max-h-[24px] text-xs"
           />
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <button class="btn btn-info" @click="emit('findPastaButtonClicked')">
+        <nuxt-link class="btn btn-info text-lg" to="/pastas/find">
           find pasta
-          <span class="text-lg">🔍</span>
-          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:search" /> -->
-        </button>
+          <span>🔍</span>
+          <!-- NOTE: can use this (instead of emote)  <icon name="iconamoon:search" /> -->
+          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass-bold" /> -->
+          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass" /> -->
+          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass-light" /> -->
+        </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <nuxt-link to="/settings" class="btn btn-neutral">
+        <nuxt-link
+          to="/user/settings#user-settings-heading"
+          class="btn btn-neutral text-lg"
+        >
           settings
-          <span class="text-lg">⚙️</span>
+          <span>⚙️</span>
           <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:settings-fill" /> -->
         </nuxt-link>
       </li>
       <li class="ml-auto">
         <select
           id="app-theme"
-          class="select select-bordered"
+          class="select select-bordered text-base"
           data-choose-theme
           name="select-app-theme"
         >
@@ -54,7 +64,6 @@
     </ol>
   </nav>
 </template>
-
 <script setup lang="ts">
-const emit = defineEmits(["findPastaButtonClicked"]);
+import type { AvailableEmoteSource } from "~/integrations";
 </script>
