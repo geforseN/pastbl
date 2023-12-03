@@ -245,21 +245,19 @@ export function useUserIntegrations() {
           ffz.partialCollection.state.value?.owner.displayName ||
           raise("No twitch nickname found"),
       };
-      const settledCollections = await Promise.allSettled<IEmoteCollection>([
-        ffz.sets
-          .execute(0, twitchUser.id)
-          .then(() => ffz.fullCollection.execute())
-          .then((v) => v || raise("No FrankerFaceZ collection found")),
-        bttv
-          .execute(0, twitchUser)
-          .then((v) => v || raise("No BetterTTV collection found")),
-        sevenTv.fullCollection
-          .execute(0, twitchUser)
-          .then((v) => v || raise("No SevenTV collection found")),
-      ]);
-
       const [fulfilledCollections, rejectReasons] =
-        tupleSettledPromises(settledCollections);
+        await tupleSettledPromises<IEmoteCollection>([
+          ffz.sets
+            .execute(0, twitchUser.id)
+            .then(() => ffz.fullCollection.execute())
+            .then((v) => v || raise("No FrankerFaceZ collection found")),
+          bttv
+            .execute(0, twitchUser)
+            .then((v) => v || raise("No BetterTTV collection found")),
+          sevenTv.fullCollection
+            .execute(0, twitchUser)
+            .then((v) => v || raise("No SevenTV collection found")),
+        ]);
       const collections = groupBy(
         fulfilledCollections,
         (collection) => collection.source,
@@ -277,7 +275,6 @@ export function useUserIntegrations() {
       if (process.dev) {
         // eslint-disable-next-line no-console
         console.log({
-          settledCollections,
           fulfilledCollections,
           rejectReasons,
           failedCollectionsReasons,
