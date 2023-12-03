@@ -1,5 +1,6 @@
 <template>
-  <nav class="btm-nav btm-nav-md gap-0 go-brr:hidden">
+  <!-- NOTE: z index is necessary to keep click on click more important that what below link  -->
+  <nav class="btm-nav btm-nav-md z-10 gap-0 go-brr:hidden">
     <ol class="contents">
       <li class="w-1/2">
         <nuxt-link
@@ -10,7 +11,11 @@
           <span class="w-min break-words xs:w-auto">load emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
             <icon-emote-integration-logo
-              v-for="source of ['FrankerFaceZ', 'BetterTTV', 'SevenTV']"
+              v-for="source of [
+                'FrankerFaceZ',
+                'BetterTTV',
+                'SevenTV',
+              ] as const"
               v-once
               :key="source"
               :class="
