@@ -2,11 +2,11 @@
   <div>
     <Body lang="en">
       <div class="relative grid grid-rows-layout">
-        <top-nav @find-pasta-button-clicked="navigateTo('/find-my-pasta')" />
+        <top-nav />
         <nuxt-layout>
           <nuxt-page />
         </nuxt-layout>
-        <bottom-nav @find-pasta-button-clicked="navigateTo('/find-my-pasta')" />
+        <bottom-nav />
         <u-notifications>
           <template #title="{ title }">
             <span class="text-xl">{{ title }}</span>
