@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      role="tablist"
-      class="tabs tabs-lifted w-96 rounded-b-box rounded-t-[10px] border-2"
-    >
+    <div role="tablist" class="tabs tabs-lifted w-96 rounded-[10px] border-2">
       <template
         v-for="source in ['BetterTTV', 'FrankerFaceZ', 'SevenTV']"
         :key="source"
