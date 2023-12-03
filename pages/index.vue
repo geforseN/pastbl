@@ -1,44 +1,55 @@
 <template>
-  <div class="flex flex-col">
-    <nuxt-link to="/pastas/find">Find pasta</nuxt-link>
+  <div class="flex flex-col gap-2">
     <pasta-form-collapse />
-    <div class="collapse bg-base-300">
-      <input type="checkbox" />
-      <div class="collapse-title text-xl font-medium">Work with emotes</div>
-      <div class="collapse-content">
-        <change-emote-collection />
-        <load-emote-collection-form />
-      </div>
-    </div>
-    <div class="collapse bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-xl font-medium">Change settings</div>
-      <div class="collapse-content">
-        <user-settings />
-      </div>
-    </div>
-    <div
-      role="tablist"
-      class="tabs tabs-lifted rounded-box border-2 bg-slate-500"
-    >
-      <template
-        v-for="source in (['BetterTTV', 'FrankerFaceZ', 'SevenTV'] as const)"
-        :key="source"
+    <div class="rounded-2xl border-2 px-4 py-2">
+      <nuxt-link
+        class="flex items-center justify-between gap-2 text-3xl font-bold"
+        to="/pastas/find#pasta-search-parameters-heading"
       >
-        <input
-          type="radio"
-          name="my_tabs_2"
-          role="tab"
-          class="tab"
-          :aria-label="source"
-        />
-        <div
-          role="tabpanel"
-          class="tab-content rounded-box border-base-300 bg-base-100 p-6"
+        🔍 Find pasta
+        <icon name="carbon:link" />
+      </nuxt-link>
+    </div>
+    <div class="rounded-2xl border-2 px-4 py-2">
+      <nuxt-link to="/user/settings#user-settings-heading">
+        <span
+          class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
-          {{ source }}
-        </div>
-      </template>
+          ⚙️ Change settings
+          <icon name="carbon:link" />
+        </span>
+      </nuxt-link>
+    </div>
+    <div class="rounded-2xl border-2 px-4 py-2">
+      <nuxt-link to="/user/_emotes">
+        <span
+          class="flex items-center justify-between gap-2 text-3xl font-bold"
+        >
+          <div class="flex items-center gap-1">
+            <span class="ml-1 mr-5 flex flex-col gap-1">
+              <icon-emote-integration-logo
+                v-for="source of [
+                'FrankerFaceZ',
+                'BetterTTV',
+                'SevenTV',
+              ] as const"
+                v-once
+                :key="source"
+                :class="
+                  source === 'BetterTTV' &&
+                  'absolute translate-x-4 translate-y-2'
+                "
+                :source="source"
+                width="16"
+                heigth="16"
+                class="max-h-[24px] text-xs"
+              />
+            </span>
+            Add emotes
+          </div>
+          <icon name="carbon:link" />
+        </span>
+      </nuxt-link>
     </div>
   </div>
 </template>

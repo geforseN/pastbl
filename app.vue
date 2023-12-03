@@ -1,8 +1,5 @@
 <template>
   <div>
-    <Head>
-      <Title>pastbl</Title>
-    </Head>
     <Body lang="en">
       <div class="relative grid grid-rows-layout">
         <top-nav @find-pasta-button-clicked="navigateTo('/find-my-pasta')" />
@@ -24,6 +21,8 @@
 </template>
 <script setup lang="ts">
 import { themeChange } from "theme-change";
+
+useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
 
 onMounted(() => {
   themeChange(false);

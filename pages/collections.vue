@@ -50,7 +50,9 @@
 <script lang="ts" setup>
 import type { IUserEmoteCollection } from "~/integrations";
 
-useHead({ title: "collections - pastbl" });
+useHead({
+  title: process.dev ? "collections -pastbl - dev" : "collections -pastbl",
+});
 
 const nickname = useUrlQueryParam("nickname");
 const mustShowInput = nickname.value === "";
