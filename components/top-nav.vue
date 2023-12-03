@@ -33,10 +33,6 @@
         <nuxt-link class="btn btn-info text-lg" to="/pastas/find">
           find pasta
           <span>🔍</span>
-          <!-- NOTE: can use this (instead of emote)  <icon name="iconamoon:search" /> -->
-          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass-bold" /> -->
-          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass" /> -->
-          <!-- NOTE: can use this (instead of emote)  <icon name="ph:magnifying-glass-light" /> -->
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
@@ -46,7 +42,6 @@
         >
           settings
           <span>⚙️</span>
-          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:settings-fill" /> -->
         </nuxt-link>
       </li>
       <li class="ml-auto">
