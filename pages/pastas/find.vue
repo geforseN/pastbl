@@ -7,41 +7,44 @@
       class="w-full max-w-[414px]"
       :pastas="pastasToShowOnPage"
     />
-    <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
-      <h2
-        id="pasta-search-parameters-heading"
-        class="p-2 text-2xl font-bold xs:text-3xl"
-      >
-        Pasta search parameters
-      </h2>
-      <article class="form-control rounded-2xl border p-2">
-        <label for="text-to-find" class="cursor-pointer">
-          <h3 class="p-2 text-xl font-bold">Text to find</h3>
-        </label>
-        <input
-          id="text-to-find"
-          ref="textToFindInputRef"
-          v-model="textToFind"
-          type="search"
-          class="input input-secondary m-1 -mt-1 border-2"
-          placeholder="Search pasta with text"
+    <div>
+      <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
+        <h2
+          id="pasta-search-parameters-heading"
+          class="p-2 text-2xl font-bold xs:text-3xl"
+        >
+          Pasta search parameters
+        </h2>
+        <article class="form-control rounded-2xl border p-2">
+          <label for="text-to-find" class="cursor-pointer">
+            <h3 class="p-2 text-xl font-bold">Text to find</h3>
+          </label>
+          <input
+            id="text-to-find"
+            ref="textToFindInputRef"
+            v-model="textToFind"
+            type="search"
+            class="input input-secondary m-1 -mt-1 border-2"
+            placeholder="Search pasta with text"
+          />
+        </article>
+        <find-my-pasta-length-range
+          v-model="range"
+          v-model:max-value="maxValue"
+          v-model:min-value="minValue"
+          v-model:respect="mustRespectLengthRange"
         />
-      </article>
-      <find-my-pasta-length-range
-        v-model="range"
-        v-model:max-value="maxValue"
-        v-model:min-value="minValue"
-        v-model:respect="mustRespectLengthRange"
-      />
-      <find-my-pasta-tags
-        v-model:selected-pasta-tags="selectedPastaTags"
-        v-model:must-be-tags-in-pasta="mustBeTagsInPasta"
-        v-model:respect="mustRespectSelectedTags"
-        :must-select-be-disabled="!mustRespectSelectedTags"
-        :pasta-tags-to-show="pastaTagsToShow"
-      />
-      <!-- TODO: date range -->
-    </section>
+        <find-my-pasta-tags
+          v-model:selected-pasta-tags="selectedPastaTags"
+          v-model:must-be-tags-in-pasta="mustBeTagsInPasta"
+          v-model:respect="mustRespectSelectedTags"
+          :must-select-be-disabled="!mustRespectSelectedTags"
+          :pasta-tags-to-show="pastaTagsToShow"
+        />
+        <!-- TODO: date range -->
+      </section>
+      <go-to-main-page />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>

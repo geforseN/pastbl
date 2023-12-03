@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="pastasStore.pastas.isLoading"
-    class="skeleton flex h-[80dvh] w-[429px] justify-center rounded-none p-2"
+    class="skeleton flex h-[60dvh] w-[429px] justify-center rounded-none p-2 go-brr:h-[80dvh]"
   >
     Loading pastas
   </div>
@@ -20,7 +20,9 @@
       the button will fail
     </span>
   </div>
-  <div class="flex max-h-[80dvh] flex-col gap-y-2 overflow-y-auto">
+  <div
+    class="flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto go-brr:max-h-[80dvh]"
+  >
     <chat-pasta
       v-for="pasta of pastasStore.pastasSortedByNewest"
       :key="pasta.createdAt"
