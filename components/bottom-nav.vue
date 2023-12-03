@@ -4,7 +4,7 @@
     <ol class="contents">
       <li class="w-1/2">
         <nuxt-link
-          class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch bg-twitch/10 text-twitch hover:bg-twitch/20 hover:underline focus:underline"
+          class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch bg-twitch/10 text-twitch hover:bg-twitch/20"
           to="/"
           active-class="border-t-2 border-t-twitch"
         >
@@ -36,9 +36,8 @@
           to="/pastas/find#pasta-search-parameters-heading"
           active-class="border-t-2 border-t-info"
         >
-          find pasta
+          <span>find pasta</span>
           <span class="text-lg">🔍</span>
-          <!-- NOTE: can use this (instead of emote above)  <icon name="iconamoon:search" /> -->
         </nuxt-link>
       </li>
     </ol>
