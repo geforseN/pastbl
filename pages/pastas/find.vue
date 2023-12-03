@@ -7,17 +7,15 @@
       class="w-full max-w-[414px]"
       :pastas="pastasToShowOnPage"
     />
-    <div class="flex flex-col gap-2">
-      <section
-        class="flex w-full max-w-lg flex-col gap-1 rounded-2xl border-2 p-2"
-      >
+    <div class="flex w-96 flex-col gap-2">
+      <section class="flex w-full flex-col gap-1 rounded-box border-2 p-2">
         <h2
           id="pasta-search-parameters-heading"
           class="p-2 text-2xl font-bold xs:text-3xl"
         >
           Pasta search parameters
         </h2>
-        <article class="form-control rounded-2xl border p-2">
+        <article class="form-control rounded-box border p-2">
           <label for="text-to-find" class="cursor-pointer">
             <h3 class="p-2 text-xl font-bold">Text to find</h3>
           </label>
@@ -123,6 +121,8 @@ const lengthAppropriatePastasWithTags = computedEager(() =>
   lengthAppropriatePastas.value.filter((pasta) => pasta.tags.length !== 0),
 );
 
+// FIXME
+// FIXME
 // FIXME: selected length range is not respected WHEN at least one tag is selected
 const pastasToShowOnPage = computedEager(() => {
   if (!textToFind.value.length && !selectedPastaTags.value.length) {
