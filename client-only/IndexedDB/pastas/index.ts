@@ -31,8 +31,14 @@ class PastasStore {
     >;
   }
 
-  addPasta(pasta: MegaPasta): Promise<IDBMegaPasta["id"]> {
-    return this.idb.transaction("list", "readwrite").store.add(pasta);
+  async addPasta(pasta: MegaPasta): Promise<IDBMegaPasta> {
+    const pastaId = await this.idb
+      .transaction("list", "readwrite")
+      .store.add(pasta);
+    return {
+      ...pasta,
+      id: pastaId,
+    };
   }
 
   removePastaById(id: IDBMegaPasta["id"]) {

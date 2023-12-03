@@ -5,35 +5,6 @@ import {
   type AvailableEmoteSource,
 } from "~/integrations";
 
-export type BasePasta = { text: string; tags: string[] };
-
-export type MegaPasta = BasePasta & {
-  length: number;
-  createdAt: number;
-  populatedText?: string;
-  lastCopiedAt?: number;
-  validTokens: string[];
-};
-
-export type IDBMegaPasta = {
-  id: number;
-} & MegaPasta;
-
-export function createMegaPasta(
-  trimmedText: BasePasta["text"],
-  tags: BasePasta["tags"],
-): MegaPasta {
-  return {
-    tags: toRaw(tags),
-    text: trimmedText,
-    length: trimmedText.length,
-    createdAt: Date.now(),
-    validTokens: getPastaValidTokens({ text: trimmedText }),
-    lastCopiedAt: undefined,
-    populatedText: undefined,
-  };
-}
-
 async function handleEmotePopulateForPastas(addedPastas: MegaPasta[]) {
   const foundEmotes = await veryCoolAlgorithm(addedPastas);
   for (const pasta of addedPastas) {
@@ -152,7 +123,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      const pastaId = await pastasIdb.addPasta(newPasta).catch(() => {
+      const idbPasta = await pastasIdb.addPasta(newPasta).catch(() => {
         const error = new ExtendedError(
           "Pasta with the same text already exist",
           {
@@ -163,7 +134,6 @@ export const usePastasStore = defineStore("pastas", () => {
         toast.add(error);
         throw error;
       });
-      const idbPasta: IDBMegaPasta = { ...newPasta, id: pastaId };
       pastas.state.value.push(idbPasta);
     },
     async removePasta(pastaToRemove: IDBMegaPasta) {
