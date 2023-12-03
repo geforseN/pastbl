@@ -1,8 +1,11 @@
 <template>
-  <section class="divide-y-2 rounded border-2 border-base-content p-2">
-    <h2 class="p-2 text-3xl font-bold">Change user settings</h2>
+  <section class="divide-y-2 rounded-2xl border-2 border-base-content p-2">
+    <h2 id="user-settings-heading" class="p-2 text-3xl font-bold">
+      Change settings
+    </h2>
     <user-settings-badges v-model="userStore.user.badges.count" />
     <user-settings-nickname v-model="userStore.user.nickname" />
+    <!-- FIXME: use debounce for color, this input is block main thread so much -->
     <user-settings-nickname-color
       v-model="userStore.preferences.nickname.color"
     />
