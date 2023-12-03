@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col items-center gap-2">
     <div class="join">
       <button
         class="btn btn-secondary join-item"
@@ -37,61 +37,49 @@
         &gt&gt
       </button>
     </div>
-    <div class="relative">
-      <chat-pasta v-if="prevPasta" class="prev-pasta" :pasta="prevPasta">
-        <template #creatorData>
-          <chat-pasta-creator-data
-            :badges-count="userStore.user.badges.count"
-            :nickname="userStore.user.nickname"
-            :nickname-color="userStore.user.preferences.nickname.color"
-          />
-        </template>
-        <template #sidebar>
-          <button
-            class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-            :disabled="!clipboard.isSupported.value"
-            @click="copyPasta(prevPasta)"
-          >
-            copy pasta
-          </button>
-        </template>
-      </chat-pasta>
-      <chat-pasta v-if="selectedPasta" :pasta="selectedPasta">
-        <template #creatorData>
-          <chat-pasta-creator-data
-            :badges-count="userStore.user.badges.count"
-            :nickname="userStore.user.nickname"
-            :nickname-color="userStore.user.preferences.nickname.color"
-          />
-        </template>
-        <template #sidebar>
-          <button
-            class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-            :disabled="!clipboard.isSupported.value"
-            @click="copyPasta(selectedPasta)"
-          >
-            copy pasta
-          </button>
-        </template>
-      </chat-pasta>
-      <chat-pasta v-if="nextPasta" class="next-pasta" :pasta="nextPasta">
-        <template #creatorData>
-          <chat-pasta-creator-data
-            :badges-count="userStore.user.badges.count"
-            :nickname="userStore.user.nickname"
-            :nickname-color="userStore.user.preferences.nickname.color"
-          />
-        </template>
-        <template #sidebar>
-          <button
-            class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-            :disabled="!clipboard.isSupported.value"
-            @click="copyPasta(nextPasta)"
-          >
-            copy pasta
-          </button>
-        </template>
-      </chat-pasta>
+    <div class="container">
+      <div class="carousel">
+        <chat-pasta v-if="prevPasta" class="prev-pasta" :pasta="prevPasta">
+          <template #creatorData>
+            <chat-pasta-creator-data
+              :badges-count="userStore.user.badges.count"
+              :nickname="userStore.user.nickname"
+              :nickname-color="userStore.user.preferences.nickname.color"
+            />
+          </template>
+        </chat-pasta>
+        <chat-pasta
+          v-if="selectedPasta"
+          :pasta="selectedPasta"
+          class="curr-pasta"
+        >
+          <template #creatorData>
+            <chat-pasta-creator-data
+              :badges-count="userStore.user.badges.count"
+              :nickname="userStore.user.nickname"
+              :nickname-color="userStore.user.preferences.nickname.color"
+            />
+          </template>
+          <template #sidebar>
+            <button
+              class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
+              :disabled="!clipboard.isSupported.value"
+              @click="copyPasta(selectedPasta)"
+            >
+              copy pasta
+            </button>
+          </template>
+        </chat-pasta>
+        <chat-pasta v-if="nextPasta" class="next-pasta" :pasta="nextPasta">
+          <template #creatorData>
+            <chat-pasta-creator-data
+              :badges-count="userStore.user.badges.count"
+              :nickname="userStore.user.nickname"
+              :nickname-color="userStore.user.preferences.nickname.color"
+            />
+          </template>
+        </chat-pasta>
+      </div>
     </div>
   </div>
 </template>
@@ -138,6 +126,7 @@ const { copyPasta } = usePastaCopy({ userStore, clipboard });
   will-change: transform;
   position: absolute;
   top: 0;
+  display: none;
 }
 
 .prev-pasta {
