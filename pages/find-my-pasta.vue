@@ -1,26 +1,26 @@
 <template>
-  <nuxt-layout name="default">
-    <template #leftColumn>
-      <!-- NOTE: for below div w-full is necessary for no layout shift -->
-      <div class="w-full max-w-[414px]">
-        <find-my-pasta-list :pastas="pastasToShowOnPage" />
-        <span class="ml-1"> Found {{ pastasToShowOnPage.length }} pastes </span>
-      </div>
-    </template>
+  <div
+    class="mt-2 flex flex-col-reverse items-center justify-center gap-x-12 gap-y-4 go-brr:flex-row go-brr:items-start"
+  >
+    <!-- NOTE: for below component w-full and max-w-[414px] is necessary for no layout shift -->
+    <find-my-pasta-list
+      class="w-full max-w-[414px]"
+      :pastas="pastasToShowOnPage"
+    />
     <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
       <h2 class="p-2 text-2xl font-bold xs:text-3xl">
         Pasta search parameters
       </h2>
-      <article class="form-control border p-2">
+      <article class="form-control rounded-2xl border p-2">
         <label for="text-to-find" class="cursor-pointer">
-          <h3 class="text-xl font-bold">Text to find</h3>
+          <h3 class="p-2 text-xl font-bold">Text to find</h3>
         </label>
         <input
           id="text-to-find"
           ref="textToFindInputRef"
           v-model="textToFind"
           type="search"
-          class="input input-secondary border-2"
+          class="input input-secondary m-1 -mt-1 border-2"
           placeholder="Search pasta with text"
         />
       </article>
@@ -28,16 +28,18 @@
         v-model="range"
         v-model:max-value="maxValue"
         v-model:min-value="minValue"
+        v-model:respect="mustRespectLengthRange"
       />
       <find-my-pasta-tags
         v-model:selected-pasta-tags="selectedPastaTags"
         v-model:must-be-tags-in-pasta="mustBeTagsInPasta"
-        v-model:must-respect-selected-tags="mustRespectSelectedTags"
+        v-model:respect="mustRespectSelectedTags"
         :must-select-be-disabled="!mustRespectSelectedTags"
         :pasta-tags-to-show="pastaTagsToShow"
       />
+      <!-- TODO: date range -->
     </section>
-  </nuxt-layout>
+  </div>
 </template>
 <script lang="ts" setup>
 definePageMeta({
@@ -61,6 +63,7 @@ const {
   minValue,
   maxValue,
 } = useFindMyPastaRange();
+const mustRespectLengthRange = ref(true);
 
 function hasPastaTextToFindOccurrence(pasta: IDBMegaPasta) {
   return pasta.text.toLowerCase().includes(textToFind.value.toLowerCase());
@@ -112,6 +115,7 @@ const lengthAppropriatePastasWithTags = computedEager(() =>
   lengthAppropriatePastas.value.filter((pasta) => pasta.tags.length !== 0),
 );
 
+// FIXME: selected length range is not respected WHEN at least one tag is selected
 const pastasToShowOnPage = computedEager(() => {
   if (!textToFind.value.length && !selectedPastaTags.value.length) {
     return mustBeTagsInPasta.value
