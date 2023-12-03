@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex w-96 flex-col gap-2">
     <pasta-form-collapse />
-    <div class="rounded-2xl border-2 px-4 py-2">
+    <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link
         class="flex items-center justify-between gap-2 text-3xl font-bold"
         to="/pastas/find#pasta-search-parameters-heading"
@@ -13,7 +13,7 @@
         🔍
       </nuxt-link>
     </div>
-    <div class="rounded-2xl border-2 px-4 py-2">
+    <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link to="/user/settings#user-settings-heading">
         <span
           class="flex items-center justify-between gap-2 text-3xl font-bold"
@@ -26,14 +26,14 @@
         </span>
       </nuxt-link>
     </div>
-    <div class="rounded-2xl border-2 px-4 py-2">
+    <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link to="/user/_emotes">
         <span
           class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
           <span class="flex items-center gap-2">
             <icon name="carbon:link" />
-            Add emotes
+            Look for emotes
           </span>
           <div class="flex items-center gap-1">
             <span class="mr-4 flex flex-col gap-1">
