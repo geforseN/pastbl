@@ -6,8 +6,11 @@
         class="flex items-center justify-between gap-2 text-3xl font-bold"
         to="/pastas/find#pasta-search-parameters-heading"
       >
-        🔍 Find pasta
-        <icon name="carbon:link" />
+        <span class="flex items-center gap-2">
+          <icon name="carbon:link" />
+          Find pasta
+        </span>
+        🔍
       </nuxt-link>
     </div>
     <div class="rounded-2xl border-2 px-4 py-2">
@@ -15,8 +18,11 @@
         <span
           class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
-          ⚙️ Change settings
-          <icon name="carbon:link" />
+          <span class="flex items-center gap-2">
+            <icon name="carbon:link" />
+            Change settings
+          </span>
+          ⚙️
         </span>
       </nuxt-link>
     </div>
@@ -25,8 +31,12 @@
         <span
           class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
+          <span class="flex items-center gap-2">
+            <icon name="carbon:link" />
+            Add emotes
+          </span>
           <div class="flex items-center gap-1">
-            <span class="ml-1 mr-5 flex flex-col gap-1">
+            <span class="mr-4 flex flex-col gap-1">
               <icon-emote-integration-logo
                 v-for="source of [
                 'FrankerFaceZ',
@@ -42,12 +52,10 @@
                 :source="source"
                 width="16"
                 heigth="16"
-                class="max-h-[24px] text-xs"
+                class="max-h-[16px] text-xs"
               />
             </span>
-            Add emotes
           </div>
-          <icon name="carbon:link" />
         </span>
       </nuxt-link>
     </div>
@@ -56,8 +64,6 @@
 
 <script setup lang="tsx">
 import { availableEmoteSources, globalEmotesGetters } from "~/integrations";
-
-useHead({ title: "pastbl", htmlAttrs: { lang: "en" } });
 
 onMounted(() => {
   addMissingGlobalEmotesCollections();
