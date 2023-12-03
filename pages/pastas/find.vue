@@ -7,8 +7,10 @@
       class="w-full max-w-[414px]"
       :pastas="pastasToShowOnPage"
     />
-    <div>
-      <section class="flex w-full max-w-lg flex-col gap-1 rounded border-2 p-2">
+    <div class="flex flex-col gap-2">
+      <section
+        class="flex w-full max-w-lg flex-col gap-1 rounded-2xl border-2 p-2"
+      >
         <h2
           id="pasta-search-parameters-heading"
           class="p-2 text-2xl font-bold xs:text-3xl"

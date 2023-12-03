@@ -1,5 +1,5 @@
 <template>
-  <section class="divide-y-2 rounded-2xl border-2 border-base-content p-2">
+  <section class="divide-y-2 rounded-2xl border-2 p-2">
     <h2 id="user-settings-heading" class="p-2 text-3xl font-bold">
       Change settings
     </h2>

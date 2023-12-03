@@ -1,11 +1,8 @@
 <template>
-  <div class="rounded-2xl border-2 border-base-content px-4 py-2">
-    <nuxt-link
-      to="/"
-      class="flex items-center justify-between gap-2 text-3xl font-bold"
-    >
-      <span>Go to main page</span>
+  <div class="rounded-2xl border-2 px-4 py-2">
+    <nuxt-link to="/" class="flex items-center gap-2 text-3xl font-bold">
       <icon name="carbon:link" />
+      <span class="pr-1">Go to main page</span>
     </nuxt-link>
   </div>
 </template>
