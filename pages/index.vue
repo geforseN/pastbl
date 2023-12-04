@@ -65,7 +65,7 @@
 <script setup lang="tsx">
 import { availableEmoteSources, globalEmotesGetters } from "~/integrations";
 
-onMounted(() => {
+onBeforeMount(() => {
   addMissingGlobalEmotesCollections();
 });
 
@@ -79,11 +79,10 @@ async function addMissingGlobalEmotesCollections() {
   const sourcesToLoad = availableEmoteSources.filter(
     (source) => !addedGlobalCollectionNames.includes(source),
   );
-  for (const source of sourcesToLoad) {
-    const getGlobalCollection = globalEmotesGetters[source];
+  for (const sourceToLoad of sourcesToLoad) {
+    const getGlobalCollection = globalEmotesGetters[sourceToLoad];
     const globalCollection = await getGlobalCollection();
-    collectionsStore.globalCollectionsEntries.push([source, globalCollection]);
-    emoteCollectionsIdb.global.addCollection(globalCollection);
+    collectionsStore.global.addCollection(globalCollection);
   }
 }
 </script>
