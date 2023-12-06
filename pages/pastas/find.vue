@@ -15,6 +15,7 @@
         >
           Pasta search parameters
         </h2>
+        {{ sortedUniqueShowedPastasTagsLengths }}
         <article class="form-control rounded-box border p-2">
           <label for="text-to-find" class="cursor-pointer">
             <h3 class="p-2 text-xl font-bold">Text to find</h3>
@@ -22,24 +23,26 @@
           <input
             id="text-to-find"
             ref="textToFindInputRef"
-            v-model="textToFind"
+            v-model="text"
             type="search"
             class="input input-secondary m-1 -mt-1 border-2"
             placeholder="Search pasta with text"
           />
         </article>
         <find-my-pasta-length-range
-          v-model="range"
-          v-model:max-value="maxValue"
-          v-model:min-value="minValue"
+          v-model="length.range.value"
+          v-model:max-value="length.max.value"
+          v-model:min-value="length.min.value"
           v-model:respect="mustRespectLengthRange"
         />
         <find-my-pasta-tags
+          v-model:must-respect-selected-tags="mustRespectSelectedTags"
+          v-model:must-respected-minimal-tags-count="
+            mustRespectedMinimalTagsCount
+          "
+          v-model:minimal-tags-count-to-have="minimalTagsCountToHave"
           v-model:selected-pasta-tags="selectedPastaTags"
-          v-model:must-be-tags-in-pasta="mustBeTagsInPasta"
-          v-model:respect="mustRespectSelectedTags"
-          :must-select-be-disabled="!mustRespectSelectedTags"
-          :pasta-tags-to-show="pastaTagsToShow"
+          :tags-to-select="tagsToSelect"
         />
         <!-- TODO: date range -->
       </section>
@@ -53,87 +56,49 @@ definePageMeta({
 });
 const pastasStore = usePastasStore();
 
-const textToFindInputRef = ref<HTMLInputElement | null>(null);
+const allPastas = computed(() =>
+  withLogSync(() => pastasStore.shallowRawNewestPastas, "a"),
+);
+const showedPastas = computed(() => pastasToShowOnPage.value);
 
-onMounted(() => {
-  textToFindInputRef.value?.focus();
-});
-
-// TODO: use query params for below refs
-const textToFind = useUrlQueryParam("text-to-find");
-const mustRespectSelectedTags = ref(true);
-const selectedPastaTags = ref([]);
-const mustBeTagsInPasta = ref(false);
+const { text, textStrategyPastas } = useFindPastaText(allPastas);
+const { mustRespectLengthRange, lengthStrategyPastas, ...length } =
+  useFindPastasLength(allPastas);
 const {
-  range /* NOTE: range also must be in quey params */,
-  minValue,
-  maxValue,
-} = useFindMyPastaRange();
-const mustRespectLengthRange = ref(true);
+  mustRespectSelectedTags,
+  mustRespectedMinimalTagsCount,
+  minimalTagsCountToHave,
+  pastasWithCurrentTagsStrategy,
+  selectedPastaTags,
+  tagsToSelect,
+} = useFindPastasTags(allPastas, showedPastas);
 
-function hasPastaTextToFindOccurrence(pasta: IDBMegaPasta) {
-  return pasta.text.toLowerCase().includes(textToFind.value.toLowerCase());
-}
+const sortedUniqueShowedPastasTagsLengths = computed(() => {
+  return [
+    ...new Set(
+      pastasToShowOnPage.value
+        .flatMap((pasta) => pasta.tags.length)
+        .sort((a, b) => a - b),
+    ),
+  ];
+});
 
-const pastaTagsToShow = computed(() => {
-  if (selectedPastaTags.value.length === 0) {
-    return pastasStore.allTagsSorted;
-  }
-  const tagsOfShowedPastas = pastasToShowOnPage.value.flatMap(
-    (pasta) => pasta.tags,
+const sortedByLengthPastaLists = computed(() => {
+  return [
+    textStrategyPastas,
+    lengthStrategyPastas,
+    pastasWithCurrentTagsStrategy,
+  ].sort((a, b) => a.value.length - b.value.length);
+});
+
+const pastasToShowOnPage = computed(() => {
+  const [smallestPastaList, ...othersPastaLists] =
+    sortedByLengthPastaLists.value;
+  console.log("pastasToShowOnPage");
+  return smallestPastaList.value.filter((pasta) =>
+    othersPastaLists.every((pastaList) =>
+      pastaList.value.some((pasta_) => pasta_.id === pasta.id),
+    ),
   );
-  return [...new Set(tagsOfShowedPastas)];
-});
-
-function hasPastaSelectedTags(pasta: IDBMegaPasta) {
-  return selectedPastaTags.value.every((selectedPastaTags) =>
-    pasta.tags.includes(selectedPastaTags),
-  );
-}
-
-const pastasWithTags = computedEager(() => {
-  return pastasStore.pastas.state.filter((pasta) => pasta.tags.length !== 0);
-});
-
-const pastasWithSelectedTags = computedEager(() =>
-  pastasStore.pastas.state.filter(hasPastaSelectedTags),
-);
-
-const pastasToIterate = computedEager(() => {
-  if (mustBeTagsInPasta.value) {
-    return pastasWithTags.value;
-  }
-  if (mustRespectSelectedTags.value) {
-    return pastasWithSelectedTags.value;
-  }
-  return pastasStore.shallowRawPastas;
-});
-
-const lengthAppropriatePastas = computedEager(() =>
-  pastasStore.shallowRawNewestPastas.filter(
-    (pasta) =>
-      pasta.text.length >= range.value[0] &&
-      pasta.text.length <= range.value[1],
-  ),
-);
-
-const lengthAppropriatePastasWithTags = computedEager(() =>
-  lengthAppropriatePastas.value.filter((pasta) => pasta.tags.length !== 0),
-);
-
-// FIXME
-// FIXME
-// FIXME: selected length range is not respected WHEN at least one tag is selected
-const pastasToShowOnPage = computedEager(() => {
-  if (!textToFind.value.length && !selectedPastaTags.value.length) {
-    return mustBeTagsInPasta.value
-      ? lengthAppropriatePastasWithTags.value
-      : lengthAppropriatePastas.value;
-  }
-  const pastaToIterate2 = mustRespectSelectedTags.value
-    ? pastasToIterate.value.filter(hasPastaSelectedTags)
-    : pastasToIterate.value;
-
-  return pastaToIterate2.filter(hasPastaTextToFindOccurrence);
 });
 </script>
