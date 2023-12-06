@@ -15,7 +15,6 @@
         >
           Pasta search parameters
         </h2>
-        {{ sortedUniqueShowedPastasTagsLengths }}
         <article class="form-control rounded-box border p-2">
           <label for="text-to-find" class="cursor-pointer">
             <h3 class="p-2 text-xl font-bold">Text to find</h3>
@@ -70,16 +69,6 @@ const {
   selectedPastaTags,
   tagsToSelect,
 } = useFindPastasTags(allPastas, showedPastas);
-
-const sortedUniqueShowedPastasTagsLengths = computed(() => {
-  return [
-    ...new Set(
-      pastasToShowOnPage.value
-        .flatMap((pasta) => pasta.tags.length)
-        .sort((a, b) => a - b),
-    ),
-  ];
-});
 
 const sortedByLengthPastaLists = computed(() => {
   return [
