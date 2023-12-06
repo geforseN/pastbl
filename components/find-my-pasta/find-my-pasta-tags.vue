@@ -14,28 +14,6 @@
           class="toggle toggle-primary"
         />
       </article>
-      <!-- <article class="flex items-center justify-between">
-        <label class="cursor-pointer" for="must-be-tags-in-pasta">
-          <h3>
-            Must be at least
-            <input
-              v-model="minimalTagsCountToHave"
-              type="number"
-              class="w-6"
-              min="1"
-              max="10"
-            />
-            <template v-if="minimalTagsCountToHave === 1">tag</template>
-            <template v-else>tags</template>
-          </h3>
-        </label>
-        <input
-          id="must-be-tags-in-pasta"
-          v-model="mustRespectedMinimalTagsCount"
-          type="checkbox"
-          class="toggle toggle-primary"
-        />
-      </article> -->
       <div>
         <select
           id="selected-pasta-tags"
@@ -67,13 +45,6 @@
   </section>
 </template>
 <script setup lang="ts">
-const mustRespectedMinimalTagsCount = defineModel(
-  "mustRespectedMinimalTagsCount",
-  {
-    required: true,
-    type: Boolean,
-  },
-);
 const mustRespectSelectedTags = defineModel("mustRespectSelectedTags", {
   required: true,
   type: Boolean,
@@ -82,11 +53,6 @@ const mustRespectSelectedTags = defineModel("mustRespectSelectedTags", {
 const selectedPastaTags = defineModel("selectedPastaTags", {
   required: true,
   type: Array<string>,
-});
-
-const minimalTagsCountToHave = defineModel("minimalTagsCountToHave", {
-  required: true,
-  type: Number,
 });
 
 const props = defineProps<{
