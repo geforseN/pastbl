@@ -59,7 +59,7 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
   const { range, minValue: min, maxValue: max } = useFindMyPastaRange();
   const mustRespectLengthRange = ref(true);
 
-  const lengthAppropriatePastas = computed(() =>
+  const pastasWithLengthOccurrence = computed(() =>
     withLogSync(
       () =>
         pastas.value.filter(
@@ -71,9 +71,9 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
     ),
   );
 
-  const lengthStrategyPastas = computed(() => {
+  const lengthAppropriatePastas = computed(() => {
     if (mustRespectLengthRange.value) {
-      return lengthAppropriatePastas.value;
+      return pastasWithLengthOccurrence.value;
     }
     return pastas.value;
   });
@@ -83,7 +83,7 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
     min,
     max,
     mustRespectLengthRange,
-    lengthStrategyPastas,
+    lengthAppropriatePastas,
   };
 }
 
@@ -98,7 +98,7 @@ export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
     pastas.value.filter(hasPastaTextOccurrence),
   );
 
-  const textStrategyPastas = computed(() => {
+  const textAppropriatePastas = computed(() => {
     if (text.value.length) {
       return pastasWithTextOccurrence.value;
     }
@@ -107,6 +107,6 @@ export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
 
   return {
     text,
-    textStrategyPastas,
+    textAppropriatePastas,
   };
 }
