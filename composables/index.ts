@@ -2,25 +2,10 @@ export function useFindPastasTags(
   allPastas: Ref<IDBMegaPasta[]>,
   showedPastas: Ref<IDBMegaPasta[]>,
 ) {
-  const minimalTagsCountToHave = ref(1);
-  const mustRespectedMinimalTagsCount = ref(false);
-
-  watch(
-    () => mustRespectedMinimalTagsCount.value,
-    (newMustRespectedMinimalTagsCount) => {
-      console.log(
-        "newMustRespectedMinimalTagsCount",
-        newMustRespectedMinimalTagsCount,
-      );
-    },
-  );
-
   const selectedPastaTags = ref<string[]>([]);
   const mustRespectSelectedTags = ref(true);
 
-  const findTagStrategy = ref<"every" | "some">("every");
-
-  const allUniqueTagsSortedByAlphabetCaseInsensitive = computed(() =>
+  const allPastasUniqueTagsSortedByAlphabetCaseInsensitive = computed(() =>
     withLogSync(
       () =>
         [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))].sort(
@@ -30,71 +15,40 @@ export function useFindPastasTags(
     ),
   );
 
-  const showedPastasUniqueTags = computed(() => {
+  const pastasWithSelectedTags = computed(() => {
     return withLogSync(
-      () => [...new Set(showedPastas.value.flatMap((pasta) => pasta.tags))],
-      "showedPastasUniqueTags",
-    );
-  });
-
-  const showedPastasTagsSortedByAlphabetCaseInsensitive = computed(() => {
-    return withLogSync(
-      () =>
-        [...showedPastasUniqueTags.value].sort((a, b) =>
-          a.toLowerCase() > b.toLowerCase() ? 1 : -1,
-        ),
-      "showedPastasTagsSortedByAlphabet",
-    );
-  });
-
-  const pastasWithMinimalRequiredTagsCount = computed(() => {
-    return withLogSync(
-      () =>
-        allPastas.value.filter(
-          (pasta) => pasta.tags.length >= minimalTagsCountToHave.value,
-        ),
-      "pastasWithMinimalRequiredTagsCount",
-    );
-  });
-
-  const pastasWithEverySelectedTag = computed(() =>
-    withLogSync(
       () =>
         allPastas.value.filter((pasta) =>
           selectedPastaTags.value.every((selectedTag) =>
             pasta.tags.includes(selectedTag),
           ),
         ),
-      "pastasWithEverySelectedTag",
-    ),
-  );
+      "pastasWithMinimalRequiredTagsCount",
+    );
+  });
 
-  const pastasWithSomeSelectedTag = computed(() =>
-    withLogSync(
+  const showedPastasTagsSortedByAlphabetCaseInsensitive = computed(() => {
+    return withLogSync(
       () =>
-        allPastas.value.filter((pasta) => {
-          return selectedPastaTags.value.some((selectedTag) =>
-            pasta.tags.includes(selectedTag),
-          );
-        }),
-      "pastasWithSomeSelectedTag",
-    ),
-  );
+        [...new Set(showedPastas.value.flatMap((pasta) => pasta.tags))].sort(
+          (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
+        ),
+      "showedPastasTagsSortedByAlphabet",
+    );
+  });
 
   return {
     selectedPastaTags,
-    mustRespectedMinimalTagsCount,
     mustRespectSelectedTags,
-    minimalTagsCountToHave,
     tagsToSelect: computed(() => {
       if (!selectedPastaTags.value.length) {
-        return allUniqueTagsSortedByAlphabetCaseInsensitive.value;
+        return allPastasUniqueTagsSortedByAlphabetCaseInsensitive.value;
       }
       return showedPastasTagsSortedByAlphabetCaseInsensitive.value;
     }),
-    pastasWithCurrentTagsStrategy: computed(() => {
+    tagsAppropriatePastas: computed(() => {
       if (mustRespectSelectedTags.value && selectedPastaTags.value.length) {
-        return pastasWithMinimalRequiredTagsCount.value;
+        return pastasWithSelectedTags.value;
       }
       return allPastas.value;
     }),
