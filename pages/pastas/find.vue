@@ -37,10 +37,6 @@
         />
         <find-my-pasta-tags
           v-model:must-respect-selected-tags="mustRespectSelectedTags"
-          v-model:must-respected-minimal-tags-count="
-            mustRespectedMinimalTagsCount
-          "
-          v-model:minimal-tags-count-to-have="minimalTagsCountToHave"
           v-model:selected-pasta-tags="selectedPastaTags"
           :tags-to-select="tagsToSelect"
         />
@@ -69,8 +65,6 @@ const { mustRespectLengthRange, lengthStrategyPastas, ...length } =
   useFindPastasLength(allPastas);
 const {
   mustRespectSelectedTags,
-  mustRespectedMinimalTagsCount,
-  minimalTagsCountToHave,
   pastasWithCurrentTagsStrategy,
   selectedPastaTags,
   tagsToSelect,
