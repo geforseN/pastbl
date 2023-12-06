@@ -60,12 +60,13 @@ const showedPastas = computed(() =>
   withLogSync(() => pastasToShowOnPage.value, "showedPastas"),
 );
 
-const { text, textStrategyPastas } = useFindPastaText(allPastas);
-const { mustRespectLengthRange, lengthStrategyPastas, ...length } =
+const { text, textAppropriatePastas: textStrategyPastas } =
+  useFindPastaText(allPastas);
+const { mustRespectLengthRange, lengthAppropriatePastas, ...length } =
   useFindPastasLength(allPastas);
 const {
   mustRespectSelectedTags,
-  pastasWithCurrentTagsStrategy,
+  tagsAppropriatePastas,
   selectedPastaTags,
   tagsToSelect,
 } = useFindPastasTags(allPastas, showedPastas);
@@ -83,8 +84,8 @@ const sortedUniqueShowedPastasTagsLengths = computed(() => {
 const sortedByLengthPastaLists = computed(() => {
   return [
     textStrategyPastas,
-    lengthStrategyPastas,
-    pastasWithCurrentTagsStrategy,
+    lengthAppropriatePastas,
+    tagsAppropriatePastas,
   ].sort((a, b) => a.value.length - b.value.length);
 });
 
