@@ -57,9 +57,12 @@ definePageMeta({
 const pastasStore = usePastasStore();
 
 const allPastas = computed(() =>
-  withLogSync(() => pastasStore.shallowRawNewestPastas, "a"),
+  withLogSync(() => pastasStore.shallowRawNewestPastas, "allPastas"),
 );
-const showedPastas = computed(() => pastasToShowOnPage.value);
+
+const showedPastas = computed(() =>
+  withLogSync(() => pastasToShowOnPage.value, "showedPastas"),
+);
 
 const { text, textStrategyPastas } = useFindPastaText(allPastas);
 const { mustRespectLengthRange, lengthStrategyPastas, ...length } =
@@ -94,7 +97,6 @@ const sortedByLengthPastaLists = computed(() => {
 const pastasToShowOnPage = computed(() => {
   const [smallestPastaList, ...othersPastaLists] =
     sortedByLengthPastaLists.value;
-  console.log("pastasToShowOnPage");
   return smallestPastaList.value.filter((pasta) =>
     othersPastaLists.every((pastaList) =>
       pastaList.value.some((pasta_) => pasta_.id === pasta.id),
