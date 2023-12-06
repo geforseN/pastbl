@@ -1,7 +1,7 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h2 class="collapse-title text-xl font-bold">Tags</h2>
+    <h2 class="collapse-title text-xl font-bold">Tags to include</h2>
     <div class="collapse-content flex flex-col gap-1">
       <article class="flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-tags">
@@ -9,32 +9,43 @@
         </label>
         <input
           id="must-respect-selected-tags"
-          v-model="respect"
+          v-model="mustRespectSelectedTags"
           type="checkbox"
           class="toggle toggle-primary"
         />
       </article>
-      <article class="flex items-center justify-between">
+      <!-- <article class="flex items-center justify-between">
         <label class="cursor-pointer" for="must-be-tags-in-pasta">
-          <h3>Must be at least one tag</h3>
+          <h3>
+            Must be at least
+            <input
+              v-model="minimalTagsCountToHave"
+              type="number"
+              class="w-6"
+              min="1"
+              max="10"
+            />
+            <template v-if="minimalTagsCountToHave === 1">tag</template>
+            <template v-else>tags</template>
+          </h3>
         </label>
         <input
           id="must-be-tags-in-pasta"
-          v-model="mustBeTagsInPasta"
+          v-model="mustRespectedMinimalTagsCount"
           type="checkbox"
           class="toggle toggle-primary"
         />
-      </article>
+      </article> -->
       <div>
         <select
           id="selected-pasta-tags"
-          v-model="selectedTagsModel"
-          :disabled="props.mustSelectBeDisabled"
+          v-model="selectedPastaTags"
+          :disabled="!mustRespectSelectedTags"
           multiple
           class="select select-primary !h-40 w-full p-2"
         >
           <option
-            v-for="tag of props.pastaTagsToShow"
+            v-for="tag of props.tagsToSelect"
             :key="tag"
             :value="tag"
             class="h-6 p-1 odd:bg-base-300"
@@ -56,20 +67,29 @@
   </section>
 </template>
 <script setup lang="ts">
-const respect = defineModel("respect", {
+const mustRespectedMinimalTagsCount = defineModel(
+  "mustRespectedMinimalTagsCount",
+  {
+    required: true,
+    type: Boolean,
+  },
+);
+const mustRespectSelectedTags = defineModel("mustRespectSelectedTags", {
   required: true,
   type: Boolean,
 });
-const mustBeTagsInPasta = defineModel("mustBeTagsInPasta", {
-  required: true,
-  type: Boolean,
-});
-const selectedTagsModel = defineModel("selectedPastaTags", {
+
+const selectedPastaTags = defineModel("selectedPastaTags", {
   required: true,
   type: Array<string>,
 });
+
+const minimalTagsCountToHave = defineModel("minimalTagsCountToHave", {
+  required: true,
+  type: Number,
+});
+
 const props = defineProps<{
-  pastaTagsToShow: string[];
-  mustSelectBeDisabled: boolean;
+  tagsToSelect: string[];
 }>();
 </script>
