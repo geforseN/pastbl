@@ -110,12 +110,3 @@ export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
     textStrategyPastas,
   };
 }
-
-export function useFindPastas(pastas: IDBMegaPasta[]) {
-  const sortStrategy = ref<
-    | "fromNewestToOldest"
-    | "fromOldestToNewest"
-    | "fromLongestToShortest"
-    | "fromShortestToLongest"
-  >("fromNewestToOldest");
-}
