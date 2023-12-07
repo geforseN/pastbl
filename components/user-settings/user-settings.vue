@@ -5,10 +5,7 @@
     </h2>
     <user-settings-badges v-model="userStore.user.badges.count" />
     <user-settings-nickname v-model="userStore.user.nickname" />
-    <!-- FIXME: use debounce for color, this input is block main thread so much -->
-    <user-settings-nickname-color
-      v-model="userStore.preferences.nickname.color"
-    />
+    <user-settings-nickname-color v-model="userStore.nicknameColor" />
     <user-settings-alerts
       v-model:pasta-copied="
         userStore.user.preferences.alerts.copypastaCopy.mustShowOnSuccess
