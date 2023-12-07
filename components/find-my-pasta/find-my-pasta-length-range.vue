@@ -1,7 +1,7 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h3 class="collapse-title text-xl font-bold">Length</h3>
+    <h3 class="collapse-title text-xl font-bold">Length range</h3>
     <div class="collapse-content">
       <article class="mb-3 flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-length">
