@@ -42,18 +42,18 @@
 const userStore = useUserStore();
 </script>
 <style scoped>
-article:focus-within {
+.form-control:focus-within {
   position: relative;
   border-color: theme(colors.base-content);
   background-color: theme(colors.base-300);
 }
 
-article:focus-within + article {
+.form-control:focus-within + .form-control {
   border-top-color: theme(colors.base-content);
 }
 
-article:focus-within::before,
-article:focus-within::after {
+.form-control:focus-within::before,
+.form-control:focus-within::after {
   content: "";
   position: absolute;
   top: 0;
@@ -62,11 +62,11 @@ article:focus-within::after {
   background-color: theme(colors.base-300);
 }
 
-article:focus-within::before {
+.form-control:focus-within::before {
   left: -0.5rem;
 }
 
-article:focus-within::after {
+.form-control:focus-within::after {
   right: -0.5rem;
 }
 </style>
