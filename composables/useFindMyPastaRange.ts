@@ -15,6 +15,7 @@ export function useFindMyPastaRange() {
     () => maxValue.value,
     (newMaxValue) => (range.value[1] = newMaxValue),
   );
+
   return {
     range,
     minValue,
