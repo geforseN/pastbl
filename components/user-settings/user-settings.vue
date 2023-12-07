@@ -11,6 +11,31 @@
         userStore.user.preferences.alerts.copypastaCopy.mustShowOnSuccess
       "
     />
+    <div>
+      <fieldset class="rounded border-2 p-2">
+        <legend class="-ml-1 -translate-x-1 pl-2 text-xl">
+          Play sound on:
+        </legend>
+        <article class="flex items-center justify-between rounded px-2">
+          <label
+            for="must-play-sound-pasta-copied"
+            class="label cursor-pointer text-xl font-medium"
+          >
+            <h3>Pasta Copied</h3>
+          </label>
+          <input
+            id="must-play-sound-pasta-copied"
+            v-model="
+              userStore.user.preferences.sounds.copypastaCopy.mustSoundOnSuccess
+            "
+            class="toggle toggle-secondary"
+            name="must-show-alert-pasta-copied"
+            type="checkbox"
+            label="Pasta Created"
+          />
+        </article>
+      </fieldset>
+    </div>
   </section>
 </template>
 <script setup lang="ts">
