@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <div role="tablist" class="tabs tabs-lifted w-96 rounded-[10px] border-2">
+  <div class="rounded-box border-2 p-2">
+    <div>Global emotes</div>
+    <div
+      role="tablist"
+      class="tabs tabs-lifted w-96 rounded-[10px] border border-base-300"
+    >
       <template
         v-for="source in ['BetterTTV', 'FrankerFaceZ', 'SevenTV']"
         :key="source"
@@ -17,27 +21,22 @@
             v-if="source === 'BetterTTV'"
             class="pt-1"
             :sets="
-              collectionsStore.globalCollectionsEntries.find(
-                (entry) => entry[1].source === 'BetterTTV',
-              )?.[1].sets
+              collectionsStore.global.getCollectionWithSource('BetterTTV')?.sets
             "
           />
           <emote-collection-ffz-sets
             v-else-if="source === 'FrankerFaceZ'"
             class="flex flex-col gap-1 pt-1"
             :sets="
-              collectionsStore.globalCollectionsEntries.find(
-                (entry) => entry[1].source === 'FrankerFaceZ',
-              )?.[1].sets
+              collectionsStore.global.getCollectionWithSource('FrankerFaceZ')
+                ?.sets
             "
           />
           <emote-collection-seventv-sets
             v-else-if="source === 'SevenTV'"
             class="pt-1"
             :sets="
-              collectionsStore.globalCollectionsEntries.find(
-                (entry) => entry[1].source === 'SevenTV',
-              )?.[1].sets
+              collectionsStore.global.getCollectionWithSource('SevenTV')?.sets
             "
           />
         </div>
