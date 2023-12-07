@@ -1,4 +1,4 @@
-import { openDB, type IDBPDatabase } from "idb";
+import { openDB } from "idb";
 import { GlobalEmoteCollections } from "./GlobalEmoteCollections";
 import { UsersEmoteCollections } from "./UsersEmoteCollections";
 import { type EmoteCollectionsSchema } from "~/client-only/IndexedDB";
@@ -16,12 +16,16 @@ const openEmoteCollectionsIdb = openDB<EmoteCollectionsSchema>(
   3,
   {
     upgrade(database) {
-      database.createObjectStore("users", {
-        keyPath: "twitch.username",
-      });
-      database.createObjectStore("global", {
-        keyPath: "source",
-      });
+      if (!database.objectStoreNames.contains("users")) {
+        database.createObjectStore("users", {
+          keyPath: "twitch.username",
+        });
+      }
+      if (!database.objectStoreNames.contains("global")) {
+        database.createObjectStore("global", {
+          keyPath: "source",
+        });
+      }
     },
   },
 );

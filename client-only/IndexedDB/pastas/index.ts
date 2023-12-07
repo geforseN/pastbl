@@ -63,24 +63,30 @@ class PastasStore {
 function openPastasIdb() {
   return openDB<PastasSchema>("pastas", 2, {
     upgrade(database, _oldVersion, _newVersion, _transaction) {
-      const pastasStore = database.createObjectStore("list", {
-        keyPath: "id",
-        autoIncrement: true,
-      });
-      pastasStore.createIndex("byLength", "length", { unique: false });
-      pastasStore.createIndex("byCreatedAt", "createdAt", { unique: true });
-      pastasStore.createIndex("byTags", "tags", {
-        unique: false,
-        multiEntry: true,
-      });
-      pastasStore.createIndex("byText", "text", { unique: true });
-      pastasStore.createIndex("byValidTokens", "validTokens", {
-        unique: false,
-        multiEntry: true,
-      });
-      database.createObjectStore("bin", {
-        keyPath: "id",
-      });
+      if (!database.objectStoreNames.contains("list")) {
+        const pastasStore = database.createObjectStore("list", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+        pastasStore.createIndex("byLength", "length", { unique: false });
+        pastasStore.createIndex("byCreatedAt", "createdAt", {
+          unique: true,
+        });
+        pastasStore.createIndex("byTags", "tags", {
+          unique: false,
+          multiEntry: true,
+        });
+        pastasStore.createIndex("byText", "text", { unique: true });
+        pastasStore.createIndex("byValidTokens", "validTokens", {
+          unique: false,
+          multiEntry: true,
+        });
+      }
+      if (!database.objectStoreNames.contains("bin")) {
+        database.createObjectStore("bin", {
+          keyPath: "id",
+        });
+      }
     },
   });
 }
