@@ -3,10 +3,7 @@
     class="mt-2 flex flex-col-reverse items-center justify-center gap-x-12 gap-y-4 go-brr:flex-row go-brr:items-start"
   >
     <!-- NOTE: for below component w-full and max-w-[414px] is necessary for no layout shift -->
-    <find-my-pasta-list
-      class="w-full max-w-[414px]"
-      :pastas="pastasToShowOnPage"
-    />
+    <find-my-pasta-list class="w-full max-w-[414px]" :pastas="showedPastas" />
     <div class="flex w-96 flex-col gap-2">
       <section class="flex w-full flex-col gap-1 rounded-box border-2 p-2">
         <h2
@@ -59,8 +56,7 @@ const showedPastas = computed(() =>
   withLogSync(() => pastasToShowOnPage.value, "showedPastas"),
 );
 
-const { text, textAppropriatePastas: textStrategyPastas } =
-  useFindPastaText(allPastas);
+const { text, textAppropriatePastas } = useFindPastaText(allPastas);
 const { mustRespectLengthRange, lengthAppropriatePastas, ...length } =
   useFindPastasLength(allPastas);
 const {
@@ -72,7 +68,7 @@ const {
 
 const sortedByLengthPastaLists = computed(() => {
   return [
-    textStrategyPastas,
+    textAppropriatePastas,
     lengthAppropriatePastas,
     tagsAppropriatePastas,
   ].sort((a, b) => a.value.length - b.value.length);
