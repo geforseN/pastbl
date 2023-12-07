@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-96 flex-col gap-2">
+  <div class="flex flex-col gap-2">
     <pasta-form-collapse />
     <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link
