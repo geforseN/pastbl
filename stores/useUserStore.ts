@@ -30,12 +30,20 @@ export const useUserStore = defineStore(
     // debounce us useful because this storage uses localStorage persist
     // because of persist usage main thread was significantly blocked when color was not throttled
 
-    const nicknameColorDebounced = refDebounced(nicknameColor, 1_000);
+    watchThrottled(
+      nicknameColor,
+      (color) => {
+        user.value.preferences.nickname.color = color;
+      },
+      {
+        throttle: 500,
+      },
+    );
 
     const user = ref<User>({
       nickname: "Kappa",
       preferences: {
-        nickname: { color: nicknameColorDebounced.value },
+        nickname: { color: "#CC0000" },
         alerts: {
           copypastaCopy: {
             mustShowOnSuccess: true,
@@ -49,6 +57,14 @@ export const useUserStore = defineStore(
       },
       badges: { count: 1 },
     });
+
+    watchOnce(
+      () => user.value.preferences.nickname.color,
+      (color) => {
+        nicknameColor.value = color;
+      },
+      { flush: "sync" },
+    );
 
     const preferences = computed(() => user.value.preferences);
 
