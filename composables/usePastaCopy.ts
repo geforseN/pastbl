@@ -34,7 +34,7 @@ export function usePastaCopy({
           });
         }
         if (userStore.preferences.sounds.copypastaCopy.mustSoundOnSuccess) {
-          // TODO add useSound
+          await new Audio("/sounds/click.wav").play().catch(() => {});
         }
         const pastasIdb = await import("~/client-only/IndexedDB/index").then(
           ({ idb }) => idb.pastas,
