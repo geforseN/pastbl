@@ -26,14 +26,14 @@ export function usePastaCopy({
         if (!clipboard.copied) {
           throw new Error("Pasta was not copied");
         }
-        if (userStore.preferences.alerts.copypastaCopy.mustShowOnSuccess) {
+        if (userStore.preferences.pasta.oncopy.includes("alert")) {
           toast.add({
             description: "Pasta copied successfully",
             title: "Copypasta 🤙🤙🤙",
             timeout: 1_700,
           });
         }
-        if (userStore.preferences.sounds.copypastaCopy.mustSoundOnSuccess) {
+        if (userStore.preferences.pasta.oncopy.includes("sound")) {
           await new Audio("/sounds/click.wav").play().catch(() => {});
         }
         const pastasIdb = await import("~/client-only/IndexedDB/index").then(

@@ -7,15 +7,8 @@ type User = {
       // NOTE: color must be HEX format (# and 6 digits)
       color: string;
     };
-    alerts: {
-      copypastaCopy: {
-        mustShowOnSuccess: boolean;
-      };
-    };
-    sounds: {
-      copypastaCopy: {
-        mustSoundOnSuccess: boolean;
-      };
+    pasta: {
+      oncopy: "none" | "alert" | "sound" | "alert sound";
     };
   };
   badges: { count: number };
@@ -44,15 +37,8 @@ export const useUserStore = defineStore(
       nickname: "Kappa",
       preferences: {
         nickname: { color: "#CC0000" },
-        alerts: {
-          copypastaCopy: {
-            mustShowOnSuccess: true,
-          },
-        },
-        sounds: {
-          copypastaCopy: {
-            mustSoundOnSuccess: true,
-          },
+        pasta: {
+          oncopy: "none",
         },
       },
       badges: { count: 1 },
