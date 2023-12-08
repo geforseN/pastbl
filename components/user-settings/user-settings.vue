@@ -6,35 +6,21 @@
     <user-settings-badges v-model="userStore.user.badges.count" />
     <user-settings-nickname v-model="userStore.user.nickname" />
     <user-settings-nickname-color v-model="userStore.nicknameColor" />
-    <user-settings-alerts
-      v-model:pasta-copied="
-        userStore.user.preferences.alerts.copypastaCopy.mustShowOnSuccess
-      "
-    />
-    <div>
-      <fieldset class="rounded border-2 p-2">
-        <legend class="-ml-1 -translate-x-1 pl-2 text-xl">
-          Play sound on:
-        </legend>
-        <article class="flex items-center justify-between rounded px-2">
-          <label
-            for="must-play-sound-pasta-copied"
-            class="label cursor-pointer text-xl font-medium"
-          >
-            <h3>Pasta Copied</h3>
-          </label>
-          <input
-            id="must-play-sound-pasta-copied"
-            v-model="
-              userStore.user.preferences.sounds.copypastaCopy.mustSoundOnSuccess
-            "
-            class="toggle toggle-secondary"
-            name="must-show-alert-pasta-copied"
-            type="checkbox"
-            label="Pasta Created"
-          />
-        </article>
-      </fieldset>
+    <div class="form-control">
+      <label for="pasta-oncopy" class="label cursor-pointer text-xl font-medium"
+        >When pasta copied</label
+      >
+      <select
+        id="pasta-oncopy"
+        v-model="userStore.user.preferences.pasta.oncopy"
+        class="select select-secondary"
+        name="pasta-oncopy"
+      >
+        <option value="none">Do nothing</option>
+        <option value="alert">Show alert</option>
+        <option value="sound">Play sound</option>
+        <option value="alert sound">Show alert & Play sound</option>
+      </select>
     </div>
   </section>
 </template>
