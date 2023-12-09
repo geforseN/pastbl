@@ -32,7 +32,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ idb }) => idb.pastas,
       );
-      const idbPastas = await pastasIdb.getAllPastas();
+      const idbPastas = await pastasIdb.list.getAllPastas();
       if (process.dev) {
         // eslint-disable-next-line no-console
         console.log({ idbPastas });
@@ -115,7 +115,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      const idbPasta = await pastasIdb.addPasta(newPasta).catch(() => {
+      const idbPasta = await pastasIdb.list.addPasta(newPasta).catch(() => {
         const error = new ExtendedError(
           "Pasta with the same text already exist",
           {

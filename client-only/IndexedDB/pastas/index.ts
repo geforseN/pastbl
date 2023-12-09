@@ -24,28 +24,13 @@ class PastasTransaction {
   }
 }
 
-class Pastas {
+class PastasList {
   // eslint-disable-next-line no-useless-constructor
-  constructor(
-    private readonly idb: IDBPDatabase<PastasSchema>,
-    public readonly transactions: PastasTransaction,
-  ) {}
-
-  async getLastPastasInCount(countToGet: number) {
-    const store = this.idb.transaction("list").store;
-    const allPastaCount = await store.count();
-    const indexToStart =
-      allPastaCount > countToGet ? allPastaCount - countToGet : 0;
-    return store.getAll(IDBKeyRange.lowerBound(indexToStart, true)) as Promise<
-      IDBMegaPasta[]
-    >;
-  }
+  constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
   updatePastaLastCopied(pasta: IDBMegaPasta) {
     return this.idb.put("list", {
       ...pasta,
-      tags: toRaw(pasta.tags),
-      validTokens: toRaw(pasta.validTokens),
       populatedText: undefined,
       lastCopiedAt: Date.now(),
     });
@@ -66,24 +51,14 @@ class Pastas {
       id: pastaId,
     };
   }
+}
 
-  removePastaById(id: IDBMegaPasta["id"]) {
-    return this.idb.transaction("list", "readwrite").store.delete(id);
-  }
-
-  addPastaToBin(pasta: IDBMegaPasta) {
-    return this.idb
-      .transaction("bin", "readwrite")
-      .objectStore("bin")
-      .add(pasta);
-  }
-
-  removePastaFromBinById(id: IDBMegaPasta["id"]) {
-    return this.idb
-      .transaction("bin", "readwrite")
-      .objectStore("bin")
-      .delete(id);
-  }
+class Pastas {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    public readonly list: PastasList,
+    public readonly transactions: PastasTransaction,
+  ) {}
 }
 
 function openPastasIdb() {
@@ -118,5 +93,5 @@ function openPastasIdb() {
 }
 
 export const pastasIdb = openPastasIdb().then(
-  (idb) => new Pastas(idb, new PastasTransaction(idb)),
+  (idb) => new Pastas(new PastasList(idb), new PastasTransaction(idb)),
 );
