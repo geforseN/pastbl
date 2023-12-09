@@ -1,9 +1,35 @@
 import { openDB, type IDBPDatabase } from "idb";
 import type { PastasSchema } from "..";
 
-class PastasStore {
+class PastasTransaction {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
+
+  async movePastaFromListToBin(pasta: IDBMegaPasta) {
+    const tx = this.idb.transaction(["list", "bin"], "readwrite");
+    return await Promise.all([
+      tx.objectStore("list").delete(pasta.id),
+      tx.objectStore("bin").put(pasta),
+      tx.done,
+    ]);
+  }
+
+  async movePastaFromBinToList(pasta: IDBMegaPasta) {
+    const tx = this.idb.transaction(["bin", "list"], "readwrite");
+    return await Promise.all([
+      tx.objectStore("bin").delete(pasta.id),
+      tx.objectStore("list").put(pasta),
+      tx.done,
+    ]);
+  }
+}
+
+class Pastas {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private readonly idb: IDBPDatabase<PastasSchema>,
+    public readonly transactions: PastasTransaction,
+  ) {}
 
   async getLastPastasInCount(countToGet: number) {
     const store = this.idb.transaction("list").store;
@@ -91,4 +117,6 @@ function openPastasIdb() {
   });
 }
 
-export const pastasIdb = openPastasIdb().then((idb) => new PastasStore(idb));
+export const pastasIdb = openPastasIdb().then(
+  (idb) => new Pastas(idb, new PastasTransaction(idb)),
+);
