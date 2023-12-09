@@ -135,9 +135,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
-      await pastasIdb.addPastaToBin(toRaw(pastaToRemove));
-      await pastasIdb.removePastaById(pastaToRemove.id);
+      await pastasIdb.transactions.movePastaFromListToBin(pastaToRemove);
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
@@ -146,9 +144,7 @@ export const usePastasStore = defineStore("pastas", () => {
               0,
               removedPasta,
             );
-            // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
-            await pastasIdb.removePastaFromBinById(removedPasta.id);
-            await pastasIdb.addPasta(toRaw(removedPasta));
+            await pastasIdb.transactions.movePastaFromBinToList(removedPasta);
           },
         }),
       );
