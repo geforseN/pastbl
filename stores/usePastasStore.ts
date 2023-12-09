@@ -27,17 +27,21 @@ async function handleEmotePopulateForPastas(addedPastas: MegaPasta[]) {
 }
 
 export const usePastasStore = defineStore("pastas", () => {
-  const pastas = useAsyncState(async () => {
-    const pastasIdb = await import("~/client-only/IndexedDB/index").then(
-      ({ idb }) => idb.pastas,
-    );
-    const idbPastas = await pastasIdb.getAllPastas();
-    if (process.dev) {
-      // eslint-disable-next-line no-console
-      console.log({ idbPastas });
-    }
-    return idbPastas;
-  }, []);
+  const pastas = useAsyncState(
+    async () => {
+      const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+        ({ idb }) => idb.pastas,
+      );
+      const idbPastas = await pastasIdb.getAllPastas();
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.log({ idbPastas });
+      }
+      return idbPastas;
+    },
+    [],
+    { shallow: true },
+  );
 
   const toast = useNuxtToast();
 
@@ -134,11 +138,12 @@ export const usePastasStore = defineStore("pastas", () => {
         toast.add(error);
         throw error;
       });
-      pastas.state.value.push(idbPasta);
+      pastas.state.value = [...pastas.state.value, idbPasta];
     },
     async removePasta(pastaToRemove: IDBMegaPasta) {
       const index = getPastaIndexById(pastaToRemove.id);
-      const [removedPasta] = pastas.state.value.splice(index, 1);
+      const removedPasta = pastas.state.value[index];
+      pastas.state.value = pastas.state.value.toSpliced(index, 1);
       const pastasIdb = await import("~/client-only/IndexedDB/index").then(
         ({ pastasIdb }) => pastasIdb,
       );
@@ -148,7 +153,11 @@ export const usePastasStore = defineStore("pastas", () => {
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
-            pastas.state.value.splice(index, 0, removedPasta);
+            pastas.state.value = pastas.state.value.toSpliced(
+              index,
+              0,
+              removedPasta,
+            );
             // TODO: remake two lines below, make it into one transaction (refactor pastas idb module)
             await pastasIdb.removePastaFromBinById(removedPasta.id);
             await pastasIdb.addPasta(toRaw(removedPasta));
