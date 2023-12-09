@@ -49,7 +49,7 @@ definePageMeta({
 const pastasStore = usePastasStore();
 
 const allPastas = computed(() =>
-  withLogSync(() => pastasStore.shallowRawNewestPastas, "allPastas"),
+  withLogSync(() => pastasStore.pastasSortedByNewest, "allPastas"),
 );
 
 const showedPastas = computed(() =>

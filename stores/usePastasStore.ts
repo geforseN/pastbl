@@ -59,14 +59,6 @@ export const usePastasStore = defineStore("pastas", () => {
     return index;
   }
 
-  const shallowRawPastas = computed(() =>
-    pastas.state.value.map((pasta) => ({
-      ...pasta,
-      validTokens: toRaw(pasta.validTokens),
-      tags: toRaw(pasta.tags),
-    })),
-  );
-
   const allTags = computed(() => {
     return [...new Set(pastas.state.value.flatMap((pasta) => pasta.tags))];
   });
@@ -75,10 +67,6 @@ export const usePastasStore = defineStore("pastas", () => {
     pastas,
     pastasSortedByNewest: computed(() =>
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
-    ),
-    shallowRawPastas,
-    shallowRawNewestPastas: computed(() =>
-      [...shallowRawPastas.value].sort((a, b) => b.createdAt - a.createdAt),
     ),
     allTags,
     allTagsSorted: computed(() =>
