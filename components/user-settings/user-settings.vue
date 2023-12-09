@@ -6,7 +6,7 @@
     <user-settings-badges v-model="userStore.user.badges.count" />
     <user-settings-nickname v-model="userStore.user.nickname" />
     <user-settings-nickname-color v-model="userStore.nicknameColor" />
-    <div class="form-control">
+    <div class="form-control p-2">
       <label for="pasta-oncopy" class="label cursor-pointer text-xl font-medium"
         >When pasta copied</label
       >
