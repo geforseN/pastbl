@@ -14,11 +14,11 @@
       <slot name="addTagSuggestions" />
     </datalist>
     <button
-      class="btn btn-secondary join-item box-content border border-base-content px-2 text-3xl text-base-content hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
+      class="btn btn-secondary join-item box-content grow border border-base-content px-2 text-3xl text-base-content hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
       @click.prevent="emitTag"
     >
       +
-      <span class="text-base">add tag</span>
+      <span class="text-base uppercase">add tag</span>
     </button>
   </div>
 </template>
