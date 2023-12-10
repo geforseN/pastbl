@@ -33,12 +33,23 @@ export const useCollectionsStore = defineStore("collections", () => {
 function useGlobalCollections() {
   const isActiveGlobalEvaluating = ref(false);
 
-  const globalCollections = useAsyncState(async () => {
-    const emoteCollections = await import("~/client-only/IndexedDB/index").then(
-      ({ idb }) => idb.emoteCollections,
-    );
-    return emoteCollections.global.getAllCollections();
-  }, []);
+  const globalCollections = useAsyncState(
+    async () => {
+      const emoteCollections = await import("~/client-only/IndexedDB").then(
+        ({ idb }) => idb.emoteCollections,
+      );
+      return emoteCollections.global.getAllCollections();
+    },
+    [],
+    { shallow: true },
+  );
+
+  const missingGlobalCollectionsSources = computed(() => {
+    if (!globalCollections.isReady) {
+      return [];
+    }
+    return globalCollections.state.value.filter(isGlobalCollectionMissing);
+  });
 
   computed;
 
@@ -64,21 +75,24 @@ function useGlobalCollections() {
     );
     assert.ok(index >= 0, "Can not update the collection which is not exist");
     globalCollections.state.value.splice(index, 1, newIdbCollection);
+    triggerRef(globalCollections.state);
   }
   return {
     globalCollections,
+    missingGlobalCollectionsSources,
     isActiveGlobalCollectionEvaluating: isActiveGlobalEvaluating,
     async addGlobalCollection(collection: IGlobalEmoteCollection) {
-      const emoteCollectionsIdb = await import(
-        "~/client-only/IndexedDB/index"
-      ).then(({ idb }) => idb.emoteCollections);
+      const emoteCollectionsIdb = await import("~/client-only/IndexedDB").then(
+        ({ idb }) => idb.emoteCollections,
+      );
       await emoteCollectionsIdb.global.addCollection(collection);
       globalCollections.state.value.push(collection);
+      triggerRef(globalCollections.state);
     },
     async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
-      const emoteCollectionsIdb = await import(
-        "~/client-only/IndexedDB/index"
-      ).then(({ idb }) => idb.emoteCollections);
+      const emoteCollectionsIdb = await import("~/client-only/IndexedDB").then(
+        ({ idb }) => idb.emoteCollections,
+      );
       const newIdbCollection =
         await emoteCollectionsIdb.global.refreshCollection(collection);
       updateCollection(newIdbCollection);
