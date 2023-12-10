@@ -15,7 +15,7 @@ export function createBTTVUserCollection(
   ] as const;
 
   return new BTTVUserCollection(
-    { ...user, avatarUrl: user.avatar },
+    { avatarUrl: user.avatar, id: user.id, twitch: user.twitch },
     setEntries
       .filter(([, emotesList]) => emotesList.length)
       .map(([name, emotes, emoteType, id]) => {
