@@ -31,6 +31,11 @@
       <selected-user-collection
         :collection="userCollectionsStore.selectedCollection"
         :is-collection-selected="true"
+        @update="
+          () => {
+            /* TODO */
+          }
+        "
       />
     </div>
     <section class="rounded-box border-2 p-2">
