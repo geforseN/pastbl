@@ -23,35 +23,20 @@ export const useGlobalCollectionsStore = defineStore(
       { shallow: true },
     );
 
-    const collectionSources = computed(() => {
-      if (!asyncState.isReady) {
-        return [];
-      }
-      return asyncState.state.value.map((collection) => collection.source);
-    });
-
-    const missingSources = computed(() => {
-      if (!asyncState.isReady) {
-        return [];
-      }
-      return asyncState.state.value
+    watch(asyncState.state, async (state) => {
+      const missingSources = state
         .filter(isGlobalCollectionMissing)
         .map((collection) => collection.source);
+      if (!missingSources.length) {
+        return;
+      }
+      const collections = await loadMissingGlobalCollections(missingSources);
+      asyncState.state.value.push(...collections);
+      triggerRef(asyncState.state);
     });
-
-    watch(
-      () => missingSources.value,
-      async (missingSources) => {
-        const collections = await loadMissingGlobalCollections(missingSources);
-        asyncState.state.value.push(...collections);
-        triggerRef(asyncState.state);
-      },
-    );
 
     return {
       asyncState,
-      missingSources,
-      collectionSources,
       async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
         const newIdbCollection = await refreshGlobalCollection(collection);
         const index = asyncState.state.value.findIndex(
