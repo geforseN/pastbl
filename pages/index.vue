@@ -27,7 +27,7 @@
       </nuxt-link>
     </div>
     <div class="rounded-box border-2 px-4 py-2">
-      <nuxt-link to="/user/_emotes">
+      <nuxt-link to="/emotes">
         <span
           class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
@@ -38,11 +38,7 @@
           <div class="flex items-center gap-1">
             <span class="mr-4 flex flex-col gap-1">
               <icon-emote-integration-logo
-                v-for="source of [
-                'FrankerFaceZ',
-                'BetterTTV',
-                'SevenTV',
-              ] as const"
+                v-for="source of availableEmoteSources"
                 v-once
                 :key="source"
                 :class="
@@ -61,30 +57,8 @@
     </div>
   </div>
 </template>
-
 <script setup lang="tsx">
-import { availableEmoteSources, globalEmotesGetters } from "~/integrations";
-
-onBeforeMount(() => {
-  addMissingGlobalEmotesCollections();
-});
-
-async function addMissingGlobalEmotesCollections() {
-  const emoteCollectionsIdb = await import(
-    "~/client-only/IndexedDB/index"
-  ).then(({ idb }) => idb.emoteCollections);
-  const collectionsStore = useCollectionsStore();
-  const addedGlobalCollectionNames =
-    await emoteCollectionsIdb.global.getAllCollectionsKeys();
-  const sourcesToLoad = availableEmoteSources.filter(
-    (source) => !addedGlobalCollectionNames.includes(source),
-  );
-  for (const sourceToLoad of sourcesToLoad) {
-    const getGlobalCollection = globalEmotesGetters[sourceToLoad];
-    const globalCollection = await getGlobalCollection();
-    collectionsStore.global.addCollection(globalCollection);
-  }
-}
+import { availableEmoteSources } from "~/integrations";
 </script>
 <style>
 html,
