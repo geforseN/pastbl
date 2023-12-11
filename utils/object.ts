@@ -33,3 +33,21 @@ export function groupBy<T, V extends string | number | symbol>(
     {} as Record<V, T>,
   );
 }
+
+export function groupBy2<T, KV extends string | number | symbol, V>(
+  array: T[],
+  keyCallback: (value: T, index: number, array: T[]) => KV,
+  valueCallback: (value: T, index: number, array: T[]) => V,
+): Record<KV, V> {
+  return array.reduce(
+    (record, value, index, array) => {
+      record[keyCallback(value, index, array)] = valueCallback(
+        value,
+        index,
+        array,
+      );
+      return record;
+    },
+    {} as Record<KV, V>,
+  );
+}
