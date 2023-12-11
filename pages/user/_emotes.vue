@@ -6,38 +6,38 @@
       <div class="flex flex-col">
         <span
           >state:
-          {{ userCollectionsStore.activeUserCollectionUsername.state }}
-          {{
-            typeof userCollectionsStore.activeUserCollectionUsername.state
-          }}</span
-        >
+          {{ userCollectionsStore.selectedCollectionUsername.state }}
+          {{ typeof userCollectionsStore.selectedCollectionUsername.state }}
+        </span>
         <span
-          >error :
-          {{ userCollectionsStore.activeUserCollectionUsername.error }}</span
-        >
+          >error:
+          {{ userCollectionsStore.selectedCollectionUsername.error }}
+        </span>
         <span
           >isLoading:
-          {{
-            userCollectionsStore.activeUserCollectionUsername.isLoading
-          }}</span
-        >
+          {{ userCollectionsStore.selectedCollectionUsername.isLoading }}
+        </span>
         <span
           >isReady:
-          {{ userCollectionsStore.activeUserCollectionUsername.isReady }}</span
-        >
+          {{ userCollectionsStore.selectedCollectionUsername.isReady }}
+        </span>
       </div>
+
       <select
-        v-show="userCollectionsStore.usernamesToSelect.isReady"
         id="active-user-collection"
-        v-model="userCollectionsStore.activeUserCollectionUsername.state"
         name="active-user-collection"
+        class="select select-secondary"
+        :disabled="userCollectionsStore.selectedCollectionUsername.isLoading"
+        :class="[
+          userCollectionsStore.selectedCollectionUsername.isLoading &&
+            'skeleton rounded-btn',
+        ]"
         @change="
           (event) => {
-            const { value } = event.target as HTMLSelectElement;
-            if (!value) {
-              return;
-            }
-            userCollectionsStore.activeUserCollectionUsername.execute(0, value);
+            userCollectionsStore.selectedCollectionUsername.execute(
+              3_000,
+              (event.target as HTMLSelectElement).value,
+            );
           }
         "
       >
@@ -46,11 +46,34 @@
           v-for="name of userCollectionsStore.usernamesToSelect.state"
           :key="name"
           :value="name"
-          class="bg-red-500"
+          :selected="
+            name === userCollectionsStore.selectedCollectionUsername.state
+          "
         >
           {{ name }}
         </option>
       </select>
+    </div>
+    <div>
+      selectedUserCollections
+      <div class="flex flex-col">
+        <span>
+          nickname:
+          {{ userCollectionsStore.selectedCollection.state?.twitch?.nickname }}
+        </span>
+        <span>
+          typeof state:
+          {{ typeof userCollectionsStore.selectedCollection.state }}
+        </span>
+        <span>error: {{ userCollectionsStore.selectedCollection.error }}</span>
+        <span
+          >isLoading:
+          {{ userCollectionsStore.selectedCollection.isLoading }}
+        </span>
+        <span
+          >isReady: {{ userCollectionsStore.selectedCollection.isReady }}
+        </span>
+      </div>
     </div>
     <div class="flex">
       <input
