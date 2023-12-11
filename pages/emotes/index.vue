@@ -1,42 +1,28 @@
 <template>
   <div class="flex flex-col gap-2">
-    <global-emotes />
-
-    <div class="rounded-box border-2 p-2">
-      <section class="p-2">
-        <label for="active-user-collection">
-          <h2 class="text-3xl font-bold">Select active user collection</h2>
-        </label>
-        <select
-          id="active-user-collection"
-          ref="userEmoteCollectionSelectRef"
-          name="active-user-collection"
-          class="select select-secondary mt-1 w-full"
-          :disabled="userCollectionsStore.selectedCollectionUsername.isLoading"
-          @input="handleSelectInput"
+    <div class="rounded-box border-2 px-4 py-2">
+      <nuxt-link to="/emotes/global">
+        <span
+          class="flex items-center justify-between gap-2 text-3xl font-bold"
         >
-          <option value="" />
-          <option
-            v-for="name of userCollectionsStore.usernamesToSelect.state"
-            :key="name"
-            :value="name"
-            :selected="
-              name === userCollectionsStore.selectedCollectionUsername.state
-            "
-          >
-            {{ name }}
-          </option>
-        </select>
-      </section>
-      <selected-user-collection
-        :collection="userCollectionsStore.selectedCollection"
-        :is-collection-selected="true"
-        @update="
-          () => {
-            /* TODO */
-          }
-        "
-      />
+          <span class="flex items-center gap-2">
+            <icon name="carbon:link" />
+            Look for global emotes
+          </span>
+        </span>
+      </nuxt-link>
+    </div>
+    <div class="rounded-box border-2 px-4 py-2">
+      <nuxt-link to="/emotes/active">
+        <span
+          class="flex items-center justify-between gap-2 text-3xl font-bold"
+        >
+          <span class="flex items-center gap-2">
+            <icon name="carbon:link" />
+            Select active emotes
+          </span>
+        </span>
+      </nuxt-link>
     </div>
     <section class="rounded-box border-2 p-2">
       <h2 class="-mb-1 p-1 text-3xl font-bold">Load user collection</h2>
@@ -63,16 +49,6 @@ const userCollectionsStore = useUserCollectionsStore();
 const collections = useUserIntegrations();
 
 const nickname = ref("");
-
-const userEmoteCollectionSelectRef = ref<HTMLSelectElement>();
-
-async function handleSelectInput(event: Event) {
-  await userCollectionsStore.selectedCollectionUsername.execute(
-    0,
-    (event.currentTarget as HTMLSelectElement).value,
-  );
-  userEmoteCollectionSelectRef.value?.focus();
-}
 
 async function hg() {
   if (
