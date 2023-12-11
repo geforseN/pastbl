@@ -12,7 +12,7 @@ import {
 export const useGlobalCollectionsStore = defineStore(
   "global-collections",
   () => {
-    const asyncState = useAsyncState(
+    const collections = useAsyncState(
       async () => {
         if (typeof window === "undefined") {
           return [];
@@ -23,31 +23,32 @@ export const useGlobalCollectionsStore = defineStore(
       { shallow: true },
     );
 
-    watch(asyncState.state, async (state) => {
+    watch(collections.state, async (state) => {
       const missingSources = state
         .filter(isGlobalCollectionMissing)
         .map((collection) => collection.source);
       if (!missingSources.length) {
         return;
       }
-      const collections = await loadMissingGlobalCollections(missingSources);
-      asyncState.state.value.push(...collections);
-      triggerRef(asyncState.state);
+      const missingCollections =
+        await loadMissingGlobalCollections(missingSources);
+      collections.state.value.push(...missingCollections);
+      triggerRef(collections.state);
     });
 
     return {
-      asyncState,
+      collections,
       async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
         const newIdbCollection = await refreshGlobalCollection(collection);
-        const index = asyncState.state.value.findIndex(
+        const index = collections.state.value.findIndex(
           (collection) => collection.source === newIdbCollection.source,
         );
         assert.ok(
           index >= 0,
           "Can not update the collection which is not exist",
         );
-        asyncState.state.value.splice(index, 1, newIdbCollection);
-        triggerRef(asyncState.state);
+        collections.state.value.splice(index, 1, newIdbCollection);
+        triggerRef(collections.state);
       },
     };
   },
