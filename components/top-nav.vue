@@ -11,9 +11,9 @@
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link
           class="btn btn-outline border-twitch text-lg text-twitch"
-          to="/user/_emotes"
+          to="/emotes"
         >
-          my emotes
+          emotes
           <icon-emote-integration-logo
             v-for="source of [
               'FrankerFaceZ',
