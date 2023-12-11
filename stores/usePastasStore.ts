@@ -59,23 +59,10 @@ export const usePastasStore = defineStore("pastas", () => {
     return index;
   }
 
-  const allTags = computed(() => {
-    return [...new Set(pastas.state.value.flatMap((pasta) => pasta.tags))];
-  });
-
   return {
     pastas,
     pastasSortedByNewest: computed(() =>
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
-    ),
-    allTags,
-    allTagsSorted: computed(() =>
-      [...allTags.value].sort((a, b) =>
-        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
-      ),
-    ),
-    allTagsSortedByLength: computed(() =>
-      [...allTags.value].sort((a, b) => a.length - b.length),
     ),
     mostPopularTagsEntries: computed(() => {
       return [
@@ -111,11 +98,11 @@ export const usePastasStore = defineStore("pastas", () => {
         });
       }
       const trimmedText = basePasta.text.trim().replaceAll("\n", "");
-      const newPasta = createMegaPasta(trimmedText, basePasta.tags);
-      const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+      const noIdPasta = createMegaPasta(trimmedText, basePasta.tags);
+      const pastasIdb = await import("~/client-only/IndexedDB").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      const idbPasta = await pastasIdb.list.addPasta(newPasta).catch(() => {
+      const pasta = await pastasIdb.list.addPasta(noIdPasta).catch(() => {
         const error = new ExtendedError(
           "Pasta with the same text already exist",
           {
@@ -126,25 +113,23 @@ export const usePastasStore = defineStore("pastas", () => {
         toast.add(error);
         throw error;
       });
-      pastas.state.value = [...pastas.state.value, idbPasta];
+      pastas.state.value.push(pasta);
+      triggerRef(pastas.state);
     },
-    async removePasta(pastaToRemove: IDBMegaPasta) {
-      const index = getPastaIndexById(pastaToRemove.id);
-      const removedPasta = pastas.state.value[index];
-      pastas.state.value = pastas.state.value.toSpliced(index, 1);
-      const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+    async removePasta(pasta: IDBMegaPasta) {
+      const index = getPastaIndexById(pasta.id);
+      const pastasIdb = await import("~/client-only/IndexedDB").then(
         ({ pastasIdb }) => pastasIdb,
       );
-      await pastasIdb.transactions.movePastaFromListToBin(pastaToRemove);
+      await pastasIdb.shared.movePastaFromListToBin(pasta);
+      pastas.state.value.splice(index, 1);
+      triggerRef(pastas.state);
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
-            pastas.state.value = pastas.state.value.toSpliced(
-              index,
-              0,
-              removedPasta,
-            );
-            await pastasIdb.transactions.movePastaFromBinToList(removedPasta);
+            await pastasIdb.shared.movePastaFromBinToList(pasta);
+            pastas.state.value.splice(index, 0, pasta);
+            triggerRef(pastas.state);
           },
         }),
       );
