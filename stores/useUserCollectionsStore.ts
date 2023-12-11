@@ -7,7 +7,6 @@ import {
 } from "~/integrations";
 
 export const useUserCollectionsStore = defineStore("user-collections", () => {
-  const record1 = {};
   const emotesStore = useEmotesStore();
 
   const selectedCollectionUsername = useAsyncState(
@@ -36,13 +35,12 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
       const emoteCollectionsIdb = await idb.emoteCollections;
       return emoteCollectionsIdb.users.getAllCollectionsUsernames();
     },
-    [],
+    [""],
     { shallow: true },
   );
 
   const selectedCollection = useAsyncState(
     async (username: Lowercase<string>) => {
-      console.log("lets go");
       const { idb } = await import("~/client-only/IndexedDB");
       const [emoteCollectionsIdb, emotesIdb] = await Promise.all([
         idb.emoteCollections,
@@ -79,13 +77,10 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
         ...idbCollection,
         collections: emoteCollectionsRecord,
       } as IUserEmoteCollection;
-      console.log({
-        collection,
-      });
       return collection;
     },
-    {} as Partial<IUserEmoteCollection>,
-    { shallow: true, immediate: false },
+    null,
+    { shallow: true, immediate: false, resetOnExecute: false },
   );
 
   watch(selectedCollectionUsername.state, async (username) => {
@@ -102,3 +97,7 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     selectedCollection,
   };
 });
+
+export type SelectedUserCollectionsAsyncState = ReturnType<
+  typeof useUserCollectionsStore
+>["selectedCollection"];
