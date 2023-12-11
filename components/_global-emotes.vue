@@ -1,19 +1,19 @@
 <template>
   <div class="rounded-box border-2 p-2">
-    <div>Global emotes</div>
-    <template v-if="!globalCollectionsStore.asyncState.isReady">
+    <h2 class="px-2 text-3xl font-bold">Global emotes</h2>
+    <template v-if="!globalCollectionsStore.collections.isReady">
       <div>not ready</div>
     </template>
-    <template v-if="globalCollectionsStore.asyncState.isLoading">
+    <template v-if="globalCollectionsStore.collections.isLoading">
       <div>loading</div>
     </template>
     <div
-      v-if="globalCollectionsStore.asyncState.isReady"
+      v-if="globalCollectionsStore.collections.isReady"
       role="tablist"
       class="tabs tabs-lifted w-96 rounded-[10px] border border-base-300"
     >
       <template
-        v-for="collection of globalCollectionsStore.asyncState.state"
+        v-for="collection of globalCollectionsStore.collections.state"
         :key="collection.source"
       >
         <input
