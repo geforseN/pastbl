@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex w-96 flex-col gap-2">
     <div class="rounded-box border-2 p-2">
       <section class="p-2">
         <label for="active-user-collection">
-          <h2 class="text-3xl font-bold">Select active user collection</h2>
+          <h2 class="text-2xl font-bold">Select active user collection</h2>
         </label>
         <select
           id="active-user-collection"
@@ -26,16 +26,16 @@
           </option>
         </select>
       </section>
-      <selected-user-collection
-        :collection="userCollectionsStore.selectedCollection"
-        :is-collection-selected="true"
-        @update="
-          () => {
-            /* TODO */
-          }
-        "
-      />
     </div>
+    <selected-user-collection
+      :collection="userCollectionsStore.selectedCollection"
+      :is-collection-selected="true"
+      @update="
+        () => {
+          /* TODO */
+        }
+      "
+    />
     <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link to="/emotes">
         <span
