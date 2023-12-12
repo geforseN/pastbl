@@ -164,13 +164,13 @@ const use7TVUser = () => {
       if (activeSet.isValid) {
         return withLog(() => activeSet, {
           logKey: "7TVSet",
-          additionalMessage: { isFastReturn: true },
+          additionalMessages: { isFastReturn: true },
         });
       }
       const apiSet = await get7TVSetById(activeSet.id);
       return withLog(() => create7TVUserChannelSet(apiSet), {
         logKey: "7TVSet",
-        additionalMessage: { isFastReturn: false },
+        additionalMessages: { isFastReturn: false },
       });
     },
   );

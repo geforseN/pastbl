@@ -32,12 +32,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const pastasIdb = await import("~/client-only/IndexedDB").then(
         ({ idb }) => idb.pastas,
       );
-      const idbPastas = await pastasIdb.list.getAllPastas();
-      if (process.dev) {
-        // eslint-disable-next-line no-console
-        console.log({ idbPastas });
-      }
-      return idbPastas;
+      return withLog(() => pastasIdb.list.getAllPastas(), "pastas");
     },
     [],
     { shallow: true },
