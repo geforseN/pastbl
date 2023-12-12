@@ -35,10 +35,10 @@
           <span>🔍</span>
         </nuxt-link>
       </li>
-      <li class="ml-2 hidden go-brr:block">
+      <li class="ml-2">
         <nuxt-link
           to="/user/settings#user-settings-heading"
-          class="btn btn-neutral text-lg"
+          class="btn btn-neutral btn-sm xs:btn-md xs:text-lg"
         >
           settings
           <span>⚙️</span>
@@ -47,7 +47,7 @@
       <li class="ml-auto">
         <select
           id="app-theme"
-          class="select select-bordered text-base"
+          class="select select-bordered select-sm w-28 xs:select-md sm:w-max"
           data-choose-theme
           name="select-app-theme"
         >

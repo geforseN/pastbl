@@ -5,10 +5,10 @@
       <li class="w-1/2">
         <nuxt-link
           class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch bg-twitch/10 text-twitch hover:bg-twitch/20"
-          to="/"
+          to="/emotes"
           active-class="border-t-2 border-t-twitch"
         >
-          <span class="w-min break-words uppercase xs:w-auto">my emotes</span>
+          <span class="w-min break-words uppercase xs:w-auto">emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
             <icon-emote-integration-logo
               v-for="source of [
