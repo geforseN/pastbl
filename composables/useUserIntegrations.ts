@@ -222,9 +222,7 @@ export function useUserIntegrations() {
 
   const integrations = useMyAsyncState(
     async (twitchNickname: MaybeRef<string>) => {
-      const username = toValue(
-        twitchNickname,
-      ).toLowerCase() as Lowercase<string>;
+      const username = toLowerCase(toValue(twitchNickname));
       for (const integration of [ffz, bttv, sevenTv]) {
         integration.clearState();
       }
@@ -262,15 +260,15 @@ export function useUserIntegrations() {
         fulfilledCollections,
         (collection) => collection.source,
       );
-      assert.ok(rejectReasons.every(isUserNotFoundError));
-      const failedCollectionsReasons = rejectReasons.reduce(
-        (reasonRecord, notFoundError) => {
-          reasonRecord[notFoundError.source] = notFoundError.message;
-          return reasonRecord;
-        },
-        {} as
-          | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
-          | Record<string, never>,
+      assert.ok(
+        rejectReasons.every(
+          (reason): reason is Error => reason instanceof Error,
+        ),
+      );
+      const failedCollectionsReasons = groupBy(
+        rejectReasons,
+        // @ts-expect-error ts wont yell if below assert will be type guard for ExtendedError
+        (reason, index) => reason.source ?? index,
       );
       if (process.dev) {
         // eslint-disable-next-line no-console
