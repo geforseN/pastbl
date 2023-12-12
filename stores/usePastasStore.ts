@@ -29,7 +29,7 @@ async function handleEmotePopulateForPastas(addedPastas: MegaPasta[]) {
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
-      const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+      const pastasIdb = await import("~/client-only/IndexedDB").then(
         ({ idb }) => idb.pastas,
       );
       const idbPastas = await pastasIdb.list.getAllPastas();
