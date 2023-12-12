@@ -56,10 +56,6 @@ onMounted(() => {
   watch(
     () => newPastas.value,
     async (newPastas, oldPastas) => {
-      console.log("length", {
-        newLength: newPastas.length,
-        oldLength: oldPastas.length,
-      });
       if (!oldPastas.length && !newPastas.length) {
         return;
       }
