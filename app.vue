@@ -49,8 +49,6 @@ onMounted(() => {
   themeChange(false);
   document.documentElement.classList.remove("dark", "light");
 
-  useUserCollectionsStore();
-  useGlobalCollectionsStore();
   const emotesStore = useEmotesStore();
   const pastasStore = usePastasStore();
   const { newPastas } = storeToRefs(pastasStore);
@@ -58,26 +56,29 @@ onMounted(() => {
   watch(
     () => newPastas.value,
     async (newPastas, oldPastas) => {
-      console.log("lets go !!!", {
+      console.log("length", {
         newLength: newPastas.length,
         oldLength: oldPastas.length,
       });
       if (!oldPastas.length && !newPastas.length) {
         return;
       }
-      console.log({
-        activeUserEmotes: Object.values(emotesStore.activeUserEmotes || {})
-          .length,
-        globalEmotes: Object.values(emotesStore.globalEmotes || {}).length,
-      });
-      await until(() => emotesStore.activeUserEmotes).toMatch(
-        (emotes) => Object.values(emotes || {}).some((map) => map.size),
-        { timeout: 3_000 },
-      );
-      await until(() => emotesStore.globalEmotes).toMatch(
-        (emotes) => Object.values(emotes || {}).every((map) => map.size),
-        { timeout: 3_000 },
-      );
+      await Promise.allSettled([
+        until(() => emotesStore.activeUserEmotes).toMatch(
+          (userEmotes) =>
+            Object.values(userEmotes || {}).some(
+              (sourceMap) => !!sourceMap.size,
+            ),
+          { timeout: 3_000 },
+        ),
+        until(() => emotesStore.globalEmotes).toMatch(
+          (globalEmotes) =>
+            Object.values(globalEmotes || {}).every(
+              (sourceMap) => !!sourceMap.size,
+            ),
+          { timeout: 3_000 },
+        ),
+      ]);
       const addedPastasRecord = findEmotesInPastas(newPastas, (token) => {
         const userEmote = emotesStore.findEmoteInActiveUser(token);
         if (userEmote) {
