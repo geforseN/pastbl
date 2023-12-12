@@ -41,12 +41,73 @@
 </template>
 <script setup lang="ts">
 import { themeChange } from "theme-change";
+import { templateStrings } from "./integrations";
 
 useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
 
 onMounted(() => {
   themeChange(false);
   document.documentElement.classList.remove("dark", "light");
+
+  useUserCollectionsStore();
+  useGlobalCollectionsStore();
+  const emotesStore = useEmotesStore();
+  const pastasStore = usePastasStore();
+  const { newPastas } = storeToRefs(pastasStore);
+
+  watch(
+    () => newPastas.value,
+    async (newPastas, oldPastas) => {
+      console.log("lets go !!!", {
+        newLength: newPastas.length,
+        oldLength: oldPastas.length,
+      });
+      if (!oldPastas.length && !newPastas.length) {
+        return;
+      }
+      console.log({
+        activeUserEmotes: Object.values(emotesStore.activeUserEmotes || {})
+          .length,
+        globalEmotes: Object.values(emotesStore.globalEmotes || {}).length,
+      });
+      await until(() => emotesStore.activeUserEmotes).toMatch(
+        (emotes) => Object.values(emotes || {}).some((map) => map.size),
+        { timeout: 3_000 },
+      );
+      await until(() => emotesStore.globalEmotes).toMatch(
+        (emotes) => Object.values(emotes || {}).every((map) => map.size),
+        { timeout: 3_000 },
+      );
+      const addedPastasRecord = findEmotesInPastas(newPastas, (token) => {
+        const userEmote = emotesStore.findEmoteInActiveUser(token);
+        if (userEmote) {
+          return userEmote;
+        }
+        const globalEmote = emotesStore.findEmoteInGlobal(token);
+        if (globalEmote) {
+          return globalEmote;
+        }
+      });
+      for (const [pastaId, emotes] of Object.entries(addedPastasRecord)) {
+        const pasta = newPastas.find((pasta) => pasta.id === Number(pastaId));
+        assert.ok(pasta);
+        pasta.populatedText = pasta.text;
+        for (const token of pasta.validTokens) {
+          const emote = emotes.find((emote) => emote.token === token);
+          if (!emote) {
+            continue;
+          }
+          const emoteTemplate = templateStrings[emote.source];
+          const emoteAsString = emoteTemplate(emote);
+          pasta.populatedText = pasta.populatedText.replaceAll(
+            token,
+            emoteAsString,
+          );
+        }
+      }
+      pastasStore.trigger();
+    },
+  );
 });
 </script>
 
@@ -56,14 +117,7 @@ onMounted(() => {
      - pastas/create
      - pastas/edit/:pastaId
      - pastas/find?...MUST_BE_MANY_PARAMS_HERE
-     - settings 
 
-  слева будет постоянно список паст
-  справа будет:
-   - форма для создания пасты
-   - форма для фильтрации паст 
-   - настройки пользователя
-   - все загруженные коллекции emotes (также там должен быть input для быстрой загрузки коллекции) 
-   - по нажатию на кнопку 'Change pasta' n-ой пасты
-     - форма для редактирования пасты 
+    по нажатию на кнопку 'Change pasta' n-ой пасты из списка паст (список отображается в левой колонке)
+      - форма для редактирования пасты (форма отображается в правой колонке)
  -->
