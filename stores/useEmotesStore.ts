@@ -40,13 +40,11 @@ export const useEmotesStore = defineStore("emotes", () => {
           );
         },
       );
-      console.log({ activeUserEmotes });
       for (const source of availableEmoteSources) {
         if (!activeUserEmotes[source]) {
           activeUserEmotes[source] = new Map();
         }
       }
-      console.log({ activeUserEmotes });
       return activeUserEmotes;
     },
   );
@@ -64,21 +62,18 @@ export const useEmotesStore = defineStore("emotes", () => {
           );
         },
       );
-      console.log({ globalEmotes });
       for (const source of availableEmoteSources) {
         if (!globalEmotes[source]) {
           globalEmotes[source] = new Map();
         }
       }
-      console.log({ globalEmotes });
       return globalEmotes;
     },
   );
 
   watch(
     () => activeUserEmotes.value,
-    (activeUserEmotes) => {
-      console.log("activeUserEmotes changed", { activeUserEmotes });
+    () => {
       activeUserEmotesCache.clear();
     },
   );
