@@ -44,6 +44,10 @@ export interface EmoteCollectionsSchema extends DBSchema {
     key: IGlobalEmoteCollection["source"];
     value: IGlobalEmoteCollection;
   };
+  "key-value": {
+    key: "active-user-collection-username";
+    value: IndexedDBUserCollection["twitch"]["username"] | "";
+  };
 }
 
 export interface EmotesSchema {

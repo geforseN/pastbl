@@ -20,6 +20,10 @@ class Emotes {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
   }
 
+  get emotesTransaction() {
+    return this.db.transaction("emotes");
+  }
+
   async populateUserCollectionWithEmotes(
     userIdbCollection: IndexedDBUserCollection,
   ) {

@@ -13,14 +13,6 @@ export class GlobalEmoteCollections {
     return this.db.getAll("global");
   }
 
-  async getAllCollectionsEntries() {
-    const collections = await this.db.getAll("global");
-    return collections.map((collection) => [collection.source, collection]) as [
-      IGlobalEmoteCollection["source"],
-      IGlobalEmoteCollection,
-    ][];
-  }
-
   getAllCollectionsKeys() {
     return this.db.getAllKeys("global");
   }

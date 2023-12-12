@@ -19,15 +19,8 @@ export class UsersEmoteCollections {
     return this.db.transaction("users").store.getAll();
   }
 
-  async getAllCollectionsEntries() {
-    const collections = await this.getAllCollections();
-    return collections.map((collection) => [
-      collection.twitch.nickname,
-      collection,
-    ]) as [
-      IndexedDBUserCollection["twitch"]["nickname"],
-      IndexedDBUserCollection,
-    ][];
+  getAllCollectionsUsernames() {
+    return this.db.transaction("users").store.getAllKeys();
   }
 
   updateCollection(idbCollection: IndexedDBUserCollection) {
