@@ -3,7 +3,6 @@ import {
   populateUserEmoteCollection,
   type IUserEmoteCollection,
   type IEmote,
-  type AvailableEmoteSource,
 } from "~/integrations";
 
 export const useUserCollectionsStore = defineStore("user-collections", () => {
@@ -48,26 +47,31 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
       ]);
       const idbCollection =
         await emoteCollectionsIdb.users.getUserCollectionByUsername(username);
-      assert.ok(idbCollection, "Failed to find loaded user collection");
+      assert.ok(
+        idbCollection,
+        "Failed to find loaded user collection in your browser storage (IndexedDB)",
+      );
       const emotesIdbStore = emotesIdb.emotesTransaction.store;
       const emoteCollectionsArray = await Promise.all(
-        Object.values(idbCollection.collections).map((idbEmoteCollection) =>
-          populateUserEmoteCollection(idbEmoteCollection, async (emoteId) => {
-            const cachedEmote =
-              emotesStore.users[
-                idbEmoteCollection.source as AvailableEmoteSource
-              ].get(emoteId);
-            if (cachedEmote) {
-              return cachedEmote;
-            }
-            const emote: IEmote & { updatedAt: number } =
-              await emotesIdbStore.get([emoteId, idbEmoteCollection.source]);
-            emotesStore.users[
-              idbEmoteCollection.source as AvailableEmoteSource
-            ].set(emoteId, emote);
-            return emote;
-          }),
-        ),
+        Object.values(idbCollection.collections).map((idbEmoteCollection) => {
+          const sourceEmoteCache = emotesStore.usersEmotesCache.get(
+            idbEmoteCollection.source,
+          );
+          assert.ok(sourceEmoteCache);
+          return populateUserEmoteCollection(
+            idbEmoteCollection,
+            async (emoteId) => {
+              const cachedEmote = sourceEmoteCache.get(emoteId);
+              if (cachedEmote) {
+                return cachedEmote;
+              }
+              const emote: IEmote & { updatedAt: number } =
+                await emotesIdbStore.get([emoteId, idbEmoteCollection.source]);
+              sourceEmoteCache.set(emoteId, emote);
+              return emote;
+            },
+          );
+        }),
       );
       const emoteCollectionsRecord = groupBy(
         emoteCollectionsArray,
