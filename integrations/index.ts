@@ -84,6 +84,10 @@ export const globalEmotesGetters: Record<
   },
 };
 
+export function getGlobalCollection(source: keyof typeof globalEmotesGetters) {
+  return globalEmotesGetters[source]();
+}
+
 export interface IEmoteCollection<
   SourceT extends EmoteSource = EmoteSource,
   SetT extends IEmoteSet = IEmoteSet,

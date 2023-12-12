@@ -1,7 +1,7 @@
 import type { IDBPDatabase } from "idb";
 import type { EmoteCollectionsSchema } from "~/client-only/IndexedDB";
 import {
-  globalEmotesGetters,
+  getGlobalCollection,
   type IGlobalEmoteCollection,
 } from "~/integrations";
 
@@ -37,8 +37,7 @@ export class GlobalEmoteCollections {
   }
 
   async refreshCollection(collection: IGlobalEmoteCollection) {
-    const getCollection = globalEmotesGetters[collection.source];
-    const newCollection = await getCollection();
+    const newCollection = await getGlobalCollection(collection.source);
     await this.db
       .transaction("global", "readwrite")
       .objectStore("global")
