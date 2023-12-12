@@ -7,6 +7,9 @@ import {
 import { getFFZGlobalEmoteSets } from "./FrankerFaceZ/FrankerFaceZ.api";
 import { getBetterTTVGlobalEmotes } from "./BetterTTV/BetterTTV.api";
 import { get7TVGlobalEmotesSet } from "./SevenTV/SevenTV.api";
+import type { BetterTTVEmote } from "./BetterTTV/entity/BetterTTVEmote";
+import type { I7TVEmote } from "./SevenTV/entity/SevenTVEmote";
+import type { FrankerFaceZEmote } from "./FrankerFaceZ/entity/FrankerFaceZEmote";
 
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
@@ -14,7 +17,6 @@ export const templateStrings = {
   FrankerFaceZ: FFZEmoteString,
 };
 
-export type EmoteSource = "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
 export const availableEmoteSources = [
   "FrankerFaceZ",
   "SevenTV",
@@ -30,7 +32,7 @@ export interface IEmote {
   isModifier: boolean;
   // NOTE: FFZ use term 'Hidden', SevenTV uses 'isZeroWidth'
   isWrapper: boolean;
-  source: EmoteSource;
+  source: AvailableEmoteSource;
   token: string;
   url: string;
 }
@@ -49,14 +51,14 @@ export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
   // NOTE - BTTV doesn't have term 'name'
   // BTTV set can be named only as 'Channel emotes' or as 'Global emotes'
   name: string;
-  source: EmoteSource;
+  source: AvailableEmoteSource;
   updatedAt: ReturnType<(typeof Date)["now"]>;
 }
 
 export interface IEmoteCollectionOwner {}
 
 export interface IGlobalEmoteCollection<
-  SourceT extends EmoteSource = AvailableEmoteSource,
+  SourceT extends AvailableEmoteSource = AvailableEmoteSource,
   SetT extends IEmoteSet = IEmoteSet,
 > {
   name: `${SourceT} Global Emotes Collection`;
@@ -66,10 +68,11 @@ export interface IGlobalEmoteCollection<
   isActive: boolean;
 }
 
-export const globalEmotesGetters: Record<
-  AvailableEmoteSource,
-  () => Promise<IGlobalEmoteCollection>
-> = {
+export function isGlobalCollectionMissing(collection: IGlobalEmoteCollection) {
+  return !availableEmoteSources.includes(collection.source);
+}
+
+const globalEmotesGetters = {
   FrankerFaceZ: async () => {
     const globalEmotes = await getFFZGlobalEmoteSets();
     return createFFZGlobalCollection(globalEmotes);
@@ -89,7 +92,7 @@ export function getGlobalCollection(source: keyof typeof globalEmotesGetters) {
 }
 
 export interface IEmoteCollection<
-  SourceT extends EmoteSource = EmoteSource,
+  SourceT extends AvailableEmoteSource = AvailableEmoteSource,
   SetT extends IEmoteSet = IEmoteSet,
 > {
   name: string;
@@ -111,7 +114,16 @@ export interface IUserEmoteCollection {
     username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
   };
   updatedAt: number;
-  collections: EmoteCollectionsRecord;
+  collections:
+    | Record<string, never>
+    | {
+        FrankerFaceZ: IEmoteCollection<
+          "FrankerFaceZ",
+          IEmoteSet<FrankerFaceZEmote>
+        >;
+        BetterTTV?: IEmoteCollection<"BetterTTV", IEmoteSet<BetterTTVEmote>>;
+        SevenTV?: IEmoteCollection<"SevenTV", IEmoteSet<I7TVEmote>>;
+      };
   failedCollectionsReasons:
     | Record<AvailableEmoteSource, string>
     | Record<string, never>;
