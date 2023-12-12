@@ -29,10 +29,16 @@
     </div>
     <selected-user-collection
       :collection="userCollectionsStore.selectedCollection"
+      :is-refreshing="
+        userCollectionsStore.refreshCollections.integrations.isLoading
+      "
       :is-collection-selected="true"
       @update="
-        () => {
-          /* TODO */
+        async () => {
+          assert.ok(userCollectionsStore.selectedCollection.state);
+          await userCollectionsStore.refreshCollection(
+            userCollectionsStore.selectedCollection.state.twitch.username,
+          );
         }
       "
     />

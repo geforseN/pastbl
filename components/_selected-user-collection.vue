@@ -57,7 +57,10 @@
             </use-time-ago>
           </div>
           <button class="btn btn-accent btn-sm" @click="emit('update')">
-            Update
+            <span v-if="!isRefreshing">Update</span>
+            <template v-else>
+              <span class="loading loading-spinner" />Loading
+            </template>
           </button>
         </div>
         {{}}
@@ -87,6 +90,7 @@ import { UseTimeAgo } from "@vueuse/components";
 const { collection, isCollectionSelected } = defineProps<{
   collection: SelectedUserCollectionsAsyncState;
   isCollectionSelected?: boolean;
+  isRefreshing: boolean;
 }>();
 
 const emit = defineEmits<{

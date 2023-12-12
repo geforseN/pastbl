@@ -95,10 +95,31 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
   // if from idb loaded '' then watch below will not execute it is callback
   // but i wish it would work even when initial execute of selectedCollectionUsername is called and result is ''
 
+  const refreshCollections = useUserIntegrations();
   return {
     selectedCollectionUsername,
     usernamesToSelect,
     selectedCollection,
+    refreshCollections,
+    async refreshCollection(username: Lowercase<string>) {
+      const { idb } = await import("~/client-only/IndexedDB/index");
+      const newCollection = await refreshCollections.integrations.execute(
+        0,
+        username,
+      );
+      assert.ok(newCollection);
+      const [emoteCollectionsIdb, emotesIdb] = await Promise.all([
+        idb.emoteCollections,
+        idb.emotes,
+      ]);
+      await Promise.all([
+        emoteCollectionsIdb.users.putCollection(newCollection),
+        emotesIdb.putEmotesOfUserCollection(newCollection),
+      ]);
+      if (selectedCollection.state.value?.twitch.username === username) {
+        selectedCollection.state.value = newCollection;
+      }
+    },
   };
 });
 
