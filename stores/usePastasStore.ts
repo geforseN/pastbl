@@ -1,30 +1,4 @@
 import { defineStore } from "pinia";
-import {
-  templateStrings,
-  type IEmote,
-  type AvailableEmoteSource,
-} from "~/integrations";
-
-async function handleEmotePopulateForPastas(addedPastas: MegaPasta[]) {
-  const foundEmotes = await veryCoolAlgorithm(addedPastas);
-  for (const pasta of addedPastas) {
-    pasta.populatedText = pasta.populatedText || pasta.text;
-    for (const token of pasta.validTokens) {
-      const emote = foundEmotes.find((emote) => emote.token === token);
-      if (!emote) {
-        continue;
-      }
-      const emoteTemplate: (emote: IEmote) => string = templateStrings[
-        emote.source as AvailableEmoteSource
-      ] as (emote: IEmote) => string;
-      const emoteAsString = emoteTemplate(emote);
-      pasta.populatedText = pasta.populatedText.replaceAll(
-        token,
-        emoteAsString,
-      );
-    }
-  }
-}
 
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
@@ -40,10 +14,6 @@ export const usePastasStore = defineStore("pastas", () => {
 
   const toast = useNuxtToast();
 
-  watchArray(pastas.state, (_, __, addedPastas) => {
-    handleEmotePopulateForPastas(addedPastas);
-  });
-
   function getPastaIndexById(id: IDBMegaPasta["id"]) {
     const index = pastas.state.value.findIndex((pasta) => pasta.id === id);
     if (index === -1) {
@@ -54,8 +24,14 @@ export const usePastasStore = defineStore("pastas", () => {
     return index;
   }
 
+  const newPastas = ref<IDBMegaPasta[]>([]);
+  watchArray(pastas.state, (_, __, addedPastas) => {
+    newPastas.value = addedPastas;
+  });
+
   return {
     pastas,
+    newPastas,
     pastasSortedByNewest: computed(() =>
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
     ),
@@ -129,6 +105,9 @@ export const usePastasStore = defineStore("pastas", () => {
         }),
       );
     },
+    trigger() {
+      triggerRef(pastas.state);
+    },
   };
 });
 
@@ -142,8 +121,8 @@ class RemovePastaNotification {
   constructor({ handleUndo }: { handleUndo: () => void }) {
     this.timeout = 7_000;
     this.color = "yellow";
-    this.title = "Pasta remove";
-    this.description = "Pasta got removed and also saved is pastas bin";
+    this.title = "Pasta removed";
+    this.description = "This pasta got saved in bin";
     this.actions = [
       {
         color: "green",
