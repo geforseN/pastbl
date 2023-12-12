@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex w-96 flex-col gap-2">
     <div class="rounded-box border-2 px-4 py-2">
       <nuxt-link to="/emotes/global">
         <span
@@ -25,17 +25,20 @@
       </nuxt-link>
     </div>
     <section class="rounded-box border-2 p-2">
-      <h2 class="-mb-1 p-1 text-3xl font-bold">Load user collection</h2>
+      <h2 class="p-2 pb-0 text-3xl font-bold">
+        Load user collection
+        <icon class="-translate-y-1 translate-x-1" name="logos:twitch" />
+      </h2>
       <div class="join p-1">
         <input
           id="nickname"
           v-model="nickname"
           name="nickname"
           placeholder="Enter twitch nickname"
-          class="input join-item input-secondary grow"
+          class="input join-item input-accent grow"
           type="text"
         />
-        <button class="btn btn-secondary join-item" @click="hg">
+        <button class="btn btn-accent join-item" @click="hg">
           Load collection
         </button>
       </div>
