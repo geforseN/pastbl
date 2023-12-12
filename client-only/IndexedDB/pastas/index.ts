@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase } from "idb";
 import type { PastasSchema } from "..";
 
-class PastasTransaction {
+class PastasShared {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
@@ -57,7 +57,7 @@ class Pastas {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     public readonly list: PastasList,
-    public readonly transactions: PastasTransaction,
+    public readonly shared: PastasShared,
   ) {}
 }
 
@@ -93,5 +93,5 @@ function openPastasIdb() {
 }
 
 export const pastasIdb = openPastasIdb().then(
-  (idb) => new Pastas(new PastasList(idb), new PastasTransaction(idb)),
+  (idb) => new Pastas(new PastasList(idb), new PastasShared(idb)),
 );
