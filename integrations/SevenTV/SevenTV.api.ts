@@ -30,7 +30,8 @@ export async function get7TVUserProfileByTwitchId(
   username?: Lowercase<string>,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-  if (response.statusText.startsWith("4")) {
+  const code = String(response.status);
+  if (code[0] === "4" || code[0] === "5") {
     throw new UserNotFoundError("SevenTV", username);
   }
   return response.json();
@@ -40,7 +41,8 @@ export async function get7TVGlobalEmotesSet(): Promise<
   SevenTVApiEmoteSet<true>
 > {
   const response = await fetch("https://7tv.io/v3/emote-sets/global");
-  if (response.statusText.startsWith("4")) {
+  const code = String(response.status);
+  if (code[0] === "4" || code[0] === "5") {
     throw new Error("Failed to load SevenTV global emotes");
   }
   return response.json();
