@@ -15,11 +15,7 @@
         >
           emotes
           <icon-emote-integration-logo
-            v-for="source of [
-              'FrankerFaceZ',
-              'BetterTTV',
-              'SevenTV',
-            ] satisfies AvailableEmoteSource[]"
+            v-for="source of availableEmoteSources"
             v-once
             :key="source"
             :source="source"
@@ -60,5 +56,5 @@
   </nav>
 </template>
 <script setup lang="ts">
-import type { AvailableEmoteSource } from "~/integrations";
+import { availableEmoteSources } from "~/integrations";
 </script>
