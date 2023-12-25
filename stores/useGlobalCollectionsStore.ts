@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import {
-  isGlobalCollectionMissing,
   type IGlobalEmoteCollection,
+  availableEmoteSources,
 } from "~/integrations";
 import {
   getAllGlobalCollections,
@@ -24,9 +24,10 @@ export const useGlobalCollectionsStore = defineStore(
     );
 
     watch(collections.state, async (state) => {
-      const missingSources = state
-        .filter(isGlobalCollectionMissing)
-        .map((collection) => collection.source);
+      const stateSources = state.map((collection) => collection.source);
+      const missingSources = availableEmoteSources.filter(
+        (source) => !stateSources.includes(source),
+      );
       if (!missingSources.length) {
         return;
       }
