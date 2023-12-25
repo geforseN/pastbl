@@ -11,15 +11,11 @@
           <span class="w-min break-words uppercase xs:w-auto">emotes</span>
           <span class="flex flex-col gap-1 xs:flex-row">
             <icon-emote-integration-logo
-              v-for="source of [
-                'FrankerFaceZ',
-                'BetterTTV',
-                'SevenTV',
-              ] satisfies AvailableEmoteSource[]"
+              v-for="(source, index) of availableEmoteSources"
               v-once
               :key="source"
               :class="
-                source === 'BetterTTV' &&
+                index === 1 &&
                 'absolute translate-x-6 translate-y-2 xs:static xs:translate-x-0 xs:translate-y-0'
               "
               :source="source"
@@ -44,5 +40,5 @@
   </nav>
 </template>
 <script lang="ts" setup>
-import type { AvailableEmoteSource } from "~/integrations";
+import { availableEmoteSources } from "~/integrations";
 </script>

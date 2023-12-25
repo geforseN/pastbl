@@ -22,11 +22,11 @@
     </Head>
     <Body lang="en">
       <div class="relative grid grid-rows-layout">
-        <top-nav />
+        <app-top-nav />
         <nuxt-layout>
           <nuxt-page />
         </nuxt-layout>
-        <bottom-nav />
+        <app-bottom-nav />
         <u-notifications>
           <template #title="{ title }">
             <span class="text-xl">{{ title }}</span>
@@ -45,16 +45,22 @@ import { templateStrings } from "./integrations";
 
 useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
 
+// use new DomParser()
+// показывать процесс загрузки коллекции (можно переиспользовать headers вместе с asyncState  )
+// добавить возможность удалить коллекцию пользователя
+
 onMounted(() => {
   themeChange(false);
   document.documentElement.classList.remove("dark", "light");
 
   const emotesStore = useEmotesStore();
   const pastasStore = usePastasStore();
-  const { newPastas } = storeToRefs(pastasStore);
+
+  $fetch("/api/twitch/user/psp1g").then(console.log);
+  $fetch("/api/twitch/emotes/global").then(console.log);
 
   watch(
-    () => newPastas.value,
+    () => storeToRefs(pastasStore).newPastas.value,
     async (newPastas, oldPastas) => {
       if (!oldPastas.length && !newPastas.length) {
         return;
@@ -75,29 +81,21 @@ onMounted(() => {
           { timeout: 3_000 },
         ),
       ]);
-      const addedPastasRecord = findEmotesInPastas(newPastas, (token) => {
-        const userEmote = emotesStore.findEmoteInActiveUser(token);
-        if (userEmote) {
-          return userEmote;
-        }
-        const globalEmote = emotesStore.findEmoteInGlobal(token);
-        if (globalEmote) {
-          return globalEmote;
-        }
-      });
-      for (const [pastaId, emotes] of Object.entries(addedPastasRecord)) {
-        const pasta = newPastas.find((pasta) => pasta.id === Number(pastaId));
-        assert.ok(pasta);
+      const emotesMapOfAddedPastas = getPastasEmotesMap(
+        newPastas,
+        emotesStore.findEmote,
+      );
+      for (const [pasta, emotes] of emotesMapOfAddedPastas) {
         pasta.populatedText = pasta.text;
-        for (const token of pasta.validTokens) {
-          const emote = emotes.find((emote) => emote.token === token);
-          if (!emote) {
-            continue;
-          }
+        for (const emote of emotes) {
           const emoteTemplate = templateStrings[emote.source];
           const emoteAsString = emoteTemplate(emote);
+          // const pastaElement = document.querySelector(
+          //   `[data-pasta-id="${pastaId}"]`,
+          // );
+          // console.log({ pastaElement });
           pasta.populatedText = pasta.populatedText.replaceAll(
-            token,
+            emote.token,
             emoteAsString,
           );
         }
@@ -107,6 +105,16 @@ onMounted(() => {
   );
 });
 </script>
+<style>
+.ffz-x {
+}
+.ffz-y {
+}
+.ffz-w {
+}
+.ffz-cursed {
+}
+</style>
 
 <!-- 
   pages:
@@ -118,3 +126,65 @@ onMounted(() => {
     по нажатию на кнопку 'Change pasta' n-ой пасты из списка паст (список отображается в левой колонке)
       - форма для редактирования пасты (форма отображается в правой колонке)
  -->
+
+<!--     [() => newPastas.value, () => emotesStore.activeUserEmotes],
+    async (
+      [newPastas, newActiveUserEmotes],
+      [oldPastas, oldActiveUserEmotes],
+    ) => {
+      const userEmoteSizes = {
+        next: Object.values(newActiveUserEmotes || {})
+          .map((emoteMap) => emoteMap.size)
+          .join(", "),
+        prev: Object.values(oldActiveUserEmotes || {})
+          .map((emoteMap) => emoteMap.size)
+          .join(", "),
+      };
+      const pastasLengths = {
+        next: newPastas.length,
+        prev: oldPastas.length,
+      };
+      console.log({
+        pastasLengths,
+        userEmoteSizes,
+      });
+      if (
+        !(newPastas.length || oldPastas.length) &&
+        userEmoteSizes.next === userEmoteSizes.prev
+      ) {
+        return console.log("FAST RETURN");
+      } -->
+
+<!-- 
+         // hooks: {
+  //   async close() {
+  //     console.log("Closing nitro server...");
+  //     await new Promise((resolve) => setTimeout(resolve, 500));
+  //     console.log("Task is done!");
+  //     const stream = fs.createWriteStream("./index.txt");
+  //     stream.write("Hello, World!");
+  //     stream.end();
+  //   },
+  //   ready(nuxt) {
+  //     const signals = ["SIGINT", "SIGTERM"] as const;
+  //     const handler = async (signal: (typeof signals)[number]) => {
+  //       try {
+  //         signals.forEach((signal) => process.removeListener(signal, handler));
+  //         await nuxt.close();
+  //         console.log("Closing nitro server...");
+  //         console.log("Closing nitro server...");
+  //         console.log("Closing nitro server...");
+  //         console.log("Closing nitro server...");
+  //         const stream = fs.createWriteStream(`./${signal}.txt`);
+  //         stream.write("Hello, World!");
+  //         stream.end();
+  //         process.kill(process.pid, signal);
+  //       } catch (error) {
+  //         console.error("error during shutdown", error);
+  //         process.exit(1);
+  //       }
+  //     };
+  //     signals.forEach((signal) => process.on(signal, handler));
+  //   },
+  // },
+       -->
