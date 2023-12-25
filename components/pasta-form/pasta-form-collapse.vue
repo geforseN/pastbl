@@ -20,14 +20,14 @@
     </div>
     <div class="collapse-content">
       <pasta-form
-        v-model:tag="pastaStore.tag"
-        v-model:text="pastaStore.text"
-        :pasta-tags="pastaStore.tags"
+        v-model:tag="pastaStore.pasta.tag"
+        v-model:text="pastaStore.pasta.text"
+        :pasta-tags="pastaStore.pasta.tags"
         :must-tag-model-become-empty-on-add="true"
         :hinted-tags-map="pastasStore.mostPopularTagsEntries"
-        @add-tag-to-pasta="() => pastaStore.handleTagAddToPasta()"
-        @remove-all-tags="() => pastaStore.removeAllTags()"
-        @remove-tag-from-pasta="(tag) => pastaStore.removeTag(tag)"
+        @add-tag="() => pastaStore.handleTagAddToPasta()"
+        @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
+        @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
         @create-pasta="() => handlePastaCreation()"
       />
     </div>
@@ -49,8 +49,8 @@ defineExpose({
 async function handlePastaCreation() {
   try {
     await pastasStore.createPasta({
-      tags: pastaStore.tags,
-      text: pastaStore.text,
+      tags: pastaStore.pasta.tags,
+      text: pastaStore.pasta.text,
     });
     pastaStore.$reset();
     toast.add({

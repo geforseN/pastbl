@@ -5,6 +5,7 @@
         id="twitch-chat-textarea"
         ref="twitchChatRef"
         v-model="pastaTextModel"
+        :model-status="pastaStatus"
         class="mx-0.5"
         @enter-pressed="emit('createPasta')"
       />
@@ -13,22 +14,22 @@
       >
         <button
           ref="createPastaButton"
-          class="btn btn-primary h-max text-lg uppercase focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
+          class="btn btn-primary h-max text-lg focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
           @click="emit('createPasta')"
         >
-          create pasta
+          CREATE PASTA
         </button>
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
-            :class="pastaLengthClass[pastaStatus]"
+            :class="pastaLengthClassRecord[pastaStatus]"
             :pasta-text="pastaTextModel.trim()"
           />
           <button
-            v-if="props.pastaTags.length !== 0"
+            v-if="props.pastaTags.length"
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
-            remove all tags
+            REMOVE ALL TAGS
           </button>
           <span v-else class="badge badge-warning badge-lg">No tags added</span>
         </div>
@@ -36,12 +37,12 @@
     </div>
     <pasta-form-tags
       :tags="props.pastaTags"
-      @remove-tag="(tag) => emit('removeTagFromPasta', tag)"
+      @remove-tag="(tag) => emit('removeTag', tag)"
     />
     <pasta-form-tags-input
       v-model="tagToAddModel"
       :must-become-empty-on-add="props.mustTagModelBecomeEmptyOnAdd"
-      @add-tag="(tagToAdd) => emit('addTagToPasta', tagToAdd)"
+      @add-tag="(tag) => emit('addTag', tag)"
     >
       <template #addTagSuggestions>
         <!--   NOTE: TRIED to use <option :value="tag" ...otherAttrs><{{'important message'}}/option>  
@@ -74,8 +75,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  addTagToPasta: [tag: string];
-  removeTagFromPasta: [tag: string];
+  addTag: [tag: string];
+  removeTag: [tag: string];
   removeAllTags: [];
   createPasta: [];
 }>();
@@ -86,21 +87,18 @@ defineExpose({
   twitchChatRef,
 });
 
-type PastaStatus = "error" | "warning" | "success";
-
 const pastaStatus = computed(() => {
   const pastaTextLength = pastaTextModel.value.trim().length;
-
   if (pastaTextLength === 0 || pastaTextLength > 1000) {
-    return "error" satisfies PastaStatus;
+    return "error";
   }
   if (pastaTextLength > 500) {
-    return "warning" satisfies PastaStatus;
+    return "warning";
   }
-  return "success" satisfies PastaStatus;
+  return "success";
 });
 
-const pastaLengthClass = {
+const pastaLengthClassRecord = {
   error: "text-error",
   warning: "text-warning",
   success: "text-success",

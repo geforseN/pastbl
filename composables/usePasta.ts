@@ -31,6 +31,15 @@ function isValidToken(word: string) {
   return true;
 }
 
+function isValidToken2(word: string) {
+  for (let i = 0; i < word.length; i++) {
+    if (!isValidASCIICharCode(word.charCodeAt(i))) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function createMegaPasta(
   trimmedText: BasePasta["text"],
   tags: BasePasta["tags"],
@@ -60,31 +69,31 @@ export const usePasta = () => {
       tags.value = [];
       text.value = "";
     },
-    removeTag: (tagToRemove: string) => {
-      const tagIndex = tags.value.indexOf(tagToRemove);
+    removeTag: (tag: string) => {
+      const index = tags.value.indexOf(tag);
       assert.ok(
-        tagIndex >= 0,
+        index >= 0,
         new ExtendedError("Can not remove the tag which is not in tags"),
       );
-      tags.value.splice(tagIndex, 1);
+      tags.value.splice(index, 1);
     },
     removeAllTags: () => {
       tags.value = [];
     },
-    addTag: (tagToAdd: string) => {
+    addTag: (tag: string) => {
       assert.ok(
-        tagToAdd.length !== 0,
+        tag.length,
         new ExtendedError("Can not add the empty tag", {
           title: "Pasta tag was not added",
         }),
       );
       assert.ok(
-        !tags.value.includes(tagToAdd),
+        !tags.value.includes(tag),
         new ExtendedError("The tag were already added to pasta", {
           title: "Pasta tag was not added",
         }),
       );
-      tags.value.push(tagToAdd);
+      tags.value.push(tag);
     },
   };
 };
