@@ -1,15 +1,24 @@
-import { BTTVEmoteString, createBTTVGlobalCollection } from "./BetterTTV/index";
-import { SevenTVEmoteString, create7TVGlobalCollection } from "./SevenTV/index";
 import {
   FFZEmoteString,
   createFFZGlobalCollection,
+  type FrankerFaceZGlobalCollection,
+  type FrankerFaceZUserIntegration,
 } from "./FrankerFaceZ/index";
+import {
+  BTTVEmoteString,
+  createBTTVGlobalCollection,
+  type BetterTTVGlobalCollection,
+  type BetterTTVUserIntegration,
+} from "./BetterTTV/index";
+import {
+  SevenTVEmoteString,
+  create7TVGlobalCollection,
+  type I7TVGlobalCollection,
+  type I7TVUserCollection,
+} from "./SevenTV/index";
 import { getFFZGlobalEmoteSets } from "./FrankerFaceZ/FrankerFaceZ.api";
 import { getBetterTTVGlobalEmotes } from "./BetterTTV/BetterTTV.api";
 import { get7TVGlobalEmotesSet } from "./SevenTV/SevenTV.api";
-import type { BetterTTVEmote } from "./BetterTTV/entity/BetterTTVEmote";
-import type { I7TVEmote } from "./SevenTV/entity/SevenTVEmote";
-import type { FrankerFaceZEmote } from "./FrankerFaceZ/entity/FrankerFaceZEmote";
 
 export const templateStrings = {
   BetterTTV: BTTVEmoteString,
@@ -37,9 +46,11 @@ export interface IEmote {
   url: string;
 }
 
-export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
+export interface IEmoteSet<
+  SourceT extends AvailableEmoteSource,
+  EmoteT extends IEmote,
+> {
   emotes: EmoteT[];
-  isActive: boolean;
   // NOTE: FFZ api returns set with typeof id === 'number', but in collection instance id converted to string
   // NOTE -
   // BTTV api does not have term 'set'
@@ -51,26 +62,26 @@ export interface IEmoteSet<EmoteT extends IEmote = IEmote> {
   // NOTE - BTTV doesn't have term 'name'
   // BTTV set can be named only as 'Channel emotes' or as 'Global emotes'
   name: string;
-  source: AvailableEmoteSource;
-  updatedAt: ReturnType<(typeof Date)["now"]>;
+  source: SourceT;
+  updatedAt: number;
 }
 
 export interface IEmoteCollectionOwner {}
 
-export interface IGlobalEmoteCollection<
-  SourceT extends AvailableEmoteSource = AvailableEmoteSource,
-  SetT extends IEmoteSet = IEmoteSet,
+export interface InternalGlobalEmoteCollection<
+  SourceT extends AvailableEmoteSource,
+  SetT extends IEmoteSet,
 > {
   name: `${SourceT} Global Emotes Collection`;
   sets: SetT[];
   source: SourceT;
   updatedAt: ReturnType<(typeof Date)["now"]>;
-  isActive: boolean;
 }
 
-export function isGlobalCollectionMissing(collection: IGlobalEmoteCollection) {
-  return !availableEmoteSources.includes(collection.source);
-}
+export type IGlobalEmoteCollection =
+  | FrankerFaceZGlobalCollection
+  | BetterTTVGlobalCollection
+  | I7TVGlobalCollection;
 
 const globalEmotesGetters = {
   FrankerFaceZ: async () => {
@@ -91,68 +102,88 @@ export function getGlobalCollection(source: keyof typeof globalEmotesGetters) {
   return globalEmotesGetters[source]();
 }
 
-export interface IEmoteCollection<
-  SourceT extends AvailableEmoteSource = AvailableEmoteSource,
-  SetT extends IEmoteSet = IEmoteSet,
+export interface InternalUserEmoteIntegration<
+  SourceT extends AvailableEmoteSource,
+  SetT extends IEmoteSet,
+  OwnerT extends IEmoteCollectionOwner,
 > {
   name: string;
+  owner: OwnerT;
   sets: SetT[];
   source: SourceT;
-  updatedAt: ReturnType<(typeof Date)["now"]>;
-  owner: IEmoteCollectionOwner;
+  updatedAt: number;
 }
 
-export type EmoteCollectionsRecord =
-  | Record<AvailableEmoteSource, IEmoteCollection<AvailableEmoteSource>>
-  | Record<AvailableEmoteSource, never>;
+export type IUserEmoteIntegrationRecord = {
+  FrankerFaceZ: FrankerFaceZUserIntegration;
+  BetterTTV: BetterTTVUserIntegration;
+  SevenTV: I7TVUserCollection;
+};
+
+export type IUserEmoteIntegration =
+  IUserEmoteIntegrationRecord[keyof IUserEmoteIntegrationRecord];
 
 export interface IUserEmoteCollection {
-  isActive: boolean;
   twitch: {
-    nickname: string;
     id: number;
+    nickname: string;
     username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
   };
   updatedAt: number;
-  collections:
-    | Record<string, never>
-    | {
-        FrankerFaceZ: IEmoteCollection<
-          "FrankerFaceZ",
-          IEmoteSet<FrankerFaceZEmote>
-        >;
-        BetterTTV?: IEmoteCollection<"BetterTTV", IEmoteSet<BetterTTVEmote>>;
-        SevenTV?: IEmoteCollection<"SevenTV", IEmoteSet<I7TVEmote>>;
-      };
-  failedCollectionsReasons:
-    | Record<AvailableEmoteSource, string>
-    | Record<string, never>;
+  integrations: Partial<IUserEmoteIntegrationRecord>;
+  failedIntegrationsReasons: Partial<
+    Record<keyof IUserEmoteIntegrationRecord, Error>
+  >;
 }
-
-type EmoteName = string;
-export type EmoteMap = Map<EmoteName, IEmote>;
 
 export {
   createFFZGlobalCollection,
-  createFFZUserCollection,
+  createFFZUserIntegration,
   createFFZUserSets,
-  createFFZPartialUserCollection,
+  createFFZPartialUserIntegration,
   type FrankerFaceZSet,
+  type FrankerFaceZEmote,
+  type FrankerFaceZUserIntegration,
 } from "./FrankerFaceZ/index";
 
 export {
   createBTTVGlobalCollection,
-  createBTTVUserCollection,
+  createBTTVUserIntegration,
   type BetterTTVSet,
+  type BetterTTVEmote,
+  type BetterTTVUserIntegration,
 } from "./BetterTTV/index";
 
 export {
   create7TVUserChannelSet,
-  create7TVUserCollection,
+  create7TVUserIntegration,
   create7TVGlobalCollection,
-  recreate7TVUserCollection,
+  recreate7TVUserIntegration,
   type I7TVUserCollection,
   type I7TVSet,
+  type I7TVEmote,
 } from "./SevenTV/index";
 
-export { populateUserEmoteCollection } from "./UserEmoteCollection";
+export async function populateUserEmoteIntegration<
+  T extends IUserEmoteIntegration,
+>(
+  idbCollection: import("~/client-only/IndexedDB").IndexedDBUserEmoteIntegration,
+  loadEmoteFromIdb: (idbEmoteId: IEmote["id"]) => Promise<IEmote | undefined>,
+): Promise<T> {
+  const sets = await Promise.all(
+    idbCollection.sets.map(async (idbSet) => {
+      const { emoteIds, ...set } = idbSet;
+      const [emotes] = await tupleSettledPromises(
+        emoteIds.map(loadEmoteFromIdb),
+      );
+      return {
+        ...set,
+        emotes: emotes.filter(isNotNullish),
+      };
+    }),
+  );
+  return {
+    ...idbCollection,
+    sets,
+  };
+}

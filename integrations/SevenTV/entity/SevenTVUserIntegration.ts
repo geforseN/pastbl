@@ -1,16 +1,17 @@
 import type { I7TVSet } from "./SevenTVSet";
 import type { I7TVCollectionOwner } from "./SevenTVCollectionOwner";
-import type { IEmoteCollection } from "~/integrations";
+import type { InternalUserEmoteIntegration } from "~/integrations";
 
 export interface I7TVUserCollection
-  extends IEmoteCollection<"SevenTV", I7TVSet> {
-  source: "SevenTV";
-  owner: I7TVCollectionOwner;
-
+  extends InternalUserEmoteIntegration<
+    "SevenTV",
+    I7TVSet,
+    I7TVCollectionOwner
+  > {
   get activeSet(): I7TVSet;
 }
 
-export class SevenTVUserCollection implements I7TVUserCollection {
+export class SevenTVUserIntegration implements I7TVUserCollection {
   name;
   sets;
   source;

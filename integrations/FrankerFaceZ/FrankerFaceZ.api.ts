@@ -16,10 +16,7 @@ export async function getFFZProfileByTwitchUsername(
   const response = await fetch(
     `https://api.frankerfacez.com/v1/user/${username}`,
   );
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new UserNotFoundError("FrankerFaceZ", username);
-  }
+  assert.response.ok(response, new UserNotFoundError("FrankerFaceZ", username));
   return response.json();
 }
 
@@ -30,7 +27,10 @@ export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
   const response = await fetch(
     `https://api.frankerfacez.com/v1/room/id/${twitchId}`,
   );
-  assertResponse(response.clone());
+  assert.response.ok(
+    response.clone(),
+    "Failed to load FrankerFaceZ user emotes",
+  );
   return response.json();
 }
 
@@ -40,10 +40,7 @@ export async function getFFZGlobalEmoteSets(): Promise<{
   users: Record<`${number}`, string>;
 }> {
   const response = await fetch("https://api.frankerfacez.com/v1/set/global");
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new Error("Failed to load FrankerFaceZ global emotes");
-  }
+  assert.response.ok(response, "Failed to load FrankerFaceZ global emotes");
   return response.json();
 }
 

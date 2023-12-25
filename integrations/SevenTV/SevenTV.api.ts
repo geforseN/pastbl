@@ -9,7 +9,7 @@ export async function get7TVUserBy7TVId(
   accountId: string,
 ): Promise<SevenTVApiUserData> {
   const response = await fetch(`https://7tv.io/v3/users/${accountId}`);
-  assertResponse(response);
+  assert.response.ok(response, "Failed to load user profile from SevenTV");
   return response.json();
 }
 
@@ -17,11 +17,12 @@ export async function get7TVSetById(
   setId: string,
 ): Promise<SevenTVApiEmoteSet<true>> {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
-  assertResponse(response);
+  assert.response.ok(response, "Failed to load emote set from SevenTV");
   const json = await response.json();
-  if (!Array.isArray(json?.emotes)) {
-    throw new TypeError("Failed to load user emotes from SevenTV");
-  }
+  assert.ok(
+    Array.isArray(json?.emotes),
+    new TypeError("Failed to load user emotes from SevenTV"),
+  );
   return json;
 }
 
@@ -30,10 +31,7 @@ export async function get7TVUserProfileByTwitchId(
   username?: Lowercase<string>,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new UserNotFoundError("SevenTV", username);
-  }
+  assert.response.ok(response, new UserNotFoundError("SevenTV", username));
   return response.json();
 }
 
@@ -41,10 +39,10 @@ export async function get7TVGlobalEmotesSet(): Promise<
   SevenTVApiEmoteSet<true>
 > {
   const response = await fetch("https://7tv.io/v3/emote-sets/global");
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new Error("Failed to load SevenTV global emotes");
-  }
+  assert.response.ok(
+    response,
+    new Error("Failed to load SevenTV global emotes"),
+  );
   return response.json();
 }
 
