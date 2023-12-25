@@ -61,8 +61,8 @@
     "theme-change": "^2.5.0",
     "zipson": "^0.2.12"
   },
-  "peerDependencies": {
-    "vue": "^3.3.8"
+  "overrides": {
+    "vue": "latest"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
