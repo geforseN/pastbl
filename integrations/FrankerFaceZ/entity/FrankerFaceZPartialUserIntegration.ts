@@ -1,15 +1,15 @@
 import type { FrankerFaceZCollectionOwner } from "./FrankerFaceZCollectionOwner";
 import type { FrankerFaceZSet } from "./FrankerFaceZSet";
-import type { FrankerFaceZUserCollection } from "./FrankerFaceZUserCollection";
+import type { FrankerFaceZUserIntegration } from "./FrankerFaceZUserIntegration";
 
-export interface FrankerFaceZPartialUserCollection
-  extends FrankerFaceZUserCollection {
+export interface FrankerFaceZPartialUserIntegration
+  extends FrankerFaceZUserIntegration {
   owner: FrankerFaceZCollectionOwner;
   capacity: number;
 }
 
-export class FFZPartialUserCollection
-  implements FrankerFaceZPartialUserCollection
+export class FFZPartialUserIntegration
+  implements FrankerFaceZPartialUserIntegration
 {
   name;
   sets;

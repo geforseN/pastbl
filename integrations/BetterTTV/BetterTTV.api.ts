@@ -10,10 +10,7 @@ export async function getBetterTTVGlobalEmotes(): Promise<
   const response = await fetch(
     "https://api.betterttv.net/3/cached/emotes/global",
   );
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new Error("Failed to load BetterTTV global emotes");
-  }
+  assert.response.ok(response, "Failed to load BetterTTV global emotes");
   return response.json();
 }
 
@@ -25,10 +22,7 @@ export async function getBetterTTVUserByTwitchId(
   const response = await fetch(
     `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
   );
-  const code = String(response.status);
-  if (code[0] === "4" || code[0] === "5") {
-    throw new UserNotFoundError("BetterTTV", username);
-  }
+  assert.response.ok(response, new UserNotFoundError("BetterTTV", username));
   return response.json();
 }
 
