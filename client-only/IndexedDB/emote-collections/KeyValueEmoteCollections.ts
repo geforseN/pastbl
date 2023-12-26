@@ -1,12 +1,12 @@
 import type { IDBPDatabase } from "idb";
-import type { EmoteCollectionsSchema, IndexedDBUserCollection } from "..";
+import type { EmoteCollectionsSchema, IndexedDBUserEmoteCollection } from "..";
 
 export class KeyValueEmoteCollections {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<EmoteCollectionsSchema>) {}
 
   setActiveUserCollection(
-    value: IndexedDBUserCollection["twitch"]["username"] | "",
+    value: IndexedDBUserEmoteCollection["twitch"]["username"] | "",
   ) {
     return this.idb.put("key-value", value, "active-user-collection-username");
   }

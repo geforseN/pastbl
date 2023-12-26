@@ -1,19 +1,19 @@
 import { openDB, type IDBPDatabase } from "idb";
 import { GlobalEmoteCollections } from "./GlobalEmoteCollections";
-import { UsersEmoteCollections } from "./UsersEmoteCollections";
+import { UsersCollections } from "./UsersEmoteCollections";
 import { KeyValueEmoteCollections } from "./KeyValueEmoteCollections";
 import { type EmoteCollectionsSchema } from "~/client-only/IndexedDB";
 import {
   getGlobalCollection,
-  type AvailableEmoteSource,
   type IGlobalEmoteCollection,
+  type EmoteSource,
 } from "~/integrations";
 
-class EmoteCollections {
+class Profiles {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     public readonly global: GlobalEmoteCollections,
-    public readonly users: UsersEmoteCollections,
+    public readonly users: UsersCollections,
     public readonly kv: KeyValueEmoteCollections,
   ) {}
 }
@@ -47,21 +47,21 @@ const openEmoteCollectionsIdb = () =>
         },
       });
 
-export const emoteCollectionsIdb = openEmoteCollectionsIdb().then(
+export const collectionsIdb = openEmoteCollectionsIdb().then(
   (idb) =>
-    new EmoteCollections(
+    new Profiles(
       new GlobalEmoteCollections(idb),
-      new UsersEmoteCollections(idb),
+      new UsersCollections(idb),
       new KeyValueEmoteCollections(idb),
     ),
 );
 
 export async function addGlobalCollection(collection: IGlobalEmoteCollection) {
-  return (await emoteCollectionsIdb).global.addCollection(collection);
+  return (await collectionsIdb).global.add(collection);
 }
 
 export async function loadMissingGlobalCollections(
-  missingSources: AvailableEmoteSource[],
+  missingSources: EmoteSource[],
 ) {
   const [collections] = await tupleSettledPromises<IGlobalEmoteCollection>(
     missingSources.map((source) => getGlobalCollection(source)),
@@ -78,9 +78,11 @@ export async function loadMissingGlobalCollections(
 export async function refreshGlobalCollection(
   collection: IGlobalEmoteCollection,
 ) {
-  return (await emoteCollectionsIdb).global.refreshCollection(collection);
+  const newCollection = await getGlobalCollection(collection.source);
+  await (await collectionsIdb).global.put(collection);
+  return newCollection;
 }
 
 export async function getAllGlobalCollections() {
-  return (await emoteCollectionsIdb).global.getAllCollections();
+  return (await collectionsIdb).global.getAll();
 }
