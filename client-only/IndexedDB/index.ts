@@ -1,44 +1,73 @@
 import { type DBSchema } from "idb";
-import { emotesIdb } from "./emotes";
 import type {
   IEmote,
-  IEmoteCollection,
   IEmoteSet,
+  IUserEmoteIntegration,
+  IUserEmoteCollection,
   IGlobalEmoteCollection,
+  FrankerFaceZUserIntegration,
+  FrankerFaceZSet,
+  FrankerFaceZEmote,
+  BetterTTVUserIntegration,
+  BetterTTVSet,
+  BetterTTVEmote,
+  I7TVUserCollection,
+  I7TVSet,
+  I7TVEmote,
+  AvailableEmoteSource,
 } from "~/integrations";
-import { emoteCollectionsIdb } from "~/client-only/IndexedDB/emote-collections";
+import { collectionsIdb } from "~/client-only/IndexedDB/emote-collections";
 import { pastasIdb } from "~/client-only/IndexedDB/pastas";
+import { emotesIdb } from "~/client-only/IndexedDB/emotes";
 
-export type IndexedDBEmoteSet = Omit<IEmoteSet, "emotes"> & {
-  emoteIds: IEmote["id"][];
-};
-
-export type IndexedDBEmoteCollection = Omit<IEmoteCollection, "sets"> & {
-  sets: IndexedDBEmoteSet[];
-};
-
-export interface IndexedDBUserCollection {
-  isActive: boolean;
-  twitch: {
-    nickname: string;
-    id: number;
-    username: Lowercase<IndexedDBUserCollection["twitch"]["nickname"]>;
-  };
-  updatedAt: number;
-  collections: Record<
-    "BetterTTV" /* | "Twitch" */ | "SevenTV" | "FrankerFaceZ",
-    // FIXME: uncomment above when twitch api calls will be implemented
-    IndexedDBEmoteCollection
+type GenericIndexedDBUserEmoteIntegration<
+  SourceT extends AvailableEmoteSource,
+  I extends IUserEmoteIntegration,
+  E extends IEmote,
+  SE extends IEmoteSet<SourceT, E>,
+> = Omit<I, "sets"> & {
+  sets: Array<
+    Omit<SE, "emotes"> & {
+      emoteIds: E["id"][];
+    }
   >;
-  failedCollectionsReasons:
-    | Record<"BetterTTV" | "SevenTV" | "FrankerFaceZ", string>
-    | Record<string, never>;
-}
+};
+
+type IndexedDBUserEmoteIntegrationRecord = {
+  FrankerFaceZ: GenericIndexedDBUserEmoteIntegration<
+    "FrankerFaceZ",
+    FrankerFaceZUserIntegration,
+    FrankerFaceZEmote,
+    FrankerFaceZSet
+  >;
+  BetterTTV: GenericIndexedDBUserEmoteIntegration<
+    "BetterTTV",
+    BetterTTVUserIntegration,
+    BetterTTVEmote,
+    BetterTTVSet
+  >;
+  SevenTV: GenericIndexedDBUserEmoteIntegration<
+    "SevenTV",
+    I7TVUserCollection,
+    I7TVEmote,
+    I7TVSet
+  >;
+};
+
+export type IndexedDBUserEmoteIntegration =
+  IndexedDBUserEmoteIntegrationRecord[keyof IndexedDBUserEmoteIntegrationRecord];
+
+export type IndexedDBUserEmoteCollection = Omit<
+  IUserEmoteCollection,
+  "integrations"
+> & {
+  integrations: IndexedDBUserEmoteIntegrationRecord;
+};
 
 export interface EmoteCollectionsSchema extends DBSchema {
   users: {
-    key: IndexedDBUserCollection["twitch"]["username"];
-    value: IndexedDBUserCollection;
+    key: IndexedDBUserEmoteCollection["twitch"]["username"];
+    value: IndexedDBUserEmoteCollection;
   };
   global: {
     key: IGlobalEmoteCollection["source"];
@@ -46,7 +75,7 @@ export interface EmoteCollectionsSchema extends DBSchema {
   };
   "key-value": {
     key: "active-user-collection-username";
-    value: IndexedDBUserCollection["twitch"]["username"] | "";
+    value: IndexedDBUserEmoteCollection["twitch"]["username"] | "";
   };
 }
 
@@ -56,9 +85,9 @@ export interface EmotesSchema {
     value: IEmote & { updatedAt: number };
     indexes: {
       byId: IEmote["id"];
-      bySource: "BetterTTV" | "SevenTV" | "FrankerFaceZ" | "Twitch";
+      bySource: IEmote["source"];
       byToken: IEmote["token"];
-      byTags: string[];
+      byTags: string;
     };
   };
 }
@@ -84,9 +113,9 @@ export interface PastasSchema extends DBSchema {
 }
 
 export const idb = {
-  emoteCollections: emoteCollectionsIdb,
+  collections: collectionsIdb,
   emotes: emotesIdb,
   pastas: pastasIdb,
 };
 
-export { emoteCollectionsIdb, emotesIdb, pastasIdb };
+export { collectionsIdb, emotesIdb, pastasIdb };
