@@ -14,11 +14,14 @@
     src="/img/7tv-logo-32.png"
     alt="SevenTV logo"
   />
+  <img
+    v-else-if="props.source === 'Twitch'"
+    src="/img/twitch-logo-32.png"
+    alt="Twitch logo"
+  />
 </template>
 <script lang="ts" setup>
-import type { AvailableEmoteSource } from "~/integrations";
-
 const props = defineProps<{
-  source: AvailableEmoteSource;
+  source: import("~/integrations").EmoteSource;
 }>();
 </script>
