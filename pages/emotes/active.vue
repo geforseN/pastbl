@@ -51,23 +51,7 @@
             <icon name="carbon:link" />
             Look for emotes
           </span>
-          <div class="flex items-center gap-1">
-            <span class="mr-4 flex flex-col gap-1">
-              <icon-emote-integration-logo
-                v-for="source of availableEmoteSources"
-                v-once
-                :key="source"
-                :class="
-                  source === 'BetterTTV' &&
-                  'absolute translate-x-4 translate-y-2'
-                "
-                :source="source"
-                width="16"
-                heigth="16"
-                class="max-h-[16px] text-xs"
-              />
-            </span>
-          </div>
+          <emote-integration-logo-square />
         </span>
       </nuxt-link>
     </div>
@@ -75,8 +59,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { availableEmoteSources } from "~/integrations";
-
 const userCollectionsStore = useUserCollectionsStore();
 
 const userEmoteCollectionSelectRef = ref<HTMLSelectElement>();
