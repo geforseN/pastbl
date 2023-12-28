@@ -1,5 +1,5 @@
 export async function withLog<T>(
-  cb: () => T | Promise<T>,
+  cbOrValue: MaybePromise<T> | (() => MaybePromise<T>),
   optionsOrKey:
     | string
     | {
@@ -7,7 +7,8 @@ export async function withLog<T>(
         additionalMessages?: Record<string, unknown | never>;
       },
 ): Promise<T> {
-  const returnValue = await cb();
+  const returnValue =
+    cbOrValue instanceof Function ? await cbOrValue() : await cbOrValue;
   if (process.dev) {
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
@@ -24,7 +25,7 @@ export async function withLog<T>(
 }
 
 export function withLogSync<T>(
-  cb: () => T,
+  cbOrValue: T | (() => T),
   optionsOrKey:
     | string
     | {
@@ -32,7 +33,7 @@ export function withLogSync<T>(
         additionalMessages?: Record<string, unknown | never>;
       },
 ): T {
-  const returnValue = cb();
+  const returnValue = cbOrValue instanceof Function ? cbOrValue() : cbOrValue;
   if (process.dev) {
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
