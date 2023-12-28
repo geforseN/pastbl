@@ -1,14 +1,15 @@
+import type { UseAsyncStateReturn } from "@vueuse/core";
 import {
   create7TVUserChannelSet,
-  createBTTVUserCollection,
-  create7TVUserCollection,
-  createFFZUserCollection,
+  createBTTVUserIntegration,
+  create7TVUserIntegration,
+  createFFZUserIntegration,
   createFFZUserSets,
-  createFFZPartialUserCollection,
-  recreate7TVUserCollection,
-  type IEmoteCollection,
+  createFFZPartialUserIntegration,
+  recreate7TVUserIntegration,
   type IUserEmoteCollection,
   type I7TVUserCollection,
+  type IUserEmoteIntegration,
 } from "~/integrations";
 
 import {
@@ -17,7 +18,6 @@ import {
   get7TVUserProfileByTwitchId,
   getFFZProfileByTwitchUsername,
   getFFZUserRoomByTwitchId,
-  isUserNotFoundError,
 } from "~/integrations/api";
 
 function useMyAsyncState<
@@ -31,44 +31,34 @@ function useMyAsyncState<
   });
 }
 
-function useUserService() {
-  /* TODO add arg serviceName: "FrankerFaceZ" | "7TV"| "BTTV" */
-  const isServiceHasUser = ref<boolean | undefined>(undefined);
-
-  function serviceErrorHandler(error: Error) {
-    if (isUserNotFoundError(error)) {
-      isServiceHasUser.value = false;
-      throw error;
+function makeClearAsyncState(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...states: UseAsyncStateReturn<unknown, any[], boolean>[]
+) {
+  return () => {
+    for (const state of states) {
+      state.state.value = null;
+      state.error.value = null;
+      state.isReady.value = false;
+      state.isLoading.value = false;
     }
-  }
-
-  return {
-    isServiceHasUser,
-    serviceErrorHandler,
   };
 }
 
 const useFFZUser = () => {
-  const { isServiceHasUser, serviceErrorHandler } = useUserService();
-
   const partialCollection = useMyAsyncState(
     async (username: Lowercase<string>) => {
-      try {
-        const profile = await getFFZProfileByTwitchUsername(username);
-        isServiceHasUser.value = true;
-        return withLog(() => createFFZPartialUserCollection(profile), {
-          logKey: "FFZPartialCollection",
-        });
-      } catch (error) {
-        assert.ok(error instanceof Error);
-        serviceErrorHandler(error);
-      }
+      const profile = await getFFZProfileByTwitchUsername(username);
+      return withLog(
+        createFFZPartialUserIntegration(profile),
+        "FFZPartialCollection",
+      );
     },
   );
 
   const sets = useMyAsyncState(async (twitchId: number) => {
     const room = await getFFZUserRoomByTwitchId(twitchId);
-    return withLog(() => createFFZUserSets(room.sets), { logKey: "FFZSets" });
+    return withLog(createFFZUserSets(room.sets), "FFZSets");
   });
 
   const fullCollection = useMyAsyncState(() => {
@@ -80,81 +70,47 @@ const useFFZUser = () => {
     const ffzSets = sets.state.value;
     assert.ok(ffzSets, "Can not get full collection without sets");
     return withLog(
-      () => createFFZUserCollection(ffzPartialCollection, ffzSets),
-      {
-        logKey: "FFZFullCollection",
-      },
+      createFFZUserIntegration(ffzPartialCollection, ffzSets),
+      "FFZFullCollection",
     );
   });
-  function clearState() {
-    for (const collection_ of [partialCollection, sets, fullCollection]) {
-      collection_.state.value = null;
-      collection_.error.value = null;
-      collection_.isReady.value = false;
-      collection_.isLoading.value = false;
-    }
-  }
+
   return {
-    isServiceHasUser,
     partialCollection,
     sets,
     fullCollection,
-    clearState,
+    clear: makeClearAsyncState(partialCollection, sets, fullCollection),
   };
 };
 export type UseFFZReturn = ReturnType<typeof useFFZUser>;
 
 const useBTTVUser = () => {
-  const { isServiceHasUser, serviceErrorHandler } = useUserService();
-
   const bttv = useMyAsyncState(
     async (twitch: { id: number; username: Lowercase<string> }) => {
-      try {
-        const user = {
-          ...(await getBetterTTVUserByTwitchId(twitch.id, twitch.username)),
-          twitch: { username: twitch.username },
-        };
-        return withLog(() => createBTTVUserCollection(user), {
-          logKey: "BTTV",
-        });
-      } catch (error) {
-        assert.ok(error instanceof Error);
-        serviceErrorHandler(error);
-      }
+      const user = {
+        ...(await getBetterTTVUserByTwitchId(twitch.id, twitch.username)),
+        twitch: { username: twitch.username },
+      };
+      return withLog(createBTTVUserIntegration(user), "BTTV");
     },
   );
-  function clearState() {
-    bttv.state.value = null;
-    bttv.error.value = null;
-    bttv.isReady.value = false;
-    bttv.isLoading.value = false;
-  }
+
   return {
-    isServiceHasUser,
     ...bttv,
-    clearState,
+    clear: makeClearAsyncState(bttv),
   };
 };
+
 export type UseBTTVReturn = ReturnType<typeof useBTTVUser>;
 
 const use7TVUser = () => {
-  const { isServiceHasUser, serviceErrorHandler } = useUserService();
-
   const collection = useMyAsyncState(
     async (twitch: { id: number; username?: Lowercase<string> }) => {
-      try {
-        const profile = await get7TVUserProfileByTwitchId(
-          twitch.id,
-          twitch.username,
-        );
-        isServiceHasUser.value = true;
-        return withLog(() => create7TVUserCollection(profile), {
-          logKey: "7TVCollection",
-        });
-      } catch (error) {
-        assert.ok(error instanceof Error);
-        serviceErrorHandler(error);
-      }
+      const profile = await get7TVUserProfileByTwitchId(
+        twitch.id,
+        twitch.username,
+      );
+      return withLog(create7TVUserIntegration(profile), "7TVCollection");
     },
   );
 
@@ -162,20 +118,19 @@ const use7TVUser = () => {
     async (collectionState: Readonly<I7TVUserCollection>) => {
       const { activeSet } = collectionState;
       if (activeSet.isValid) {
-        return withLog(() => activeSet, {
+        return withLog(activeSet, {
           logKey: "7TVSet",
           additionalMessages: { isFastReturn: true },
         });
       }
       const apiSet = await get7TVSetById(activeSet.id);
-      return withLog(() => create7TVUserChannelSet(apiSet), {
+      return withLog(create7TVUserChannelSet(apiSet), {
         logKey: "7TVSet",
         additionalMessages: { isFastReturn: false },
       });
     },
   );
 
-  // FIXME: add full collection class as return value
   const fullCollection = useMyAsyncState(
     async (twitch: { id: number; username?: Lowercase<string> }) => {
       const collectionState = await collection.execute(0, twitch);
@@ -189,27 +144,17 @@ const use7TVUser = () => {
         "Can not get full collection without active set",
       );
       return withLog(
-        () => recreate7TVUserCollection(collectionState, [activeSetState]),
-        { logKey: "7TV" },
+        recreate7TVUserIntegration(collectionState, [activeSetState]),
+        "7TV",
       );
     },
   );
 
-  function clearState() {
-    for (const collection_ of [activeSet, collection, fullCollection]) {
-      collection_.state.value = null;
-      collection_.error.value = null;
-      collection_.isReady.value = false;
-      collection_.isLoading.value = false;
-    }
-  }
-
   return {
-    isServiceHasUser,
     collection,
     activeSet,
     fullCollection,
-    clearState,
+    clear: makeClearAsyncState(collection, activeSet, fullCollection),
   };
 };
 
@@ -220,11 +165,11 @@ export function useUserIntegrations() {
   const bttv = useBTTVUser();
   const sevenTv = use7TVUser();
 
-  const integrations = useMyAsyncState(
+  const collection = useMyAsyncState(
     async (twitchNickname: MaybeRef<string>) => {
       const username = toLowerCase(toValue(twitchNickname));
       for (const integration of [ffz, bttv, sevenTv]) {
-        integration.clearState();
+        integration.clear();
       }
       await ffz.partialCollection.execute(0, username).catch((error) => {
         for (const state of [bttv, sevenTv.collection]) {
@@ -243,51 +188,46 @@ export function useUserIntegrations() {
           ffz.partialCollection.state.value?.owner.displayName ||
           raise("No twitch nickname found"),
       };
-      const [fulfilledCollections, rejectReasons] =
-        await tupleSettledPromises<IEmoteCollection>([
-          ffz.sets
-            .execute(0, twitchUser.id)
-            .then(() => ffz.fullCollection.execute())
-            .then((v) => v || raise("No FrankerFaceZ collection found")),
-          bttv
-            .execute(0, twitchUser)
-            .then((v) => v || raise("No BetterTTV collection found")),
-          sevenTv.fullCollection
-            .execute(0, twitchUser)
-            .then((v) => v || raise("No SevenTV collection found")),
-        ]);
-      const collections = groupBy(
-        fulfilledCollections,
+      const integrationPromises = [
+        ffz.sets
+          .execute(0, twitchUser.id)
+          .then(() => ffz.fullCollection.execute(0))
+          .then((v) => v || raise("No FrankerFaceZ integration found")),
+        bttv
+          .execute(0, twitchUser)
+          .then((v) => v || raise("No BetterTTV integration found")),
+        sevenTv.fullCollection
+          .execute(0, twitchUser)
+          .then((v) => v || raise("No SevenTV integration found")),
+      ];
+      const [fulfilledIntegrations, rejectReasons] =
+        await tupleSettledPromises<IUserEmoteIntegration>(integrationPromises);
+      const integrations = groupBy(
+        fulfilledIntegrations,
         (collection) => collection.source,
       );
-      assert.ok(
-        rejectReasons.every(
-          (reason): reason is Error => reason instanceof Error,
-        ),
-      );
-      const failedCollectionsReasons = groupBy(
+      const failedIntegrationsReasons = groupBy(
         rejectReasons,
-        // @ts-expect-error ts wont yell if below assert will be type guard for ExtendedError
-        (reason, index) => reason.source ?? index,
+        // @ts-expect-error for minimal code TypeScript check can be omitted
+        (reason, index) => reason?.source ?? index,
       );
-      if (process.dev) {
-        // eslint-disable-next-line no-console
-        console.log({
-          fulfilledCollections,
+      withLogSync(
+        () => ({
+          fulfilledIntegrations,
           rejectReasons,
-          failedCollectionsReasons,
-          collections,
+          failedIntegrationsReasons,
+          integrations,
           twitchUser,
-        });
-      }
+        }),
+        "UserIntegrations",
+      );
       return {
         twitch: {
           ...twitchUser,
         },
-        failedCollectionsReasons,
+        failedIntegrationsReasons,
         updatedAt: Date.now(),
-        collections,
-        isActive: false,
+        integrations,
       } as IUserEmoteCollection;
     },
   );
@@ -296,6 +236,6 @@ export function useUserIntegrations() {
     ffz,
     bttv,
     sevenTv,
-    integrations,
+    collection,
   };
 }
