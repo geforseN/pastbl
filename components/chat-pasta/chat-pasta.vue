@@ -65,13 +65,8 @@ const emit = defineEmits<{
 const isPopulateEmitCalledOnce = ref(false);
 
 const pastaTextContainerRef = ref();
-const {
-  stop: _,
-  pause: __,
-  resume: ___,
-  isActive: ____,
-  isSupported: _____,
-} = useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
+
+useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
   if (!entry.isIntersecting || isPopulateEmitCalledOnce.value) {
     return;
   }
