@@ -6,7 +6,6 @@
     probably this can be refactored and visual regression wont happened
   -->
   <div
-    ref="pastaRef"
     class="flex flex-col gap-x-2 gap-y-1 border border-info p-2 xs:flex-row xs:gap-y-0"
   >
     <div class="flex w-[340px] flex-col">
@@ -15,8 +14,8 @@
           <slot name="creatorData" />
           <span aria-hidden="true">{{ ": " }}</span>
           <span
+            ref="pastaTextContainerRef"
             class="twitch-text p-0 text-[13px]/[18px]"
-            :data-pasta-text-container="true"
           >
             {{ props.pasta.text }}
           </span>
@@ -65,21 +64,19 @@ const emit = defineEmits<{
 // isPopulateEmitCalledOnce MUST be ref, otherwise will be SSR bugs with pasta populate
 const isPopulateEmitCalledOnce = ref(false);
 
-const pastaRef = ref();
+const pastaTextContainerRef = ref();
 const {
   stop: _,
   pause: __,
   resume: ___,
   isActive: ____,
-} = useIntersectionObserver(pastaRef, ([entry]) => {
+  isSupported: _____,
+} = useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
   if (!entry.isIntersecting || isPopulateEmitCalledOnce.value) {
     return;
   }
-  const pastaTextContainer = entry.target.querySelector(
-    "[data-pasta-text-container]",
-  );
-  assert.ok(pastaTextContainer instanceof HTMLElement);
-  emit("populate", pastaTextContainer, props.pasta);
+  assert.ok(entry.target instanceof HTMLElement);
+  emit("populate", entry.target, props.pasta);
   isPopulateEmitCalledOnce.value = true;
 });
 </script>
