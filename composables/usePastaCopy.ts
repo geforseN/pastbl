@@ -36,10 +36,10 @@ export function usePastaCopy({
         if (userStore.preferences.pasta.oncopy.includes("sound")) {
           await new Audio("/sounds/click.wav").play().catch(() => {});
         }
-        const pastasIdb = await import("~/client-only/IndexedDB/index").then(
+        const pastasIdb = await import("~/client-only/IndexedDB").then(
           ({ idb }) => idb.pastas,
         );
-        await pastasIdb.updatePastaLastCopied(pastaToCopy);
+        await pastasIdb.list.updatePastaLastCopied(pastaToCopy);
       } catch (error: Error | unknown) {
         toast.add({
           description:
@@ -52,5 +52,6 @@ export function usePastaCopy({
         });
       }
     },
+    isSupported: clipboard.isSupported,
   };
 }
