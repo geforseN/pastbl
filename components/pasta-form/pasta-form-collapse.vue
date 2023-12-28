@@ -52,7 +52,7 @@ async function handlePastaCreation() {
       tags: pastaStore.pasta.tags,
       text: pastaStore.pasta.text,
     });
-    pastaStore.$reset();
+    pastaStore.pasta.reset();
     toast.add({
       description: "Pasta added successfully",
       title: "Pasta 🤙🤙🤙",
