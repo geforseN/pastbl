@@ -25,8 +25,12 @@
   >
     <chat-pasta
       v-for="pasta of pastasStore.pastasSortedByNewest"
-      :key="pasta.createdAt"
+      :key="pasta.id"
       :pasta="pasta"
+      @populate="
+        (pastaTextContainer, pasta) =>
+          populatePasta(pastaTextContainer, pasta, emotesStore)
+      "
     >
       <template #creatorData>
         <slot name="creatorData" />
@@ -62,4 +66,6 @@ const clipboard = useClipboard();
 const pastasStore = usePastasStore();
 
 const { copyPasta } = usePastaCopy({ clipboard });
+
+const emotesStore = useEmotesStore();
 </script>
