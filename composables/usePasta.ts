@@ -1,3 +1,10 @@
+import { emojify, has as isEmoji } from "node-emoji";
+import {
+  makeEmoteAsString,
+  makeEmoteAsStringWithModifiersWrapper,
+  type IEmote,
+} from "~/integrations";
+
 export type BasePasta = {
   text: string;
   tags: string[];
@@ -23,15 +30,6 @@ function isValidASCIICharCode(charCode: number) {
 }
 
 function isValidToken(word: string) {
-  for (const char of word) {
-    if (!isValidASCIICharCode(char.charCodeAt(0))) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function isValidToken2(word: string) {
   for (let i = 0; i < word.length; i++) {
     if (!isValidASCIICharCode(word.charCodeAt(i))) {
       return false;
@@ -64,7 +62,7 @@ export const usePasta = () => {
     tag,
     tags,
     text,
-    $reset() {
+    reset() {
       tag.value = "";
       tags.value = [];
       text.value = "";
@@ -97,3 +95,83 @@ export const usePasta = () => {
     },
   };
 };
+
+function findModifiers(
+  emoteIndex: number,
+  tokens: string[],
+  emotesStore: ReturnType<typeof useEmotesStore>,
+) {
+  const emotes: IEmote[] = [];
+  const indexes: number[] = [];
+
+  let nextTokenIndex = emoteIndex + 1;
+  while (true) {
+    const token = tokens[nextTokenIndex];
+    if (!token) {
+      break;
+    }
+    const tokenAsEmote = emotesStore.findEmote(token);
+    if (!tokenAsEmote || !tokenAsEmote.isModifier) {
+      break;
+    }
+    indexes.push(nextTokenIndex);
+    emotes.push(tokenAsEmote);
+    nextTokenIndex++;
+  }
+  return { emotes, indexes };
+}
+
+function populateToken(
+  this: {
+    pasta: IDBMegaPasta;
+    indexedOfPastaTokensToSkip: Set<number>;
+    emotesStore: ReturnType<typeof useEmotesStore>;
+  },
+  token: string,
+  index: number,
+  tokens: string[],
+) {
+  if (this.indexedOfPastaTokensToSkip.has(index)) {
+    return "";
+  }
+  if (!this.pasta.validTokens.includes(token)) {
+    return token;
+  }
+  if (isEmoji(token)) {
+    return emojify(token);
+  }
+  const tokenAsEmote = this.emotesStore.findEmote(token);
+  if (!tokenAsEmote) {
+    return token;
+  }
+  const modifiers = findModifiers(index, tokens, this.emotesStore);
+  if (modifiers.emotes.length) {
+    for (const index of modifiers.indexes) {
+      this.indexedOfPastaTokensToSkip.add(index);
+    }
+    return makeEmoteAsStringWithModifiersWrapper(
+      tokenAsEmote,
+      modifiers.emotes,
+    );
+  }
+  return makeEmoteAsString(tokenAsEmote);
+}
+
+export function populatePasta(
+  pastaTextContainer: HTMLElement,
+  pasta: IDBMegaPasta,
+  emotesStore: ReturnType<typeof useEmotesStore>,
+) {
+  const pastaText = pastaTextContainer.innerText;
+
+  // TODO: await emotesStore here until user emotes are not loaded
+  // OR no need to await here, but when new emotes are loaded SHOULD repopulate visible pastas
+
+  const populatedWords = pastaText.split(" ").map(populateToken, {
+    pasta,
+    indexedOfPastaTokensToSkip: new Set(),
+    emotesStore,
+  });
+
+  pastaTextContainer.innerHTML = populatedWords.join(" ");
+}
