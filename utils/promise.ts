@@ -1,17 +1,28 @@
+function isPromiseResultFulfilled<T>(
+  result: PromiseSettledResult<Awaited<T>>,
+): result is PromiseFulfilledResult<Awaited<T>> {
+  return result.status === "fulfilled";
+}
+
+function isPromiseResultRejected<T>(
+  result: PromiseSettledResult<Awaited<T>>,
+): result is PromiseRejectedResult {
+  return result.status === "rejected";
+}
+
 export async function tupleSettledPromises<T>(
   values: ReadonlyArray<MaybePromise<T>>,
-): Promise<[Awaited<T>[], unknown[]]> {
+) {
   const settledValues = await Promise.allSettled(values);
-  const fulfilled = settledValues
-    .filter(
-      (result): result is PromiseFulfilledResult<Awaited<T>> =>
-        result.status === "fulfilled",
-    )
-    .map((result) => result.value);
-  const rejected = settledValues
-    .filter(
-      (result): result is PromiseRejectedResult => result.status === "rejected",
-    )
-    .map((result) => result.reason);
-  return [fulfilled, rejected];
+  return settledValues.reduce(
+    (accumulator, settledPromise) => {
+      if (isPromiseResultFulfilled(settledPromise)) {
+        accumulator[0].push(settledPromise.value);
+      } else if (isPromiseResultRejected(settledPromise)) {
+        accumulator[1].push(settledPromise.reason);
+      }
+      return accumulator;
+    },
+    [[], []] as [Awaited<T>[], unknown[]],
+  );
 }
