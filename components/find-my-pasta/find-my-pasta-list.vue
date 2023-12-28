@@ -37,7 +37,16 @@
         &gt&gt
       </button>
     </div>
-    <chat-pasta v-if="selectedPasta" :pasta="selectedPasta" class="curr-pasta">
+    <!-- NOTE: chat-pasta :key is important, without it component populate emit will be called once -->
+    <chat-pasta
+      v-if="selectedPasta"
+      :key="selectedPasta.id"
+      :pasta="selectedPasta"
+      @populate="
+        (pastaTextContainer, selectedPasta) =>
+          populatePasta(pastaTextContainer, selectedPasta, emotesStore)
+      "
+    >
       <template #creatorData>
         <chat-pasta-creator-data
           :badges-count="userStore.user.badges.count"
@@ -48,7 +57,7 @@
       <template #sidebar>
         <button
           class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-          :disabled="!clipboard.isSupported.value"
+          :disabled="!pastaCopy.isSupported.value"
           @click="copyPasta(selectedPasta)"
         >
           copy pasta
@@ -66,16 +75,8 @@ const selectedPastaNumber = ref(1);
 const selectedPastaIndex = computed(() => selectedPastaNumber.value - 1);
 const selectedPasta = computed(() => props.pastas[selectedPastaIndex.value]);
 
-watch(
-  () => props.pastas.length,
-  () => {
-    selectedPastaNumber.value = 1;
-  },
-);
-
 const userStore = useUserStore();
+const emotesStore = useEmotesStore();
 
-const clipboard = useClipboard();
-
-const { copyPasta } = usePastaCopy({ userStore, clipboard });
+const { copyPasta, ...pastaCopy } = usePastaCopy({ userStore });
 </script>
