@@ -1,32 +1,62 @@
 import type { NotificationColor } from "@nuxt/ui/dist/runtime/types";
 
-export function assertIsError(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function assertIsError<EC extends new (...args: any[]) => Error>(
   maybeError: unknown,
-): asserts maybeError is Error {
-  if (maybeError instanceof Error) {
-    return;
+  ErrorConstructor?: EC,
+): asserts maybeError is InstanceType<EC> {
+  if (!(maybeError instanceof (ErrorConstructor || Error))) {
+    throw new TypeError("Expected an error");
   }
-  throw new Error("Expected an error");
+}
+
+function assertOk(
+  value: unknown,
+  messageOrError?: string | Error,
+): asserts value {
+  if (!value) {
+    raise(messageOrError);
+  }
+}
+
+function assertResponseOk(
+  response: Response,
+  messageOrError: string | Error = Error(
+    `HTTP error, status = ${response.status} error: ${response.text()}`,
+  ),
+) {
+  if (!response.ok) {
+    if (messageOrError instanceof Error) {
+      throw messageOrError;
+    }
+    throw new Error(messageOrError);
+  }
 }
 
 export const assert: {
-  ok: (value: unknown, messageOrError?: string | Error) => asserts value;
+  ok: typeof assertOk;
+  isError: typeof assertIsError;
+  response: {
+    ok: typeof assertResponseOk;
+  };
 } = {
-  ok: function (
-    value: unknown,
-    messageOrError?: string | Error,
-  ): asserts value {
-    if (value) {
-      return;
-    }
-    raise(messageOrError || "Assertion failed");
+  ok: assertOk,
+  isError: assertIsError,
+  response: {
+    ok: assertResponseOk,
   },
 };
 
-export function raise(messageOrError: string | Error): never {
-  throw typeof messageOrError === "string"
-    ? new Error(messageOrError as string)
-    : (messageOrError as Error);
+export function raise(messageOrError?: string | Error): never {
+  if (typeof messageOrError === "string") {
+    // eslint-disable-next-line unicorn/prefer-type-error
+    throw new Error(messageOrError);
+  } else if (messageOrError instanceof Error) {
+    throw messageOrError;
+  } else {
+    // eslint-disable-next-line unicorn/prefer-type-error
+    throw new Error("Assertion failed");
+  }
 }
 
 export class ExtendedError extends Error {
