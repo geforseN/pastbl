@@ -1,14 +1,3 @@
-import { raise } from "~/utils/error";
-
-export const twitchApiFetch = $fetch.create({
-  baseURL: "https://api.twitch.tv/helix",
-  headers: {
-    "Client-ID":
-      process.env.TWITCH_APP_CLIENT_ID ||
-      raise("TWITCH_APP_CLIENT_ID not defined in .env"),
-  },
-});
-
 // GET https://api.twitch.tv/helix/channels (title & game data)
 
 // GET https://api.twitch.tv/helix/subscriptions (need user access token)
@@ -25,5 +14,4 @@ export const twitchApiFetch = $fetch.create({
 // GET https://api.twitch.tv/helix/chat/badges
 
 // GET https://api.twitch.tv/helix/chat/settings
-
 // GET https://api.twitch.tv/helix/chat/color
