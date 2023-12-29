@@ -7,32 +7,29 @@ export function useFindPastasTags(
 
   const allPastasUniqueTagsSortedByAlphabetCaseInsensitive = computed(() =>
     withLogSync(
-      () =>
-        [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))].sort(
-          (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
-        ),
+      [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))].sort(
+        (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
+      ),
       "allTagsSortedByAlphabet",
     ),
   );
 
   const pastasWithSelectedTags = computed(() => {
     return withLogSync(
-      () =>
-        allPastas.value.filter((pasta) =>
-          selectedPastaTags.value.every((selectedTag) =>
-            pasta.tags.includes(selectedTag),
-          ),
+      allPastas.value.filter((pasta) =>
+        selectedPastaTags.value.every((selectedTag) =>
+          pasta.tags.includes(selectedTag),
         ),
+      ),
       "pastasWithMinimalRequiredTagsCount",
     );
   });
 
   const showedPastasTagsSortedByAlphabetCaseInsensitive = computed(() => {
     return withLogSync(
-      () =>
-        [...new Set(showedPastas.value.flatMap((pasta) => pasta.tags))].sort(
-          (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
-        ),
+      [...new Set(showedPastas.value.flatMap((pasta) => pasta.tags))].sort(
+        (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
+      ),
       "showedPastasTagsSortedByAlphabet",
     );
   });
@@ -59,14 +56,14 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
   const { range, minValue: min, maxValue: max } = useFindMyPastaRange();
   const mustRespectLengthRange = ref(true);
 
+  function isPastaInRange(this: Ref<[number, number]>, pasta: IDBMegaPasta) {
+    return (
+      pasta.text.length >= range.value[0] && pasta.text.length <= range.value[1]
+    );
+  }
   const pastasWithLengthOccurrence = computed(() =>
     withLogSync(
-      () =>
-        pastas.value.filter(
-          (pasta) =>
-            pasta.text.length >= range.value[0] &&
-            pasta.text.length <= range.value[1],
-        ),
+      pastas.value.filter(isPastaInRange, range),
       "lengthAppropriatePastas",
     ),
   );
@@ -79,9 +76,7 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
   });
 
   return {
-    range,
-    min,
-    max,
+    length: { range, min, max },
     mustRespectLengthRange,
     lengthAppropriatePastas,
   };
@@ -90,12 +85,11 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
 export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
   const text = ref("");
 
-  function hasPastaTextOccurrence(pasta: IDBMegaPasta) {
+  function isPastaHasTextOccurrence(pasta: IDBMegaPasta) {
     return pasta.text.toLowerCase().includes(text.value.toLowerCase());
   }
-
   const pastasWithTextOccurrence = computed(() =>
-    pastas.value.filter(hasPastaTextOccurrence),
+    pastas.value.filter(isPastaHasTextOccurrence),
   );
 
   const textAppropriatePastas = computed(() => {

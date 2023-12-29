@@ -49,15 +49,15 @@ definePageMeta({
 const pastasStore = usePastasStore();
 
 const allPastas = computed(() =>
-  withLogSync(() => pastasStore.pastasSortedByNewest, "allPastas"),
+  withLogSync(pastasStore.pastasSortedByNewest, "allPastas"),
 );
 
 const showedPastas = computed(() =>
-  withLogSync(() => pastasToShowOnPage.value, "showedPastas"),
+  withLogSync(pastasToShowOnPage.value, "showedPastas"),
 );
 
 const { text, textAppropriatePastas } = useFindPastaText(allPastas);
-const { mustRespectLengthRange, lengthAppropriatePastas, ...length } =
+const { mustRespectLengthRange, lengthAppropriatePastas, length } =
   useFindPastasLength(allPastas);
 const {
   mustRespectSelectedTags,
@@ -66,12 +66,14 @@ const {
   tagsToSelect,
 } = useFindPastasTags(allPastas, showedPastas);
 
+const pastaLists = [
+  textAppropriatePastas,
+  lengthAppropriatePastas,
+  tagsAppropriatePastas,
+];
+
 const sortedByLengthPastaLists = computed(() => {
-  return [
-    textAppropriatePastas,
-    lengthAppropriatePastas,
-    tagsAppropriatePastas,
-  ].sort((a, b) => a.value.length - b.value.length);
+  return pastaLists.sort((a, b) => a.value.length - b.value.length);
 });
 
 const pastasToShowOnPage = computed(() => {
