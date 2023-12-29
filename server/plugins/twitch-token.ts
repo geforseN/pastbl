@@ -1,14 +1,14 @@
-export type TwitchToken = {
-  fetchStartTime: number;
-  access_token: string;
-  expires_in: number;
-  token_type: "bearer";
-};
-
 const {
-  TWITCH_APP_CLIENT_ID: clientId,
-  TWITCH_APP_CLIENT_SECRET: clientSecret,
+  TWITCH_APP_CLIENT_SECRET: twitchClientSecret,
+  TWITCH_APP_CLIENT_ID: twitchClientId,
 } = process.env;
+
+if (!twitchClientId) {
+  throw new Error("TWITCH_APP_CLIENT_ID is not defined in .env");
+}
+if (!twitchClientSecret) {
+  throw new Error("TWITCH_APP_CLIENT_SECRET is not defined in .env");
+}
 
 const twitchTokenOptions = {
   method: "POST" as const,
@@ -16,21 +16,22 @@ const twitchTokenOptions = {
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 };
 
+const storage = useStorage();
+
 async function fetchTwitchToken(): Promise<TwitchToken> {
   const fetchStartTime = Date.now();
   const twitchToken: Omit<TwitchToken, "fetchStartTime"> = await $fetch(
     "/oauth2/token",
     {
       ...twitchTokenOptions,
-      body: `client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`,
+      body: `client_id=${twitchClientId}&client_secret=${twitchClientSecret}&grant_type=client_credentials`,
     },
   );
   return { ...twitchToken, fetchStartTime };
 }
 
-export const storage = useStorage();
-
 export default defineNitroPlugin(async (nitro) => {
+  /* eslint-disable no-console */
   console.log("Fetching twitch token");
   const token = await fetchTwitchToken();
   await storage.setItem("twitchToken", token);
@@ -44,8 +45,9 @@ export default defineNitroPlugin(async (nitro) => {
     // LINK: https://dev.twitch.tv/docs/authentication/revoke-tokens/
     await $fetch("/oauth2/revoke", {
       ...twitchTokenOptions,
-      body: `client_id=${clientId}&token=${token.access_token}`,
+      body: `client_id=${twitchClientId}&token=${token.access_token}`,
     });
     console.log("Nitro close hooks ended");
   });
+  /* eslint-enable no-console */
 });
