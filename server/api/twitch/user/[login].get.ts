@@ -1,5 +1,16 @@
-import { twitchApiFetch } from "..";
-import { storage, type TwitchToken } from "~/server/plugins/twitch-token";
+import { z } from "zod";
+
+const paramSchema = z.string();
+
+export default cachedEventHandler(
+  async (event) => {
+    const login = paramSchema.parse(getRouterParam(event, "login"));
+    const accessToken = await twitch.getAccessToken();
+    const apiUser = await fetchUser(login, accessToken);
+    return makeUser(apiUser);
+  },
+  { maxAge: 60 * 15 /* 15 minutes */ },
+);
 
 type ApiTwitchGetUsersResponse = {
   data: {
@@ -17,27 +28,26 @@ type ApiTwitchGetUsersResponse = {
   }[];
 };
 
-export default defineEventHandler(async (event) => {
-  const login = getRouterParam(event, "login");
+function makeUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
+  return {
+    id: Number(dataItem.id),
+    username: dataItem.login,
+    nickname: dataItem.display_name,
+    description: dataItem.description,
+    avatarUrl: dataItem.profile_image_url,
+    createdAt: dataItem.created_at,
+  };
+}
 
-  const twitchToken = await storage.getItem<TwitchToken>("twitchToken");
-
-  const { data } = await twitchApiFetch<ApiTwitchGetUsersResponse>("/users", {
+async function fetchUser(login: string, accessToken: string) {
+  const { data } = await twitch.api.fetch<ApiTwitchGetUsersResponse>("/users", {
     query: { login },
     headers: {
-      Authorization: `Bearer ${twitchToken?.access_token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
   if (data.length !== 1) {
     throw new Error("User with username=" + login + " not found");
   }
-  const user = {
-    id: Number(data[0].id),
-    username: data[0].login,
-    nickname: data[0].display_name,
-    description: data[0].description,
-    avatarUrl: data[0].profile_image_url,
-    createdAt: data[0].created_at,
-  };
-  return user;
-});
+  return data[0];
+}
