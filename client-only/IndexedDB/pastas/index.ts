@@ -31,7 +31,6 @@ class PastasList {
   updatePastaLastCopied(pasta: IDBMegaPasta) {
     return this.idb.put("list", {
       ...pasta,
-      populatedText: undefined,
       lastCopiedAt: Date.now(),
     });
   }
