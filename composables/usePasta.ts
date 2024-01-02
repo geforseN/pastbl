@@ -13,7 +13,6 @@ export type BasePasta = {
 export type MegaPasta = BasePasta & {
   length: number;
   createdAt: number;
-  populatedText?: string;
   lastCopiedAt?: number;
   validTokens: string[];
 };
@@ -49,7 +48,6 @@ export function createMegaPasta(
     createdAt: Date.now(),
     validTokens: [...new Set(trimmedText.split(" "))].filter(isValidToken),
     lastCopiedAt: undefined,
-    populatedText: undefined,
   };
 }
 
