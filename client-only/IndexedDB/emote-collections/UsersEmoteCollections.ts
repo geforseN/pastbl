@@ -1,72 +1,74 @@
 import type { IDBPDatabase } from "idb";
 import {
   type EmoteCollectionsSchema,
-  type IndexedDBUserCollection,
+  type IndexedDBUserEmoteCollection,
 } from "~/client-only/IndexedDB";
 import type { IUserEmoteCollection } from "~/integrations";
 
-export class UsersEmoteCollections {
+export class UsersCollections {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<EmoteCollectionsSchema>) {}
 
-  getUserCollectionByUsername(
-    username: IndexedDBUserCollection["twitch"]["username"],
-  ) {
+  get(username: IndexedDBUserEmoteCollection["twitch"]["username"]) {
     return this.db.transaction("users").store.get(username);
   }
 
-  getAllCollections() {
+  getAll() {
     return this.db.transaction("users").store.getAll();
   }
 
-  getAllCollectionsUsernames() {
+  getAllUsernames() {
     return this.db.transaction("users").store.getAllKeys();
   }
 
-  updateCollection(idbCollection: IndexedDBUserCollection) {
-    const raIdbCollection: IndexedDBUserCollection = {
-      ...idbCollection,
-      collections: toRaw(idbCollection.collections),
-      failedCollectionsReasons: toRaw(idbCollection.failedCollectionsReasons),
-      twitch: toRaw(idbCollection.twitch),
-    };
+  // TODO: param should be idbCollection already (add class for data preparation)
+  update(collection: IndexedDBUserEmoteCollection) {
+    const idbCollection = makeEntriesRaw(collection);
     return this.db
       .transaction("users", "readwrite")
       .objectStore("users")
-      .put(raIdbCollection);
+      .put(idbCollection);
   }
 
-  removeCollection(collection: IndexedDBUserCollection) {
+  remove(collection: IndexedDBUserEmoteCollection) {
     return this.db.delete("users", collection.twitch.username);
   }
 
-  async putCollection(collection: IUserEmoteCollection) {
-    const collectionCollections = Object.values(collection.collections).map(
-      (collection) => ({
-        ...collection,
-        owner: toRaw(collection.owner),
-        sets: collection.sets.map((set) => {
-          const { emotes, ...setToInclude } = set;
-          return {
-            ...setToInclude,
-            emoteIds: emotes.map((emote) => emote.id),
-          };
-        }),
-      }),
-    );
-    const idbCollection = {
+  // TODO: param should be idbCollection already (add class for data preparation)
+  async put(collection: IUserEmoteCollection) {
+    const integrations = prepareIntegrationsForPut(collection.integrations);
+    const idbCollection = makeEntriesRaw({
       ...collection,
-      failedCollectionsReasons: toRaw(collection.failedCollectionsReasons),
-      twitch: toRaw(collection.twitch),
-      collections: groupBy(
-        collectionCollections,
-        (collection) => collection.source,
-      ),
-    };
+      integrations,
+    });
     await this.db
       .transaction("users", "readwrite")
       .objectStore("users")
       .put(idbCollection);
     return idbCollection;
   }
+}
+
+function makeEntriesRaw<T>(object: T): T {
+  return Object.entries(object).reduce((acc, [key, value]) => {
+    acc[key] = toRaw(value);
+    return acc;
+  }, {} as T);
+}
+
+function prepareIntegrationsForPut<T extends IUserEmoteCollection>(
+  integrations: T["integrations"],
+) {
+  const idbIntegrations = Object.values(integrations).map((integration) => ({
+    ...integration,
+    owner: toRaw(integration.owner),
+    sets: integration.sets.map((set) => {
+      const { emotes, ...setToInclude } = set;
+      return {
+        ...setToInclude,
+        emoteIds: emotes.map((emote) => emote.id),
+      };
+    }),
+  }));
+  return groupBy(idbIntegrations, (integration) => integration.source);
 }
