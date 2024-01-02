@@ -4,7 +4,7 @@
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
-        <nuxt-link class="relative bottom-[1px] text-5xl" to="/">
+        <nuxt-link class="logo relative bottom-[1px] text-5xl" to="/">
           pastbl
         </nuxt-link>
       </li>
@@ -58,3 +58,8 @@
 <script setup lang="ts">
 import { availableEmoteSources } from "~/integrations";
 </script>
+<style scoped>
+.logo {
+  -webkit-text-stroke: 0.5px black;
+}
+</style>
