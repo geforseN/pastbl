@@ -52,57 +52,6 @@ useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
 onMounted(() => {
   themeChange(false);
   document.documentElement.classList.remove("dark", "light");
-
-  const emotesStore = useEmotesStore();
-  const pastasStore = usePastasStore();
-
-  $fetch("/api/twitch/user/psp1g").then(console.log);
-  $fetch("/api/twitch/emotes/global").then(console.log);
-
-  watch(
-    () => storeToRefs(pastasStore).newPastas.value,
-    async (newPastas, oldPastas) => {
-      if (!oldPastas.length && !newPastas.length) {
-        return;
-      }
-      await Promise.allSettled([
-        until(() => emotesStore.activeUserEmotes).toMatch(
-          (userEmotes) =>
-            Object.values(userEmotes || {}).some(
-              (sourceMap) => !!sourceMap.size,
-            ),
-          { timeout: 3_000 },
-        ),
-        until(() => emotesStore.globalEmotes).toMatch(
-          (globalEmotes) =>
-            Object.values(globalEmotes || {}).every(
-              (sourceMap) => !!sourceMap.size,
-            ),
-          { timeout: 3_000 },
-        ),
-      ]);
-      const emotesMapOfAddedPastas = getPastasEmotesMap(
-        newPastas,
-        emotesStore.findEmote,
-      );
-      for (const [pasta, emotes] of emotesMapOfAddedPastas) {
-        pasta.populatedText = pasta.text;
-        for (const emote of emotes) {
-          const emoteTemplate = templateStrings[emote.source];
-          const emoteAsString = emoteTemplate(emote);
-          // const pastaElement = document.querySelector(
-          //   `[data-pasta-id="${pastaId}"]`,
-          // );
-          // console.log({ pastaElement });
-          pasta.populatedText = pasta.populatedText.replaceAll(
-            emote.token,
-            emoteAsString,
-          );
-        }
-      }
-      pastasStore.trigger();
-    },
-  );
 });
 </script>
 <style>
