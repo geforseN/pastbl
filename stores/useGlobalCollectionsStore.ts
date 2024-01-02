@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  type IGlobalEmoteCollection,
-  availableEmoteSources,
-} from "~/integrations";
+import type { IGlobalEmoteCollection } from "~/integrations";
 import {
   getAllGlobalCollections,
   loadMissingGlobalCollections,
@@ -13,42 +10,32 @@ export const useGlobalCollectionsStore = defineStore(
   "global-collections",
   () => {
     const collections = useAsyncState(
-      async () => {
-        if (typeof window === "undefined") {
-          return [];
-        }
-        return await getAllGlobalCollections();
-      },
-      [],
+      getAllGlobalCollections,
+      {},
       { shallow: true },
     );
 
     watch(collections.state, async (state) => {
-      const stateSources = state.map((collection) => collection.source);
-      const missingSources = availableEmoteSources.filter(
-        (source) => !stateSources.includes(source),
-      );
-      if (!missingSources.length) {
-        return;
+      const missingCollections = await loadMissingGlobalCollections(state);
+      for (const collection of missingCollections) {
+        // @ts-expect-error TypeScript is weird or what?
+        collections.state.value[collection.source] = collection;
       }
-      const missingCollections =
-        await loadMissingGlobalCollections(missingSources);
-      collections.state.value.push(...missingCollections);
       triggerRef(collections.state);
     });
 
     return {
+      frankerFaceZCollection: computed(
+        () => collections.state.value.FrankerFaceZ,
+      ),
+      betterTTVCollection: computed(() => collections.state.value.BetterTTV),
+      sevenTvCollection: computed(() => collections.state.value.SevenTV),
+      twitchCollection: computed(() => collections.state.value.Twitch),
       collections,
-      async refreshGlobalCollection(collection: IGlobalEmoteCollection) {
-        const newIdbCollection = await refreshGlobalCollection(collection);
-        const index = collections.state.value.findIndex(
-          (collection) => collection.source === newIdbCollection.source,
-        );
-        assert.ok(
-          index >= 0,
-          "Can not update the collection which is not exist",
-        );
-        collections.state.value.splice(index, 1, newIdbCollection);
+      async refreshGlobalCollection(source: IGlobalEmoteCollection["source"]) {
+        const refreshedCollection = await refreshGlobalCollection(source);
+        // @ts-expect-error TypeScript is weird or what?
+        collections.state.value[source] = refreshedCollection;
         triggerRef(collections.state);
       },
     };
