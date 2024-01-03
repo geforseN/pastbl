@@ -5,15 +5,15 @@ import type {
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
-type EmoteCache = Map<IEmote["token"], IEmote>;
-type EmoteCacheRecord = Record<EmoteSource, EmoteCache>;
+type EmoteMap = Map<IEmote["token"], IEmote>;
+type EmoteMapRecord = Record<EmoteSource, EmoteMap>;
 
 function useEmotes<
   T extends IGlobalEmoteCollectionRecord | IUserEmoteIntegrationRecord,
 >(sourceToWatchCb: () => Partial<T>) {
-  const emotesRecord = ref<Partial<EmoteCacheRecord>>({});
+  const emotesRecord = ref<Partial<EmoteMapRecord>>({});
   const emoteSources = computed(
-    () => Object.keys(emotesRecord.value) as (keyof EmoteCacheRecord)[],
+    () => Object.keys(emotesRecord.value) as (keyof EmoteMapRecord)[],
   );
 
   watch(sourceToWatchCb, (source) => {
@@ -48,7 +48,7 @@ export const useEmotesStore = defineStore("emotes", () => {
   const userCollectionsStore = useUserCollectionsStore();
   const globalCollectionsStore = useGlobalCollectionsStore();
 
-  const emotesCache: EmoteCache = new Map();
+  const emotesCache: EmoteMap = new Map();
 
   const userCollection = useEmotes(
     () => userCollectionsStore.selectedCollection?.state?.integrations ?? {},
