@@ -1,10 +1,10 @@
 import type { IDBPDatabase } from "idb";
-import type { EmoteCollectionsSchema } from "~/client-only/IndexedDB";
+import type { CollectionsSchema } from "~/client-only/IndexedDB";
 import type { IGlobalEmoteCollection } from "~/integrations";
 
-export class GlobalEmoteCollections {
+export class GlobalCollectionStore {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly db: IDBPDatabase<EmoteCollectionsSchema>) {}
+  constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
   getAll() {
     return this.db.getAll("global");

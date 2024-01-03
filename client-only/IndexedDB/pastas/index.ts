@@ -1,15 +1,7 @@
-import { openDB, type OpenDBCallbacks } from "idb";
+import { openDB, type IDBPDatabase, type OpenDBCallbacks } from "idb";
 import type { PastasSchema } from "..";
-import { PastasList } from "./PastasList";
-import { PastasShared } from "./PastasShared";
-
-class Pastas {
-  // eslint-disable-next-line no-useless-constructor
-  constructor(
-    public readonly list: PastasList,
-    public readonly shared: PastasShared,
-  ) {}
-}
+import { PastasListStore } from "./PastasList";
+import { PastasSharedStore } from "./PastasShared";
 
 const openPastasIdbUpgrade: OpenDBCallbacks<PastasSchema>["upgrade"] = (
   database,
@@ -44,9 +36,21 @@ const openPastasIdbUpgrade: OpenDBCallbacks<PastasSchema>["upgrade"] = (
 };
 
 function openPastasIdb(upgrade: OpenDBCallbacks<PastasSchema>["upgrade"]) {
+  if (typeof window === "undefined") {
+    return Promise.resolve({} as IDBPDatabase<PastasSchema>);
+  }
   return openDB<PastasSchema>("pastas", 2, { upgrade });
 }
 
+class PastasStore {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    public readonly list: PastasListStore,
+    public readonly shared: PastasSharedStore,
+  ) {}
+}
+
 export const pastasIdb = openPastasIdb(openPastasIdbUpgrade).then(
-  (idb) => new Pastas(new PastasList(idb), new PastasShared(idb)),
+  (idb) =>
+    new PastasStore(new PastasListStore(idb), new PastasSharedStore(idb)),
 );
