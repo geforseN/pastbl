@@ -1,64 +1,45 @@
-import { type IDBPDatabase, openDB } from "idb";
-import {
-  type EmotesSchema,
-  type IndexedDBUserCollection,
-} from "~/client-only/IndexedDB";
-import {
-  type EmoteCollectionsRecord,
-  type IUserEmoteCollection,
-  populateUserEmoteCollection,
-} from "~/integrations";
+import { type IDBPDatabase, openDB, type OpenDBCallbacks } from "idb";
+import { type EmotesSchema } from "~/client-only/IndexedDB";
+import { type IEmote } from "~/integrations";
 
-class Emotes {
+const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
+  database,
+) => {
+  if (!database.objectStoreNames.contains("emotes")) {
+    const emotesStore = database.createObjectStore("emotes", {
+      keyPath: ["id", "source"],
+    });
+    emotesStore.createIndex("bySource", "source", { unique: false });
+    emotesStore.createIndex("byId", "id", { unique: false });
+    emotesStore.createIndex("byToken", "token", { unique: false });
+    // NOTE: tags only exist in 7TV emotes (as i know)
+    emotesStore.createIndex("byTags", "tags", {
+      unique: false,
+      multiEntry: true,
+    });
+  }
+};
+
+function openEmotesIdb(upgrade: OpenDBCallbacks<EmotesSchema>["upgrade"]) {
+  if (typeof window === "undefined") {
+    return Promise.resolve({} as IDBPDatabase<EmotesSchema>);
+  }
+  return openDB<EmotesSchema>("emotes", 1, { upgrade });
+}
+
+class EmotesStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
 
-  putEmotesOfUserCollection(collection: IUserEmoteCollection) {
-    const emotes = Object.values(collection.collections).flatMap((collection) =>
-      collection.sets.flatMap((set) => toRaw(set.emotes)),
-    );
+  put(emotes: IEmote[]) {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
   }
 
   get emotesTransaction() {
     return this.db.transaction("emotes");
   }
-
-  async populateUserCollectionWithEmotes(
-    userIdbCollection: IndexedDBUserCollection,
-  ) {
-    const emoteIdbStore = this.db.transaction("emotes").store;
-    const emoteCollections = await Promise.all(
-      Object.values(userIdbCollection.collections).map((idbCollection) =>
-        populateUserEmoteCollection(idbCollection, (emoteId) =>
-          emoteIdbStore.get([emoteId, idbCollection.source]),
-        ),
-      ),
-    );
-    const emoteCollectionsRecord = groupBy(
-      emoteCollections,
-      (collection) => collection.source,
-    ) as EmoteCollectionsRecord;
-    return { ...userIdbCollection, collections: emoteCollectionsRecord };
-  }
 }
 
-const openEmotesIdb = openDB<EmotesSchema>("emotes", 1, {
-  upgrade(database) {
-    if (!database.objectStoreNames.contains("emotes")) {
-      const emotesStore = database.createObjectStore("emotes", {
-        keyPath: ["id", "source"],
-      });
-      emotesStore.createIndex("bySource", "source", { unique: false });
-      emotesStore.createIndex("byId", "id", { unique: false });
-      emotesStore.createIndex("byToken", "token", { unique: false });
-      // NOTE: tags only exist in 7TV emotes (as i know)
-      emotesStore.createIndex("byTags", "tags", {
-        unique: false,
-        multiEntry: true,
-      });
-    }
-  },
-});
-
-export const emotesIdb = openEmotesIdb.then((idb) => new Emotes(idb));
+export const emotesIdb = openEmotesIdb(openEmotesIdbUpgrade).then(
+  (idb) => new EmotesStore(idb),
+);

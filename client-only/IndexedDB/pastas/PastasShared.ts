@@ -1,7 +1,7 @@
 import type { IDBPDatabase } from "idb";
 import type { PastasSchema } from "..";
 
-export class PastasShared {
+export class PastasSharedStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
