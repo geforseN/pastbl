@@ -122,14 +122,14 @@ function findModifiers(
 function populateToken(
   this: {
     pasta: IDBMegaPasta;
-    indexedOfPastaTokensToSkip: Set<number>;
+    indexesOfPastaTokensToSkip: Set<number>;
     emotesStore: ReturnType<typeof useEmotesStore>;
   },
   token: string,
   index: number,
   tokens: string[],
 ) {
-  if (this.indexedOfPastaTokensToSkip.has(index)) {
+  if (this.indexesOfPastaTokensToSkip.has(index)) {
     return "";
   }
   if (!this.pasta.validTokens.includes(token)) {
@@ -143,16 +143,13 @@ function populateToken(
     return token;
   }
   const modifiers = findModifiers(index, tokens, this.emotesStore);
-  if (modifiers.emotes.length) {
-    for (const index of modifiers.indexes) {
-      this.indexedOfPastaTokensToSkip.add(index);
-    }
-    return makeEmoteAsStringWithModifiersWrapper(
-      tokenAsEmote,
-      modifiers.emotes,
-    );
+  if (!modifiers.emotes.length) {
+    return makeEmoteAsString(tokenAsEmote);
   }
-  return makeEmoteAsString(tokenAsEmote);
+  for (const index of modifiers.indexes) {
+    this.indexesOfPastaTokensToSkip.add(index);
+  }
+  return makeEmoteAsStringWithModifiersWrapper(tokenAsEmote, modifiers.emotes);
 }
 
 export function populatePasta(
@@ -167,9 +164,9 @@ export function populatePasta(
 
   const populatedWords = pastaText.split(" ").map(populateToken, {
     pasta,
-    indexedOfPastaTokensToSkip: new Set(),
     emotesStore,
-  });
+    indexesOfPastaTokensToSkip: new Set(),
+  } satisfies ThisParameterType<typeof populateToken>);
 
   pastaTextContainer.innerHTML = populatedWords.join(" ");
 }
