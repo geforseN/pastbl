@@ -1,37 +1,33 @@
 import { defineStore } from "pinia";
+import { pastasService } from "~/client-only/services";
 
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
-      const pastasIdb = await import("~/client-only/IndexedDB").then(
-        ({ idb }) => idb.pastas,
-      );
-      return withLog(() => pastasIdb.list.getAllPastas(), "pastas");
+      // FIXME: sleep is used for emotes (global and user) load
+      // without sleep pastas are loaded faster than emotes and emote population fails, pastas are without emotes
+      await sleep(1_000);
+      return pastasService.getAll();
     },
     [],
-    { shallow: true },
+    { shallow: true, throwError: true },
   );
 
   const toast = useNuxtToast();
 
   function getPastaIndexById(id: IDBMegaPasta["id"]) {
     const index = pastas.state.value.findIndex((pasta) => pasta.id === id);
-    if (index === -1) {
-      throw new ExtendedError(`Could not find pasta with id=${id}`, {
+    assert.ok(
+      index >= 0,
+      new ExtendedError(`Could not find pasta with id=${id}`, {
         title: "Failed to find pasta",
-      });
-    }
+      }),
+    );
     return index;
   }
 
-  const newPastas = ref<IDBMegaPasta[]>([]);
-  watchArray(pastas.state, (_, __, addedPastas) => {
-    newPastas.value = addedPastas;
-  });
-
   return {
     pastas,
-    newPastas,
     pastasSortedByNewest: computed(() =>
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
     ),
@@ -45,10 +41,9 @@ export const usePastasStore = defineStore("pastas", () => {
             return acc;
           }, new Map<string, number>())
           .entries(),
-      ].sort(([, aCount], [, bCount]) => bCount - aCount) satisfies [
-        tagValue: string,
-        tagCount: number,
-      ][];
+      ].sort(([, aCount], [, bCount]) => bCount - aCount) satisfies Array<
+        [tagValue: string, tagCount: number]
+      >;
     }),
     minPastaTextLengthInPastas: computed(() =>
       pastas.state.value.reduce(
@@ -63,50 +58,44 @@ export const usePastasStore = defineStore("pastas", () => {
       ),
     ),
     async createPasta(basePasta: BasePasta) {
-      if (basePasta.text.trim().length === 0) {
-        throw new ExtendedError("Can not create pasta with empty text", {
+      assert.ok(
+        basePasta.text.trim().length,
+        new ExtendedError("Can not create pasta with empty text", {
           title: "Failed to create pasta",
-        });
-      }
-      const trimmedText = basePasta.text.trim().replaceAll("\n", "");
-      const noIdPasta = createMegaPasta(trimmedText, basePasta.tags);
-      const pastasIdb = await import("~/client-only/IndexedDB").then(
-        ({ pastasIdb }) => pastasIdb,
+        }),
       );
-      const pasta = await pastasIdb.list.addPasta(noIdPasta).catch(() => {
-        const error = new ExtendedError(
-          "Pasta with the same text already exist",
-          {
-            title: "Failed to create pasta",
-          },
-        );
-        // TODO: add action in toast, on click should focus to pasta with such text
-        toast.add(error);
-        throw error;
-      });
-      pastas.state.value.push(pasta);
+      const trimmedText = basePasta.text.trim().replaceAll("\n", "");
+      const megaPasta = createMegaPasta(trimmedText, basePasta.tags);
+      const megaPastaWithId = await pastasService
+        .add(megaPasta)
+        .catch((reason) => {
+          withLogSync(reason, "addPastaFailReason");
+          const error = new ExtendedError(
+            "Pasta with the same text already exist",
+            {
+              title: "Failed to create pasta",
+            },
+          );
+          // TODO: add action in toast, on click should focus to pasta with such text
+          toast.add(error);
+          throw error;
+        });
+      pastas.state.value.push(megaPastaWithId);
       triggerRef(pastas.state);
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
-      const pastasIdb = await import("~/client-only/IndexedDB").then(
-        ({ pastasIdb }) => pastasIdb,
-      );
-      await pastasIdb.shared.movePastaFromListToBin(pasta);
-      pastas.state.value.splice(index, 1);
+      await pastasService.moveFromListToBin(pasta);
       triggerRef(pastas.state);
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
-            await pastasIdb.shared.movePastaFromBinToList(pasta);
+            await pastasService.moveFromBinToList(pasta);
             pastas.state.value.splice(index, 0, pasta);
             triggerRef(pastas.state);
           },
         }),
       );
-    },
-    trigger() {
-      triggerRef(pastas.state);
     },
   };
 });
