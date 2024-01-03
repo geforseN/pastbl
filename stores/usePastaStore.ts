@@ -10,7 +10,7 @@ export const usePastaStore = defineStore("pasta", () => {
       try {
         pasta.addTag(pasta.tag.value);
       } catch (error) {
-        assert.ok(error instanceof ExtendedError);
+        assert.isError(error, ExtendedError);
         toast.add({
           description: error.description,
           title: error.title,
