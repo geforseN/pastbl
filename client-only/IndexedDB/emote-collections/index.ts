@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase, type OpenDBCallbacks } from "idb";
-import { GlobalCollectionStore } from "./GlobalEmoteCollections";
-import { UsersCollectionsStore } from "./UsersEmoteCollections";
-import { CollectionsKeyValueStore } from "./KeyValueEmoteCollections";
+import { GlobalCollectionStore } from "./GlobalCollections";
+import { UsersCollectionsStore } from "./UsersCollections";
+import { CollectionsKeyValueStore } from "./CollectionsKeyValue";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
 
 const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
