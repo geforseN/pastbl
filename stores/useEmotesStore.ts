@@ -1,109 +1,81 @@
-import { defineStore } from "pinia";
-import {
-  availableEmoteSources,
-  type AvailableEmoteSource,
-  type IEmote,
+import type {
+  IEmote,
+  EmoteSource,
+  IGlobalEmoteCollectionRecord,
+  IUserEmoteIntegrationRecord,
 } from "~/integrations";
+
+type EmoteCache = Map<IEmote["token"], IEmote>;
+type EmoteCacheRecord = Record<EmoteSource, EmoteCache>;
+
+function useEmotes<
+  T extends IGlobalEmoteCollectionRecord | IUserEmoteIntegrationRecord,
+>(sourceToWatchCb: () => Partial<T>) {
+  const emotesRecord = ref<Partial<EmoteCacheRecord>>({});
+  const emoteSources = computed(
+    () => Object.keys(emotesRecord.value) as (keyof EmoteCacheRecord)[],
+  );
+
+  watch(sourceToWatchCb, (source) => {
+    emotesRecord.value = groupBy2(
+      Object.values(source),
+      (integration) => integration.source,
+      (integration) => {
+        const emoteEntries = integration.sets
+          .flatMap((set: { emotes: IEmote[] }) => set.emotes)
+          .map((emote: IEmote): [string, IEmote] => [emote.token, emote]);
+        return new Map(emoteEntries);
+      },
+    );
+  });
+
+  return {
+    emotesRecord,
+    emoteSources,
+    findEmote(token: IEmote["token"], onEmoteFoundCb: (emote: IEmote) => void) {
+      for (const source of emoteSources.value) {
+        const emote = emotesRecord.value[source]!.get(token);
+        if (emote) {
+          onEmoteFoundCb(emote);
+          return emote;
+        }
+      }
+    },
+  };
+}
 
 export const useEmotesStore = defineStore("emotes", () => {
   const userCollectionsStore = useUserCollectionsStore();
   const globalCollectionsStore = useGlobalCollectionsStore();
 
-  const usersEmotesCache = new Map<
-    AvailableEmoteSource,
-    Map<IEmote["id"], IEmote>
-  >([
-    ["BetterTTV", new Map()],
-    ["FrankerFaceZ", new Map()],
-    ["SevenTV", new Map()],
-  ]);
+  const emotesCache: EmoteCache = new Map();
 
-  const activeUserEmotesCache = new Map<IEmote["token"], IEmote>();
-
-  // FIXME: fix ts-expect-error comments
-  const activeUserEmotes = computedWithControl(
-    () => userCollectionsStore.selectedCollection?.state,
-    () => {
-      const activeUserEmotes = groupBy2(
-        Object.values(
-          userCollectionsStore.selectedCollection?.state?.collections ?? {},
-        ),
-        (collection) => collection.source,
-        (collection) => {
-          return new Map<IEmote["token"], IEmote>(
-            // @ts-expect-error idk for now
-            collection.sets
-              // @ts-expect-error idk for now
-              .flatMap((set) => set.emotes)
-              // @ts-expect-error idk for now
-              .map((emote) => [emote.token, emote]),
-          );
-        },
-      );
-      for (const source of availableEmoteSources) {
-        if (!activeUserEmotes[source]) {
-          activeUserEmotes[source] = new Map();
-        }
-      }
-      return activeUserEmotes;
-    },
+  const userCollection = useEmotes(
+    () => userCollectionsStore.selectedCollection?.state?.integrations ?? {},
   );
-  const globalEmotes = computedWithControl(
+
+  const globalCollection = useEmotes(
     () => globalCollectionsStore.collections.state,
-    () => {
-      const globalEmotes = groupBy2(
-        globalCollectionsStore.collections.state,
-        (collection) => collection.source,
-        (collection) => {
-          return new Map<IEmote["token"], IEmote>(
-            collection.sets
-              .flatMap((set) => set.emotes)
-              .map((emote) => [emote.token, emote]),
-          );
-        },
-      );
-      for (const source of availableEmoteSources) {
-        if (!globalEmotes[source]) {
-          globalEmotes[source] = new Map();
-        }
-      }
-      return globalEmotes;
-    },
   );
 
   watch(
-    () => activeUserEmotes.value,
+    () => userCollection.emotesRecord,
     () => {
-      activeUserEmotesCache.clear();
+      emotesCache.clear();
     },
   );
 
   return {
-    usersEmotesCache,
-    activeUserEmotes,
-    globalEmotes,
-    findEmoteInActiveUser(token: IEmote["token"]) {
-      const cachedEmote = activeUserEmotesCache.get(token);
-      if (cachedEmote) {
-        return cachedEmote;
-      }
-      for (const source of ["FrankerFaceZ", "BetterTTV", "SevenTV"] as const) {
-        const sourceEmote = activeUserEmotes.value[source].get(token);
-        if (sourceEmote) {
-          activeUserEmotesCache.set(token, sourceEmote);
-          return sourceEmote;
-        }
-      }
+    findEmote(token: IEmote["token"]) {
+      return (
+        emotesCache.get(token) ||
+        userCollection.findEmote(token, (emote) =>
+          emotesCache.set(token, emote),
+        ) ||
+        globalCollection.findEmote(token, (emote) =>
+          emotesCache.set(token, emote),
+        )
+      );
     },
-    findEmoteInGlobal(token: IEmote["token"]) {
-      for (const source of ["FrankerFaceZ", "BetterTTV", "SevenTV"] as const) {
-        const sourceEmote = globalEmotes.value[source].get(token);
-        if (sourceEmote) {
-          activeUserEmotesCache.set(token, sourceEmote);
-          return sourceEmote;
-        }
-      }
-    },
-    _activeUserEmotesCache: activeUserEmotesCache,
   };
 });
