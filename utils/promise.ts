@@ -26,3 +26,7 @@ export async function tupleSettledPromises<T>(
     [[], []] as [Awaited<T>[], unknown[]],
   );
 }
+
+export function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
