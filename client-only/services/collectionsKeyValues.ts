@@ -4,6 +4,9 @@ export const collectionsKeyValuesService = {
   activeUserCollection: {
     username: {
       async update(username?: Lowercase<string>) {
+        if (typeof window === "undefined") {
+          return "";
+        }
         const collectionIdb = await idb.collections;
         const isInitialExecution = typeof username === "undefined";
         if (isInitialExecution) {
