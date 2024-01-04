@@ -1,8 +1,8 @@
 import type { DBSchema, IDBPDatabase, OpenDBCallbacks } from "idb";
-import { collectionsIdb } from "./emote-collections";
-import { pastasIdb } from "./pastas";
-import { emotesIdb } from "./emotes";
-import { kvIdb } from "./keyValue";
+import { collectionsIdb } from "~/client-only/IndexedDB/emote-collections";
+import { pastasIdb } from "~/client-only/IndexedDB/pastas";
+import { emotesIdb } from "~/client-only/IndexedDB/emotes";
+import { kvIdb } from "~/client-only/IndexedDB/keyValue";
 import type {
   IEmote,
   IEmoteSet,
