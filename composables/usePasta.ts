@@ -107,10 +107,8 @@ function findModifiers(
 ) {
   const emotes: IEmote[] = [];
   const indexes: number[] = [];
-
-  let nextTokenIndex = emoteIndex + 1;
-  while (true) {
-    const token = tokens[nextTokenIndex];
+  for (let index = emoteIndex + 1; true; index++) {
+    const token = tokens[index];
     if (!token) {
       break;
     }
@@ -118,9 +116,8 @@ function findModifiers(
     if (!tokenAsEmote || !tokenAsEmote.isModifier) {
       break;
     }
-    indexes.push(nextTokenIndex);
     emotes.push(tokenAsEmote);
-    nextTokenIndex++;
+    indexes.push(index);
   }
   return { emotes, indexes };
 }
