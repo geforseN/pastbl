@@ -83,12 +83,15 @@ export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
 
   function isPastaInRange(this: Ref<[number, number]>, pasta: IDBMegaPasta) {
     return (
-      pasta.text.length >= range.value[0] && pasta.text.length <= range.value[1]
+      pasta.text.length >= this.value[0] && pasta.text.length <= this.value[1]
     );
   }
   const pastasWithLengthOccurrence = computed(() =>
     withLogSync(
-      pastas.value.filter(isPastaInRange, range),
+      pastas.value.filter(
+        isPastaInRange,
+        range satisfies ThisParameterType<typeof isPastaInRange>,
+      ),
       "lengthAppropriatePastas",
     ),
   );
