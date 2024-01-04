@@ -48,6 +48,7 @@
 </template>
 <script lang="ts" setup>
 import { UseTimeAgo } from "@vueuse/components";
+
 const props = defineProps<{ pasta: IDBMegaPasta }>();
 
 defineSlots<{
