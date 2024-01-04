@@ -11,15 +11,17 @@
   >
     No pastas were added yet!
   </div>
-  <div
-    v-if="!clipboard.isSupported"
-    class="alert alert-warning flex justify-center"
-  >
-    <span>
-      Your browser does not support Clipboard API!. Copy of pasta by clicking on
-      the button will fail
-    </span>
-  </div>
+  <client-only>
+    <div
+      v-if="!userStore.clipboard.isSupported"
+      class="alert alert-warning flex justify-center"
+    >
+      <span>
+        Your browser does not support Clipboard API!. Copy of pasta by clicking
+        on the button will fail
+      </span>
+    </div>
+  </client-only>
   <div
     class="flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto go-brr:max-h-[80dvh]"
   >
@@ -41,8 +43,8 @@
         >
           <button
             class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-            :disabled="!clipboard.isSupported.value"
-            @click="copyPasta(pasta)"
+            :disabled="!userStore.clipboard.isSupported"
+            @click="userStore.copyPasta(pasta)"
           >
             Copy pasta
           </button>
@@ -62,10 +64,8 @@ defineSlots<{
   creatorData?: () => unknown;
 }>();
 
-const clipboard = useClipboard();
 const pastasStore = usePastasStore();
-
-const { copyPasta } = usePastaCopy({ clipboard });
+const userStore = useUserStore();
 
 const emotesStore = useEmotesStore();
 </script>

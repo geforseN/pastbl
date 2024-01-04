@@ -49,16 +49,16 @@
     >
       <template #creatorData>
         <chat-pasta-creator-data
-          :badges-count="userStore.user.badges.count"
-          :nickname="userStore.user.nickname"
-          :nickname-color="userStore.user.preferences.nickname.color"
+          :badges-count="userStore.user.badges.count.state"
+          :nickname="userStore.user.nickname.text.state"
+          :nickname-color="userStore.user.nickname.color.state"
         />
       </template>
       <template #sidebar>
         <button
           class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-          :disabled="!pastaCopy.isSupported.value"
-          @click="copyPasta(selectedPasta)"
+          :disabled="!userStore.clipboard.isSupported"
+          @click="userStore.copyPasta(selectedPasta)"
         >
           copy pasta
         </button>
@@ -77,6 +77,4 @@ const selectedPasta = computed(() => props.pastas[selectedPastaIndex.value]);
 
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
-
-const { copyPasta, ...pastaCopy } = usePastaCopy({ userStore });
 </script>

@@ -6,9 +6,9 @@
       <chat-pasta-list>
         <template #creatorData>
           <chat-pasta-creator-data
-            :badges-count="userStore.user.badges.count"
-            :nickname="userStore.user.nickname"
-            :nickname-color="userStore.user.preferences.nickname.color"
+            :badges-count="userStore.user.badges.count.state"
+            :nickname="userStore.user.nickname.text.state"
+            :nickname-color="userStore.user.debounced.nickname.color"
           />
         </template>
       </chat-pasta-list>

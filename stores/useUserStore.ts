@@ -1,66 +1,85 @@
 import { defineStore } from "pinia";
+import { pastasService } from "~/client-only/services";
 
-type User = {
-  nickname: string;
-  preferences: {
+export const useUserStore = defineStore("user", () => {
+  const nicknameColor = useIdbKeyValue("nickname:color", "#000000");
+  const nicknameText = useIdbKeyValue("nickname:value", "Kappa");
+  const badgesCount = useIdbKeyValue("badges:count", 1);
+  const pastaOncopy = useIdbKeyValue("pasta:oncopy", "alert");
+
+  const debouncedNicknameColor = refDebounced(nicknameColor.state, 300);
+
+  const user = {
     nickname: {
-      // NOTE: color must be HEX format (# and 6 digits)
-      color: string;
-    };
+      color: nicknameColor,
+      text: nicknameText,
+    },
+    badges: {
+      count: badgesCount,
+    },
     pasta: {
-      oncopy: "none" | "alert" | "sound" | "alert sound";
-    };
+      oncopy: pastaOncopy,
+    },
+    debounced: {
+      nickname: {
+        color: debouncedNicknameColor,
+      },
+    },
   };
-  badges: { count: number };
-};
 
-// TODO debounce all values, main thread is blocked by many read/writes by localStorage
-// TODO persist all values in idb
-export const useUserStore = defineStore(
-  "user",
-  () => {
-    const nicknameColor = ref("#CC0000");
-    // debounce us useful because this storage uses localStorage persist
-    // because of persist usage main thread was significantly blocked when color was not throttled
+  const clipboard = useClipboard();
+  const toast = useNuxtToast();
 
-    watchThrottled(
-      nicknameColor,
-      (color) => {
-        user.value.preferences.nickname.color = color;
-      },
-      {
-        throttle: 500,
-      },
-    );
-
-    const user = ref<User>({
-      nickname: "Kappa",
-      preferences: {
-        nickname: { color: "#CC0000" },
-        pasta: {
-          oncopy: "none",
+  const actions = {
+    pasta: {
+      oncopy: {
+        alert() {
+          toast.add({
+            description: "Pasta copied successfully",
+            title: "Copypasta 🤙🤙🤙",
+            timeout: 1_700,
+          });
+        },
+        async sound() {
+          await new Audio("/sounds/click.wav").play().catch(() => {});
         },
       },
-      badges: { count: 1 },
-    });
-
-    watchOnce(
-      () => user.value.preferences.nickname.color,
-      (color) => {
-        nicknameColor.value = color;
-      },
-      { flush: "sync" },
-    );
-
-    const preferences = computed(() => user.value.preferences);
-
-    return { preferences, user, nicknameColor };
-  },
-  {
-    persist: {
-      storage: persistedState.localStorage,
-      debug: true,
-      paths: ["user"],
     },
-  },
-);
+  };
+
+  const preferences = {
+    pasta: {
+      async oncopy() {
+        if (pastaOncopy.state.value === "none") {
+          return;
+        }
+        for (const action of pastaOncopy.state.value.split("&")) {
+          // @ts-ignore
+          await actions.pasta.oncopy[action]();
+        }
+      },
+    },
+  };
+
+  return {
+    preferences,
+    user,
+    clipboard,
+    copyPasta: async (pasta: IDBMegaPasta) => {
+      try {
+        await clipboard.copy(pasta.text);
+        assert.ok(toValue(clipboard.copied), new Error("Pasta was not copied"));
+        await preferences.pasta.oncopy();
+        pastasService.updateLastCopied(pasta);
+      } catch (error: Error | unknown) {
+        const toastDescription = error instanceof Error ? error.message : "";
+        toast.add({
+          description: toastDescription,
+          title: "Pasta copy problem",
+          timeout: 7_000,
+          color: "red",
+        });
+      }
+    },
+  };
+});
