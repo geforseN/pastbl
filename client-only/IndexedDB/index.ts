@@ -1,4 +1,8 @@
-import type { DBSchema } from "idb";
+import type { DBSchema, IDBPDatabase, OpenDBCallbacks } from "idb";
+import { collectionsIdb } from "./emote-collections";
+import { pastasIdb } from "./pastas";
+import { emotesIdb } from "./emotes";
+import { kvIdb } from "./keyValue";
 import type {
   IEmote,
   IEmoteSet,
@@ -88,10 +92,10 @@ export interface CollectionsSchema extends DBSchema {
   };
 }
 
-export interface EmotesSchema {
+export interface EmotesSchema extends DBSchema {
   emotes: {
     key: [IEmote["id"], IEmote["source"]];
-    value: IEmote & { updatedAt: number };
+    value: IEmote;
     indexes: {
       byId: IEmote["id"];
       bySource: IEmote["source"];
@@ -119,8 +123,28 @@ export interface PastasSchema extends DBSchema {
   };
 }
 
+export type MyKeyValueSchema = {
+  "nickname:value": string;
+  "nickname:color": string;
+  "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
+  "badges:count": number;
+  "active-user-collection:username":
+    | IndexedDBUserEmoteCollection["twitch"]["username"]
+    | "";
+  "pasta:text": string;
+  "pasta:tags": string[];
+  "pasta:tag": string;
+};
+export interface KeyValueSchema extends DBSchema {
+  "key-value": {
+    key: keyof MyKeyValueSchema;
+    value: MyKeyValueSchema[keyof MyKeyValueSchema];
+  };
+}
+
 export const idb = {
   collections: collectionsIdb,
   emotes: emotesIdb,
   pastas: pastasIdb,
+  kv: kvIdb,
 };
