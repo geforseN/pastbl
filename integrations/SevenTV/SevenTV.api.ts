@@ -137,17 +137,15 @@ export type SevenTVApiUserData = {
     emote_capacity: number;
     emote_set: {
       capacity: number;
-      // NOTE: do not know what this field means
-      // TODO add information what it is
       flags: number;
       id: string;
       immutable: boolean;
       name: string;
-      owner: null; // TODO do not know why null, maybe can be not bull
+      owner: null;
       privileged: boolean;
       tags: string[];
     };
-    emote_set_id: string | null; // TODO do not know why can be null
+    emote_set_id: string | null;
     id: string;
     linked_at: number;
     platform: "YOUTUBE" | "TWITCH";
