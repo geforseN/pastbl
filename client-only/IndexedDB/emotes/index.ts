@@ -1,6 +1,6 @@
-import { type IDBPDatabase, openDB, type OpenDBCallbacks } from "idb";
-import { type EmotesSchema } from "~/client-only/IndexedDB";
-import { type IEmote } from "~/integrations";
+import type { IDBPDatabase, OpenDBCallbacks } from "idb";
+import type { EmotesSchema } from "~/client-only/IndexedDB";
+import type { IEmote } from "~/integrations";
 
 const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
   database,
@@ -19,14 +19,6 @@ const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
     });
   }
 };
-
-function openEmotesIdb(upgrade: OpenDBCallbacks<EmotesSchema>["upgrade"]) {
-  if (typeof window === "undefined") {
-    return Promise.resolve({} as IDBPDatabase<EmotesSchema>);
-  }
-  return openDB<EmotesSchema>("emotes", 1, { upgrade });
-}
-
 class EmotesStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
@@ -40,6 +32,8 @@ class EmotesStore {
   }
 }
 
-export const emotesIdb = openEmotesIdb(openEmotesIdbUpgrade).then(
-  (idb) => new EmotesStore(idb),
-);
+export const emotesIdb = import("~/client-only/IndexedDB")
+  .then(({ openIdb }) =>
+    openIdb<EmotesSchema>("emotes", 1, openEmotesIdbUpgrade),
+  )
+  .then((idb) => new EmotesStore(idb));
