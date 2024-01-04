@@ -51,11 +51,17 @@ export function createMegaPasta(
   };
 }
 
-export const usePasta = () => {
-  const tag = ref("");
-  const tags = ref<string[]>([]);
-  const text = ref("");
+type UsePastaParam = {
+  tag?: Ref<string>;
+  tags?: Ref<string[]>;
+  text?: Ref<string>;
+};
 
+export const usePasta = ({
+  tag = ref(""),
+  tags = ref([]),
+  text = ref(""),
+}: UsePastaParam = {}) => {
   return {
     tag,
     tags,
