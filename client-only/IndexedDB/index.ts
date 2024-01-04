@@ -16,9 +16,18 @@ import type {
   I7TVEmote,
   AvailableEmoteSource,
 } from "~/integrations";
-import { collectionsIdb } from "~/client-only/IndexedDB/emote-collections";
-import { pastasIdb } from "~/client-only/IndexedDB/pastas";
-import { emotesIdb } from "~/client-only/IndexedDB/emotes";
+
+export async function openIdb<T extends DBSchema>(
+  name: string,
+  version: number,
+  upgrade: OpenDBCallbacks<T>["upgrade"],
+) {
+  if (typeof window === "undefined") {
+    return {} as IDBPDatabase<T>;
+  }
+  const { openDB } = await import("idb");
+  return openDB<T>(name, version, { upgrade });
+}
 
 type GenericIndexedDBUserEmoteIntegration<
   SourceT extends AvailableEmoteSource,

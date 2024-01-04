@@ -1,8 +1,8 @@
-import { openDB, type IDBPDatabase, type OpenDBCallbacks } from "idb";
-import { GlobalCollectionStore } from "./GlobalCollections";
-import { UsersCollectionsStore } from "./UsersCollections";
-import { CollectionsKeyValueStore } from "./CollectionsKeyValue";
+import type { OpenDBCallbacks } from "idb";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
+import { GlobalCollectionStore } from "~/client-only/IndexedDB/emote-collections/GlobalCollections";
+import { UsersCollectionsStore } from "~/client-only/IndexedDB/emote-collections/UsersCollections";
+import { CollectionsKeyValueStore } from "~/client-only/IndexedDB/emote-collections/CollectionsKeyValue";
 
 const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
   async (database, _, __, transaction) => {
@@ -29,15 +29,6 @@ const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
     }
   };
 
-function openCollectionsIdb(
-  upgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"],
-) {
-  if (typeof window === "undefined") {
-    return Promise.resolve({} as IDBPDatabase<CollectionsSchema>);
-  }
-  return openDB<CollectionsSchema>("emote-collections", 4, { upgrade });
-}
-
 class CollectionsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(
@@ -47,13 +38,19 @@ class CollectionsStore {
   ) {}
 }
 
-export const collectionsIdb = openCollectionsIdb(
-  openCollectionsIdbUpgrade,
-).then(
-  (idb) =>
-    new CollectionsStore(
-      new GlobalCollectionStore(idb),
-      new UsersCollectionsStore(idb),
-      new CollectionsKeyValueStore(idb),
+export const collectionsIdb = import("~/client-only/IndexedDB")
+  .then(({ openIdb }) =>
+    openIdb<CollectionsSchema>(
+      "emote-collections",
+      4,
+      openCollectionsIdbUpgrade,
     ),
-);
+  )
+  .then(
+    (idb) =>
+      new CollectionsStore(
+        new GlobalCollectionStore(idb),
+        new UsersCollectionsStore(idb),
+        new CollectionsKeyValueStore(idb),
+      ),
+  );
