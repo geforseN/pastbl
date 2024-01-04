@@ -2,6 +2,9 @@ import { idb } from "../IndexedDB";
 
 export const pastasService = {
   async getAll() {
+    if (typeof window === "undefined") {
+      return [];
+    }
     const pastasIdb = await idb.pastas;
     return await pastasIdb.list.getAllPastas();
   },

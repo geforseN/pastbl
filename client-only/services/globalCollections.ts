@@ -22,6 +22,9 @@ export const globalCollectionsService = {
     return newCollection;
   },
   async getAll() {
+    if (typeof window === "undefined") {
+      return {};
+    }
     const collectionIdb = await idb.collections;
     const collections = await collectionIdb.global.getAll();
     return groupBy(

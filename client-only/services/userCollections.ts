@@ -15,6 +15,9 @@ import type {
 
 export const userCollectionsService = {
   async getAllUsernames() {
+    if (typeof window === "undefined") {
+      return [];
+    }
     const collectionsIdb = await idb.collections;
     return collectionsIdb.users.getAllUsernames();
   },
@@ -33,6 +36,9 @@ export const userCollectionsService = {
     ]);
   },
   async get(username: Lowercase<string>) {
+    if (typeof window === "undefined") {
+      return null;
+    }
     const [collectionsIdb, emotesIdb] = await Promise.all([
       idb.collections,
       idb.emotes,
