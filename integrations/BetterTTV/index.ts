@@ -1,7 +1,19 @@
 import type { BetterTTVEmote } from "./entity/BetterTTVEmote";
 
+function getBTTVEmoteTitle(emote: BetterTTVEmote) {
+  return `${emote.token} emote from BetterTTV`;
+}
+
 export function BTTVEmoteString(emote: BetterTTVEmote) {
-  return `<span class="inline-block" title="${emote.token} emote from BetterTTV"><img src="https:${emote.url}/1x.webp" loading="lazy"></span>`;
+  return `<img src="https:${emote.url}/1x.webp" alt="${getBTTVEmoteTitle(
+    emote,
+  )}" loading="lazy">`;
+}
+
+export function BTTVWrappedEmoteString(emote: BetterTTVEmote) {
+  return `<span class="inline-block" title="${getBTTVEmoteTitle(
+    emote,
+  )}">${BTTVEmoteString(emote)}</span>`;
 }
 
 export type { BetterTTVGlobalCollection } from "./entity/BetterTTVGlobalCollection";
