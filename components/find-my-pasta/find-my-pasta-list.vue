@@ -43,7 +43,7 @@
       :key="selectedPasta.id"
       :pasta="selectedPasta"
       @populate="
-        (pastaTextContainer, selectedPasta) =>
+        (pastaTextContainer) =>
           populatePasta(pastaTextContainer, selectedPasta, emotesStore)
       "
     >
