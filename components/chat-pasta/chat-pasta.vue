@@ -57,7 +57,7 @@ defineSlots<{
 }>();
 
 const emit = defineEmits<{
-  populate: [pastaTextContainer: HTMLElement, pasta: IDBMegaPasta];
+  populate: [pastaTextContainer: HTMLElement];
 }>();
 
 // NOTE: maybe no need isPopulateEmitCalledOnce ref
@@ -72,7 +72,7 @@ useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
     return;
   }
   assert.ok(entry.target instanceof HTMLElement);
-  emit("populate", entry.target, props.pasta);
+  emit("populate", entry.target);
   isPopulateEmitCalledOnce.value = true;
 });
 </script>
