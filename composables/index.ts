@@ -5,14 +5,17 @@ export function useFindPastasTags(
   const selectedPastaTags = ref<string[]>([]);
   const mustRespectSelectedTags = ref(true);
 
-  const allPastasUniqueTagsSortedByAlphabetCaseInsensitive = computed(() =>
-    withLogSync(
-      [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))].sort(
-        (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
+  const allPastasTags = computed(() => {
+    const allPastaUniqueTags = [
+      ...new Set(allPastas.value.flatMap((pasta) => pasta.tags)),
+    ];
+    return withLogSync(
+      allPastaUniqueTags.sort((a, b) =>
+        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
       ),
-      "allTagsSortedByAlphabet",
-    ),
-  );
+      "allPastasTags",
+    );
+  });
 
   const pastasWithSelectedTags = computed(() => {
     return withLogSync(
@@ -21,16 +24,19 @@ export function useFindPastasTags(
           pasta.tags.includes(selectedTag),
         ),
       ),
-      "pastasWithMinimalRequiredTagsCount",
+      "pastasWithSelectedTags",
     );
   });
 
-  const showedPastasTagsSortedByAlphabetCaseInsensitive = computed(() => {
+  const showedPastasTags = computed(() => {
+    const showedPastaUniqueTags = [
+      ...new Set(showedPastas.value.flatMap((pasta) => pasta.tags)),
+    ];
     return withLogSync(
-      [...new Set(showedPastas.value.flatMap((pasta) => pasta.tags))].sort(
-        (a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1),
+      showedPastaUniqueTags.sort((a, b) =>
+        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
       ),
-      "showedPastasTagsSortedByAlphabet",
+      "showedPastasTags",
     );
   });
 
@@ -39,9 +45,9 @@ export function useFindPastasTags(
     mustRespectSelectedTags,
     tagsToSelect: computed(() => {
       if (!selectedPastaTags.value.length) {
-        return allPastasUniqueTagsSortedByAlphabetCaseInsensitive.value;
+        return allPastasTags.value;
       }
-      return showedPastasTagsSortedByAlphabetCaseInsensitive.value;
+      return showedPastasTags.value;
     }),
     tagsAppropriatePastas: computed(() => {
       if (mustRespectSelectedTags.value && selectedPastaTags.value.length) {
