@@ -27,9 +27,20 @@ export interface ITwitchGlobalEmoteResponse {
   data: TwitchApiGlobalEmote[];
   template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
 }
+function getTwitchEmoteTitle(emote: ITwitchGlobalEmote) {
+  return `${emote.token} emote from Twitch`;
+}
 
 export function TwitchEmoteString(emote: ITwitchGlobalEmote) {
-  return `<span class="inline-block" title="${emote.token} emote from Twitch"><img src="${emote.url}" loading="lazy"></span>`;
+  return `<img src="${emote.url}" alt="${getTwitchEmoteTitle(
+    emote,
+  )}" loading="lazy">`;
+}
+
+export function TwitchWrappedEmoteString(emote: ITwitchGlobalEmote) {
+  return `<span class="inline-block" title="${getTwitchEmoteTitle(
+    emote,
+  )}">${TwitchEmoteString(emote)}</span>`;
 }
 
 class TwitchGlobalEmote implements ITwitchGlobalEmote {

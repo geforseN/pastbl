@@ -1,28 +1,35 @@
 import {
-  FFZEmoteString,
+  FFZWrappedEmoteString,
   createFFZGlobalCollection,
   type FrankerFaceZGlobalCollection,
   type FrankerFaceZUserIntegration,
   type FrankerFaceZEmote,
+  FFZEmoteString,
 } from "./FrankerFaceZ/index";
 import {
-  BTTVEmoteString,
+  BTTVWrappedEmoteString,
   createBTTVGlobalCollection,
   type BetterTTVGlobalCollection,
   type BetterTTVUserIntegration,
   type BetterTTVEmote,
+  BTTVEmoteString,
 } from "./BetterTTV/index";
 import {
-  SevenTVEmoteString,
+  SevenTVWrappedEmoteString,
   create7TVGlobalCollection,
   type I7TVGlobalCollection,
   type I7TVUserCollection,
   type I7TVEmote,
+  SevenTVEmoteString,
 } from "./SevenTV/index";
 import { getFFZGlobalEmoteSets } from "./FrankerFaceZ/FrankerFaceZ.api";
 import { getBetterTTVGlobalEmotes } from "./BetterTTV/BetterTTV.api";
 import { get7TVGlobalEmotesSet } from "./SevenTV/SevenTV.api";
-import { TwitchEmoteString, type ITwitchGlobalCollection } from "./Twitch";
+import {
+  TwitchWrappedEmoteString,
+  type ITwitchGlobalCollection,
+  TwitchEmoteString,
+} from "./Twitch";
 
 export const availableEmoteSources = [
   "FrankerFaceZ",
@@ -52,35 +59,42 @@ export type EmoteOf = {
 };
 type EmoteT = EmoteOf[keyof EmoteOf];
 
-const templateStrings = {
-  BetterTTV: BTTVEmoteString,
-  SevenTV: SevenTVEmoteString,
-  FrankerFaceZ: FFZEmoteString,
-  Twitch: TwitchEmoteString,
+const emoteTemplateStrings = {
+  wrapped: {
+    BetterTTV: BTTVWrappedEmoteString,
+    SevenTV: SevenTVWrappedEmoteString,
+    FrankerFaceZ: FFZWrappedEmoteString,
+    Twitch: TwitchWrappedEmoteString,
+  },
+  plain: {
+    BetterTTV: BTTVEmoteString,
+    SevenTV: SevenTVEmoteString,
+    FrankerFaceZ: FFZEmoteString,
+    Twitch: TwitchEmoteString,
+  },
 };
 
-export function makeEmoteAsString(emote: IEmote) {
-  return templateStrings[emote.source](emote);
+export function makeWrappedEmoteAsString(emote: IEmote) {
+  return emoteTemplateStrings.wrapped[emote.source](emote);
 }
 
-// TODO: maybe use new DOMParser().parseFromString() later
-// but better if JSX or DOM is used (instead of template string)
+function makeEmoteAsString(emote: IEmote) {
+  return emoteTemplateStrings.plain[emote.source](emote);
+}
+
+function makeModifierEmoteAsString(emote: IEmote) {
+  return `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${makeEmoteAsString(
+    emote,
+  )}</span>`;
+}
+
 export function makeEmoteAsStringWithModifiersWrapper(
   emote: IEmote,
   modifierEmotes: IEmote[],
 ) {
-  const emoteAsString = makeEmoteAsString(emote);
-  // TODO: add emoteTemplates.modifiers Record<EmoteSource, string>
-  // must use "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+  const emoteAsString = makeWrappedEmoteAsString(emote);
   const modifiersAsString = modifierEmotes
-    .map(
-      (emote) =>
-        // TODO: do not reuse makeEmoteAsString here, need to use create another func, which returns not wrapped in span|div string
-        // because of makeEmoteAsString modifier emotes are smaller than they should be, MUST create new func
-        `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${makeEmoteAsString(
-          emote,
-        )}</span>`,
-    )
+    .map(makeModifierEmoteAsString)
     .join(" ");
   return `<figure style="display: inline-block; position: relative;">${emoteAsString}${modifiersAsString}</figure>`;
 }

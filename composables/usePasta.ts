@@ -1,6 +1,6 @@
 import { emojify, has as isEmoji } from "node-emoji";
 import {
-  makeEmoteAsString,
+  makeWrappedEmoteAsString,
   makeEmoteAsStringWithModifiersWrapper,
   type IEmote,
 } from "~/integrations";
@@ -147,7 +147,7 @@ function populateToken(
   }
   const modifiers = findModifiers(index, tokens, this.emotesStore);
   if (!modifiers.emotes.length) {
-    return makeEmoteAsString(tokenAsEmote);
+    return makeWrappedEmoteAsString(tokenAsEmote);
   }
   for (const index of modifiers.indexes) {
     this.indexesOfPastaTokensToSkip.add(index);

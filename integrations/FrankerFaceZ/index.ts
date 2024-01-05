@@ -1,7 +1,19 @@
 import type { FrankerFaceZEmote } from "./entity/FrankerFaceZEmote";
 
+function getFFZEmoteTitle(emote: FrankerFaceZEmote) {
+  return `${emote.token} emote from FrankerFaceZ`;
+}
+
 export function FFZEmoteString(emote: FrankerFaceZEmote) {
-  return `<span class="inline-block" title="${emote.token} emote from FrankerFaceZ"><img src="https:${emote.url}/1" loading="lazy"></span>`;
+  return `<img src="https:${emote.url}/1" alt="${getFFZEmoteTitle(
+    emote,
+  )}" loading="lazy" width="${emote.width}">`;
+}
+
+export function FFZWrappedEmoteString(emote: FrankerFaceZEmote) {
+  return `<span class="inline-block" title="${getFFZEmoteTitle}">${FFZEmoteString(
+    emote,
+  )}</span>`;
 }
 
 export type { FrankerFaceZGlobalCollection } from "./entity/FrankerFaceZGlobalCollection";
