@@ -42,7 +42,7 @@ export function createMegaPasta(
   tags: BasePasta["tags"],
 ): MegaPasta {
   return {
-    tags: toRaw(tags),
+    tags: isShallow(tags) ? toRaw(tags) : tags,
     text: trimmedText,
     length: trimmedText.length,
     createdAt: Date.now(),
@@ -51,7 +51,7 @@ export function createMegaPasta(
   };
 }
 
-type UsePastaParam = {
+type UsePastaStateParam = {
   tag?: Ref<string>;
   tags?: Ref<string[]>;
   text?: Ref<string>;
@@ -61,7 +61,7 @@ export const usePasta = ({
   tag = ref(""),
   tags = ref([]),
   text = ref(""),
-}: UsePastaParam = {}) => {
+}: UsePastaStateParam = {}) => {
   return {
     tag,
     tags,
@@ -71,7 +71,7 @@ export const usePasta = ({
       tags.value = [];
       text.value = "";
     },
-    removeTag: (tag: string) => {
+    removeTag(tag: string) {
       const index = tags.value.indexOf(tag);
       assert.ok(
         index >= 0,
@@ -79,10 +79,10 @@ export const usePasta = ({
       );
       tags.value.splice(index, 1);
     },
-    removeAllTags: () => {
+    removeAllTags() {
       tags.value = [];
     },
-    addTag: (tag: string) => {
+    addTag(tag: string) {
       assert.ok(
         tag.length,
         new ExtendedError("Can not add the empty tag", {
