@@ -38,15 +38,15 @@ function isValidToken(word: string) {
 }
 
 export function createMegaPasta(
-  trimmedText: BasePasta["text"],
+  text: BasePasta["text"],
   tags: BasePasta["tags"],
 ): MegaPasta {
   return {
-    tags: isShallow(tags) ? toRaw(tags) : tags,
-    text: trimmedText,
-    length: trimmedText.length,
+    tags,
+    text,
+    length: text.length,
     createdAt: Date.now(),
-    validTokens: [...new Set(trimmedText.split(" "))].filter(isValidToken),
+    validTokens: [...new Set(text.split(" "))].filter(isValidToken),
     lastCopiedAt: undefined,
   };
 }

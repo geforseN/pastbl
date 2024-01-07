@@ -65,7 +65,8 @@ export const usePastasStore = defineStore("pastas", () => {
         }),
       );
       const trimmedText = basePasta.text.trim().replaceAll("\n", "");
-      const megaPasta = createMegaPasta(trimmedText, basePasta.tags);
+      const tags = toRaw(basePasta.tags);
+      const megaPasta = createMegaPasta(trimmedText, tags);
       const megaPastaWithId = await pastasService
         .add(megaPasta)
         .catch((reason) => {
@@ -86,6 +87,7 @@ export const usePastasStore = defineStore("pastas", () => {
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
       await pastasService.moveFromListToBin(pasta);
+      pastas.state.value.splice(index, 1);
       triggerRef(pastas.state);
       toast.add(
         new RemovePastaNotification({
