@@ -18,6 +18,7 @@
         <select
           id="selected-pasta-tags"
           v-model="selectedPastaTags"
+          v-auto-animate
           :disabled="!mustRespectSelectedTags"
           multiple
           class="select select-primary !h-40 w-full p-2"
