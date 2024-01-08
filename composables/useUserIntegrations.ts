@@ -172,7 +172,7 @@ export function useUserIntegrations() {
         integration.clear();
       }
       await ffz.partialCollection.execute(0, username).catch((error) => {
-        for (const state of [bttv, sevenTv.collection]) {
+        for (const state of [bttv, sevenTv.fullCollection]) {
           state.error.value = new Error(
             "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
           );
@@ -192,14 +192,12 @@ export function useUserIntegrations() {
         ffz.sets
           .execute(0, twitchUser.id)
           .then(() => ffz.fullCollection.execute(0))
-          .then((v) => v || raise("No FrankerFaceZ integration found")),
-        bttv
-          .execute(0, twitchUser)
-          .then((v) => v || raise("No BetterTTV integration found")),
+          .then(withOkAssert("No FrankerFaceZ integration found")),
+        bttv.execute(0, twitchUser),
         sevenTv.fullCollection
           .execute(0, twitchUser)
-          .then((v) => v || raise("No SevenTV integration found")),
-      ];
+          .then(withOkAssert("No SevenTV integration found")),
+      ] as const;
       const [fulfilledIntegrations, rejectReasons] =
         await tupleSettledPromises<IUserEmoteIntegration>(integrationPromises);
       const integrations = groupBy(
@@ -212,13 +210,13 @@ export function useUserIntegrations() {
         (reason, index) => reason?.source ?? index,
       );
       withLogSync(
-        () => ({
+        {
           fulfilledIntegrations,
           rejectReasons,
           failedIntegrationsReasons,
           integrations,
           twitchUser,
-        }),
+        },
         "UserIntegrations",
       );
       return {
