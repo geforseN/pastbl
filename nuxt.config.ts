@@ -39,5 +39,4 @@ export default defineNuxtConfig({
     propsDestructure: true,
     defineModel: true,
   },
-  hooks: {},
 });
