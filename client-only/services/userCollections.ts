@@ -21,7 +21,14 @@ export const userCollectionsService = {
     const collectionsIdb = await idb.collections;
     return collectionsIdb.users.getAllUsernames();
   },
-  async refresh(collection: IUserEmoteCollection) {
+  async getAll() {
+    if (typeof window === "undefined") {
+      return [];
+    }
+    const collectionsIdb = await idb.collections;
+    return collectionsIdb.users.getAll();
+  },
+  async put(collection: IUserEmoteCollection) {
     const [collectionsIdb, emotesIdb] = await Promise.all([
       idb.collections,
       idb.emotes,
@@ -34,6 +41,17 @@ export const userCollectionsService = {
       collectionsIdb.users.put(preparedCollection),
       emotesIdb.put(emotes),
     ]);
+  },
+  // FIXME
+  // NOTE: the problem of collection deletion is that emotes of collection to remove can be in another collections
+  // TODO: need to getAll collections and iterate over each emoteId in each collection
+  // if emoteId is unique (occurs once) that emote with such id can be removed
+  async delete(username: Lowercase<string>) {
+    const [collectionsIdb, emotesIdb] = await Promise.all([
+      idb.collections,
+      idb.emotes,
+    ]);
+    await collectionsIdb.users.delete(username);
   },
   async get(username: Lowercase<string>) {
     if (typeof window === "undefined") {
