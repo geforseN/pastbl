@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="tags.length !== 0"
+    v-auto-animate="{ duration: 300 }"
     class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
   >
     <div
