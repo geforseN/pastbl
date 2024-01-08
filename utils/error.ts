@@ -80,3 +80,12 @@ export class ExtendedError extends Error {
     this.timeout = timeout;
   }
 }
+
+// generic is necessary for type inference, this rule is wrong here
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export function withOkAssert<V extends unknown>(reason: string) {
+  return function (value: V) {
+    assertOk(value, reason);
+    return value;
+  };
+}
