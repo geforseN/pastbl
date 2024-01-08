@@ -1,5 +1,5 @@
 <template>
-  <header class="flex gap-x-2 p-1 text-xl font-medium">
+  <header class="flex gap-x-2 text-xl font-medium">
     <slot />
     <div class="ml-auto"></div>
     <span v-if="props.isLoading" class="loading" />
