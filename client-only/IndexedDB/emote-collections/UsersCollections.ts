@@ -20,8 +20,8 @@ export class UsersCollectionsStore {
     return this.db.transaction("users").store.getAllKeys();
   }
 
-  delete(collection: IndexedDBUserEmoteCollection) {
-    return this.db.delete("users", collection.twitch.username);
+  delete(username: IndexedDBUserEmoteCollection["twitch"]["username"]) {
+    return this.db.delete("users", username);
   }
 
   async put(collection: IndexedDBUserEmoteCollection) {
