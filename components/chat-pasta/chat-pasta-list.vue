@@ -34,9 +34,7 @@
           populatePasta(pastaTextContainer, pasta, emotesStore)
       "
     >
-      <template #creatorData>
-        <slot name="creatorData" />
-      </template>
+      <template #creatorData><slot name="creatorData" /></template>
       <template #sidebar>
         <div
           class="flex flex-row-reverse gap-x-2 xs:flex-col xs:justify-between xs:gap-x-0"
