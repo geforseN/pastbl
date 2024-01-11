@@ -38,8 +38,14 @@ const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const toast = useNuxtToast();
 
-const isCollapseOpen = ref(false);
-
+const isFormCollapseOpen = useIdbKeyValue(
+  "create-pasta-form-collapse:is-open",
+  false,
+);
+const isCollapseOpen = computed({
+  get: () => isFormCollapseOpen.state.value,
+  set: (value) => (isFormCollapseOpen.state.value = value),
+});
 const twitchChatRef = ref();
 
 defineExpose({
