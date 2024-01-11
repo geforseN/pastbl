@@ -7,7 +7,7 @@ import {
 export const useUserCollectionsStore = defineStore("user-collections", () => {
   const usernamesToSelect = useAsyncState(
     () => userCollectionsService.getAllUsernames(),
-    [""],
+    [],
     { shallow: true, throwError: true, resetOnExecute: false },
   );
 
@@ -111,6 +111,12 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     async deleteCollection(username: Lowercase<string>) {
       await userCollectionsService.delete(username);
       await __updateStuff__(username);
+    },
+    async selectCollection(nickname: string) {
+      await selectedCollectionUsername.execute(0, nickname);
+    },
+    isSelectedUsername(username: Lowercase<string>) {
+      return selectedCollectionUsername.state.value === username;
     },
   };
 });
