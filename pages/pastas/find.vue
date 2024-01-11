@@ -38,7 +38,7 @@
         />
         <!-- TODO: date range -->
       </section>
-      <go-to-main-page />
+      <app-page-link to="main" />
     </div>
   </div>
 </template>

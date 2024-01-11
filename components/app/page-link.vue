@@ -4,24 +4,33 @@
       <span class="flex items-center justify-between gap-2 text-3xl font-bold">
         <span class="flex items-center gap-2">
           <icon name="carbon:link" />
-          <slot>{{ text }}</slot>
+          <slot name="default">{{ text }}</slot>
         </span>
+        <slot name="right" />
       </span>
     </nuxt-link>
   </div>
 </template>
 <script setup lang="ts">
+defineSlots<{
+  default?: () => unknown;
+  right?: () => unknown;
+}>();
+
 const routePageLinkRecord = {
   "global-emotes": {
-    path: "/emotes/global",
+    path: "/collections/global",
     text: "Look for global emotes",
   },
-  "__active-emotes__": {
-    path: "/emotes/active",
-    text: "Select active emotes",
+  emotes: {
+    path: "/collections",
+    text: "Look emotes",
+  },
+  main: {
+    path: "/",
+    text: "Go to main page",
   },
 } as const;
-
 const props = defineProps<{
   to: keyof typeof routePageLinkRecord;
 }>();
