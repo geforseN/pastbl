@@ -134,6 +134,7 @@ export type MyKeyValueSchema = {
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
+  "create-pasta-form-collapse:is-open": boolean;
 };
 export interface KeyValueSchema extends DBSchema {
   "key-value": {
