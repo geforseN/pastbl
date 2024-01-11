@@ -3,6 +3,7 @@
     <app-page-link to="global-emotes" />
     <user-emote-collections />
     <fetch-emote-collection />
-    <go-to-main-page />
+    <select-user-collection />
+    <app-page-link to="main" />
   </div>
 </template>
