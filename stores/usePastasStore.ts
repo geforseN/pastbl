@@ -4,10 +4,14 @@ import { pastasService } from "~/client-only/services";
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
-      // FIXME: sleep is used for emotes (global and user) load
-      // without sleep pastas are loaded faster than emotes and emote population fails, pastas are without emotes
-      await sleep(1_000);
-      return pastasService.getAll();
+      if (typeof window === "undefined") {
+        return [];
+      }
+      const allPastasPromise = pastasService.getAll();
+      const isInitialUserEmotesReady = () =>
+        useEmotesStore().isInitialUserEmotesReady;
+      await until(isInitialUserEmotesReady).toBeTruthy({ timeout: 3_000 });
+      return allPastasPromise;
     },
     [],
     { shallow: true, throwError: true },
@@ -32,18 +36,10 @@ export const usePastasStore = defineStore("pastas", () => {
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
     ),
     mostPopularTagsEntries: computed(() => {
-      return [
-        ...pastas.state.value
-          .flatMap((pasta) => pasta.tags)
-          .reduce((acc, tag) => {
-            const tagCount = acc.get(tag) || 0;
-            acc.set(tag, tagCount + 1);
-            return acc;
-          }, new Map<string, number>())
-          .entries(),
-      ].sort(([, aCount], [, bCount]) => bCount - aCount) satisfies Array<
-        [tagValue: string, tagCount: number]
-      >;
+      const allTags = pastas.state.value.flatMap((pasta) => pasta.tags);
+      return Array.from(countAppearances(allTags)).sort(
+        ([, aCount], [, bCount]) => bCount - aCount,
+      );
     }),
     minPastaTextLengthInPastas: computed(() =>
       pastas.state.value.reduce(
@@ -98,6 +94,13 @@ export const usePastasStore = defineStore("pastas", () => {
           },
         }),
       );
+    },
+    async makeHack() {
+      const samePastas = pastas.state.value;
+      pastas.state.value = [];
+      await nextTick();
+      pastas.state.value = samePastas;
+      triggerRef(pastas.state);
     },
   };
 });
