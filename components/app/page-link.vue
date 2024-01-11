@@ -20,7 +20,7 @@ defineSlots<{
 const routePageLinkRecord = {
   "global-emotes": {
     path: "/collections/global",
-    text: "Look for global emotes",
+    text: "Look global emotes",
   },
   emotes: {
     path: "/collections",
