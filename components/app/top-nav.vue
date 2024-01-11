@@ -11,18 +11,10 @@
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link
           class="btn btn-outline border-twitch text-lg text-twitch"
-          to="/emotes"
+          to="/collections"
         >
-          emotes
-          <icon-emote-integration-logo
-            v-for="source of availableEmoteSources"
-            v-once
-            :key="source"
-            :source="source"
-            width="24"
-            height="24"
-            class="max-h-[24px] text-xs"
-          />
+          look emotes
+          <emote-integration-logo-square />
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
@@ -55,9 +47,6 @@
     </ol>
   </nav>
 </template>
-<script setup lang="ts">
-import { availableEmoteSources } from "~/integrations";
-</script>
 <style scoped>
 .logo {
   -webkit-text-stroke: 0.5px black;
