@@ -30,6 +30,14 @@ const routePageLinkRecord = {
     path: "/",
     text: "Go to main page",
   },
+  "user-settings": {
+    path: "/user/settings#user-settings-heading",
+    text: "Change settings",
+  },
+  "find-pasta": {
+    path: "/pastas/find#pasta-search-parameters-heading",
+    text: "Find pasta",
+  },
 } as const;
 const props = defineProps<{
   to: keyof typeof routePageLinkRecord;
