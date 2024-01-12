@@ -22,6 +22,6 @@ export const pastasService = {
   },
   async updateLastCopied(pasta: IDBMegaPasta) {
     const pastasIdb = await idb.pastas;
-    await pastasIdb.list.updateLastCopied(pasta);
+    await pastasIdb.list.patchLastCopied(pasta);
   },
 };

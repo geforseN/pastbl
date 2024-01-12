@@ -5,7 +5,7 @@ export class PastasListStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
-  updateLastCopied(pasta: IDBMegaPasta) {
+  patchLastCopied(pasta: IDBMegaPasta) {
     return this.idb.put("list", {
       ...pasta,
       lastCopiedAt: Date.now(),
