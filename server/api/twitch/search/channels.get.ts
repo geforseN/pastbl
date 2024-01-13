@@ -7,8 +7,7 @@ const querySchema = z.object({
 export default cachedEventHandler(
   async (event) => {
     const { query } = querySchema.parse(getQuery(event));
-    const accessToken = await twitch.getAccessToken();
-    const apiChannels = await fetchChannels(query, accessToken);
+    const apiChannels = await fetchChannels(query);
     return apiChannels.data.map(makeChannel);
   },
   { maxAge: 60 * 2 /* 2 minutes */ },
@@ -32,19 +31,16 @@ type ApiTwitchGetSearchChannelsResponse = {
   }[];
 };
 
-function fetchChannels(query: string, accessToken: string) {
+function fetchChannels(query: string) {
   return twitch.api.fetch<ApiTwitchGetSearchChannelsResponse>(
     "/search/channels",
     {
       query: { query, first: 12 },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     },
   );
 }
 
-type Channel = {
+export type Channel = {
   id: string;
   username: string;
   nickname: string;

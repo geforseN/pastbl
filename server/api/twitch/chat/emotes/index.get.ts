@@ -9,8 +9,7 @@ export default cachedEventHandler(
     const { broadcaster_id: broadcasterId } = querySchema.parse(
       getQuery(event),
     );
-    const accessToken = await twitch.getAccessToken();
-    const apiChatEmotes = await fetchChatEmotes(broadcasterId, accessToken);
+    const apiChatEmotes = await fetchChatEmotes(broadcasterId);
     return apiChatEmotes;
   },
   { maxAge: 60 * 15 /* 15 minutes */ },
@@ -36,11 +35,8 @@ type ApiTwitchGetChatEmotesResponse = {
   template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
 };
 
-function fetchChatEmotes(broadcasterId: string, accessToken: string) {
+function fetchChatEmotes(broadcasterId: string) {
   return twitch.api.fetch<ApiTwitchGetChatEmotesResponse>("/chat/emotes", {
     query: { broadcaster_id: broadcasterId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   });
 }

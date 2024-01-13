@@ -5,8 +5,7 @@ const paramSchema = z.string();
 export default cachedEventHandler(
   async (event) => {
     const login = paramSchema.parse(getRouterParam(event, "login"));
-    const accessToken = await twitch.getAccessToken();
-    const apiUser = await fetchUser(login, accessToken);
+    const apiUser = await fetchUser(login);
     return makeUser(apiUser);
   },
   { maxAge: 60 * 15 /* 15 minutes */ },
@@ -39,12 +38,9 @@ function makeUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
   };
 }
 
-async function fetchUser(login: string, accessToken: string) {
+async function fetchUser(login: string) {
   const { data } = await twitch.api.fetch<ApiTwitchGetUsersResponse>("/users", {
     query: { login },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   });
   if (data.length !== 1) {
     throw new Error("User with username=" + login + " not found");
