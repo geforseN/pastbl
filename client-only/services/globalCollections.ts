@@ -12,7 +12,9 @@ export const globalCollectionsService = {
       missingSources.map(getGlobalCollection),
     );
     const collectionsIdb = await idb.collections;
-    await Promise.all(collections.map(collectionsIdb.global.add));
+    await Promise.all(
+      collections.map((collection) => collectionsIdb.global.add(collection)),
+    );
     return collections;
   },
   async refresh(source: IGlobalEmoteCollection["source"]) {
