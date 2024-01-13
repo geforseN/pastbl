@@ -6,8 +6,7 @@ const querySchema = z.object({
 export default cachedEventHandler(
   async (event) => {
     const { emote_set_id: emoteSetId } = querySchema.parse(getQuery(event));
-    const accessToken = await twitch.getAccessToken();
-    const apiEmoteSet = await fetchEmoteSet(emoteSetId, accessToken);
+    const apiEmoteSet = await fetchEmoteSet(emoteSetId);
     return apiEmoteSet;
   },
   { maxAge: 60 * 15 /* 15 minutes */ },
@@ -32,11 +31,8 @@ type ApiTwitchGetEmoteSetResponse = {
   template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
 };
 
-function fetchEmoteSet(emoteSetId: string, accessToken: string) {
+function fetchEmoteSet(emoteSetId: string) {
   return twitch.api.fetch<ApiTwitchGetEmoteSetResponse>("/chat/emotes/set", {
     query: { emote_set_id: emoteSetId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   });
 }

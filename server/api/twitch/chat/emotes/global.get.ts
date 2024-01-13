@@ -5,17 +5,12 @@ import {
 
 export default cachedEventHandler(
   async () => {
-    const accessToken = await twitch.getAccessToken();
-    const response = await fetchGlobalEmotes(accessToken);
+    const response = await fetchGlobalEmotes();
     return makeTwitchGlobalCollection(response);
   },
   { maxAge: 60 * 60 /* 1 hour */ },
 );
 
-function fetchGlobalEmotes(accessToken: string) {
-  return twitch.api.fetch<ITwitchGlobalEmoteResponse>("/chat/emotes/global", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+function fetchGlobalEmotes() {
+  return twitch.api.fetch<ITwitchGlobalEmoteResponse>("/chat/emotes/global");
 }
