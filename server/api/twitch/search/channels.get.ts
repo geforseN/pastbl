@@ -35,7 +35,7 @@ function fetchChannels(query: string) {
   return twitch.api.fetch<ApiTwitchGetSearchChannelsResponse>(
     "/search/channels",
     {
-      query: { query, first: 12 },
+      query: { query, first: 8 },
     },
   );
 }
