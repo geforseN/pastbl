@@ -52,9 +52,10 @@
               role="button"
               class="btn btn-square btn-primary border-2 border-primary-content xs:btn-xs xs:w-full"
             >
-              <span class="-translate-y-2 text-xl xs:-translate-y-2.5">
-                ...
-              </span>
+              <icon
+                class="xs:-translate-y-[1px]"
+                name="ic:baseline-more-horiz"
+              />
             </div>
             <ul
               tabindex="0"
