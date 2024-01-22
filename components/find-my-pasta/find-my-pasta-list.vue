@@ -55,13 +55,12 @@
         />
       </template>
       <template #sidebar>
-        <button
-          class="btn btn-square btn-md ml-auto rounded-none border-2 border-accent text-xs xs:ml-0"
-          :disabled="!userStore.clipboard.isSupported"
-          @click="userStore.copyPasta(selectedPasta)"
-        >
-          copy pasta
-        </button>
+        <chat-pasta-sidebar
+          :pasta-id="selectedPasta.id"
+          :is-clipboard-supported="userStore.clipboard.isSupported"
+          @copy="userStore.copyPasta(selectedPasta)"
+          @delete="pastasStore.removePasta(selectedPasta)"
+        />
       </template>
     </chat-pasta>
   </div>
@@ -77,4 +76,5 @@ const selectedPasta = computed(() => props.pastas[selectedPastaIndex.value]);
 
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
+const pastasStore = usePastasStore();
 </script>
