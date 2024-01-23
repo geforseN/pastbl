@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { toLowerCase } from "~/utils/string";
 
 const paramSchema = z.string();
 
@@ -6,7 +7,7 @@ export default cachedEventHandler(
   async (event) => {
     const login = paramSchema.parse(getRouterParam(event, "login"));
     const apiUser = await fetchUser(login);
-    return makeUser(apiUser);
+    return makeTwitchUser(apiUser);
   },
   { maxAge: 60 * 15 /* 15 minutes */ },
 );
@@ -27,10 +28,10 @@ type ApiTwitchGetUsersResponse = {
   }[];
 };
 
-function makeUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
+function makeTwitchUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
   return {
     id: Number(dataItem.id),
-    username: dataItem.login,
+    login: toLowerCase(dataItem.login),
     nickname: dataItem.display_name,
     description: dataItem.description,
     avatarUrl: dataItem.profile_image_url,
@@ -38,7 +39,9 @@ function makeUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
   };
 }
 
-async function fetchUser(login: string) {
+export type TwitchUser = ReturnType<typeof makeTwitchUser>;
+
+export async function fetchUser(login: string) {
   const { data } = await twitch.api.fetch<ApiTwitchGetUsersResponse>("/users", {
     query: { login },
   });
