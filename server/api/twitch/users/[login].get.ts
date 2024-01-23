@@ -42,7 +42,7 @@ function makeTwitchUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
 export type TwitchUser = ReturnType<typeof makeTwitchUser>;
 
 export async function fetchUser(login: string) {
-  const { data } = await twitch.api.fetch<ApiTwitchGetUsersResponse>("/users", {
+  const { data } = await twitchApi.fetch<ApiTwitchGetUsersResponse>("/users", {
     query: { login },
   });
   if (data.length !== 1) {

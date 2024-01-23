@@ -22,9 +22,7 @@ const twitchApiFetchOptions = {
   },
 } as const satisfies Parameters<typeof $fetch.create>[0];
 
-const twitchApi = { fetch: $fetch.create(twitchApiFetchOptions) };
-
-export const twitch = { api: twitchApi };
+export const twitchApi = { fetch: $fetch.create(twitchApiFetchOptions) };
 
 // NOTE: this IIFE to put the access token in the headers
 // this is done to stop calling in each request access token from storage
