@@ -1,14 +1,18 @@
 import { z } from "zod";
+import { booleanish } from "~/utils";
+import { swap, groupBy } from "~/utils/array";
 
 const querySchema = z.object({
-  query: z.string(),
+  nickname: z.string(),
 });
 
 export default cachedEventHandler(
   async (event) => {
-    const { query } = querySchema.parse(getQuery(event));
-    const apiChannels = await fetchChannels(query);
-    return apiChannels.data.map(makeChannel);
+    const { nickname } = querySchema.parse(getQuery(event));
+    const apiChannels = await fetchChannels(nickname);
+    const channels = apiChannels.data.map(makeChannel);
+    const sortedChannels = getSortedChannels(channels, nickname);
+    return sortedChannels;
   },
   { maxAge: 60 * 2 /* 2 minutes */ },
 );
@@ -31,15 +35,6 @@ type ApiTwitchGetSearchChannelsResponse = {
   }[];
 };
 
-function fetchChannels(query: string) {
-  return twitch.api.fetch<ApiTwitchGetSearchChannelsResponse>(
-    "/search/channels",
-    {
-      query: { query, first: 8 },
-    },
-  );
-}
-
 export type Channel = {
   id: string;
   username: string;
@@ -60,6 +55,17 @@ export type Channel = {
     }
 );
 
+export type ExtraChannel = Channel & { isExact?: true };
+
+function fetchChannels(query: string) {
+  return twitch.api.fetch<ApiTwitchGetSearchChannelsResponse>(
+    "/search/channels",
+    {
+      query: { query, first: 8 },
+    },
+  );
+}
+
 function makeChannel(
   dataItem: ApiTwitchGetSearchChannelsResponse["data"][number],
 ) {
@@ -74,4 +80,22 @@ function makeChannel(
     title: dataItem.title,
     startedAt: dataItem.started_at,
   } as Channel;
+}
+
+function getSortedChannels(
+  channels: Channel[],
+  nickname: string,
+): ExtraChannel[] {
+  const groupedByIsLive = groupBy(channels, (channel) =>
+    booleanish(channel.isLive),
+  );
+  const { true: live = [], false: notLive = [] } = groupedByIsLive;
+  const sorted = live.concat(notLive);
+  const exact = sorted.find((channel) => channel.nickname === nickname);
+  if (exact) {
+    const oldIndex = sorted.indexOf(exact);
+    swap(sorted, oldIndex, 0);
+    (exact as ExtraChannel).isExact = true;
+  }
+  return sorted;
 }
