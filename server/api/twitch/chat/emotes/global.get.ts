@@ -12,5 +12,5 @@ export default cachedEventHandler(
 );
 
 function fetchGlobalEmotes() {
-  return twitch.api.fetch<ITwitchGlobalEmoteResponse>("/chat/emotes/global");
+  return twitchApi.fetch<ITwitchGlobalEmoteResponse>("/chat/emotes/global");
 }

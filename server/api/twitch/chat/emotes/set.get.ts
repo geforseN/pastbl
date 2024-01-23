@@ -32,7 +32,7 @@ type ApiTwitchGetEmoteSetResponse = {
 };
 
 function fetchEmoteSet(emoteSetId: string) {
-  return twitch.api.fetch<ApiTwitchGetEmoteSetResponse>("/chat/emotes/set", {
+  return twitchApi.fetch<ApiTwitchGetEmoteSetResponse>("/chat/emotes/set", {
     query: { emote_set_id: emoteSetId },
   });
 }

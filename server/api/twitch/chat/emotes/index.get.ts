@@ -36,7 +36,7 @@ type ApiTwitchGetChatEmotesResponse = {
 };
 
 function fetchChatEmotes(broadcasterId: string) {
-  return twitch.api.fetch<ApiTwitchGetChatEmotesResponse>("/chat/emotes", {
+  return twitchApi.fetch<ApiTwitchGetChatEmotesResponse>("/chat/emotes", {
     query: { broadcaster_id: broadcasterId },
   });
 }

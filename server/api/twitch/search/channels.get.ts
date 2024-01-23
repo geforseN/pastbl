@@ -58,7 +58,7 @@ export type Channel = {
 export type ExtraChannel = Channel & { isExact?: true };
 
 function fetchChannels(query: string) {
-  return twitch.api.fetch<ApiTwitchGetSearchChannelsResponse>(
+  return twitchApi.fetch<ApiTwitchGetSearchChannelsResponse>(
     "/search/channels",
     {
       query: { query, first: 8 },
