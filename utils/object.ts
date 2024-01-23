@@ -10,54 +10,26 @@ export function deepFreeze<T extends Record<string | symbol, unknown>>(
   }
   return Object.freeze(object);
 }
-
-export function groupBy<T, K extends string | number | symbol>(
+export function flatGroupBy<T, K extends string | number | symbol, V extends T>(
   array: T[],
-  cb: (value: T, index: number, array: T[]) => K,
-): Record<K, T> {
-  return array.reduce(
-    (record, value, index, array) => {
-      const key = cb(value, index, array);
-      record[key] = value;
-      return record;
-    },
-    {} as Record<K, T>,
-  );
-}
-
-export function groupBy2<T, K extends string | number | symbol, V>(
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb?: undefined,
+): Record<K, V>;
+export function flatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
-  keyCallback: (value: T, index: number, array: T[]) => K,
-  valueCallback: (value: T, index: number, array: T[]) => V,
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb: (value: T) => V,
+): Record<K, V>;
+export function flatGroupBy<T, V, K extends string | number | symbol>(
+  array: T[],
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb?: (value: T, index: number, array: T[]) => V,
+  initialRecord: Record<K, V> = {} as Record<K, V>,
 ): Record<K, V> {
-  return array.reduce(
-    (record, value, index, array) => {
-      record[keyCallback(value, index, array)] = valueCallback(
-        value,
-        index,
-        array,
-      );
-      return record;
-    },
-    {} as Record<K, V>,
-  );
-}
-
-export function groupBy3<T, K extends string | number | symbol>(
-  array: T[],
-  recordOrKeyCallback:
-    | ((value: T, index: number, array: T[]) => K)
-    | {
-        key: (value: T, index: number, array: T[]) => K;
-        value?: (value: T, index: number, array: T[]) => K;
-      },
-) {
-  if (typeof recordOrKeyCallback === "function") {
-    return groupBy(array, recordOrKeyCallback);
-  }
-  assert.ok(recordOrKeyCallback.key);
-  if (typeof recordOrKeyCallback.value !== "undefined") {
-    return groupBy2(array, recordOrKeyCallback.key, recordOrKeyCallback.value);
-  }
-  return groupBy(array, recordOrKeyCallback.key);
+  const getValue = valueCb ?? ((value: T) => value as unknown as V);
+  return array.reduce((record, value, index, array) => {
+    const key = keyCb(value, index, array);
+    record[key] = getValue(value, index, array);
+    return record;
+  }, initialRecord);
 }

@@ -29,7 +29,7 @@ export const globalCollectionsService = {
     }
     const collectionIdb = await idb.collections;
     const collections = await collectionIdb.global.getAll();
-    return groupBy(
+    return flatGroupBy(
       collections,
       (collection) => collection.source,
     ) as Partial<IGlobalEmoteCollectionRecord>;
