@@ -73,7 +73,7 @@ export const userCollectionsService = {
     );
     const selectedUserCollection = {
       ...idbCollection,
-      integrations: groupBy(
+      integrations: flatGroupBy(
         populatedIntegrations,
         (integration) => integration.source,
       ),
@@ -97,7 +97,7 @@ function prepareUserCollectionToIdb(
       }),
     }),
   );
-  const integrationsRecord = groupBy(
+  const integrationsRecord = flatGroupBy(
     idbIntegrations,
     (idbIntegration) => idbIntegration.source,
   ) as IndexedDBUserEmoteIntegrationRecord;

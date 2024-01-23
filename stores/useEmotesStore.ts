@@ -40,7 +40,7 @@ function useEmotes<
   );
 
   watch(sourceToWatchCb, (source) => {
-    emotesRecord.value = groupBy2(
+    emotesRecord.value = flatGroupBy(
       Object.values(source),
       (integration) => integration.source,
       (integration) => {

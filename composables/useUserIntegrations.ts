@@ -200,11 +200,11 @@ export function useUserIntegrations() {
       ] as const;
       const [fulfilledIntegrations, rejectReasons] =
         await tupleSettledPromises<IUserEmoteIntegration>(integrationPromises);
-      const integrations = groupBy(
+      const integrations = flatGroupBy(
         fulfilledIntegrations,
         (collection) => collection.source,
       );
-      const failedIntegrationsReasons = groupBy(
+      const failedIntegrationsReasons = flatGroupBy(
         rejectReasons,
         // @ts-expect-error for minimal code TypeScript check can be omitted
         (reason, index) => reason?.source ?? index,

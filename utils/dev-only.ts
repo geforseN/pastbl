@@ -48,3 +48,18 @@ export function withLogSync<T>(
   }
   return returnValue;
 }
+
+export function countKeys<T extends Record<string, unknown>>(array: T[]) {
+  return array.reduce(
+    (acc, value) => {
+      Object.keys(value).forEach((key) => {
+        if (key.startsWith("codeOriginal") && key.length > 5) {
+          console.log(key, value);
+        }
+        acc[key] = (acc[key] || 0) + 1;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+}
