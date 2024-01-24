@@ -10,14 +10,17 @@
       <input
         id="nickname"
         ref="inputRef"
-        v-model="nickname"
+        v-model="channelsSearchNickname"
         name="nickname"
         placeholder="Enter twitch nickname"
         class="input join-item input-accent grow"
         type="text"
-        @keyup.enter="loadInputCollection()"
+        @keyup.enter="handleCollectionLoad(channelsSearchNickname)"
       />
-      <button class="btn btn-accent join-item" @click="loadInputCollection()">
+      <button
+        class="btn btn-accent join-item"
+        @click="handleCollectionLoad(channelsSearchNickname)"
+      >
         Load collection
       </button>
     </div>
@@ -25,11 +28,11 @@
       ref="channelsContainerRef"
       v-auto-animate
       class="flex max-h-60 flex-col overflow-y-auto rounded"
-      :class="mustShowChannels && 'border border-accent'"
+      :class="channels.mustShow && 'border border-accent'"
     >
-      <template v-if="mustShowChannels">
+      <template v-if="channels.mustShow">
         <div
-          v-for="channel of channels"
+          v-for="channel of channels.state"
           :key="channel.id"
           class="flex items-center gap-2 bg-slate-600 p-1"
         >
@@ -56,7 +59,7 @@
             </span>
             <button
               class="btn btn-accent btn-xs"
-              @click="handleSearchBarClick(channel.nickname)"
+              @click="handleCollectionLoad(channel.nickname)"
             >
               Load
             </button>
@@ -73,86 +76,90 @@
     </div>
   </section>
 </template>
-<script lang="ts" setup>
+<script lang="ts">
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
 
-const params = useUrlSearchParams<{
-  "focus-fetch-input"?: "true";
-}>("history");
+function useChannelsSearch(nickname: Ref<string>) {
+  const mustShow = ref(false);
+
+  const { data: state } = useFetch("/api/twitch/search/channels", {
+    lazy: true,
+    query: { nickname },
+    default(): ExtraChannel[] {
+      return [];
+    },
+    onRequest() {
+      mustShow.value = false;
+      state.value = [];
+      assert.ok(nickname.value);
+    },
+    onResponse() {
+      mustShow.value = true;
+    },
+  });
+
+  return {
+    state,
+    mustShow,
+    hide() {
+      mustShow.value = false;
+    },
+    show() {
+      mustShow.value = true;
+    },
+  };
+}
+
+async function loadCollection(
+  getCollectionAsyncFn: () => Promise<void>,
+  options: {
+    beforeLoad?: () => MaybePromise<void>;
+    onError?: (error: unknown) => MaybePromise<void>;
+  } = {},
+) {
+  try {
+    const collectionPromise = getCollectionAsyncFn();
+    await options.beforeLoad?.();
+    await collectionPromise;
+  } catch (error) {
+    await options.onError?.(error);
+  }
+}
+</script>
+<script lang="ts" setup>
 const inputRef = ref<HTMLInputElement>();
 const channelsContainerRef = ref<HTMLDivElement>();
-const mustShowChannels = ref(false);
 
 onMounted(() => {
-  if (params["focus-fetch-input"] === "true") {
+  const params = useUrlSearchParams<{
+    "focus-fetch-input"?: "true";
+  }>("history");
+  if (params["focus-fetch-input"]) {
     inputRef.value?.focus();
   }
 });
 
-const { focused: isInputFocused } = useFocus(inputRef);
-onClickOutside(
-  channelsContainerRef,
-  () => {
-    mustShowChannels.value = false;
-  },
-  { ignore: [inputRef] },
+const channelsSearchNickname = ref("");
+const channels = reactive(
+  useChannelsSearch(useDebounce(channelsSearchNickname, 500)),
 );
-whenever(isInputFocused, () => {
-  mustShowChannels.value = true;
-});
 
-const nickname = ref("");
-const debouncedNickname = useDebounce(nickname, 500);
+whenever(useFocus(inputRef).focused, channels.show);
+onClickOutside(channelsContainerRef, channels.hide, {
+  ignore: [inputRef],
+});
 
 const userCollectionsStore = useUserCollectionsStore();
 
-const { data: channels } = useFetch("/api/twitch/search/channels", {
-  lazy: true,
-  default: (): ExtraChannel[] => [],
-  query: { nickname: debouncedNickname },
-  onRequest: () => {
-    mustShowChannels.value = false;
-    channels.value = [];
-    assert.ok(debouncedNickname.value);
-  },
-  onResponse: () => {
-    mustShowChannels.value = true;
-  },
-});
-
-const toast = useNuxtToast();
-
-async function _loadCollection(
-  nickname: string,
-  options: {
-    beforeLoad?: () => MaybePromise<void>;
-  } = {},
-) {
-  try {
-    const collectionPromise = userCollectionsStore.loadCollection(nickname);
-    await options.beforeLoad?.();
-    await collectionPromise;
-  } catch (error) {
-    assert.isError(error, ExtendedError);
-    toast.add(error);
-  }
-}
-
-const loadInputCollection = () =>
-  _loadCollection(nickname.value, {
+async function handleCollectionLoad(nickname: string) {
+  await loadCollection(() => userCollectionsStore.loadCollection(nickname), {
     beforeLoad() {
-      nickname.value = "";
+      channelsSearchNickname.value = "";
+    },
+    onError(error) {
+      assert.isError(error, ExtendedError);
+      useNuxtToast().add(error);
     },
   });
-
-const loadSearchBarCollection = (nickname_: string) =>
-  _loadCollection(nickname_, {
-    beforeLoad() {
-      nickname.value = "";
-    },
-  });
-
-async function handleSearchBarClick(nickname: string) {
-  await loadSearchBarCollection(nickname);
 }
 </script>
