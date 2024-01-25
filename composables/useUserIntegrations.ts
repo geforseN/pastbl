@@ -1,26 +1,15 @@
 import type { UseAsyncStateReturn } from "@vueuse/core";
 import {
-  create7TVUserChannelSet,
-  createBTTVUserIntegration,
-  create7TVUserIntegration,
+  BetterTTV,
   createFFZUserIntegration,
-  createFFZUserSets,
-  createFFZPartialUserIntegration,
   recreate7TVUserIntegration,
   type IUserEmoteCollection,
-  type I7TVUserCollection,
   type IUserEmoteIntegration,
+  FrankerFaceZ,
+  SevenTV,
 } from "~/integrations";
 
-import {
-  getBetterTTVUserByTwitchId,
-  get7TVSetById,
-  get7TVUserProfileByTwitchId,
-  getFFZProfileByTwitchUsername,
-  getFFZUserRoomByTwitchId,
-} from "~/integrations/api";
-
-function useMyAsyncState<
+function useMyLazyAsyncState<
   Data,
   Params extends unknown[] = [],
   Shallow extends boolean = true,
@@ -33,35 +22,26 @@ function useMyAsyncState<
 
 function makeClearAsyncState(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...states: UseAsyncStateReturn<unknown, any[], boolean>[]
+  ...asyncStates: UseAsyncStateReturn<unknown, any[], boolean>[]
 ) {
   return () => {
-    for (const state of states) {
-      state.state.value = null;
-      state.error.value = null;
-      state.isReady.value = false;
-      state.isLoading.value = false;
+    for (const asyncState of asyncStates) {
+      asyncState.state.value = null;
+      asyncState.error.value = null;
+      asyncState.isReady.value = false;
+      asyncState.isLoading.value = false;
     }
   };
 }
 
 const useFFZUser = () => {
-  const partialCollection = useMyAsyncState(
-    async (username: Lowercase<string>) => {
-      const profile = await getFFZProfileByTwitchUsername(username);
-      return withLog(
-        createFFZPartialUserIntegration(profile),
-        "FFZPartialCollection",
-      );
-    },
+  const partialCollection = useMyLazyAsyncState(
+    FrankerFaceZ.userIntegration.givePartial,
   );
 
-  const sets = useMyAsyncState(async (twitchId: number) => {
-    const room = await getFFZUserRoomByTwitchId(twitchId);
-    return withLog(createFFZUserSets(room.sets), "FFZSets");
-  });
+  const sets = useMyLazyAsyncState(FrankerFaceZ.userIntegration.giveSets);
 
-  const fullCollection = useMyAsyncState(() => {
+  const fullCollection = useMyLazyAsyncState(() => {
     const ffzPartialCollection = partialCollection.state.value;
     assert.ok(
       ffzPartialCollection,
@@ -79,21 +59,14 @@ const useFFZUser = () => {
     partialCollection,
     sets,
     fullCollection,
+    ...fullCollection,
     clear: makeClearAsyncState(partialCollection, sets, fullCollection),
   };
 };
 export type UseFFZReturn = ReturnType<typeof useFFZUser>;
 
 const useBTTVUser = () => {
-  const bttv = useMyAsyncState(
-    async (twitch: { id: number; username: Lowercase<string> }) => {
-      const user = {
-        ...(await getBetterTTVUserByTwitchId(twitch.id, twitch.username)),
-        twitch: { username: twitch.username },
-      };
-      return withLog(createBTTVUserIntegration(user), "BTTV");
-    },
-  );
+  const bttv = useMyLazyAsyncState(BetterTTV.giveUserIntegration);
 
   return {
     ...bttv,
@@ -104,36 +77,17 @@ const useBTTVUser = () => {
 export type UseBTTVReturn = ReturnType<typeof useBTTVUser>;
 
 const use7TVUser = () => {
-  const collection = useMyAsyncState(
-    async (twitch: { id: number; username?: Lowercase<string> }) => {
-      const profile = await get7TVUserProfileByTwitchId(
-        twitch.id,
-        twitch.username,
+  const collection = useMyLazyAsyncState(SevenTV.giveUserIntegration);
+
+  const activeSet = useMyLazyAsyncState(SevenTV.giveActiveSet);
+
+  const fullCollection = useMyLazyAsyncState(
+    async (twitchId: number, twitchUsername?: Lowercase<string>) => {
+      const collectionState = await collection.execute(
+        0,
+        twitchId,
+        twitchUsername,
       );
-      return withLog(create7TVUserIntegration(profile), "7TVCollection");
-    },
-  );
-
-  const activeSet = useMyAsyncState(
-    async (collectionState: Readonly<I7TVUserCollection>) => {
-      const { activeSet } = collectionState;
-      if (activeSet.isValid) {
-        return withLog(activeSet, {
-          logKey: "7TVSet",
-          additionalMessages: { isFastReturn: true },
-        });
-      }
-      const apiSet = await get7TVSetById(activeSet.id);
-      return withLog(create7TVUserChannelSet(apiSet), {
-        logKey: "7TVSet",
-        additionalMessages: { isFastReturn: false },
-      });
-    },
-  );
-
-  const fullCollection = useMyAsyncState(
-    async (twitch: { id: number; username?: Lowercase<string> }) => {
-      const collectionState = await collection.execute(0, twitch);
       assert.ok(
         collectionState,
         "Can not get full collection without collection",
@@ -154,48 +108,60 @@ const use7TVUser = () => {
     collection,
     activeSet,
     fullCollection,
+    ...fullCollection,
     clear: makeClearAsyncState(collection, activeSet, fullCollection),
   };
 };
 
 export type Use7TVReturn = ReturnType<typeof use7TVUser>;
 
+// TODO: rename to useAsyncUserCollection
 export function useUserIntegrations() {
   const ffz = useFFZUser();
   const bttv = useBTTVUser();
   const sevenTv = use7TVUser();
 
-  const collection = useMyAsyncState(
+  const isTwitchIdLoaded = () =>
+    ffz.partialCollection.isReady.value && !ffz.partialCollection.error.value;
+
+  const collection = useMyLazyAsyncState(
     async (twitchNickname: MaybeRef<string>) => {
-      const username = toLowerCase(toValue(twitchNickname));
+      const login = toLowerCase(toValue(twitchNickname));
       for (const integration of [ffz, bttv, sevenTv]) {
         integration.clear();
       }
-      await ffz.partialCollection.execute(0, username).catch((error) => {
-        for (const state of [bttv, sevenTv.fullCollection]) {
-          state.error.value = new Error(
-            "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
-          );
-        }
-        throw error;
-      });
+      await ffz.partialCollection
+        .execute(0, login)
+        .then(withOkAssert("No FrankerFaceZ integration found"))
+        .catch((error) => {
+          for (const state of [bttv, sevenTv]) {
+            state.error.value = new Error(
+              "Can not perform emote collections without user twitch id, which can be loaded by FrankerFaceZ API",
+            );
+          }
+          throw error;
+        });
       const twitchUser = {
         id:
           ffz.partialCollection.state.value?.owner.twitchId ||
           raise("No twitch id found"),
-        username,
+        username: login,
         nickname:
           ffz.partialCollection.state.value?.owner.displayName ||
           raise("No twitch nickname found"),
       };
+      // await until(isTwitchIdLoaded).toBeTruthy({
+      //   timeout: 10_000,
+      //   throwOnTimeout: true,
+      // });
       const integrationPromises = [
         ffz.sets
           .execute(0, twitchUser.id)
           .then(() => ffz.fullCollection.execute(0))
           .then(withOkAssert("No FrankerFaceZ integration found")),
-        bttv.execute(0, twitchUser),
-        sevenTv.fullCollection
-          .execute(0, twitchUser)
+        bttv.execute(0, twitchUser.id, twitchUser.username),
+        sevenTv
+          .execute(0, twitchUser.id, twitchUser.username)
           .then(withOkAssert("No SevenTV integration found")),
       ] as const;
       const [fulfilledIntegrations, rejectReasons] =
