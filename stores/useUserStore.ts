@@ -2,10 +2,12 @@ import { defineStore } from "pinia";
 import { pastasService } from "~/client-only/services";
 
 export const useUserStore = defineStore("user", () => {
-  const nicknameColor = useIdbKeyValue("nickname:color", "#000000");
-  const nicknameText = useIdbKeyValue("nickname:value", "Kappa");
-  const badgesCount = useIdbKeyValue("badges:count", 1);
-  const pastaOncopy = useIdbKeyValue("pasta:oncopy", "alert");
+  const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
+  const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
+    debounce: 1_000,
+  });
+  const badgesCount = useIndexedDBKeyValue("badges:count", 1);
+  const pastaOncopy = useIndexedDBKeyValue("pasta:oncopy", "alert");
 
   const debouncedNicknameColor = refDebounced(nicknameColor.state, 300);
 
