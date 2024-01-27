@@ -47,3 +47,14 @@ export function groupBy<T, K extends string | number | symbol, V>(
     return record;
   }, initialRecord);
 }
+
+export function sum<A extends readonly unknown[]>(
+  array: A,
+  cb: (value: A[number], index: number, array: A) => number,
+  initialValue: number = 0,
+) {
+  return array.reduce(
+    (acc: number, value, index, array) => acc + cb(value, index, array as A),
+    initialValue as number,
+  );
+}
