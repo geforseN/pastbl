@@ -1,15 +1,14 @@
 import { defineStore } from "pinia";
 
 export const usePastaStore = defineStore("pasta", () => {
-  const text = useIdbKeyValue("pasta:text", "");
-  // TODO: add useIdbKeyValue support for set value to array
-  const tags = ref<string[]>([]);
-  const tag = useIdbKeyValue("pasta:tag", "");
+  const text = useIndexedDBKeyValue("pasta:text", "");
+  const tags = useIndexedDBKeyValue("pasta:tags", []);
+  const tag = useIndexedDBKeyValue("pasta:tag", "");
 
   const pasta = usePasta({
     text: text.state,
     tag: tag.state,
-    tags,
+    tags: tags.state,
   });
   const toast = useNuxtToast();
 
