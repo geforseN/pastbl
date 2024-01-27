@@ -34,6 +34,7 @@ function assertResponseOk(
 }
 
 export const assert: {
+  fail: typeof raise;
   ok: typeof assertOk;
   isError: typeof assertIsError;
   response: {
@@ -44,6 +45,9 @@ export const assert: {
   isError: assertIsError,
   response: {
     ok: assertResponseOk,
+  },
+  fail(messageOrError?: string | Error): never {
+    raise(messageOrError);
   },
 };
 
