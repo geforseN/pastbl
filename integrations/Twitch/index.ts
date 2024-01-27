@@ -2,10 +2,13 @@ import type {
   InternalGlobalEmoteCollection,
   IEmote,
   IEmoteSet,
+  InternalUserEmoteIntegration,
+  IEmoteCollectionOwner,
 } from "~/integrations";
 
 type TwitchApiGlobalEmote = {
-  format: ["static", "animated"] | ["static"];
+  // MOTE: 'static' is always included (for now), animated is optional
+  format: ("animated" | "static")[];
   id: string;
   images: {
     url_1x: string; // `https://static-cdn.jtvnw.net/emoticons/v2/${TwitchApiGlobalEmote["id"]}/${TwitchApiGlobalEmote["format"][number]}/${TwitchApiGlobalEmote["theme_mode"][number]}/'1.0'`;
@@ -17,7 +20,7 @@ type TwitchApiGlobalEmote = {
   theme_mode: ["light", "dark"];
 };
 
-export interface ITwitchGlobalEmote extends IEmote {
+export interface ITwitchEmote extends IEmote {
   source: "Twitch";
   width: number;
   height: number;
@@ -27,51 +30,48 @@ export interface ITwitchGlobalEmoteResponse {
   data: TwitchApiGlobalEmote[];
   template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
 }
-function getTwitchEmoteTitle(emote: ITwitchGlobalEmote) {
+function getTwitchEmoteTitle(emote: ITwitchEmote) {
   return `${emote.token} emote from Twitch`;
 }
 
-export function TwitchEmoteString(emote: ITwitchGlobalEmote) {
+export function TwitchEmoteString(emote: ITwitchEmote) {
   return `<img src="${emote.url}" alt="${getTwitchEmoteTitle(
     emote,
   )}" loading="lazy">`;
 }
 
-export function TwitchWrappedEmoteString(emote: ITwitchGlobalEmote) {
+export function TwitchWrappedEmoteString(emote: ITwitchEmote) {
   return `<span class="inline-block" title="${getTwitchEmoteTitle(
     emote,
   )}">${TwitchEmoteString(emote)}</span>`;
 }
 
-class TwitchGlobalEmote implements ITwitchGlobalEmote {
+class TwitchGlobalEmote implements ITwitchEmote {
   id;
   isAnimated;
-  isListed;
-  isModifier;
-  isWrapper;
-  source;
   token;
   url;
-  width;
-  height;
+
+  isListed = true;
+  isModifier = false;
+  isWrapper = false;
+  source = "Twitch" as const;
+  // LINK: https://dev.twitch.tv/docs/api/reference/#get-global-emotes
+  // NOTE: width and height are taken from Response Body data.images.url_1x
+  width = 28;
+  height = 28;
 
   constructor(apiEmote: TwitchApiGlobalEmote) {
     this.id = apiEmote.id;
     this.isAnimated = apiEmote.format.includes("animated");
-    this.isListed = true;
-    this.isModifier = false;
-    this.isWrapper = false;
-    this.source = "Twitch" as const;
     this.token = apiEmote.name;
     this.url = apiEmote.images.url_1x;
-    // LINK: https://dev.twitch.tv/docs/api/reference/#get-global-emotes
-    // NOTE: look for Response Body data.images url_(1 | 2 | 4)x
-    this.width = 28;
-    this.height = 28;
+    if (this.isAnimated) {
+      this.url = this.url.replace("/static/", "/animated/") as string;
+    }
   }
 }
-interface ITwitchGlobalEmoteSet
-  extends IEmoteSet<"Twitch", ITwitchGlobalEmote> {}
+interface ITwitchGlobalEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
 
 export interface ITwitchGlobalCollection
   extends InternalGlobalEmoteCollection<"Twitch", ITwitchGlobalEmoteSet> {}
@@ -81,7 +81,7 @@ function getTwitchGlobalEmoteSet(
 ): ITwitchGlobalEmoteSet {
   return {
     id: "twitch:global",
-    name: "Twitch Global Emotes Collection",
+    name: "Global Emotes",
     source: "Twitch",
     updatedAt: Date.now(),
     emotes: response.data.map((emote) => new TwitchGlobalEmote(emote)),
@@ -108,3 +108,14 @@ export class TwitchGlobalCollection implements ITwitchGlobalCollection {
     this.updatedAt = Date.now();
   }
 }
+
+interface ITwitchCollectionOwner extends IEmoteCollectionOwner {}
+
+interface ITwitchEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
+
+export interface ITwitchUserIntegration
+  extends InternalUserEmoteIntegration<
+    "Twitch",
+    ITwitchEmoteSet,
+    ITwitchCollectionOwner
+  > {}

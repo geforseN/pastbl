@@ -2,21 +2,20 @@
 /* eslint-disable no-use-before-define */
 
 import { UserNotFoundError } from "../UserNotFoundError";
+import { assert } from "~/utils/error";
 
 // NOTE: FFZ documentation
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
-export async function getFFZProfileByTwitchUsername(
-  username: Lowercase<string>,
+export async function getFFZUserByTwitchLogin(
+  login: Lowercase<string>,
 ): Promise<{
   badges: Record<`${number}`, FrankerFaceZApiBadge>;
   sets: Record<`${number}`, never>;
   user: FrankerFaceZApiUser;
 }> {
-  const response = await fetch(
-    `https://api.frankerfacez.com/v1/user/${username}`,
-  );
-  assert.response.ok(response, new UserNotFoundError("FrankerFaceZ", username));
+  const response = await fetch(`https://api.frankerfacez.com/v1/user/${login}`);
+  assert.response.ok(response, new UserNotFoundError("FrankerFaceZ", login));
   return response.json();
 }
 
@@ -43,6 +42,24 @@ export async function getFFZGlobalEmoteSets(): Promise<{
   assert.response.ok(response, "Failed to load FrankerFaceZ global emotes");
   return response.json();
 }
+
+export const FrankerFaceZApi = {
+  async getUser(
+    id: number,
+    login: Lowercase<string>,
+  ): Promise<{
+    badges: Record<`${number}`, FrankerFaceZApiBadge>;
+    sets: Record<`${number}`, never>;
+    user: FrankerFaceZApiUser;
+  }> {
+    const response = await fetch(
+      `https://api.frankerfacez.com/v1/user/id/${id}`,
+    );
+    assert.response.ok(response, new UserNotFoundError("FrankerFaceZ", login));
+    return response.json();
+  },
+  getRoom: getFFZUserRoomByTwitchId,
+};
 
 export type FrankerFaceZApiEmote = {
   artist: { _id: number; name: string; display_name: string } | null;

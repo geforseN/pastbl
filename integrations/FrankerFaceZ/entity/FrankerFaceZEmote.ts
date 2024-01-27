@@ -33,7 +33,7 @@ export class FFZEmote implements FrankerFaceZEmote {
     this.source = "FrankerFaceZ" as const;
     this.token = apiEmote.name;
     this.type = type;
-    this.url = `//cdn.frankerfacez.com/emote/${this.id}` as const;
+    this.url = `//cdn.frankerfacez.com/emote/${this.id}/1` as const;
     this.width = apiEmote.width;
   }
 }

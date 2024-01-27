@@ -6,7 +6,7 @@ export interface I7TVCollectionOwner {
   displayName: string;
   linkedAt: number;
   biography: string;
-  username: Lowercase<I7TVCollectionOwner["displayName"]>;
+  login: Lowercase<I7TVCollectionOwner["displayName"]>;
   style: { color?: number };
 }
 
@@ -16,14 +16,14 @@ export class SevenTVCollectionOwner implements I7TVCollectionOwner {
   displayName;
   linkedAt;
   style;
-  username;
+  login;
   biography;
 
   constructor(profile: SevenTVApiUserProfile) {
     this.avatarUrl = `https:${profile.user.avatar_url}`;
     this.capacity = profile.emote_capacity;
     this.displayName = profile.display_name;
-    this.username = profile.username;
+    this.login = profile.username;
     this.style = profile.user.style;
     this.linkedAt = profile.linked_at;
     this.biography = profile.user.biography;

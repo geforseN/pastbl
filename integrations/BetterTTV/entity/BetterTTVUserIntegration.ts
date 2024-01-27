@@ -1,15 +1,15 @@
-import type { BetterTTVSet } from "./BetterTTVSet";
+import type { IBetterTTVSet } from "./BetterTTVSet";
 import type { InternalUserEmoteIntegration } from "~/integrations";
 
 export interface BetterTTVUserIntegration
   extends InternalUserEmoteIntegration<
     "BetterTTV",
-    BetterTTVSet,
+    IBetterTTVSet,
     {
       avatarUrl: string;
       id: string;
       twitch: {
-        username: Lowercase<string>;
+        login: Lowercase<string>;
       };
     }
   > {}
@@ -17,15 +17,13 @@ export interface BetterTTVUserIntegration
 export class BTTVUserIntegration implements BetterTTVUserIntegration {
   name;
   sets;
-  source;
-  updatedAt;
   owner;
+  source = "BetterTTV" as const;
+  updatedAt = Date.now();
 
-  constructor(user: BetterTTVUserIntegration["owner"], sets: BetterTTVSet[]) {
-    this.name = `BetterTTV ${user.twitch.username} Emotes Collection`;
+  constructor(user: BetterTTVUserIntegration["owner"], sets: IBetterTTVSet[]) {
+    this.name = `BetterTTV ${user.twitch.login} Emotes Collection`;
     this.sets = sets;
-    this.source = "BetterTTV" as const;
-    this.updatedAt = Date.now();
     this.owner = user;
   }
 }

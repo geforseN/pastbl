@@ -1,6 +1,5 @@
 import {
   FFZWrappedEmoteString,
-  createFFZGlobalCollection,
   type FrankerFaceZGlobalCollection,
   type FrankerFaceZUserIntegration,
   type FrankerFaceZEmote,
@@ -8,28 +7,25 @@ import {
 } from "./FrankerFaceZ/index";
 import {
   BTTVWrappedEmoteString,
-  createBTTVGlobalCollection,
   type BetterTTVGlobalCollection,
   type BetterTTVUserIntegration,
-  type BetterTTVEmote,
+  type IBetterTTVEmote,
   BTTVEmoteString,
 } from "./BetterTTV/index";
 import {
   SevenTVWrappedEmoteString,
-  create7TVGlobalCollection,
   type I7TVGlobalCollection,
-  type I7TVUserCollection,
+  type ISevenTVUserIntegration,
   type I7TVEmote,
   SevenTVEmoteString,
 } from "./SevenTV/index";
-import { getFFZGlobalEmoteSets } from "./FrankerFaceZ/FrankerFaceZ.api";
-import { getBetterTTVGlobalEmotes } from "./BetterTTV/BetterTTV.api";
-import { get7TVGlobalEmotesSet } from "./SevenTV/SevenTV.api";
 import {
   TwitchWrappedEmoteString,
   type ITwitchGlobalCollection,
   TwitchEmoteString,
+  type ITwitchUserIntegration,
 } from "./Twitch";
+import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
 
 export const availableEmoteSources = [
   "FrankerFaceZ",
@@ -53,7 +49,7 @@ export interface IEmote {
 }
 
 export type EmoteOf = {
-  BetterTTV: BetterTTVEmote;
+  BetterTTV: IBetterTTVEmote;
   SevenTV: I7TVEmote;
   FrankerFaceZ: FrankerFaceZEmote;
 };
@@ -138,29 +134,8 @@ export function getMissingSources(
   return emoteSources.filter((source) => !state[source]);
 }
 
-const globalEmotesGetters = {
-  FrankerFaceZ: async () => {
-    const globalEmotes = await getFFZGlobalEmoteSets();
-    return createFFZGlobalCollection(globalEmotes);
-  },
-  BetterTTV: async () => {
-    const globalEmotes = await getBetterTTVGlobalEmotes();
-    return createBTTVGlobalCollection(globalEmotes);
-  },
-  SevenTV: async () => {
-    const globalEmotes = await get7TVGlobalEmotesSet();
-    return create7TVGlobalCollection(globalEmotes);
-  },
-  Twitch: (): Promise<ITwitchGlobalCollection> =>
-    $fetch("/api/twitch/chat/emotes/global"),
-};
-
-export function getGlobalCollection(source: keyof typeof globalEmotesGetters) {
-  return globalEmotesGetters[source]();
-}
-
 export interface InternalUserEmoteIntegration<
-  SourceT extends AvailableEmoteSource,
+  SourceT extends EmoteSource,
   SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
   OwnerT extends IEmoteCollectionOwner,
 > {
@@ -174,42 +149,42 @@ export interface InternalUserEmoteIntegration<
 export type IUserEmoteIntegrationRecord = {
   FrankerFaceZ: FrankerFaceZUserIntegration;
   BetterTTV: BetterTTVUserIntegration;
-  SevenTV: I7TVUserCollection;
+  SevenTV: ISevenTVUserIntegration;
+  Twitch: ITwitchUserIntegration;
 };
 
 export type IUserEmoteIntegration =
   IUserEmoteIntegrationRecord[keyof IUserEmoteIntegrationRecord];
 
-export interface IUserEmoteCollection {
-  twitch: {
-    id: number;
-    nickname: string;
-    username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
-  };
-  updatedAt: number;
-  integrations: Partial<IUserEmoteIntegrationRecord>;
-  failedIntegrationsReasons: Partial<
-    Record<keyof IUserEmoteIntegrationRecord, Error>
-  >;
-}
+export type IUserEmoteIntegrationSetRecord = {
+  FrankerFaceZ: FrankerFaceZUserIntegration["sets"][number];
+  BetterTTV: BetterTTVUserIntegration["sets"][number];
+  SevenTV: ISevenTVUserIntegration["sets"][number];
+  Twitch: ITwitchUserIntegration["sets"][number];
+};
 
-type AnotherIUserEmoteCollection = {
+export type IUserEmoteIntegrationSet =
+  IUserEmoteIntegrationSetRecord[keyof IUserEmoteIntegrationSetRecord];
+
+type Wrap<Integration extends IUserEmoteIntegration> =
+  | ({ status: "ready" } & Integration)
+  | { status: "fail"; reason: string; source: Integration["source"] };
+
+export type IUserEmoteCollection = {
   user: {
-    twitch: {
-      id: number;
-      nickname: string;
-      username: Lowercase<IUserEmoteCollection["twitch"]["nickname"]>;
-    };
+    twitch: TwitchUser;
   };
   updatedAt: number;
   integrations: {
-    FrankerFaceZ?: FrankerFaceZUserIntegration | { failReason: Error };
-    BetterTTV?: BetterTTVUserIntegration | { failReason: Error };
-    SevenTV?: I7TVUserCollection | { failReason: Error };
+    FrankerFaceZ?: Wrap<FrankerFaceZUserIntegration>;
+    BetterTTV?: Wrap<BetterTTVUserIntegration>;
+    SevenTV?: Wrap<ISevenTVUserIntegration>;
+    // TODO: Twitch?: Wrap<ITwitchUserIntegration>
   };
 };
 
 export {
+  FrankerFaceZ,
   createFFZGlobalCollection,
   createFFZUserIntegration,
   createFFZUserSets,
@@ -220,19 +195,22 @@ export {
 } from "./FrankerFaceZ/index";
 
 export {
-  createBTTVGlobalCollection,
-  createBTTVUserIntegration,
-  type BetterTTVSet,
-  type BetterTTVEmote,
+  BetterTTV,
+  // TODO: IBetterTTV: RECORD 'Set' 'Emote' 'UserIntegration'
+  type IBetterTTVSet,
+  type IBetterTTVEmote,
   type BetterTTVUserIntegration,
-} from "./BetterTTV/index";
+} from "./BetterTTV";
 
 export {
+  SevenTV,
   create7TVUserChannelSet,
   create7TVUserIntegration,
   create7TVGlobalCollection,
   recreate7TVUserIntegration,
-  type I7TVUserCollection,
+  type ISevenTVUserIntegration,
   type I7TVSet,
   type I7TVEmote,
 } from "./SevenTV/index";
+
+export type { ITwitchUserIntegration } from "./Twitch";

@@ -33,7 +33,7 @@ export class SevenTVEmote implements I7TVEmote {
     this.tags = apiEmote.data.tags;
     this.token = apiEmote.name;
     this.type = type;
-    this.url = `//cdn.7tv.app/emote/${this.id}` as const;
+    this.url = `https://cdn.7tv.app/emote/${this.id}/1x.webp` as const;
     this.width = apiEmote.data.host.files[1].width;
   }
 }

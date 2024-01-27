@@ -1,32 +1,41 @@
-import type { BetterTTVApiUser } from "../BetterTTV.api";
+import type { IBetterTTVApi } from "../api";
 import { BTTVEmote } from "./BetterTTVEmote";
-import { BTTVSet } from "./BetterTTVSet";
+import { BetterTTVSet } from "./BetterTTVSet";
 import {
   BTTVUserIntegration,
   type BetterTTVUserIntegration,
 } from "./BetterTTVUserIntegration";
 
 export function createBTTVUserIntegration(
-  user: BetterTTVApiUser & { twitch: { username: Lowercase<string> } },
+  user: IBetterTTVApi["User"] & { twitch: { login: Lowercase<string> } },
 ): BetterTTVUserIntegration {
   const setEntries = [
-    [`Channel emotes`, user.channelEmotes, "channel", `channel${user.id}`],
-    [`Shared emotes`, user.sharedEmotes, "shared", `shared${user.id}`],
-  ] as const;
+    {
+      set: {
+        name: "Channel emotes",
+        emotes: user.channelEmotes,
+        id: `channel${user.id}`,
+      },
+      emoteType: "channel" as const,
+    },
+    {
+      set: {
+        name: "Shared emotes",
+        emotes: user.sharedEmotes,
+        id: `shared${user.id}`,
+      },
+      emoteType: "shared" as const,
+    },
+  ].filter((entry) => entry.set.emotes.length);
 
   return new BTTVUserIntegration(
     { avatarUrl: user.avatar, id: user.id, twitch: user.twitch },
-    setEntries
-      .filter(([, emotesList]) => emotesList.length)
-      .map(([name, emotes, emoteType, id]) => {
-        return new BTTVSet(
-          {
-            emotes,
-            name,
-            id,
-          },
-          (emote) => new BTTVEmote(emote, emoteType),
-        );
-      }),
+    setEntries.map(({ emoteType, set }) => {
+      return new BetterTTVSet(
+        set.emotes.map((emote) => new BTTVEmote(emote, emoteType)),
+        set.id,
+        set.name,
+      );
+    }),
   );
 }
