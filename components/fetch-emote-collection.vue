@@ -14,7 +14,7 @@
         name="nickname"
         placeholder="Enter twitch nickname"
         class="input join-item input-accent grow"
-        type="text"
+        type="search"
         @keyup.enter="handleCollectionLoad(channelsSearchNickname)"
       />
       <button
@@ -28,11 +28,11 @@
       ref="channelsContainerRef"
       v-auto-animate
       class="flex max-h-60 flex-col overflow-y-auto rounded"
-      :class="channels.mustShow && 'border border-accent'"
+      :class="channelsSearch.mustShow && 'border border-accent'"
     >
-      <template v-if="channels.mustShow">
+      <template v-if="channelsSearch.mustShow">
         <div
-          v-for="channel of channels.state"
+          v-for="channel of channelsSearch.state"
           :key="channel.id"
           class="flex items-center gap-2 bg-slate-600 p-1"
         >
@@ -67,20 +67,16 @@
         </div>
       </template>
     </div>
-    <div v-auto-animate class="flex flex-col gap-2">
-      <loading-user-emote-collection-btnlike
-        v-for="collection of userCollectionsStore.loadingCollections"
-        :key="collection.username"
-        :collection="collection"
-      />
-    </div>
   </section>
 </template>
 <script lang="ts">
+import { set } from "@vueuse/core";
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
 
 function useChannelsSearch(nickname: Ref<string>) {
   const mustShow = ref(false);
+  const hide = () => set(mustShow, false);
+  const show = () => set(mustShow, true);
 
   const { data: state } = useFetch("/api/twitch/search/channels", {
     lazy: true,
@@ -89,24 +85,18 @@ function useChannelsSearch(nickname: Ref<string>) {
       return [];
     },
     onRequest() {
-      mustShow.value = false;
+      hide();
       state.value = [];
       assert.ok(nickname.value);
     },
-    onResponse() {
-      mustShow.value = true;
-    },
+    onResponse: show,
   });
 
   return {
     state,
     mustShow,
-    hide() {
-      mustShow.value = false;
-    },
-    show() {
-      mustShow.value = true;
-    },
+    show,
+    hide,
   };
 }
 
@@ -140,26 +130,53 @@ onMounted(() => {
 });
 
 const channelsSearchNickname = ref("");
-const channels = reactive(
+const channelsSearch = reactive(
   useChannelsSearch(useDebounce(channelsSearchNickname, 500)),
 );
 
-whenever(useFocus(inputRef).focused, channels.show);
-onClickOutside(channelsContainerRef, channels.hide, {
+whenever(useFocus(inputRef).focused, channelsSearch.show);
+onClickOutside(channelsContainerRef, channelsSearch.hide, {
   ignore: [inputRef],
 });
 
 const userCollectionsStore = useUserCollectionsStore();
-
+const toast = useNuxtToast();
 async function handleCollectionLoad(nickname: string) {
-  await loadCollection(() => userCollectionsStore.loadCollection(nickname), {
-    beforeLoad() {
-      channelsSearchNickname.value = "";
+  await loadCollection(
+    async () => {
+      assert.ok(
+        nickname?.length,
+        new ExtendedError("Nickname is required", {
+          color: "red",
+          title: "Emotes load error",
+        }),
+      );
+      const collection = await userCollectionsStore.loadCollection(
+        toLowerCase(nickname),
+      );
+
+      const statuses = Object.values(collection.integrations)
+        .map((integration) => {
+          const emoji = integration.status === "ready" ? "✅" : "❌";
+          return integration.source + " " + emoji;
+        })
+        .join("\n ");
+      toast.add({
+        color: "green",
+        title: "Emotes loaded",
+        timeout: 4_000,
+        description: `Loaded ${collection.user.twitch.nickname} emotes\n${statuses}`,
+      });
     },
-    onError(error) {
-      assert.isError(error, ExtendedError);
-      useNuxtToast().add(error);
+    {
+      beforeLoad() {
+        channelsSearchNickname.value = "";
+      },
+      onError(error) {
+        assert.isError(error, ExtendedError);
+        toast.add(error);
+      },
     },
-  });
+  );
 }
 </script>

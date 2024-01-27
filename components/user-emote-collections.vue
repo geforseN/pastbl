@@ -4,19 +4,19 @@
     <div v-auto-animate class="flex max-h-72 flex-col gap-2 overflow-auto">
       <user-emote-collection-btnlike
         v-for="collection of userCollectionsStore.collectionsToSelect.state"
-        :key="collection.twitch.nickname"
+        :key="collection.user.twitch.login"
         class="rounded-btn border-2 p-2"
         :class="
-          userCollectionsStore.isSelectedUsername(collection.twitch.username) &&
+          userCollectionsStore.isSelectedLogin(collection.user.twitch.login) &&
           'border-twitch'
         "
-        :nickname="collection.twitch.nickname"
+        :nickname="collection.user.twitch.login"
         :avatar-url="collection.integrations.FrankerFaceZ?.owner.avatarUrl"
         @delete="
-          userCollectionsStore.deleteCollection(collection.twitch.username)
+          userCollectionsStore.deleteCollection(collection.user.twitch.login)
         "
         @refresh="
-          userCollectionsStore.refreshCollection(collection.twitch.username)
+          userCollectionsStore.loadCollection(collection.user.twitch.login)
         "
       />
     </div>
