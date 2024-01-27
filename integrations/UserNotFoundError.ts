@@ -3,11 +3,11 @@ export class UserNotFoundError extends Error {
 
   constructor(
     source: "BetterTTV" | "SevenTV" | "FrankerFaceZ",
-    username?: string,
+    login?: string,
   ) {
     super(
       `⚠️ ${source} does not have ${
-        username ? `user with username ${username}` : "such user"
+        login ? `user with login ${login}` : "such user"
       }`,
     );
     this.source = source;

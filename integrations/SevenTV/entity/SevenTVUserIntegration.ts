@@ -3,7 +3,7 @@ import type { I7TVCollectionOwner } from "./SevenTVCollectionOwner";
 import type { InternalUserEmoteIntegration } from "~/integrations";
 import { raise } from "~/utils/error";
 
-export interface I7TVUserCollection
+export interface ISevenTVUserIntegration
   extends InternalUserEmoteIntegration<
     "SevenTV",
     I7TVSet,
@@ -12,7 +12,7 @@ export interface I7TVUserCollection
   get activeSet(): I7TVSet;
 }
 
-export class SevenTVUserIntegration implements I7TVUserCollection {
+export class SevenTVUserIntegration implements ISevenTVUserIntegration {
   name;
   sets;
   source;

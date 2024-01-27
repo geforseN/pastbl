@@ -2,13 +2,13 @@ import type { SevenTVApiUserProfile } from "../SevenTV.api";
 import { SevenTVCollectionOwner } from "./SevenTVCollectionOwner";
 import {
   SevenTVUserIntegration,
-  type I7TVUserCollection,
+  type ISevenTVUserIntegration,
 } from "./SevenTVUserIntegration";
 import { create7TVUserChannelSet } from "./create7TVUserChannelSet";
 
 export function create7TVUserIntegration(
   profile: SevenTVApiUserProfile,
-): I7TVUserCollection {
+): ISevenTVUserIntegration {
   return new SevenTVUserIntegration(new SevenTVCollectionOwner(profile), [
     create7TVUserChannelSet(profile.emote_set),
   ]);

@@ -1,4 +1,4 @@
-import type { getFFZProfileByTwitchUsername } from "../FrankerFaceZ.api";
+import type { getFFZUserByTwitchLogin } from "../FrankerFaceZ.api";
 import { FFZCollectionOwner } from "./FrankerFaceZCollectionOwner";
 import {
   FFZPartialUserIntegration,
@@ -7,13 +7,13 @@ import {
 import { FFZUserBadge } from "./FrankerFaceZUserBadge";
 
 export function createFFZPartialUserIntegration(
-  profile: Awaited<ReturnType<typeof getFFZProfileByTwitchUsername>>,
+  user: Awaited<ReturnType<typeof getFFZUserByTwitchLogin>>,
 ): FrankerFaceZPartialUserIntegration {
   return new FFZPartialUserIntegration(
     new FFZCollectionOwner(
-      profile.user,
-      Object.values(profile.badges).map((badge) => new FFZUserBadge(badge)),
+      user.user,
+      Object.values(user.badges).map((badge) => new FFZUserBadge(badge)),
     ),
-    profile.user.max_emoticons,
+    user.user.max_emoticons,
   );
 }

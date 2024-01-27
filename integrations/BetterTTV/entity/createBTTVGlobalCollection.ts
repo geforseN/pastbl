@@ -1,23 +1,18 @@
-import type { getBetterTTVGlobalEmotes } from "../BetterTTV.api";
+import type { IBetterTTVApi } from "../api";
 import {
   BTTVGlobalCollection,
   type BetterTTVGlobalCollection,
 } from "./BetterTTVGlobalCollection";
 import { BTTVEmote } from "./BetterTTVEmote";
-import { BTTVSet } from "./BetterTTVSet";
+import { BetterTTVSet } from "./BetterTTVSet";
 
 export function createBTTVGlobalCollection(
-  bttvGlobalEmotes: Awaited<ReturnType<typeof getBetterTTVGlobalEmotes>>,
+  bttvGlobalEmotes: IBetterTTVApi["Global"]["Emote"][],
 ): BetterTTVGlobalCollection {
-  const bttvSets = [
-    new BTTVSet(
-      {
-        emotes: bttvGlobalEmotes,
-        name: "Global BetterTTV emotes",
-        id: "bttv::global",
-      },
-      (emote) => new BTTVEmote(emote, "global"),
-    ),
-  ];
-  return new BTTVGlobalCollection(bttvSets);
+  const bttvSet = new BetterTTVSet(
+    bttvGlobalEmotes.map((emote) => new BTTVEmote(emote, "global")),
+    "bttv::global",
+    "Global emotes",
+  );
+  return new BTTVGlobalCollection([bttvSet]);
 }

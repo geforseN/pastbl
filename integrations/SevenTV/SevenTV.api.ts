@@ -1,7 +1,7 @@
 // NOTE: using rule disable below because ts types are defined at the bottom
 /* eslint-disable no-use-before-define */
-
 import { UserNotFoundError } from "../UserNotFoundError";
+import { assert } from "~/utils/error";
 
 // LINK: https://7tv.io/docs
 
@@ -28,10 +28,10 @@ export async function get7TVSetById(
 
 export async function get7TVUserProfileByTwitchId(
   twitchId: number,
-  username?: Lowercase<string>,
+  login?: Lowercase<string>,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-  assert.response.ok(response, new UserNotFoundError("SevenTV", username));
+  assert.response.ok(response, new UserNotFoundError("SevenTV", login));
   return response.json();
 }
 

@@ -1,19 +1,16 @@
-import type { BetterTTVSet } from "./BetterTTVSet";
+import type { IBetterTTVSet } from "./BetterTTVSet";
 import type { InternalGlobalEmoteCollection } from "~/integrations";
 
 export interface BetterTTVGlobalCollection
-  extends InternalGlobalEmoteCollection<"BetterTTV", BetterTTVSet> {}
+  extends InternalGlobalEmoteCollection<"BetterTTV", IBetterTTVSet> {}
 
 export class BTTVGlobalCollection implements BetterTTVGlobalCollection {
-  name;
+  name = "BetterTTV Global Emotes Collection" as const;
   sets;
-  source;
-  updatedAt;
+  source = "BetterTTV" as const;
+  updatedAt = Date.now();
 
-  constructor(sets: BetterTTVSet[]) {
-    this.name = "BetterTTV Global Emotes Collection" as const;
+  constructor(sets: IBetterTTVSet[]) {
     this.sets = sets;
-    this.source = "BetterTTV" as const;
-    this.updatedAt = Date.now();
   }
 }
