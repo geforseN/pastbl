@@ -38,6 +38,10 @@ const routePageLinkRecord = {
     path: "/pastas/find#pasta-search-parameters-heading",
     text: "Find pasta",
   },
+  emojis: {
+    path: "collections/emojis",
+    text: "Look emojis",
+  },
 } as const;
 const props = defineProps<{
   to: keyof typeof routePageLinkRecord;
