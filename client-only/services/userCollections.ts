@@ -1,4 +1,5 @@
 import type { IDBPObjectStore } from "idb";
+import Set from "core-js-pure/actual/set";
 import { idb } from "~/client-only/IndexedDB";
 import type {
   EmotesSchema,
@@ -14,12 +15,13 @@ import type {
 } from "~/integrations";
 
 export const userCollectionsService = {
-  async getAllUsernames() {
+  __collectionsIdb: null,
+  async getAllLogins() {
     if (typeof window === "undefined") {
       return [];
     }
     const collectionsIdb = await idb.collections;
-    return collectionsIdb.users.getAllUsernames();
+    return collectionsIdb.users.getAllLogins();
   },
   async getAll() {
     if (typeof window === "undefined") {
@@ -34,9 +36,16 @@ export const userCollectionsService = {
       idb.emotes,
     ]);
     const preparedCollection = prepareUserCollectionToIdb(collection);
-    const emotes = Object.values(collection.integrations).flatMap(
-      (collection) => collection.sets.flatMap((set): IEmote[] => set.emotes),
-    );
+    const emotes = Object.values(collection.integrations)
+      .filter(
+        (integration): integration is IUserEmoteIntegration =>
+          integration.status === "ready",
+      )
+      .flatMap((collection) =>
+        (collection as IUserEmoteIntegration).sets.flatMap(
+          (set): IEmote[] => set.emotes,
+        ),
+      );
     await Promise.all([
       collectionsIdb.users.put(preparedCollection),
       emotesIdb.put(emotes),
@@ -46,14 +55,60 @@ export const userCollectionsService = {
   // NOTE: the problem of collection deletion is that emotes of collection to remove can be in another collections
   // TODO: need to getAll collections and iterate over each emoteId in each collection
   // if emoteId is unique (occurs once) that emote with such id can be removed
-  async delete(username: Lowercase<string>) {
+  async delete(login: Lowercase<string>) {
     const [collectionsIdb, emotesIdb] = await Promise.all([
       idb.collections,
       idb.emotes,
     ]);
-    await collectionsIdb.users.delete(username);
+    const [collection, collections] = await Promise.all([
+      collectionsIdb.users.get(login),
+      this.getAll(),
+    ]);
+    assert.ok(collection);
+    const otherCollection = withRemoved(
+      collections,
+      (collection) => collection.user.twitch.login === login,
+    );
+    const collection2 = flatGroupBy(
+      Object.values(collection.integrations),
+      (integration) => integration.source,
+      (integration) => new Set(integration.sets.flatMap((set) => set.emoteIds)),
+    );
+    console.log(new Set());
+    // const emoteAppearances = collections.reduce(
+    //   (accumulator, collection) => {
+    //     for (const integration of Object.values(collection.integrations)) {
+    //       const { appearedMany, appearedOnce } =
+    //         accumulator[integration.source];
+    //       const emoteIds = integration.sets.flatMap((set) => set.emoteIds);
+    //       for (const emoteId of emoteIds) {
+    //         if (appearedOnce.has(emoteId)) {
+    //           appearedOnce.delete(emoteId);
+    //           appearedMany.add(emoteId);
+    //         } else {
+    //           appearedOnce.add(emoteId);
+    //         }
+    //       }
+    //     }
+    //     return accumulator;
+    //   },
+    //   {} as Record<
+    //     AvailableEmoteSource,
+    //     {
+    //       appearedOnce: Set<IEmote["id"]>;
+    //       appearedMany: Set<IEmote["id"]>;
+    //     }
+    //   >,
+    // );
+    // const emoteEntriesToRemove = Object.entries(emoteAppearances).map(
+    //   ([source, { appearedOnce }]): [AvailableEmoteSource, IEmote["id"][]] => [
+    //     source as AvailableEmoteSource,
+    //     [...appearedOnce.values()],
+    //   ],
+    // );
+    await collectionsIdb.users.delete(login);
   },
-  async get(username: Lowercase<string>) {
+  async get(login: Lowercase<string>) {
     if (typeof window === "undefined") {
       return null;
     }
@@ -61,7 +116,7 @@ export const userCollectionsService = {
       idb.collections,
       idb.emotes,
     ]);
-    const idbCollection = await collectionsIdb.users.get(username);
+    const idbCollection = await collectionsIdb.users.get(login);
     assert.ok(
       idbCollection,
       "Failed to find loaded user collection in your browser storage (IndexedDB)",
@@ -85,18 +140,23 @@ export const userCollectionsService = {
 function prepareUserCollectionToIdb(
   collection: IUserEmoteCollection,
 ): IndexedDBUserEmoteCollection {
-  const idbIntegrations = Object.values(collection.integrations).map(
-    (integration) => ({
-      ...integration,
-      sets: integration.sets.map((set) => {
+  // FIXME: add some util type so filter filter fail and success in integrations
+  // NOTE: for now user will not see failed integrations, need to group integrations by it's status
+  const idbIntegrations = Object.values(collection.integrations)
+    .filter(
+      (integration): integration is IUserEmoteIntegration =>
+        integration.status === "ready",
+    )
+    .map((integration) => ({
+      ...(integration as IUserEmoteIntegration),
+      sets: (integration as IUserEmoteIntegration).sets.map((set) => {
         const { emotes, ...idbSet } = set;
         return {
           ...idbSet,
           emoteIds: emotes.map((emote) => emote.id),
         };
       }),
-    }),
-  );
+    }));
   const integrationsRecord = flatGroupBy(
     idbIntegrations,
     (idbIntegration) => idbIntegration.source,
@@ -123,18 +183,23 @@ function getPopulatedUserCollectionIntegrations(
   >,
 ) {
   return Promise.all(
-    Object.values(integrations).map(async (idbIntegration) => {
-      const emotesCache = sourcesEmotesCache[idbIntegration.source];
-      const sets = await Promise.all(
-        idbIntegration.sets.map(
-          populateUserCollectionEmotesSets(emotesCache, emotesIdbStore),
-        ),
-      );
-      return {
-        ...idbIntegration,
-        sets,
-      } as IUserEmoteIntegration;
-    }),
+    Object.values(integrations)
+      .filter(
+        (integration): integration is IUserEmoteIntegration =>
+          integration.status === "ready",
+      )
+      .map(async (idbIntegration) => {
+        const emotesCache = sourcesEmotesCache[idbIntegration.source];
+        const sets = await Promise.all(
+          idbIntegration.sets.map(
+            populateUserCollectionEmotesSets(emotesCache, emotesIdbStore),
+          ),
+        );
+        return {
+          ...idbIntegration,
+          sets,
+        } as IUserEmoteIntegration;
+      }),
   );
 }
 

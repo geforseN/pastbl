@@ -2,30 +2,24 @@ import type { OpenDBCallbacks } from "idb";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
 import { GlobalCollectionStore } from "~/client-only/IndexedDB/emote-collections/GlobalCollections";
 import { UsersCollectionsStore } from "~/client-only/IndexedDB/emote-collections/UsersCollections";
-import { CollectionsKeyValueStore } from "~/client-only/IndexedDB/emote-collections/CollectionsKeyValue";
 
 const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
-  async (database, _, __, transaction) => {
-    if (!database.objectStoreNames.contains("users")) {
-      database.createObjectStore("users", {
-        keyPath: "twitch.username",
-      });
+  (database) => {
+    if (database.objectStoreNames.contains("users")) {
+      database.deleteObjectStore("users");
     }
+    database.createObjectStore("users", {
+      keyPath: "user.twitch.login",
+    });
     if (!database.objectStoreNames.contains("global")) {
       database.createObjectStore("global", {
         keyPath: "source",
       });
     }
-    if (!database.objectStoreNames.contains("key-value")) {
-      database.createObjectStore("key-value");
-    }
-    const activeUserCollectionUsername = await transaction
-      .objectStore("key-value")
-      .get("active-user-collection-username");
-    if (activeUserCollectionUsername === undefined) {
-      await transaction
-        .objectStore("key-value")
-        .put("", "active-user-collection-username");
+    // @ts-expect-error key-value store can be in database
+    if (database.objectStoreNames.contains("key-value")) {
+      // @ts-expect-error key-value store can be in database
+      database.deleteObjectStore("key-value");
     }
   };
 
@@ -34,7 +28,6 @@ class CollectionsStore {
   constructor(
     public readonly global: GlobalCollectionStore,
     public readonly users: UsersCollectionsStore,
-    public readonly kv: CollectionsKeyValueStore,
   ) {}
 }
 
@@ -42,7 +35,7 @@ export const collectionsIdb = import("~/client-only/IndexedDB")
   .then(({ openIdb }) =>
     openIdb<CollectionsSchema>(
       "emote-collections",
-      4,
+      6,
       openCollectionsIdbUpgrade,
     ),
   )
@@ -51,6 +44,5 @@ export const collectionsIdb = import("~/client-only/IndexedDB")
       new CollectionsStore(
         new GlobalCollectionStore(idb),
         new UsersCollectionsStore(idb),
-        new CollectionsKeyValueStore(idb),
       ),
   );

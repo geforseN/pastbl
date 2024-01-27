@@ -22,6 +22,6 @@ export class GlobalCollectionStore {
     return this.db
       .transaction("global", "readwrite")
       .objectStore("global")
-      .put({ ...collection, updatedAt: Date.now() });
+      .put(collection);
   }
 }

@@ -13,12 +13,13 @@ import type {
   FrankerFaceZSet,
   FrankerFaceZEmote,
   BetterTTVUserIntegration,
-  BetterTTVSet,
-  BetterTTVEmote,
-  I7TVUserCollection,
+  IBetterTTVSet,
+  IBetterTTVEmote,
+  ISevenTVUserIntegration,
   I7TVSet,
   I7TVEmote,
   AvailableEmoteSource,
+  EmoteSource,
 } from "~/integrations";
 
 export async function openIdb<T extends DBSchema>(
@@ -56,12 +57,12 @@ export type IndexedDBUserEmoteIntegrationRecord = {
   BetterTTV: GenericIndexedDBUserEmoteIntegration<
     "BetterTTV",
     BetterTTVUserIntegration,
-    BetterTTVEmote,
-    BetterTTVSet
+    IBetterTTVEmote,
+    IBetterTTVSet
   >;
   SevenTV: GenericIndexedDBUserEmoteIntegration<
     "SevenTV",
-    I7TVUserCollection,
+    ISevenTVUserIntegration,
     I7TVEmote,
     I7TVSet
   >;
@@ -79,16 +80,12 @@ export type IndexedDBUserEmoteCollection = Omit<
 
 export interface CollectionsSchema extends DBSchema {
   users: {
-    key: IndexedDBUserEmoteCollection["twitch"]["username"];
+    key: IndexedDBUserEmoteCollection["user"]["twitch"]["login"];
     value: IndexedDBUserEmoteCollection;
   };
   global: {
     key: IGlobalEmoteCollection["source"];
     value: IGlobalEmoteCollection;
-  };
-  "key-value": {
-    key: "active-user-collection-username";
-    value: IndexedDBUserEmoteCollection["twitch"]["username"] | "";
   };
 }
 
@@ -128,13 +125,14 @@ export type MyKeyValueSchema = {
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
   "badges:count": number;
-  "active-user-collection:username":
-    | IndexedDBUserEmoteCollection["twitch"]["username"]
+  "active-user-collection:login":
+    | IndexedDBUserEmoteCollection["user"]["twitch"]["login"]
     | "";
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
   "create-pasta-form-collapse:is-open": boolean;
+  "global-collections:checked-sources": EmoteSource[];
 };
 export interface KeyValueSchema extends DBSchema {
   "key-value": {
