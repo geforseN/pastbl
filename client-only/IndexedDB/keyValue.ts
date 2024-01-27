@@ -9,7 +9,7 @@ export class KeyValueStore {
     key: Key,
     value: MyKeyValueSchema[Key],
   ) {
-    this.idb.put("key-value", value, key);
+    return this.idb.put("key-value", value, key);
   }
 
   get(key: keyof MyKeyValueSchema) {

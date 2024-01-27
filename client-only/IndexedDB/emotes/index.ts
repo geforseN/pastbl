@@ -1,6 +1,6 @@
 import type { IDBPDatabase, OpenDBCallbacks } from "idb";
 import type { EmotesSchema } from "~/client-only/IndexedDB";
-import type { IEmote } from "~/integrations";
+import type { EmoteSource, IEmote } from "~/integrations";
 
 const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
   database,
@@ -25,6 +25,12 @@ class EmotesStore {
 
   put(emotes: IEmote[]) {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
+  }
+
+  delete(emotesEntries: [id: string, source: EmoteSource][]) {
+    return Promise.all(
+      emotesEntries.map((emoteEntry) => this.db.delete("emotes", emoteEntry)),
+    );
   }
 
   get emotesTransaction() {

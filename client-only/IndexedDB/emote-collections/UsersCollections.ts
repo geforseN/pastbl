@@ -8,20 +8,20 @@ export class UsersCollectionsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
-  get(username: IndexedDBUserEmoteCollection["twitch"]["username"]) {
-    return this.db.transaction("users").store.get(username);
+  get(login: Lowercase<string>) {
+    return this.db.transaction("users").store.get(login);
   }
 
   getAll() {
     return this.db.transaction("users").store.getAll();
   }
 
-  getAllUsernames() {
+  getAllLogins() {
     return this.db.transaction("users").store.getAllKeys();
   }
 
-  delete(username: IndexedDBUserEmoteCollection["twitch"]["username"]) {
-    return this.db.delete("users", username);
+  delete(login: Lowercase<string>) {
+    return this.db.delete("users", login);
   }
 
   async put(collection: IndexedDBUserEmoteCollection) {
