@@ -1,0 +1,78 @@
+import { set, type WatchDebouncedOptions } from "@vueuse/core";
+import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
+import { keyValueService } from "~/client-only/services";
+
+class IndexedDBValue {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(readonly key: keyof MyKeyValueSchema) {}
+
+  get() {
+    return keyValueService.get(this.key);
+  }
+
+  set(value: MyKeyValueSchema[(typeof this)["key"]]) {
+    return keyValueService.set(this.key, value);
+  }
+}
+
+export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
+  key: K,
+  defaultValue: MyKeyValueSchema[K],
+  watchDebouncedOptions: WatchDebouncedOptions<true | false> = {},
+) {
+  const idbValue = new IndexedDBValue(key);
+  const isLoading = ref(true);
+  const isRestored = ref(false);
+  const state = ref(defaultValue);
+  const error = ref<unknown>();
+
+  const setError = (reason: unknown) => (error.value = reason);
+
+  idbValue
+    .get()
+    .catch(() => undefined)
+    .then(async (restoredValue) => {
+      withLogSync({ restoredValue, key }, `${key}:restoredValue`);
+      const isRestoredOk = typeof restoredValue !== "undefined";
+      if (!isRestoredOk) {
+        await keyValueService.set(key, defaultValue).catch(setError);
+      }
+      set(state, isRestoredOk ? restoredValue : defaultValue);
+      isRestored.value = true;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+
+  watchDebounced(
+    state,
+    (value) => {
+      if (!isRestored.value) {
+        return withLogSync({ key }, `${key}:set:fast-quit`);
+      }
+      const rawValue = toRaw(value);
+      isLoading.value = true;
+      return idbValue
+        .set(rawValue)
+        .catch(setError)
+        .finally(() => {
+          isLoading.value = false;
+          withLogSync({ key, rawValue, value }, `${key}:set:done`);
+        });
+    },
+    {
+      ...watchDebouncedOptions,
+      deep:
+        watchDebouncedOptions.deep ??
+        (typeof state === "object" && state !== null),
+      debounce: watchDebouncedOptions.debounce ?? 500,
+    },
+  );
+
+  return {
+    state,
+    isRestored,
+    isLoading,
+    error,
+  };
+}
