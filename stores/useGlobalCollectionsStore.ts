@@ -1,49 +1,66 @@
-import { defineStore } from "pinia";
-import type { IGlobalEmoteCollection } from "~/integrations";
-import { globalCollectionsService } from "~/client-only/services";
+import {
+  emoteSources,
+  type IGlobalEmoteCollection,
+  type IGlobalEmoteCollectionRecord,
+} from "~/integrations";
+import { globalCollectionsIdb } from "~/client-only/services";
+
+const globalCollectionsApi = {
+  getAll() {
+    return $fetch("/api/collections/global", {
+      query: { sources: emoteSources.join("+") },
+    });
+  },
+};
 
 export const useGlobalCollectionsStore = defineStore(
   "global-collections",
   () => {
     const collections = useAsyncState(
-      () => {
-        return globalCollectionsService.getAll();
-      },
+      globalCollectionsIdb.getAll,
       {},
       { shallow: true, throwError: true },
     );
 
-    watch(
-      collections.state,
-      async (state) => {
-        const missingCollections =
-          await globalCollectionsService.loadMissing(state);
-        if (!missingCollections.length) {
-          return;
-        }
-        for (const collection of missingCollections) {
-          // @ts-expect-error TypeScript is weird or what?
-          collections.state.value[collection.source] = collection;
-        }
-        triggerRef(collections.state);
-      },
-      { once: true },
+    const checkedSources = useIndexedDBKeyValue(
+      "global-collections:checked-sources",
+      [...emoteSources],
     );
 
+    watchOnce(collections.state, async (state) => {
+      const missing = await globalCollectionsIdb.___loadMissing(state);
+      if (!missing) {
+        return;
+      }
+      collections.state.value = {
+        ...collections.state.value,
+        ...missing,
+      };
+    });
+
     return {
-      frankerFaceZCollection: computed(
-        () => collections.state.value.FrankerFaceZ,
-      ),
-      betterTTVCollection: computed(() => collections.state.value.BetterTTV),
-      sevenTvCollection: computed(() => collections.state.value.SevenTV),
-      twitchCollection: computed(() => collections.state.value.Twitch),
+      checkedSources,
       collections,
-      async refreshGlobalCollection(source: IGlobalEmoteCollection["source"]) {
-        const refreshedCollection =
-          await globalCollectionsService.refresh(source);
-        // @ts-expect-error TypeScript is weird or what?
-        collections.state.value[source] = refreshedCollection;
-        triggerRef(collections.state);
+      checkedCollections: computed(() => {
+        const values = Object.values(collections.state.value);
+        const checked = values.filter((collection) =>
+          checkedSources.state.value.includes(collection.source),
+        );
+        const record = flatGroupBy(checked, (collection) => collection.source);
+        return record as Partial<IGlobalEmoteCollectionRecord>;
+      }),
+      async refreshCollection(source: IGlobalEmoteCollection["source"]) {
+        const refreshed = await globalCollectionsIdb.___refresh(source);
+        collections.state.value = {
+          ...collections.state.value,
+          [source]: refreshed,
+        };
+      },
+      async refreshAllCollections() {
+        const all = await globalCollectionsApi.getAll();
+        const values = Object.values(all);
+        await globalCollectionsIdb.putMany(values);
+        collections.state.value = all;
       },
     };
   },
