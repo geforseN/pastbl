@@ -7,26 +7,17 @@ const openPastasIdbUpgrade: OpenDBCallbacks<PastasSchema>["upgrade"] = (
   database,
   _oldVersion,
   _newVersion,
-  _transaction,
+  transaction,
 ) => {
   if (!database.objectStoreNames.contains("list")) {
-    const pastasStore = database.createObjectStore("list", {
+    database.createObjectStore("list", {
       keyPath: "id",
       autoIncrement: true,
     });
-    pastasStore.createIndex("byLength", "length", { unique: false });
-    pastasStore.createIndex("byCreatedAt", "createdAt", {
-      unique: true,
-    });
-    pastasStore.createIndex("byTags", "tags", {
-      unique: false,
-      multiEntry: true,
-    });
-    pastasStore.createIndex("byText", "text", { unique: true });
-    pastasStore.createIndex("byValidTokens", "validTokens", {
-      unique: false,
-      multiEntry: true,
-    });
+  }
+  const pastasStore = transaction.objectStore("list");
+  for (const name of pastasStore.indexNames) {
+    pastasStore.deleteIndex(name);
   }
   if (!database.objectStoreNames.contains("bin")) {
     database.createObjectStore("bin", {
@@ -45,7 +36,7 @@ class PastasStore {
 
 export const pastasIdb = import("~/client-only/IndexedDB")
   .then(({ openIdb }) =>
-    openIdb<PastasSchema>("pastas", 2, openPastasIdbUpgrade),
+    openIdb<PastasSchema>("pastas", 7, openPastasIdbUpgrade),
   )
   .then(
     (idb) =>

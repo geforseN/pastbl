@@ -106,13 +106,6 @@ export interface PastasSchema extends DBSchema {
   list: {
     key: IDBMegaPasta["id"];
     value: IDBMegaPasta;
-    indexes: {
-      byLength: IDBMegaPasta["length"];
-      byCreatedAt: IDBMegaPasta["createdAt"];
-      byText: IDBMegaPasta["text"];
-      byTags: IDBMegaPasta["tags"];
-      byValidTokens: IDBMegaPasta["validTokens"];
-    };
   };
   bin: {
     key: IDBMegaPasta["id"];
