@@ -7,30 +7,42 @@ export const usePastasStore = defineStore("pastas", () => {
       if (typeof window === "undefined") {
         return [];
       }
-      const allPastasPromise = pastasService.getAll();
-      const isInitialUserEmotesReady = () =>
-        useEmotesStore().isInitialUserEmotesReady;
-      await until(isInitialUserEmotesReady).toBeTruthy({ timeout: 3_000 });
-      return allPastasPromise;
+      const pastas = await pastasService.getAll();
+      return pastas;
     },
     [],
     { shallow: true, throwError: true },
   );
-
   const toast = useNuxtToast();
+  const emotesStore = useEmotesStore();
 
-  function getPastaIndexById(id: IDBMegaPasta["id"]) {
-    const index = pastas.state.value.findIndex((pasta) => pasta.id === id);
-    assert.ok(
-      index >= 0,
+  until(() => emotesStore.isInitialUserEmotesReady)
+    .toBeTruthy({ timeout: 5_000 })
+    .then(makeHack);
+
+  async function makeHack() {
+    const samePastas = pastas.state.value;
+    pastas.state.value = [];
+    await nextTick();
+    pastas.state.value = samePastas;
+    triggerRef(pastas.state);
+  }
+
+  function getPastaIndexById(id: number) {
+    return getValidIndex(
+      pastas.state.value,
+      (pasta_) => pasta_.id === id,
       new ExtendedError(`Could not find pasta with id=${id}`, {
         title: "Failed to find pasta",
       }),
     );
-    return index;
   }
-
   return {
+    makeHack,
+    getPastaById(id: number) {
+      const index = getPastaIndexById(id);
+      return pastas.state.value[index];
+    },
     pastas,
     pastasSortedByNewest: computed(() =>
       [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
@@ -95,12 +107,32 @@ export const usePastasStore = defineStore("pastas", () => {
         }),
       );
     },
-    async makeHack() {
-      const samePastas = pastas.state.value;
-      pastas.state.value = [];
-      await nextTick();
-      pastas.state.value = samePastas;
+    async updatePasta(pasta: IDBMegaPasta) {
+      let index = -1;
+      try {
+        index = getPastaIndexById(pasta.id);
+        const oldPasta = pastas.state.value[index];
+        assert.ok(
+          oldPasta.text !== pasta.text ||
+            oldPasta.tags.toString() !== pasta.tags.toString(),
+          new ExtendedError("Can not update pasta with the same text or tags", {
+            title: "Failed to update pasta",
+          }),
+        );
+      } catch (error) {
+        assert.isError(error, ExtendedError);
+        toast.add(error);
+        return;
+      }
+      await pastasService.put(pasta);
+      pastas.state.value.splice(index, 1, pasta);
       triggerRef(pastas.state);
+      toast.add({
+        description: "Pasta update",
+        title: "Pasta updated successfully",
+        timeout: 7_000,
+        color: "green",
+      });
     },
   };
 });
