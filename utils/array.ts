@@ -58,3 +58,13 @@ export function sum<A extends readonly unknown[]>(
     initialValue as number,
   );
 }
+
+export function getValidIndex<T>(
+  array: T[],
+  cb: (value: T, index: number, array: T[]) => boolean,
+  messageOrError = new Error("Invalid index"),
+) {
+  const index = array.findIndex(cb);
+  assert.ok(index >= 0, messageOrError);
+  return index;
+}
