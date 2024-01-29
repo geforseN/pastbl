@@ -1,5 +1,5 @@
 import { idb } from "../IndexedDB";
-import { getMissingSources } from "~/integrations";
+import { emoteSources } from "~/integrations";
 import type {
   IGlobalEmoteCollection,
   IGlobalEmoteCollectionRecord,
@@ -7,7 +7,7 @@ import type {
 
 export const globalCollectionsIdb = {
   async ___loadMissing(state: Partial<IGlobalEmoteCollectionRecord>) {
-    const missingSources = getMissingSources(state);
+    const missingSources = emoteSources.filter((source) => !state[source]);
     if (!missingSources.length) {
       return;
     }
