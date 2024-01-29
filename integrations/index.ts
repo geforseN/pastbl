@@ -128,12 +128,6 @@ export type IGlobalEmoteCollectionRecord = {
   Twitch: ITwitchGlobalCollection;
 };
 
-export function getMissingSources(
-  state: Partial<Record<EmoteSource, unknown>>,
-) {
-  return emoteSources.filter((source) => !state[source]);
-}
-
 export interface InternalUserEmoteIntegration<
   SourceT extends EmoteSource,
   SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
