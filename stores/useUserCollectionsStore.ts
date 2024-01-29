@@ -1,122 +1,122 @@
 import { defineStore } from "pinia";
-import {
-  collectionsKeyValuesService,
-  userCollectionsService,
-} from "~/client-only/services";
+import { userCollectionsService } from "~/client-only/services";
+import type { IUserEmoteIntegrationRecord } from "~/integrations";
 
-export const useUserCollectionsStore = defineStore("user-collections", () => {
-  const usernamesToSelect = useAsyncState(
-    () => userCollectionsService.getAllUsernames(),
-    [],
-    { shallow: true, throwError: true, resetOnExecute: false },
-  );
+type Login = Lowercase<string> | "";
 
-  const collectionsToSelect = useAsyncState(
-    () => userCollectionsService.getAll(),
-    [],
-    {
-      shallow: true,
-      throwError: true,
-      resetOnExecute: false,
-    },
-  );
+const stateOptions = {
+  shallow: true,
+  throwError: true,
+  resetOnExecute: false,
+};
 
-  // TODO: use useIdbKeyValue("active-user-collection-username", "");
-  // NOTE: ? should add execute function in return of useIdbKeyValue ?
-  const selectedCollectionUsername = useAsyncState(
-    (nickname?: string | "") => {
-      return collectionsKeyValuesService.activeUserCollection.username.update(
-        nickname && toLowerCase(nickname),
-      );
-    },
-    "",
-    { shallow: true, resetOnExecute: false, throwError: true },
-  );
-
-  const selectedCollection = useAsyncState(
-    (username: Lowercase<string> | "") => {
-      if (!username) {
-        return Promise.resolve(null);
-      }
-      return userCollectionsService.get(username);
+function useSelectedCollection(selectedLogin: Ref<Login>) {
+  const self = useAsyncState(
+    (login: Login) => {
+      return userCollectionsService.get(login);
     },
     null,
     {
-      shallow: true,
+      ...stateOptions,
       immediate: false,
-      resetOnExecute: false,
-      throwError: true,
+      onError() {
+        self.state.value = null;
+      },
     },
   );
 
-  watch(selectedCollectionUsername.state, async (username) => {
-    await selectedCollection.execute(0, username);
+  const _login = computed(() => {
+    const state = self.state.value;
+    if (!state) {
+      return "";
+    }
+    return state.user.twitch.login;
   });
 
-  const loadingCollections = ref<
-    {
-      username: Lowercase<string>;
-      integrations: ReturnType<typeof useUserIntegrations>;
-    }[]
-  >([]);
+  watch(selectedLogin, async (login) => {
+    assert.ok(login === toLowerCase(login));
+    await self.execute(0, login);
+  });
 
-  async function __makeCollection__(username: Lowercase<string>) {
-    const integrations = useUserIntegrations();
-    const collectionPromise = integrations.collection.execute(0, username);
-    const loadingCollection = { username, integrations };
-    loadingCollections.value.push(loadingCollection);
-    const collection = await collectionPromise.finally(() => {
-      const index = loadingCollections.value.indexOf(loadingCollection);
-      loadingCollections.value.splice(index, 1);
+  const { execute: _, ...returnValue } = self;
+  return {
+    ...returnValue,
+    tryRefresh(login: Login) {
+      if (_login.value === login) {
+        return self.execute(0, _login.value);
+      }
+    },
+  };
+}
+
+const userCollectionApi = {
+  async get(login: Login) {
+    assert.ok(login, "No login of user collection provided");
+    const collectionsRecord = await $fetch("/api/collections/users", {
+      query: { nicknames: login },
     });
-    assert.ok(collection);
-    return collection;
-  }
+    return collectionsRecord[login];
+  },
+};
 
-  async function __updateStuff__(username?: Lowercase<string>) {
-    await Promise.all([
-      usernamesToSelect.execute(),
+export const useUserCollectionsStore = defineStore("user-collections", () => {
+  const loginsToSelect = useAsyncState(
+    userCollectionsService.getAllLogins,
+    [],
+    stateOptions,
+  );
+
+  const collectionsToSelect = useAsyncState(
+    userCollectionsService.getAll,
+    [],
+    stateOptions,
+  );
+
+  const selectedCollectionLogin = useIndexedDBKeyValue(
+    "active-user-collection:login",
+    "",
+  );
+
+  const selectedCollection = useSelectedCollection(
+    selectedCollectionLogin.state,
+  );
+
+  function updateInternalStates() {
+    return Promise.all([
+      loginsToSelect.execute(),
       collectionsToSelect.execute(),
     ]);
-    if (typeof username === "undefined") {
-      return;
-    }
-    if (selectedCollectionUsername.state.value === username) {
-      await selectedCollection.execute(0, username);
-    }
   }
 
   return {
-    selectedCollectionUsername,
-    usernamesToSelect,
+    selectedCollectionLogin,
+    loginsToSelect,
     collectionsToSelect,
     selectedCollection,
-    loadingCollections,
-    async loadCollection(nickname: string) {
-      assert.ok(
-        nickname,
-        new ExtendedError("Nickname is required", {
-          color: "red",
-          title: "Emotes load error",
-        }),
-      );
-      const username = toLowerCase(nickname);
-      await this.refreshCollection(username);
-    },
-    async refreshCollection(username: Lowercase<string>) {
-      const collection = await __makeCollection__(username);
+    readyIntegrations: computed(() => {
+      if (!selectedCollection.state.value) {
+        return {};
+      }
+      const values = Object.values(selectedCollection.state.value.integrations);
+      const { ready } = groupBy(values, (integration) => integration.status);
+      return ready as Partial<IUserEmoteIntegrationRecord>;
+    }),
+    async loadCollection(login: Login) {
+      const collection = await userCollectionApi.get(login);
       await userCollectionsService.put(collection);
-      await __updateStuff__(username);
+      await updateInternalStates();
+      await selectedCollection.tryRefresh(login);
+      return collection;
     },
-    async deleteCollection(username: Lowercase<string>) {
-      await userCollectionsService.delete(username);
-      await __updateStuff__(username);
+    async deleteCollection(login: Login) {
+      await userCollectionsService.delete(login);
+      await updateInternalStates();
+      if (selectedCollectionLogin.state.value === login) {
+        selectedCollectionLogin.state.value = "";
+      }
     },
-    async selectCollection(nickname: string) {
-      await selectedCollectionUsername.execute(0, nickname);
-    },
-    isSelectedUsername(username: Lowercase<string>) {
-      return selectedCollectionUsername.state.value === username;
+    isSelectedLogin(login: Login) {
+      return selectedCollectionLogin.state.value === login;
     },
   };
 });
