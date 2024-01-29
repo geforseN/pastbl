@@ -17,14 +17,14 @@
       </div>
       <div class="flex w-72 flex-col justify-between">
         <nuxt-link
-          class="w-full truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
+          class="w-min max-w-72 truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
           :to="`https://twitch.tv/${twitch.login}`"
           :title="twitch.nickname"
         >
           <span
             class="link inline-block text-2xl font-bold decoration-twitch underline-offset-4"
           >
-            {{ twitch.nickname.repeat(1) }}
+            {{ twitch.nickname }}
           </span>
         </nuxt-link>
         <div class="flex items-center justify-between gap-2">
@@ -76,7 +76,7 @@
         </button>
         <div
           v-else
-          class="card dropdown-content card-compact absolute top-0 z-[1] border-2 bg-base-100 p-2 text-base-content shadow"
+          class="card card-compact absolute -top-4 left-0 z-[1] w-72 border-2 bg-base-100 p-2 text-base-content"
         >
           <div class="card-body">
             <h3 class="card-title">Delete {{ twitch.nickname }} collection?</h3>
@@ -133,10 +133,27 @@
         />
       </div>
     </dev-only>
+    <template
+      v-for="integration of readyIntegrations"
+      :key="integration.source"
+    >
+      <emote-collection-user-integration
+        v-if="integration"
+        status="ready"
+        :collection="integration"
+        :source="integration.source"
+        @refresh="
+          () => {
+            /* TODO add separate route for user integrations, use cachedFunction, then use it in users.get.ts */
+          }
+        "
+      />
+    </template>
   </div>
 </template>
 <script setup lang="ts">
 import { UseTimeAgo } from "@vueuse/components";
+import { type IUserEmoteIntegrationRecord } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
 
 const timeTooltipRef = ref<HTMLDivElement>();
@@ -144,6 +161,8 @@ const timeTooltip = useFocus(timeTooltipRef);
 
 const collectionActiveTooltipRef = ref<HTMLDivElement>();
 const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
+
+// TODO: move to component
 const mustRevealConfirmDeleteDialog = ref(false);
 const deleteButtonRef = ref<HTMLButtonElement>();
 const cancelDeleteButtonRef = ref<HTMLDivElement>();
@@ -162,4 +181,12 @@ const collection = computed(() => asyncState.state.value);
 
 const twitch = computed(() => collection.value.user.twitch);
 const date = computed(() => new Date(collection.value.updatedAt));
+
+const readyIntegrations = computed(() => {
+  const values = Object.values(collection.value.integrations);
+  return flatGroupBy(values, (integration) => integration.source) as Omit<
+    IUserEmoteIntegrationRecord,
+    "Twitch"
+  >;
+});
 </script>
