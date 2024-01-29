@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
-        ref="twitchChatRef"
+        ref="pastaFormTextareaRef"
         v-model="pastaTextModel"
         :model-status="pastaStatus"
         class="mx-0.5"
@@ -62,11 +62,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-const tagToAddModel = defineModel<string>("tag", { default: "", local: true });
-const pastaTextModel = defineModel<string>("text", {
-  required: true,
-  local: false,
-});
+const tagToAddModel = defineModel<string>("tag", { default: "" });
+const pastaTextModel = defineModel<string>("text", { required: true });
 
 const props = defineProps<{
   pastaTags: BasePasta["tags"];
@@ -81,10 +78,10 @@ const emit = defineEmits<{
   createPasta: [];
 }>();
 
-const twitchChatRef = ref<HTMLInputElement>();
+const pastaFormTextareaRef = ref<HTMLInputElement>();
 
 defineExpose({
-  twitchChatRef,
+  pastaFormTextareaRef,
 });
 
 const pastaStatus = computed(() => {
