@@ -13,6 +13,7 @@ export type BasePasta = {
 export type MegaPasta = BasePasta & {
   length: number;
   createdAt: number;
+  updatedAt?: number;
   lastCopiedAt?: number;
   validTokens: string[];
 };
@@ -46,6 +47,7 @@ export function createMegaPasta(
     text,
     length: text.length,
     createdAt: Date.now(),
+    updatedAt: undefined,
     validTokens: [...new Set(text.split(" "))].filter(isValidToken),
     lastCopiedAt: undefined,
   };
@@ -72,12 +74,11 @@ export const usePasta = ({
       text.value = "";
     },
     removeTag(tag: string) {
-      const index = tags.value.indexOf(tag);
-      assert.ok(
-        index >= 0,
+      tags.value = withRemoved(
+        tags.value,
+        (tag_) => tag_ === tag,
         new ExtendedError("Can not remove the tag which is not in tags"),
       );
-      tags.value.splice(index, 1);
     },
     removeAllTags() {
       tags.value = [];
@@ -101,13 +102,13 @@ export const usePasta = ({
 };
 
 function findModifiers(
-  emoteIndex: number,
+  tokenIndex: number,
   tokens: string[],
   emotesStore: ReturnType<typeof useEmotesStore>,
 ) {
   const emotes: IEmote[] = [];
   const indexes: number[] = [];
-  for (let index = emoteIndex + 1; true; index++) {
+  for (let index = tokenIndex + 1; ; index++) {
     const token = tokens[index];
     if (!token) {
       break;
@@ -119,7 +120,10 @@ function findModifiers(
     emotes.push(tokenAsEmote);
     indexes.push(index);
   }
-  return { emotes, indexes };
+  return {
+    emotes,
+    indexes,
+  };
 }
 
 function populateToken(

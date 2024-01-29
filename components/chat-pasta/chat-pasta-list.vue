@@ -23,20 +23,23 @@
     </div>
   </client-only>
   <div
-    class="flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto go-brr:max-h-[77dvh]"
+    class="pasta-list flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto go-brr:max-h-[77dvh]"
   >
     <chat-pasta
       v-for="pasta of pastasStore.pastasSortedByNewest"
-      :key="pasta.id"
+      :key="`${pasta.id}:${pasta.text}`"
       :pasta="pasta"
       @populate="
-        (pastaTextContainer) =>
-          populatePasta(pastaTextContainer, pasta, emotesStore)
+        async (pastaTextContainer) => {
+          await sleep(100);
+          populatePasta(pastaTextContainer, pasta, emotesStore);
+        }
       "
     >
       <template #creatorData><slot name="creatorData" /></template>
       <template #sidebar>
         <chat-pasta-sidebar
+          dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
           :pasta-id="pasta.id"
           :is-clipboard-supported="userStore.clipboard.isSupported"
           @copy="userStore.copyPasta(pasta)"
@@ -56,3 +59,8 @@ const userStore = useUserStore();
 
 const emotesStore = useEmotesStore();
 </script>
+<style>
+.pasta-list .chat-pasta:first-child .chat-pasta-sidebar {
+  @apply dropdown-bottom;
+}
+</style>

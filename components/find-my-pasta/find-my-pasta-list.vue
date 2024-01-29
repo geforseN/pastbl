@@ -56,6 +56,7 @@
       </template>
       <template #sidebar>
         <chat-pasta-sidebar
+          dropdown-class="dropdown dropdown-top dropdown-hover xs:dropdown-end go-brr:dropdown-bottom"
           :pasta-id="selectedPasta.id"
           :is-clipboard-supported="userStore.clipboard.isSupported"
           @copy="userStore.copyPasta(selectedPasta)"
