@@ -11,7 +11,7 @@
         ]"
         :source="source"
         width="16"
-        heigth="16"
+        height="16"
         class="max-h-[16px] text-xs"
       />
     </span>

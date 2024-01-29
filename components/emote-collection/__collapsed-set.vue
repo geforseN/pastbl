@@ -52,9 +52,9 @@
     </main>
   </div>
 </template>
-<script lang="ts" setup generic="EmoteSetT extends IUserEmoteIntegrationSet">
-import type { Colors } from "./emote-collection-global.vue";
-import type { IUserEmoteIntegrationSet } from "~/integrations";
+<script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
+import type { Colors } from "~/components/emote-collection";
+import type { IEmoteSetT } from "~/integrations";
 
 const isCollapseOpen = ref(false);
 const mustRenderContent = ref(false);
