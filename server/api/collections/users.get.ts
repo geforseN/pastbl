@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { flatGroupBy } from "~/utils/object";
 import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
 import {
   BetterTTV,
@@ -10,7 +11,6 @@ import {
   createFFZUserSets,
 } from "~/integrations";
 import { FrankerFaceZApi } from "~/integrations/api";
-import { flatGroupBy } from "~/utils/object";
 
 const getCachedUserCollection = defineCachedFunction(
   async (nickname: string) => {
@@ -51,23 +51,25 @@ const querySchema = z.object({
   nicknames: z
     .string()
     .max(128)
-    .optional()
-    .transform((nicknames) => {
-      if (!nicknames) {
-        return;
+    .transform((nicknamesStr) => {
+      if (!nicknamesStr) {
+        throw createError({
+          statusCode: 400,
+          message: "No nicknames provided in the query string",
+        });
       }
-      return [
-        ...new Set(nicknames.split("+").map((nickname) => nickname.trim())),
-      ];
+      const nicknames = nicknamesStr
+        .split("+")
+        .map((nickname) => nickname.trim());
+      return [...new Set(nicknames)];
     }),
 });
 
 export default defineEventHandler(async (event) => {
   const { nicknames } = querySchema.parse(getQuery(event));
-  if (!nicknames) {
-    return setResponseStatus(event, 204);
-  }
-  const collections = await Promise.all(nicknames.map(getCachedUserCollection));
+  const collections = await Promise.all(
+    nicknames.map((nickname) => getCachedUserCollection(nickname)),
+  );
   const groupedByNicknames = flatGroupBy(
     collections,
     (collection) => collection.user.twitch.login,
