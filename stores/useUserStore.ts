@@ -72,11 +72,11 @@ export const useUserStore = defineStore("user", () => {
         await clipboard.copy(pasta.text);
         assert.ok(toValue(clipboard.copied), new Error("Pasta was not copied"));
         await preferences.pasta.oncopy();
-        pastasService.updateLastCopied(pasta);
+        pastasService.patchLastCopied(pasta);
       } catch (error: Error | unknown) {
-        const toastDescription = error instanceof Error ? error.message : "";
+        const description = error instanceof Error ? error.message : "";
         toast.add({
-          description: toastDescription,
+          description,
           title: "Pasta copy problem",
           timeout: 7_000,
           color: "red",
