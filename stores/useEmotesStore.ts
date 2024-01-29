@@ -34,13 +34,13 @@ type EmoteMapRecord = Record<EmoteSource, EmoteMap>;
 function useEmotes<
   T extends IGlobalEmoteCollectionRecord | IUserEmoteIntegrationRecord,
 >(sourceToWatchCb: () => Partial<T>, onReady = () => {}) {
-  const emotesRecord = ref<Partial<EmoteMapRecord>>({});
-  const emoteSources = computed(
-    () => Object.keys(emotesRecord.value) as (keyof EmoteMapRecord)[],
+  const record = ref<Partial<EmoteMapRecord>>({});
+  const sources = computed(
+    () => Object.keys(record.value) as (keyof EmoteMapRecord)[],
   );
 
   watch(sourceToWatchCb, (source) => {
-    emotesRecord.value = flatGroupBy(
+    record.value = flatGroupBy(
       Object.values(source),
       (integration) => integration.source,
       (integration) => {
@@ -54,11 +54,9 @@ function useEmotes<
   });
 
   return {
-    emotesRecord,
-    emoteSources,
     findEmote(token: IEmote["token"], onEmoteFound: (emote: IEmote) => void) {
-      for (const source of emoteSources.value) {
-        const emote = emotesRecord.value[source]!.get(token);
+      for (const source of sources.value) {
+        const emote = record.value[source]!.get(token);
         if (emote) {
           onEmoteFound(emote);
           return emote;
@@ -71,17 +69,18 @@ function useEmotes<
 function useUserEmotes(
   sourceToWatchCb: () => Partial<IUserEmoteIntegrationRecord>,
 ) {
-  const isInitialUserEmotesReady = ref(false);
-  function onUserEmotesReady() {
-    if (isInitialUserEmotesReady.value) {
+  const isInitialEmotesReady = ref(false);
+
+  const userEmotes = useEmotes(sourceToWatchCb, function onUserEmotesReady() {
+    if (isInitialEmotesReady.value) {
       return;
     }
-    isInitialUserEmotesReady.value = true;
-  }
-  const userCollection = useEmotes(sourceToWatchCb, onUserEmotesReady);
+    isInitialEmotesReady.value = true;
+  });
+
   return {
-    userCollection,
-    isInitialUserEmotesReady,
+    ...userEmotes,
+    isInitialEmotesReady,
   };
 }
 
@@ -92,15 +91,18 @@ export const useEmotesStore = defineStore("emotes", () => {
   const userCollectionsStore = useUserCollectionsStore();
   const globalCollectionsStore = useGlobalCollectionsStore();
 
-  const globalCollection = useEmotes(
-    () => globalCollectionsStore.collections.state,
+  const globalEmotes = useEmotes(
+    () => globalCollectionsStore.checkedCollections,
   );
-  const { userCollection, isInitialUserEmotesReady } = useUserEmotes(
-    () => userCollectionsStore.selectedCollection?.state?.integrations ?? {},
+  const userEmotes = useUserEmotes(
+    () => userCollectionsStore.readyIntegrations,
   );
 
   watch(
-    () => userCollectionsStore.selectedCollection.state,
+    [
+      () => userCollectionsStore.selectedCollection.state,
+      () => globalCollectionsStore.checkedSources.state,
+    ],
     () => {
       emotesCache.clear();
       return pastasStore.makeHack();
@@ -111,10 +113,10 @@ export const useEmotesStore = defineStore("emotes", () => {
     findEmote(token: IEmote["token"]) {
       return (
         emotesCache.get(token) ||
-        userCollection.findEmote(token, emotesCache.set) ||
-        globalCollection.findEmote(token, emotesCache.set)
+        userEmotes.findEmote(token, emotesCache.set) ||
+        globalEmotes.findEmote(token, emotesCache.set)
       );
     },
-    isInitialUserEmotesReady,
+    isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
   };
 });
