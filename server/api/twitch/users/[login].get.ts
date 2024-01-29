@@ -46,7 +46,7 @@ export async function fetchUser(login: string) {
     query: { login },
   });
   if (data.length !== 1) {
-    throw new Error("User with username=" + login + " not found");
+    throw new Error("User with login=" + login + " not found");
   }
   return data[0];
 }

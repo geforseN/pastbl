@@ -52,7 +52,9 @@ export default defineEventHandler(async (event) => {
   if (noValidSource) {
     return setResponseStatus(event, 204);
   }
-  const collections = await Promise.all(sources.map(getCachedGlobalCollection));
+  const collections = await Promise.all(
+    sources.map((source) => getCachedGlobalCollection(source)),
+  );
   const groupedBySource = flatGroupBy(
     collections,
     (collection) => collection.source,
