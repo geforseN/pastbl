@@ -25,16 +25,14 @@
 </template>
 <script setup lang="ts">
 import { UseTimeAgo } from "@vueuse/components";
-import type { Colors } from "./emote-collection-global.vue";
 
-const props = defineProps<{
+const { updatedAt } = defineProps<{
   updatedAt: number;
-  colors: Colors;
 }>();
 
 const emit = defineEmits<{
   refresh: [];
 }>();
 
-const date = computed(() => new Date(props.updatedAt));
+const date = computed(() => new Date(updatedAt));
 </script>
