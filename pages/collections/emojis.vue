@@ -35,9 +35,6 @@
 </template>
 <script lang="ts" setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
-// FIXME: remove comments below
-// import emojilib from "emojilib";
-// $fetch("https://cdn.jsdelivr.net/npm/@emoji-mart/data").then(console.log);
 
 const entries = Object.entries(emoteDataByGroup);
 </script>
