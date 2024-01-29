@@ -9,7 +9,6 @@
       list="add-tag-suggestions"
       @keyup.enter.prevent="emitTag"
     />
-
     <datalist id="add-tag-suggestions">
       <slot name="addTagSuggestions" />
     </datalist>

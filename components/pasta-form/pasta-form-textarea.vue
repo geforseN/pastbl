@@ -18,7 +18,7 @@ const emit = defineEmits<{
   enterPressed: [event: KeyboardEvent];
 }>();
 const props = defineProps<{
-  modelStatus: "error" | "warning" | "success";
+  modelStatus?: "error" | "warning" | "success";
 }>();
 const { textarea, input } = useTextareaAutosize({
   input: modelValue,
