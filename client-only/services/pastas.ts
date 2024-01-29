@@ -6,7 +6,7 @@ export const pastasService = {
       return [];
     }
     const pastasIdb = await idb.pastas;
-    return await pastasIdb.list.getAllPastas();
+    return await pastasIdb.list.getAll();
   },
   async moveFromListToBin(pasta: IDBMegaPasta) {
     const pastasIdb = await idb.pastas;
@@ -18,10 +18,33 @@ export const pastasService = {
   },
   async add(pasta: MegaPasta) {
     const pastasIdb = await idb.pastas;
-    return pastasIdb.list.addPasta(pasta);
+    const pastaId = await pastasIdb.list.add(pasta);
+    const idbPasta: IDBMegaPasta = {
+      ...pasta,
+      id: pastaId,
+    };
+    return idbPasta;
   },
-  async updateLastCopied(pasta: IDBMegaPasta) {
+  async patchLastCopied(pasta: IDBMegaPasta) {
     const pastasIdb = await idb.pastas;
-    await pastasIdb.list.patchLastCopied(pasta);
+    const newPasta = {
+      ...pasta,
+      lastCopiedAt: Date.now(),
+    };
+    await pastasIdb.list.put(newPasta);
+    return newPasta;
+  },
+  async put(pasta: IDBMegaPasta) {
+    const pastasIdb = await idb.pastas;
+    const { validTokens, length } = createMegaPasta(pasta.text, pasta.tags);
+    const updatedAt = Date.now();
+    const newPasta = {
+      ...pasta,
+      validTokens,
+      length,
+      updatedAt,
+    };
+    await pastasIdb.list.put(newPasta);
+    return pasta;
   },
 };
