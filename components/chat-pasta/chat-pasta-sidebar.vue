@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex flex-row-reverse justify-between gap-x-2 gap-y-0.5 xs:flex-col xs:justify-between xs:gap-x-0"
+    class="chat-pasta-sidebar flex flex-row-reverse justify-between gap-x-2 gap-y-0.5 xs:flex-col xs:justify-between xs:gap-x-0"
   >
     <button
       class="btn btn-square btn-accent btn-md border-2 border-accent-content text-xs"
-      :disabled="!props.isClipboardSupported"
+      :disabled="!isClipboardSupported"
       @click="emit('copy')"
     >
       Copy pasta
     </button>
-    <div class="dropdown dropdown-top dropdown-hover xs:dropdown-end">
+    <div :class="dropdownClass">
       <div
         tabindex="0"
         role="button"
@@ -24,7 +24,7 @@
         <li>
           <button
             class="btn btn-accent"
-            :disabled="!props.isClipboardSupported"
+            :disabled="!isClipboardSupported"
             @click="emit('copy')"
           >
             Copy pasta
@@ -33,7 +33,7 @@
         </li>
         <li>
           <nuxt-link
-            :to="`/pastas/edit/${props.pastaId}`"
+            :to="`/pastas/edit/${pastaId}`"
             class="btn btn-info w-full"
           >
             Change pasta
@@ -51,9 +51,14 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{
+const {
+  isClipboardSupported,
+  pastaId,
+  dropdownClass = "dropdown dropdown-bottom dropdown-hover xs:dropdown-end",
+} = defineProps<{
   pastaId: number;
   isClipboardSupported: boolean;
+  dropdownClass?: string;
 }>();
 
 const emit = defineEmits<{
