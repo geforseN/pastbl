@@ -8,7 +8,7 @@ function getSevenTVEmoteTitle(emote: I7TVEmote) {
   return `${emote.token} emote from SevenTV`;
 }
 
-export function SevenTVEmoteString(emote: I7TVEmote) {
+function SevenTVEmoteString(emote: I7TVEmote) {
   return `<img src="${emote.url}" alt="${getSevenTVEmoteTitle(
     emote,
   )}" loading="lazy" width="${emote.width}">`;
