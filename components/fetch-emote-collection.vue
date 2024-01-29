@@ -154,7 +154,6 @@ async function handleCollectionLoad(nickname: string) {
       const collection = await userCollectionsStore.loadCollection(
         toLowerCase(nickname),
       );
-
       const statuses = Object.values(collection.integrations)
         .map((integration) => {
           const emoji = integration.status === "ready" ? "✅" : "❌";
@@ -164,7 +163,7 @@ async function handleCollectionLoad(nickname: string) {
       toast.add({
         color: "green",
         title: "Emotes loaded",
-        timeout: 4_000,
+        timeout: 7_000,
         description: `Loaded ${collection.user.twitch.nickname} emotes\n${statuses}`,
       });
     },
