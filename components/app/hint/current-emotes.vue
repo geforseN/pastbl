@@ -4,7 +4,7 @@
     <div class="my-0.5 flex rounded-btn border border-twitch p-0.5">
       <div class="flex h-6 w-6 items-center">
         <nuxt-link
-          :to="`https://twitch.tv/${login}`"
+          :to="`/collections/users/${login}`"
           class="rounded-full border border-twitch focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
         >
           <img
