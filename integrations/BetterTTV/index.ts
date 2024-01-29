@@ -7,22 +7,6 @@ import type { BetterTTVGlobalCollection } from "./entity/BetterTTVGlobalCollecti
 import type { BetterTTVUserIntegration } from "./entity/BetterTTVUserIntegration";
 import type { IBetterTTVSet } from "./entity/BetterTTVSet";
 
-function getBTTVEmoteTitle(emote: IBetterTTVEmote) {
-  return `${emote.token} emote from BetterTTV`;
-}
-
-export function BTTVEmoteString(emote: IBetterTTVEmote) {
-  return `<img src="${emote.url}" alt="${getBTTVEmoteTitle(
-    emote,
-  )}" loading="lazy">`;
-}
-
-export function BTTVWrappedEmoteString(emote: IBetterTTVEmote) {
-  return `<span class="inline-block" title="${getBTTVEmoteTitle(
-    emote,
-  )}">${BTTVEmoteString(emote)}</span>`;
-}
-
 export async function makeBTTVUserIntegration(
   twitchId: number,
   twitchLogin: Lowercase<string>,

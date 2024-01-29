@@ -2,25 +2,8 @@ import {
   getFFZProfileByTwitchUsername,
   getFFZUserRoomByTwitchId,
 } from "../api";
-import type { FrankerFaceZEmote } from "./entity/FrankerFaceZEmote";
 import { createFFZPartialUserIntegration } from "./entity/createFFZPartialUserIntegration";
 import { createFFZUserSets } from "./entity/createFFZUserSets";
-
-function getFFZEmoteTitle(emote: FrankerFaceZEmote) {
-  return `${emote.token} emote from FrankerFaceZ`;
-}
-
-export function FFZEmoteString(emote: FrankerFaceZEmote) {
-  return `<img src="${emote.url}" alt="${getFFZEmoteTitle(
-    emote,
-  )}" loading="lazy" width="${emote.width}">`;
-}
-
-export function FFZWrappedEmoteString(emote: FrankerFaceZEmote) {
-  return `<span class="inline-block" title="${getFFZEmoteTitle}">${FFZEmoteString(
-    emote,
-  )}</span>`;
-}
 
 export const FrankerFaceZ = {
   userIntegration: {

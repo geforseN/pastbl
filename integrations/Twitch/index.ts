@@ -30,21 +30,6 @@ export interface ITwitchGlobalEmoteResponse {
   data: TwitchApiGlobalEmote[];
   template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
 }
-function getTwitchEmoteTitle(emote: ITwitchEmote) {
-  return `${emote.token} emote from Twitch`;
-}
-
-export function TwitchEmoteString(emote: ITwitchEmote) {
-  return `<img src="${emote.url}" alt="${getTwitchEmoteTitle(
-    emote,
-  )}" loading="lazy">`;
-}
-
-export function TwitchWrappedEmoteString(emote: ITwitchEmote) {
-  return `<span class="inline-block" title="${getTwitchEmoteTitle(
-    emote,
-  )}">${TwitchEmoteString(emote)}</span>`;
-}
 
 class TwitchGlobalEmote implements ITwitchEmote {
   id;
@@ -96,15 +81,13 @@ export function makeTwitchGlobalCollection(
 }
 
 export class TwitchGlobalCollection implements ITwitchGlobalCollection {
-  name;
+  name = "Twitch Global Emotes Collection" as const;
+  source = "Twitch" as const;
   sets;
-  source;
   updatedAt;
 
   constructor(sets: ITwitchGlobalEmoteSet[]) {
-    this.name = "Twitch Global Emotes Collection" as const;
     this.sets = sets;
-    this.source = "Twitch" as const;
     this.updatedAt = Date.now();
   }
 }

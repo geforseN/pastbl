@@ -1,29 +1,23 @@
 import {
-  FFZWrappedEmoteString,
   type FrankerFaceZGlobalCollection,
   type FrankerFaceZUserIntegration,
   type FrankerFaceZEmote,
-  FFZEmoteString,
 } from "./FrankerFaceZ/index";
 import {
-  BTTVWrappedEmoteString,
   type BetterTTVGlobalCollection,
   type BetterTTVUserIntegration,
   type IBetterTTVEmote,
-  BTTVEmoteString,
 } from "./BetterTTV/index";
 import {
   SevenTVWrappedEmoteString,
   type I7TVGlobalCollection,
   type ISevenTVUserIntegration,
   type I7TVEmote,
-  SevenTVEmoteString,
 } from "./SevenTV/index";
 import {
-  TwitchWrappedEmoteString,
   type ITwitchGlobalCollection,
-  TwitchEmoteString,
   type ITwitchUserIntegration,
+  type ITwitchEmote,
 } from "./Twitch";
 import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
 
@@ -52,36 +46,40 @@ export type EmoteOf = {
   BetterTTV: IBetterTTVEmote;
   SevenTV: I7TVEmote;
   FrankerFaceZ: FrankerFaceZEmote;
+  Twitch: ITwitchEmote;
 };
 type EmoteT = EmoteOf[keyof EmoteOf];
 
 const emoteTemplateStrings = {
   wrapped: {
-    BetterTTV: BTTVWrappedEmoteString,
     SevenTV: SevenTVWrappedEmoteString,
-    FrankerFaceZ: FFZWrappedEmoteString,
-    Twitch: TwitchWrappedEmoteString,
-  },
-  plain: {
-    BetterTTV: BTTVEmoteString,
-    SevenTV: SevenTVEmoteString,
-    FrankerFaceZ: FFZEmoteString,
-    Twitch: TwitchEmoteString,
   },
 };
+const emoteAlt = (emote: IEmote) => `${emote.token} emote from ${emote.source}`;
+const modifierAlt = (emote: IEmote) =>
+  `${emote.token} modifier emote from ${emote.source}`;
 
-export function makeWrappedEmoteAsString(emote: IEmote) {
-  return emoteTemplateStrings.wrapped[emote.source](emote);
+export function makeWrappedEmoteAsString(emote: EmoteT) {
+  const templateString = emoteTemplateStrings.wrapped[emote.source];
+  if (templateString) {
+    return templateString(emote);
+  }
+  const title = emoteAlt(emote);
+  return `<span class="inline-block" title="${title}">${makeEmoteAsString(emote)}</span>`;
 }
 
 function makeEmoteAsString(emote: IEmote) {
-  return emoteTemplateStrings.plain[emote.source](emote);
+  const alt = emoteAlt(emote);
+  const width = "width" in emote ? emote.width : "";
+  const height = "height" in emote ? emote.height : "";
+  return `<img src="${emote.url}" alt="${alt}" loading="lazy" width="${width} height="${height}">`;
 }
 
-function makeModifierEmoteAsString(emote: IEmote) {
-  return `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${makeEmoteAsString(
-    emote,
-  )}</span>`;
+function makeModifierEmoteAsString(modifierEmote: IEmote) {
+  const style =
+    "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
+  const title = modifierAlt(modifierEmote);
+  return `<span style="${style}" title="${title}">${makeEmoteAsString(modifierEmote)}</span>`;
 }
 
 export function makeEmoteAsStringWithModifiersWrapper(
@@ -92,7 +90,9 @@ export function makeEmoteAsStringWithModifiersWrapper(
   const modifiersAsString = modifierEmotes
     .map(makeModifierEmoteAsString)
     .join(" ");
-  return `<figure style="display: inline-block; position: relative;">${emoteAsString}${modifiersAsString}</figure>`;
+  const title =
+    emoteAlt(emote) + " & " + modifierEmotes.map(modifierAlt).join(" & ");
+  return `<figure style="display: inline-block; position: relative; z-index: 1; background-color: #000;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
 }
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
@@ -151,13 +151,11 @@ export type IUserEmoteIntegration =
   IUserEmoteIntegrationRecord[keyof IUserEmoteIntegrationRecord];
 
 export type IUserEmoteIntegrationSetRecord = {
-  FrankerFaceZ: FrankerFaceZUserIntegration["sets"][number];
-  BetterTTV: BetterTTVUserIntegration["sets"][number];
-  SevenTV: ISevenTVUserIntegration["sets"][number];
-  Twitch: ITwitchUserIntegration["sets"][number];
+  [k in EmoteSource]: IUserEmoteIntegrationRecord[k]["sets"][number] &
+    IGlobalEmoteCollectionRecord[k]["sets"][number];
 };
 
-export type IUserEmoteIntegrationSet =
+export type IEmoteSetT =
   IUserEmoteIntegrationSetRecord[keyof IUserEmoteIntegrationSetRecord];
 
 type Wrap<Integration extends IUserEmoteIntegration> =
