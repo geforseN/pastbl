@@ -8,7 +8,7 @@
       <template #right>⚙️</template>
     </app-page-link>
     <app-page-link to="emotes">
-      <template #right><emote-integration-logo-square /></template>
+      <template #right><emote-integration-logos /></template>
     </app-page-link>
   </div>
 </template>

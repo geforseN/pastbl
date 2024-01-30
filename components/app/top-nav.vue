@@ -14,7 +14,7 @@
           to="/collections"
         >
           look emotes
-          <emote-integration-logo-square />
+          <emote-integration-logos />
         </nuxt-link>
       </li>
       <li class="ml-2 hidden go-brr:block">
