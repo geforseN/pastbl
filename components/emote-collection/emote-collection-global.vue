@@ -5,7 +5,7 @@
   >
     <header class="flex justify-between">
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
-      <icon-emote-integration-logo
+      <emote-integration-logo
         :source="props.source"
         :must-wrap-to-link="true"
       />

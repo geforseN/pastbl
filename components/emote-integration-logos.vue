@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center gap-1">
     <span class="mr-4 flex flex-col gap-1">
-      <icon-emote-integration-logo
+      <emote-integration-logo
         v-for="(source, index) of emoteSources"
         v-once
         :key="source"
