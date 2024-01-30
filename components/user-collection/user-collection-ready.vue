@@ -28,24 +28,11 @@
           </span>
         </nuxt-link>
         <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-1">
-            <use-time-ago :time="date" #="{ timeAgo }">
-              <time :datetime="date.toISOString()"> loaded {{ timeAgo }} </time>
-              <div
-                ref="timeTooltipRef"
-                class="tooltip tooltip-top tooltip-info box-content flex h-6 w-6 items-center justify-center rounded-full border bg-info focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-info"
-                tabindex="0"
-                :class="toValue(timeTooltip.focused) && 'tooltip-open'"
-                :data-tip="date.toLocaleString()"
-              >
-                <icon size="16" name="carbon:data-enrichment" />
-              </div>
-            </use-time-ago>
-          </div>
+          <user-collection-ready-time :date="new Date(collection.updatedAt)" />
           <button
             class="btn btn-success btn-sm border border-success-content"
             :disabled="asyncState.isLoading.value"
-            @click="emit('refresh')"
+            @click="() => emit('refresh')"
           >
             Refresh
             <span
@@ -58,67 +45,15 @@
       </div>
     </div>
     <div class="flex items-center justify-between gap-1">
-      <div class="relative">
-        <button
-          v-if="!mustRevealConfirmDeleteDialog"
-          ref="deleteButtonRef"
-          class="btn btn-error btn-sm border border-error-content"
-          @click="
-            async () => {
-              mustRevealConfirmDeleteDialog = true;
-              await nextTick();
-              cancelDeleteButtonRef?.focus();
-            }
-          "
-        >
-          Delete
-          <icon name="ic:round-delete-outline" class="-ml-2" />
-        </button>
-        <div
-          v-else
-          class="card card-compact absolute -top-4 left-0 z-[1] w-72 border-2 bg-base-100 p-2 text-base-content"
-        >
-          <div class="card-body">
-            <h3 class="card-title">Delete {{ twitch.nickname }} collection?</h3>
-            <div class="flex gap-2">
-              <button class="btn btn-error btn-sm grow" @click="emit('delete')">
-                Delete
-              </button>
-              <button
-                ref="cancelDeleteButtonRef"
-                class="btn btn-outline btn-sm grow"
-                @click="
-                  async () => {
-                    mustRevealConfirmDeleteDialog = false;
-                    await nextTick();
-                    deleteButtonRef?.focus();
-                  }
-                "
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        v-if="!isCollectionSelected"
-        class="btn btn-primary btn-sm"
-        @click="emit('select')"
-      >
-        Select as active
-      </button>
-      <div
-        v-else
-        ref="collectionActiveTooltipRef"
-        class="badge badge-primary badge-lg tooltip tooltip-top tooltip-primary font-bold focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-        tabindex="0"
-        :class="toValue(collectionActiveTooltip.focused) && 'tooltip-open'"
-        :data-tip="`Emotes of ${twitch.nickname} used in your pastas`"
-      >
-        Selected as active
-        <icon size="16" name="carbon:data-enrichment" class="mb-1" />
-      </div>
+      <user-collection-ready-delete-btn
+        :nickname="twitch.nickname"
+        @delete="() => emit('delete')"
+      />
+      <user-collection-ready-status
+        :is-collection-selected="isCollectionSelected"
+        :nickname="twitch.nickname"
+        @select="() => emit('select')"
+      />
     </div>
     <dev-only>
       <div class="form-control rounded-btn border border-accent p-2">
@@ -152,19 +87,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { UseTimeAgo } from "@vueuse/components";
+import type { IUserEmoteIntegrationRecord } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
-
-const timeTooltipRef = ref<HTMLDivElement>();
-const timeTooltip = useFocus(timeTooltipRef);
-
-const collectionActiveTooltipRef = ref<HTMLDivElement>();
-const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
-
-// TODO: move to component
-const mustRevealConfirmDeleteDialog = ref(false);
-const deleteButtonRef = ref<HTMLButtonElement>();
-const cancelDeleteButtonRef = ref<HTMLDivElement>();
 
 const { asyncState, isCollectionSelected } = defineProps<{
   asyncState: ReadyUserCollectionAsyncState;
@@ -177,9 +101,7 @@ const emit = defineEmits<{
 }>();
 
 const collection = computed(() => asyncState.state.value);
-
 const twitch = computed(() => collection.value.user.twitch);
-const date = computed(() => new Date(collection.value.updatedAt));
 
 const readyIntegrations = computed(() => {
   const values = Object.values(collection.value.integrations);
