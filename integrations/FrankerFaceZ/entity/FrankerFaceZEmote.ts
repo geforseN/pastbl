@@ -5,7 +5,8 @@ export interface FrankerFaceZEmote extends IEmote {
   source: "FrankerFaceZ";
   type: "channel" | "global";
   url: `//cdn.frankerfacez.com/emote/${IEmote["id"]}`;
-  width: number;
+  width?: number;
+  height?: number;
 }
 
 export class FFZEmote implements FrankerFaceZEmote {
@@ -18,7 +19,8 @@ export class FFZEmote implements FrankerFaceZEmote {
   token;
   type;
   url;
-  width;
+  width?: number;
+  height?: number;
 
   constructor(apiEmote: FrankerFaceZApiEmote, type: FrankerFaceZEmote["type"]) {
     this.id = `${apiEmote.id}`;
@@ -35,5 +37,6 @@ export class FFZEmote implements FrankerFaceZEmote {
     this.type = type;
     this.url = `//cdn.frankerfacez.com/emote/${this.id}/1` as const;
     this.width = apiEmote.width;
+    this.height = apiEmote.height;
   }
 }
