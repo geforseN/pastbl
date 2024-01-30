@@ -25,7 +25,6 @@ export const usePastasStore = defineStore("pastas", () => {
     pastas.state.value = [];
     await nextTick();
     pastas.state.value = samePastas;
-    triggerRef(pastas.state);
   }
 
   function getPastaIndexById(id: number) {
@@ -89,20 +88,17 @@ export const usePastasStore = defineStore("pastas", () => {
           toast.add(error);
           throw error;
         });
-      pastas.state.value.push(megaPastaWithId);
-      triggerRef(pastas.state);
+      pastas.state.value = [...pastas.state.value, megaPastaWithId];
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
       await pastasService.moveFromListToBin(pasta);
-      pastas.state.value.splice(index, 1);
-      triggerRef(pastas.state);
+      pastas.state.value = pastas.state.value.toSpliced(index, 1);
       toast.add(
         new RemovePastaNotification({
           handleUndo: async () => {
             await pastasService.moveFromBinToList(pasta);
-            pastas.state.value.splice(index, 0, pasta);
-            triggerRef(pastas.state);
+            pastas.state.value = pastas.state.value.toSpliced(index, 0, pasta);
           },
         }),
       );
@@ -125,8 +121,7 @@ export const usePastasStore = defineStore("pastas", () => {
         return;
       }
       await pastasService.put(pasta);
-      pastas.state.value.splice(index, 1, pasta);
-      triggerRef(pastas.state);
+      pastas.state.value = pastas.state.value.with(index, pasta);
       toast.add({
         description: "Pasta update",
         title: "Pasta updated successfully",
