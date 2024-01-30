@@ -26,10 +26,12 @@
     </div>
     <div v-else-if="collection.isLoading.value">Loading...</div>
     <div v-else-if="collection.error.value">
-      {{
-        collection.error.value?.message ||
-        `Failed to load user collection with login: ${login}`
-      }}
+      <template v-if="isError(collection.error.value)">
+        {{ collection.error.value.message }}
+      </template>
+      <template v-else>
+        Failed to load user collection with login: {{ login }}
+      </template>
     </div>
   </div>
 </template>
@@ -37,6 +39,8 @@
 import type { UseAsyncStateReturnBase } from "@vueuse/core";
 import { userCollectionsService } from "~/client-only/services";
 import type { IUserEmoteCollection } from "~/integrations";
+
+const isError = (value: unknown): value is Error => value instanceof Error;
 
 const { nickname } = useRoute().params;
 assert.ok(typeof nickname === "string", "Page param nickname must be a string");
