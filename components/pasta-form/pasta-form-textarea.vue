@@ -9,20 +9,32 @@
       props.modelStatus === 'success' && 'bg-success/5',
     ]"
     placeholder="Enter a pasta"
-    @keyup.enter.exact.prevent="(event) => emit('enterPressed', event)"
+    @keyup.enter.exact.prevent="
+      () => {
+        if (!previousValue) {
+          return;
+        }
+        modelValue = previousValue;
+        emit('enterPressed');
+      }
+    "
   />
 </template>
 <script setup lang="ts">
 const modelValue = defineModel<string>({ required: true });
-const emit = defineEmits<{
-  enterPressed: [event: KeyboardEvent];
-}>();
+const previousValue = usePrevious(modelValue);
+
 const props = defineProps<{
   modelStatus?: "error" | "warning" | "success";
 }>();
+const emit = defineEmits<{
+  enterPressed: [];
+}>();
+
 const { textarea, input } = useTextareaAutosize({
   input: modelValue,
 });
+
 defineExpose({
   textareaRef: textarea,
 });
