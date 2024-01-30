@@ -25,7 +25,7 @@
       </li>
       <li class="ml-2">
         <nuxt-link
-          to="/user/settings#user-settings-heading"
+          to="/user/settings#heading"
           class="btn btn-neutral btn-sm xs:btn-md xs:text-lg"
         >
           settings

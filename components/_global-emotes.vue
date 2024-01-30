@@ -1,9 +1,7 @@
 <template>
   <div class="w-96 rounded-box border-2 p-2">
     <div class="flex justify-between p-2">
-      <h2 id="global-emotes-heading" class="text-3xl font-bold">
-        Global emotes
-      </h2>
+      <h2 id="heading" class="text-3xl font-bold">Global emotes</h2>
       <emote-integration-logo-square />
     </div>
     <div class="flex flex-col gap-2">

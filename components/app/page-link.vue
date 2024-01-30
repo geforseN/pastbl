@@ -31,11 +31,11 @@ const routePageLinkRecord = {
     text: "Go to main page",
   },
   "user-settings": {
-    path: "/user/settings#user-settings-heading",
+    path: "/user/settings#heading",
     text: "Change settings",
   },
   "find-pasta": {
-    path: "/pastas/find#pasta-search-parameters-heading",
+    path: "/pastas/find#heading",
     text: "Find pasta",
   },
   emojis: {

@@ -11,7 +11,7 @@
             if ($route.path.endsWith(`/collections/users/${login}`)) {
               await $router.push({
                 path: '/collections',
-                hash: '#load-user-collection-heading',
+                hash: '#heading',
               });
             }
           }
