@@ -78,13 +78,9 @@ export const usePastasStore = defineStore("pastas", () => {
         .add(megaPasta)
         .catch((reason) => {
           withLogSync(reason, "addPastaFailReason");
-          const error = new ExtendedError(
-            "Pasta with the same text already exist",
-            {
-              title: "Failed to create pasta",
-            },
-          );
-          // TODO: add action in toast, on click should focus to pasta with such text
+          const error = new ExtendedError("Failed to create pasta", {
+            title: "Pasta creation failed",
+          });
           toast.add(error);
           throw error;
         });
@@ -117,8 +113,7 @@ export const usePastasStore = defineStore("pastas", () => {
         );
       } catch (error) {
         assert.isError(error, ExtendedError);
-        toast.add(error);
-        return;
+        return toast.add(error);
       }
       await pastasService.put(pasta);
       pastas.state.value = pastas.state.value.with(index, pasta);
