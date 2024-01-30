@@ -19,7 +19,7 @@
       <li class="w-1/2">
         <nuxt-link
           class="btn btn-info h-16 w-full rounded-none border-0 bg-info/10 uppercase text-info hover:bg-info/20"
-          to="/pastas/find#pasta-search-parameters-heading"
+          to="/pastas/find#heading"
           active-class="border-t-2 border-t-info"
         >
           <span>find pasta</span>

@@ -5,7 +5,7 @@
       <nuxt-link
         :to="{
           path: '/collections/global',
-          hash: '#global-emotes-heading',
+          hash: '#heading',
         }"
         class="link"
       >
@@ -20,7 +20,7 @@
           query: {
             'focus-fetch-input': 'true',
           },
-          hash: '#load-user-collection-heading',
+          hash: '#heading',
         }"
         class="link"
       >

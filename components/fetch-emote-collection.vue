@@ -1,7 +1,7 @@
 <template>
   <section class="rounded-box border-2 p-2">
     <div class="flex justify-between p-2">
-      <h2 id="load-user-collection-heading" class="text-3xl font-bold">
+      <h2 id="heading" class="text-3xl font-bold">
         Load user collection&nbsp;
       </h2>
       <emote-integration-logo-square />
