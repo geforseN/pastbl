@@ -39,7 +39,7 @@ const routePageLinkRecord = {
     text: "Find pasta",
   },
   emojis: {
-    path: "collections/emojis",
+    path: "/collections/emojis",
     text: "Look emojis",
   },
 } as const;
