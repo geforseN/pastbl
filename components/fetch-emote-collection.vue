@@ -4,7 +4,7 @@
       <h2 id="heading" class="text-3xl font-bold">
         Load user collection&nbsp;
       </h2>
-      <emote-integration-logo-square />
+      <emote-integration-logos />
     </div>
     <div class="join">
       <input

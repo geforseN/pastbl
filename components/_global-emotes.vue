@@ -2,7 +2,7 @@
   <div class="w-96 rounded-box border-2 p-2">
     <div class="flex justify-between p-2">
       <h2 id="heading" class="text-3xl font-bold">Global emotes</h2>
-      <emote-integration-logo-square />
+      <emote-integration-logos />
     </div>
     <div class="flex flex-col gap-2">
       <button
@@ -13,7 +13,7 @@
         <div
           class="rounded border-[3px] border-base-100 bg-base-content p-1 pr-2"
         >
-          <emote-integration-logo-square />
+          <emote-integration-logos />
         </div>
       </button>
       <dev-only>

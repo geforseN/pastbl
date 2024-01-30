@@ -12,7 +12,7 @@
             look emotes
           </span>
           <span class="flex gap-1">
-            <emote-integration-logo-square />
+            <emote-integration-logos />
           </span>
         </nuxt-link>
       </li>
