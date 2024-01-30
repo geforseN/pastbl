@@ -71,6 +71,7 @@
 </template>
 <script lang="ts">
 import { set } from "@vueuse/core";
+import type { AvailableEmoteSource } from "~/integrations";
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
 
 function useChannelsSearch(nickname: Ref<string>) {
@@ -115,6 +116,11 @@ async function loadCollection(
     await options.onError?.(error);
   }
 }
+const sourceMap = new Map<AvailableEmoteSource, string>([
+  ["FrankerFaceZ", "🐶"],
+  ["BetterTTV", "🅱️"],
+  ["SevenTV", "7️⃣"],
+]);
 </script>
 <script lang="ts" setup>
 const inputRef = ref<HTMLInputElement>();
@@ -154,12 +160,13 @@ async function handleCollectionLoad(nickname: string) {
       const collection = await userCollectionsStore.loadCollection(
         toLowerCase(nickname),
       );
+
       const statuses = Object.values(collection.integrations)
         .map((integration) => {
-          const emoji = integration.status === "ready" ? "✅" : "❌";
-          return integration.source + " " + emoji;
+          const emojiStatus = integration.status === "ready" ? "✅" : "❌";
+          return sourceMap.get(integration.source) + emojiStatus;
         })
-        .join("\n ");
+        .join(", ");
       toast.add({
         color: "green",
         title: "Emotes loaded",
