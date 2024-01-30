@@ -11,7 +11,7 @@
         <div
           class="card dropdown-content compact z-[1] w-max rounded-box border bg-base-100 shadow"
         >
-          <div class="card-body font-bold">
+          <div class="card-body font-bold text-base-content">
             Updated at
             {{ date.toLocaleString() }}
           </div>
