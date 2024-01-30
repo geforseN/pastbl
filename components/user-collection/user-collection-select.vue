@@ -15,7 +15,7 @@
         {{ login }}
       </option>
     </select>
-    <selected-user-collection />
+    <user-collection-selected />
   </section>
 </template>
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template>
   <div class="w-96">
     <div v-if="collection.state.value !== null" class="flex flex-col gap-2">
-      <ready-user-collection
+      <user-collection-ready
         v-if="collection.state.value !== null"
         :async-state="collection as ReadyUserCollectionAsyncState"
         :is-collection-selected="userCollectionsStore.isSelectedLogin(login)"

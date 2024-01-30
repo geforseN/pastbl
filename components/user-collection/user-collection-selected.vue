@@ -4,7 +4,7 @@
   </div>
   <div v-else class="mt-2">
     <span class="px-2 font-bold">Selected user collection:</span>
-    <user-emote-collection-btnlike
+    <user-collection-btnlike
       class="rounded-btn border-2 border-twitch p-2"
       :nickname="selectedCollection.user.twitch.nickname"
       :avatar-url="selectedCollection.user.twitch.avatarUrl"

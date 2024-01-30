@@ -153,7 +153,6 @@
 </template>
 <script setup lang="ts">
 import { UseTimeAgo } from "@vueuse/components";
-import { type IUserEmoteIntegrationRecord } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
 
 const timeTooltipRef = ref<HTMLDivElement>();

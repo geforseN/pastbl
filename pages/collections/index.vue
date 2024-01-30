@@ -6,9 +6,9 @@
     <app-page-link to="global-emotes">
       <template #right><emote-integration-logos /></template>
     </app-page-link>
-    <user-emote-collections />
-    <fetch-emote-collection />
-    <select-user-collection />
+    <user-collection-btnlike-list />
+    <user-collection-fetch />
+    <user-collection-select />
     <app-page-link to="main" />
   </div>
 </template>
