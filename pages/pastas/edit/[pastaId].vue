@@ -40,9 +40,16 @@
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
       @accept="
-        (text) => {
-          const pasta = createMegaPasta(text, toRaw(megaPasta.tags));
-          pastasStore.updatePasta({ ...pasta, id: pastaId });
+        async () => {
+          const tags = toRaw(megaPasta.tags);
+          const { validTokens, length } = createMegaPasta(megaPasta.text, tags);
+          pastasStore.updatePasta({
+            ...megaPasta,
+            tags,
+            length,
+            validTokens,
+          });
+          await nextTick();
         }
       "
       @decline="navigateTo('/')"

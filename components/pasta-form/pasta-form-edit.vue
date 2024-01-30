@@ -7,7 +7,7 @@
         ref="pastaFormTextareaRef"
         v-model="text"
         class="mx-0.5"
-        @keyup.enter.exact="() => emit('accept', previousText || text)"
+        @enter-pressed="emit('accept')"
       />
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
@@ -16,10 +16,7 @@
           <button class="btn btn-error" @click="() => emit('decline')">
             Decline
           </button>
-          <button
-            class="btn btn-success grow"
-            @click="() => emit('accept', text)"
-          >
+          <button class="btn btn-success grow" @click="() => emit('accept')">
             Accept
           </button>
         </div>
@@ -42,13 +39,11 @@ const text = defineModel("text", { required: true, type: String });
 const tag = defineModel("tag", { required: true, type: String });
 const tags = defineModel("tags", { required: true, type: Array<string> });
 
-const previousText = usePrevious(text);
-
 const pastaFormTextareaRef = ref();
 
 const emit = defineEmits<{
   decline: [];
-  accept: [text: string];
+  accept: [];
 }>();
 
 defineExpose({

@@ -31,7 +31,8 @@
       :pasta="pasta"
       @populate="
         async (pastaTextContainer) => {
-          await sleep(100);
+          // NOTE: two times of nextTick are fix to make emote populate properly after pasta text is changed
+          await nextTick().then(() => nextTick());
           populatePasta(pastaTextContainer, pasta, emotesStore);
         }
       "
