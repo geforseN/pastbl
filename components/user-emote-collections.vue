@@ -11,7 +11,7 @@
           'border-twitch'
         "
         :nickname="collection.user.twitch.login"
-        :avatar-url="collection.integrations.FrankerFaceZ?.owner.avatarUrl"
+        :avatar-url="collection.user.twitch.avatarUrl"
         @delete="
           userCollectionsStore.deleteCollection(collection.user.twitch.login)
         "
