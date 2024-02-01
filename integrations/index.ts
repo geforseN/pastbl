@@ -72,7 +72,7 @@ function makeEmoteAsString(emote: IEmote) {
   const alt = emoteAlt(emote);
   const width = "width" in emote ? emote.width : "";
   const height = "height" in emote ? emote.height : "";
-  return `<img src="${emote.url}" alt="${alt}" loading="lazy" width="${width} height="${height}">`;
+  return `<img class="emote" src="${emote.url}" alt="${alt}" loading="lazy" width="${width} height="${height}">`;
 }
 
 function makeModifierEmoteAsString(modifierEmote: IEmote) {
@@ -92,7 +92,7 @@ export function makeEmoteAsStringWithModifiersWrapper(
     .join(" ");
   const title =
     emoteAlt(emote) + " & " + modifierEmotes.map(modifierAlt).join(" & ");
-  return `<figure style="display: inline-block; position: relative; z-index: 1; background-color: #000;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
+  return `<figure style="display: inline-block; position: relative;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
 }
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
