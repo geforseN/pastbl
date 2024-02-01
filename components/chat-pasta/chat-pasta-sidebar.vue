@@ -4,12 +4,12 @@
   >
     <button
       class="btn btn-square btn-accent btn-md border-2 border-accent-content text-xs"
-      :disabled="!isClipboardSupported"
+      :disabled="!props.isClipboardSupported"
       @click="emit('copy')"
     >
       Copy pasta
     </button>
-    <div :class="dropdownClass">
+    <div :class="props.dropdownClass">
       <div
         tabindex="0"
         role="button"
@@ -24,7 +24,7 @@
         <li>
           <button
             class="btn btn-accent"
-            :disabled="!isClipboardSupported"
+            :disabled="!props.isClipboardSupported"
             @click="emit('copy')"
           >
             Copy pasta
@@ -33,7 +33,7 @@
         </li>
         <li>
           <nuxt-link
-            :to="`/pastas/edit/${pastaId}`"
+            :to="`/pastas/edit/${props.pastaId}`"
             class="btn btn-info w-full"
           >
             Change pasta
@@ -51,14 +51,10 @@
   </div>
 </template>
 <script setup lang="ts">
-const {
-  isClipboardSupported,
-  pastaId,
-  dropdownClass = "dropdown dropdown-bottom dropdown-hover xs:dropdown-end",
-} = defineProps<{
+const props = defineProps<{
   pastaId: number;
   isClipboardSupported: boolean;
-  dropdownClass?: string;
+  dropdownClass: string;
 }>();
 
 const emit = defineEmits<{
