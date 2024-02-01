@@ -6,7 +6,7 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div class="join">
+    <div class="join w-full">
       <input
         id="nickname"
         ref="inputRef"
@@ -18,17 +18,25 @@
         @keyup.enter="handleCollectionLoad(channelsSearchNickname)"
       />
       <button
-        class="btn btn-accent join-item"
+        class="btn btn-accent join-item w-2/6"
         @click="handleCollectionLoad(channelsSearchNickname)"
       >
-        Load collection
+        <span v-if="isLoadingCollection" class="flex items-center gap-2">
+          Loading
+          <span class="loading loading-spinner" />
+        </span>
+        <template v-else> Load collection </template>
       </button>
     </div>
     <div
       ref="channelsContainerRef"
       v-auto-animate
       class="flex max-h-60 flex-col overflow-y-auto rounded"
-      :class="channelsSearch.mustShow && 'border border-accent'"
+      :class="
+        channelsSearch.mustShow &&
+        channelsSearch.state.length &&
+        'border border-accent'
+      "
     >
       <template v-if="channelsSearch.mustShow">
         <div
@@ -66,6 +74,18 @@
           </div>
         </div>
       </template>
+    </div>
+    <div class="flex items-center justify-between p-2">
+      <label for="must-select-collection-on-load">
+        Must select collection on load
+      </label>
+      <input
+        id="must-select-collection-on-load"
+        v-model="mustSelectCollectionOnLoad.state.value"
+        type="checkbox"
+        class="toggle toggle-accent"
+        name="must-select-collection-on-load"
+      />
     </div>
   </section>
 </template>
@@ -105,6 +125,7 @@ async function loadCollection(
   getCollectionAsyncFn: () => Promise<void>,
   options: {
     beforeLoad?: () => MaybePromise<void>;
+    onFinal?: () => MaybePromise<void>;
     onError?: (error: unknown) => MaybePromise<void>;
   } = {},
 ) {
@@ -114,6 +135,8 @@ async function loadCollection(
     await collectionPromise;
   } catch (error) {
     await options.onError?.(error);
+  } finally {
+    await options.onFinal?.();
   }
 }
 const sourceMap = new Map<AvailableEmoteSource, string>([
@@ -145,9 +168,15 @@ onClickOutside(channelsContainerRef, channelsSearch.hide, {
   ignore: [inputRef],
 });
 
+const mustSelectCollectionOnLoad = useIndexedDBKeyValue(
+  "user-collection-fetch:must-select-onload",
+  true,
+);
+const isLoadingCollection = ref(false);
 const userCollectionsStore = useUserCollectionsStore();
 const toast = useNuxtToast();
 async function handleCollectionLoad(nickname: string) {
+  isLoadingCollection.value = true;
   await loadCollection(
     async () => {
       assert.ok(
@@ -157,9 +186,8 @@ async function handleCollectionLoad(nickname: string) {
           title: "Emotes load error",
         }),
       );
-      const collection = await userCollectionsStore.loadCollection(
-        toLowerCase(nickname),
-      );
+      const login = toLowerCase(nickname);
+      const collection = await userCollectionsStore.loadCollection(login);
 
       const statuses = Object.values(collection.integrations)
         .map((integration) => {
@@ -173,6 +201,9 @@ async function handleCollectionLoad(nickname: string) {
         timeout: 7_000,
         description: `Loaded ${collection.user.twitch.nickname} emotes\n${statuses}`,
       });
+      if (mustSelectCollectionOnLoad.state.value) {
+        userCollectionsStore.selectedCollectionLogin.state = login;
+      }
     },
     {
       beforeLoad() {
@@ -181,6 +212,9 @@ async function handleCollectionLoad(nickname: string) {
       onError(error) {
         assert.isError(error, ExtendedError);
         toast.add(error);
+      },
+      onFinal() {
+        isLoadingCollection.value = false;
       },
     },
   );
