@@ -126,6 +126,7 @@ export type MyKeyValueSchema = {
   "pasta:tag": string;
   "create-pasta-form-collapse:is-open": boolean;
   "global-collections:checked-sources": EmoteSource[];
+  "user-collection-fetch:must-select-onload": true;
 };
 export interface KeyValueSchema extends DBSchema {
   "key-value": {
