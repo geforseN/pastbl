@@ -62,6 +62,14 @@ const emotesStore = useEmotesStore();
 </script>
 <style>
 .pasta-list .chat-pasta:first-child .chat-pasta-sidebar {
-  @apply dropdown-bottom;
+  @apply xs:dropdown-left;
+
+  .dropdown .dropdown-content {
+    @apply flex w-max flex-row xs:-translate-y-1/2;
+
+    * {
+      @apply w-min;
+    }
+  }
 }
 </style>
