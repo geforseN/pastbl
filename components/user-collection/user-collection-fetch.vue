@@ -28,53 +28,11 @@
         <template v-else> Load collection </template>
       </button>
     </div>
-    <div
-      ref="channelsContainerRef"
-      v-auto-animate
-      class="flex max-h-60 flex-col overflow-y-auto rounded"
-      :class="
-        channelsSearch.mustShow &&
-        channelsSearch.state.length &&
-        'border border-accent'
-      "
-    >
-      <template v-if="channelsSearch.mustShow">
-        <div
-          v-for="channel of channelsSearch.state"
-          :key="channel.id"
-          class="flex items-center gap-2 bg-slate-600 p-1"
-        >
-          <img
-            :src="channel.thumbnailUrl"
-            width="24"
-            height="24"
-            loading="lazy"
-            :alt="`${channel.nickname} avatar`"
-          />
-          {{ channel.nickname }}
-          <div class="ml-auto flex items-center gap-1">
-            <span
-              v-if="channel.isExact"
-              class="badge rounded-md border-0 bg-success font-bold uppercase"
-            >
-              Exact
-            </span>
-            <span
-              v-if="channel.isLive"
-              class="badge rounded-md border-0 bg-red-600 font-bold uppercase"
-            >
-              Live
-            </span>
-            <button
-              class="btn btn-accent btn-xs"
-              @click="handleCollectionLoad(channel.nickname)"
-            >
-              Load
-            </button>
-          </div>
-        </div>
-      </template>
-    </div>
+    <user-collection-fetch-channels-search
+      :must-show="channelsSearch.mustShow"
+      :channels="channelsSearch.state"
+      @load="(nickname) => handleCollectionLoad(nickname)"
+    />
     <div class="flex items-center justify-between p-2">
       <label for="must-select-collection-on-load">
         Must select collection on load
