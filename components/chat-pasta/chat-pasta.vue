@@ -76,9 +76,3 @@ useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
   isPopulateEmitCalledOnce.value = true;
 });
 </script>
-<style scoped>
-:deep(img) {
-  display: inline;
-  margin: -5px 0;
-}
-</style>

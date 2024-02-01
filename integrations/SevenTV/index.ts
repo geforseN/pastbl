@@ -9,7 +9,7 @@ function getSevenTVEmoteTitle(emote: I7TVEmote) {
 }
 
 function SevenTVEmoteString(emote: I7TVEmote) {
-  return `<img src="${emote.url}" alt="${getSevenTVEmoteTitle(
+  return `<img class="emote" src="${emote.url}" alt="${getSevenTVEmoteTitle(
     emote,
   )}" loading="lazy" width="${emote.width}">`;
 }

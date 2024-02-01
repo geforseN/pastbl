@@ -48,3 +48,9 @@ onMounted(() => {
   document.documentElement.classList.remove("dark", "light");
 });
 </script>
+<style>
+.emote {
+  display: inline;
+  margin: -5px 0;
+}
+</style>
