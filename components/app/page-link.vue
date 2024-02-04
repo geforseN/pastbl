@@ -22,6 +22,10 @@ const routePageLinkRecord = {
     path: "/collections/global",
     text: "Look global emotes",
   },
+  "users-emotes": {
+    path: "/collections/users",
+    text: "Look users emotes",
+  },
   emotes: {
     path: "/collections",
     text: "Look emotes",

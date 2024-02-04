@@ -3,13 +3,13 @@
     ref="channelsContainerRef"
     v-auto-animate
     class="flex max-h-60 flex-col overflow-y-auto rounded"
-    :class="props.mustShow && props.channels && 'border border-accent'"
+    :class="props.mustShow && props.channels.length && 'border border-accent'"
   >
     <template v-if="props.mustShow">
       <div
         v-for="channel of props.channels"
         :key="channel.id"
-        class="flex items-center gap-2 bg-slate-600 p-1"
+        class="flex items-center gap-2 bg-base-content/30 p-1"
       >
         <img
           :src="channel.thumbnailUrl"

@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between gap-1">
-      <user-collection-ready-delete-btn
+      <user-collection-ready-delete-button
         :nickname="twitch.nickname"
         @delete="() => emit('delete')"
       />
@@ -79,7 +79,7 @@
         :source="integration.source"
         @refresh="
           () => {
-            /* TODO add separate route for user integrations, use cachedFunction, then use it in users.get.ts */
+            /* TODO: TODO: add separate route for user integrations, use cachedFunction, then use it in users.get.ts */
           }
         "
       />
@@ -110,4 +110,19 @@ const readyIntegrations = computed(() => {
     "Twitch"
   >;
 });
+
+// function refresh(integration: IUserEmoteIntegration) {
+// assert.ok(integration.source !== "Twitch", new Error("NOT IMPLEMENTED"));
+// const record = await $fetch("/api/users-integrations", {
+//   query: {
+//     sources: integration.source,
+//     twitchUserId: twitch.value.id,
+//     twitchUserNickname: twitch.value.nickname,
+//     twitchUserLogin: twitch.value.login,
+//   },
+// });
+// // const newIntegration = record[integration.source];
+// userCollectionsService
+// asyncState.state.value.integrations[integration.source];
+// }
 </script>
