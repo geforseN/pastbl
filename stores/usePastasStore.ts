@@ -98,16 +98,10 @@ export const usePastasStore = defineStore("pastas", () => {
       );
     }),
     minPastaTextLengthInPastas: computed(() =>
-      pastas.state.value.reduce(
-        (min, pasta) => Math.min(min, pasta.text.length),
-        0,
-      ),
+      Math.min(...pastas.state.value.map((pasta) => pasta.text.length)),
     ),
     maxPastaTextLengthInPastas: computed(() =>
-      pastas.state.value.reduce(
-        (max, pasta) => Math.max(max, pasta.text.length),
-        0,
-      ),
+      Math.max(...pastas.state.value.map((pasta) => pasta.text.length)),
     ),
     async createPasta(basePasta: BasePasta) {
       assert.ok(
