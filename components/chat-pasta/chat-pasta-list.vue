@@ -22,33 +22,57 @@
       </span>
     </div>
   </client-only>
-  <div
-    class="pasta-list flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto go-brr:max-h-[77dvh]"
-  >
-    <chat-pasta
-      v-for="pasta of pastasStore.pastasSortedByNewest"
-      :key="`${pasta.id}:${pasta.text}`"
-      :pasta="pasta"
-      @populate="
-        async (pastaTextContainer) => {
-          // NOTE: two times of nextTick are fix to make emote populate properly after pasta text is changed
-          await nextTick().then(() => nextTick());
-          populatePasta(pastaTextContainer, pasta, emotesStore);
-        }
-      "
+  <div class="ml-auto flex items-baseline">
+    <label for="sort-pastas" class="label font-bold">Pastas sorting</label>
+    <select
+      id="sort-pastas"
+      v-model="pastasStore.selectedSortStrategy"
+      class="select select-secondary select-sm"
+      name="sort-pastas"
+      @select="() => pastasStore.triggerRerender()"
     >
-      <template #creatorData><slot name="creatorData" /></template>
-      <template #sidebar>
-        <chat-pasta-sidebar
-          dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
-          :pasta-id="pasta.id"
-          :is-clipboard-supported="userStore.clipboard.isSupported"
-          @copy="userStore.copyPasta(pasta)"
-          @delete="pastasStore.removePasta(pasta)"
-        />
-      </template>
-    </chat-pasta>
+      <option value="newest-first">Newest first</option>
+      <option value="oldest-first">Oldest first</option>
+      <option value="last-updated">Last updated</option>
+      <option value="last-copied">Last copied</option>
+    </select>
   </div>
+  <dynamic-scroller
+    v-if="canShowPastas"
+    :items="pastasStore.sortedPastas"
+    :min-item-size="100"
+    class="pasta-list flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto xs:w-[426px] go-brr:max-h-[77dvh]"
+  >
+    <template #default="{ item: pasta, index, active }">
+      <dynamic-scroller-item
+        :item="pasta"
+        :active="active"
+        :size-dependencies="[pasta.message]"
+        :data-index="index"
+      >
+        <chat-pasta
+          :key="`${pasta.id}:${pasta.text}`"
+          :pasta="pasta"
+          @populate="
+            (pastaTextContainer) => {
+              populatePasta(pastaTextContainer, pasta, emotesStore);
+            }
+          "
+        >
+          <template #creatorData><slot name="creatorData" /></template>
+          <template #sidebar>
+            <chat-pasta-sidebar
+              dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
+              :pasta-id="pasta.id"
+              :is-clipboard-supported="userStore.clipboard.isSupported"
+              @copy="userStore.copyPasta(pasta)"
+              @delete="pastasStore.removePasta(pasta)"
+            />
+          </template>
+        </chat-pasta>
+      </dynamic-scroller-item>
+    </template>
+  </dynamic-scroller>
 </template>
 <script setup lang="ts">
 defineSlots<{
@@ -59,9 +83,19 @@ const pastasStore = usePastasStore();
 const userStore = useUserStore();
 
 const emotesStore = useEmotesStore();
+
+const canShowPastas = ref(false);
+
+onMounted(async () => {
+  await Promise.all([
+    until(() => pastasStore.pastas.isReady).toBeTruthy({ timeout: 5_000 }),
+    until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
+  ]);
+  canShowPastas.value = true;
+});
 </script>
 <style>
-.pasta-list .chat-pasta:first-child .chat-pasta-sidebar {
+.pasta-list .chat-pasta .chat-pasta-sidebar {
   @apply xs:dropdown-left;
 
   .dropdown .dropdown-content {
