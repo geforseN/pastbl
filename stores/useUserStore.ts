@@ -63,21 +63,26 @@ export const useUserStore = defineStore("user", () => {
     },
   };
 
+  const pastasStore = usePastasStore();
+
   return {
     preferences,
     user,
     clipboard,
-    copyPasta: async (pasta: IDBMegaPasta) => {
+    async copyPasta(pasta: IDBMegaPasta) {
+      await this.copyText(pasta.text);
+      await pastasStore.patchLastCopiedOfPasta(pasta);
+    },
+    async copyText(text: string) {
       try {
-        await clipboard.copy(pasta.text);
-        assert.ok(toValue(clipboard.copied), new Error("Pasta was not copied"));
+        await clipboard.copy(text);
+        assert.ok(toValue(clipboard.copied), "Pasta text was not copied");
         await preferences.pasta.oncopy();
-        pastasService.patchLastCopied(pasta);
-      } catch (error: Error | unknown) {
-        const description = error instanceof Error ? error.message : "";
+      } catch (reason: Error | unknown) {
+        const description = reason instanceof Error ? reason.message : "";
         toast.add({
           description,
-          title: "Pasta copy problem",
+          title: "Pasta text copy failed",
           timeout: 7_000,
           color: "red",
         });

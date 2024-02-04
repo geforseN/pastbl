@@ -138,6 +138,24 @@ export const usePastasStore = defineStore("pastas", () => {
         }),
       );
     },
+    async patchLastCopiedOfPasta(pasta: IDBMegaPasta) {
+      try {
+        const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
+        pastas.state.value = pastas.state.value.with(
+          getPastaIndexById(pasta.id),
+          newPasta,
+        );
+      } catch (reason) {
+        assert.ok(reason instanceof Error, "Pasta state update failed");
+        toast.add({
+          description: "Failed to update pasta last copied time",
+          title: "Pasta state update failed",
+          timeout: 7_000,
+          color: "red",
+        });
+        throw reason;
+      }
+    },
     async updatePasta(pasta: IDBMegaPasta) {
       let index = -1;
       try {
