@@ -1,6 +1,53 @@
 import { defineStore } from "pinia";
 import { pastasService } from "~/client-only/services";
 
+export type PastaSortStrategy =
+  | "newest-first"
+  | "oldest-first"
+  | "last-updated"
+  | "last-copied";
+
+function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
+  const selectedSortStrategy = useIndexedDBKeyValue(
+    "pasta-list:sort-strategy",
+    "newest-first",
+  );
+  const pastasSortStrategies = {
+    "newest-first": computed(() =>
+      allPastas.value.toSorted((a, b) => b.createdAt - a.createdAt),
+    ),
+    "oldest-first": computed(() =>
+      allPastas.value.toSorted((a, b) => a.createdAt - b.createdAt),
+    ),
+    "last-updated": computed(() =>
+      allPastas.value.toSorted(
+        (a, b) => (b.updatedAt || 0) - (a.updatedAt || 0),
+      ),
+    ),
+    "last-copied": computed(() =>
+      allPastas.value.toSorted(
+        /* FIXME: sorting is done incorrectly */
+        (a, b) => (b.lastCopiedAt || 0) - (a.lastCopiedAt || 0),
+      ),
+    ),
+  };
+  const sortedPastas = computed(
+    () => pastasSortStrategies[selectedSortStrategy.state.value].value,
+  );
+
+  return {
+    selectedSortStrategy: computed({
+      get() {
+        return selectedSortStrategy.state.value;
+      },
+      set(value) {
+        selectedSortStrategy.state.value = value;
+      },
+    }),
+    sortedPastas,
+  };
+}
+
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
@@ -15,16 +62,15 @@ export const usePastasStore = defineStore("pastas", () => {
   );
   const toast = useNuxtToast();
   const emotesStore = useEmotesStore();
+  const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
 
   until(() => emotesStore.isInitialUserEmotesReady)
     .toBeTruthy({ timeout: 5_000 })
-    .then(makeHack);
+    .then(triggerRerender);
 
-  async function makeHack() {
-    const samePastas = pastas.state.value;
-    pastas.state.value = [];
+  async function triggerRerender() {
+    /* TODO */
     await nextTick();
-    pastas.state.value = samePastas;
   }
 
   function getPastaIndexById(id: number) {
@@ -37,15 +83,14 @@ export const usePastasStore = defineStore("pastas", () => {
     );
   }
   return {
-    makeHack,
+    triggerRerender,
     getPastaById(id: number) {
       const index = getPastaIndexById(id);
       return pastas.state.value[index];
     },
+    selectedSortStrategy,
     pastas,
-    pastasSortedByNewest: computed(() =>
-      [...pastas.state.value].sort((a, b) => b.createdAt - a.createdAt),
-    ),
+    sortedPastas,
     mostPopularTagsEntries: computed(() => {
       const allTags = pastas.state.value.flatMap((pasta) => pasta.tags);
       return Array.from(countAppearances(allTags)).sort(
