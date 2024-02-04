@@ -26,48 +26,56 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
   const state = ref(defaultValue);
   const error = ref<unknown>();
 
-  const setError = (reason: unknown) => (error.value = reason);
+  const setErrorWithThrow = (reason: unknown) => {
+    error.value = reason;
+    throw reason;
+  };
 
-  idbValue
-    .get()
-    .catch(() => undefined)
-    .then(async (restoredValue) => {
-      withLogSync({ restoredValue, key }, `${key}:restoredValue`);
-      const isRestoredOk = typeof restoredValue !== "undefined";
-      if (!isRestoredOk) {
-        await keyValueService.set(key, defaultValue).catch(setError);
-      }
-      set(state, isRestoredOk ? restoredValue : defaultValue);
-      isRestored.value = true;
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
+  if (typeof window !== "undefined") {
+    idbValue
+      .get()
+      .catch(() => undefined)
+      .then(async (restoredValue) => {
+        withLogSync({ restoredValue, key }, `${key}:restoredValue`);
+        const isRestoredOk = typeof restoredValue !== "undefined";
+        if (!isRestoredOk) {
+          await idbValue.set(defaultValue).catch(setErrorWithThrow);
+        }
+        set(state, isRestoredOk ? restoredValue : defaultValue);
+        isRestored.value = true;
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
 
-  watchDebounced(
-    state,
-    (value) => {
-      if (!isRestored.value) {
-        return withLogSync({ key }, `${key}:set:fast-quit`);
-      }
-      const rawValue = toRaw(value);
-      isLoading.value = true;
-      return idbValue
-        .set(rawValue)
-        .catch(setError)
-        .finally(() => {
-          isLoading.value = false;
-          withLogSync({ key, rawValue, value }, `${key}:set:done`);
-        });
-    },
-    {
-      ...watchDebouncedOptions,
-      deep:
-        watchDebouncedOptions.deep ??
-        (typeof state === "object" && state !== null),
-      debounce: watchDebouncedOptions.debounce ?? 500,
-    },
-  );
+    watchDebounced(
+      state,
+      (value) => {
+        if (!isRestored.value) {
+          return withLogSync({ key }, `${key}:set:fast-quit`);
+        }
+        const rawValue = toRaw(value);
+        isLoading.value = true;
+        return idbValue
+          .set(rawValue)
+          .catch(setErrorWithThrow)
+          .finally(() => {
+            isLoading.value = false;
+            withLogSync({ key, rawValue, value }, `${key}:set:done`);
+          });
+      },
+      {
+        ...watchDebouncedOptions,
+        deep:
+          watchDebouncedOptions.deep ??
+          (typeof state === "object" && state !== null),
+        debounce: watchDebouncedOptions.debounce ?? 500,
+      },
+    );
+  } else {
+    set(state, defaultValue);
+    isLoading.value = false;
+  }
 
   return {
     state,
