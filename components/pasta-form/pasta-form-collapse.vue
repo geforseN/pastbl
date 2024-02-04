@@ -47,6 +47,7 @@
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
         @create-pasta="() => handlePastaCreation()"
       />
+      <chat-pasta-preview />
     </div>
   </div>
 </template>

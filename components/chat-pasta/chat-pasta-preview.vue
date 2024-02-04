@@ -32,11 +32,6 @@
 
 <script lang="ts" setup>
 const pastaTextContainerRef = ref();
-const isMounted = useMounted();
-
-const { isFormCollapseOpen } = defineProps<{
-  isFormCollapseOpen: boolean;
-}>();
 
 const userStore = useUserStore();
 const pastaStore = usePastaStore();
@@ -53,48 +48,5 @@ async function doMagic() {
   populatePasta(pastaTextContainerRef.value, { validTokens }, emotesStore);
 }
 
-watch(
-  () => text.value,
-  async () => {
-    if (!isMounted.value) {
-      return console.log("not mounted");
-    }
-    console.log({ "pasta text changed": pastaStore.text.state });
-    await doMagic();
-  },
-);
-
-// watchOnce(
-//   () => isFormCollapseOpen,
-//   async () => {
-//     console.log({ isFormCollapseOpen });
-//     if (!isFormCollapseOpen) {
-//       console.log("lets GO", { isMounted: isMounted.value });
-//       await until(() => isMounted.value).toBeTruthy();
-//       console.log("GO", { isMounted: isMounted.value });
-//       console.log({
-//         v: pastaTextContainerRef.value,
-//         t: pastaTextContainerRef.value.innerHTML,
-//       });
-//       await nextTick();
-//       console.log({
-//         v2: pastaTextContainerRef.value,
-//         t: pastaTextContainerRef.value.innerHTML,
-//       });
-//       assert.ok(pastaTextContainerRef.value, "asdadsasdasda");
-//       await nextTick();
-//       pastaTextContainerRef.value.innerHTML = "MUGA";
-//       console.log({
-//         v3: pastaTextContainerRef.value,
-//         t: pastaTextContainerRef.value.innerHTML,
-//       });
-//       await nextTick();
-//       console.log({
-//         v4: pastaTextContainerRef.value,
-//         t: pastaTextContainerRef.value.innerHTML,
-//       });
-//     }
-//   },
-//   { immediate: true, flush: "post" },
-// );
+watch(() => text.value, doMagic);
 </script>
