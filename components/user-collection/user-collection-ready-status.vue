@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="!props.isCollectionSelected"
-    class="btn btn-primary btn-sm"
+    :class="buttonClass"
     @click="() => emit('select')"
   >
     Select as active
@@ -22,10 +22,16 @@
 const collectionActiveTooltipRef = ref<HTMLDivElement>();
 const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
 
-const props = defineProps<{
-  isCollectionSelected: boolean;
-  nickname: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    isCollectionSelected: boolean;
+    nickname: string;
+    buttonClass?: string;
+  }>(),
+  {
+    buttonClass: "btn btn-primary btn-sm",
+  },
+);
 
 const emit = defineEmits<{ select: [] }>();
 </script>
