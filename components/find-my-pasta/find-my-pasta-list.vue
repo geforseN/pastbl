@@ -78,4 +78,11 @@ const selectedPasta = computed(() => props.pastas[selectedPastaIndex.value]);
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
+
+watch(
+  () => props.pastas.length,
+  () => {
+    selectedPastaNumber.value = 1;
+  },
+);
 </script>
