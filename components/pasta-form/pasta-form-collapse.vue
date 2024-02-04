@@ -32,7 +32,10 @@
       @keyup.escape="() => closeFormCollapse()"
       @keyup.stop="
         () => {}
-        /* NOTE: stop propagation is important to prevent collapse from closing when user press 'i' in pasta textarea or in tag input */
+        /* NOTE: 
+          stop propagation is important to prevent collapse from closing
+          (when user press 'i' in pasta textarea or in tag input)
+        */
       "
     >
       <pasta-form
@@ -52,11 +55,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onKeyUp, set } from "@vueuse/core";
+import { set } from "@vueuse/core";
 
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 
+const pastaFormRef = ref();
 const isFormCollapseOpen = useIndexedDBKeyValue(
   "create-pasta-form-collapse:is-open",
   false,
@@ -64,21 +68,14 @@ const isFormCollapseOpen = useIndexedDBKeyValue(
 const toggleFormCollapse = useToggle(isFormCollapseOpen.state);
 const closeFormCollapse = () => set(isFormCollapseOpen.state, false);
 
+watch(useMagicKeys().i, async () => {
+  isFormCollapseOpen.state.value = true;
+  // NOTE: without sleep will be ugly layout shift when collapse become opened
+  await sleep(100);
+  pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();
+});
+
 const toast = useNuxtToast();
-
-const pastaFormRef = ref();
-
-onKeyUp(
-  "i",
-  async () => {
-    await sleep(100);
-    if (isFormCollapseOpen.state.value) {
-      pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();
-    }
-  },
-  { target: document },
-);
-
 async function handlePastaCreation() {
   try {
     await pastasStore.createPasta({
