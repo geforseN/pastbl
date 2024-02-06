@@ -21,6 +21,24 @@ export default defineNuxtConfig({
       },
     ],
   },
+  i18n: {
+    lazy: true,
+    langDir: "lang",
+    defaultLocale: "en",
+    strategy: "prefix",
+    locales: [
+      {
+        code: "en",
+        name: "English",
+        file: "en.json",
+      },
+      {
+        code: "ru",
+        name: "Русский",
+        file: "ru.json",
+      },
+    ],
+  },
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
@@ -31,6 +49,7 @@ export default defineNuxtConfig({
     "nuxt-scheduler",
     "nuxt-icon",
     "@vuestic/nuxt",
+    "@nuxtjs/i18n",
   ],
   vuestic: {
     css: false,
