@@ -4,51 +4,89 @@
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
-        <nuxt-link class="logo relative bottom-[1px] text-5xl" to="/">
+        <nuxt-link-locale class="logo relative bottom-[1px] text-5xl" to="/">
           pastbl
-        </nuxt-link>
+        </nuxt-link-locale>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <nuxt-link
-          class="btn btn-outline border-twitch text-lg text-twitch"
+        <nuxt-link-locale
+          class="btn btn-outline flex-nowrap text-wrap border-twitch text-lg text-twitch"
           to="/collections"
         >
-          look emotes
-          <emote-integration-logos />
-        </nuxt-link>
+          {{ $t("collections.index.link") }}
+          <emote-integration-logos class="min-w-8" />
+        </nuxt-link-locale>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <nuxt-link class="btn btn-info text-lg" to="/pastas/find">
-          find pasta
+        <nuxt-link-locale
+          class="btn btn-info flex-nowrap text-lg"
+          to="/pastas/find"
+        >
+          {{ $t("pasta.find.link") }}
           <span>🔍</span>
-        </nuxt-link>
+        </nuxt-link-locale>
       </li>
       <li class="ml-2">
-        <nuxt-link
+        <nuxt-link-locale
           to="/user/settings#heading"
-          class="btn btn-neutral btn-sm xs:btn-md xs:text-lg"
+          class="btn btn-neutral btn-sm flex-nowrap sm:btn-md sm:text-lg"
         >
-          settings
+          {{ $t("user.settings.link") }}
           <span>⚙️</span>
-        </nuxt-link>
+        </nuxt-link-locale>
       </li>
-      <li class="ml-auto">
+      <li class="ml-auto xs:mr-2">
+        <select
+          id="select-locale"
+          v-model="locale"
+          class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
+          name="select-locale"
+          @change="
+            () => {
+              setLocale(locale);
+            }
+          "
+        >
+          <option
+            v-for="availableLocale in availableLocales"
+            :key="availableLocale"
+            :value="availableLocale"
+          >
+            {{ availableLocale }}
+          </option>
+        </select>
+      </li>
+      <li>
         <select
           id="app-theme"
-          class="select select-bordered select-sm w-28 xs:select-md sm:w-max"
+          class="select select-bordered select-xs absolute right-2 top-8 w-20 sm:select-md sm:static sm:w-max"
           data-choose-theme
           name="select-app-theme"
         >
-          <option value="">Default theme</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
+          <option
+            v-for="[value, translated] in Object.entries(themes)"
+            v-once
+            :key="value"
+            :value="value"
+          >
+            {{ translated }}
+          </option>
         </select>
       </li>
     </ol>
   </nav>
 </template>
+<script setup lang="ts">
+const { t, locale, availableLocales, setLocale } = useI18n();
+
+const themes = {
+  "": t("theme.default"),
+  dark: t("theme.dark"),
+  light: t("theme.light"),
+};
+</script>
 <style scoped>
 .logo {
-  -webkit-text-stroke: 0.5px black;
+  -webkit-text-stroke: 2px theme(colors.base-100);
 }
 </style>
