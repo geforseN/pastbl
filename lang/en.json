@@ -1,0 +1,47 @@
+{
+  "main": {
+    "link": "Go to main page"
+  },
+  "pasta": {
+    "find": {
+      "link": "Find pasta"
+    },
+    "create": {
+      "heading": "Create pasta"
+    }
+  },
+  "user": {
+    "settings": {
+      "link": "Go to settings",
+      "heading": "Change settings",
+      "badges-count": "Badges count",
+      "nickname": "Nickname",
+      "nickname-color": "Nickname color",
+      "when": {
+        "pasta-copied": {
+          "label": "When pasta copied",
+          "options": {
+            "none": "None",
+            "alert": "Show alert",
+            "sound": "Play sound",
+            "alert&sound": "Show alert & play sound"
+          }
+        }
+      }
+    }
+  },
+  "collections": {
+    "emojis": {
+      "link": "Emojis"
+    },
+    "global": {
+      "link": "Global emotes"
+    },
+    "users": {
+      "link": "Users emotes"
+    },
+    "index": {
+      "link": "Emotes and emojis"
+    }
+  }
+}
