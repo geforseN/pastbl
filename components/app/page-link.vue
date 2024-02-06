@@ -1,6 +1,6 @@
 <template>
   <div class="rounded-box border-2 px-4 py-2">
-    <nuxt-link :to="path">
+    <nuxt-link-locale :to="path">
       <span class="flex items-center justify-between gap-2 text-3xl font-bold">
         <span class="flex items-center gap-2">
           <icon name="carbon:link" />
@@ -8,7 +8,7 @@
         </span>
         <slot name="right" />
       </span>
-    </nuxt-link>
+    </nuxt-link-locale>
   </div>
 </template>
 <script setup lang="ts">
@@ -17,34 +17,36 @@ defineSlots<{
   right?: () => unknown;
 }>();
 
+const { t } = useI18n();
+
 const routePageLinkRecord = {
   "global-emotes": {
     path: "/collections/global",
-    text: "Look global emotes",
+    text: t("collections.global.link"),
   },
   "users-emotes": {
     path: "/collections/users",
-    text: "Look users emotes",
+    text: t("collections.users.link"),
   },
   emotes: {
     path: "/collections",
-    text: "Look emotes",
+    text: t("collections.index.link"),
   },
   main: {
     path: "/",
-    text: "Go to main page",
+    text: t("main.link"),
   },
   "user-settings": {
     path: "/user/settings#heading",
-    text: "Change settings",
+    text: t("user.settings.link"),
   },
   "find-pasta": {
     path: "/pastas/find#heading",
-    text: "Find pasta",
+    text: t("pasta.find.link"),
   },
   emojis: {
     path: "/collections/emojis",
-    text: "Look emojis",
+    text: t("collections.emojis.link"),
   },
 } as const;
 const props = defineProps<{
