@@ -64,6 +64,7 @@ export const usePasta = ({
   tags = ref([]),
   text = ref(""),
 }: UsePastaStateParam = {}) => {
+  const { t } = useI18n();
   return {
     tag,
     tags,
@@ -74,26 +75,30 @@ export const usePasta = ({
       text.value = "";
     },
     removeTag(tag: string) {
+      const m = "toast.removeTag.fail.";
       tags.value = withRemoved(
         tags.value,
         (tag_) => tag_ === tag,
-        new ExtendedError("Can not remove the tag which is not in tags"),
+        new ExtendedError(t(m + "noExistMessage"), {
+          title: t(m + "title"),
+        }),
       );
     },
     removeAllTags() {
       tags.value = [];
     },
     addTag(tag: string) {
+      const m = "toast.addTag.fail.";
       assert.ok(
         tag.length,
-        new ExtendedError("Can not add the empty tag", {
-          title: "Pasta tag was not added",
+        new ExtendedError(t(m + "emptyInputMessage"), {
+          title: t(m + "title"),
         }),
       );
       assert.ok(
         !tags.value.includes(tag),
-        new ExtendedError("The tag were already added to pasta", {
-          title: "Pasta tag was not added",
+        new ExtendedError(t(m + "sameInputMessage"), {
+          title: t(m + "title"),
         }),
       );
       tags.value.push(tag);

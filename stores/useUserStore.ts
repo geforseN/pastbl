@@ -31,19 +31,20 @@ export const useUserStore = defineStore("user", () => {
 
   const clipboard = useClipboard();
   const toast = useNuxtToast();
+  const { t } = useI18n();
 
   const actions = {
     pasta: {
       oncopy: {
         alert() {
           toast.add({
-            description: "Pasta copied successfully",
-            title: "Copypasta 🤙🤙🤙",
+            description: t("toast.copyPasta.success.message"),
+            title: t("toast.copyPasta.success.title"),
             timeout: 1_700,
           });
         },
         async sound() {
-          await new Audio("/sounds/click.wav").play().catch(() => {});
+          await new Audio("/sounds/click.wav").play();
         },
       },
     },
@@ -71,18 +72,19 @@ export const useUserStore = defineStore("user", () => {
     clipboard,
     async copyPasta(pasta: IDBMegaPasta) {
       await this.copyText(pasta.text);
-      await pastasStore.patchLastCopiedOfPasta(pasta);
+      await pastasStore.patchPatchLastCopied(pasta);
     },
     async copyText(text: string) {
+      const m = "toast.copyPasta.fail.";
       try {
         await clipboard.copy(text);
-        assert.ok(toValue(clipboard.copied), "Pasta text was not copied");
+        assert.ok(toValue(clipboard.copied), t(m + "clipboardMessage"));
         await preferences.pasta.oncopy();
       } catch (reason: Error | unknown) {
-        const description = reason instanceof Error ? reason.message : "";
+        const description =
+          reason instanceof Error ? reason.message : t(m + "genericMessage");
         toast.add({
           description,
-          title: "Pasta text copy failed",
           timeout: 7_000,
           color: "red",
         });

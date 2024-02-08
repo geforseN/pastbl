@@ -10,6 +10,83 @@
       "heading": "Create pasta"
     }
   },
+  "toast": {
+    "copyText": {
+      "fail": {
+        "genericMessage": "Pasta text copy failed",
+        "clipboardMessage": "Pasta text not copied due to Clipboard API error"
+      }
+    },
+    "copyPasta": {
+      "success": {
+        "title": "Pasta copied 🤙",
+        "message": "Pasta copied successfully"
+      }
+    },
+    "putPasta": {
+      "fail": {
+        "title": "Update pasta fail",
+        "message": "Can not update pasta: text or tags must be different"
+      },
+      "success": {
+        "title": "Update pasta success",
+        "message": "Pasta updated successfully"
+      }
+    },
+    "createPasta": {
+      "fail": {
+        "title": "Create pasta fail",
+        "emptyTextMessage": "Can not create pasta with empty text",
+        "genericFailMessage": "Failed to create pasta"
+      },
+      "success": {
+        "title": "Pasta created 🤙",
+        "message": "Pasta created successfully"
+      }
+    },
+    "removePasta": {
+      "success": {
+        "title": "Pasta removed",
+        "message": "Removed pasta got saved in bin",
+        "undoLabel": "Undo pasta remove"
+      }
+    },
+    "patchPatchLastCopied": {
+      "fail": {
+        "message": "Failed to update pasta last copied time",
+        "title": "Pasta state update failed"
+      }
+    },
+    "getPastaIndexById": {
+      "fail": {
+        "title": "Find pasta fail",
+        "message": "Could not find pasta with id={id}"
+      }
+    },
+    "addTag": {
+      "fail": {
+        "title": "Failed to add pasta tag",
+        "emptyInputMessage": "Can not add the empty tag",
+        "sameInputMessage": "The tag were already added to pasta"
+      }
+    },
+    "removeTag": {
+      "fail": {
+        "title": "Failed to remove pasta tag",
+        "noExistMessage": "Can not remove the tag which is not in tags"
+      }
+    },
+    "loadCollection": {
+      "fail": {
+        "title": "Emotes load fail",
+        "emptyInputMessage": "Nickname is required to load emote collection"
+      },
+      "success": {
+        "title": "Emotes loaded",
+        "message": "Loaded {nickname} emotes: {statuses}"
+      }
+    }
+  },
   "user": {
     "settings": {
       "link": "Go to settings",

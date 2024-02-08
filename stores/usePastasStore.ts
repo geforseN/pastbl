@@ -61,6 +61,8 @@ export const usePastasStore = defineStore("pastas", () => {
     { shallow: true, throwError: true },
   );
   const toast = useNuxtToast();
+  const { t } = useI18n();
+
   const emotesStore = useEmotesStore();
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
 
@@ -74,11 +76,12 @@ export const usePastasStore = defineStore("pastas", () => {
   }
 
   function getPastaIndexById(id: number) {
+    const m = "toast.getPastaById.fail.";
     return getValidIndex(
       pastas.state.value,
       (pasta_) => pasta_.id === id,
-      new ExtendedError(`Could not find pasta with id=${id}`, {
-        title: "Failed to find pasta",
+      new ExtendedError(t(m + "message"), {
+        title: t(m + "title"),
       }),
     );
   }
@@ -103,27 +106,36 @@ export const usePastasStore = defineStore("pastas", () => {
     maxPastaTextLengthInPastas: computed(() =>
       Math.max(...pastas.state.value.map((pasta) => pasta.text.length)),
     ),
-    async createPasta(basePasta: BasePasta) {
+    async createPasta(
+      basePasta: BasePasta,
+      options: { onEnd?: () => MaybePromise<void> } = {},
+    ) {
+      const m = "toast.createPasta.";
+      const trimmedText = trimPastaText(basePasta.text);
       assert.ok(
-        basePasta.text.trim().length,
-        new ExtendedError("Can not create pasta with empty text", {
-          title: "Failed to create pasta",
+        trimmedText.length,
+        new ExtendedError(t(m + "fail.emptyTextMessage"), {
+          title: t(m + "fail.title"),
         }),
       );
-      const trimmedText = basePasta.text.trim().replaceAll("\n", "");
       const tags = toRaw(basePasta.tags);
       const megaPasta = createMegaPasta(trimmedText, tags);
       const megaPastaWithId = await pastasService
         .add(megaPasta)
         .catch((reason) => {
           withLogSync(reason, "addPastaFailReason");
-          const error = new ExtendedError("Failed to create pasta", {
-            title: "Pasta creation failed",
+          const error = new ExtendedError(t(m + "fail.genericFailMessage"), {
+            title: t(m + "fail.title"),
           });
           toast.add(error);
           throw error;
         });
       pastas.state.value = [...pastas.state.value, megaPastaWithId];
+      toast.add({
+        description: t(m + "success.message"),
+        title: t(m + "success.title"),
+      });
+      await options.onEnd?.();
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
@@ -131,14 +143,23 @@ export const usePastasStore = defineStore("pastas", () => {
       pastas.state.value = pastas.state.value.toSpliced(index, 1);
       toast.add(
         new RemovePastaNotification({
-          handleUndo: async () => {
-            await pastasService.moveFromBinToList(pasta);
-            pastas.state.value = pastas.state.value.toSpliced(index, 0, pasta);
+          title: t("toast.removePasta.success.title"),
+          description: t("toast.removePasta.success.message"),
+          undo: {
+            label: t("toast.removePasta.success.undoLabel"),
+            async click() {
+              await pastasService.moveFromBinToList(pasta);
+              pastas.state.value = pastas.state.value.toSpliced(
+                index,
+                0,
+                pasta,
+              );
+            },
           },
         }),
       );
     },
-    async patchLastCopiedOfPasta(pasta: IDBMegaPasta) {
+    async patchPatchLastCopied(pasta: IDBMegaPasta) {
       try {
         const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
         pastas.state.value = pastas.state.value.with(
@@ -147,25 +168,27 @@ export const usePastasStore = defineStore("pastas", () => {
         );
       } catch (reason) {
         assert.ok(reason instanceof Error, "Pasta state update failed");
+        const m = "toast.patchPatchLastCopied.fail.";
         toast.add({
-          description: "Failed to update pasta last copied time",
-          title: "Pasta state update failed",
+          description: t(m + "message"),
+          title: t(m + "title"),
           timeout: 7_000,
           color: "red",
         });
         throw reason;
       }
     },
-    async updatePasta(pasta: IDBMegaPasta) {
+    async putPasta(pasta: IDBMegaPasta) {
       let index = -1;
       try {
         index = getPastaIndexById(pasta.id);
         const oldPasta = pastas.state.value[index];
+        const m = "toast.putPasta.";
         assert.ok(
           oldPasta.text !== pasta.text ||
             oldPasta.tags.toString() !== pasta.tags.toString(),
-          new ExtendedError("Can not update pasta with the same text or tags", {
-            title: "Failed to update pasta",
+          new ExtendedError(t(m + "fail.message"), {
+            title: t(m + "fail.title"),
           }),
         );
       } catch (error) {
@@ -175,8 +198,8 @@ export const usePastasStore = defineStore("pastas", () => {
       await pastasService.put(pasta);
       pastas.state.value = pastas.state.value.with(index, pasta);
       toast.add({
-        description: "Pasta update",
-        title: "Pasta updated successfully",
+        description: t("toast.putPasta.success.message"),
+        title: t("toast.putPasta.success.title"),
         timeout: 7_000,
         color: "green",
       });
@@ -191,18 +214,29 @@ class RemovePastaNotification {
   actions: import("@nuxt/ui/dist/runtime/types").NotificationAction[];
   description: string;
 
-  constructor({ handleUndo }: { handleUndo: () => void }) {
+  constructor({
+    title,
+    description,
+    undo,
+  }: {
+    title: string;
+    description: string;
+    undo: {
+      label: string;
+      click: () => void;
+    };
+  }) {
     this.timeout = 7_000;
     this.color = "yellow";
-    this.title = "Pasta removed";
-    this.description = "This pasta got saved in bin";
+    this.title = title;
+    this.description = description;
     this.actions = [
       {
         color: "green",
-        label: "Undo pasta remove",
+        label: undo.label,
         block: true,
         size: "md",
-        click: handleUndo,
+        click: undo.click,
       },
     ];
   }
