@@ -1,11 +1,11 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h3 class="collapse-title text-xl font-bold">Length range</h3>
+    <h3 class="collapse-title text-xl font-bold">{{ $t(r + "heading") }}</h3>
     <div class="collapse-content">
       <article class="mb-3 flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-length">
-          <h3>Take into account selected length</h3>
+          <h3>{{ $t(r + "must-respect") }}</h3>
         </label>
         <input
           id="must-respect-selected-length"
@@ -36,7 +36,7 @@
             for="pasta-to-find-min-length"
             :class="!respect && 'opacity-50'"
           >
-            min length
+            {{ $t(r + "min") }}
           </label>
           <VaCounter
             id="pasta-to-find-min-length"
@@ -56,7 +56,7 @@
             for="pasta-to-find-max-length"
             :class="!respect && 'opacity-50'"
           >
-            max length
+            {{ $t(r + "max") }}
           </label>
           <VaCounter
             id="pasta-to-find-max-length"
@@ -75,7 +75,12 @@
     </div>
   </section>
 </template>
+<script lang="ts">
+import { f } from "~/components/find-my-pasta/find-my-pasta-params.vue";
+</script>
 <script lang="ts" setup>
+const r = f + ("range." as const);
+
 const range = defineModel<number[]>({
   required: true,
 });
