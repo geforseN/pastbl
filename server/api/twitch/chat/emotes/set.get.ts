@@ -9,7 +9,7 @@ export default cachedEventHandler(
     const apiEmoteSet = await fetchEmoteSet(emoteSetId);
     return apiEmoteSet;
   },
-  { maxAge: 60 * 15 /* 15 minutes */ },
+  { maxAge: 60 * 15 },
 );
 
 type ApiTwitchGetEmoteSetResponse = {

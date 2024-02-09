@@ -1,18 +1,20 @@
 import { z } from "zod";
 
-const querySchema = z.object({
-  broadcaster_id: z.string(),
-});
+const querySchema = z
+  .object({
+    broadcaster_id: z.string(),
+  })
+  .transform((query) => ({
+    broadcasterId: query.broadcaster_id,
+  }));
 
 export default cachedEventHandler(
   async (event) => {
-    const { broadcaster_id: broadcasterId } = querySchema.parse(
-      getQuery(event),
-    );
+    const { broadcasterId } = querySchema.parse(getQuery(event));
     const apiChatEmotes = await fetchChatEmotes(broadcasterId);
     return apiChatEmotes;
   },
-  { maxAge: 60 * 15 /* 15 minutes */ },
+  { maxAge: 60 * 15 },
 );
 
 type ApiTwitchGetChatEmotesResponse = {

@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { assert } from "~/utils/error";
 import { toLowerCase } from "~/utils/string";
 
-const paramSchema = z.string();
+const paramSchema = z.string().transform(toLowerCase);
 
 export default cachedEventHandler(
   async (event) => {
@@ -9,7 +10,7 @@ export default cachedEventHandler(
     const apiUser = await fetchUser(login);
     return makeTwitchUser(apiUser);
   },
-  { maxAge: 60 * 15 /* 15 minutes */ },
+  { maxAge: 60 * 15 },
 );
 
 type ApiTwitchGetUsersResponse = {
@@ -28,25 +29,35 @@ type ApiTwitchGetUsersResponse = {
   }[];
 };
 
+const twitchUserSchema = z.object({
+  id: z.number(),
+  login: z.string().transform(toLowerCase),
+  nickname: z.string(),
+  description: z.string(),
+  avatarUrl: z.string(),
+  createdAt: z.string(),
+});
+
 function makeTwitchUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
-  return {
+  return twitchUserSchema.parse({
     id: Number(dataItem.id),
     login: toLowerCase(dataItem.login),
     nickname: dataItem.display_name,
     description: dataItem.description,
     avatarUrl: dataItem.profile_image_url,
     createdAt: dataItem.created_at,
-  };
+  });
 }
 
 export type TwitchUser = ReturnType<typeof makeTwitchUser>;
 
-export async function fetchUser(login: string) {
+export async function fetchUser(login: Lowercase<string>) {
   const { data } = await twitchApi.fetch<ApiTwitchGetUsersResponse>("/users", {
     query: { login },
   });
-  if (data.length !== 1) {
-    throw new Error("User with login=" + login + " not found");
-  }
+  assert.ok(
+    data.length === 1,
+    new Error("User with login=" + login + " not found"),
+  );
   return data[0];
 }
