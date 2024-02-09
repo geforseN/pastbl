@@ -8,7 +8,7 @@
             if (selectedPastaNumber > 1) {
               selectedPastaNumber--;
             } else {
-              selectedPastaNumber = props.pastas.length;
+              selectedPastaNumber = pastas.length;
             }
           }
         "
@@ -17,7 +17,7 @@
       </button>
       <input
         id="current-pasta-number"
-        :value="`${selectedPastaNumber} / ${props.pastas.length}`"
+        :value="`${selectedPastaNumber} / ${pastas.length}`"
         class="input join-item input-secondary"
         readonly
         name="current-pasta-number"
@@ -26,7 +26,7 @@
         class="btn btn-secondary join-item"
         @click="
           () => {
-            if (selectedPastaNumber < props.pastas.length) {
+            if (selectedPastaNumber < pastas.length) {
               selectedPastaNumber++;
             } else {
               selectedPastaNumber = 1;
@@ -67,20 +67,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-const props = defineProps<{
-  pastas: IDBMegaPasta[];
-}>();
-
-const selectedPastaNumber = ref(1);
-const selectedPastaIndex = computed(() => selectedPastaNumber.value - 1);
-const selectedPasta = computed(() => props.pastas[selectedPastaIndex.value]);
-
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
+const pastaFindStore = usePastaFindStore();
+
+const pastas = computed(() => pastaFindStore.showedPastas);
+
+const selectedPastaNumber = ref(1);
+const selectedPastaIndex = computed(() => selectedPastaNumber.value - 1);
+
+const selectedPasta = computed(() => pastas.value[selectedPastaIndex.value]);
 
 watch(
-  () => props.pastas.length,
+  () => pastas.value.length,
   () => {
     selectedPastaNumber.value = 1;
   },
