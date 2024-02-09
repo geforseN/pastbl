@@ -5,7 +5,7 @@
       v-model="modelValue"
       class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content xl:w-auto xl:min-w-[320px]"
       type="text"
-      placeholder="Enter a pasta tag (optional)"
+      :placeholder="$t('pasta.create.tag.input-placeholder')"
       list="add-tag-suggestions"
       @keyup.enter.prevent="emitTag"
     />
@@ -17,7 +17,9 @@
       @click.prevent="emitTag"
     >
       +
-      <span class="text-base uppercase">add tag</span>
+      <span class="text-base">
+        {{ $t("pasta.create.tag.add-button") }}
+      </span>
     </button>
   </div>
 </template>

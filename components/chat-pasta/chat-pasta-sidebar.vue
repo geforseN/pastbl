@@ -7,7 +7,7 @@
       :disabled="!props.isClipboardSupported"
       @click="emit('copy')"
     >
-      Copy pasta
+      {{ $t(d + "copy") }}
     </button>
     <div :class="props.dropdownClass">
       <div
@@ -27,22 +27,22 @@
             :disabled="!props.isClipboardSupported"
             @click="emit('copy')"
           >
-            Copy pasta
+            {{ $t(d + "copy") }}
             <icon name="ic:baseline-content-copy" />
           </button>
         </li>
         <li>
-          <nuxt-link
+          <nuxt-link-locale
             :to="`/pastas/edit/${props.pastaId}`"
             class="btn btn-info w-full"
           >
-            Change pasta
+            {{ $t(d + "edit") }}
             <icon name="ic:outline-edit" />
-          </nuxt-link>
+          </nuxt-link-locale>
         </li>
         <li>
           <button class="btn btn-error w-full" @click="emit('delete')">
-            Delete pasta
+            {{ $t(d + "delete") }}
             <icon name="ic:baseline-delete-outline" />
           </button>
         </li>
@@ -51,6 +51,8 @@
   </div>
 </template>
 <script setup lang="ts">
+const d = "pasta.dropdown.buttons." as const;
+
 const props = defineProps<{
   pastaId: number;
   isClipboardSupported: boolean;

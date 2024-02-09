@@ -75,7 +75,7 @@ export const useUserStore = defineStore("user", () => {
       await pastasStore.patchPatchLastCopied(pasta);
     },
     async copyText(text: string) {
-      const m = "toast.copyPasta.fail.";
+      const m = "toast.copyText.fail.";
       try {
         await clipboard.copy(text);
         assert.ok(toValue(clipboard.copied), t(m + "clipboardMessage"));

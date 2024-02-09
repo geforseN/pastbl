@@ -38,7 +38,8 @@
         :title="new Date(props.pasta.createdAt).toString()"
       >
         <use-time-ago #="{ timeAgo }" :time="props.pasta.createdAt">
-          <time>Published {{ timeAgo }}</time>
+          <!-- FIXME: translate timeAgo -->
+          <time>{{ $t("pasta.createdAt") }} {{ timeAgo }}</time>
         </use-time-ago>
         <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
       </div>

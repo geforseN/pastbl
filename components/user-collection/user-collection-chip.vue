@@ -1,36 +1,37 @@
 <template>
   <div class="flex flex-col gap-0.5 rounded-btn border border-base-content p-1">
     <div class="flex items-end gap-1">
-      <nuxt-link
+      <nuxt-link-locale
         :to="`https://twitch.tv/${login}`"
         class="rounded-full border border-twitch focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
       >
         <img
           :src="avatarUrl"
-          :alt="nickname + ' avatar'"
+          :alt="$t('avatar.alt', { nickname })"
           width="48"
           height="48"
           class="min-h-12 min-w-12 rounded-full bg-twitch/20"
         />
-      </nuxt-link>
+      </nuxt-link-locale>
       <span class="flex flex-col truncate">
         <span class="text-xl font-bold" :title="nickname">{{ nickname }}</span>
         <use-time-ago :time="date" #="{ timeAgo }">
+          <!-- FIXME: i18n time -->
           <time :datetime="date.toISOString()"> Updated {{ timeAgo }} </time>
         </use-time-ago>
       </span>
       <div class="ml-auto flex flex-col gap-0.5">
-        <nuxt-link
+        <nuxt-link-locale
           :to="`/collections/users/${login}`"
-          class="btn btn-info link btn-xs ml-auto w-24 focus:outline-twitch"
+          class="btn btn-info link btn-xs ml-auto w-24 text-nowrap focus:outline-twitch"
         >
-          Show more
-        </nuxt-link>
+          {{ $t("collections.users.ready.button.more") }}
+        </nuxt-link-locale>
         <button
-          class="btn btn-success btn-xs w-24 gap-0"
+          class="btn btn-success btn-xs w-24 flex-nowrap gap-0"
           @click="emit('refresh')"
         >
-          Refresh
+          {{ $t("collections.users.ready.button.refresh") }}
           <icon name="ic:round-refresh" />
         </button>
       </div>

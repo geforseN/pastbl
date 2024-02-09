@@ -4,7 +4,7 @@
     :class="buttonClass"
     @click="() => emit('select')"
   >
-    Select as active
+    {{ $t("collections.users.ready.button.select") }}
   </button>
   <div
     v-else
@@ -12,9 +12,9 @@
     class="badge badge-primary badge-lg tooltip tooltip-top tooltip-primary font-bold focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
     tabindex="0"
     :class="toValue(collectionActiveTooltip.focused) && 'tooltip-open'"
-    :data-tip="`Emotes of ${props.nickname} used in your pastas`"
+    :data-tip="$t('collections.users.ready.selected-tooltip', { nickname })"
   >
-    Selected as active
+    {{ $t("collections.users.ready.selected") }}
     <icon size="16" name="carbon:data-enrichment" class="mb-1" />
   </div>
 </template>

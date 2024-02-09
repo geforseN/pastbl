@@ -2,7 +2,7 @@
   <div class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch p-2">
     <div class="flex gap-2">
       <div class="flex h-16 min-w-16 items-center">
-        <nuxt-link
+        <nuxt-link-locale
           :to="`https://twitch.tv/${twitch.login}`"
           class="rounded-full border border-twitch focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
         >
@@ -11,12 +11,12 @@
             width="64"
             height="64"
             :src="twitch.avatarUrl"
-            :alt="twitch.nickname + ' avatar'"
+            :alt="$t('avatar.alt', { nickname: twitch.nickname })"
           />
-        </nuxt-link>
+        </nuxt-link-locale>
       </div>
       <div class="flex w-72 flex-col justify-between">
-        <nuxt-link
+        <nuxt-link-locale
           class="w-min max-w-72 truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
           :to="`https://twitch.tv/${twitch.login}`"
           :title="twitch.nickname"
@@ -26,7 +26,7 @@
           >
             {{ twitch.nickname }}
           </span>
-        </nuxt-link>
+        </nuxt-link-locale>
         <div class="flex items-center justify-between gap-2">
           <user-collection-ready-time :date="new Date(collection.updatedAt)" />
           <button
@@ -34,7 +34,7 @@
             :disabled="asyncState.isLoading.value"
             @click="() => emit('refresh')"
           >
-            Refresh
+            {{ $t("collections.users.ready.button.refresh") }}
             <span
               v-if="asyncState.isLoading.value"
               class="loading loading-spinner"

@@ -1,14 +1,34 @@
 {
+  "app": {
+    "hint": {
+      "current-emotes": {
+        "user": {
+          "before": "Showing pastas with",
+          "after": "emotes"
+        }
+      },
+      "add-emotes": {
+        "global": {
+          "before": "Showing pastas with only",
+          "link": "global emotes"
+        },
+        "user": {
+          "before": "Add",
+          "link": "user emotes"
+        }
+      }
+    }
+  },
   "main": {
     "link": "Go to main page"
   },
-  "pasta": {
-    "find": {
-      "link": "Find pasta"
-    },
-    "create": {
-      "heading": "Create pasta"
-    }
+  "avatar": {
+    "alt": "{nickname} avatar"
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "default": "Default Theme"
   },
   "toast": {
     "copyText": {
@@ -40,8 +60,7 @@
         "genericFailMessage": "Failed to create pasta"
       },
       "success": {
-        "title": "Pasta created 🤙",
-        "message": "Pasta created successfully"
+        "title": "Pasta created 🤙"
       }
     },
     "removePasta": {
@@ -87,12 +106,73 @@
       }
     }
   },
+  "pasta": {
+    "createdAt": "Created",
+    "list": {
+      "sort": {
+        "label": "Sort pastas",
+        "options": {
+          "newest-first": "Newest first",
+          "oldest-first": "Oldest first",
+          "last-updated": "Last updated",
+          "last-copied": "Last copied"
+        }
+      }
+    },
+    "dropdown": {
+      "buttons": {
+        "copy": "Copy pasta",
+        "delete": "Delete pasta",
+        "edit": "Edit pasta"
+      }
+    },
+    "find": {
+      "link": "Find pasta",
+      "heading": "Search pasta",
+      "text-to-find": "Text to find",
+      "range": {
+        "heading": "Length range",
+        "must-respect": "Must respect selected length",
+        "max": "Max length",
+        "min": "Min length"
+      },
+      "tags": {
+        "heading": "Required tags",
+        "must-respect": "Must respect selected tags",
+        "select-hint": {
+          "part1": "NOTE:",
+          "part2": "To select multiple tags, use",
+          "part3": "click"
+        }
+      }
+    },
+    "create": {
+      "heading": "Create pasta",
+      "button": "Create pasta",
+      "textarea-placeholder": "Enter pasta text",
+      "length": "Pasta length",
+      "tags": {
+        "remove-button": "Remove selected tags",
+        "on-empty-badge": "No tags added"
+      },
+      "tag": {
+        "remove-button": "Remove tag: {tag}",
+        "add-button": "Add tag",
+        "input-placeholder": "Add tag (optional)"
+      },
+      "preview": {
+        "heading": "Pasta preview",
+        "copy-button": "Copy pasta"
+      }
+    }
+  },
   "user": {
     "settings": {
       "link": "Go to settings",
       "heading": "Change settings",
       "badges-count": "Badges count",
       "nickname": "Nickname",
+      "nickname-placeholder": "Kappa",
       "nickname-color": "Nickname color",
       "when": {
         "pasta-copied": {
@@ -108,17 +188,60 @@
     }
   },
   "collections": {
-    "emojis": {
-      "link": "Emojis"
-    },
-    "global": {
-      "link": "Global emotes"
-    },
-    "users": {
-      "link": "Users emotes"
-    },
     "index": {
       "link": "Emotes and emojis"
+    },
+    "emojis": {
+      "link": "Emojis",
+      "headings": {
+        "Smileys & Emotion": "Smileys & Emotion",
+        "People & Body": "People & Body",
+        "Animals & Nature": "Animals & Nature",
+        "Food & Drink": "Food & Drink",
+        "Travel & Places": "Travel & Places",
+        "Activities": "Activities",
+        "Objects": "Objects",
+        "Symbols": "Symbols",
+        "Flags": "Flags"
+      }
+    },
+    "global": {
+      "link": "Global emotes",
+      "refresh-all-button": "Refresh all global emotes"
+    },
+    "users": {
+      "link": "User emotes",
+      "selected": "Selected emote collection",
+      "fetch": {
+        "heading": "Fetch emotes",
+        "placeholder": "Enter Twitch nickname",
+        "button": {
+          "text": "Load collection",
+          "text-on-load": "Loading"
+        },
+        "must-select-onload": "Select collection upon successful load",
+        "channels-search": {
+          "load": "Load",
+          "exact": "Exact",
+          "live": "Live"
+        }
+      },
+      "select": {
+        "heading": "Select emotes",
+        "no-select": "No collection selected"
+      },
+      "ready": {
+        "button": {
+          "more": "Show more",
+          "refresh": "Refresh",
+          "delete": "Delete",
+          "select": "Select as active",
+          "cancel": "Cancel"
+        },
+        "delete-text": "Delete {nickname} collection?",
+        "selected": "Collection is active",
+        "selected-tooltip": "Emotes from {nickname} are used in pastas"
+      }
     }
   }
 }

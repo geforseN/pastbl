@@ -2,7 +2,7 @@
   <section class="rounded-box border-2 p-2">
     <div class="flex justify-between p-2">
       <h2 id="heading" class="text-3xl font-bold">
-        Load user collection&nbsp;
+        {{ $t(f + "heading") }}&nbsp;
       </h2>
       <emote-integration-logos />
     </div>
@@ -12,7 +12,7 @@
         ref="inputRef"
         v-model="channelsSearchNickname"
         name="nickname"
-        placeholder="Enter twitch nickname"
+        :placeholder="$t(f + 'placeholder')"
         class="input join-item input-accent grow"
         type="search"
         @keyup.enter="handleCollectionLoad(channelsSearchNickname)"
@@ -22,10 +22,12 @@
         @click="handleCollectionLoad(channelsSearchNickname)"
       >
         <span v-if="isLoadingCollection" class="flex items-center gap-2">
-          Loading
+          {{ $t(f + "button.text-on-load") }}
           <span class="loading loading-spinner" />
         </span>
-        <template v-else> Load collection </template>
+        <template v-else>
+          {{ $t(f + "button.text") }}
+        </template>
       </button>
     </div>
     <user-collection-fetch-channels-search
@@ -35,7 +37,7 @@
     />
     <div class="flex items-center justify-between p-2">
       <label for="must-select-collection-on-load">
-        Must select collection on load
+        {{ $t(f + "must-select-onload") }}
       </label>
       <input
         id="must-select-collection-on-load"
@@ -51,6 +53,8 @@
 import { set } from "@vueuse/core";
 import type { AvailableEmoteSource } from "~/integrations";
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
+
+const f = "collections.users.fetch.";
 
 function useChannelsSearch(nickname: Ref<string>) {
   const mustShow = ref(false);
@@ -133,20 +137,20 @@ const mustSelectCollectionOnLoad = useIndexedDBKeyValue(
 const isLoadingCollection = ref(false);
 const userCollectionsStore = useUserCollectionsStore();
 const toast = useNuxtToast();
+const { t } = useI18n();
 async function handleCollectionLoad(nickname: string) {
   isLoadingCollection.value = true;
   await loadCollection(
     async () => {
+      const m = "toast.loadCollection.";
       assert.ok(
         nickname?.length,
-        new ExtendedError("Nickname is required", {
-          color: "red",
-          title: "Emotes load error",
+        new ExtendedError(t(m + "fail.emptyInputMessage"), {
+          title: t(m + "fail.title"),
         }),
       );
       const login = toLowerCase(nickname);
       const collection = await userCollectionsStore.loadCollection(login);
-
       const statuses = Object.values(collection.integrations)
         .map((integration) => {
           const emojiStatus = integration.status === "ready" ? "✅" : "❌";
@@ -155,9 +159,9 @@ async function handleCollectionLoad(nickname: string) {
         .join(", ");
       toast.add({
         color: "green",
-        title: "Emotes loaded",
+        title: t(m + ".success.title"),
         timeout: 7_000,
-        description: `Loaded ${collection.user.twitch.nickname} emotes\n${statuses}`,
+        description: t(m + ".success.message", { nickname, statuses }),
       });
       if (mustSelectCollectionOnLoad.state.value) {
         userCollectionsStore.selectedCollectionLogin.state = login;

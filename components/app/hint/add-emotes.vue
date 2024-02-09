@@ -1,20 +1,20 @@
 <template>
   <div class="flex flex-col rounded-b-btn border-2 px-2">
     <span>
-      Showing pastas with only
-      <nuxt-link
+      {{ $t(ae + "global.before") }}
+      <nuxt-link-locale
         :to="{
           path: '/collections/global',
           hash: '#heading',
         }"
-        class="link"
+        class="link lowercase"
       >
-        global emotes
-      </nuxt-link>
+        {{ $t("collections.global.link") }}
+      </nuxt-link-locale>
     </span>
     <span>
-      Add
-      <nuxt-link
+      {{ $t(ae + "user.before") }}
+      <nuxt-link-locale
         :to="{
           path: '/collections',
           query: {
@@ -22,10 +22,13 @@
           },
           hash: '#heading',
         }"
-        class="link"
+        class="link lowercase"
       >
-        user emotes
-      </nuxt-link>
+        {{ $t(ae + "user.link") }}
+      </nuxt-link-locale>
     </span>
   </div>
 </template>
+<script setup lang="ts">
+const ae = "app.hint.add-emotes.";
+</script>

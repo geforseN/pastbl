@@ -1,7 +1,7 @@
 <template>
-  <nuxt-link v-if="props.mustWrapToLink" :to="data.href">
+  <nuxt-link-locale v-if="props.mustWrapToLink" :to="data.href">
     <img v-bind="$attrs" :src="data.src" :alt="data.alt" />
-  </nuxt-link>
+  </nuxt-link-locale>
   <img v-else v-bind="$attrs" :src="data.src" :alt="data.alt" />
 </template>
 <script lang="ts">

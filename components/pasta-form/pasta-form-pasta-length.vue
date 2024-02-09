@@ -1,6 +1,6 @@
 <template>
   <span class="px-1.5">
-    Pasta length:
+    {{ $t("pasta.create.length") }}:
     <span v-bind="$attrs">
       {{ pastaText.length }}
     </span>

@@ -1,32 +1,26 @@
 <template>
   <section class="divide-y-2 rounded-box border-2 p-2">
-    <h2 id="heading" class="p-2 text-3xl font-bold">Change settings</h2>
+    <h2 id="heading" class="p-2 text-3xl font-bold">{{ $t(s + "heading") }}</h2>
     <user-settings-badges v-model="userStore.user.badges.count.state" />
     <user-settings-nickname v-model="userStore.user.nickname.text.state" />
     <user-settings-nickname-color
       v-model="userStore.user.nickname.color.state"
     />
-    <div class="form-control p-2">
-      <label
-        for="pasta-oncopy"
-        class="label cursor-pointer text-xl font-medium"
-      >
-        When pasta copied
-      </label>
-      <select
-        id="pasta-oncopy"
-        v-model="userStore.user.pasta.oncopy.state"
-        class="select select-secondary"
-        name="pasta-oncopy"
-      >
-        <option value="none">Do nothing</option>
-        <option value="alert">Show alert</option>
-        <option value="sound">Play sound</option>
-        <option value="alert&sound">Show alert & Play sound</option>
-      </select>
-    </div>
+    <user-settings-on-pasta-copy
+      v-model="userStore.user.pasta.oncopy.state"
+      :options="{
+        none: $t(wo + 'none'),
+        alert: $t(wo + 'alert'),
+        sound: $t(wo + 'sound'),
+        'alert&sound': $t(wo + 'alert&sound'),
+      }"
+    />
   </section>
 </template>
+<script lang="ts">
+export const s = "user.settings." as const;
+const wo = "user.settings.when.pasta-copied.options." as const;
+</script>
 <script setup lang="ts">
 const userStore = useUserStore();
 </script>
