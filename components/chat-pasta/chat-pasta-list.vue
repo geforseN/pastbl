@@ -42,7 +42,7 @@
     </select>
   </div>
   <dynamic-scroller
-    v-if="canShowPastas"
+    v-if="pastasStore.canShowPastas"
     :items="pastasStore.sortedPastas"
     :min-item-size="100"
     class="pasta-list flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto xs:w-[426px] go-brr:max-h-[77dvh]"
@@ -99,16 +99,6 @@ const pastasStore = usePastasStore();
 const userStore = useUserStore();
 
 const emotesStore = useEmotesStore();
-
-const canShowPastas = ref(false);
-
-onMounted(async () => {
-  await Promise.all([
-    until(() => pastasStore.pastas.isReady).toBeTruthy({ timeout: 5_000 }),
-    until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
-  ]);
-  canShowPastas.value = true;
-});
 </script>
 <style>
 .pasta-list .chat-pasta .chat-pasta-sidebar {

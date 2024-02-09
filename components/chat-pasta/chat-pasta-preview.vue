@@ -22,7 +22,7 @@
       </span>
       <dev-only>
         <button
-          class="btn btn-primary btn-md text-lg"
+          class="btn btn-accent btn-md text-lg"
           @click="userStore.copyText(text)"
         >
           {{ $t("pasta.create.preview.copy-button") }}
@@ -40,14 +40,14 @@ const emotesStore = useEmotesStore();
 
 const text = computed(() => pastaStore.pasta.text);
 
-async function doMagic() {
+async function repopulateText() {
   await Promise.all([
     until(() => pastaStore.text.isRestored).toBeTruthy({ timeout: 3_000 }),
     until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
   ]);
-  const { validTokens } = createMegaPasta(text.value, []);
+  const validTokens = makeValidTokens(pastaStore.pastaTrimmedText);
   populatePasta(pastaTextContainerRef.value, { validTokens }, emotesStore);
 }
 
-watch(() => text.value, doMagic);
+watch(() => text.value, repopulateText);
 </script>

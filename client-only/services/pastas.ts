@@ -36,15 +36,7 @@ export const pastasService = {
   },
   async put(pasta: IDBMegaPasta) {
     const pastasIdb = await idb.pastas;
-    const { validTokens, length } = createMegaPasta(pasta.text, pasta.tags);
-    const updatedAt = Date.now();
-    const newPasta = {
-      ...pasta,
-      validTokens,
-      length,
-      updatedAt,
-    };
-    await pastasIdb.list.put(newPasta);
+    await pastasIdb.list.put(pasta);
     return pasta;
   },
 };

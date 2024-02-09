@@ -24,7 +24,6 @@ class EmotesCache {
   }
 
   clear() {
-    withLogSync([...this.#cache], "userChangedClearingCache");
     this.#cache.clear();
   }
 }
@@ -40,16 +39,21 @@ function useEmotes<
   );
 
   watch(sourceToWatchCb, (source) => {
-    record.value = flatGroupBy(
-      Object.values(source),
+    const integrations = Object.values(source);
+    const integrationsRecord = flatGroupBy(
+      integrations,
       (integration) => integration.source,
       (integration) => {
-        const emoteEntries = integration.sets
-          .flatMap((set: { emotes: IEmote[] }) => set.emotes)
-          .map((emote: IEmote): [string, IEmote] => [emote.token, emote]);
+        const emotes = integration.sets.flatMap(
+          (set: { emotes: IEmote[] }) => set.emotes,
+        );
+        const emoteEntries = emotes.map((emote: IEmote): [string, IEmote] => {
+          return [emote.token, emote];
+        });
         return new Map(emoteEntries);
       },
     );
+    record.value = integrationsRecord;
     onReady();
   });
 
@@ -105,7 +109,7 @@ export const useEmotesStore = defineStore("emotes", () => {
     ],
     () => {
       emotesCache.clear();
-      return pastasStore.makeHack();
+      pastasStore.triggerRerender();
     },
   );
 
