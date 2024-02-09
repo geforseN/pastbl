@@ -36,7 +36,22 @@
 <script lang="ts" setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
 
-const entries = Object.entries(emoteDataByGroup);
+const englishKeys = Object.keys(emoteDataByGroup);
+
+const entries = shallowRef(Object.entries(emoteDataByGroup));
+const { t, locale } = useI18n();
+
+watch(
+  locale,
+  () => {
+    const m = "collections.emojis.headings.";
+    entries.value = entries.value.map((entry, index) => [
+      t(m + englishKeys[index]),
+      entry[1],
+    ]);
+  },
+  { immediate: true },
+);
 </script>
 <style scoped>
 .collapse-title,

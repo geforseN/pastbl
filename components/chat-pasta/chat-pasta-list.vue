@@ -23,18 +23,22 @@
     </div>
   </client-only>
   <div class="ml-auto flex items-baseline">
-    <label for="sort-pastas" class="label font-bold">Pastas sorting</label>
+    <label for="sort-pastas" class="label font-bold">
+      {{ $t(s + "label") }}
+    </label>
     <select
       id="sort-pastas"
       v-model="pastasStore.selectedSortStrategy"
       class="select select-secondary select-sm"
       name="sort-pastas"
-      @select="() => pastasStore.triggerRerender()"
     >
-      <option value="newest-first">Newest first</option>
-      <option value="oldest-first">Oldest first</option>
-      <option value="last-updated">Last updated</option>
-      <option value="last-copied">Last copied</option>
+      <option
+        v-for="[sortName, translatedText] of Object.entries(sortOptions)"
+        :key="sortName"
+        :value="sortName"
+      >
+        {{ translatedText }}
+      </option>
     </select>
   </div>
   <dynamic-scroller
@@ -75,6 +79,18 @@
   </dynamic-scroller>
 </template>
 <script setup lang="ts">
+const s = "pasta.list.sort." as const;
+const so = "pasta.list.sort.options." as const;
+
+const { t } = useI18n();
+
+const sortOptions = {
+  "newest-first": t(so + "newest-first"),
+  "oldest-first": t(so + "oldest-first"),
+  "last-updated": t(so + "last-updated"),
+  "last-copied": t(so + "last-copied"),
+};
+
 defineSlots<{
   creatorData?: () => unknown;
 }>();

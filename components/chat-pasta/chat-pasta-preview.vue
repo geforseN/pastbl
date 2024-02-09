@@ -1,6 +1,8 @@
 <template>
   <article class="mt-2 rounded-box border p-4">
-    <h3 class="text-xl font-bold">Preview</h3>
+    <h3 class="text-xl font-bold">
+      {{ $t("pasta.create.preview.heading") }}
+    </h3>
     <div class="flex w-[340px] flex-col">
       <span class="block grow border border-secondary">
         <span class="block w-full px-[10px] py-[5px]">
@@ -23,13 +25,12 @@
           class="btn btn-primary btn-md text-lg"
           @click="userStore.copyText(text)"
         >
-          COPY PREVIEW PASTA
+          {{ $t("pasta.create.preview.copy-button") }}
         </button>
       </dev-only>
     </div>
   </article>
 </template>
-
 <script lang="ts" setup>
 const pastaTextContainerRef = ref();
 

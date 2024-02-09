@@ -76,7 +76,7 @@ export const usePastasStore = defineStore("pastas", () => {
   }
 
   function getPastaIndexById(id: number) {
-    const m = "toast.getPastaById.fail.";
+    const m = "toast.getPastaIndexById.fail.";
     return getValidIndex(
       pastas.state.value,
       (pasta_) => pasta_.id === id,
@@ -131,10 +131,7 @@ export const usePastasStore = defineStore("pastas", () => {
           throw error;
         });
       pastas.state.value = [...pastas.state.value, megaPastaWithId];
-      toast.add({
-        description: t(m + "success.message"),
-        title: t(m + "success.title"),
-      });
+      toast.add({ title: t(m + "success.title") });
       await options.onEnd?.();
     },
     async removePasta(pasta: IDBMegaPasta) {

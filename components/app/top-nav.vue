@@ -35,27 +35,32 @@
           <span>⚙️</span>
         </nuxt-link-locale>
       </li>
-      <li class="ml-auto xs:mr-2">
-        <select
-          id="select-locale"
-          v-model="locale"
-          class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
-          name="select-locale"
-          @change="
-            () => {
-              setLocale(locale);
-            }
-          "
-        >
-          <option
-            v-for="availableLocale in availableLocales"
-            :key="availableLocale"
-            :value="availableLocale"
+      <dev-only>
+        <li class="ml-auto xs:mr-2">
+          <select
+            id="select-locale"
+            class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
+            name="select-locale"
+            :value="locale"
+            @change="
+              async ({ target }) => {
+                assert.ok(target);
+                const { value } = target;
+                assert.ok(value);
+                await setLocale(value);
+              }
+            "
           >
-            {{ availableLocale }}
-          </option>
-        </select>
-      </li>
+            <option
+              v-for="availableLocale in locales"
+              :key="availableLocale.code"
+              :value="availableLocale.code"
+            >
+              {{ availableLocale.name }}
+            </option>
+          </select>
+        </li>
+      </dev-only>
       <li>
         <select
           id="app-theme"
@@ -77,7 +82,7 @@
   </nav>
 </template>
 <script setup lang="ts">
-const { t, locale, availableLocales, setLocale } = useI18n();
+const { t, locale, locales, setLocale } = useI18n();
 
 const themes = {
   "": t("theme.default"),

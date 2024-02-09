@@ -16,7 +16,7 @@
           width="24"
           height="24"
           loading="lazy"
-          :alt="`${channel.nickname} avatar`"
+          :alt="$t('avatar.alt', { nickname: channel.nickname })"
         />
         {{ channel.nickname }}
         <div class="ml-auto flex items-center gap-1">
@@ -24,28 +24,29 @@
             v-if="channel.isExact"
             class="badge rounded-md border-0 bg-success font-bold uppercase"
           >
-            Exact
+            {{ $t(cs + "exact") }}
           </span>
           <span
             v-if="channel.isLive"
             class="badge rounded-md border-0 bg-red-600 font-bold uppercase"
           >
-            Live
+            {{ $t(cs + "live") }}
           </span>
           <button
             class="btn btn-accent btn-xs"
             @click="emit('load', channel.nickname)"
           >
-            Load
+            {{ $t(cs + "load") }}
           </button>
         </div>
       </div>
     </template>
   </div>
 </template>
-
 <script lang="ts" setup>
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
+
+const cs = "collections.users.fetch.channels-search." as const;
 
 const props = defineProps<{
   mustShow: boolean;
@@ -55,5 +56,3 @@ const emit = defineEmits<{
   load: [nickname: string];
 }>();
 </script>
-
-<style></style>

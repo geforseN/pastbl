@@ -8,7 +8,7 @@
       <header class="flex justify-between text-3xl font-bold">
         <span class="flex items-center gap-2">
           <kbd class="kbd kbd-sm -ml-0.5 px-2 pb-[1px] pt-0.5">i</kbd>
-          <h2>Create pasta</h2>
+          <h2>{{ $t("pasta.create.heading") }}</h2>
         </span>
         <transition name="jokerge">
           <div

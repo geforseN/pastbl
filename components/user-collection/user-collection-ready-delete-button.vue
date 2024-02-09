@@ -13,15 +13,17 @@
         }
       "
     >
-      Delete
+      {{ $t("collections.users.ready.button.delete") }}
       <icon name="ic:round-delete-outline" class="-ml-2" />
     </button>
     <div v-else :class="props.cardClass">
       <div ref="cardRef" class="card-body">
-        <h3 class="card-title">Delete {{ props.nickname }} collection?</h3>
+        <h3 class="card-title">
+          {{ $t("collections.users.ready.delete-text") }}
+        </h3>
         <div class="flex gap-2">
           <button class="btn btn-error btn-sm grow" @click="emit('delete')">
-            Delete
+            {{ $t("collections.users.ready.button.delete") }}
           </button>
           <button
             ref="cancelDeleteButtonRef"
@@ -35,7 +37,7 @@
               }
             "
           >
-            Cancel
+            {{ $t("collections.users.ready.button.cancel") }}
           </button>
         </div>
       </div>

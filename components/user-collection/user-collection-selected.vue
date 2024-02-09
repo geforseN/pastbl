@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedCollection">
-    <span class="px-2 font-bold">Selected user collection:</span>
+    <span class="px-2 font-bold">{{ $t("collections.users.selected") }}</span>
     <user-collection-chip
       class="rounded-btn border-2 border-twitch p-2"
       :nickname="selectedCollection.user.twitch.nickname"

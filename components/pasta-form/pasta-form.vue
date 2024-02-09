@@ -17,7 +17,7 @@
           class="btn btn-primary h-max text-lg focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
           @click="emit('createPasta')"
         >
-          CREATE PASTA
+          {{ $t("pasta.create.button") }}
         </button>
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
@@ -29,9 +29,11 @@
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
-            REMOVE ALL TAGS
+            {{ $t("pasta.create.tags.remove-button") }}
           </button>
-          <span v-else class="badge badge-warning badge-lg">No tags added</span>
+          <span v-else class="badge badge-warning badge-lg">
+            {{ $t("pasta.create.tags.on-empty-badge") }}
+          </span>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <article class="form-control p-2">
     <label class="label cursor-pointer text-xl font-medium" for="badges-count">
-      <h3>Badges count</h3>
+      <h3>{{ $t(s + "badges-count") }}</h3>
     </label>
     <user-settings-badges-count
       :badges-count="badgesCount"
@@ -10,5 +10,7 @@
   </article>
 </template>
 <script lang="ts" setup>
-const badgesCount = defineModel({ required: true, type: Number });
+import { s } from "~/components/user-settings/user-settings.vue";
+
+const badgesCount = defineModel<number>({ required: true });
 </script>
