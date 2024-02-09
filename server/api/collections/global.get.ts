@@ -8,6 +8,7 @@ import {
   create7TVGlobalCollection,
   BetterTTV,
   IGlobalEmoteCollectionRecord,
+  isValidEmoteSource,
 } from "~/integrations";
 import { BetterTTVApi } from "~/integrations/BetterTTV/api";
 import { getFFZGlobalEmoteSets } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
@@ -20,7 +21,7 @@ import {
 export const getCachedGlobalCollection = defineCachedFunction(
   async (source: EmoteSource) => await getGlobalCollection(source),
   {
-    maxAge: 60 * 10 /* 10 minutes */,
+    maxAge: 60 * 10,
     swr: false,
     name: "global-collection",
     getKey: (source: EmoteSource) => source,
@@ -36,22 +37,19 @@ const querySchema = z.object({
       if (!sources) {
         return emoteSources;
       }
-      return Object.freeze(
-        [...new Set(sources.split("+"))].filter(
-          (source): source is EmoteSource =>
-            emoteSources.includes(source as EmoteSource),
-        ),
-      );
+      const validSources: Readonly<EmoteSource[]> = [
+        ...new Set(sources.split("+")),
+      ].filter(isValidEmoteSource);
+      if (!validSources.length) {
+        return emoteSources;
+      }
+      return validSources;
     }),
 });
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const { sources } = querySchema.parse(query);
-  const noValidSource = !sources.length;
-  if (noValidSource) {
-    return setResponseStatus(event, 204);
-  }
   const collections = await Promise.all(
     sources.map((source) => getCachedGlobalCollection(source)),
   );
@@ -62,8 +60,8 @@ export default defineEventHandler(async (event) => {
   return groupedBySource as IGlobalEmoteCollectionRecord;
 });
 
-function fetchTwitchGlobalEmotes() {
-  return twitchApi.fetch<ITwitchGlobalEmoteResponse>("/chat/emotes/global");
+function getGlobalCollection(source: EmoteSource) {
+  return globalEmotesGetters[source]();
 }
 
 const globalEmotesGetters = {
@@ -80,11 +78,9 @@ const globalEmotesGetters = {
     return create7TVGlobalCollection(globalEmotes);
   },
   async Twitch() {
-    const response = await fetchTwitchGlobalEmotes();
+    const response = await twitchApi.fetch<ITwitchGlobalEmoteResponse>(
+      "/chat/emotes/global",
+    );
     return makeTwitchGlobalCollection(response);
   },
 };
-
-function getGlobalCollection(source: EmoteSource) {
-  return globalEmotesGetters[source]();
-}

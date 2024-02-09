@@ -52,10 +52,15 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
 const userCollectionApi = {
   async get(login: Login) {
     assert.ok(login, "No login of user collection provided");
+    const fetchedAt = Date.now();
     const collectionsRecord = await $fetch("/api/collections/users", {
       query: { nicknames: login },
     });
-    return collectionsRecord[login];
+    return {
+      ...collectionsRecord[login],
+      fetchedAt,
+      receivedAt: Date.now(),
+    };
   },
 };
 
@@ -114,6 +119,9 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
       if (selectedCollectionLogin.state.value === login) {
         selectedCollectionLogin.state.value = "";
       }
+    },
+    selectCollection(login: Login) {
+      selectedCollectionLogin.state.value = login;
     },
     isSelectedLogin(login: Login) {
       return selectedCollectionLogin.state.value === login;

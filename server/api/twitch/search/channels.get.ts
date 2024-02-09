@@ -15,7 +15,7 @@ export default cachedEventHandler(
     const sortedChannels = getSortedChannels(channels, login);
     return sortedChannels;
   },
-  { maxAge: 60 * 2 /* 2 minutes */ },
+  { maxAge: 60 * 2 },
 );
 
 type ApiTwitchGetSearchChannelsResponse = {
