@@ -38,18 +38,28 @@ function isValidToken(word: string) {
   return true;
 }
 
-export function createMegaPasta(
-  text: BasePasta["text"],
-  tags: BasePasta["tags"],
-): MegaPasta {
+export function trimPastaText(text: string) {
+  return text
+    .trim()
+    .split(" ")
+    .map((word) => word.trim())
+    .filter((word) => word.length)
+    .join(" ");
+}
+
+export function makeValidTokens(text: string) {
+  return [...new Set(text.split(" "))].filter(isValidToken);
+}
+
+export function createMegaPasta(text: string, tags: string[]): MegaPasta {
   return {
     tags,
     text,
     length: text.length,
     createdAt: Date.now(),
     updatedAt: undefined,
-    validTokens: [...new Set(text.split(" "))].filter(isValidToken),
     lastCopiedAt: undefined,
+    validTokens: makeValidTokens(text),
   };
 }
 
@@ -170,9 +180,6 @@ export function populatePasta(
   emotesStore: ReturnType<typeof useEmotesStore>,
 ) {
   const pastaText = pastaTextContainer.innerText;
-
-  // TODO: await emotesStore here until user emotes are not loaded
-  // OR no need to await here, but when new emotes are loaded SHOULD repopulate visible pastas
 
   const populatedWords = pastaText.split(" ").map(populateToken, {
     pasta,

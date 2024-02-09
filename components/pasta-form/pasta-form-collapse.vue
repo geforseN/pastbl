@@ -48,7 +48,18 @@
         @add-tag="() => pastaStore.handleTagAddToPasta()"
         @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
-        @create-pasta="() => handlePastaCreation()"
+        @create-pasta="
+          () =>
+            pastasStore.createPasta(
+              {
+                tags: pastaStore.pasta.tags,
+                text: pastaStore.pasta.text,
+              },
+              {
+                onEnd: pastaStore.pasta.reset,
+              },
+            )
+        "
       />
       <chat-pasta-preview />
     </div>
@@ -74,29 +85,6 @@ watch(useMagicKeys().i, async () => {
   await sleep(100);
   pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();
 });
-
-const toast = useNuxtToast();
-async function handlePastaCreation() {
-  try {
-    await pastasStore.createPasta({
-      tags: pastaStore.pasta.tags,
-      text: pastaStore.pasta.text,
-    });
-    pastaStore.pasta.reset();
-    toast.add({
-      description: "Pasta added successfully",
-      title: "Pasta 🤙🤙🤙",
-    });
-  } catch (error) {
-    assert.isError(error, ExtendedError);
-    toast.add({
-      description: error.message,
-      title: "Pasta creation went wrong",
-      color: "red",
-      timeout: 10_000,
-    });
-  }
-}
 </script>
 <style scoped>
 .jokerge-enter-active,

@@ -22,7 +22,7 @@
         </div>
         <button></button>
         <div class="flex h-full flex-col justify-between">
-          <pasta-form-pasta-length :pasta-text="text.trim()" />
+          <pasta-form-pasta-length :pasta-text="trimmedText" />
           <button v-if="tags.length" class="btn btn-error btn-sm">
             REMOVE ALL TAGS
           </button>
@@ -38,6 +38,8 @@
 const text = defineModel("text", { required: true, type: String });
 const tag = defineModel("tag", { required: true, type: String });
 const tags = defineModel("tags", { required: true, type: Array<string> });
+
+const trimmedText = computed(() => trimPastaText(text.value));
 
 const pastaFormTextareaRef = ref();
 

@@ -1,17 +1,36 @@
 <template>
   <div class="flex flex-col gap-2">
+    <pasta-form-edit
+      ref="pastaFormEditRef"
+      v-model:tag="tag"
+      v-model:text="megaPasta.text"
+      v-model:tags="megaPasta.tags"
+      @accept="
+        async () => {
+          await pastasStore.putPasta({
+            id: megaPasta.id,
+            createdAt: megaPasta.createdAt,
+            lastCopiedAt: megaPasta.lastCopiedAt,
+            text: trimmedText,
+            length: trimmedText.length,
+            tags: toRaw(megaPasta.tags),
+            validTokens: makeValidTokens(trimmedText),
+            updatedAt: Date.now(),
+          });
+        }
+      "
+      @decline="navigateTo('/')"
+    />
     <client-only>
       <chat-pasta
-        :key="megaPasta.text"
+        :key="trimmedText"
         class="self-center"
         :pasta="megaPasta"
         @populate="
           async (pastaTextContainer) => {
-            // NOTE: without validTokens assignment only emotes that are in old validTokens will be populated (populatePasta is reliable on validTokens)
-            megaPasta.validTokens = createMegaPasta(
-              megaPasta.text,
-              [],
-            ).validTokens;
+            // NOTE: without validTokens assignment only emotes that are in old validTokens will be populated
+            // (populatePasta is reliable on validTokens, validTokens must be updated on text change)
+            megaPasta.validTokens = makeValidTokens(trimmedText);
             populatePasta(pastaTextContainer, megaPasta, emotesStore);
           }
         "
@@ -34,26 +53,6 @@
         </template>
       </chat-pasta>
     </client-only>
-    <pasta-form-edit
-      ref="pastaFormEditRef"
-      v-model:tag="tag"
-      v-model:text="megaPasta.text"
-      v-model:tags="megaPasta.tags"
-      @accept="
-        async () => {
-          const tags = toRaw(megaPasta.tags);
-          const { validTokens, length } = createMegaPasta(megaPasta.text, tags);
-          pastasStore.updatePasta({
-            ...megaPasta,
-            tags,
-            length,
-            validTokens,
-          });
-          await nextTick();
-        }
-      "
-      @decline="navigateTo('/')"
-    />
     <app-page-link to="find-pasta">
       <template #right>🔍</template>
     </app-page-link>
@@ -84,6 +83,8 @@ const megaPasta = ref<IDBMegaPasta>({
   id: -1,
 });
 const tag = ref("");
+
+const trimmedText = computed(() => trimPastaText(megaPasta.value.text));
 
 onMounted(async () => {
   await Promise.all([

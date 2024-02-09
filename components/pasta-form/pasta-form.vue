@@ -22,7 +22,7 @@
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
             :class="pastaLengthClassRecord[pastaStatus]"
-            :pasta-text="pastaTextModel.trim()"
+            :pasta-text="trimmedText"
           />
           <button
             v-if="props.pastaTags.length"
@@ -67,6 +67,8 @@
 const tagToAddModel = defineModel<string>("tag", { default: "" });
 const pastaTextModel = defineModel<string>("text", { required: true });
 
+const trimmedText = computed(() => trimPastaText(pastaTextModel.value));
+
 const props = defineProps<{
   pastaTags: BasePasta["tags"];
   mustTagModelBecomeEmptyOnAdd?: boolean;
@@ -87,11 +89,11 @@ defineExpose({
 });
 
 const pastaStatus = computed(() => {
-  const pastaTextLength = pastaTextModel.value.trim().length;
-  if (pastaTextLength === 0 || pastaTextLength > 1000) {
+  const length = trimmedText.value.length;
+  if (length === 0 || length > 1000) {
     return "error";
   }
-  if (pastaTextLength > 500) {
+  if (length > 500) {
     return "warning";
   }
   return "success";

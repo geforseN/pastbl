@@ -66,13 +66,21 @@ export const usePastasStore = defineStore("pastas", () => {
   const emotesStore = useEmotesStore();
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
 
-  until(() => emotesStore.isInitialUserEmotesReady)
-    .toBeTruthy({ timeout: 5_000 })
-    .then(triggerRerender);
+  const canShowPastas = computedAsync(async () => {
+    await Promise.all([
+      until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
+      until(() => pastas.isReady.value).toBeTruthy({
+        timeout: 3_500,
+        throwOnTimeout: true,
+      }),
+    ]);
+    return true;
+  }, false);
 
   async function triggerRerender() {
-    /* TODO */
+    canShowPastas.value = false;
     await nextTick();
+    canShowPastas.value = true;
   }
 
   function getPastaIndexById(id: number) {
@@ -91,6 +99,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const index = getPastaIndexById(id);
       return pastas.state.value[index];
     },
+    canShowPastas,
     selectedSortStrategy,
     pastas,
     sortedPastas,

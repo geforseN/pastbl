@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 export const usePastaStore = defineStore("pasta", () => {
   const text = useIndexedDBKeyValue("pasta:text", "");
   const tags = useIndexedDBKeyValue("pasta:tags", []);
@@ -14,6 +12,7 @@ export const usePastaStore = defineStore("pasta", () => {
 
   return {
     pasta,
+    pastaTrimmedText: computed(() => trimPastaText(text.state.value)),
     handleTagAddToPasta() {
       try {
         pasta.addTag(pasta.tag.value);
@@ -22,5 +21,6 @@ export const usePastaStore = defineStore("pasta", () => {
         toast.add(error);
       }
     },
+    text,
   };
 });
