@@ -82,14 +82,14 @@
 const s = "pasta.list.sort." as const;
 const so = "pasta.list.sort.options." as const;
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
-const sortOptions = {
+const sortOptions = computedWithControl(locale, () => ({
   "newest-first": t(so + "newest-first"),
   "oldest-first": t(so + "oldest-first"),
   "last-updated": t(so + "last-updated"),
   "last-copied": t(so + "last-copied"),
-};
+}));
 
 defineSlots<{
   creatorData?: () => unknown;
@@ -97,7 +97,6 @@ defineSlots<{
 
 const pastasStore = usePastasStore();
 const userStore = useUserStore();
-
 const emotesStore = useEmotesStore();
 </script>
 <style>
