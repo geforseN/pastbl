@@ -64,17 +64,16 @@
       <li>
         <select
           id="app-theme"
+          v-model="selectedTheme.state.value"
           class="select select-bordered select-xs absolute right-2 top-8 w-20 sm:select-md sm:static sm:w-max"
-          data-choose-theme
           name="select-app-theme"
         >
           <option
-            v-for="[value, translated] in Object.entries(themes)"
-            v-once
-            :key="value"
-            :value="value"
+            v-for="[theme, translatedText] in Object.entries(themes)"
+            :key="translatedText"
+            :value="theme"
           >
-            {{ translated }}
+            {{ translatedText }}
           </option>
         </select>
       </li>
@@ -84,11 +83,22 @@
 <script setup lang="ts">
 const { t, locale, locales, setLocale } = useI18n();
 
-const themes = {
-  "": t("theme.default"),
+const selectedTheme = useIndexedDBKeyValue("app:daisyui-theme", "dark");
+
+const themes = computedWithControl(locale, () => ({
   dark: t("theme.dark"),
   light: t("theme.light"),
-};
+}));
+
+onMounted(() => {
+  watch(
+    selectedTheme.state,
+    () => {
+      document.documentElement.dataset.theme = selectedTheme.state.value;
+    },
+    { immediate: true },
+  );
+});
 </script>
 <style scoped>
 .logo {
