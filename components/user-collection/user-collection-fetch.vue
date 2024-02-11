@@ -87,7 +87,7 @@ async function loadCollection(
   getCollectionAsyncFn: () => Promise<void>,
   options: {
     beforeLoad?: () => MaybePromise<void>;
-    onFinal?: () => MaybePromise<void>;
+    onEnd?: () => MaybePromise<void>;
     onError?: (error: unknown) => MaybePromise<void>;
   } = {},
 ) {
@@ -98,7 +98,7 @@ async function loadCollection(
   } catch (error) {
     await options.onError?.(error);
   } finally {
-    await options.onFinal?.();
+    await options.onEnd?.();
   }
 }
 const sourceMap = new Map<AvailableEmoteSource, string>([
@@ -175,7 +175,7 @@ async function handleCollectionLoad(nickname: string) {
         assert.isError(error, ExtendedError);
         toast.add(error);
       },
-      onFinal() {
+      onEnd() {
         isLoadingCollection.value = false;
       },
     },
