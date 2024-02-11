@@ -27,8 +27,7 @@
   },
   "theme": {
     "dark": "Dark",
-    "light": "Light",
-    "default": "Default Theme"
+    "light": "Light"
   },
   "toast": {
     "copyText": {
@@ -169,7 +168,7 @@
   },
   "user": {
     "settings": {
-      "link": "Go to settings",
+      "link": "Settings",
       "heading": "Change settings",
       "badges-count": "Badges count",
       "nickname": "Nickname",
