@@ -73,13 +73,13 @@ export const useUserStore = defineStore("user", () => {
     async copyPasta(pasta: IDBMegaPasta) {
       await this.copyText(pasta.text);
       await pastasStore.patchPatchLastCopied(pasta);
+      await preferences.pasta.oncopy();
     },
     async copyText(text: string) {
       const m = "toast.copyText.fail.";
       try {
         await clipboard.copy(text);
         assert.ok(toValue(clipboard.copied), t(m + "clipboardMessage"));
-        await preferences.pasta.oncopy();
       } catch (reason: Error | unknown) {
         const description =
           reason instanceof Error ? reason.message : t(m + "genericMessage");
