@@ -40,11 +40,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { themeChange } from "theme-change";
 useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
 
 onMounted(() => {
-  themeChange(false);
   document.documentElement.classList.remove("dark", "light");
 });
 </script>
