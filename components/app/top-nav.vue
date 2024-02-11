@@ -41,7 +41,6 @@
             id="select-locale"
             class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
             name="select-locale"
-            :value="locale"
             @change="
               async ({ target }) => {
                 assert.ok(target);
@@ -55,6 +54,7 @@
               v-for="availableLocale in locales"
               :key="availableLocale.code"
               :value="availableLocale.code"
+              :selected="availableLocale.code === locale"
             >
               {{ availableLocale.name }}
             </option>
