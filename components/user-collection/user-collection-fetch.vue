@@ -159,9 +159,9 @@ async function handleCollectionLoad(nickname: string) {
         .join(", ");
       toast.add({
         color: "green",
-        title: t(m + ".success.title"),
+        title: t(m + "success.title"),
         timeout: 7_000,
-        description: t(m + ".success.message", { nickname, statuses }),
+        description: t(m + "success.message", { nickname, statuses }),
       });
       if (mustSelectCollectionOnLoad.state.value) {
         userCollectionsStore.selectedCollectionLogin.state = login;
