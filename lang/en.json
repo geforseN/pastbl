@@ -153,7 +153,8 @@
       "length": "Pasta length",
       "tags": {
         "remove-button": "Remove selected tags",
-        "on-empty-badge": "No tags added"
+        "on-empty-badge": "No tags added",
+        "hint": "{tag}, was used one time | {tag}, was used {count} times"
       },
       "tag": {
         "remove-button": "Remove tag: {tag}",
