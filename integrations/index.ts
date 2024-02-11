@@ -55,8 +55,9 @@ const emoteTemplateStrings = {
     SevenTV: SevenTVWrappedEmoteString,
   },
 };
-const emoteAlt = (emote: IEmote) => `${emote.token} emote from ${emote.source}`;
-const modifierAlt = (emote: IEmote) =>
+const emoteTitle = (emote: IEmote) =>
+  `${emote.token} emote from ${emote.source}`;
+const modifierTitle = (emote: IEmote) =>
   `${emote.token} modifier emote from ${emote.source}`;
 
 export function makeWrappedEmoteAsString(emote: EmoteT) {
@@ -68,18 +69,21 @@ export function makeWrappedEmoteAsString(emote: EmoteT) {
   return `<span class="inline-block" title="${title}">${makeEmoteAsString(emote)}</span>`;
 }
 
-function makeEmoteAsString(emote: IEmote) {
-  const alt = emoteAlt(emote);
+function makeEmoteAsString(
+  emote: IEmote,
+  getAlt = (emote: IEmote) => emote.token,
+) {
+  const title = emoteTitle(emote);
   const width = "width" in emote ? emote.width : "";
   const height = "height" in emote ? emote.height : "";
-  return `<img class="emote" src="${emote.url}" alt="${alt}" loading="lazy" width="${width} height="${height}">`;
+  return `<img class="emote" src="${emote.url}" alt="${getAlt(emote)}" title="${title}" loading="lazy" width="${width} height="${height}">`;
 }
 
 function makeModifierEmoteAsString(modifierEmote: IEmote) {
   const style =
     "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
-  const title = modifierAlt(modifierEmote);
-  return `<span style="${style}" title="${title}">${makeEmoteAsString(modifierEmote)}</span>`;
+  const title = modifierTitle(modifierEmote);
+  return `<span style="${style}" title="${title}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
 }
 
 export function makeEmoteAsStringWithModifiersWrapper(
@@ -91,7 +95,7 @@ export function makeEmoteAsStringWithModifiersWrapper(
     .map(makeModifierEmoteAsString)
     .join(" ");
   const title =
-    emoteAlt(emote) + " & " + modifierEmotes.map(modifierAlt).join(" & ");
+    emoteTitle(emote) + " & " + modifierEmotes.map(modifierTitle).join(" & ");
   return `<figure style="display: inline-block; position: relative;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
 }
 
