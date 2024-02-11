@@ -10,7 +10,7 @@
       </li>
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link-locale
-          class="btn btn-outline flex-nowrap text-wrap border-twitch text-lg text-twitch"
+          class="btn btn-outline flex-nowrap text-wrap border-twitch text-twitch"
           to="/collections"
         >
           {{ $t("collections.index.link") }}
@@ -18,10 +18,7 @@
         </nuxt-link-locale>
       </li>
       <li class="ml-2 hidden go-brr:block">
-        <nuxt-link-locale
-          class="btn btn-info flex-nowrap text-lg"
-          to="/pastas/find"
-        >
+        <nuxt-link-locale class="btn btn-info flex-nowrap" to="/pastas/find">
           {{ $t("pasta.find.link") }}
           <span>🔍</span>
         </nuxt-link-locale>
@@ -29,7 +26,7 @@
       <li class="ml-2">
         <nuxt-link-locale
           to="/user/settings#heading"
-          class="btn btn-neutral btn-sm flex-nowrap sm:btn-md sm:text-lg"
+          class="btn btn-neutral flex-nowrap"
         >
           {{ $t("user.settings.link") }}
           <span>⚙️</span>
