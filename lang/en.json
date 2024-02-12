@@ -108,6 +108,12 @@
   "pasta": {
     "createdAt": "Created",
     "list": {
+      "loading": "Loading pastas",
+      "clipboardFailMessage": {
+        "heading": "Your browser does not support the clipboard API!",
+        "explanation": "You won't be able to copy pasta by pressing the special button."
+      },
+      "empty": "No pastas were added yet!",
       "sort": {
         "label": "Sort pastas",
         "options": {
@@ -123,6 +129,12 @@
           "all": "All",
           "selected-user": "All {login}",
           "except-selected-user": "All, except {login}"
+        },
+        "selected-user": {
+          "onEmpty": {
+            "beforeTag": "No pastas with tag",
+            "afterTag": "were found"
+          }
         }
       }
     },
