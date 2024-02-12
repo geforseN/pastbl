@@ -5,12 +5,17 @@
   >
     Loading pastas
   </div>
-  <div
-    v-if="pastasStore.pastas.isReady && !pastasStore.pastas.state.length"
-    class="mt-4 flex justify-center font-bold"
-  >
-    No pastas were added yet!
-  </div>
+  <template v-if="pastasStore.pastas.isReady">
+    <div v-if="pastasStore.selectedShowStrategy === 'selected-user'">
+      You need to add tag={{ `@${selectedLogin}` }} to some pasta
+    </div>
+    <div
+      v-if="!pastasStore.pastas.state.length"
+      class="mt-4 flex justify-center font-bold"
+    >
+      No pastas were added yet!
+    </div>
+  </template>
   <client-only>
     <div
       v-if="!userStore.clipboard.isSupported"
@@ -22,14 +27,14 @@
       </span>
     </div>
   </client-only>
-  <div class="ml-auto flex items-baseline">
+  <div class="flex items-baseline justify-between">
     <label for="sort-pastas" class="label font-bold">
       {{ $t(s + "label") }}
     </label>
     <select
       id="sort-pastas"
       v-model="pastasStore.selectedSortStrategy"
-      class="select select-secondary select-sm"
+      class="select select-secondary select-sm w-1/2"
       name="sort-pastas"
     >
       <option
@@ -41,9 +46,24 @@
       </option>
     </select>
   </div>
+  <div class="flex items-baseline justify-between">
+    <label for="show-pastas" class="label font-bold">Показывать пасты</label>
+    <select
+      id="show-pastas"
+      v-model="pastasStore.selectedShowStrategy"
+      name="show-pastas"
+      class="select select-secondary select-sm w-1/2"
+    >
+      <option value="all">Все</option>
+      <option value="selected-user">Все {{ selectedLogin }}</option>
+      <option value="except-selected-user">
+        Все, кроме {{ selectedLogin }}
+      </option>
+    </select>
+  </div>
   <dynamic-scroller
     v-if="pastasStore.canShowPastas"
-    :items="pastasStore.sortedPastas"
+    :items="pastasStore.pastasToShow"
     :min-item-size="100"
     class="pasta-list flex max-h-[60dvh] flex-col gap-y-2 overflow-y-auto xs:w-[426px] go-brr:max-h-[77dvh]"
   >
@@ -98,6 +118,9 @@ defineSlots<{
 const pastasStore = usePastasStore();
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
+const selectedLogin = computed(
+  () => useUserCollectionsStore().selectedCollectionLogin.state,
+);
 </script>
 <style>
 .pasta-list .chat-pasta .chat-pasta-sidebar {
