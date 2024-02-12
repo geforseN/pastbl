@@ -114,6 +114,7 @@ export interface PastasSchema extends DBSchema {
 }
 
 export type MyKeyValueSchema = {
+  "app:daisyui-theme": "dark" | "light";
   "nickname:value": string;
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
