@@ -116,6 +116,14 @@
           "last-updated": "Last updated",
           "last-copied": "Last copied"
         }
+      },
+      "show": {
+        "label": "Show pastas",
+        "options": {
+          "all": "All",
+          "selected-user": "All {login}",
+          "except-selected-user": "All, except {login}"
+        }
       }
     },
     "dropdown": {

@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: i18n -->
   <div
     v-if="pastasStore.pastas.isLoading"
     class="skeleton flex h-[60dvh] w-[429px] justify-center rounded-none p-2 go-brr:h-[80dvh]"
@@ -27,40 +28,11 @@
       </span>
     </div>
   </client-only>
-  <div class="flex items-baseline justify-between">
-    <label for="sort-pastas" class="label font-bold">
-      {{ $t(s + "label") }}
-    </label>
-    <select
-      id="sort-pastas"
-      v-model="pastasStore.selectedSortStrategy"
-      class="select select-secondary select-sm w-1/2"
-      name="sort-pastas"
-    >
-      <option
-        v-for="[sortName, translatedText] of Object.entries(sortOptions)"
-        :key="sortName"
-        :value="sortName"
-      >
-        {{ translatedText }}
-      </option>
-    </select>
-  </div>
-  <div class="flex items-baseline justify-between">
-    <label for="show-pastas" class="label font-bold">Показывать пасты</label>
-    <select
-      id="show-pastas"
-      v-model="pastasStore.selectedShowStrategy"
-      name="show-pastas"
-      class="select select-secondary select-sm w-1/2"
-    >
-      <option value="all">Все</option>
-      <option value="selected-user">Все {{ selectedLogin }}</option>
-      <option value="except-selected-user">
-        Все, кроме {{ selectedLogin }}
-      </option>
-    </select>
-  </div>
+  <chat-pasta-list-sort-select v-model="pastasStore.selectedSortStrategy" />
+  <chat-pasta-list-show-select
+    v-model="pastasStore.selectedShowStrategy"
+    :selected-login="selectedLogin"
+  />
   <dynamic-scroller
     v-if="pastasStore.canShowPastas"
     :items="pastasStore.pastasToShow"
@@ -98,19 +70,10 @@
     </template>
   </dynamic-scroller>
 </template>
+<script lang="ts">
+export const l = "pasta.list." as const;
+</script>
 <script setup lang="ts">
-const s = "pasta.list.sort." as const;
-const so = "pasta.list.sort.options." as const;
-
-const { t, locale } = useI18n();
-
-const sortOptions = computedWithControl(locale, () => ({
-  "newest-first": t(so + "newest-first"),
-  "oldest-first": t(so + "oldest-first"),
-  "last-updated": t(so + "last-updated"),
-  "last-copied": t(so + "last-copied"),
-}));
-
 defineSlots<{
   creatorData?: () => unknown;
 }>();
@@ -118,6 +81,7 @@ defineSlots<{
 const pastasStore = usePastasStore();
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
+
 const selectedLogin = computed(
   () => useUserCollectionsStore().selectedCollectionLogin.state,
 );
