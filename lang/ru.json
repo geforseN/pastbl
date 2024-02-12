@@ -116,6 +116,14 @@
           "last-updated": "Последние обновленные",
           "last-copied": "Последние скопированные"
         }
+      },
+      "show": {
+        "label": "Показывать пасты",
+        "options": {
+          "all": "Все",
+          "selected-user": "Все {login}",
+          "except-selected-user": "Все, кроме {login}"
+        }
       }
     },
     "dropdown": {
