@@ -93,6 +93,11 @@ export const usePastasStore = defineStore("pastas", () => {
       }),
     );
   }
+
+  const pastasTextLength = computed(() =>
+    pastas.state.value.map((pasta) => pasta.text.length),
+  );
+
   return {
     triggerRerender,
     getPastaById(id: number) {
@@ -110,10 +115,10 @@ export const usePastasStore = defineStore("pastas", () => {
       );
     }),
     minPastaTextLengthInPastas: computed(() =>
-      Math.min(...pastas.state.value.map((pasta) => pasta.text.length)),
+      Math.min(...pastasTextLength.value),
     ),
     maxPastaTextLengthInPastas: computed(() =>
-      Math.max(...pastas.state.value.map((pasta) => pasta.text.length)),
+      Math.max(...pastasTextLength.value),
     ),
     async createPasta(
       basePasta: BasePasta,
