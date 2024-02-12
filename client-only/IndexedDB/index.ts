@@ -129,6 +129,7 @@ export type MyKeyValueSchema = {
   "global-collections:checked-sources": EmoteSource[];
   "user-collection-fetch:must-select-onload": true;
   "pasta-list:sort-strategy": PastaSortStrategy;
+  "pasta-list:show-strategy": PastaShowStrategy;
 };
 export interface KeyValueSchema extends DBSchema {
   "key-value": {
