@@ -48,6 +48,70 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
   };
 }
 
+export type PastaShowStrategy =
+  | "all"
+  | "selected-user"
+  | "except-selected-user";
+
+function usePastasShow(
+  sortedPastas: Ref<IDBMegaPasta[]>,
+  selectedLogin: Ref<Lowercase<string> | "">,
+) {
+  const selectedShowStrategy = useIndexedDBKeyValue(
+    "pasta-list:show-strategy",
+    "all",
+  );
+
+  const usersPastasMap = computed(() =>
+    sortedPastas.value.reduce((map, pasta) => {
+      const loginsMentioned = pasta.tags.filter((tag) => tag.startsWith("@"));
+      for (const tag of loginsMentioned) {
+        const login = tag.replace("@", "");
+        assert.ok(login === toLowerCase(login));
+        if (map.has(login)) {
+          map.get(login)!.push(pasta);
+        } else {
+          map.set(login, [pasta]);
+        }
+      }
+      return map;
+    }, new Map<Lowercase<string>, IDBMegaPasta[]>()),
+  );
+
+  const notSelectedUserPastas = computed(() => {
+    if (!selectedLogin.value) {
+      return sortedPastas.value;
+    }
+    return sortedPastas.value.filter(
+      (pasta) => !pasta.tags.includes(`@${selectedLogin.value}`),
+    );
+  });
+
+  const pastasToShow = {
+    all: computed(() => sortedPastas.value),
+    "selected-user": computed(
+      () =>
+        usersPastasMap.value.get(selectedLogin.value) ?? ([] as IDBMegaPasta[]),
+    ),
+    "except-selected-user": computed(() => notSelectedUserPastas.value),
+  } satisfies Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>>;
+
+  return {
+    selectedShowStrategy: computed({
+      get() {
+        return selectedShowStrategy.state.value;
+      },
+      set(value) {
+        selectedShowStrategy.state.value = value;
+      },
+    }),
+    pastasToShow: computed(
+      () => pastasToShow[selectedShowStrategy.state.value].value,
+    ),
+    usersPastasMap,
+  };
+}
+
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
@@ -65,7 +129,10 @@ export const usePastasStore = defineStore("pastas", () => {
 
   const emotesStore = useEmotesStore();
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
-
+  const { selectedShowStrategy, pastasToShow, usersPastasMap } = usePastasShow(
+    sortedPastas,
+    computed(() => useUserCollectionsStore().selectedCollectionLogin.state),
+  );
   const canShowPastas = computedAsync(async () => {
     await Promise.all([
       until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
@@ -105,6 +172,9 @@ export const usePastasStore = defineStore("pastas", () => {
       return pastas.state.value[index];
     },
     canShowPastas,
+    pastasToShow,
+    usersPastasMap,
+    selectedShowStrategy,
     selectedSortStrategy,
     pastas,
     sortedPastas,
