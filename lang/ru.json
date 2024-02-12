@@ -108,6 +108,12 @@
   "pasta": {
     "createdAt": "Создана",
     "list": {
+      "loading": "Пасты загружаются",
+      "clipboardFail": {
+        "heading": "Ваш браузер не поддерживает Clipboard API!",
+        "explanation": "Вы не сможете скопировать пасту, нажав на специальную кнопку."
+      },
+      "empty": "Ни одна паста еще не добавлена!",
       "sort": {
         "label": "Сортировать пасты",
         "options": {
@@ -123,6 +129,12 @@
           "all": "Все",
           "selected-user": "Все {login}",
           "except-selected-user": "Все, кроме {login}"
+        },
+        "selected-user": {
+          "onEmpty": {
+            "beforeTag": "Пасты с тэгом",
+            "afterTag": "не были найдены"
+          }
         }
       }
     },
