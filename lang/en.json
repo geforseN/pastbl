@@ -55,8 +55,10 @@
     "createPasta": {
       "fail": {
         "title": "Create pasta fail",
-        "emptyTextMessage": "Can not create pasta with empty text",
-        "genericFailMessage": "Failed to create pasta"
+        "emptyMessage": "Can not create pasta with empty text",
+        "genericFailMessage": "Failed to create pasta",
+        "tooLongMessage": "The pasta text is too long, max {max} characters",
+        "tooShortMessage": "The pasta text is too short, min {min} characters"
       },
       "success": {
         "title": "Pasta created 🤙"
@@ -84,8 +86,10 @@
     "addTag": {
       "fail": {
         "title": "Failed to add pasta tag",
-        "emptyInputMessage": "Can not add the empty tag",
-        "sameInputMessage": "The tag were already added to pasta"
+        "emptyMessage": "Can not add the empty tag",
+        "sameMessage": "The tag were already added to pasta",
+        "tooLongMessage": "The tag is too long, max {max} characters",
+        "tooShortMessage": "The tag is too short, min {min} characters"
       }
     },
     "removeTag": {
