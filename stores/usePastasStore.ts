@@ -160,7 +160,6 @@ export const usePastasStore = defineStore("pastas", () => {
   const toast = useNuxtToast();
   const { t } = useI18n();
 
-  const emotesStore = useEmotesStore();
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
   const { selectedShowStrategy, pastasToShow, usersPastasMap } = usePastasShow(
     sortedPastas,
@@ -168,11 +167,8 @@ export const usePastasStore = defineStore("pastas", () => {
   );
   const canShowPastas = computedAsync(async () => {
     await Promise.all([
-      until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
-      until(() => pastas.isReady.value).toBeTruthy({
-        timeout: 3_500,
-        throwOnTimeout: true,
-      }),
+      until(() => useEmotesStore().isInitialUserEmotesReady).toBe(true),
+      until(pastas.isReady).toBe(true, { timeout: 3_500 }),
     ]);
     return true;
   }, false);
@@ -228,39 +224,51 @@ export const usePastasStore = defineStore("pastas", () => {
       options: { onEnd?: () => MaybePromise<void> } = {},
     ) {
       const m = "toast.createPasta.";
-      const trimmedText = trimPastaText(basePasta.text);
-      assert.ok(
-        trimmedText.length,
-        new ExtendedError(t(m + "fail.emptyTextMessage"), {
-          title: t(m + "fail.title"),
-        }),
-      );
-      const tags = toRaw(basePasta.tags);
-      const megaPasta = createMegaPasta(trimmedText, tags);
-      const megaPastaWithId = await pastasService
-        .add(megaPasta)
-        .catch((reason) => {
-          withLogSync(reason, "addPastaFailReason");
-          const error = new ExtendedError(t(m + "fail.genericFailMessage"), {
-            title: t(m + "fail.title"),
+      const trimmedText = megaTrim(basePasta.text);
+      const lengthStatus = getLengthStatus(trimmedText.length, pastaTextLength);
+      try {
+        assert.ok(
+          lengthStatus === "ok",
+          new ExtendedError(
+            t(m + `fail.${lengthStatus}Message`, pastaTextLength),
+            {
+              title: t(m + "fail.title"),
+            },
+          ),
+        );
+        const tags = toRaw(basePasta.tags);
+        const megaPasta = createMegaPasta(trimmedText, tags);
+        const megaPastaWithId = await pastasService
+          .add(megaPasta)
+          .catch((reason) => {
+            const message =
+              reason instanceof Error
+                ? reason.message
+                : t(m + "fail.genericFailMessage");
+            throw new ExtendedError(message, {
+              title: t(m + "fail.title"),
+            });
           });
-          toast.add(error);
-          throw error;
-        });
-      pastas.state.value = [...pastas.state.value, megaPastaWithId];
-      toast.add({ title: t(m + "success.title") });
-      await options.onEnd?.();
+        pastas.state.value = [...pastas.state.value, megaPastaWithId];
+        toast.add({ title: t(m + "success.title") });
+        await options.onEnd?.();
+      } catch (error) {
+        assert.isError(error, ExtendedError);
+        toast.add(error);
+        throw error;
+      }
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
       await pastasService.moveFromListToBin(pasta);
       pastas.state.value = pastas.state.value.toSpliced(index, 1);
+      const ms = "toast.removePasta.success.";
       toast.add(
         new RemovePastaNotification({
-          title: t("toast.removePasta.success.title"),
-          description: t("toast.removePasta.success.message"),
+          title: t(ms + "title"),
+          description: t(ms + "message"),
           undo: {
-            label: t("toast.removePasta.success.undoLabel"),
+            label: t(ms + "undoLabel"),
             async click() {
               await pastasService.moveFromBinToList(pasta);
               pastas.state.value = pastas.state.value.toSpliced(
@@ -293,11 +301,11 @@ export const usePastasStore = defineStore("pastas", () => {
       }
     },
     async putPasta(pasta: IDBMegaPasta) {
+      const m = "toast.putPasta.";
       let index = -1;
       try {
         index = getPastaIndexById(pasta.id);
         const oldPasta = pastas.state.value[index];
-        const m = "toast.putPasta.";
         assert.ok(
           oldPasta.text !== pasta.text ||
             oldPasta.tags.toString() !== pasta.tags.toString(),
@@ -307,13 +315,14 @@ export const usePastasStore = defineStore("pastas", () => {
         );
       } catch (error) {
         assert.isError(error, ExtendedError);
-        return toast.add(error);
+        toast.add(error);
+        return;
       }
       await pastasService.put(pasta);
       pastas.state.value = pastas.state.value.with(index, pasta);
       toast.add({
-        description: t("toast.putPasta.success.message"),
-        title: t("toast.putPasta.success.title"),
+        description: t(m + "success.message"),
+        title: t(m + "success.title"),
         timeout: 7_000,
         color: "green",
       });
