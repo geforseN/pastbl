@@ -1,18 +1,25 @@
+export function refWithDebounced<T>(value: T, delay = 700) {
+  const valueAsRef = ref(value);
+  const debounced = refDebounced(valueAsRef, delay);
+  return [valueAsRef, debounced];
+}
+
 export function useFindPastasTags(
   allPastas: Ref<IDBMegaPasta[]>,
   showedPastas: Ref<IDBMegaPasta[]>,
+  textToFind: Ref<string>,
+  pastasWithTextOccurrence: Ref<IDBMegaPasta[]>,
 ) {
   const selectedPastaTags = ref<string[]>([]);
-  const mustRespectSelectedTags = ref(true);
+  const [mustRespectSelectedTags, debouncedMustRespect] = refWithDebounced(
+    true,
+    700,
+  );
 
   const allPastasTags = computed(() => {
-    const allPastaUniqueTags = [
-      ...new Set(allPastas.value.flatMap((pasta) => pasta.tags)),
-    ];
+    const unique = [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))];
     return withLogSync(
-      allPastaUniqueTags.sort((a, b) =>
-        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
-      ),
+      unique.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1)),
       "allPastasTags",
     );
   });
@@ -28,15 +35,21 @@ export function useFindPastasTags(
     );
   });
 
+  const _mySorter = (a: string, b: string) =>
+    a.toLowerCase() > b.toLowerCase() ? 1 : -1;
+
   const showedPastasTags = computed(() => {
-    const showedPastaUniqueTags = [
+    const unique = [
       ...new Set(showedPastas.value.flatMap((pasta) => pasta.tags)),
     ];
+    return withLogSync(unique.sort(_mySorter), "showedPastasTags");
+  });
+
+  const tagsOfPastasWithTextOccurrence = computed(() => {
+    const tags = pastasWithTextOccurrence.value.flatMap((pasta) => pasta.tags);
     return withLogSync(
-      showedPastaUniqueTags.sort((a, b) =>
-        a.toLowerCase() > b.toLowerCase() ? 1 : -1,
-      ),
-      "showedPastasTags",
+      [...new Set(tags)].sort(_mySorter),
+      "tagsOfPastasWithTextOccurrence",
     );
   });
 
@@ -44,13 +57,16 @@ export function useFindPastasTags(
     selectedPastaTags,
     mustRespectSelectedTags,
     tagsToSelect: computed(() => {
+      if (textToFind.value.length) {
+        return tagsOfPastasWithTextOccurrence.value;
+      }
       if (!selectedPastaTags.value.length) {
         return allPastasTags.value;
       }
       return showedPastasTags.value;
     }),
     tagsAppropriatePastas: computed(() => {
-      if (mustRespectSelectedTags.value && selectedPastaTags.value.length) {
+      if (debouncedMustRespect.value && selectedPastaTags.value.length) {
         return pastasWithSelectedTags.value;
       }
       return allPastas.value;
@@ -83,51 +99,62 @@ export function useFindPastaLengthRange() {
   };
 }
 
+function isPastaInRange(this: Ref<[number, number]>, pasta: IDBMegaPasta) {
+  return (
+    pasta.text.length >= this.value[0] && pasta.text.length <= this.value[1]
+  );
+}
+
 export function useFindPastasLength(pastas: Ref<IDBMegaPasta[]>) {
   const { range, minValue: min, maxValue: max } = useFindPastaLengthRange();
-  const mustRespectLengthRange = ref(true);
+  const debouncedRange = refDebounced(range, 700);
 
-  function isPastaInRange(this: Ref<[number, number]>, pasta: IDBMegaPasta) {
-    return (
-      pasta.text.length >= this.value[0] && pasta.text.length <= this.value[1]
-    );
-  }
+  const mustRespectLengthRange = ref(true);
+  const throttledMustRespect = refDebounced(mustRespectLengthRange, 700);
+
   const pastasWithLengthOccurrence = computed(() =>
     withLogSync(
       pastas.value.filter(
         isPastaInRange,
-        range satisfies ThisParameterType<typeof isPastaInRange>,
+        debouncedRange satisfies ThisParameterType<typeof isPastaInRange>,
       ),
       "lengthAppropriatePastas",
     ),
   );
 
   const lengthAppropriatePastas = computed(() => {
-    if (mustRespectLengthRange.value) {
+    if (throttledMustRespect.value) {
       return pastasWithLengthOccurrence.value;
     }
     return pastas.value;
   });
 
   return {
-    length: { range, min, max },
+    length: { range, min, max, debouncedRange },
     mustRespectLengthRange,
     lengthAppropriatePastas,
   };
 }
 
+function isPastaHasTextOccurrence(this: Ref<string>, pasta: IDBMegaPasta) {
+  return pasta.text.toLowerCase().includes(this.value.toLowerCase());
+}
+
 export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
   const text = ref("");
+  const debouncedText = refDebounced(text, 700);
 
-  function isPastaHasTextOccurrence(pasta: IDBMegaPasta) {
-    return pasta.text.toLowerCase().includes(text.value.toLowerCase());
-  }
   const pastasWithTextOccurrence = computed(() =>
-    pastas.value.filter(isPastaHasTextOccurrence),
+    pastas.value.filter(
+      isPastaHasTextOccurrence,
+      debouncedText satisfies ThisParameterType<
+        typeof isPastaHasTextOccurrence
+      >,
+    ),
   );
 
   const textAppropriatePastas = computed(() => {
-    if (text.value.length) {
+    if (debouncedText.value.length) {
       return pastasWithTextOccurrence.value;
     }
     return pastas.value;
@@ -135,6 +162,8 @@ export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
 
   return {
     text,
+    debouncedText,
     textAppropriatePastas,
+    pastasWithTextOccurrence,
   };
 }
