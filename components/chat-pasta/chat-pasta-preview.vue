@@ -25,7 +25,7 @@
           class="btn btn-accent btn-md text-lg"
           @click="userStore.copyText(text)"
         >
-          {{ $t("pasta.create.preview.copy-button") }}
+          {{ $t("pasta.create.preview.copyButton") }}
         </button>
       </dev-only>
     </div>
