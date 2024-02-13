@@ -26,9 +26,6 @@
 <script setup lang="ts">
 const modelValue = defineModel<string>({ required: true });
 
-const { mustBecomeEmptyOnAdd = false } = defineProps<{
-  mustBecomeEmptyOnAdd?: boolean;
-}>();
 const emit = defineEmits<{ addTag: [tagToAdd: string] }>();
 
 defineSlots<{
@@ -37,8 +34,5 @@ defineSlots<{
 
 function emitTag() {
   emit("addTag", modelValue.value);
-  if (mustBecomeEmptyOnAdd) {
-    modelValue.value = "";
-  }
 }
 </script>

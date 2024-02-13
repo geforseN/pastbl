@@ -16,6 +16,7 @@ export const usePastaStore = defineStore("pasta", () => {
     handleTagAddToPasta() {
       try {
         pasta.addTag(pasta.tag.value);
+        tag.state.value = "";
       } catch (error) {
         assert.isError(error, ExtendedError);
         toast.add(error);
