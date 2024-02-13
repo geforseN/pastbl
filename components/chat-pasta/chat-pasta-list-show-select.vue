@@ -41,7 +41,10 @@ const showOptions = computedWithControl(
     ({
       all: t(so + "all"),
       "selected-user": t(so + "selected-user", tOptions),
+      "only-selected-user": t(so + "only-selected-user", tOptions),
       "except-selected-user": t(so + "except-selected-user", tOptions),
+      "all-selectable-users": t(so + "all-selectable-users"),
+      "all-without-selectable-users": t(so + "all-without-selectable-users"),
     }) satisfies Record<PastaShowStrategy, string>,
 );
 </script>

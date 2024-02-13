@@ -127,8 +127,11 @@
         "label": "Показывать пасты",
         "options": {
           "all": "Все",
-          "selected-user": "Все {login}",
-          "except-selected-user": "Все, кроме {login}"
+          "selected-user": "Все с {'@'}{login}",
+          "only-selected-user": "Только c {'@'}{login}",
+          "except-selected-user": "Все, кроме {'@'}{login}",
+          "all-selectable-users": "Все с {'@'} в начале",
+          "all-without-selectable-users": "Все, кроме {'@'} в начале"
         },
         "selected-user": {
           "onEmpty": {

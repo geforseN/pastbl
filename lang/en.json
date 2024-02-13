@@ -127,8 +127,11 @@
         "label": "Show pastas",
         "options": {
           "all": "All",
-          "selected-user": "All {login}",
-          "except-selected-user": "All, except {login}"
+          "selected-user": "All {'@'}{login}",
+          "only-selected-user": "Only {'@'}{login}",
+          "except-selected-user": "All, except {'@'}{login}",
+          "all-selectable-users": "All starting with {'@'}",
+          "all-without-selectable-users": "All, except starting with {'@'}"
         },
         "selected-user": {
           "onEmpty": {
