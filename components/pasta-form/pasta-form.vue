@@ -43,7 +43,6 @@
     />
     <pasta-form-tags-input
       v-model="tagToAddModel"
-      :must-become-empty-on-add="props.mustTagModelBecomeEmptyOnAdd"
       @add-tag="(tag) => emit('addTag', tag)"
     >
       <template #addTagSuggestions>
@@ -71,7 +70,6 @@ const trimmedText = computed(() => trimPastaText(pastaTextModel.value));
 
 const props = defineProps<{
   pastaTags: BasePasta["tags"];
-  mustTagModelBecomeEmptyOnAdd?: boolean;
   hintedTagsMap: [tagValue: string, tagCount: number][];
 }>();
 
