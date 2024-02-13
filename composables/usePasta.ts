@@ -38,13 +38,34 @@ function isValidToken(word: string) {
   return true;
 }
 
-export function trimPastaText(text: string) {
+export function megaTrim(text: string) {
   return text
     .trim()
     .split(" ")
     .map((word) => word.trim())
     .filter((word) => word.length)
     .join(" ");
+}
+
+export const pastaTextLength = {
+  max: 1024,
+  min: 1,
+} as const;
+
+export const statusOptions = {
+  ...pastaTextLength,
+  warning: 500,
+} as const;
+
+export function getTextStatus(text: MaybeRef<string>) {
+  const { length } = toValue(text);
+  if (length < statusOptions.min || length > statusOptions.max) {
+    return "error";
+  }
+  if (length > statusOptions.warning) {
+    return "warning";
+  }
+  return "success";
 }
 
 export function makeValidTokens(text: string) {
@@ -69,26 +90,47 @@ type UsePastaStateParam = {
   text?: Ref<string>;
 };
 
-export const usePasta = ({
-  tag = ref(""),
-  tags = ref([]),
-  text = ref(""),
-}: UsePastaStateParam = {}) => {
-  const { t } = useI18n();
+export const usePasta = (params: UsePastaStateParam = {}) => {
+  const { tag = ref(""), tags = ref([] as string[]), text = ref("") } = params;
+
+  const { addTag, removeTag, removeAllTags } = usePastaTags(tags);
+
+  function reset() {
+    tag.value = "";
+    tags.value = [];
+    text.value = "";
+  }
+
+  reset();
+
   return {
     tag,
     tags,
     text,
-    reset() {
-      tag.value = "";
-      tags.value = [];
-      text.value = "";
+    reset,
+    removeTag,
+    removeAllTags,
+    addTag,
+    addOwnTag() {
+      return this.addTag(toValue(tag));
     },
+  };
+};
+
+export const pastaTagLength = {
+  min: 1,
+  max: 80,
+} as const;
+
+function usePastaTags(tags: Ref<string[]>) {
+  const { t } = useI18n();
+
+  return {
     removeTag(tag: string) {
       const m = "toast.removeTag.fail.";
       tags.value = withRemoved(
-        tags.value,
-        (tag_) => tag_ === tag,
+        tags,
+        tag,
         new ExtendedError(t(m + "noExistMessage"), {
           title: t(m + "title"),
         }),
@@ -99,22 +141,23 @@ export const usePasta = ({
     },
     addTag(tag: string) {
       const m = "toast.addTag.fail.";
+      const trimmed = megaTrim(tag);
+      const status = getLengthStatus(trimmed.length, pastaTagLength);
       assert.ok(
-        tag.length,
-        new ExtendedError(t(m + "emptyInputMessage"), {
-          title: t(m + "title"),
+        status === "ok",
+        new ExtendedError(t(`${m}${status}Message`, pastaTagLength), {
+          title: t(`${m}title`),
         }),
       );
       assert.ok(
-        !tags.value.includes(tag),
-        new ExtendedError(t(m + "sameInputMessage"), {
-          title: t(m + "title"),
-        }),
+        !tags.value.includes(trimmed),
+        new ExtendedError(t(`${m}sameMessage`), { title: t(`${m}title`) }),
       );
-      tags.value.push(tag);
+      const final = trimmed.startsWith("@") ? toLowerCase(trimmed) : trimmed;
+      tags.value.push(final);
     },
   };
-};
+}
 
 function findModifiers(
   tokenIndex: number,

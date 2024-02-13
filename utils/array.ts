@@ -7,13 +7,17 @@ export function countAppearances<T>(array: T[]) {
 }
 
 export function withRemoved<T>(
-  array: T[],
-  cb: (value: T, index: number, array: T[]) => boolean,
+  array: MaybeRef<T[]>,
+  cbOrValue: MaybeRef<T> | ((value: T, index: number, array: T[]) => boolean),
   messageOrError?: string | Error,
 ) {
-  const index = array.findIndex(cb);
+  const values = toValue(array);
+  const index =
+    cbOrValue instanceof Function
+      ? values.findIndex(cbOrValue)
+      : values.indexOf(toValue(cbOrValue));
   assert.ok(index >= 0, messageOrError);
-  return array.toSpliced(index, 1);
+  return values.toSpliced(index, 1);
 }
 
 export function swap<A extends unknown[]>(array: A, i: number, j: number) {
