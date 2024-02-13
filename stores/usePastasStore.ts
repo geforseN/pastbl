@@ -51,7 +51,10 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
 export type PastaShowStrategy =
   | "all"
   | "selected-user"
-  | "except-selected-user";
+  | "only-selected-user"
+  | "except-selected-user"
+  | "all-selectable-users"
+  | "all-without-selectable-users";
 
 function usePastasShow(
   sortedPastas: Ref<IDBMegaPasta[]>,
@@ -61,6 +64,8 @@ function usePastasShow(
     "pasta-list:show-strategy",
     "all",
   );
+
+  const selectedLoginTag = computed(() => `@${selectedLogin.value}`);
 
   const usersPastasMap = computed(() =>
     sortedPastas.value.reduce((map, pasta) => {
@@ -83,17 +88,45 @@ function usePastasShow(
       return sortedPastas.value;
     }
     return sortedPastas.value.filter(
-      (pasta) => !pasta.tags.includes(`@${selectedLogin.value}`),
+      (pasta) => !pasta.tags.includes(selectedLoginTag.value),
     );
+  });
+
+  const selectablePastasSet = computed(() => {
+    const pastas = [...usersPastasMap.value.values()].flat();
+    return new Set(pastas);
   });
 
   const pastasToShow = {
     all: computed(() => sortedPastas.value),
-    "selected-user": computed(
-      () =>
-        usersPastasMap.value.get(selectedLogin.value) ?? ([] as IDBMegaPasta[]),
-    ),
+    "selected-user": computed(() => {
+      const userPastas = usersPastasMap.value.get(selectedLogin.value);
+      if (!userPastas) {
+        return [];
+      }
+      return userPastas;
+    }),
+    "only-selected-user": computed(() => {
+      const userPastas = usersPastasMap.value.get(selectedLogin.value);
+      if (!userPastas) {
+        return [];
+      }
+      return userPastas.filter((pasta) => {
+        const loginsTags = pasta.tags.filter((tag) => tag.startsWith("@"));
+        return (
+          loginsTags.length === 1 && loginsTags[0] === selectedLoginTag.value
+        );
+      });
+    }),
     "except-selected-user": computed(() => notSelectedUserPastas.value),
+    "all-selectable-users": computed(() => {
+      return [...selectablePastasSet.value];
+    }),
+    "all-without-selectable-users": computed(() => {
+      return sortedPastas.value.filter(
+        (pasta) => !selectablePastasSet.value.has(pasta),
+      );
+    }),
   } satisfies Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>>;
 
   return {
