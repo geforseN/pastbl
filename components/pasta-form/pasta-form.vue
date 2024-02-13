@@ -21,7 +21,7 @@
         </button>
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
-            :class="pastaLengthClassRecord[pastaStatus]"
+            :pasta-text-status="pastaStatus"
             :pasta-text="trimmedText"
           />
           <button
@@ -66,7 +66,14 @@
 const tagToAddModel = defineModel<string>("tag", { default: "" });
 const pastaTextModel = defineModel<string>("text", { required: true });
 
-const trimmedText = computed(() => trimPastaText(pastaTextModel.value));
+const trimmedText = ref(pastaTextModel.value);
+watchDebounced(
+  pastaTextModel,
+  (text) => {
+    trimmedText.value = megaTrim(text);
+  },
+  { debounce: 200 },
+);
 
 const props = defineProps<{
   pastaTags: BasePasta["tags"];
@@ -86,20 +93,5 @@ defineExpose({
   pastaFormTextareaRef,
 });
 
-const pastaStatus = computed(() => {
-  const length = trimmedText.value.length;
-  if (length === 0 || length > 1000) {
-    return "error";
-  }
-  if (length > 500) {
-    return "warning";
-  }
-  return "success";
-});
-
-const pastaLengthClassRecord = {
-  error: "text-error",
-  warning: "text-warning",
-  success: "text-success",
-};
+const pastaStatus = computed(() => getTextStatus(trimmedText));
 </script>
