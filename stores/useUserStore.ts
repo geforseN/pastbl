@@ -1,5 +1,26 @@
-import { defineStore } from "pinia";
-import { pastasService } from "~/client-only/services";
+type StringWithoutAmpersand<S extends string> = S extends `${infer T}${infer U}`
+  ? T extends "&"
+    ? never
+    : U extends "&"
+      ? never
+      : string
+  : never;
+
+async function handlePreferences<
+  K extends string,
+  PK extends StringWithoutAmpersand<K>,
+>(
+  handlers: Record<Exclude<PK, "none">, () => MaybePromise<void>>,
+  preferenceRef: Ref<K>,
+) {
+  const preference = preferenceRef.value;
+  if (preference === "none") {
+    return;
+  }
+  for (const action of preference.split("&")) {
+    await handlers[action as Exclude<PK, "none">]();
+  }
+}
 
 export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
@@ -9,7 +30,7 @@ export const useUserStore = defineStore("user", () => {
   const badgesCount = useIndexedDBKeyValue("badges:count", 1);
   const pastaOncopy = useIndexedDBKeyValue("pasta:oncopy", "alert");
 
-  const debouncedNicknameColor = refDebounced(nicknameColor.state, 300);
+  const debouncedNicknameColor = refDebounced(nicknameColor.state, 200);
 
   const user = {
     nickname: {
@@ -52,15 +73,7 @@ export const useUserStore = defineStore("user", () => {
 
   const preferences = {
     pasta: {
-      async oncopy() {
-        if (pastaOncopy.state.value === "none") {
-          return;
-        }
-        for (const action of pastaOncopy.state.value.split("&")) {
-          // @ts-ignore
-          await actions.pasta.oncopy[action]();
-        }
-      },
+      oncopy: () => handlePreferences(actions.pasta.oncopy, pastaOncopy.state),
     },
   };
 
