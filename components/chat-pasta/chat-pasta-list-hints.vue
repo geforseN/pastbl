@@ -3,7 +3,7 @@
     <client-only>
       <div
         v-if="!userStore.clipboard.isSupported"
-        class="alert alert-warning flex w-[429px] flex-col justify-center gap-1 p-3"
+        class="alert alert-warning flex flex-col justify-center gap-1 p-3 xs:w-[420px]"
       >
         <h3 class="font-bold">{{ $t(l + "clipboardFail.heading") }}</h3>
         {{ $t(l + "clipboardFail.explanation") }}
@@ -12,17 +12,18 @@
     <slot name="default" />
     <div
       v-if="pastasStore.pastas.isLoading"
-      class="skeleton flex h-[60dvh] w-[429px] justify-center rounded-none p-2 go-brr:h-[80dvh]"
+      class="skeleton flex h-[50dvh] justify-center rounded-none p-2 xs:w-[420px] go-brr:h-[66dvh]"
     >
       {{ $t(l + "loading") }}
     </div>
     <template v-if="pastasStore.pastas.isReady">
       <div
         v-if="
-          pastasStore.selectedShowStrategy === 'selected-user' &&
-          !pastasStore.pastasToShow.length
+          ['selected-user', 'only-selected-user'].includes(
+            pastasStore.selectedShowStrategy,
+          ) && !pastasStore.pastasToShow.length
         "
-        class="flex w-[429px] border-2 border-b-0 px-2 py-1.5"
+        class="flex border-2 border-b-0 px-2 py-1.5 xs:w-[420px]"
       >
         <span class="text-nowrap">
           {{ $t(l + "show.selected-user.onEmpty.beforeTag") }}
