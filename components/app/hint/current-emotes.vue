@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-wrap items-center rounded-b-btn border-2 px-2">
+  <div
+    class="flex w-[420px] flex-wrap items-center rounded-b-btn border-2 px-2"
+  >
     {{ $t(ce + "user.before") }}&nbsp;
-    <div class="my-0.5 flex rounded-btn border border-twitch p-0.5">
+    <div class="my-0.5 flex gap-1 rounded-btn border border-twitch p-0.5">
       <div class="flex h-6 w-6 items-center">
         <nuxt-link-locale
           :to="`/collections/users/${login}`"
@@ -13,16 +15,15 @@
             :alt="$t('avatar.alt', { nickname })"
             width="24"
             height="24"
-            class="rounded-full bg-twitch/20"
+            class="min-w-6 rounded-full bg-twitch/20"
           />
         </nuxt-link-locale>
       </div>
       <nuxt-link-locale
         :to="`/collections/users/${login}`"
-        class="link font-bold"
+        class="link line-clamp-1 break-all font-bold"
       >
-        <!-- FIXME: remove substring usage, should add width style -->
-        {{ nickname.repeat(1).substring(0, 20) }}
+        {{ nickname }}
       </nuxt-link-locale>
     </div>
     &nbsp;{{ $t(ce + "user.after") }}
