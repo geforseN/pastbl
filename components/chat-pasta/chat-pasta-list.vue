@@ -1,6 +1,8 @@
 <template>
   <chat-pasta-list-hints>
-    <div class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5">
+    <div
+      class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5 xs:w-[420px]"
+    >
       <chat-pasta-list-sort-select v-model="pastasStore.selectedSortStrategy" />
       <chat-pasta-list-show-select
         v-model="pastasStore.selectedShowStrategy"
