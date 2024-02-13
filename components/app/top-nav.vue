@@ -26,7 +26,7 @@
       <li class="ml-2">
         <nuxt-link-locale
           to="/user/settings#heading"
-          class="btn btn-neutral flex-nowrap"
+          class="btn btn-outline flex-nowrap"
         >
           {{ $t("user.settings.link") }}
           <span>⚙️</span>
