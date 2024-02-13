@@ -12,10 +12,10 @@ export const usePastaStore = defineStore("pasta", () => {
 
   return {
     pasta,
-    pastaTrimmedText: computed(() => trimPastaText(text.state.value)),
+    pastaTrimmedText: computed(() => megaTrim(text.state.value)),
     handleTagAddToPasta() {
       try {
-        pasta.addTag(pasta.tag.value);
+        pasta.addOwnTag();
         tag.state.value = "";
       } catch (error) {
         assert.isError(error, ExtendedError);
