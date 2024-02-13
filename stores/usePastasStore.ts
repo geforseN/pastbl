@@ -12,7 +12,7 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
     "pasta-list:sort-strategy",
     "newest-first",
   );
-  const pastasSortStrategies = {
+  const sortedPastas = {
     "newest-first": computed(() =>
       allPastas.value.toSorted((a, b) => b.createdAt - a.createdAt),
     ),
@@ -21,7 +21,7 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
     ),
     "last-updated": computed(() =>
       allPastas.value.toSorted(
-        (a, b) => (b.updatedAt || 0) - (a.updatedAt || 0),
+        (a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt),
       ),
     ),
     "last-copied": computed(() =>
@@ -30,10 +30,7 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
         (a, b) => (b.lastCopiedAt || 0) - (a.lastCopiedAt || 0),
       ),
     ),
-  };
-  const sortedPastas = computed(
-    () => pastasSortStrategies[selectedSortStrategy.state.value].value,
-  );
+  } satisfies Record<PastaSortStrategy, ComputedRef<IDBMegaPasta[]>>;
 
   return {
     selectedSortStrategy: computed({
@@ -44,7 +41,9 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
         selectedSortStrategy.state.value = value;
       },
     }),
-    sortedPastas,
+    sortedPastas: computed(
+      () => sortedPastas[selectedSortStrategy.state.value].value,
+    ),
   };
 }
 
