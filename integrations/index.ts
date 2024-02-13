@@ -31,6 +31,13 @@ export type AvailableEmoteSource = (typeof availableEmoteSources)[number];
 export const emoteSources = [...availableEmoteSources, "Twitch"] as const;
 export type EmoteSource = (typeof emoteSources)[number];
 
+const emoteSourcesSet = new Set<EmoteSource>([...emoteSources]);
+export function isValidEmoteSource(
+  maybeSource: string,
+): maybeSource is EmoteSource {
+  return emoteSourcesSet.has(maybeSource as EmoteSource);
+}
+
 export interface IEmote {
   id: string;
   isAnimated: boolean;
@@ -65,7 +72,7 @@ export function makeWrappedEmoteAsString(emote: EmoteT) {
   if (templateString) {
     return templateString(emote);
   }
-  const title = emoteAlt(emote);
+  const title = emoteTitle(emote);
   return `<span class="inline-block" title="${title}">${makeEmoteAsString(emote)}</span>`;
 }
 
