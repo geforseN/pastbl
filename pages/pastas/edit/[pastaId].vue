@@ -34,7 +34,7 @@
           <chat-pasta-creator-data
             :badges-count="userStore.user.badges.count.state"
             :nickname="userStore.user.nickname.text.state"
-            :nickname-color="userStore.user.debounced.nickname.color"
+            :nickname-color="userStore.user.nickname.color.state"
           />
         </template>
         <template #sidebar>
