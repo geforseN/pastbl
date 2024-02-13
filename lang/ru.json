@@ -171,22 +171,31 @@
     "create": {
       "heading": "Создать пасту",
       "button": "Создать пасту",
-      "textarea-placeholder": "Введите текст пасты",
-      "length": "Длинна пасты",
       "tags": {
-        "remove-button": "Удалить выбранные теги",
-        "on-empty-badge": "Нет добавленных тегов",
-        "hint": "{tag}, был использован один раз | {tag}, был использован {count} раза"
-      },
-      "tag": {
-        "remove-button": "Удалить тег: {tag}",
-        "add-button": "Добавить тег",
-        "input-placeholder": "Добавить тег (опционально)"
+        "hint": "{tag}, использован один раз | {tag}, использован {count} раза"
       },
       "preview": {
         "heading": "Предпросмотр пасты",
-        "copy-button": "Скопировать текст"
+        "copyButton": "Скопировать текст"
       }
+    },
+    "formCommon": {
+      "textareaPlaceholder": "Введите текст пасты",
+      "length": "Длинна пасты",
+      "tags": {
+        "removeButton": "Удалить выбранные теги",
+        "onEmptyBadge": "Нет добавленных тегов"
+      },
+      "tag": {
+        "removeButton": "Удалить тег: {tag}",
+        "addButton": "Добавить тег",
+        "inputPlaceholder": "Добавить тег (опционально)"
+      }
+    },
+    "edit": {
+      "heading": "Редактировать пасту",
+      "accept": "Применить",
+      "decline": "Отменить"
     }
   },
   "user": {

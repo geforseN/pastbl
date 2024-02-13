@@ -29,15 +29,16 @@
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
-            {{ $t("pasta.create.tags.remove-button") }}
+            {{ $t("pasta.formCommon.tags.removeButton") }}
           </button>
           <span v-else class="badge badge-warning badge-lg">
-            {{ $t("pasta.create.tags.on-empty-badge") }}
+            {{ $t("pasta.formCommon.tags.onEmptyBadge") }}
           </span>
         </div>
       </div>
     </div>
     <pasta-form-tags
+      class="xs:max-w-[420px]"
       :tags="props.pastaTags"
       @remove-tag="(tag) => emit('removeTag', tag)"
     />

@@ -171,22 +171,31 @@
     "create": {
       "heading": "Create pasta",
       "button": "Create pasta",
-      "textarea-placeholder": "Enter pasta text",
-      "length": "Pasta length",
       "tags": {
-        "remove-button": "Remove selected tags",
-        "on-empty-badge": "No tags added",
         "hint": "{tag}, was used one time | {tag}, was used {count} times"
-      },
-      "tag": {
-        "remove-button": "Remove tag: {tag}",
-        "add-button": "Add tag",
-        "input-placeholder": "Add tag (optional)"
       },
       "preview": {
         "heading": "Pasta preview",
-        "copy-button": "Copy text"
+        "copyButton": "Copy text"
       }
+    },
+    "formCommon": {
+      "textareaPlaceholder": "Enter pasta text",
+      "length": "Pasta length",
+      "tags": {
+        "removeButton": "Remove selected tags",
+        "onEmptyBadge": "No tags added"
+      },
+      "tag": {
+        "removeButton": "Remove tag: {tag}",
+        "addButton": "Add tag",
+        "inputPlaceholder": "Add tag (optional)"
+      }
+    },
+    "edit": {
+      "heading": "Edit pasta",
+      "accept": "Accept",
+      "decline": "Decline"
     }
   },
   "user": {

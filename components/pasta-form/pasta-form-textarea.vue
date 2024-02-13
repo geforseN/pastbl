@@ -8,7 +8,7 @@
       props.modelStatus === 'warning' && 'bg-warning/5',
       props.modelStatus === 'success' && 'bg-success/5',
     ]"
-    :placeholder="$t('pasta.create.textarea-placeholder')"
+    :placeholder="$t('pasta.formCommon.textareaPlaceholder')"
     @keyup.enter.exact.prevent="
       () => {
         if (!previousValue) {

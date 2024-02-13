@@ -5,21 +5,16 @@
       v-model:tag="tag"
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
-      @accept="
-        async () => {
-          await pastasStore.putPasta({
-            id: megaPasta.id,
-            createdAt: megaPasta.createdAt,
-            lastCopiedAt: megaPasta.lastCopiedAt,
-            text: trimmedText,
-            length: trimmedText.length,
-            tags: toRaw(megaPasta.tags),
-            validTokens: makeValidTokens(trimmedText),
-            updatedAt: Date.now(),
-          });
+      @accept="onPastaEditAccept"
+      @decline="navigateTo(localePath('/'))"
+      @add-tag="
+        () => {
+          pasta.addOwnTag();
+          tag = '';
         }
       "
-      @decline="navigateTo('/')"
+      @remove-tag="(tag) => pasta.removeTag(tag)"
+      @remove-all-tags="() => pasta.removeAllTags()"
     />
     <client-only>
       <chat-pasta
@@ -71,6 +66,7 @@ import type { PastaFormEdit } from "#build/components";
 const route = useRoute();
 assert.ok(typeof route.params.pastaId === "string");
 const pastaId = Number(route.params.pastaId);
+const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
 
@@ -84,7 +80,49 @@ const megaPasta = ref<IDBMegaPasta>({
 });
 const tag = ref("");
 
-const trimmedText = computed(() => trimPastaText(megaPasta.value.text));
+const pasta = usePasta({
+  tag,
+  text: computed({
+    get() {
+      return megaPasta.value.text;
+    },
+    set(value) {
+      megaPasta.value.text = value;
+    },
+  }),
+  tags: computed({
+    get() {
+      return megaPasta.value.tags;
+    },
+    set(value) {
+      megaPasta.value.tags = value;
+    },
+  }),
+});
+
+const trimmedText = ref(megaPasta.value.text);
+watchDebounced(
+  () => megaPasta.value.text,
+  (text) => {
+    trimmedText.value = megaTrim(text);
+  },
+  { debounce: 200 },
+);
+
+async function onPastaEditAccept() {
+  const pasta = toValue(megaPasta);
+  const text = toValue(trimmedText);
+  await pastasStore.putPasta({
+    id: pasta.id,
+    createdAt: pasta.createdAt,
+    lastCopiedAt: pasta.lastCopiedAt,
+    text,
+    length: pasta.length,
+    tags: [...toRaw(pasta.tags)],
+    validTokens: makeValidTokens(text),
+    updatedAt: Date.now(),
+  });
+}
 
 onMounted(async () => {
   await Promise.all([

@@ -3,9 +3,9 @@
     <input
       id="add-tag"
       v-model="modelValue"
-      class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content xl:w-auto xl:min-w-[320px]"
+      class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content/80 empty:pr-0 xl:w-auto xl:min-w-[320px]"
       type="text"
-      :placeholder="$t('pasta.create.tag.input-placeholder')"
+      :placeholder="$t('pasta.formCommon.tag.inputPlaceholder')"
       list="add-tag-suggestions"
       @keyup.enter.prevent="emitTag"
     />
@@ -13,13 +13,11 @@
       <slot name="addTagSuggestions" />
     </datalist>
     <button
-      class="btn btn-secondary join-item box-content grow border border-base-content px-2 text-3xl text-base-content hover:border hover:border-base-content hover:bg-secondary/5 xl:min-w-[160px] xl:px-0"
+      class="btn btn-secondary join-item box-content grow px-2"
       @click.prevent="emitTag"
     >
-      +
-      <span class="text-base">
-        {{ $t("pasta.create.tag.add-button") }}
-      </span>
+      <span class="text-xl">+</span>
+      {{ $t("pasta.formCommon.tag.addButton") }}
     </button>
   </div>
 </template>
