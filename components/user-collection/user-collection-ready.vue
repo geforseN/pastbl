@@ -78,8 +78,12 @@
         :collection="integration"
         :source="integration.source"
         @refresh="
-          () => {
-            /* TODO: TODO: add separate route for user integrations, use cachedFunction, then use it in users.get.ts */
+          async () => {
+            const newIntegration = await getRefreshedIntegration(
+              integration.source,
+            );
+            assert.ok(newIntegration.status === 'ready');
+            emit('refreshIntegration', newIntegration);
           }
         "
       />
@@ -87,7 +91,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { IUserEmoteIntegrationRecord } from "~/integrations";
+import type {
+  EmoteSource,
+  IUserEmoteIntegration,
+  IUserEmoteIntegrationRecord,
+} from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
 
 const { asyncState, isCollectionSelected } = defineProps<{
@@ -98,6 +106,7 @@ const emit = defineEmits<{
   refresh: [];
   delete: [];
   select: [];
+  refreshIntegration: [newIntegration: IUserEmoteIntegration];
 }>();
 
 const collection = computed(() => asyncState.state.value);
@@ -111,18 +120,17 @@ const readyIntegrations = computed(() => {
   >;
 });
 
-// function refresh(integration: IUserEmoteIntegration) {
-// assert.ok(integration.source !== "Twitch", new Error("NOT IMPLEMENTED"));
-// const record = await $fetch("/api/users-integrations", {
-//   query: {
-//     sources: integration.source,
-//     twitchUserId: twitch.value.id,
-//     twitchUserNickname: twitch.value.nickname,
-//     twitchUserLogin: twitch.value.login,
-//   },
-// });
-// // const newIntegration = record[integration.source];
-// userCollectionsService
-// asyncState.state.value.integrations[integration.source];
-// }
+async function getRefreshedIntegration(source: EmoteSource) {
+  assert.ok(source !== "Twitch", new Error("NOT IMPLEMENTED"));
+  const record = await $fetch("/api/users-integrations", {
+    query: {
+      sources: source,
+      twitchUserId: twitch.value.id,
+      twitchUserNickname: twitch.value.nickname,
+    },
+  });
+  const newIntegration = record[source];
+  assert.ok(newIntegration);
+  return newIntegration;
+}
 </script>
