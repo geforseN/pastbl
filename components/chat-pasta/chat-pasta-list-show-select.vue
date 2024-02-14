@@ -10,11 +10,17 @@
       class="select select-secondary select-sm w-1/2"
     >
       <option
-        v-for="[showStrategy, translatedText] of Object.entries(showOptions)"
+        v-for="[showStrategy, translated] of Object.entries(showOptions)"
         :key="showStrategy"
         :value="showStrategy"
+        :disabled="!login && translated.mustHaveLogin"
+        :title="
+          !login && translated.mustHaveLogin
+            ? $t(s + 'requestForSelect')
+            : undefined
+        "
       >
-        {{ translatedText }}
+        {{ translated.text }}
       </option>
     </select>
   </div>
@@ -31,20 +37,44 @@ const props = defineProps<{
 const s = l + "show.";
 const so = l + "show.options.";
 const { t, locale } = useI18n();
-const tOptions = reactive({
-  login: computed(() => props.selectedLogin),
-});
+
+const login = computed(() => props.selectedLogin);
+const tOptions = reactive({ login });
 
 const showOptions = computedWithControl(
   [locale, () => tOptions.login],
   () =>
     ({
-      all: t(so + "all"),
-      "selected-user": t(so + "selected-user", tOptions),
-      "only-selected-user": t(so + "only-selected-user", tOptions),
-      "except-selected-user": t(so + "except-selected-user", tOptions),
-      "all-selectable-users": t(so + "all-selectable-users"),
-      "all-without-selectable-users": t(so + "all-without-selectable-users"),
-    }) satisfies Record<PastaShowStrategy, string>,
+      all: {
+        text: t(so + "all"),
+        mustHaveLogin: false,
+      },
+      "selected-user": {
+        text: t(so + "selected-user", tOptions),
+        mustHaveLogin: true,
+      },
+      "only-selected-user": {
+        text: t(so + "only-selected-user", tOptions),
+        mustHaveLogin: true,
+      },
+      "except-selected-user": {
+        text: t(so + "except-selected-user", tOptions),
+        mustHaveLogin: true,
+      },
+      "all-selectable-users": {
+        text: t(so + "all-selectable-users"),
+        mustHaveLogin: false,
+      },
+      "all-without-selectable-users": {
+        text: t(so + "all-without-selectable-users"),
+        mustHaveLogin: false,
+      },
+    }) satisfies Record<
+      PastaShowStrategy,
+      {
+        text: string;
+        mustHaveLogin: boolean;
+      }
+    >,
 );
 </script>
