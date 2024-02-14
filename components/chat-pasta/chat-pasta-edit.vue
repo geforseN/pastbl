@@ -43,7 +43,7 @@
             :disabled="!userStore.clipboard.isSupported"
             @click="() => userStore.copyPasta(megaPasta)"
           >
-            Copy pasta
+            {{ $t("pasta.dropdown.buttons.copy") }}
           </button>
         </template>
       </chat-pasta>
