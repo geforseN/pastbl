@@ -32,32 +32,30 @@
           <span>⚙️</span>
         </nuxt-link-locale>
       </li>
-      <dev-only>
-        <li class="ml-auto xs:mr-2">
-          <select
-            id="select-locale"
-            class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
-            name="select-locale"
-            @change="
-              async ({ target }) => {
-                assert.ok(target);
-                const { value } = target;
-                assert.ok(value);
-                await setLocale(value);
-              }
-            "
+      <li class="ml-auto xs:mr-2">
+        <select
+          id="select-locale"
+          class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
+          name="select-locale"
+          @change="
+            async ({ target }) => {
+              assert.ok(target);
+              const { value } = target;
+              assert.ok(value);
+              await setLocale(value);
+            }
+          "
+        >
+          <option
+            v-for="availableLocale in locales"
+            :key="availableLocale.code"
+            :value="availableLocale.code"
+            :selected="availableLocale.code === locale"
           >
-            <option
-              v-for="availableLocale in locales"
-              :key="availableLocale.code"
-              :value="availableLocale.code"
-              :selected="availableLocale.code === locale"
-            >
-              {{ availableLocale.name }}
-            </option>
-          </select>
-        </li>
-      </dev-only>
+            {{ availableLocale.name }}
+          </option>
+        </select>
+      </li>
       <li>
         <select
           id="app-theme"
