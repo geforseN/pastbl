@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { flatGroupBy } from "~/utils/object";
-import { EmoteSource, availableEmoteSources } from "~/integrations";
+import { availableEmoteSources } from "~/integrations";
 import { assert } from "~/utils/error";
 
 const availableSourcesQueryString = availableEmoteSources.join("+");
@@ -11,9 +11,8 @@ const getCachedUserCollection = defineCachedFunction(
     const integrations = await $fetch(`/api/users-integrations`, {
       query: {
         sources: availableSourcesQueryString,
-        twitchUserLogin: twitchUser.login,
         twitchUserId: twitchUser.id,
-        twitchUserNickname: twitchUser.nickname,
+        twitchUserNickname: twitchUser.login,
       },
     });
     return {
@@ -28,7 +27,7 @@ const getCachedUserCollection = defineCachedFunction(
     maxAge: 60 * 10,
     swr: false,
     name: "user-collection",
-    getKey: (source: EmoteSource) => source,
+    getKey: (nickname: string) => nickname,
   },
 );
 

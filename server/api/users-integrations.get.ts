@@ -73,7 +73,6 @@ const querySchema = z.object({
     );
     return number;
   }),
-  twitchUserLogin: z.string().transform(toLowerCase),
   twitchUserNickname: z.string(),
 });
 
@@ -91,14 +90,14 @@ function makeFailHandler(twitchUserNickname: string, source: EmoteSource) {
   };
 }
 
-function addReadyStatus<I extends IUserEmoteIntegration>(integration: I) {
+function withReadyStatus<I extends IUserEmoteIntegration>(integration: I) {
   return {
     ...integration,
     status: "ready" as const,
   };
 }
 
-function getUserIntegration(
+function getUserCollectionIntegration(
   source: StupidSource,
   twitchUserId: number,
   twitchUserLogin: Lowercase<string>,
@@ -107,13 +106,22 @@ function getUserIntegration(
 }
 
 const getCachedUserIntegration = defineCachedFunction(
-  (
+  async (
     source: StupidSource,
     twitchUser: Pick<TwitchUser, "id" | "login" | "nickname">,
-  ) =>
-    getUserIntegration(source, twitchUser.id, twitchUser.login)
-      .then(addReadyStatus)
-      .catch(makeFailHandler(twitchUser.nickname, source)),
+  ) => {
+    try {
+      const integration = await getUserCollectionIntegration(
+        source,
+        twitchUser.id,
+        twitchUser.login,
+      );
+      return withReadyStatus(integration);
+    } catch (error) {
+      const failHandler = makeFailHandler(twitchUser.nickname, source);
+      return failHandler(error);
+    }
+  },
   {
     maxAge: 60 * 5,
     swr: false,
@@ -128,9 +136,9 @@ const getCachedUserIntegration = defineCachedFunction(
 export default defineEventHandler(async (event) => {
   const { sources, ...query } = querySchema.parse(getQuery(event));
   const twitchUser = {
-    login: query.twitchUserLogin,
     id: query.twitchUserId,
     nickname: query.twitchUserNickname,
+    login: toLowerCase(query.twitchUserNickname),
   };
   const integrations = await Promise.all(
     sources.map((source) => getCachedUserIntegration(source, twitchUser)),
