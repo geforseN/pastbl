@@ -20,17 +20,15 @@
             :colors="colors"
           />
         </div>
-        <dev-only>
-          <div
-            :class="colors.border"
-            class="flex flex-col rounded-box border-2 p-1 px-2"
-          >
-            <emote-collection-updated-at
-              :updated-at="props.collection.updatedAt"
-              @refresh="emit('refresh')"
-            />
-          </div>
-        </dev-only>
+        <div
+          :class="colors.border"
+          class="flex flex-col rounded-box border-2 p-1 px-2"
+        >
+          <emote-collection-updated-at
+            :updated-at="props.collection.updatedAt"
+            @refresh="emit('refresh')"
+          />
+        </div>
       </div>
       <div v-else-if="props.status === 'failed'">
         {{ props.reason }}

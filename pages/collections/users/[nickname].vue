@@ -17,7 +17,11 @@
           }
         "
         @refresh="collection.execute(0, 'refresh')"
-        @select="userCollectionsStore.selectedCollectionLogin.state = login"
+        @select="userCollectionsStore.selectCollection(login)"
+        @refresh-integration="
+          (integration) =>
+            collection.execute(0, 'refresh-integration', integration)
+        "
       />
       <app-page-link to="emotes">
         <template #right><emote-integration-logos /></template>
@@ -38,7 +42,10 @@
 <script setup lang="ts">
 import type { UseAsyncStateReturnBase } from "@vueuse/core";
 import { userCollectionsService } from "~/client-only/services";
-import type { IUserEmoteCollection } from "~/integrations";
+import type {
+  IUserEmoteCollection,
+  IUserEmoteIntegration,
+} from "~/integrations";
 
 const isError = (value: unknown): value is Error => value instanceof Error;
 
@@ -49,24 +56,47 @@ const login = toLowerCase(nickname);
 const userCollectionsStore = useUserCollectionsStore();
 
 const collection = useAsyncState(
-  async (strategy: "get" | "refresh") => {
+  async (
+    strategy: "get" | "refresh" | "refresh-integration",
+    newIntegration?: IUserEmoteIntegration,
+  ) => {
     if (typeof window === "undefined") {
       return null;
     }
-    if (strategy === "get") {
-      const state = await userCollectionsService.get(login);
-      assert.ok(state, `No collection found with login: ${login}`);
-      return state;
-    } else if (strategy === "refresh") {
-      const state = await userCollectionsStore.loadCollection(login);
-      return state;
-    } else {
-      assert.fail(`Unknown strategy for user collection: ${strategy}`);
+    switch (strategy) {
+      case "get": {
+        const collection_ = await userCollectionsService.get(login);
+        assert.ok(collection_, `No collection found with login: ${login}`);
+        return collection_;
+      }
+      case "refresh": {
+        return userCollectionsStore.loadCollection(login);
+      }
+      case "refresh-integration": {
+        const collection_ = collection.state.value;
+        assert.ok(
+          collection_ && typeof newIntegration !== "undefined",
+          `Failed to refresh emote integration ${newIntegration ? `: ${newIntegration.source}` : ""}`,
+        );
+        const newCollection = {
+          ...collection_,
+          integrations: {
+            ...collection_.integrations,
+            [newIntegration.source]: newIntegration,
+          },
+        } as IUserEmoteCollection;
+        await userCollectionsService.put(newCollection);
+        return newCollection;
+      }
+      default: {
+        assert.fail(`Unknown strategy for user collection: ${strategy}`);
+      }
     }
   },
   null,
   { shallow: true, immediate: false, resetOnExecute: false },
 );
+
 collection.execute(0, "get");
 
 export type ReadyUserCollectionAsyncState = UseAsyncStateReturnBase<
