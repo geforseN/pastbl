@@ -137,6 +137,7 @@
           "all-selectable-users": "All starting with {'@'}",
           "all-without-selectable-users": "All, except starting with {'@'}"
         },
+        "requestForSelect": "Please select a user with emote collection",
         "selected-user": {
           "onEmpty": {
             "beforeTag": "No pastas with tag",

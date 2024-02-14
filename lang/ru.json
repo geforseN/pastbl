@@ -68,7 +68,7 @@
       "success": {
         "title": "Паста удалена",
         "message": "Удаленная паста сохранена в корзине",
-        "undoLabel": "Отменить удаление паст"
+        "undoLabel": "Отменить удаление пасты"
       }
     },
     "patchPatchLastCopied": {
@@ -137,6 +137,7 @@
           "all-selectable-users": "Все с {'@'} в начале",
           "all-without-selectable-users": "Все, кроме {'@'} в начале"
         },
+        "requestForSelect": "Пожалуста, выберите пользователя с коллекцией эмоутов",
         "selected-user": {
           "onEmpty": {
             "beforeTag": "Пасты с тэгом",
