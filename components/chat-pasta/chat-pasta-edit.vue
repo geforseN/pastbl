@@ -72,22 +72,8 @@ const tag = ref("");
 
 const pasta = usePasta({
   tag,
-  text: computed({
-    get() {
-      return megaPasta.value.text;
-    },
-    set(value) {
-      megaPasta.value.text = value;
-    },
-  }),
-  tags: computed({
-    get() {
-      return megaPasta.value.tags;
-    },
-    set(value) {
-      megaPasta.value.tags = value;
-    },
-  }),
+  text: writableComputedForKey(megaPasta, "text"),
+  tags: writableComputedForKey(megaPasta, "tags"),
 });
 
 const trimmedText = ref(megaPasta.value.text);
