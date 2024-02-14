@@ -25,10 +25,16 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
       ),
     ),
     "last-copied": computed(() =>
-      allPastas.value.toSorted(
-        /* FIXME: sorting is done incorrectly */
-        (a, b) => (b.lastCopiedAt || 0) - (a.lastCopiedAt || 0),
-      ),
+      allPastas.value.toSorted((a, b) => {
+        if (a.lastCopiedAt && b.lastCopiedAt) {
+          return b.lastCopiedAt - a.lastCopiedAt;
+        }
+        const isOnlyOneHasLastCopied = !a.lastCopiedAt !== !b.lastCopiedAt;
+        if (isOnlyOneHasLastCopied) {
+          return a.lastCopiedAt ? -1 : 1;
+        }
+        return (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt);
+      }),
     ),
   } satisfies Record<PastaSortStrategy, ComputedRef<IDBMegaPasta[]>>;
 
