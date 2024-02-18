@@ -41,8 +41,8 @@
             <img
               :src="emote.url"
               :alt="emote.token"
-              :width="emote.width"
-              :height="emote.height"
+              :width="emote.width || 32"
+              :height="emote.height || 32"
               class="m-0.5 inline-block"
               loading="lazy"
             />
