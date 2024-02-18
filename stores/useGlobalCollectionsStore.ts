@@ -1,5 +1,6 @@
 import {
   emoteSources,
+  isValidEmoteSource,
   type IGlobalEmoteCollection,
   type IGlobalEmoteCollectionRecord,
 } from "~/integrations";
@@ -60,7 +61,14 @@ export const useGlobalCollectionsStore = defineStore(
         const all = await globalCollectionsApi.getAll();
         const values = Object.values(all);
         await globalCollectionsIdb.putMany(values);
-        collections.state.value = all;
+        assert.ok(Object.keys(all).every(isValidEmoteSource));
+        // NOTE: for loop and triggerRef could be replaced with => collections.state.value = all
+        // HOWEVER: order of entries will change and view of global collections will change order
+        for (const [source, collection] of Object.entries(all)) {
+          // @ts-expect-error weird typing of Nitro eventHandler
+          collections.state.value[source] = collection;
+        }
+        triggerRef(collections.state);
       },
     };
   },
