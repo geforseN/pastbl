@@ -38,15 +38,6 @@ function isValidToken(word: string) {
   return true;
 }
 
-export function megaTrim(text: string) {
-  return text
-    .trim()
-    .split(" ")
-    .map((word) => word.trim())
-    .filter((word) => word.length)
-    .join(" ");
-}
-
 export const pastaTextLength = {
   max: 1024,
   min: 1,
