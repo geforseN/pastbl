@@ -13,9 +13,9 @@
         v-for="[showStrategy, translated] of Object.entries(showOptions)"
         :key="showStrategy"
         :value="showStrategy"
-        :disabled="!login && translated.mustHaveLogin"
+        :disabled="!selectedLogin && translated.mustHaveLogin"
         :title="
-          !login && translated.mustHaveLogin
+          !selectedLogin && translated.mustHaveLogin
             ? $t(s + 'requestForSelect')
             : undefined
         "
@@ -38,8 +38,10 @@ const s = l + "show.";
 const so = l + "show.options.";
 const { t, locale } = useI18n();
 
-const login = computed(() => props.selectedLogin);
-const tOptions = reactive({ login });
+const selectedLogin = computed(() => props.selectedLogin);
+const tOptions = reactive({
+  login: computed(() => selectedLogin.value || "username"),
+});
 
 const showOptions = computedWithControl(
   [locale, () => tOptions.login],
