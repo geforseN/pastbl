@@ -70,7 +70,6 @@ export class Emote {
     this.source = source;
     this.width = new EmoteSize(width);
     this.height = new EmoteSize(height);
-    // assert.ok(typeof type === "string");
     this.type = type;
     this.isAnimated = isAnimated;
     this.isListed = isListed;
@@ -89,13 +88,3 @@ export class Emote {
     }
   }
 }
-
-// TODO: add to git and then remove it form git
-// const width = computed(() => emote.value?.width || 32);
-// const height = computed(() =>
-//   emote.value?.height
-//     ? emote.value?.height
-//     : emote.value?.width
-//       ? undefined
-//       : 32,
-// );
