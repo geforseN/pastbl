@@ -51,7 +51,7 @@
 </template>
 <script lang="ts">
 import { set } from "@vueuse/core";
-import type { AvailableEmoteSource } from "~/integrations";
+import type { EmoteSource } from "~/integrations";
 import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
 
 const f = "collections.users.fetch.";
@@ -101,10 +101,11 @@ async function loadCollection(
     await options.onEnd?.();
   }
 }
-const sourceMap = new Map<AvailableEmoteSource, string>([
+const sourceMap = new Map<EmoteSource, string>([
   ["FrankerFaceZ", "🐶"],
   ["BetterTTV", "🅱️"],
   ["SevenTV", "7️⃣"],
+  ["Twitch", "🟣"],
 ]);
 </script>
 <script lang="ts" setup>

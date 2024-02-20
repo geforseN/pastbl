@@ -114,14 +114,13 @@ const twitch = computed(() => collection.value.user.twitch);
 
 const readyIntegrations = computed(() => {
   const values = Object.values(collection.value.integrations);
-  return flatGroupBy(values, (integration) => integration.source) as Omit<
-    IUserEmoteIntegrationRecord,
-    "Twitch"
-  >;
+  return flatGroupBy(
+    values,
+    (integration) => integration.source,
+  ) as IUserEmoteIntegrationRecord;
 });
 
 async function getRefreshedIntegration(source: EmoteSource) {
-  assert.ok(source !== "Twitch", new Error("NOT IMPLEMENTED"));
   const record = await $fetch("/api/users-integrations", {
     query: {
       sources: source,
