@@ -10,16 +10,19 @@ export function deepFreeze<T extends Record<string | symbol, unknown>>(
   }
   return Object.freeze(object);
 }
+
 export function flatGroupBy<T, K extends string | number | symbol, V extends T>(
   array: T[],
   keyCb: (value: T, index: number, array: T[]) => K,
   valueCb?: undefined,
 ): Record<K, V>;
+
 export function flatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
   keyCb: (value: T, index: number, array: T[]) => K,
   valueCb: (value: T) => V,
 ): Record<K, V>;
+
 export function flatGroupBy<T, V, K extends string | number | symbol>(
   array: T[],
   keyCb: (value: T, index: number, array: T[]) => K,
@@ -32,4 +35,16 @@ export function flatGroupBy<T, V, K extends string | number | symbol>(
     record[key] = getValue(value, index, array);
     return record;
   }, initialRecord);
+}
+
+export function objectKeys<T extends object>(object: T) {
+  return Object.keys(object) as (keyof T)[];
+}
+
+export function objectValues<T extends object>(object: T) {
+  return Object.values(object) as T[keyof T][];
+}
+
+export function objectEntries<T extends object, K extends keyof T>(object: T) {
+  return Object.entries(object) as [K, T[K]][];
 }
