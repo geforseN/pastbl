@@ -5,32 +5,15 @@
   >
     <div v-if="emote_" class="flex flex-col">
       <div class="flex items-center gap-1">
-        <img
-          :src="emote_.url.withSizeOf(1)"
-          :width="emote_.width.value"
-          :height="emote_.height.value"
-          :alt="emote_.token"
-        />
-        <img
-          :src="emote_.url.withSizeOf(2)"
-          :width="emote_.width.multiplyBy(2).value"
-          :height="emote_.height.multiplyBy(2).value"
-          :alt="emote_.token"
-        />
-        <img
-          v-if="emote_.canHaveSize(3)"
-          :src="emote_.url.withSizeOf(3)"
-          :width="emote_.width.multiplyBy(3).value"
-          :height="emote_.height.multiplyBy(3).value"
-          :alt="emote_.token"
-        />
-        <img
-          v-if="emote_.canHaveSize(4)"
-          :src="emote_.url.withSizeOf(4)"
-          :width="emote_.width.multiplyBy(4).value"
-          :height="emote_.height.multiplyBy(4).value"
-          :alt="emote_.token"
-        />
+        <template v-for="image of images" :key="image">
+          <img
+            :src="image.src"
+            :width="image.width"
+            :height="image.height"
+            :alt="image.alt"
+            loading="lazy"
+          />
+        </template>
       </div>
       {{ emote_.token }}
       {{ emote_.source }}
@@ -56,4 +39,23 @@ defineExpose({
 });
 
 const emote_ = computed(() => props.emote && new Emote({ ...props.emote }));
+
+const images = computed(() => {
+  const emote = emote_.value;
+  if (!emote) {
+    return [];
+  }
+  const sizes = [1, 2, 3, 4] as const;
+  return sizes
+    .filter((size) => emote.canHaveSize(size))
+    .map((size) => {
+      return {
+        size,
+        src: emote.url.withSizeOf(size),
+        width: emote.width.multiplyBy(size).value,
+        height: emote.height.multiplyBy(size).value,
+        alt: emote.token,
+      };
+    });
+});
 </script>
