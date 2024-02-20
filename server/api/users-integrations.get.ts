@@ -1,16 +1,15 @@
 import { z } from "zod";
 import { TwitchUser } from "~/server/api/twitch/users/[login].get";
-import { sum } from "~/utils/array";
-import { flatGroupBy } from "~/utils/object";
+import { groupBy, sum } from "~/utils/array";
+import { flatGroupBy, objectEntries } from "~/utils/object";
 import { toLowerCase } from "~/utils/string";
 import {
-  AvailableEmoteSource,
   BetterTTV,
   EmoteSource,
+  ITwitchUserIntegration,
   IUserEmoteCollection,
   IUserEmoteIntegration,
   SevenTV,
-  availableEmoteSources,
   createFFZPartialUserIntegration,
   createFFZUserIntegration,
   createFFZUserSets,
@@ -19,6 +18,27 @@ import {
 } from "~/integrations";
 import { FrankerFaceZApi } from "~/integrations/api";
 import { assert } from "~/utils/error";
+import { createUserEmote, createUserIntegration } from "~/integrations/Twitch";
+
+const twitchTypeRecord = {
+  bitstier: "Bits emotes",
+  follower: "Follower emotes",
+  subscriptions: "Subscriber emotes",
+} as const;
+
+function makeTwitchKey(
+  emoteType: "bitstier" | "follower" | "subscriptions",
+  emoteTier: string,
+  emoteSetId: string,
+) {
+  const type = twitchTypeRecord[emoteType];
+  if (type !== "Subscriber emotes") {
+    return type + ":" + emoteSetId;
+  }
+  const tier = Number(emoteTier) / 1000;
+  assert.ok(!Number.isNaN(tier));
+  return `${type} - tier ${tier}` + ":" + emoteSetId;
+}
 
 const userIntegrationsGetters = {
   async FrankerFaceZ(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
@@ -34,13 +54,53 @@ const userIntegrationsGetters = {
     return BetterTTV.giveUserIntegration(twitchUserId, twitchUserLogin);
   },
   SevenTV(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
-    return SevenTV.giveUserIntegration(twitchUserId, twitchUserLogin);
-    // TODO: use activeSet
+    return SevenTV.createUserIntegration(twitchUserId, twitchUserLogin);
   },
-  // TODO: Twitch, add follow set & subscribe set
-};
+  async Twitch(
+    twitchUserId: number,
+    twitchUserLogin: Lowercase<string>,
+    twitchUserNickname: string,
+  ) {
+    const emotesResponse = await $fetch("/api/twitch/chat/emotes", {
+      query: {
+        broadcaster_id: twitchUserId,
+      },
+    });
+    const { data: emotesData } = emotesResponse;
+    const twitchUser = {
+      id: twitchUserId,
+      login: twitchUserLogin,
+      nickname: twitchUserNickname,
+    };
 
-type StupidSource = AvailableEmoteSource;
+    const groupedEmotes = groupBy(
+      emotesData,
+      (emote) =>
+        makeTwitchKey(emote.emote_type, emote.tier, emote.emote_set_id),
+      (emote): ITwitchUserIntegration["sets"][number]["emotes"][number] => {
+        const url = emote.format.includes("animated")
+          ? emote.images.url_1x.replace("/static/", "/animated/")
+          : emote.images.url_1x;
+        return createUserEmote(emote, url);
+      },
+    );
+    const sets: ITwitchUserIntegration["sets"] = objectEntries(
+      groupedEmotes,
+    ).map(([key, emotes]) => {
+      assert.ok(typeof key === "string");
+      const [name, id] = key.split(":");
+      return {
+        id,
+        name,
+        source: "Twitch",
+        updatedAt: Date.now(),
+        emotes,
+      };
+    });
+    const integration = createUserIntegration(twitchUser, sets);
+    return integration;
+  },
+} as const;
 
 const querySchema = z.object({
   sources: z
@@ -49,16 +109,13 @@ const querySchema = z.object({
     .optional()
     .transform((sources) => {
       if (!sources) {
-        return availableEmoteSources;
+        return emoteSources;
       }
       const validSources = Object.freeze(
-        [...new Set(sources.split("+"))].filter(
-          (source): source is StupidSource =>
-            source !== "Twitch" && isValidEmoteSource(source),
-        ),
+        [...new Set(sources.split("+"))].filter(isValidEmoteSource),
       );
       if (!validSources.length) {
-        return availableEmoteSources;
+        return emoteSources;
       }
       return validSources;
     }),
@@ -98,16 +155,21 @@ function withReadyStatus<I extends IUserEmoteIntegration>(integration: I) {
 }
 
 function getUserCollectionIntegration(
-  source: StupidSource,
+  source: EmoteSource,
   twitchUserId: number,
   twitchUserLogin: Lowercase<string>,
+  twitchUserNickname?: string,
 ): Promise<IUserEmoteIntegration> {
-  return userIntegrationsGetters[source](twitchUserId, twitchUserLogin);
+  return userIntegrationsGetters[source](
+    twitchUserId,
+    twitchUserLogin,
+    twitchUserNickname,
+  );
 }
 
 const getCachedUserIntegration = defineCachedFunction(
   async (
-    source: StupidSource,
+    source: EmoteSource,
     twitchUser: Pick<TwitchUser, "id" | "login" | "nickname">,
   ) => {
     try {
@@ -115,6 +177,7 @@ const getCachedUserIntegration = defineCachedFunction(
         source,
         twitchUser.id,
         twitchUser.login,
+        twitchUser.nickname,
       );
       return withReadyStatus(integration);
     } catch (error) {
@@ -127,7 +190,7 @@ const getCachedUserIntegration = defineCachedFunction(
     swr: false,
     name: "user-integrations",
     getKey: (
-      source: StupidSource,
+      source: EmoteSource,
       twitchUser: Pick<TwitchUser, "id" | "login" | "nickname">,
     ) => `${twitchUser.login}:${source}`,
   },

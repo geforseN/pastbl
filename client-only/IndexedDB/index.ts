@@ -18,9 +18,10 @@ import type {
   ISevenTVUserIntegration,
   I7TVSet,
   I7TVEmote,
-  AvailableEmoteSource,
   EmoteSource,
+  ITwitchUserIntegration,
 } from "~/integrations";
+import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
 
 export async function openIdb<T extends DBSchema>(
   name: string,
@@ -35,7 +36,7 @@ export async function openIdb<T extends DBSchema>(
 }
 
 type GenericIndexedDBUserEmoteIntegration<
-  SourceT extends AvailableEmoteSource,
+  SourceT extends EmoteSource,
   IntegrationT extends IUserEmoteIntegration,
   EmoteT extends IEmote,
   EmoteSetT extends IEmoteSet<SourceT, EmoteT>,
@@ -65,6 +66,12 @@ export type IndexedDBUserEmoteIntegrationRecord = {
     ISevenTVUserIntegration,
     I7TVEmote,
     I7TVSet
+  >;
+  Twitch: GenericIndexedDBUserEmoteIntegration<
+    "Twitch",
+    ITwitchUserIntegration,
+    ITwitchEmote,
+    ITwitchEmoteSet
   >;
 };
 

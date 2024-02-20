@@ -182,7 +182,7 @@ export type IUserEmoteCollection = {
     FrankerFaceZ?: Wrap<FrankerFaceZUserIntegration>;
     BetterTTV?: Wrap<BetterTTVUserIntegration>;
     SevenTV?: Wrap<ISevenTVUserIntegration>;
-    // TODO: Twitch?: Wrap<ITwitchUserIntegration>
+    Twitch?: Wrap<ITwitchUserIntegration>;
   };
 };
 

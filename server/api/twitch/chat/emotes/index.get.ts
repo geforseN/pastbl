@@ -17,7 +17,7 @@ export default cachedEventHandler(
   { maxAge: 60 * 15 },
 );
 
-type ApiTwitchGetChatEmotesResponse = {
+export type ApiTwitchGetChatEmotesResponse = {
   data: {
     id: `${number}`;
     name: string;
@@ -30,7 +30,7 @@ type ApiTwitchGetChatEmotesResponse = {
     tier: string | "";
     emote_type: "bitstier" | "follower" | "subscriptions";
     emote_set_id: string;
-    format: ["static"] | ["static", "animated"];
+    format: ["static"] | ["static", "animated"] | ["animated", "static"];
     scale: ("1.0" | "2.0" | "3.0")[];
     theme_mode: ["light" | "dark"][];
   }[];
