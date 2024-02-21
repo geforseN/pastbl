@@ -17,7 +17,7 @@
           }
         "
         @refresh="collection.execute(0, 'refresh')"
-        @select="userCollectionsStore.selectCollection(login)"
+        @select="userCollectionsStore.selectLogin(login)"
         @refresh-integration="
           (integration) =>
             collection.execute(0, 'refresh-integration', integration)
@@ -57,10 +57,10 @@ const userCollectionsStore = useUserCollectionsStore();
 
 const collection = useAsyncState(
   async (
-    strategy: "get" | "refresh" | "refresh-integration",
+    strategy: "get" | "refresh" | "refresh-integration" = "get",
     newIntegration?: IUserEmoteIntegration,
   ) => {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return null;
     }
     switch (strategy) {
@@ -94,10 +94,8 @@ const collection = useAsyncState(
     }
   },
   null,
-  { shallow: true, immediate: false, resetOnExecute: false },
+  { shallow: true, resetOnExecute: false },
 );
-
-collection.execute(0, "get");
 
 export type ReadyUserCollectionAsyncState = UseAsyncStateReturnBase<
   IUserEmoteCollection,

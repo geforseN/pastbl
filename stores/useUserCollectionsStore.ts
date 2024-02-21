@@ -10,6 +10,29 @@ const stateOptions = {
   resetOnExecute: false,
 };
 
+function useSelectedLogin() {
+  const selectedCollectionLogin = useIndexedDBKeyValue(
+    "active-user-collection:login",
+    "",
+  );
+
+  return {
+    selectedCollectionLogin,
+    selectLogin(login: Login) {
+      selectedCollectionLogin.state.value = login;
+    },
+    isSelectedLogin(login: Login) {
+      return selectedCollectionLogin.state.value === login;
+    },
+    tryRemoveLogin(login: string) {
+      const isSameLoginReceived = selectedCollectionLogin.state.value === login;
+      if (isSameLoginReceived) {
+        selectedCollectionLogin.state.value = "";
+      }
+    },
+  };
+}
+
 function useSelectedCollection(selectedLogin: Ref<Login>) {
   const self = useAsyncState(
     (login: Login) => {
@@ -41,9 +64,10 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
   const { execute: _, ...returnValue } = self;
   return {
     ...returnValue,
-    tryRefresh(login: Login) {
-      if (_login.value === login) {
-        return self.execute(0, _login.value);
+    tryRefreshCollection(login: Login) {
+      const isSameLoginReceived = _login.value === login;
+      if (isSameLoginReceived) {
+        return self.execute(0, login);
       }
     },
   };
@@ -76,17 +100,18 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     [],
     stateOptions,
   );
-
-  const selectedCollectionLogin = useIndexedDBKeyValue(
-    "active-user-collection:login",
-    "",
-  );
+  const {
+    selectedCollectionLogin,
+    isSelectedLogin,
+    selectLogin,
+    tryRemoveLogin,
+  } = useSelectedLogin();
 
   const selectedCollection = useSelectedCollection(
     selectedCollectionLogin.state,
   );
 
-  function updateInternalStates() {
+  function refreshStates() {
     return Promise.all([
       loginsToSelect.execute(),
       collectionsToSelect.execute(),
@@ -109,26 +134,16 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     async loadCollection(login: Login) {
       const collection = await userCollectionApi.get(login);
       await userCollectionsService.put(collection);
-      await updateInternalStates();
-      await selectedCollection.tryRefresh(login);
+      await refreshStates();
+      await selectedCollection.tryRefreshCollection(login);
       return collection;
     },
     async deleteCollection(login: Login) {
       await userCollectionsService.delete(login);
-      await updateInternalStates();
-      if (selectedCollectionLogin.state.value === login) {
-        selectedCollectionLogin.state.value = "";
-      }
+      await refreshStates();
+      tryRemoveLogin(login);
     },
-    selectCollection(login: Login) {
-      selectedCollectionLogin.state.value = login;
-    },
-    isSelectedLogin(login: Login) {
-      return selectedCollectionLogin.state.value === login;
-    },
+    isSelectedLogin,
+    selectLogin,
   };
 });
-
-export type SelectedUserCollectionsAsyncState = ReturnType<
-  typeof useUserCollectionsStore
->["selectedCollection"];
