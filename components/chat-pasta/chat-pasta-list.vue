@@ -62,8 +62,8 @@
   </chat-pasta-list-hints>
 </template>
 <script lang="ts">
-import type { IEmote } from "~/integrations";
 import type { HoveredEmoteHint } from "#build/components";
+import type { InjectHoveredEmote } from "~/app.vue";
 
 export const l = "pasta.list." as const;
 </script>
@@ -76,7 +76,9 @@ const selectedLogin = computed(
   () => useUserCollectionsStore().selectedCollectionLogin.state,
 );
 
-const hoveredEmote = ref<Nullish<IEmote>>();
+const { hoveredEmote, updateHoveredEmote, removeHoveredEmote } = inject(
+  "hoveredEmote",
+) as InjectHoveredEmote;
 const hoveredEmoteRef = ref<InstanceType<typeof HoveredEmoteHint>>();
 const hoveredEmoteContainerRef = computed(
   () => hoveredEmoteRef.value?.hoveredEmoteContainerRef,
@@ -100,7 +102,7 @@ function onMouseover(event: Event) {
     relatedTarget instanceof HTMLImageElement &&
     !(target instanceof HTMLImageElement)
   ) {
-    hoveredEmote.value = null;
+    removeHoveredEmote();
     return;
   }
   if (target instanceof HTMLImageElement) {
@@ -108,7 +110,7 @@ function onMouseover(event: Event) {
     if (!emote) {
       return;
     }
-    hoveredEmote.value = emote;
+    updateHoveredEmote(emote);
     assert.ok(hoveredEmoteContainerRef.value);
     hoveredEmoteContainerRef.value.style.top = `${event.pageY}px`;
     hoveredEmoteContainerRef.value.style.left = `${event.pageX}px`;
