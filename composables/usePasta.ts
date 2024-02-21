@@ -39,7 +39,7 @@ function isValidToken(word: string) {
 }
 
 export const pastaTextLength = {
-  max: 1024,
+  max: 1984,
   min: 1,
 } as const;
 
@@ -63,7 +63,7 @@ export function makeValidTokens(text: string) {
   return [...new Set(text.split(" "))].filter(isValidToken);
 }
 
-export function createMegaPasta(text: string, tags: string[]): MegaPasta {
+export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {
   return {
     tags,
     text,
