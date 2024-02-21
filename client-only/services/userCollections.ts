@@ -17,14 +17,14 @@ import type {
 export const userCollectionsService = {
   __collectionsIdb: null,
   async getAllLogins() {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return [];
     }
     const collectionsIdb = await idb.collections;
     return collectionsIdb.users.getAllLogins();
   },
   async getAll() {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return [];
     }
     const collectionsIdb = await idb.collections;
@@ -109,7 +109,7 @@ export const userCollectionsService = {
     await collectionsIdb.users.delete(login);
   },
   async get(login: Lowercase<string>) {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return null;
     }
     const [collectionsIdb, emotesIdb] = await Promise.all([

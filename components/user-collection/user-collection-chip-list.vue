@@ -16,9 +16,7 @@
       @refresh="
         userCollectionsStore.loadCollection(collection.user.twitch.login)
       "
-      @select="
-        userCollectionsStore.selectCollection(collection.user.twitch.login)
-      "
+      @select="userCollectionsStore.selectLogin(collection.user.twitch.login)"
     />
   </div>
 </template>
