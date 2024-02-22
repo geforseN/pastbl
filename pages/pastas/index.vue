@@ -42,33 +42,23 @@
 import { pastasService } from "~/client-only/services";
 
 type MinimalPasta = {
-  id?: number;
   tags?: string[];
   text: string;
-  createdAt?: ReturnType<Date["toISOString"]>;
 };
 
 function isMinimalPasta(data: unknown): data is MinimalPasta {
   return (
     isObject(data) &&
-    (data.id === undefined ||
-      (typeof data.id === "number" &&
-        Number.isInteger(data.id) &&
-        data.id > 0)) &&
     typeof data.text === "string" &&
     getTextStatus(data.text) !== "error" &&
-    (typeof data.tags === "undefined" || isStringArray(data.tags)) &&
-    (data.createdAt === undefined ||
-      (typeof data.createdAt === "string" && isIsoDate(data.createdAt)))
+    (typeof data.tags === "undefined" || isStringArray(data.tags))
   );
 }
 
 function makeMinimalPasta(pasta: IDBMegaPasta) {
   return {
-    id: pasta.id,
     tags: pasta.tags.length ? pasta.tags : undefined,
     text: pasta.text,
-    createdAt: new Date(pasta.createdAt).toISOString(),
   };
 }
 
@@ -81,9 +71,11 @@ function loadPastasFromFile(event: Event, reader: FileReader) {
 
 function savePastasToFile(pastasToSave: IDBMegaPasta[]) {
   const link = document.createElement("a");
-  const minimalPastas = pastasToSave
-    .filter(isMinimalPasta)
-    .map(makeMinimalPasta);
+  const minimalPastas = pastasToSave.filter(isMinimalPasta).map((pasta) => ({
+    ...makeMinimalPasta(pasta),
+    id: pasta.id,
+    createdAt: new Date(pasta.createdAt).toISOString(),
+  }));
   link.href = window.URL.createObjectURL(
     new Blob([JSON.stringify(minimalPastas, null, 2)], {
       type: "application/json",
