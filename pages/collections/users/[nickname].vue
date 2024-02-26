@@ -23,10 +23,8 @@
             collection.execute(0, 'refresh-integration', integration)
         "
       />
-      <app-page-link to="emotes">
-        <template #right><emote-integration-logos /></template>
-      </app-page-link>
-      <app-page-link to="main" />
+      <app-page-link-emotes />
+      <app-page-link-main />
     </div>
     <div v-else-if="collection.isLoading.value">Loading...</div>
     <div v-else-if="collection.error.value">

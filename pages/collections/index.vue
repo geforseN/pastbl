@@ -19,6 +19,6 @@
     </app-page-link>
     <user-collection-fetch />
     <user-collection-select />
-    <app-page-link to="main" />
+    <app-page-link-main />
   </div>
 </template>

@@ -6,7 +6,7 @@
     <find-my-pasta-list class="w-full max-w-[414px]" />
     <div class="flex w-96 flex-col gap-2">
       <find-my-pasta-params />
-      <app-page-link to="main" />
+      <app-page-link-main />
     </div>
   </div>
 </template>
