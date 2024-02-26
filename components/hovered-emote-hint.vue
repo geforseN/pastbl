@@ -1,13 +1,10 @@
 <template>
-  <div
-    ref="hoveredEmoteContainerRef"
-    class="pointer-events-none absolute z-50 touch-none"
-  >
+  <div ref="hoveredEmoteContainerRef" class="absolute z-50">
     <div
       v-if="emote_"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
-      <div class="flex items-center gap-1 p-1">
+      <div class="flex max-w-96 items-center gap-1 overflow-x-auto p-1">
         <template v-for="image of images" :key="image">
           <img
             :src="image.src"
@@ -18,9 +15,9 @@
           />
         </template>
       </div>
-      <div class="flex items-baseline text-lg">
+      <div class="flex flex-wrap items-baseline text-lg">
         <span class="text-xl font-bold">{{ emote_.token }}</span>
-        &nbsp;{{ "-" }}&nbsp;
+        <span>&nbsp;{{ "-" }}&nbsp;</span>
         <div class="flex items-baseline">
           <emote-integration-logo
             :source="emote_.source"
@@ -38,13 +35,24 @@
         </div>
       </dev-only>
     </div>
+    <div
+      v-if="props.emoji"
+      class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
+    >
+      {{ props.emoji }}
+      <span>name:{{ emojiData.name }}</span>
+      <span>slug:{{ emojiData.slug }}</span>
+      <span>group:{{ emojiData.group }}</span>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
+import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import type { IEmote } from "~/integrations";
 
 const props = defineProps<{
   emote?: Nullish<IEmote>;
+  emoji?: Nullish<string>;
 }>();
 
 const hoveredEmoteContainerRef = ref<HTMLDivElement>();
@@ -54,6 +62,8 @@ defineExpose({
 });
 
 const emote_ = computed(() => props.emote && new Emote({ ...props.emote }));
+const emoji = computed(() => props.emoji);
+const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
 
 const images = computed(() => {
   const emote = emote_.value;

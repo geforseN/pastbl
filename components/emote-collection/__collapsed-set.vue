@@ -39,6 +39,8 @@
             :title="emote.token + ' from ' + props.set.source"
           >
             <img
+              :id="`${emote.id}:${emote.source}`"
+              :data-emote-id="emote.id"
               :src="emote.url"
               :alt="emote.token"
               :width="emote.width || 32"
