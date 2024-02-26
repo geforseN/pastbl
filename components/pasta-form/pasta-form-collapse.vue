@@ -1,9 +1,9 @@
 <template>
   <div
     class="collapse collapse-arrow border-2"
-    @keyup.enter.exact="() => toggleFormCollapse()"
+    @keyup.enter.exact="() => (isOpen = !isOpen)"
   >
-    <input v-model="isFormCollapseOpen.state.value" type="checkbox" />
+    <input v-model="isOpen" type="checkbox" />
     <div class="collapse-title text-xl font-medium after:mt-1">
       <header class="flex justify-between text-3xl font-bold">
         <span class="flex items-center gap-2">
@@ -11,10 +11,7 @@
           <h2>{{ $t("pasta.create.heading") }}</h2>
         </span>
         <transition name="jokerge">
-          <div
-            v-if="!isFormCollapseOpen.state.value"
-            class="flex translate-x-3.5 items-center gap-1"
-          >
+          <div v-if="!isOpen" class="flex translate-x-3.5 items-center gap-1">
             <img
               class="h-8 w-8 translate-y-1"
               src="https://cdn.7tv.app/emote/6306876cbe8c19d70f9d6b22/1x.webp"
@@ -29,7 +26,7 @@
     </div>
     <div
       class="collapse-content"
-      @keyup.escape="() => closeFormCollapse()"
+      @keyup.escape="() => (isOpen = false)"
       @keyup.stop="
         () => {}
         /* NOTE: 
@@ -65,21 +62,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { set } from "@vueuse/core";
-
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 
 const pastaFormRef = ref();
-const isFormCollapseOpen = useIndexedDBKeyValue(
-  "create-pasta-form-collapse:is-open",
-  false,
-);
-const toggleFormCollapse = useToggle(isFormCollapseOpen.state);
-const closeFormCollapse = () => set(isFormCollapseOpen.state, false);
+const { isFormCollapseOpen: isOpen } = storeToRefs(useUserStore());
 
 watch(useMagicKeys().i, async () => {
-  isFormCollapseOpen.state.value = true;
+  isOpen.value = true;
   // NOTE: without sleep will be ugly layout shift when collapse become opened
   await sleep(100);
   pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();

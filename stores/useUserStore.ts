@@ -79,7 +79,20 @@ export const useUserStore = defineStore("user", () => {
 
   const pastasStore = usePastasStore();
 
+  const isFormCollapseOpen = useIndexedDBKeyValue(
+    "create-pasta-form-collapse:is-open",
+    false,
+  );
+
   return {
+    isFormCollapseOpen: computed({
+      get() {
+        return isFormCollapseOpen.state.value;
+      },
+      set(value) {
+        isFormCollapseOpen.state.value = value;
+      },
+    }),
     preferences,
     user,
     clipboard,

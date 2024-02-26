@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col gap-2">
-    <pasta-form-collapse />
+    <keep-alive>
+      <pasta-form-collapse />
+    </keep-alive>
     <app-page-link-pastas-find />
     <app-page-link-user-settings />
     <app-page-link-emotes />
