@@ -1,3 +1,6 @@
+import { objectKeys } from "./object";
+import { assert } from "./error";
+
 export async function withLog<T>(
   cbOrValue: MaybePromise<T> | (() => MaybePromise<T>),
   optionsOrKey:
@@ -52,7 +55,8 @@ export function withLogSync<T>(
 export function countKeys<T extends Record<string, unknown>>(array: T[]) {
   return array.reduce(
     (acc, value) => {
-      Object.keys(value).forEach((key) => {
+      objectKeys(value).forEach((key) => {
+        assert.ok(typeof key === "string");
         if (key.startsWith("codeOriginal") && key.length > 5) {
           console.log(key, value);
         }

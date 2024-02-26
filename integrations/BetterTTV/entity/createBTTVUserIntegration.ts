@@ -1,5 +1,5 @@
 import type { IBetterTTVApi } from "../api";
-import { BTTVEmote } from "./BetterTTVEmote";
+import { BTTVEmote, type IBetterTTVEmote } from "./BetterTTVEmote";
 import { BetterTTVSet } from "./BetterTTVSet";
 import {
   BTTVUserIntegration,
@@ -32,7 +32,9 @@ export function createBTTVUserIntegration(
     { avatarUrl: user.avatar, id: user.id, twitch: user.twitch },
     setEntries.map(({ emoteType, set }) => {
       return new BetterTTVSet(
-        set.emotes.map((emote) => new BTTVEmote(emote, emoteType)),
+        set.emotes.map(
+          (emote): IBetterTTVEmote => new BTTVEmote(emote, emoteType),
+        ),
         set.id,
         set.name,
       );
