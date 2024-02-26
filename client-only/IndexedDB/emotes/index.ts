@@ -27,6 +27,10 @@ class EmotesStore {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
   }
 
+  get(emoteData: [id: string, source: EmoteSource]) {
+    return this.db.get("emotes", emoteData);
+  }
+
   delete(emotesEntries: [id: string, source: EmoteSource][]) {
     return Promise.all(
       emotesEntries.map((emoteEntry) => this.db.delete("emotes", emoteEntry)),
