@@ -7,11 +7,13 @@ import type {
   IndexedDBUserEmoteIntegration,
   IndexedDBUserEmoteIntegrationRecord,
 } from "~/client-only/IndexedDB";
-import type {
-  EmoteOf,
-  IEmote,
-  IUserEmoteCollection,
-  IUserEmoteIntegration,
+import {
+  emoteSources,
+  type EmoteOf,
+  type IEmote,
+  type IUserEmoteCollection,
+  type IUserEmoteIntegration,
+  type EmoteSource,
 } from "~/integrations";
 
 export const userCollectionsService = {
@@ -167,10 +169,12 @@ function prepareUserCollectionToIdb(
   };
 }
 
-const sourcesEmotesCache = {
-  FrankerFaceZ: new Map<IEmote["id"], EmoteOf["FrankerFaceZ"]>(),
-  BetterTTV: new Map<IEmote["id"], EmoteOf["BetterTTV"]>(),
-  SevenTV: new Map<IEmote["id"], EmoteOf["SevenTV"]>(),
+const sourcesEmotesCache = flatGroupBy(
+  [...emoteSources],
+  (source) => source,
+  () => new Map(),
+) as {
+  [k in EmoteSource]: Map<IEmote["id"], EmoteOf[k]>;
 };
 
 function getPopulatedUserCollectionIntegrations(
