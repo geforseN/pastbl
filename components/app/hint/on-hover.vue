@@ -94,13 +94,23 @@ const emoteIntegrationLink = computed(() => {
 const emoji = computed(() => props.emoji);
 const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
 
+const possibleSizes = computed(() => {
+  if (!emote_.value) {
+    return [];
+  }
+  const possibleSizes = emoteSizes.filter((size) =>
+    emote_.value!.canHaveSize(size),
+  );
+  return possibleSizes;
+});
+
 const images = computed(() => {
   const emote = emote_.value;
   if (!emote) {
     return [];
   }
   return emoteSizes
-    .filter((size) => emote.canHaveSize(size))
+    .filter((size) => possibleSizes.value.includes(size))
     .map((size) => {
       return {
         size,

@@ -36,8 +36,8 @@
           </template>
         </u-notifications>
       </div>
-      <hovered-emote-hint
-        ref="hoveredEmoteRef"
+      <app-hint-on-hover
+        ref="onHoverHintRef"
         :emote="hoveredEmote"
         :emoji="hoveredEmoji"
       />
@@ -46,7 +46,7 @@
 </template>
 <script setup lang="ts">
 import { savePastasToFile } from "./pages/pastas/index.vue";
-import type { HoveredEmoteHint } from "#build/components";
+import type { AppHintOnHover } from "#build/components";
 import type { IEmote } from "~/integrations";
 import type { RouteLocation, RouteLocationRaw } from "#vue-router";
 
@@ -79,15 +79,15 @@ onKeyStroke((event) => {
 
 const hoveredEmoji = ref<Nullish<string>>();
 const hoveredEmote = ref<Nullish<IEmote>>();
-const hoveredEmoteRef = ref<InstanceType<typeof HoveredEmoteHint>>();
-const hoveredEmoteContainerRef = computed(
-  () => hoveredEmoteRef.value?.hoveredEmoteContainerRef,
+const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
+const onHoverHintRefContainer = computed(
+  () => onHoverHintRef.value?.hoveredEmoteContainerRef,
 );
 
 function updateHoveredEmoteContainerStyle(event: MouseEvent) {
-  assert.ok(hoveredEmoteContainerRef.value);
-  hoveredEmoteContainerRef.value.style.top = `${event.pageY}px`;
-  hoveredEmoteContainerRef.value.style.left = `${event.pageX}px`;
+  assert.ok(onHoverHintRefContainer.value);
+  onHoverHintRefContainer.value.style.top = `${event.pageY}px`;
+  onHoverHintRefContainer.value.style.left = `${event.pageX}px`;
 }
 
 function updateHoveredEmote(value: IEmote, event: MouseEvent) {
@@ -138,13 +138,13 @@ function makeMouseoverHandler(options: {
   };
 }
 
-const hoveredEmoteInject = {
+const onHoverHintInject = {
   hoveredEmote,
   makeMouseoverHandler,
 };
 
-export type InjectHoveredEmote = typeof hoveredEmoteInject;
-provide("hoveredEmote", hoveredEmoteInject);
+export type InjectOnHoverHint = typeof onHoverHintInject;
+provide("hoveredEmote", onHoverHintInject);
 
 onMounted(() => {
   document.documentElement.classList.remove("dark", "light");

@@ -48,13 +48,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { InjectHoveredEmote } from "~/app.vue";
+import type { InjectOnHoverHint } from "~/app.vue";
 
 const globalCollectionsStore = useGlobalCollectionsStore();
 const emotesStore = useEmotesStore();
 
 const { makeMouseoverHandler } =
-  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+  inject<InjectOnHoverHint>("hoveredEmote") || raise();
 
 const throttledMouseover = useThrottleFn(
   makeMouseoverHandler({
