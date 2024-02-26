@@ -18,17 +18,19 @@
           loading="lazy"
           :alt="$t('avatar.alt', { nickname: channel.nickname })"
         />
-        {{ channel.nickname }}
+        <span class="line-clamp-1 break-all" :title="channel.nickname">
+          {{ channel.nickname }}
+        </span>
         <div class="ml-auto flex items-center gap-1">
           <span
             v-if="channel.isExact"
-            class="badge rounded-md border-0 bg-success font-bold uppercase"
+            class="badge text-nowrap rounded-md border-0 bg-success font-bold uppercase"
           >
             {{ $t(cs + "exact") }}
           </span>
           <span
             v-if="channel.isLive"
-            class="badge rounded-md border-0 bg-red-600 font-bold uppercase"
+            class="badge text-nowrap rounded-md border-0 bg-red-600 font-bold uppercase"
           >
             {{ $t(cs + "live") }}
           </span>
