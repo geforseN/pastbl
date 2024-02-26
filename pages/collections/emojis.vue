@@ -27,16 +27,14 @@
         </div>
       </div>
     </div>
-    <app-page-link to="emotes">
-      <template #right><emote-integration-logos /></template>
-    </app-page-link>
-    <app-page-link to="main" />
+    <app-page-link-emotes />
+    <app-page-link-main />
   </div>
 </template>
 <script lang="ts" setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
 
-const englishKeys = Object.keys(emoteDataByGroup);
+const englishKeys = objectKeys(emoteDataByGroup);
 
 const entries = shallowRef(Object.entries(emoteDataByGroup));
 const { t, locale } = useI18n();
