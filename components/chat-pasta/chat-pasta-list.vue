@@ -55,7 +55,7 @@
   </chat-pasta-list-hints>
 </template>
 <script lang="ts">
-import type { InjectHoveredEmote } from "~/app.vue";
+import type { InjectOnHoverHint } from "~/app.vue";
 
 export const l = "pasta.list." as const;
 </script>
@@ -69,7 +69,7 @@ const selectedLogin = computed(
 );
 
 const { makeMouseoverHandler } =
-  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+  inject<InjectOnHoverHint>("hoveredEmote") || raise();
 
 const throttledMouseover = useThrottleFn(
   makeMouseoverHandler({

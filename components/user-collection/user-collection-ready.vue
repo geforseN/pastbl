@@ -105,7 +105,7 @@ import type {
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
-import type { InjectHoveredEmote } from "~/app.vue";
+import type { InjectOnHoverHint } from "~/app.vue";
 import { idb } from "~/client-only/IndexedDB";
 
 const { asyncState, isCollectionSelected } = defineProps<{
@@ -144,7 +144,7 @@ async function getRefreshedIntegration(source: EmoteSource) {
 }
 
 const { makeMouseoverHandler } =
-  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+  inject<InjectOnHoverHint>("hoveredEmote") || raise();
 const emoteSource = ref<EmoteSource>();
 
 const throttledMouseover = useThrottleFn(
