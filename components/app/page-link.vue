@@ -1,9 +1,9 @@
 <template>
   <div class="rounded-box border-2 px-4 py-2">
     <nuxt-link-locale :to="path">
-      <span class="flex items-center justify-between gap-2 text-3xl font-bold">
+      <span class="flex items-center justify-between gap-2 text-2xl font-bold">
         <span class="flex items-center gap-2">
-          <icon name="carbon:link" />
+          <slot name="left"><icon name="carbon:link" /></slot>
           <slot name="default">{{ text }}</slot>
         </span>
         <slot name="right" />
@@ -13,8 +13,9 @@
 </template>
 <script setup lang="ts">
 defineSlots<{
-  default?: () => unknown;
+  left?: () => unknown;
   right?: () => unknown;
+  default?: () => unknown;
 }>();
 
 const { t } = useI18n();
@@ -39,6 +40,10 @@ const routePageLinkRecord = {
   "user-settings": {
     path: "/user/settings#heading",
     text: t("user.settings.link"),
+  },
+  pastas: {
+    path: "/pastas",
+    text: t("pastas.link"),
   },
   "find-pasta": {
     path: "/pastas/find#heading",
