@@ -45,10 +45,37 @@
   </div>
 </template>
 <script setup lang="ts">
+import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { HoveredEmoteHint } from "#build/components";
 import type { IEmote } from "~/integrations";
+import type { RouteLocation, RouteLocationRaw } from "#vue-router";
 
 useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
+
+const localePath = useLocalePath();
+
+const go = (path: RouteLocation | RouteLocationRaw) =>
+  navigateTo(localePath(path));
+
+const handlersMap = new Map([
+  ["h", () => go("/")],
+  ["p", () => go("/pastas")],
+  ["f", () => go("/pastas/find")],
+  ["m", () => go("/user/settings")],
+  ["e", () => go("/collections")],
+  ["s", () => savePastasToFile(usePastasStore().pastas.state)],
+]);
+
+onKeyStroke((event) => {
+  const { key, altKey } = event;
+  if (!altKey || !handlersMap.has(key)) {
+    return;
+  }
+  event.preventDefault();
+  const handler = handlersMap.get(key);
+  assert.ok(handler instanceof Function);
+  return handler();
+});
 
 const hoveredEmoji = ref<Nullish<string>>();
 const hoveredEmote = ref<Nullish<IEmote>>();
