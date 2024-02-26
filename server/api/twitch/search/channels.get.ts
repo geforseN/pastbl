@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { groupBy } from "~/utils/array";
+import { groupBy } from "~/utils/object";
 import { toLowerCase } from "~/utils/string";
 
 const querySchema = z.object({
