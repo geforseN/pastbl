@@ -1,7 +1,12 @@
 import { z } from "zod";
 import { TwitchUser } from "~/server/api/twitch/users/[login].get";
 import { sum } from "~/utils/array";
-import { groupBy, flatGroupBy, objectEntries } from "~/utils/object";
+import {
+  groupBy,
+  flatGroupBy,
+  objectEntries,
+  objectValues,
+} from "~/utils/object";
 import { toLowerCase } from "~/utils/string";
 import {
   BetterTTV,
@@ -18,7 +23,11 @@ import {
 } from "~/integrations";
 import { FrankerFaceZApi } from "~/integrations/api";
 import { assert } from "~/utils/error";
-import { createUserEmote, createUserIntegration } from "~/integrations/Twitch";
+import {
+  ITwitchEmote,
+  createUserEmote,
+  createUserIntegration,
+} from "~/integrations/Twitch";
 
 const twitchTypeRecord = {
   bitstier: "Bits emotes",
@@ -72,12 +81,11 @@ const userIntegrationsGetters = {
       login: twitchUserLogin,
       nickname: twitchUserNickname,
     };
-
     const groupedEmotes = groupBy(
       emotesData,
       (emote) =>
         makeTwitchKey(emote.emote_type, emote.tier, emote.emote_set_id),
-      (emote): ITwitchUserIntegration["sets"][number]["emotes"][number] => {
+      (emote): ITwitchEmote => {
         const url = emote.format.includes("animated")
           ? emote.images.url_1x.replace("/static/", "/animated/")
           : emote.images.url_1x;
@@ -97,7 +105,22 @@ const userIntegrationsGetters = {
         emotes,
       };
     });
-    const integration = createUserIntegration(twitchUser, sets);
+    const reducedSetsRecord = sets.reduce(
+      (acc, set) => {
+        if (!Object.hasOwn(acc, set.name)) {
+          acc[set.name] = set;
+          return acc;
+        }
+        const existing = acc[set.name];
+        existing.updatedAt = Math.max(existing.updatedAt, set.updatedAt);
+        existing.emotes.push(...set.emotes);
+        existing.id = `${existing.id}+${set.id}`;
+        return acc;
+      },
+      {} as Record<string, ITwitchUserIntegration["sets"][number]>,
+    );
+    const reducedSets = objectValues(reducedSetsRecord);
+    const integration = createUserIntegration(twitchUser, reducedSets);
     return integration;
   },
 } as const;
