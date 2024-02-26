@@ -1,5 +1,8 @@
 <template>
-  <div class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch p-2">
+  <div
+    class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch p-2"
+    @mouseover="throttledMouseover"
+  >
     <div class="flex gap-2">
       <div class="flex h-16 min-w-16 items-center">
         <nuxt-link-locale
@@ -77,6 +80,11 @@
         status="ready"
         :collection="integration"
         :source="integration.source"
+        @mouseover="
+          () => {
+            emoteSource = integration.source;
+          }
+        "
         @refresh="
           async () => {
             const newIntegration = await getRefreshedIntegration(
@@ -97,6 +105,8 @@ import type {
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
+import type { InjectHoveredEmote } from "~/app.vue";
+import { idb } from "~/client-only/IndexedDB";
 
 const { asyncState, isCollectionSelected } = defineProps<{
   asyncState: ReadyUserCollectionAsyncState;
@@ -132,4 +142,24 @@ async function getRefreshedIntegration(source: EmoteSource) {
   assert.ok(newIntegration);
   return newIntegration;
 }
+
+const { makeMouseoverHandler } =
+  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+const emoteSource = ref<EmoteSource>();
+
+const throttledMouseover = useThrottleFn(
+  makeMouseoverHandler({
+    async findEmote(target) {
+      const { emoteId } = target.dataset;
+      assert.ok(
+        typeof emoteId === "string" && emoteId.length && emoteSource.value,
+      );
+      const emotesStore = await idb.emotes;
+      const emote = await emotesStore.get([emoteId, emoteSource.value]);
+      return emote;
+    },
+  }),
+  100,
+  true,
+);
 </script>

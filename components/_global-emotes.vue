@@ -6,7 +6,7 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2" @mouseover="throttledMouseover">
       <button
         class="btn btn-primary btn-lg w-full flex-nowrap text-pretty border-2 border-base-content text-xl"
         @click="globalCollectionsStore.refreshAllCollections"
@@ -48,5 +48,21 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { InjectHoveredEmote } from "~/app.vue";
+
 const globalCollectionsStore = useGlobalCollectionsStore();
+const emotesStore = useEmotesStore();
+
+const { makeMouseoverHandler } =
+  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+
+const throttledMouseover = useThrottleFn(
+  makeMouseoverHandler({
+    findEmote(target) {
+      return emotesStore.findEmote(target.alt);
+    },
+  }),
+  100,
+  true,
+);
 </script>

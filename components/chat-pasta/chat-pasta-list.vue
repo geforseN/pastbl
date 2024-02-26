@@ -52,17 +52,9 @@
         </dynamic-scroller-item>
       </template>
     </dynamic-scroller>
-    <teleport to="body">
-      <hovered-emote-hint
-        id="hoveredEmoteContainer"
-        ref="hoveredEmoteRef"
-        :emote="hoveredEmote"
-      />
-    </teleport>
   </chat-pasta-list-hints>
 </template>
 <script lang="ts">
-import type { HoveredEmoteHint } from "#build/components";
 import type { InjectHoveredEmote } from "~/app.vue";
 
 export const l = "pasta.list." as const;
@@ -76,46 +68,18 @@ const selectedLogin = computed(
   () => useUserCollectionsStore().selectedCollectionLogin.state,
 );
 
-const { hoveredEmote, updateHoveredEmote, removeHoveredEmote } = inject(
-  "hoveredEmote",
-) as InjectHoveredEmote;
-const hoveredEmoteRef = ref<InstanceType<typeof HoveredEmoteHint>>();
-const hoveredEmoteContainerRef = computed(
-  () => hoveredEmoteRef.value?.hoveredEmoteContainerRef,
+const { makeMouseoverHandler } =
+  inject<InjectHoveredEmote>("hoveredEmote") || raise();
+
+const throttledMouseover = useThrottleFn(
+  makeMouseoverHandler({
+    findEmote(target) {
+      return emotesStore.findEmote(target.alt);
+    },
+  }),
+  100,
+  true,
 );
-
-const throttledMouseover = useThrottleFn(onMouseover, 100, true);
-
-function onMouseover(event: Event) {
-  assert.ok(event instanceof MouseEvent);
-  const { target, relatedTarget } = event;
-  if (!(target instanceof Element)) {
-    return withLogSync(null, "not an element");
-  }
-  if (target.classList.contains("emote-hint")) {
-    return withLogSync(null, "hint is hovered");
-  }
-  if (target.classList.contains("emoji")) {
-    // TODO
-  }
-  if (
-    relatedTarget instanceof HTMLImageElement &&
-    !(target instanceof HTMLImageElement)
-  ) {
-    removeHoveredEmote();
-    return;
-  }
-  if (target instanceof HTMLImageElement) {
-    const emote = emotesStore.findEmote(target.alt);
-    if (!emote) {
-      return;
-    }
-    updateHoveredEmote(emote);
-    assert.ok(hoveredEmoteContainerRef.value);
-    hoveredEmoteContainerRef.value.style.top = `${event.pageY}px`;
-    hoveredEmoteContainerRef.value.style.left = `${event.pageX}px`;
-  }
-}
 </script>
 <style>
 .pasta-list .chat-pasta .chat-pasta-sidebar {
