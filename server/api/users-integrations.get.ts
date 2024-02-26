@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TwitchUser } from "~/server/api/twitch/users/[login].get";
-import { groupBy, sum } from "~/utils/array";
-import { flatGroupBy, objectEntries } from "~/utils/object";
+import { sum } from "~/utils/array";
+import { groupBy, flatGroupBy, objectEntries } from "~/utils/object";
 import { toLowerCase } from "~/utils/string";
 import {
   BetterTTV,

@@ -48,3 +48,33 @@ export function objectValues<T extends object>(object: T) {
 export function objectEntries<T extends object, K extends keyof T>(object: T) {
   return Object.entries(object) as [K, T[K]][];
 }
+
+export function groupBy<T, K extends string | number | symbol, V extends T>(
+  array: T[],
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb?: undefined,
+): Record<K, V[]>;
+
+export function groupBy<T, K extends string | number | symbol, V>(
+  array: T[],
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb: (value: T, index: number, array: T[], grouped: V[]) => V,
+): Record<K, V[]>;
+
+export function groupBy<T, K extends string | number | symbol, V>(
+  array: T[],
+  keyCb: (value: T, index: number, array: T[]) => K,
+  valueCb?: (value: T, index: number, array: T[], grouped: V[]) => V,
+  initialRecord: Record<K, V[]> = {} as Record<K, V[]>,
+): Record<K, V[]> {
+  const getValue = valueCb ?? ((value: T) => value as unknown as V);
+  return array.reduce((record, value, index, array) => {
+    const key = keyCb(value, index, array);
+    let recordValue = record[key];
+    if (!Array.isArray(recordValue)) {
+      record[key] = recordValue = [];
+    }
+    recordValue.push(getValue(value, index, array, recordValue));
+    return record;
+  }, initialRecord);
+}

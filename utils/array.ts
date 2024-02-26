@@ -25,33 +25,6 @@ export function swap<A extends unknown[]>(array: A, i: number, j: number) {
   return array;
 }
 
-export function groupBy<T, K extends string | number | symbol, V extends T>(
-  array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: undefined,
-): Record<K, V[]>;
-export function groupBy<T, K extends string | number | symbol, V>(
-  array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb: (value: T) => V,
-): Record<K, V[]>;
-export function groupBy<T, K extends string | number | symbol, V>(
-  array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: (value: T, index: number, array: T[]) => V,
-  initialRecord: Record<K, V[]> = {} as Record<K, V[]>,
-): Record<K, V[]> {
-  const getValue = valueCb ?? ((value: T) => value as unknown as V);
-  return array.reduce((record, value, index, array) => {
-    const key = keyCb(value, index, array);
-    if (!Array.isArray(record[key])) {
-      record[key] = [];
-    }
-    record[key].push(getValue(value, index, array));
-    return record;
-  }, initialRecord);
-}
-
 export function sum<A extends readonly unknown[]>(
   array: A,
   cb: (value: A[number], index: number, array: A) => number,
