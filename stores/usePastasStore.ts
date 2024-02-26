@@ -153,7 +153,7 @@ function usePastasShow(
 export const usePastasStore = defineStore("pastas", () => {
   const pastas = useAsyncState(
     async () => {
-      if (typeof window === "undefined") {
+      if (process.server) {
         return [];
       }
       const pastas = await pastasService.getAll();

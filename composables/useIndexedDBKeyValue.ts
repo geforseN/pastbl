@@ -31,7 +31,7 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
     throw reason;
   };
 
-  if (typeof window !== "undefined") {
+  if (process.client) {
     idbValue
       .get()
       .catch(() => undefined)

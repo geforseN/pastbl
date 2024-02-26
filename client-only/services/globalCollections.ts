@@ -40,7 +40,7 @@ export const globalCollectionsIdb = {
   },
 
   async getAll() {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return {};
     }
     const collectionIdb = await idb.collections;

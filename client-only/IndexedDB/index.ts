@@ -28,7 +28,7 @@ export async function openIdb<T extends DBSchema>(
   version: number,
   upgrade: OpenDBCallbacks<T>["upgrade"],
 ) {
-  if (typeof window === "undefined") {
+  if (process.server) {
     return {} as IDBPDatabase<T>;
   }
   const { openDB } = await import("idb");
