@@ -59,11 +59,11 @@ const userIntegrationsGetters = {
     const sets = createFFZUserSets(room.sets);
     return createFFZUserIntegration(partialIntegration, sets);
   },
-  BetterTTV(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
-    return BetterTTV.giveUserIntegration(twitchUserId, twitchUserLogin);
+  async BetterTTV(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
+    return await BetterTTV.giveUserIntegration(twitchUserId, twitchUserLogin);
   },
-  SevenTV(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
-    return SevenTV.createUserIntegration(twitchUserId, twitchUserLogin);
+  async SevenTV(twitchUserId: number, twitchUserLogin: Lowercase<string>) {
+    return await SevenTV.createUserIntegration(twitchUserId, twitchUserLogin);
   },
   async Twitch(
     twitchUserId: number,
@@ -220,14 +220,14 @@ const getCachedUserIntegration = defineCachedFunction(
 );
 
 export default defineEventHandler(async (event) => {
-  const { sources, ...query } = querySchema.parse(getQuery(event));
+  const query = querySchema.parse(getQuery(event));
   const twitchUser = {
     id: query.twitchUserId,
     nickname: query.twitchUserNickname,
     login: toLowerCase(query.twitchUserNickname),
   };
   const integrations = await Promise.all(
-    sources.map((source) => getCachedUserIntegration(source, twitchUser)),
+    query.sources.map((source) => getCachedUserIntegration(source, twitchUser)),
   );
   const groupedBySource = flatGroupBy(
     integrations,
