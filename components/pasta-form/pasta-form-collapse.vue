@@ -57,7 +57,7 @@
             )
         "
       />
-      <chat-pasta-preview />
+      <chat-pasta-preview v-show="!!pastaStore.pastaTrimmedText.length" />
     </div>
   </div>
 </template>
