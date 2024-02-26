@@ -26,6 +26,13 @@
           />&nbsp;{{ emote_.source }}&nbsp;{{ emote_.type }}&nbsp;emote
         </div>
       </div>
+      <nuxt-link
+        v-if="emoteIntegrationLink"
+        class="link"
+        :to="emoteIntegrationLink"
+      >
+        Link to emote page
+      </nuxt-link>
       <dev-only>
         <div class="flex gap-1 text-yellow-400">
           <span v-if="emote_.isAnimated">animated</span>
@@ -46,10 +53,20 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import type { IEmote } from "~/integrations";
 
+const emoteSizes = [1, 2, 3, 4] as const;
+
+const emoteIntegrationsLinksGetters = {
+  FrankerFaceZ: (emote: IEmote) =>
+    `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
+  BetterTTV: (emote: IEmote) => `https://betterttv.com/emotes/${emote.id}`,
+  SevenTV: (emote: IEmote) => `https://7tv.app/emotes/${emote.id}`,
+} as const;
+</script>
+<script setup lang="ts">
 const props = defineProps<{
   emote?: Nullish<IEmote>;
   emoji?: Nullish<string>;
@@ -62,6 +79,18 @@ defineExpose({
 });
 
 const emote_ = computed(() => props.emote && new Emote({ ...props.emote }));
+const emoteIntegrationLink = computed(() => {
+  if (!emote_.value) {
+    return;
+  }
+  const getLink: (emote: IEmote) => string =
+    emoteIntegrationsLinksGetters[emote_.value.source];
+  if (!getLink) {
+    return;
+  }
+  return getLink(emote_.value);
+});
+
 const emoji = computed(() => props.emoji);
 const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
 
@@ -70,8 +99,7 @@ const images = computed(() => {
   if (!emote) {
     return [];
   }
-  const sizes = [1, 2, 3, 4] as const;
-  return sizes
+  return emoteSizes
     .filter((size) => emote.canHaveSize(size))
     .map((size) => {
       return {
