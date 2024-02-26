@@ -2,7 +2,7 @@ import { idb } from "../IndexedDB";
 
 export const pastasService = {
   async getAll() {
-    if (typeof window === "undefined") {
+    if (process.server) {
       return [];
     }
     const pastasIdb = await idb.pastas;
