@@ -13,14 +13,14 @@
           class="btn btn-outline flex-nowrap text-wrap border-twitch text-twitch"
           to="/collections"
         >
-          {{ $t("collections.index.link") }}
+          <strong>{{ $t("collections.index.link") }}</strong>
           <emote-integration-logos class="min-w-8" />
         </nuxt-link-locale>
       </li>
       <li class="ml-2 hidden go-brr:block">
         <nuxt-link-locale class="btn btn-info flex-nowrap" to="/pastas/find">
-          {{ $t("pasta.find.link") }}
-          <span>🔍</span>
+          <strong>{{ $t("pasta.find.link") }}</strong>
+          🔍
         </nuxt-link-locale>
       </li>
       <li class="ml-2">
@@ -28,8 +28,8 @@
           to="/user/settings#heading"
           class="btn btn-outline flex-nowrap"
         >
-          {{ $t("user.settings.link") }}
-          <span>⚙️</span>
+          <strong>{{ $t("user.settings.link") }}</strong>
+          ⚙️
         </nuxt-link-locale>
       </li>
       <li class="ml-auto xs:mr-2">
@@ -37,14 +37,7 @@
           id="select-locale"
           class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
           name="select-locale"
-          @change="
-            async ({ target }) => {
-              assert.ok(target);
-              const { value } = target;
-              assert.ok(value);
-              await setLocale(value);
-            }
-          "
+          @change="changeLocale"
         >
           <option
             v-for="availableLocale in locales"
@@ -85,6 +78,13 @@ const themes = computedWithControl(locale, () => ({
   light: t("theme.light"),
 }));
 
+async function changeLocale(event: Event) {
+  assert.ok(event instanceof Event && event.target);
+  const { value } = event.target as unknown as { value: string };
+  assert.ok(typeof value === "string");
+  await setLocale(value);
+}
+
 onMounted(() => {
   watch(
     selectedTheme.state,
@@ -96,6 +96,14 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+strong {
+  font-weight: inherit;
+}
+
+.router-link-active strong {
+  @apply underline decoration-2 underline-offset-2;
+}
+
 .logo {
   -webkit-text-stroke: 2px theme(colors.base-100);
 }
