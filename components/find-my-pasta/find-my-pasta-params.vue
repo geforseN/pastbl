@@ -28,9 +28,7 @@
       v-model:selected-pasta-tags="pastaFindStore.selectedPastaTags"
       :tags-to-select="pastaFindStore.tagsToSelect"
     />
-    <dev-only>
-      <find-my-pasta-date />
-    </dev-only>
+    <find-my-pasta-date />
   </section>
 </template>
 <script lang="ts">
