@@ -37,11 +37,11 @@ export function sum<A extends readonly unknown[]>(
 }
 
 export function getValidIndex<T>(
-  array: T[],
+  array: MaybeRef<T[]>,
   cb: (value: T, index: number, array: T[]) => boolean,
   messageOrError = new Error("Invalid index"),
 ) {
-  const index = array.findIndex(cb);
+  const index = toValue(array).findIndex(cb);
   assert.ok(index >= 0, messageOrError);
   return index;
 }

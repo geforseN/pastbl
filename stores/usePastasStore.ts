@@ -187,7 +187,7 @@ export const usePastasStore = defineStore("pastas", () => {
   function getPastaIndexById(id: number) {
     const m = "toast.getPastaIndexById.fail.";
     return getValidIndex(
-      pastas.state.value,
+      pastas.state,
       (pasta_) => pasta_.id === id,
       new ExtendedError(t(m + "message"), {
         title: t(m + "title"),
