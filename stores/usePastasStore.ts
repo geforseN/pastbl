@@ -219,10 +219,10 @@ export const usePastasStore = defineStore("pastas", () => {
       );
     }),
     minPastaTextLengthInPastas: computed(() =>
-      Math.min(...pastasTextLength.value),
+      pastasTextLength.value.length ? Math.min(...pastasTextLength.value) : 0,
     ),
     maxPastaTextLengthInPastas: computed(() =>
-      Math.max(...pastasTextLength.value),
+      pastasTextLength.value.length ? Math.max(...pastasTextLength.value) : 0,
     ),
     async createPasta(
       basePasta: BasePasta,
