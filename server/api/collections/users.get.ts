@@ -8,7 +8,7 @@ const sourcesQuery = emoteSources.join("+");
 const getCachedUserCollection = defineCachedFunction(
   async (nickname: string) => {
     const twitchUser = await $fetch(`/api/twitch/users/${nickname}`);
-    const integrations = await $fetch(`/api/users-integrations`, {
+    const integrations = await $fetch(`/api/collections/users/integrations`, {
       query: {
         sources: sourcesQuery,
         twitchUserId: twitchUser.id,

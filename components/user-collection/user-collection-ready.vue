@@ -131,7 +131,7 @@ const readyIntegrations = computed(() => {
 });
 
 async function getRefreshedIntegration(source: EmoteSource) {
-  const record = await $fetch("/api/users-integrations", {
+  const record = await $fetch("/api/collections/users/integrations", {
     query: {
       sources: source,
       twitchUserId: twitch.value.id,
