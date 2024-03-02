@@ -6,6 +6,7 @@ import {
   uuid,
   varchar,
   primaryKey,
+  serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -32,9 +33,18 @@ export const pastas = pgTable(
   }),
 );
 
+export const pastasRelations = relations(pastas, ({ one, many }) => ({
+  author: one(twitchUsers, {
+    fields: [pastas.authorTwitchId],
+    references: [twitchUsers.id],
+  }),
+  tags: many(pastasTags),
+}));
+
 export const pastasTags = pgTable(
   "pastas_tags",
   {
+    id: serial("id").primaryKey(),
     pastaUuid: integer("pasta_uuid")
       .notNull()
       .references(() => pastas.uuid),
@@ -46,6 +56,39 @@ export const pastasTags = pgTable(
     pastaIdIndex: index("tags_index").on(tags.pastaUuid),
   }),
 );
+
+export const tagsRelations = relations(pastasTags, ({ one }) => ({
+  pasta: one(pastas, {
+    fields: [pastasTags.pastaUuid],
+    references: [pastas.uuid],
+  }),
+}));
+
+export const tagsToPastas = pgTable(
+  "tags_to_pastas",
+  {
+    tagId: varchar("tag_id")
+      .notNull()
+      .references(() => pastasTags.id),
+    pastaUuid: integer("pasta_uuid")
+      .notNull()
+      .references(() => pastas.uuid),
+  },
+  ({ pastaUuid, tagId }) => ({
+    pk: primaryKey({ columns: [tagId, pastaUuid] }),
+  }),
+);
+
+export const tagsToPastasRelations = relations(tagsToPastas, ({ one }) => ({
+  tag: one(pastasTags, {
+    fields: [tagsToPastas.tagId],
+    references: [pastasTags.id],
+  }),
+  pasta: one(pastas, {
+    fields: [tagsToPastas.pastaUuid],
+    references: [pastas.uuid],
+  }),
+}));
 
 export const previousPastas = pgTable("previous_pastas", {
   uuid: uuid("uuid")
@@ -75,28 +118,10 @@ export const twitchUsersRelations = relations(twitchUsers, ({ many }) => ({
   author: many(pastas, { relationName: "author" }),
 }));
 
-export const pastasRelations = relations(pastas, ({ one, many }) => ({
-  author: one(twitchUsers, {
-    fields: [pastas.authorTwitchId],
-    references: [twitchUsers.id],
-    relationName: "author",
-  }),
-  tags: many(pastasTags, { relationName: "tags" }),
-}));
-
-export const tagsRelations = relations(pastasTags, ({ one }) => ({
-  pasta: one(pastas, {
-    fields: [pastasTags.pastaUuid],
-    references: [pastas.uuid],
-    relationName: "pasta",
-  }),
-}));
-
 export const previousPastasRelations = relations(previousPastas, ({ one }) => ({
   author: one(twitchUsers, {
     fields: [previousPastas.authorTwitchId],
     references: [twitchUsers.id],
-    relationName: "author",
   }),
   latestPasta: one(pastas, {
     fields: [previousPastas.uuid],
