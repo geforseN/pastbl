@@ -17,9 +17,6 @@
             </span>
             <icon name="mdi:pasta" size="32" class="-translate-y-0.5" />
           </div>
-          <!-- pixelarticons:notes-multiple -->
-          <!-- iconoir:post-solid -->
-          <!-- iconoir:post -->
         </span>
       </template>
     </app-page-link>
