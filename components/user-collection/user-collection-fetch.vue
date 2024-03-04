@@ -1,5 +1,5 @@
 <template>
-  <section class="rounded-box border-2 p-2">
+  <form class="rounded-box border-2 p-2" @submit.prevent="handleCollectionLoad">
     <div class="flex justify-between p-2">
       <h2 id="heading" class="text-3xl font-bold">
         {{ $t(f + "heading") }}&nbsp;
@@ -8,19 +8,16 @@
     </div>
     <div class="join w-full">
       <input
-        id="nickname"
+        id="fetch-nickname"
         ref="inputRef"
         v-model="channelsSearchNickname"
-        name="nickname"
+        name="fetch-nickname"
         :placeholder="$t(f + 'placeholder')"
         class="input join-item input-accent grow"
         type="search"
-        @keyup.enter="handleCollectionLoad(channelsSearchNickname)"
+        required
       />
-      <button
-        class="btn btn-accent join-item w-2/6"
-        @click="handleCollectionLoad(channelsSearchNickname)"
-      >
+      <button class="btn btn-accent join-item w-2/6">
         <span v-if="isLoadingCollection" class="flex items-center gap-2">
           {{ $t(f + "button.text-on-load") }}
           <span class="loading loading-spinner" />
@@ -33,7 +30,11 @@
     <user-collection-fetch-channels-search
       :must-show="channelsSearch.mustShow"
       :channels="channelsSearch.state"
-      @load="(nickname) => handleCollectionLoad(nickname)"
+      @load="
+        (nickname) => {
+          channelsSearchNickname = nickname;
+        }
+      "
     />
     <div class="flex items-center justify-between p-2">
       <label for="must-select-collection-on-load">
@@ -47,7 +48,7 @@
         name="must-select-collection-on-load"
       />
     </div>
-  </section>
+  </form>
 </template>
 <script lang="ts">
 import { set } from "@vueuse/core";
@@ -139,7 +140,8 @@ const isLoadingCollection = ref(false);
 const userCollectionsStore = useUserCollectionsStore();
 const toast = useNuxtToast();
 const { t } = useI18n();
-async function handleCollectionLoad(nickname: string) {
+async function handleCollectionLoad() {
+  const nickname = channelsSearchNickname.value;
   isLoadingCollection.value = true;
   await loadCollection(
     async () => {
