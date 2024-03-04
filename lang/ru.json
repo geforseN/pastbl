@@ -109,6 +109,11 @@
       }
     }
   },
+  "pastas": {
+    "link": "Пасты",
+    "saveToFile": "Сохранить пасты в файл",
+    "loadFromFile": "Загрузить пасты из файла"
+  },
   "pasta": {
     "createdAt": "Создана",
     "list": {
