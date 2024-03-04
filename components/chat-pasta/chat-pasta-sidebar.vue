@@ -23,7 +23,7 @@
       >
         <li>
           <button
-            class="btn btn-accent"
+            class="btn btn-accent h-max gap-y-0.5"
             :disabled="!props.isClipboardSupported"
             @click="emit('copy')"
           >
@@ -34,14 +34,17 @@
         <li>
           <nuxt-link-locale
             :to="`/pastas/edit/${props.pastaId}`"
-            class="btn btn-info w-full"
+            class="btn btn-info h-max w-full gap-y-0.5"
           >
             {{ $t(d + "edit") }}
             <icon name="ic:outline-edit" />
           </nuxt-link-locale>
         </li>
         <li>
-          <button class="btn btn-error w-full" @click="emit('delete')">
+          <button
+            class="btn btn-error h-max w-full gap-y-0.5"
+            @click="emit('delete')"
+          >
             {{ $t(d + "delete") }}
             <icon name="ic:baseline-delete-outline" />
           </button>
