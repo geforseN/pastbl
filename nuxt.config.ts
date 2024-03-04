@@ -6,6 +6,15 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+  nitro: {
+    experimental: {
+      tasks: true,
+    },
+    scheduledTasks: {
+      // At 00:00 on day-of-month 1 => every month
+      "0 0 1 * *": "get-twitch-token",
+    },
+  },
   imports: {
     dirs: ["./composables", "./utils", "./stores"],
     imports: [
