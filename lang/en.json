@@ -109,6 +109,11 @@
       }
     }
   },
+  "pastas": {
+    "link": "Pastas",
+    "saveToFile": "Save pastas to file",
+    "loadFromFile": "Load pastas from file"
+  },
   "pasta": {
     "createdAt": "Created",
     "list": {

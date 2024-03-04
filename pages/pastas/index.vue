@@ -1,25 +1,11 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <app-page-link to="main" />
-    <app-page-link to="find-pasta">
-      <template #right>🔍</template>
-    </app-page-link>
-    <app-page-link to="user-settings">
-      <template #right>⚙️</template>
-    </app-page-link>
-    <app-page-link to="emotes">
-      <template #right><emote-integration-logos /></template>
-    </app-page-link>
+  <div class="flex w-96 flex-col gap-2">
     <div class="flex flex-col gap-1">
-      <button
-        class="btn btn-primary"
-        @click="() => savePastasToFile(pastasStore.pastas.state)"
-      >
-        Save pastas to file
-      </button>
       <article class="form-control rounded-btn border p-2">
         <label for="load-pastas">
-          <h3 class="text-xl font-bold">Load pastas</h3>
+          <h3 class="p-1 pt-0 text-2xl font-bold">
+            {{ $t("pastas.loadFromFile") }}
+          </h3>
         </label>
         <input
           id="load-pastas"
@@ -36,6 +22,22 @@
         />
       </article>
     </div>
+    <button
+      class="btn btn-primary btn-lg h-max flex-nowrap text-balance px-4 text-3xl"
+      @click="() => savePastasToFile(pastasStore.pastas.state)"
+    >
+      <div class="py-1">{{ $t("pastas.saveToFile") }}</div>
+      <div class="flex items-center gap-2">
+        <span class="text-nowrap text-xs text-base-content">
+          <kbd class="kbd pt-1">Alt</kbd>
+          <span class="mx-0.5">+</span>
+          <kbd class="kbd pt-1">S</kbd>
+        </span>
+        <icon name="ic:file-download" size="31" />
+      </div>
+    </button>
+    <app-page-link-pastas-find />
+    <app-page-link-main />
   </div>
 </template>
 <script lang="ts">
@@ -69,17 +71,15 @@ function loadPastasFromFile(event: Event, reader: FileReader) {
   reader.readAsText(files[0]);
 }
 
-function savePastasToFile(pastasToSave: IDBMegaPasta[]) {
+export function savePastasToFile(pastasToSave: IDBMegaPasta[]) {
   const link = document.createElement("a");
   const minimalPastas = pastasToSave.filter(isMinimalPasta).map((pasta) => ({
     ...makeMinimalPasta(pasta),
-    id: pasta.id,
     createdAt: new Date(pasta.createdAt).toISOString(),
   }));
+  const pastasString = JSON.stringify(minimalPastas, null, 2);
   link.href = window.URL.createObjectURL(
-    new Blob([JSON.stringify(minimalPastas, null, 2)], {
-      type: "application/json",
-    }),
+    new Blob([pastasString], { type: "application/json" }),
   );
   link.download = "pastas.json";
   document.body.appendChild(link);
@@ -115,12 +115,12 @@ if (process.client) {
   assert.ok(reader);
   reader.onload = async function (event) {
     const megaPastas = getMegaPastasOnFileLoad(event);
-    const [success, failed] = await tupleSettledPromises(
+    const [succeeded, failed] = await tupleSettledPromises(
       megaPastas.map((pasta) => pastasService.add(pasta)),
     );
     pastasStore.pastas.state = [
       ...pastasStore.pastas.state,
-      ...success.toSorted((a, b) => a.id - b.id),
+      ...succeeded.toSorted((a, b) => a.id - b.id),
     ];
     assert.ok(!failed.length);
   };
