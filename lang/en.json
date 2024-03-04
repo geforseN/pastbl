@@ -168,6 +168,12 @@
         "max": "Max length",
         "min": "Min length"
       },
+      "date": {
+        "heading": "Date range",
+        "createdAt": "Created at",
+        "from": "From",
+        "to": "To"
+      },
       "tags": {
         "heading": "Required tags",
         "must-respect": "Must respect selected tags",
@@ -261,7 +267,7 @@
           "text": "Load collection",
           "text-on-load": "Loading"
         },
-        "must-select-onload": "Select collection upon successful load",
+        "must-select-onload": "Select collection on successful load",
         "channels-search": {
           "load": "Load",
           "exact": "Exact",
