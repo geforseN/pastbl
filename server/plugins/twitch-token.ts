@@ -1,53 +1,15 @@
-const {
-  TWITCH_APP_CLIENT_SECRET: twitchClientSecret,
-  TWITCH_APP_CLIENT_ID: twitchClientId,
-} = process.env;
-
-if (!twitchClientId) {
-  throw new Error("TWITCH_APP_CLIENT_ID is not defined in .env");
-}
-if (!twitchClientSecret) {
-  throw new Error("TWITCH_APP_CLIENT_SECRET is not defined in .env");
-}
-
-const twitchTokenOptions = {
-  method: "POST" as const,
-  baseURL: "https://id.twitch.tv",
-  headers: { "Content-Type": "application/x-www-form-urlencoded" },
-};
-
-const storage = useStorage();
-
-async function fetchTwitchToken(): Promise<TwitchToken> {
-  const fetchStartTime = Date.now();
-  const twitchToken: Omit<TwitchToken, "fetchStartTime"> = await $fetch(
-    "/oauth2/token",
-    {
-      ...twitchTokenOptions,
-      body: `client_id=${twitchClientId}&client_secret=${twitchClientSecret}&grant_type=client_credentials`,
-    },
-  );
-  return { ...twitchToken, fetchStartTime };
-}
-
 export default defineNitroPlugin(async (nitro) => {
-  /* eslint-disable no-console */
-  console.log("Fetching twitch token");
-  const token = await fetchTwitchToken();
-  await storage.setItem("twitchToken", token);
-  console.log("Fethed twitch token");
+  await runTask("get-twitch-token");
   nitro.hooks.hookOnce("close", async () => {
-    console.log("Nitro close hooks started");
-    const token = await storage.getItem<TwitchToken>("twitchToken");
+    /* eslint-disable no-console */
+    console.log("Twitch token revoke started");
+    const token = await getTwitchTokenFromStorage();
     if (!token) {
-      return;
+      return console.log("No twitch token to revoke, fast exit");
     }
-    // LINK: https://dev.twitch.tv/docs/authentication/revoke-tokens/
-    await $fetch("/oauth2/revoke", {
-      ...twitchTokenOptions,
-      body: `client_id=${twitchClientId}&token=${token.access_token}`,
-    });
-    console.log("Nitro close hooks ended");
+    await revokeTwitchToken(token);
+    await removeTwitchTokenFromStorage();
+    console.log(`Twitch token revoked`);
+    /* eslint-enable no-console */
   });
-  /* eslint-enable no-console */
 });
