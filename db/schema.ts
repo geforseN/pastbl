@@ -6,14 +6,16 @@ import {
   uuid,
   varchar,
   primaryKey,
-  serial,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-const MAX_TAG_LENGTH = 128;
+const TAG_MAX_LENGTH = 128;
 const MAX_TAGS_IN_PASTA = 10;
 const TWITCH_USER_ID_LENGTH = 64;
 const PASTA_TEXT_LENGTH = 1984;
+const PREVIOUS_PASTA_TAGS_STRING_LENGTH =
+  TAG_MAX_LENGTH * MAX_TAGS_IN_PASTA + (MAX_TAGS_IN_PASTA - 1);
+const TWITCH_USER_NICK_LENGTH = 25;
 
 export const pastas = pgTable(
   "pastas",
@@ -27,9 +29,15 @@ export const pastas = pgTable(
     })
       .notNull()
       .references(() => twitchUsers.id),
+    authorNickname: varchar("author_nickname", {
+      length: TWITCH_USER_NICK_LENGTH,
+    }).references(() => twitchUsers.nickname, {
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    }),
   },
-  (pastas) => ({
-    ownerTwitchIdIndex: index("pastas_index").on(pastas.authorTwitchId),
+  ({ authorTwitchId }) => ({
+    ownerTwitchIdIndex: index("pastas_index").on(authorTwitchId),
   }),
 );
 
@@ -38,51 +46,42 @@ export const pastasRelations = relations(pastas, ({ one, many }) => ({
     fields: [pastas.authorTwitchId],
     references: [twitchUsers.id],
   }),
-  tags: many(pastasTags),
+  tags: many(tagsToPastas),
 }));
 
 export const pastasTags = pgTable(
   "pastas_tags",
   {
-    id: serial("id").primaryKey(),
-    pastaUuid: integer("pasta_uuid")
-      .notNull()
-      .references(() => pastas.uuid),
-    value: varchar("tag", { length: MAX_TAG_LENGTH }).notNull(),
+    value: varchar("tag", { length: TAG_MAX_LENGTH }).notNull().unique(),
   },
-  (tags) => ({
-    pk: primaryKey({ columns: [pastas.uuid, tags.value] }),
-    tagIndex: index("tags_index").on(tags.value),
-    pastaIdIndex: index("tags_index").on(tags.pastaUuid),
+  ({ value }) => ({
+    tagIndex: index("tags_index").on(value),
   }),
 );
 
-export const tagsRelations = relations(pastasTags, ({ one }) => ({
-  pasta: one(pastas, {
-    fields: [pastasTags.pastaUuid],
-    references: [pastas.uuid],
-  }),
+export const tagsRelations = relations(pastasTags, ({ many }) => ({
+  pastas: many(tagsToPastas),
 }));
 
 export const tagsToPastas = pgTable(
   "tags_to_pastas",
   {
-    tagId: varchar("tag_id")
+    tagValue: varchar("tag_id")
       .notNull()
-      .references(() => pastasTags.id),
+      .references(() => pastasTags.value),
     pastaUuid: integer("pasta_uuid")
       .notNull()
       .references(() => pastas.uuid),
   },
-  ({ pastaUuid, tagId }) => ({
-    pk: primaryKey({ columns: [tagId, pastaUuid] }),
+  ({ tagValue, pastaUuid }) => ({
+    pk: primaryKey({ columns: [tagValue, pastaUuid] }),
   }),
 );
 
 export const tagsToPastasRelations = relations(tagsToPastas, ({ one }) => ({
   tag: one(pastasTags, {
-    fields: [tagsToPastas.tagId],
-    references: [pastasTags.id],
+    fields: [tagsToPastas.tagValue],
+    references: [pastasTags.value],
   }),
   pasta: one(pastas, {
     fields: [tagsToPastas.pastaUuid],
@@ -101,22 +100,9 @@ export const previousPastas = pgTable("previous_pastas", {
     .references(() => twitchUsers.id),
   lastUpdatedAt: timestamp("last_updated_at").notNull(),
   tagsString: varchar("tags_string", {
-    length: MAX_TAG_LENGTH * MAX_TAGS_IN_PASTA + (MAX_TAGS_IN_PASTA - 1),
+    length: PREVIOUS_PASTA_TAGS_STRING_LENGTH,
   }).notNull(),
 });
-
-export const twitchUsers = pgTable("twitch_users", {
-  id: varchar("id", { length: TWITCH_USER_ID_LENGTH }).primaryKey().notNull(),
-  nickname: varchar("nickname", { length: 25 }).notNull(),
-  login: varchar("login", { length: 25 }).notNull(),
-  description: varchar("description", { length: 192 }),
-  profileUrl: varchar("profile_url", { length: 192 }),
-});
-export type TwitchUser = typeof twitchUsers.$inferSelect;
-
-export const twitchUsersRelations = relations(twitchUsers, ({ many }) => ({
-  author: many(pastas, { relationName: "author" }),
-}));
 
 export const previousPastasRelations = relations(previousPastas, ({ one }) => ({
   author: one(twitchUsers, {
@@ -128,4 +114,17 @@ export const previousPastasRelations = relations(previousPastas, ({ one }) => ({
     references: [pastas.uuid],
     relationName: "latestPasta",
   }),
+}));
+
+export const twitchUsers = pgTable("twitch_users", {
+  id: varchar("id", { length: TWITCH_USER_ID_LENGTH }).primaryKey().notNull(),
+  nickname: varchar("nickname", { length: TWITCH_USER_NICK_LENGTH }).notNull(),
+  login: varchar("login", { length: TWITCH_USER_NICK_LENGTH }).notNull(),
+  description: varchar("description", { length: 192 }),
+  profileUrl: varchar("profile_url", { length: 192 }),
+});
+export type TwitchUser = typeof twitchUsers.$inferSelect;
+
+export const twitchUsersRelations = relations(twitchUsers, ({ many }) => ({
+  author: many(pastas, { relationName: "author" }),
 }));
