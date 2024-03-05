@@ -7,6 +7,13 @@
       type="text"
       :placeholder="$t('pasta.formCommon.tag.inputPlaceholder')"
       list="add-tag-suggestions"
+      @keyup="
+        (event) => {
+          if (event.key === ',') {
+            addTagOnCommaPress(event);
+          }
+        }
+      "
       @keyup.enter.prevent="emitTag"
     />
     <datalist id="add-tag-suggestions">
@@ -32,5 +39,21 @@ defineSlots<{
 
 function emitTag() {
   emit("addTag", modelValue.value);
+}
+
+function addTagOnCommaPress(event: KeyboardEvent) {
+  const input = modelValue.value;
+  const commaIndex = input.indexOf(",");
+  assert.ok(commaIndex >= 0);
+  const tag = input.slice(0, commaIndex);
+  if (tag.length !== 0) {
+    emit("addTag", tag);
+  }
+  // NOTE: must remove comma even if tag is empty
+  modelValue.value = input.slice(commaIndex + 1);
+  nextTick(() => {
+    assert.ok(event.currentTarget instanceof HTMLInputElement);
+    event.currentTarget.setSelectionRange(0, 0);
+  });
 }
 </script>
