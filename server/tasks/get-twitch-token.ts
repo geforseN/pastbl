@@ -1,5 +1,4 @@
 import assert from "node:assert";
-import { $fetch } from "ofetch";
 
 const getTwitchTokenOptions = {
   ...twitchTokenBaseOptions,
@@ -11,16 +10,6 @@ async function fetchTwitchToken() {
   const twitchToken = await $fetch("/oauth2/token", getTwitchTokenOptions);
   assert.ok(twitchToken !== null && typeof twitchToken === "object");
   return twitchTokenSchema.parse({ ...twitchToken, fetchStartTime });
-}
-
-function createTwitchApiFetch(accessToken: TwitchToken["access_token"]) {
-  return $fetch.create({
-    baseURL: "https://api.twitch.tv/helix",
-    headers: {
-      "Client-ID": env.twitchClientId,
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
 }
 
 export default defineTask({
@@ -38,7 +27,7 @@ export default defineTask({
     console.log("Fetched twitch token");
     /* eslint-enable no-console */
     await setTwitchTokenToStorage(token);
-    twitchApi.fetch = createTwitchApiFetch(token.access_token);
+    twitchApi.fetch = createTwitchApiFetch(token);
     return {
       result: "Twitch token fetched successfully",
     };
