@@ -1,4 +1,4 @@
 export { userCollectionsService } from "./userCollections";
 export { pastasService } from "./pastas";
-export { globalCollectionsIdb } from "./globalCollections";
+export { globalCollectionsService } from "./globalCollections";
 export { keyValueService } from "./keyValue";
