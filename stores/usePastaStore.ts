@@ -10,9 +10,11 @@ export const usePastaStore = defineStore("pasta", () => {
   });
   const toast = useNuxtToast();
 
+  const debouncedPastaText = refDebounced(pasta.text, 200);
+
   return {
     pasta,
-    pastaTrimmedText: computed(() => megaTrim(text.state.value)),
+    pastaTrimmedText: computed(() => megaTrim(debouncedPastaText.value)),
     handleTagAddToPasta(newTag: string) {
       try {
         pasta.addTag(newTag);
