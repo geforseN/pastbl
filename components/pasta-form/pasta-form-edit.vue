@@ -41,7 +41,10 @@
       :tags="tags"
       @remove-tag="(tag) => emit('removeTag', tag)"
     />
-    <pasta-form-tags-input v-model="tag" @add-tag="emit('addTag')" />
+    <pasta-form-tags-input
+      v-model="tag"
+      @add-tag="(tag) => emit('addTag', tag)"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -56,7 +59,7 @@ const pastaFormTextareaRef = ref();
 const emit = defineEmits<{
   decline: [];
   accept: [];
-  addTag: [];
+  addTag: [tag: string];
   removeTag: [tag: string];
   removeAllTags: [];
 }>();

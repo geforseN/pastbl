@@ -13,9 +13,9 @@ export const usePastaStore = defineStore("pasta", () => {
   return {
     pasta,
     pastaTrimmedText: computed(() => megaTrim(text.state.value)),
-    handleTagAddToPasta() {
+    handleTagAddToPasta(newTag: string) {
       try {
-        pasta.addOwnTag();
+        pasta.addTag(newTag);
         tag.state.value = "";
       } catch (error) {
         assert.isError(error, ExtendedError);

@@ -8,8 +8,8 @@
       @accept="onPastaEditAccept"
       @decline="navigateTo(localePath('/'))"
       @add-tag="
-        () => {
-          pasta.addOwnTag();
+        (newTag) => {
+          pasta.addTag(newTag);
           tag = '';
         }
       "

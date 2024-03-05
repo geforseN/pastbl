@@ -41,7 +41,7 @@
         v-model:text="pastaStore.pasta.text"
         :pasta-tags="pastaStore.pasta.tags"
         :hinted-tags-map="pastasStore.mostPopularTagsEntries"
-        @add-tag="() => pastaStore.handleTagAddToPasta()"
+        @add-tag="(tag) => pastaStore.handleTagAddToPasta(tag)"
         @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
         @create-pasta="
