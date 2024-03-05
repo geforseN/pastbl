@@ -1,24 +1,15 @@
 import {
   emoteSources,
-  isValidEmoteSource,
   type IGlobalEmoteCollection,
   type IGlobalEmoteCollectionRecord,
 } from "~/integrations";
-import { globalCollectionsIdb } from "~/client-only/services";
-
-const globalCollectionsApi = {
-  getAll() {
-    return $fetch("/api/collections/global", {
-      query: { sources: emoteSources.join("+") },
-    });
-  },
-};
+import { globalCollectionsService } from "~/client-only/services";
 
 export const useGlobalCollectionsStore = defineStore(
   "global-collections",
   () => {
     const collections = useAsyncState(
-      globalCollectionsIdb.getAll,
+      globalCollectionsService.getAll,
       {},
       { shallow: true, throwError: true },
     );
@@ -29,14 +20,13 @@ export const useGlobalCollectionsStore = defineStore(
     );
 
     watchOnce(collections.state, async (state) => {
-      const missing = await globalCollectionsIdb.___loadMissing(state);
-      if (!missing) {
-        return;
+      const missing = await globalCollectionsService.tryLoadMissing(state);
+      if (missing) {
+        collections.state.value = {
+          ...collections.state.value,
+          ...missing,
+        };
       }
-      collections.state.value = {
-        ...collections.state.value,
-        ...missing,
-      };
     });
 
     return {
@@ -51,17 +41,14 @@ export const useGlobalCollectionsStore = defineStore(
         return record as Partial<IGlobalEmoteCollectionRecord>;
       }),
       async refreshCollection(source: IGlobalEmoteCollection["source"]) {
-        const refreshed = await globalCollectionsIdb.___refresh(source);
+        const refreshed = await globalCollectionsService.refresh(source);
         collections.state.value = {
           ...collections.state.value,
           [source]: refreshed,
         };
       },
       async refreshAllCollections() {
-        const all = await globalCollectionsApi.getAll();
-        const values = Object.values(all);
-        await globalCollectionsIdb.putMany(values);
-        assert.ok(Object.keys(all).every(isValidEmoteSource));
+        const all = await globalCollectionsService.refreshAll();
         // NOTE: for loop and triggerRef could be replaced with => collections.state.value = all
         // HOWEVER: order of entries will change and view of global collections will change order
         for (const [source, collection] of Object.entries(all)) {

@@ -1,53 +1,85 @@
 import { idb } from "../IndexedDB";
-import { emoteSources } from "~/integrations";
+import { emoteSources, isValidEmoteSource } from "~/integrations";
 import type {
+  EmoteSource,
   IGlobalEmoteCollection,
   IGlobalEmoteCollectionRecord,
 } from "~/integrations";
 
-export const globalCollectionsIdb = {
-  async ___loadMissing(state: Partial<IGlobalEmoteCollectionRecord>) {
+export const globalCollectionsService = {
+  async tryLoadMissing(state: Partial<IGlobalEmoteCollectionRecord>) {
     const missingSources = emoteSources.filter((source) => !state[source]);
     if (!missingSources.length) {
       return;
     }
-    const record = await $fetch("/api/collections/global", {
-      query: { sources: missingSources.join("+") },
-    });
-    const values: IGlobalEmoteCollection[] = Object.values(record);
-    const collectionsIdb = await idb.collections;
-    await Promise.all(
-      values.map((collection) => collectionsIdb.global.add(collection)),
-    );
+    const collections = await API.getMany(missingSources);
+    const values = objectValues(collections);
+    await IDB.putMany(values);
     return values;
   },
-  async ___refresh<C extends IGlobalEmoteCollection>(
-    source: C["source"],
-  ): Promise<IGlobalEmoteCollectionRecord[C["source"]]> {
-    const newCollectionRecord = await $fetch("/api/collections/global", {
-      query: { sources: source },
-    });
-    const newCollection = newCollectionRecord[source];
-    const collectionIdb = await idb.collections;
-    await collectionIdb.global.put(newCollection);
-    return newCollection;
+  async refresh<S extends EmoteSource>(
+    source: S,
+  ): Promise<IGlobalEmoteCollectionRecord[S]> {
+    const collection = await API.get(source);
+    await IDB.put(collection);
+    return collection;
   },
-  async putMany(collections: IGlobalEmoteCollection[]) {
-    const collectionIdb = await idb.collections;
-    return Promise.all(
-      collections.map((collection) => collectionIdb.global.put(collection)),
-    );
+  async refreshAll() {
+    const all = await API.getAll();
+    const values = Object.values(all);
+    await IDB.putMany(values);
+    return all;
   },
-
   async getAll() {
     if (process.server) {
       return {};
     }
-    const collectionIdb = await idb.collections;
-    const collections = await collectionIdb.global.getAll();
+    const collections = await IDB.getAll();
     return flatGroupBy(
       collections,
       (collection) => collection.source,
     ) as Partial<IGlobalEmoteCollectionRecord>;
+  },
+};
+
+const IDB = {
+  async getAll() {
+    const collectionIdb = await idb.collections;
+    return await collectionIdb.global.getAll();
+  },
+  async put(collection: IGlobalEmoteCollection) {
+    const collectionIdb = await idb.collections;
+    return await collectionIdb.global.put(collection);
+  },
+  async putMany(collections: IGlobalEmoteCollection[]) {
+    const collectionsIdb = await idb.collections;
+    return await Promise.all(
+      collections.map((collection) => collectionsIdb.global.add(collection)),
+    );
+  },
+};
+
+const API = {
+  async get<S extends EmoteSource>(
+    source: S,
+  ): Promise<IGlobalEmoteCollectionRecord[S]> {
+    assert.ok(!source.includes("+"));
+    const newCollectionRecord = await $fetch("/api/collections/global", {
+      query: { sources: source },
+    });
+    const newCollection = newCollectionRecord[source];
+    assert.ok(newCollection, `Failed to load ${source} global collection`);
+    return newCollection;
+  },
+  getMany(sources: EmoteSource[]) {
+    assert.ok(sources.every(isValidEmoteSource));
+    return $fetch("/api/collections/global", {
+      query: { sources: sources.join("+") },
+    });
+  },
+  getAll() {
+    return $fetch("/api/collections/global", {
+      query: { sources: emoteSources.join("+") },
+    });
   },
 };
