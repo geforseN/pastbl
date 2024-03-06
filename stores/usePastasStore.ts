@@ -328,7 +328,7 @@ export const usePastasStore = defineStore("pastas", () => {
       toast.add({
         description: t(m + "success.message"),
         title: t(m + "success.title"),
-        timeout: 7_000,
+        timeout: 3_000,
         color: "green",
       });
     },
