@@ -20,14 +20,12 @@
           </span>
         </span>
       </span>
-      <dev-only>
-        <button
-          class="btn btn-accent btn-md text-lg"
-          @click="() => userStore.copyText(pastaStore.pastaTrimmedText)"
-        >
-          {{ $t("pasta.create.preview.copyButton") }}
-        </button>
-      </dev-only>
+      <button
+        class="btn btn-accent btn-md text-lg"
+        @click="() => userStore.copyText(pastaStore.pastaTrimmedText)"
+      >
+        {{ $t("pasta.create.preview.copyButton") }}
+      </button>
     </div>
   </article>
 </template>
