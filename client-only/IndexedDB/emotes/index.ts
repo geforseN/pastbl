@@ -23,18 +23,30 @@ class EmotesStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
 
+  // options: {onNotSingle: (emotes: IEmote[]) => }
+
   put(emotes: IEmote[]) {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
   }
 
-  get(emoteData: [id: string, source: EmoteSource]) {
-    return this.db.get("emotes", emoteData);
+  getWithSource(source: EmoteSource) {
+    return (emoteId: string) => {
+      return this.db.get("emotes", [emoteId, source]);
+    };
   }
 
-  delete(emotesEntries: [id: string, source: EmoteSource][]) {
-    return Promise.all(
-      emotesEntries.map((emoteEntry) => this.db.delete("emotes", emoteEntry)),
-    );
+  deleteWithSource(source: EmoteSource) {
+    return (emoteId: string) => {
+      return this.db.delete("emotes", [emoteId, source]);
+    };
+  }
+
+  deleteManyWithSource(source: EmoteSource) {
+    return (emoteIds: string[]) => {
+      return Promise.all(
+        emoteIds.map((emoteId) => this.db.delete("emotes", [emoteId, source])),
+      );
+    };
   }
 
   get emotesTransaction() {

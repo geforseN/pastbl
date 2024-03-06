@@ -3,13 +3,19 @@ import {
   type CollectionsSchema,
   type IndexedDBUserEmoteCollection,
 } from "~/client-only/IndexedDB";
+import { assert } from "~/utils/error";
 
 export class UsersCollectionsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
-  get(login: Lowercase<string>) {
-    return this.db.transaction("users").store.get(login);
+  async get(login: Lowercase<string>) {
+    const collection = await this.db.transaction("users").store.get(login);
+    assert.ok(
+      collection,
+      "Failed to find loaded user collection in your browser storage (IndexedDB)",
+    );
+    return collection;
   }
 
   getAll() {
@@ -24,10 +30,7 @@ export class UsersCollectionsStore {
     return this.db.delete("users", login);
   }
 
-  async put(collection: IndexedDBUserEmoteCollection) {
-    await this.db
-      .transaction("users", "readwrite")
-      .objectStore("users")
-      .put(collection);
+  put(collection: IndexedDBUserEmoteCollection) {
+    return this.db.put("users", collection);
   }
 }

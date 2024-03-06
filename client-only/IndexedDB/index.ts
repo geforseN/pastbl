@@ -20,6 +20,7 @@ import type {
   I7TVEmote,
   EmoteSource,
   ITwitchUserIntegration,
+  InternalGenericUserEmoteIntegration,
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
 
@@ -34,19 +35,18 @@ export async function openIdb<T extends DBSchema>(
   const { openDB } = await import("idb");
   return openDB<T>(name, version, { upgrade });
 }
-
-type GenericIndexedDBUserEmoteIntegration<
+interface GenericIndexedDBUserEmoteIntegration<
   SourceT extends EmoteSource,
   IntegrationT extends IUserEmoteIntegration,
   EmoteT extends IEmote,
   EmoteSetT extends IEmoteSet<SourceT, EmoteT>,
-> = Omit<IntegrationT, "sets"> & {
+> extends InternalGenericUserEmoteIntegration<SourceT, IntegrationT> {
   sets: Array<
     Omit<EmoteSetT, "emotes"> & {
       emoteIds: EmoteT["id"][];
     }
   >;
-};
+}
 
 export type IndexedDBUserEmoteIntegrationRecord = {
   FrankerFaceZ: GenericIndexedDBUserEmoteIntegration<
@@ -84,6 +84,13 @@ export type IndexedDBUserEmoteCollection = Omit<
 > & {
   integrations: Partial<IndexedDBUserEmoteIntegrationRecord>;
 };
+
+export type IndexedDBUserEmoteSetRecord = {
+  [K in EmoteSource]: IndexedDBUserEmoteIntegrationRecord[K]["sets"][number];
+};
+
+export type IndexedDBUserEmoteSet =
+  IndexedDBUserEmoteSetRecord[keyof IndexedDBUserEmoteSetRecord];
 
 export interface CollectionsSchema extends DBSchema {
   users: {

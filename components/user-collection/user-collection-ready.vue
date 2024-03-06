@@ -67,7 +67,7 @@
           id="find-user-emote"
           type="search"
           name="find-user-emote"
-          class="input input-accent input-sm"
+          class="input input-sm input-accent"
         />
       </div>
     </dev-only>
@@ -155,7 +155,8 @@ const throttledMouseover = useThrottleFn(
         typeof emoteId === "string" && emoteId.length && emoteSource.value,
       );
       const emotesStore = await idb.emotes;
-      const emote = await emotesStore.get([emoteId, emoteSource.value]);
+      const getEmoteBySource = emotesStore.getWithSource(emoteSource.value);
+      const emote = await getEmoteBySource(emoteId);
       return emote;
     },
   }),
