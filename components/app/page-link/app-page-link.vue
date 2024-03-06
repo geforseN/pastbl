@@ -1,15 +1,18 @@
 <template>
-  <div class="rounded-box border-2 px-4 py-2">
-    <nuxt-link-locale :to="path">
-      <span class="flex items-center justify-between gap-2 text-2xl font-bold">
-        <span class="flex items-center gap-2">
-          <slot name="left"><icon name="carbon:link" /></slot>
+  <nuxt-link-locale
+    :to="path"
+    class="group block rounded-box border-2 px-4 py-2 hover:bg-base-300"
+  >
+    <span class="flex items-center justify-between gap-2 text-2xl font-bold">
+      <span class="flex items-center gap-2">
+        <slot name="left"><icon name="carbon:link" /></slot>
+        <span class="group-hover:underline">
           <slot name="default">{{ text }}</slot>
         </span>
-        <slot name="right" />
       </span>
-    </nuxt-link-locale>
-  </div>
+      <slot name="right" />
+    </span>
+  </nuxt-link-locale>
 </template>
 <script setup lang="ts">
 defineSlots<{
