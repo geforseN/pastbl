@@ -27,7 +27,7 @@
             id="find-global-emote"
             type="search"
             name="find-global-emote"
-            class="input input-accent input-sm"
+            class="input input-sm input-accent"
           />
         </div>
       </dev-only>
