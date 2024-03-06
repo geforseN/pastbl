@@ -243,7 +243,7 @@ function getPopulatedIntegrations(
   const populatedAsPromises = readyIntegrations.map(async (idbIntegration) => {
     const { source } = idbIntegration;
     const emotesCache = sourcesEmotesCache[source];
-    const getEmoteFromCache = emotesCache.get;
+    const getEmoteFromCache = emotesCache.get.bind(emotesCache);
     const findEmote = makeFindEmoteFn(source);
     const setEmoteToCache = (emote: EmoteT) => emotesCache.set(emote.id, emote);
     const populateSet = makeSetPopulateFn(
