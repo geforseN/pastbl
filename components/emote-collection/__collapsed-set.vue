@@ -2,19 +2,19 @@
   <div class="collapse collapse-arrow border-2" :class="props.colors.border">
     <input
       :id="id"
-      v-model="isCollapseOpen"
+      v-model="isOpen"
       type="checkbox"
       :name="id"
       @input="mustRenderContent = true"
       @keypress.enter.exact="
         mustRenderContent = true;
-        isCollapseOpen = !isCollapseOpen;
+        isOpen = !isOpen;
       "
     />
-    <header :class="isCollapseOpen && 'mb-4'" class="collapse-title">
+    <header :class="isOpen && 'mb-4'" class="collapse-title">
       <slot name="title">
         <div class="flex items-baseline justify-between">
-          <h3 class="">
+          <h3>
             {{ props.set.name }}
           </h3>
           <span class="text-sm">
@@ -43,8 +43,8 @@
               :data-emote-id="emote.id"
               :src="emote.url"
               :alt="emote.token"
-              :width="emote.width || 32"
-              :height="emote.height || 32"
+              :width="emote.width || props.defaultEmoteSize.width"
+              :height="emote.height || props.defaultEmoteSize.height"
               class="m-0.5 inline-block"
               loading="lazy"
             />
@@ -58,19 +58,33 @@
 import type { Colors } from "~/components/emote-collection";
 import type { IEmoteSetT } from "~/integrations";
 
-const isCollapseOpen = ref(false);
+const isOpen = ref(false);
 const mustRenderContent = ref(false);
-const props = defineProps<{
-  set: EmoteSetT;
-  colors: Colors;
-}>();
+const props = withDefaults(
+  defineProps<{
+    set: EmoteSetT;
+    colors: Colors;
+    defaultEmoteSize?: {
+      width?: number;
+      height?: number;
+    };
+  }>(),
+  {
+    defaultEmoteSize: (props) => ({
+      width: props.defaultEmoteSize?.width ?? 32,
+      height: props.defaultEmoteSize?.height ?? 32,
+    }),
+  },
+);
 
 defineSlots<{
   title: () => unknown;
   emoteList: () => unknown;
 }>();
 
-const id = "is-" + props.set.source + "-" + props.set.name + "-collapse-open";
+const id = computed(
+  () => "is-" + props.set.source + "-" + props.set.name + "-collapse-open",
+);
 </script>
 <style scoped>
 .collapse-title,
