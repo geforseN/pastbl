@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { pastasService } from "~/client-only/services";
+import { pastasIdbService } from "~/client-only/services";
 
 export type PastaSortStrategy =
   | "newest-first"
@@ -156,7 +156,7 @@ export const usePastasStore = defineStore("pastas", () => {
       if (process.server) {
         return [];
       }
-      const pastas = await pastasService.getAll();
+      const pastas = await pastasIdbService.getAll();
       return pastas;
     },
     [],
@@ -243,7 +243,7 @@ export const usePastasStore = defineStore("pastas", () => {
         );
         const tags = toRaw(basePasta.tags);
         const megaPasta = createMegaPasta(trimmedText, tags);
-        const megaPastaWithId = await pastasService
+        const megaPastaWithId = await pastasIdbService
           .add(megaPasta)
           .catch((reason) => {
             const message =
@@ -265,7 +265,7 @@ export const usePastasStore = defineStore("pastas", () => {
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = getPastaIndexById(pasta.id);
-      await pastasService.moveFromListToBin(pasta);
+      await pastasIdbService.moveFromListToBin(pasta);
       pastas.state.value = pastas.state.value.toSpliced(index, 1);
       const ms = "toast.removePasta.success.";
       toast.add(
@@ -275,7 +275,7 @@ export const usePastasStore = defineStore("pastas", () => {
           undo: {
             label: t(ms + "undoLabel"),
             async click() {
-              await pastasService.moveFromBinToList(pasta);
+              await pastasIdbService.moveFromBinToList(pasta);
               pastas.state.value = pastas.state.value.toSpliced(
                 index,
                 0,
@@ -288,7 +288,7 @@ export const usePastasStore = defineStore("pastas", () => {
     },
     async patchPatchLastCopied(pasta: IDBMegaPasta) {
       try {
-        const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
+        const newPasta = await pastasIdbService.patchLastCopied(toRaw(pasta));
         pastas.state.value = pastas.state.value.with(
           getPastaIndexById(pasta.id),
           newPasta,
@@ -323,7 +323,7 @@ export const usePastasStore = defineStore("pastas", () => {
         toast.add(error);
         return;
       }
-      await pastasService.put(pasta);
+      await pastasIdbService.put(pasta);
       pastas.state.value = pastas.state.value.with(index, pasta);
       toast.add({
         description: t(m + "success.message"),

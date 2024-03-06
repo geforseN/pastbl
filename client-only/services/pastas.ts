@@ -1,6 +1,6 @@
 import { idb } from "../IndexedDB";
 
-export const pastasService = {
+export const pastasIdbService = {
   async getAll() {
     if (process.server) {
       return [];
