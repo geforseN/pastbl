@@ -112,12 +112,15 @@ function makeMouseoverHandler(options: {
 }) {
   return async function (event: Event) {
     assert.ok(event instanceof MouseEvent);
-    const { target, relatedTarget } = event;
+    const { target, relatedTarget, currentTarget } = event;
     if (!(target instanceof Element)) {
       return withLogSync(null, "not an element");
     }
     if (relatedTarget?.classList.contains("emote-hint")) {
       return withLogSync(removeHovered, "hint is hovered");
+    }
+    if (target === currentTarget) {
+      return withLogSync(removeHovered, "cursor moved away");
     }
     if (target.classList.contains("emoji")) {
       return updateHoveredEmoji(target.innerHTML, event);
