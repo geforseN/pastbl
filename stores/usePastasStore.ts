@@ -14,18 +14,18 @@ function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
   );
   const sortedPastas = {
     "newest-first": computed(() =>
-      [...allPastas.value].sort((a, b) => b.createdAt - a.createdAt),
+      allPastas.value.toSorted((a, b) => b.createdAt - a.createdAt),
     ),
     "oldest-first": computed(() =>
-      [...allPastas.value].sort((a, b) => a.createdAt - b.createdAt),
+      allPastas.value.toSorted((a, b) => a.createdAt - b.createdAt),
     ),
     "last-updated": computed(() =>
-      [...allPastas.value].sort(
+      allPastas.value.toSorted(
         (a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt),
       ),
     ),
     "last-copied": computed(() =>
-      [...allPastas.value].sort((a, b) => {
+      allPastas.value.toSorted((a, b) => {
         if (a.lastCopiedAt && b.lastCopiedAt) {
           return b.lastCopiedAt - a.lastCopiedAt;
         }
