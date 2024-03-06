@@ -53,11 +53,7 @@ function usePastaFindTimeRange<
 }
 
 export const usePastaFindStore = defineStore("pasta-find", () => {
-  const pastasStore = usePastasStore();
-
-  const sortedPastas = computed(() =>
-    withLogSync(pastasStore.sortedPastas, "sortedPastas"),
-  );
+  const { sortedPastas } = storeToRefs(usePastasStore());
 
   const pastasToShowOnPage = computed(() => {
     const [smallestPastaList, ...othersPastaLists] =
