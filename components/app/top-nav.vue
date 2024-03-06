@@ -49,7 +49,7 @@
           </option>
         </select>
       </li>
-      <li>
+      <li class="ml-2">
         <select
           id="app-theme"
           v-model="selectedTheme.state.value"
