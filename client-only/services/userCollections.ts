@@ -1,10 +1,9 @@
-import type { IDBPObjectStore } from "idb";
 import { idb } from "~/client-only/IndexedDB";
 import type {
-  EmotesSchema,
   IndexedDBUserEmoteCollection,
   IndexedDBUserEmoteIntegration,
   IndexedDBUserEmoteIntegrationRecord,
+  IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
 import {
   emoteSources,
@@ -16,6 +15,7 @@ import {
   isValidEmoteSource,
   isReadyUserIntegration,
   type EmoteT,
+  type IEmoteSetT,
 } from "~/integrations";
 import { setIntersection } from "~/utils/set";
 
@@ -51,13 +51,14 @@ const MAP = {
     collection: {
       async fullPrepare(
         collection: IndexedDBUserEmoteCollection,
-        emotesStore: any,
+        makeFindEmoteFn: (
+          source: EmoteSource,
+        ) => (emoteId: string) => MaybePromise<EmoteT | undefined>,
       ) {
-        const populatedIntegrations =
-          await getPopulatedUserCollectionIntegrations(
-            collection.integrations,
-            emotesStore,
-          );
+        const populatedIntegrations = await getPopulatedIntegrations(
+          collection.integrations,
+          makeFindEmoteFn,
+        );
         return {
           ...collection,
           integrations: flatGroupBy(
@@ -77,7 +78,7 @@ const MAP = {
     },
     collections: {
       getUniqueEmoteIds(collections: IndexedDBUserEmoteCollection[]) {
-        return __emoteIds.getUnique(collections);
+        return emoteIds.getUnique(collections);
       },
     },
   },
@@ -87,9 +88,7 @@ const MAP = {
       getEmotes(integration: IUserEmoteIntegration) {
         return integration.sets.flatMap((set): IEmote[] => set.emotes);
       },
-      prepare(
-        integration: IUserEmoteIntegration,
-      ): IndexedDBUserEmoteIntegration {
+      prepare(integration: IUserEmoteIntegration) {
         return {
           ...integration,
           sets: integration.sets.map((set) => {
@@ -99,22 +98,10 @@ const MAP = {
               emoteIds: emotes.map((emote) => emote.id),
             };
           }),
-        };
+        } as IndexedDBUserEmoteIntegration;
       },
     },
     collection: {
-      prepare(collection: IUserEmoteCollection): IndexedDBUserEmoteCollection {
-        const idbIntegrations = Object.values(collection.integrations)
-          .filter(isReadyUserIntegration)
-          .map(MAP.TO_IDB._integration.prepare);
-        return {
-          ...collection,
-          integrations: flatGroupBy(
-            idbIntegrations,
-            (idbIntegration) => idbIntegration.source,
-          ) as IndexedDBUserEmoteIntegrationRecord,
-        };
-      },
       fullPrepare(collection: IUserEmoteCollection) {
         const readyIntegrations = Object.values(collection.integrations).filter(
           isReadyUserIntegration,
@@ -133,16 +120,11 @@ const MAP = {
           },
         };
       },
-      getEmotes(collection: IUserEmoteCollection) {
-        return Object.values(collection.integrations)
-          .filter(isReadyUserIntegration)
-          .flatMap(MAP.TO_IDB._integration.getEmotes);
-      },
     },
   },
 };
 
-const __emoteIds = {
+const emoteIds = {
   getUnique(collections: IndexedDBUserEmoteCollection[]) {
     const setsOfEmoteIds = flatGroupBy(
       [...emoteSources],
@@ -179,7 +161,6 @@ const __emoteIds = {
 };
 
 export const userCollectionsService = {
-  __emoteIds,
   _getIDB() {
     return IDB._getIDB();
   },
@@ -233,9 +214,10 @@ export const userCollectionsService = {
     }
     const [IDB, emotesIDB] = await Promise.all([this._getIDB(), idb.emotes]);
     const idbCollection = await IDB.get(login);
+    const emoteTransaction = emotesIDB.emotesTransaction;
     const collection = MAP.FROM_IDB.collection.fullPrepare(
       idbCollection,
-      emotesIDB.emotesTransaction.store,
+      (source) => (emoteId) => emoteTransaction.store.get([emoteId, source]),
     );
     return collection;
   },
@@ -248,27 +230,29 @@ const sourcesEmotesCache = flatGroupBy(
 ) as {
   [S in EmoteSource]: Map<IEmote["id"], EmoteOf[S]>;
 };
-function getPopulatedUserCollectionIntegrations(
+
+function getPopulatedIntegrations(
   integrations: Partial<IndexedDBUserEmoteIntegrationRecord>,
-  emotesIdbStore: IDBPObjectStore<
-    EmotesSchema,
-    ["emotes"],
-    "emotes",
-    "readonly"
-  >,
+  makeFindEmoteFn: (
+    source: EmoteSource,
+  ) => (emoteId: string) => MaybePromise<EmoteT | undefined>,
 ) {
-  const ready = Object.values(integrations).filter(isReadyUserIntegration);
-  const populatedAsPromises = ready.map(async (idbIntegration) => {
-    const emotesCache = sourcesEmotesCache[idbIntegration.source];
-    const sets = await Promise.all(
-      idbIntegration.sets.map(
-        populateUserCollectionEmotesSets(
-          (emoteId) => emotesCache.get(emoteId),
-          (emoteId) => emotesIdbStore.get([emoteId, idbIntegration.source]),
-          (emote) => emotesCache.set(emote.id, emote),
-        ),
-      ),
+  const readyIntegrations = Object.values(integrations).filter(
+    isReadyUserIntegration,
+  );
+  const populatedAsPromises = readyIntegrations.map(async (idbIntegration) => {
+    const { source } = idbIntegration;
+    const emotesCache = sourcesEmotesCache[source];
+    const getEmoteFromCache = emotesCache.get;
+    const findEmote = makeFindEmoteFn(source);
+    const setEmoteToCache = (emote: EmoteT) => emotesCache.set(emote.id, emote);
+    const populateSet = makeSetPopulateFn(
+      getEmoteFromCache,
+      findEmote,
+      setEmoteToCache,
     );
+    const populatedSetsPromises = idbIntegration.sets.map(populateSet);
+    const sets = await Promise.all(populatedSetsPromises);
     return {
       ...idbIntegration,
       sets,
@@ -277,14 +261,12 @@ function getPopulatedUserCollectionIntegrations(
   return Promise.all(populatedAsPromises);
 }
 
-function populateUserCollectionEmotesSets(
+function makeSetPopulateFn(
   getEmoteFromCache: (emoteId: string) => EmoteT | undefined,
   findEmote: (emoteId: string) => MaybePromise<EmoteT | undefined>,
   onEmoteFound: (emote: EmoteT) => void,
 ) {
-  return async function (
-    idbSet: IndexedDBUserEmoteIntegration["sets"][number],
-  ): Promise<IUserEmoteIntegration["sets"][number]> {
+  return async function (idbSet: IndexedDBUserEmoteSet) {
     const { emoteIds, ...set } = idbSet;
     const [emotes] = await tupleSettledPromises(
       emoteIds.map(async (emoteId: string) => {
@@ -298,6 +280,6 @@ function populateUserCollectionEmotesSets(
         return emote;
       }),
     );
-    return { ...set, emotes };
+    return { ...set, emotes } as IEmoteSetT;
   };
 }
