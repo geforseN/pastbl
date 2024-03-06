@@ -55,15 +55,16 @@
 </template>
 <script lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
+import { Emote } from "#imports";
 import type { IEmote } from "~/integrations";
 
 const emoteSizes = [1, 2, 3, 4] as const;
 
-const emoteIntegrationsLinksGetters = {
-  FrankerFaceZ: (emote: IEmote) =>
+const emoteIntegrationLinkGetters = {
+  FrankerFaceZ: (emote: Emote) =>
     `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
-  BetterTTV: (emote: IEmote) => `https://betterttv.com/emotes/${emote.id}`,
-  SevenTV: (emote: IEmote) => `https://7tv.app/emotes/${emote.id}`,
+  BetterTTV: (emote: Emote) => `https://betterttv.com/emotes/${emote.id}`,
+  SevenTV: (emote: Emote) => `https://7tv.app/emotes/${emote.id}`,
 } as const;
 </script>
 <script setup lang="ts">
@@ -80,14 +81,10 @@ defineExpose({
 
 const emote_ = computed(() => props.emote && new Emote({ ...props.emote }));
 const emoteIntegrationLink = computed(() => {
-  if (!emote_.value) {
+  if (!emote_.value || emote_.value.source === "Twitch") {
     return;
   }
-  const getLink: (emote: IEmote) => string =
-    emoteIntegrationsLinksGetters[emote_.value.source];
-  if (!getLink) {
-    return;
-  }
+  const getLink = emoteIntegrationLinkGetters[emote_.value.source];
   return getLink(emote_.value);
 });
 
