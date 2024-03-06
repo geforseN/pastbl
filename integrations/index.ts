@@ -55,7 +55,7 @@ export type EmoteOf = {
   FrankerFaceZ: FrankerFaceZEmote;
   Twitch: ITwitchEmote;
 };
-type EmoteT = EmoteOf[keyof EmoteOf];
+export type EmoteT = EmoteOf[keyof EmoteOf];
 
 const emoteTemplateStrings = {
   wrapped: {
@@ -139,16 +139,22 @@ export type IGlobalEmoteCollectionRecord = {
   Twitch: ITwitchGlobalCollection;
 };
 
-export interface InternalUserEmoteIntegration<
+export interface InternalGenericUserEmoteIntegration<
   SourceT extends EmoteSource,
-  SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
   OwnerT extends IEmoteCollectionOwner,
 > {
   name: string;
   owner: OwnerT;
-  sets: SetT[];
   source: SourceT;
   updatedAt: number;
+}
+
+export interface InternalUserEmoteIntegration<
+  SourceT extends EmoteSource,
+  SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
+  OwnerT extends IEmoteCollectionOwner,
+> extends InternalGenericUserEmoteIntegration<SourceT, OwnerT> {
+  sets: SetT[];
 }
 
 export type IUserEmoteIntegrationRecord = {
@@ -169,9 +175,23 @@ export type IUserEmoteIntegrationSetRecord = {
 export type IEmoteSetT =
   IUserEmoteIntegrationSetRecord[keyof IUserEmoteIntegrationSetRecord];
 
-type Wrap<Integration extends IUserEmoteIntegration> =
-  | ({ status: "ready" } & Integration)
-  | { status: "fail"; reason: string; source: Integration["source"] };
+export type ReadyIntegration<T extends IUserEmoteIntegration> = T & {
+  status: "ready";
+};
+
+export type FailIntegration<T extends IUserEmoteIntegration> = T & {
+  status: "fail";
+  reason: string;
+};
+
+export function isReadyUserIntegration<
+  T extends InternalGenericUserEmoteIntegration,
+>(integration: T): integration is ReadyIntegration<T> {
+  return (integration as ReadyIntegration<T>).status === "ready";
+}
+type SomeIntegration<T extends IUserEmoteIntegration> =
+  | ReadyIntegration<T>
+  | FailIntegration<T>;
 
 export type IUserEmoteCollection = {
   user: {
@@ -179,10 +199,10 @@ export type IUserEmoteCollection = {
   };
   updatedAt: number;
   integrations: {
-    FrankerFaceZ?: Wrap<FrankerFaceZUserIntegration>;
-    BetterTTV?: Wrap<BetterTTVUserIntegration>;
-    SevenTV?: Wrap<ISevenTVUserIntegration>;
-    Twitch?: Wrap<ITwitchUserIntegration>;
+    FrankerFaceZ?: SomeIntegration<FrankerFaceZUserIntegration>;
+    BetterTTV?: SomeIntegration<BetterTTVUserIntegration>;
+    SevenTV?: SomeIntegration<ISevenTVUserIntegration>;
+    Twitch?: SomeIntegration<ITwitchUserIntegration>;
   };
 };
 
