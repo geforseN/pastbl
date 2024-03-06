@@ -34,9 +34,7 @@ function useEmotes<
   T extends IGlobalEmoteCollectionRecord | IUserEmoteIntegrationRecord,
 >(sourceToWatchCb: () => Partial<T>, onReady = () => {}) {
   const record = ref<Partial<EmoteMapRecord>>({});
-  const sources = computed(
-    () => Object.keys(record.value) as (keyof EmoteMapRecord)[],
-  );
+  const sources = computed(() => objectKeys(record.value));
 
   watch(sourceToWatchCb, (source) => {
     const integrations = Object.values(source);
