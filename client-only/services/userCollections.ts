@@ -1,3 +1,4 @@
+import { emotesIDB } from "./emotes";
 import { idb } from "~/client-only/IndexedDB";
 import type {
   IndexedDBUserEmoteCollection,
@@ -24,6 +25,10 @@ const IDB = {
     const collectionsIdb = await idb.collections;
     return collectionsIdb.users;
   },
+  async get(login: Lowercase<string>) {
+    const IDB = await this._getIDB();
+    return IDB.get(login);
+  },
   async getAllLogins() {
     if (process.server) {
       return [];
@@ -37,6 +42,14 @@ const IDB = {
     }
     const IDB = await this._getIDB();
     return IDB.getAll();
+  },
+  async put(collection: IndexedDBUserEmoteCollection) {
+    const IDB = await this._getIDB();
+    return IDB.put(collection);
+  },
+  async delete(login: Lowercase<string>) {
+    const IDB = await this._getIDB();
+    return IDB.delete(login);
   },
 };
 
@@ -161,9 +174,6 @@ const emoteIds = {
 };
 
 export const userCollectionsService = {
-  _getIDB() {
-    return IDB._getIDB();
-  },
   getAllLogins() {
     return IDB.getAllLogins();
   },
@@ -171,17 +181,15 @@ export const userCollectionsService = {
     return IDB.getAll();
   },
   async put(collection: IUserEmoteCollection) {
-    const [IDB, emotesIdb] = await Promise.all([this._getIDB(), idb.emotes]);
     const { collection: preparedCollection, emotes } =
       MAP.TO_IDB.collection.fullPrepare(collection);
     // TODO: make it transactional (not a big deal)
-    await Promise.all([IDB.put(preparedCollection), emotesIdb.put(emotes)]);
+    await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
   },
   async delete(login: Lowercase<string>) {
-    const [IDB, emotesIDB] = await Promise.all([this._getIDB(), idb.emotes]);
     const [collection, allCollections] = await Promise.all([
       IDB.get(login),
-      await IDB.getAll(),
+      IDB.getAll(),
     ]);
     const collectionEmoteIdsRecord =
       MAP.FROM_IDB.collection.getEmoteIds(collection);
@@ -189,7 +197,6 @@ export const userCollectionsService = {
       MAP.FROM_IDB.collections.getUniqueEmoteIds(allCollections);
     const deletePromises = Object.entries(allEmoteIdsRecord).map(
       // NOTE: MUST use async function OR assert will fail other promises
-      // eslint-disable-next-line require-await
       async ([source, allEmoteIds]) => {
         assert.ok(isValidEmoteSource(source));
         const collectionEmoteIds = collectionEmoteIdsRecord[source];
@@ -198,7 +205,7 @@ export const userCollectionsService = {
           `User collection does not have ${source} source (not fatal)`,
         );
         const sameEmoteIds = setIntersection(collectionEmoteIds, allEmoteIds);
-        const deleteEmotes = emotesIDB.deleteManyWithSource(source);
+        const deleteEmotes = await emotesIDB.makeDeleteEmotesFn(source);
         return deleteEmotes([...sameEmoteIds]);
       },
     );
@@ -212,10 +219,9 @@ export const userCollectionsService = {
     if (process.server) {
       return null;
     }
-    const [IDB, emotesIDB] = await Promise.all([this._getIDB(), idb.emotes]);
     const idbCollection = await IDB.get(login);
-    const emoteTransaction = emotesIDB.emotesTransaction;
-    const collection = MAP.FROM_IDB.collection.fullPrepare(
+    const emoteTransaction = await emotesIDB.emotesTransaction;
+    const collection = await MAP.FROM_IDB.collection.fullPrepare(
       idbCollection,
       (source) => (emoteId) => emoteTransaction.store.get([emoteId, source]),
     );
