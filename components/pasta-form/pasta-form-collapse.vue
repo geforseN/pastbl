@@ -3,7 +3,7 @@
     class="collapse collapse-arrow border-2"
     @keyup.enter.exact="() => (isOpen = !isOpen)"
   >
-    <input v-model="isOpen" type="checkbox" />
+    <input v-model="isOpen" type="checkbox" name="is-create-pasta-open" />
     <div class="collapse-title text-xl font-medium after:mt-1">
       <header class="flex justify-between text-3xl font-bold">
         <span class="flex items-center gap-2">
