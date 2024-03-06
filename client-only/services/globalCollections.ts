@@ -54,7 +54,7 @@ const IDB = {
   async putMany(collections: IGlobalEmoteCollection[]) {
     const collectionsIdb = await idb.collections;
     return await Promise.all(
-      collections.map((collection) => collectionsIdb.global.add(collection)),
+      collections.map((collection) => collectionsIdb.global.put(collection)),
     );
   },
 };
