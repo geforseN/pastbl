@@ -41,7 +41,7 @@
   </div>
 </template>
 <script lang="ts">
-import { pastasService } from "~/client-only/services";
+import { pastasIdbService } from "~/client-only/services";
 
 type MinimalPasta = {
   tags?: string[];
@@ -57,6 +57,7 @@ function isMinimalPasta(data: unknown): data is MinimalPasta {
   );
 }
 
+// FIXME: make tags trim and assert tags length
 function makeMinimalPasta(pasta: IDBMegaPasta) {
   return {
     tags: pasta.tags.length ? pasta.tags : undefined,
@@ -116,7 +117,7 @@ if (process.client) {
   reader.onload = async function (event) {
     const megaPastas = getMegaPastasOnFileLoad(event);
     const [succeeded, failed] = await tupleSettledPromises(
-      megaPastas.map((pasta) => pastasService.add(pasta)),
+      megaPastas.map((pasta) => pastasIdbService.add(pasta)),
     );
     pastasStore.pastas.state = [
       ...pastasStore.pastas.state,
