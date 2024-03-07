@@ -34,7 +34,7 @@
         </div>
         <ul
           tabindex="0"
-          class="menu dropdown-content z-[1] grid max-h-96 w-max overflow-y-auto rounded-btn border-2 bg-base-100 shadow"
+          class="menu dropdown-content z-10 grid max-h-96 w-max overflow-y-auto rounded-btn border-2 bg-base-100 shadow"
         >
           <li>
             <nuxt-link-locale
@@ -61,7 +61,7 @@
             class="odd:bg-base-300"
           >
             <button
-              class="btn btn-outline btn-sm my-0.5 justify-start p-0 hover:bg-base-content"
+              class="btn btn-outline btn-sm my-0.5 justify-start p-0 hover:border-secondary"
               @click="
                 () =>
                   userCollectionsStore.selectLogin(
