@@ -1,16 +1,18 @@
 <template>
-  <div ref="hoveredEmoteContainerRef" class="absolute z-50">
+  <div ref="hoveredEmoteContainerRef" class="absolute z-50 flex items-end">
     <div
       v-if="emote_"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
+      :class="emoteModifiers?.length && 'rounded-br-none'"
     >
       <div class="flex max-w-96 items-center gap-1 overflow-x-auto p-1">
-        <template v-for="image of images" :key="image">
+        <template v-for="image of emoteImages" :key="image">
           <img
             :src="image.src"
             :width="image.width"
             :height="image.height"
             :alt="image.alt"
+            class="bg-base-200"
             loading="lazy"
           />
         </template>
@@ -43,13 +45,36 @@
       </dev-only>
     </div>
     <div
+      v-if="emoteModifiers?.length"
+      class="divide flex h-fit flex-col divide-y-2 rounded-r border border-primary bg-base-100"
+    >
+      <div
+        v-for="(modifier, i) of emoteModifiers"
+        :key="modifier.token + i"
+        class="flex items-center gap-2 p-1"
+      >
+        <img
+          :src="modifier.url.string"
+          :width="modifier.width.value"
+          :height="modifier.height.value"
+          :alt="modifier.token"
+          class="bg-base-200"
+          loading="lazy"
+        />
+        {{ modifier.token }} modifier
+      </div>
+    </div>
+    <div
       v-if="props.emoji"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
-      {{ props.emoji }}
-      <span>name:{{ emojiData.name }}</span>
-      <span>slug:{{ emojiData.slug }}</span>
-      <span>group:{{ emojiData.group }}</span>
+      <span class="text-4xl">{{ props.emoji }}</span>
+      <span class="space-x-1">
+        <span>{{ emojiData.name }}</span>
+        <span>-</span>
+        <span>:{{ emojiData.slug }}:</span>
+      </span>
+      <span>Emoji - {{ emojiData.group }}</span>
     </div>
   </div>
 </template>
@@ -71,6 +96,7 @@ const emoteIntegrationLinkGetters = {
 const props = defineProps<{
   emote?: Nullish<IEmote>;
   emoji?: Nullish<string>;
+  emoteModifiers?: Nullish<IEmote[]>;
 }>();
 
 const hoveredEmoteContainerRef = ref<HTMLDivElement>();
@@ -79,7 +105,7 @@ defineExpose({
   hoveredEmoteContainerRef,
 });
 
-const emote_ = computed(() => props.emote && new Emote({ ...props.emote }));
+const emote_ = computed(() => props.emote && new Emote(props.emote));
 const emoteIntegrationLink = computed(() => {
   if (!emote_.value || emote_.value.source === "Twitch") {
     return;
@@ -87,6 +113,9 @@ const emoteIntegrationLink = computed(() => {
   const getLink = emoteIntegrationLinkGetters[emote_.value.source];
   return getLink(emote_.value);
 });
+const emoteModifiers = computed(() =>
+  props.emoteModifiers?.map((modifier) => new Emote(modifier)),
+);
 
 const emoji = computed(() => props.emoji);
 const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
@@ -96,12 +125,13 @@ const possibleSizes = computed(() => {
     return [];
   }
   const possibleSizes = emoteSizes.filter((size) =>
-    emote_.value!.canHaveSize(size),
+    // @ts-expect-error emote.value can not be nullish, it was checked above
+    emote_.value.canHaveSize(size),
   );
   return possibleSizes;
 });
 
-const images = computed(() => {
+const emoteImages = computed(() => {
   const emote = emote_.value;
   if (!emote) {
     return [];
