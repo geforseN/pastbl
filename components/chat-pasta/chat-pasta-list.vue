@@ -76,6 +76,16 @@ const throttledMouseover = useThrottleFn(
     findEmote(target) {
       return emotesStore.findEmote(target.alt);
     },
+    findEmoteModifiersByTokens(tokens) {
+      assert.ok(tokens.length);
+      const emotes = tokens
+        .map(emotesStore.findEmote)
+        .filter(
+          (emote): emote is NonNullable<typeof emote> => emote !== undefined,
+        );
+      assert.ok(tokens.length === emotes.length);
+      return emotes;
+    },
   }),
   100,
   true,

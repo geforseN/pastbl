@@ -88,9 +88,9 @@ function makeEmoteAsString(
 
 function makeModifierEmoteAsString(modifierEmote: IEmote) {
   const style =
-    "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
+    "pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
   const title = modifierTitle(modifierEmote);
-  return `<span style="${style}" title="${title}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
+  return `<span data-emote-modifier data-token="${modifierEmote.token}" style="${style}" title="${title}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
 }
 
 export function makeEmoteAsStringWithModifiersWrapper(
@@ -103,7 +103,7 @@ export function makeEmoteAsStringWithModifiersWrapper(
     .join(" ");
   const title =
     emoteTitle(emote) + " & " + modifierEmotes.map(modifierTitle).join(" & ");
-  return `<figure style="display: inline-block; position: relative;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
+  return `<figure data-emote-wrapper style="display: inline-block; position: relative;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
 }
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
