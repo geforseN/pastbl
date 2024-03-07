@@ -5,21 +5,12 @@ import { create7TVUserChannelSet } from "./entity/create7TVUserChannelSet";
 import { create7TVUserIntegration } from "./entity/create7TVUserIntegration";
 import { withLog } from "~/utils/dev-only";
 
-function getSevenTVEmoteTitle(emote: I7TVEmote) {
-  return `${emote.token} emote from SevenTV`;
-}
-
 function SevenTVEmoteString(emote: I7TVEmote) {
-  return `<img class="emote" src="${emote.url}" alt="${emote.token}" title="${getSevenTVEmoteTitle(
-    emote,
-  )}" loading="lazy" width="${emote.width}">`;
+  return `<img class="emote" src="${emote.url}" alt="${emote.token}" loading="lazy" width="${emote.width}">`;
 }
 
 export function SevenTVWrappedEmoteString(emote: I7TVEmote) {
-  const aka = emote.originalName ? ` (aka ${emote.originalName})` : "";
-  return `<span class="inline-block" title="${getSevenTVEmoteTitle(
-    emote,
-  )}${aka}">${SevenTVEmoteString(emote)}</span>`;
+  return `<span class="inline-block">${SevenTVEmoteString(emote)}</span>`;
 }
 
 export const SevenTV = {
