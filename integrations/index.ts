@@ -62,35 +62,28 @@ const emoteTemplateStrings = {
     SevenTV: SevenTVWrappedEmoteString,
   },
 };
-const emoteTitle = (emote: IEmote) =>
-  `${emote.token} emote from ${emote.source}`;
-const modifierTitle = (emote: IEmote) =>
-  `${emote.token} modifier emote from ${emote.source}`;
 
 export function makeWrappedEmoteAsString(emote: EmoteT) {
   const templateString = emoteTemplateStrings.wrapped[emote.source];
   if (templateString) {
     return templateString(emote);
   }
-  const title = emoteTitle(emote);
-  return `<span class="inline-block" title="${title}">${makeEmoteAsString(emote)}</span>`;
+  return `<span class="inline-block">${makeEmoteAsString(emote)}</span>`;
 }
 
 function makeEmoteAsString(
   emote: IEmote,
   getAlt = (emote: IEmote) => emote.token,
 ) {
-  const title = emoteTitle(emote);
   const width = "width" in emote ? emote.width : "";
   const height = "height" in emote ? emote.height : "";
-  return `<img class="emote" src="${emote.url}" alt="${getAlt(emote)}" title="${title}" loading="lazy" width="${width} height="${height}">`;
+  return `<img class="emote" src="${emote.url}" alt="${getAlt(emote)}" loading="lazy" width="${width} height="${height}">`;
 }
 
 function makeModifierEmoteAsString(modifierEmote: IEmote) {
   const style =
     "pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
-  const title = modifierTitle(modifierEmote);
-  return `<span data-emote-modifier data-token="${modifierEmote.token}" style="${style}" title="${title}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
+  return `<span data-emote-modifier data-token="${modifierEmote.token}" style="${style}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
 }
 
 export function makeEmoteAsStringWithModifiersWrapper(
@@ -101,9 +94,7 @@ export function makeEmoteAsStringWithModifiersWrapper(
   const modifiersAsString = modifierEmotes
     .map(makeModifierEmoteAsString)
     .join(" ");
-  const title =
-    emoteTitle(emote) + " & " + modifierEmotes.map(modifierTitle).join(" & ");
-  return `<figure data-emote-wrapper style="display: inline-block; position: relative;" title="${title}">${emoteAsString}${modifiersAsString}</figure>`;
+  return `<figure data-emote-wrapper style="display: inline-block; position: relative;">${emoteAsString}${modifiersAsString}</figure>`;
 }
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
