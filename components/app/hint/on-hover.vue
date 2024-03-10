@@ -1,12 +1,12 @@
 <template>
   <div ref="hoveredEmoteContainerRef" class="absolute z-50 flex items-end">
     <div
-      v-if="emote_"
+      v-if="emote"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
       :class="emoteModifiers?.length && 'rounded-br-none'"
     >
       <div class="flex max-w-96 items-center gap-1 overflow-x-auto p-1">
-        <template v-for="image of emoteImages" :key="image">
+        <template v-for="image of emote.images.value" :key="image">
           <img
             :src="image.src"
             :width="image.width"
@@ -18,29 +18,31 @@
         </template>
       </div>
       <div class="flex flex-wrap items-baseline text-lg">
-        <span class="text-xl font-bold">{{ emote_.token }}</span>
+        <span class="text-xl font-bold">{{ emote.token }}</span>
         <span>&nbsp;{{ "-" }}&nbsp;</span>
         <div class="flex items-baseline">
           <emote-integration-logo
-            :source="emote_.source"
+            :source="emote.source"
             width="20"
             class="h-min self-center"
-          />&nbsp;{{ emote_.source }}&nbsp;{{ emote_.type }}&nbsp;emote
+          />&nbsp;{{ emote.source }}&nbsp;{{
+            $t(oh + "emote.type." + emote.type)
+          }}
         </div>
       </div>
-      <nuxt-link
-        v-if="emoteIntegrationLink"
+      <a
+        v-if="emote.integrationLink.canBe()"
         class="link"
-        :to="emoteIntegrationLink"
+        :href="emote.integrationLink.value"
       >
-        Link to emote page
-      </nuxt-link>
+        {{ $t(oh + "emote.page") }}
+      </a>
       <dev-only>
         <div class="flex gap-1 text-yellow-400">
-          <span v-if="emote_.isAnimated">animated</span>
-          <span v-if="emote_.isListed">listed</span>
-          <span v-if="emote_.isModifier">modifier</span>
-          <span v-if="emote_.isWrapper">wrapper</span>
+          <span v-if="emote.isAnimated">animated</span>
+          <span v-if="emote.isListed">listed</span>
+          <span v-if="emote.isModifier">modifier</span>
+          <span v-if="emote.isWrapper">wrapper</span>
         </div>
       </dev-only>
     </div>
@@ -62,6 +64,13 @@
           loading="lazy"
         />
         {{ modifier.token }} modifier
+        <nuxt-link
+          v-if="modifier.integrationLink.canBe()"
+          class="link"
+          :to="modifier.integrationLink.value"
+        >
+          {{ $t(oh + "emote.page") }}
+        </nuxt-link>
       </div>
     </div>
     <div
@@ -82,15 +91,7 @@
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import { Emote } from "#imports";
 import type { IEmote } from "~/integrations";
-
-const emoteSizes = [1, 2, 3, 4] as const;
-
-const emoteIntegrationLinkGetters = {
-  FrankerFaceZ: (emote: Emote) =>
-    `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
-  BetterTTV: (emote: Emote) => `https://betterttv.com/emotes/${emote.id}`,
-  SevenTV: (emote: Emote) => `https://7tv.app/emotes/${emote.id}`,
-} as const;
+const oh = "app.hint.onHover." as const;
 </script>
 <script setup lang="ts">
 const props = defineProps<{
@@ -105,47 +106,11 @@ defineExpose({
   hoveredEmoteContainerRef,
 });
 
-const emote_ = computed(() => props.emote && new Emote(props.emote));
-const emoteIntegrationLink = computed(() => {
-  if (!emote_.value || emote_.value.source === "Twitch") {
-    return;
-  }
-  const getLink = emoteIntegrationLinkGetters[emote_.value.source];
-  return getLink(emote_.value);
-});
+const emote = computed(() => props.emote && Emote.create(props.emote));
 const emoteModifiers = computed(() =>
-  props.emoteModifiers?.map((modifier) => new Emote(modifier)),
+  props.emoteModifiers?.map((modifier) => Emote.create(modifier)),
 );
 
 const emoji = computed(() => props.emoji);
 const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
-
-const possibleSizes = computed(() => {
-  if (!emote_.value) {
-    return [];
-  }
-  const possibleSizes = emoteSizes.filter((size) =>
-    // @ts-expect-error emote.value can not be nullish, it was checked above
-    emote_.value.canHaveSize(size),
-  );
-  return possibleSizes;
-});
-
-const emoteImages = computed(() => {
-  const emote = emote_.value;
-  if (!emote) {
-    return [];
-  }
-  return emoteSizes
-    .filter((size) => possibleSizes.value.includes(size))
-    .map((size) => {
-      return {
-        size,
-        src: emote.url.withSizeOf(size),
-        width: emote.width.multiplyBy(size).value,
-        height: emote.height.multiplyBy(size).value,
-        alt: emote.token,
-      };
-    });
-});
 </script>
