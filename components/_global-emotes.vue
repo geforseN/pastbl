@@ -42,13 +42,24 @@
           :collection="collection"
           :source="collection.source"
           @refresh="globalCollectionsStore.refreshCollection(collection.source)"
-        />
+        >
+          <template #headingMiddle>
+            <span class="ml-1 mr-auto">
+              <nuxt-link-locale
+                :to="`/collections/global/${toLowerCase(collection.source)}`"
+              >
+                <icon name="carbon:link" />
+              </nuxt-link-locale>
+            </span>
+          </template>
+        </emote-collection-global>
       </template>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { InjectOnHoverHint } from "~/app.vue";
+import { getEmoteToken } from "~/integrations";
 
 const globalCollectionsStore = useGlobalCollectionsStore();
 const emotesStore = useEmotesStore();
@@ -59,7 +70,8 @@ const { makeMouseoverHandler } =
 const throttledMouseover = useThrottleFn(
   makeMouseoverHandler({
     findEmote(target) {
-      return emotesStore.findEmote(target.alt);
+      const token = getEmoteToken(target);
+      return emotesStore.findGlobalEmote(token);
     },
   }),
   100,
