@@ -22,6 +22,10 @@ class EmoteUrl {
     const [start, end] = this.#tuple.value;
     return start + end.replace("1", String(size));
   }
+
+  valueOf() {
+    return this.string;
+  }
 }
 
 class EmoteSize {
@@ -35,6 +39,37 @@ class EmoteSize {
     assert.ok(Number.isInteger(integer));
     return new EmoteSize(this.value * integer);
   }
+
+  valueOf() {
+    return this.value;
+  }
+}
+
+class EmoteIntegrationLink {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(readonly emote: Emote) {}
+
+  get value() {
+    assert.ok(this.canBe());
+    return EmoteIntegrationLink.#integrationLinkGetters[this.emote.source](
+      this.emote,
+    );
+  }
+
+  canBe(): this is {
+    emote: {
+      source: Exclude<EmoteSource, "Twitch">;
+    };
+  } {
+    return this.emote.source !== "Twitch";
+  }
+
+  static #integrationLinkGetters = {
+    FrankerFaceZ: (emote: Emote) =>
+      `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
+    BetterTTV: (emote: Emote) => `https://betterttv.com/emotes/${emote.id}`,
+    SevenTV: (emote: Emote) => `https://7tv.app/emotes/${emote.id}`,
+  } as const;
 }
 
 export class Emote {
@@ -51,40 +86,83 @@ export class Emote {
   readonly isModifier;
   readonly isWrapper;
 
-  constructor({
-    url,
-    token,
-    source,
-    width = 32,
-    height = 32,
-    type,
-    id,
-    isAnimated,
-    isListed,
-    isModifier,
-    isWrapper,
-  }: IEmote) {
+  integrationLink: EmoteIntegrationLink;
+
+  constructor(
+    {
+      token,
+      source,
+      type,
+      id,
+      isAnimated,
+      isListed,
+      isModifier,
+      isWrapper,
+    }: Omit<IEmote, "width" | "height" | "url">,
+    {
+      width,
+      height,
+      url,
+    }: {
+      readonly url: EmoteUrl;
+      readonly width: EmoteSize;
+      readonly height: EmoteSize;
+    },
+  ) {
     this.id = id;
-    this.url = new EmoteUrl(url);
+    this.url = url;
     this.token = token;
     this.source = source;
-    this.width = new EmoteSize(width);
-    this.height = new EmoteSize(height);
+    this.width = width;
+    this.height = height;
     this.type = type;
     this.isAnimated = isAnimated;
     this.isListed = isListed;
     this.isModifier = isModifier;
     this.isWrapper = isWrapper;
+    this.integrationLink = new EmoteIntegrationLink(this);
   }
 
-  canHaveSize(size: 1 | 2 | 3 | 4) {
+  static create(emote: IEmote) {
+    return new Emote(emote, {
+      url: new EmoteUrl(emote.url),
+      width: new EmoteSize(emote.width || 32),
+      height: new EmoteSize(emote.height || 32),
+    });
+  }
+
+  // /////////////////////////
+  // /////////////////////////
+
+  images = computed(() => {
+    return Emote.#sizes
+      .filter((size) => this.#canHaveSize(size))
+      .map((size) => this.#ofSize(size));
+  });
+
+  static #sizes = [1, 2, 3, 4] as const;
+
+  #canHaveSize(size: 1 | 2 | 3 | 4) {
     switch (size) {
+      case 1:
+      case 2:
+        return true;
       case 3:
-        return !["FrankerFaceZ", "Twitch"].includes(this.source);
+        return this.source !== "FrankerFaceZ" && this.source !== "Twitch";
       case 4:
         return this.source !== "BetterTTV";
       default:
-        return true;
+        raise();
     }
+  }
+
+  #ofSize(size: 1 | 2 | 3 | 4) {
+    return {
+      size,
+      src: this.url.withSizeOf(size),
+      width: this.width.multiplyBy(size).value,
+      height: this.height.multiplyBy(size).value,
+      alt: this.token,
+    };
   }
 }

@@ -16,6 +16,17 @@
           "before": "Add",
           "link": "user emotes"
         }
+      },
+      "onHover": {
+        "emote": {
+          "page": "Emote page",
+          "type": {
+            "global": "Global emote",
+            "channel": "Channel emote",
+            "shared": "Shared emote"
+          },
+          "modifier": "Emote modifier"
+        }
       }
     }
   },
