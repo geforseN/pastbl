@@ -20,19 +20,19 @@ export function flatGroupBy<T, K extends string | number | symbol, V extends T>(
 export function flatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
   keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb: (value: T) => V,
+  valueCb: (value: T, index: number, array: T[], grouped: V) => V,
 ): Record<K, V>;
 
 export function flatGroupBy<T, V, K extends string | number | symbol>(
   array: T[],
   keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: (value: T, index: number, array: T[]) => V,
+  valueCb?: (value: T, index: number, array: T[], grouped: V) => V,
   initialRecord: Record<K, V> = {} as Record<K, V>,
 ): Record<K, V> {
   const getValue = valueCb ?? ((value: T) => value as unknown as V);
   return array.reduce((record, value, index, array) => {
     const key = keyCb(value, index, array);
-    record[key] = getValue(value, index, array);
+    record[key] = getValue(value, index, array, record[key]);
     return record;
   }, initialRecord);
 }
@@ -41,7 +41,7 @@ export function objectKeys<T extends object>(object: T) {
   return Object.keys(object) as (keyof T)[];
 }
 
-export function objectValues<T extends object>(object: T) {
+export function objectValues<T extends Record<string, unknown>>(object: T) {
   return Object.values(object) as T[keyof T][];
 }
 
