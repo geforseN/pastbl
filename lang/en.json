@@ -151,7 +151,8 @@
           "only-selected-user": "Only {'@'}{login}",
           "except-selected-user": "All, except {'@'}{login}",
           "all-selectable-users": "All starting with {'@'}",
-          "all-without-selectable-users": "All, except starting with {'@'}"
+          "all-without-selectable-users": "All, except starting with {'@'}",
+          "none": "None"
         },
         "requestForSelect": "Please select a user with emote collection",
         "selected-user": {
