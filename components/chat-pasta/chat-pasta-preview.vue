@@ -16,13 +16,13 @@
             ref="pastaTextContainerRef"
             class="twitch-text p-0 text-[13px]/[18px]"
           >
-            {{ pastaStore.pastaTrimmedText }}
+            {{ props.text }}
           </span>
         </span>
       </span>
       <button
         class="btn btn-accent btn-md text-lg"
-        @click="() => userStore.copyText(pastaStore.pastaTrimmedText)"
+        @click="() => userStore.copyText(props.text)"
       >
         {{ $t("pasta.create.preview.copyButton") }}
       </button>
@@ -33,17 +33,18 @@
 const pastaTextContainerRef = ref();
 
 const userStore = useUserStore();
-const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 
+const props = defineProps<{
+  text: string;
+  canPopulate: () => MaybePromise<void>;
+}>();
+
 async function repopulateText() {
-  await Promise.all([
-    until(() => pastaStore.text.isRestored).toBeTruthy({ timeout: 3_000 }),
-    until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
-  ]);
-  const validTokens = makeValidTokens(pastaStore.pastaTrimmedText);
+  await props.canPopulate();
+  const validTokens = makeValidTokens(props.text);
   populatePasta(pastaTextContainerRef.value, { validTokens }, emotesStore);
 }
 
-watch(() => pastaStore.pastaTrimmedText, repopulateText);
+watch(() => props.text, repopulateText);
 </script>

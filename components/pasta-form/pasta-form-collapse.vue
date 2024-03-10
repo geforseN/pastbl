@@ -57,13 +57,18 @@
             )
         "
       />
-      <chat-pasta-preview v-show="!!pastaStore.pastaTrimmedText.length" />
+      <chat-pasta-preview
+        v-show="!!pastaStore.pastaTrimmedText.length"
+        :text="pastaStore.pastaTrimmedText"
+        :can-populate
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
+const emotesStore = useEmotesStore();
 
 const pastaFormRef = ref();
 const { isFormCollapseOpen: isOpen } = storeToRefs(useUserStore());
@@ -74,6 +79,15 @@ watch(useMagicKeys().i, async () => {
   await sleep(100);
   pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();
 });
+
+function canPopulate() {
+  return Promise.all([
+    until(() => pastaStore.text.isRestored).toBeTruthy({
+      timeout: 3_000,
+    }),
+    until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
+  ]);
+}
 </script>
 <style scoped>
 .jokerge-enter-active,
