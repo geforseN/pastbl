@@ -56,11 +56,11 @@ function useEmotes<
   });
 
   return {
-    findEmote(token: IEmote["token"], onEmoteFound: (emote: IEmote) => void) {
+    findEmote(token: IEmote["token"], onEmoteFound?: (emote: IEmote) => void) {
       for (const source of sources.value) {
         const emote = record.value[source]!.get(token);
         if (emote) {
-          onEmoteFound(emote);
+          onEmoteFound?.(emote);
           return emote;
         }
       }
@@ -112,12 +112,16 @@ export const useEmotesStore = defineStore("emotes", () => {
   );
 
   return {
-    findEmote(token: IEmote["token"]) {
+    findEmote(token: string) {
       return (
         emotesCache.get(token) ||
         userEmotes.findEmote(token, emotesCache.set) ||
         globalEmotes.findEmote(token, emotesCache.set)
       );
+    },
+    // NOTE: MUST use it in global emotes component OR there is a change that emote with same token in userEmote will be found, but global emote expected
+    findGlobalEmote(token: string) {
+      return globalEmotes.findEmote(token);
     },
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
   };
