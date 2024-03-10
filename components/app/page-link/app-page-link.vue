@@ -1,7 +1,7 @@
 <template>
   <nuxt-link-locale
     :to="path"
-    class="group block rounded-box border-2 px-4 py-2 hover:bg-base-300"
+    class="group block rounded-box border-2 px-4 py-2 hover:border-base-content hover:bg-base-300"
   >
     <span class="flex items-center justify-between gap-2 text-2xl font-bold">
       <span class="flex items-center gap-2">
