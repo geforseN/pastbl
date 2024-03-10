@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import type { PastaFormEdit } from "#build/components";
 
-const pastaId = getStringParam("pastaId", Number);
+const pastaId = getRouteStringParam("pastaId", Number);
 const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();

@@ -47,10 +47,7 @@ import type {
 
 const isError = (value: unknown): value is Error => value instanceof Error;
 
-const { nickname } = useRoute().params;
-assert.ok(typeof nickname === "string", "Page param nickname must be a string");
-const login = toLowerCase(nickname);
-
+const login = getRouteStringParam("nickname", toLowerCase);
 const userCollectionsStore = useUserCollectionsStore();
 
 const collection = useAsyncState(
