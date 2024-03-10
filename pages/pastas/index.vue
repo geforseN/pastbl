@@ -43,26 +43,67 @@
 <script lang="ts">
 import { pastasIdbService } from "~/client-only/services";
 
-type MinimalPasta = {
+type MiniPasta = {
   tags?: string[];
   text: string;
 };
 
-function isMinimalPasta(data: unknown): data is MinimalPasta {
+type MinimalPasta = MiniPasta & { createdAt: string };
+
+type AnyPasta = MiniPasta | MinimalPasta;
+
+function isMiniPasta(data: unknown): data is MiniPasta {
   return (
     isObject(data) &&
     typeof data.text === "string" &&
-    getTextStatus(data.text) !== "error" &&
     (typeof data.tags === "undefined" || isStringArray(data.tags))
   );
 }
 
-// FIXME: make tags trim and assert tags length
-function makeMinimalPasta(pasta: IDBMegaPasta) {
+function isMinimalPasta(pasta: MiniPasta): pasta is MinimalPasta {
+  const pasta_ = pasta as unknown as { createdAt?: unknown };
+  return (
+    Object.hasOwn(pasta_, "createdAt") &&
+    typeof pasta_.createdAt === "string" &&
+    isIsoDate(pasta_.createdAt)
+  );
+}
+
+function makeSortedAnyPastas(pastas: MiniPasta[]): AnyPasta[] {
+  const { hasCreatedAt, noCreatedAt } = groupBy(pastas, (pasta) =>
+    isMinimalPasta(pasta) ? "hasCreatedAt" : "noCreatedAt",
+  ) as {
+    hasCreatedAt: MinimalPasta[];
+    noCreatedAt: MiniPasta[];
+  };
+  return [
+    ...hasCreatedAt.toSorted(
+      (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt),
+    ),
+    ...noCreatedAt,
+  ];
+}
+
+function makeMiniPasta(pasta: IDBMegaPasta): MiniPasta {
   return {
     tags: pasta.tags.length ? pasta.tags : undefined,
     text: pasta.text,
   };
+}
+
+function makeMegaPastas(pastas: AnyPasta[]) {
+  return pastas.reduce((pastas, pasta) => {
+    const text = megaTrim(pasta.text);
+    if (getTextStatus(text) === "error") {
+      return pastas;
+    }
+    const tags = (pasta.tags ?? [])
+      .map(megaTrim)
+      .filter((tag) => getTagStatus(tag) === "ok");
+    const megaPasta = createMegaPasta(text, tags);
+    pastas.push(megaPasta);
+    return pastas;
+  }, [] as MegaPasta[]);
 }
 
 function loadPastasFromFile(event: Event, reader: FileReader) {
@@ -74,8 +115,8 @@ function loadPastasFromFile(event: Event, reader: FileReader) {
 
 export function savePastasToFile(pastasToSave: IDBMegaPasta[]) {
   const link = document.createElement("a");
-  const minimalPastas = pastasToSave.filter(isMinimalPasta).map((pasta) => ({
-    ...makeMinimalPasta(pasta),
+  const minimalPastas = pastasToSave.map((pasta) => ({
+    ...makeMiniPasta(pasta),
     createdAt: new Date(pasta.createdAt).toISOString(),
   }));
   const pastasString = JSON.stringify(minimalPastas, null, 2);
@@ -95,14 +136,13 @@ function getMegaPastasOnFileLoad(event: ProgressEvent<FileReader>) {
     assert.ok(typeof fileContent === "string");
     const pastasJson = JSON.parse(fileContent);
     assert.ok(isArray(pastasJson));
-    const minimalPastas = pastasJson.filter(isMinimalPasta);
-    const megaPastas = minimalPastas.map((pasta) => {
-      const trimmedText = megaTrim(pasta.text);
-      return createMegaPasta(trimmedText, pasta.tags);
-    });
+    const miniPastas = pastasJson.filter(isMiniPasta);
+    const anyPastas = makeSortedAnyPastas(miniPastas);
+    const megaPastas = makeMegaPastas(anyPastas);
     return megaPastas;
   } catch (error) {
     assert.isError(error);
+    // TODO: add toast to user on error
     throw error;
   }
 }
