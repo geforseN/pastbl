@@ -51,8 +51,6 @@ import type { AppHintOnHover } from "#build/components";
 import type { IEmote } from "~/integrations";
 import type { RouteLocation, RouteLocationRaw } from "#vue-router";
 
-useHead({ title: process.dev ? "pastbl - dev" : "pastbl" });
-
 const localePath = useLocalePath();
 
 const go = (path: RouteLocation | RouteLocationRaw) =>

@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  experimental: {
+    viewTransition: true,
+  },
   devtools: {
     enabled: true,
     timeline: {
@@ -30,6 +33,20 @@ export default defineNuxtConfig({
       },
     ],
   },
+  $development: {
+    app: {
+      head: {
+        title: "pastbl - dev",
+      },
+    },
+  },
+  app: {
+    head: {
+      title: "pastbl",
+    },
+    viewTransition: true,
+  },
+
   i18n: {
     lazy: true,
     langDir: "lang",
