@@ -6,7 +6,7 @@ import { create7TVUserIntegration } from "./entity/create7TVUserIntegration";
 import { withLog } from "~/utils/dev-only";
 
 function SevenTVEmoteString(emote: I7TVEmote) {
-  return `<img class="emote" src="${emote.url}" alt="${emote.token}" loading="lazy" width="${emote.width}">`;
+  return `<img data-token="${emote.token}" class="emote" src="${emote.url}" alt="${emote.token}" loading="lazy" width="${emote.width}">`;
 }
 
 export function SevenTVWrappedEmoteString(emote: I7TVEmote) {
