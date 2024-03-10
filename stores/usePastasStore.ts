@@ -59,7 +59,8 @@ export type PastaShowStrategy =
   | "only-selected-user"
   | "except-selected-user"
   | "all-selectable-users"
-  | "all-without-selectable-users";
+  | "all-without-selectable-users"
+  | "none";
 
 function usePastasShow(
   sortedPastas: Ref<IDBMegaPasta[]>,
@@ -132,6 +133,7 @@ function usePastasShow(
         (pasta) => !selectablePastasSet.value.has(pasta),
       );
     }),
+    none: computed(() => []),
   } satisfies Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>>;
 
   return {

@@ -13,9 +13,9 @@
         v-for="[showStrategy, translated] of Object.entries(showOptions)"
         :key="showStrategy"
         :value="showStrategy"
-        :disabled="!selectedLogin && translated.mustHaveLogin"
+        :disabled="!selectedLogin && translated.mustHaveUserCollection"
         :title="
-          !selectedLogin && translated.mustHaveLogin
+          !selectedLogin && translated.mustHaveUserCollection
             ? $t(s + 'requestForSelect')
             : undefined
         "
@@ -49,33 +49,37 @@ const showOptions = computedWithControl(
     ({
       all: {
         text: t(so + "all"),
-        mustHaveLogin: false,
+        mustHaveUserCollection: false,
       },
       "selected-user": {
         text: t(so + "selected-user", tOptions),
-        mustHaveLogin: true,
+        mustHaveUserCollection: true,
       },
       "only-selected-user": {
         text: t(so + "only-selected-user", tOptions),
-        mustHaveLogin: true,
+        mustHaveUserCollection: true,
       },
       "except-selected-user": {
         text: t(so + "except-selected-user", tOptions),
-        mustHaveLogin: true,
+        mustHaveUserCollection: true,
       },
       "all-selectable-users": {
         text: t(so + "all-selectable-users"),
-        mustHaveLogin: false,
+        mustHaveUserCollection: false,
       },
       "all-without-selectable-users": {
         text: t(so + "all-without-selectable-users"),
-        mustHaveLogin: false,
+        mustHaveUserCollection: false,
+      },
+      none: {
+        text: t(so + "none"),
+        mustHaveUserCollection: false,
       },
     }) satisfies Record<
       PastaShowStrategy,
       {
         text: string;
-        mustHaveLogin: boolean;
+        mustHaveUserCollection: boolean;
       }
     >,
 );
