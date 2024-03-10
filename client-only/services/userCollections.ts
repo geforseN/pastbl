@@ -151,7 +151,7 @@ const emoteIds = {
     );
     for (const collection of collections) {
       for (const integration of Object.values(collection.integrations)) {
-        const source = integration.source;
+        const { source } = integration;
         const emoteIds = setsOfEmoteIds[source];
         const emoteIdsToIgnore = setsOfEmoteIdsToIgnore[source];
         for (const set of integration.sets) {
