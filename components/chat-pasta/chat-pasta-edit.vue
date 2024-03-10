@@ -17,53 +17,26 @@
       @remove-all-tags="() => pasta.removeAllTags()"
     />
     <client-only>
-      <chat-pasta
-        :key="trimmedText"
-        class="self-center"
-        :pasta="megaPasta"
-        @populate="
-          async (pastaTextContainer) => {
-            // NOTE: without validTokens assignment only emotes that are in old validTokens will be populated
-            // (populatePasta is reliable on validTokens, validTokens must be updated on text change)
-            megaPasta.validTokens = makeValidTokens(trimmedText);
-            populatePasta(pastaTextContainer, megaPasta, emotesStore);
-          }
-        "
-      >
-        <template #creatorData>
-          <chat-pasta-creator-data
-            :badges-count="userStore.user.badges.count.state"
-            :nickname="userStore.user.nickname.text.state"
-            :nickname-color="userStore.user.nickname.color.state"
-          />
-        </template>
-        <template #sidebar>
-          <button
-            class="btn btn-square btn-accent btn-md border-2 border-accent-content text-xs"
-            :disabled="!userStore.clipboard.isSupported"
-            @click="() => userStore.copyPasta(megaPasta)"
-          >
-            {{ $t("pasta.dropdown.buttons.copy") }}
-          </button>
-        </template>
-      </chat-pasta>
+      <chat-pasta-preview
+        v-show="!!trimmedText.length"
+        :text="trimmedText"
+        :can-populate
+      />
     </client-only>
   </div>
 </template>
 <script lang="ts" setup>
 import type { PastaFormEdit } from "#build/components";
 
-const route = useRoute();
-assert.ok(typeof route.params.pastaId === "string");
-const pastaId = Number(route.params.pastaId);
+const pastaId = getStringParam("pastaId", Number);
 const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
 
-const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
 
+const pastaToEdit = ref<IDBMegaPasta>();
 const megaPasta = ref<IDBMegaPasta>({
   ...createMegaPasta("", []),
   id: -1,
@@ -87,6 +60,7 @@ watchDebounced(
 
 async function onPastaEditAccept() {
   const pasta = toValue(megaPasta);
+  assert.ok(pasta);
   const text = toValue(trimmedText);
   await pastasStore.putPasta({
     id: pasta.id,
@@ -100,15 +74,21 @@ async function onPastaEditAccept() {
   });
 }
 
-onMounted(async () => {
+async function canPopulate() {
   await Promise.all([
     until(() => pastasStore.pastas.isReady).toBeTruthy({ timeout: 3_000 }),
     until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy({
       timeout: 3_000,
     }),
-  ]).then(() => nextTick());
+  ]);
+  await nextTick();
+}
+
+onMounted(async () => {
+  await canPopulate();
   pastaFormEditRef.value?.pastaFormTextareaRef.textareaRef.focus();
   const pasta = pastasStore.getPastaById(pastaId);
+  pastaToEdit.value = pasta;
   megaPasta.value = structuredClone(pasta);
 });
 </script>
