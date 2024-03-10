@@ -46,9 +46,7 @@ export const assert: {
   response: {
     ok: assertResponseOk,
   },
-  fail(messageOrError?: string | Error): never {
-    raise(messageOrError);
-  },
+  fail: raise,
 };
 
 export function raise(messageOrError?: string | Error): never {
