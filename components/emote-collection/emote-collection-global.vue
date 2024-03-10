@@ -5,6 +5,7 @@
   >
     <header class="flex justify-between">
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
+      <slot name="headingMiddle" />
       <emote-integration-logo
         :source="props.source"
         :must-wrap-to-link="true"
@@ -64,6 +65,9 @@ const checkedSources = defineModel("checkedSources", {
 const props = defineProps<GlobalCollectionProps<Source>>();
 const emit = defineEmits<{
   refresh: [];
+}>();
+defineSlots<{
+  headingMiddle?: unknown;
 }>();
 
 const colors = colorsClassRecord[props.source];
