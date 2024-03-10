@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex w-[420px] flex-wrap items-center rounded-b-btn border-2 px-2"
-  >
+  <div class="flex flex-wrap items-center px-2">
     {{ $t(ce + "user.before") }}&nbsp;
     <div
       class="my-0.5 flex items-center space-x-2 divide-x divide-twitch rounded-btn border border-twitch p-0.5"
@@ -93,7 +91,9 @@
         </ul>
       </div>
     </div>
-    &nbsp;{{ $t(ce + "user.after") }}
+    <span v-if="$t(ce + 'user.after')">
+      &nbsp;{{ $t(ce + "user.after") }}
+    </span>
   </div>
 </template>
 <script setup lang="ts">

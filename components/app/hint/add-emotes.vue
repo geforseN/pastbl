@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col rounded-b-btn border-2 px-2">
+  <div class="flex flex-col px-2">
     <span>
       {{ $t(ae + "global.before") }}
       <nuxt-link-locale
