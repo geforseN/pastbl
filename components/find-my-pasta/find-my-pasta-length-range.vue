@@ -14,22 +14,20 @@
           class="toggle toggle-primary"
         />
       </article>
-      <div class="flex items-center gap-6">
-        <VaSlider
-          v-model="range"
-          range
-          :disabled="!respect"
-          :min="minValue"
-          :max="maxValue"
-          color="secondary"
-          class="w-full px-2 pt-2"
-          track-label-visible
-        >
-          <template #trackLabel="{ value }">
-            <span class="text-base-content">{{ value }}</span>
-          </template>
-        </VaSlider>
-      </div>
+      <va-slider
+        v-model="range"
+        range
+        :disabled="!respect"
+        :min="minValue"
+        :max="maxValue"
+        color="secondary"
+        class="w-full px-2 pt-2"
+        track-label-visible
+      >
+        <template #trackLabel="{ value }">
+          <span class="text-base-content">{{ value }}</span>
+        </template>
+      </va-slider>
       <div class="flex justify-between p-1">
         <div class="flex flex-col">
           <label
@@ -38,7 +36,7 @@
           >
             {{ $t(r + "min") }}
           </label>
-          <VaCounter
+          <va-counter
             id="pasta-to-find-min-length"
             v-model="range[0]"
             :disabled="!respect"
@@ -58,7 +56,7 @@
           >
             {{ $t(r + "max") }}
           </label>
-          <VaCounter
+          <va-counter
             id="pasta-to-find-max-length"
             v-model="range[1]"
             :disabled="!respect"
