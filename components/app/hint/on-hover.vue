@@ -63,7 +63,7 @@
           class="bg-base-200"
           loading="lazy"
         />
-        {{ modifier.token }} modifier
+        {{ modifier.token }} {{ $t(oh + "emote.modifier") }}
         <nuxt-link
           v-if="modifier.integrationLink.canBe()"
           class="link"
@@ -79,11 +79,15 @@
     >
       <span class="text-4xl">{{ props.emoji }}</span>
       <span class="space-x-1">
+        <!-- TODO: ? add i18n for emoji name ? -->
         <span>{{ emojiData.name }}</span>
         <span>-</span>
         <span>:{{ emojiData.slug }}:</span>
       </span>
-      <span>Emoji - {{ emojiData.group }}</span>
+      <span>
+        {{ $t("collections.emojis.link") }} -
+        {{ $t("collections.emojis.headings." + emojiData.group) }}
+      </span>
     </div>
   </div>
 </template>
