@@ -9,7 +9,9 @@ export const emotesIDB = {
   async makeDeleteEmotesFn(source: EmoteSource) {
     return (await idb.emotes).deleteManyWithSource(source);
   },
-
+  async makeEmoteGetter(source: EmoteSource) {
+    return (await idb.emotes).getWithSource(source);
+  },
   get emotesTransaction() {
     return idb.emotes.then((idb) => idb.emotesTransaction);
   },

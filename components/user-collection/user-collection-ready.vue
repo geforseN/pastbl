@@ -99,14 +99,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type {
-  EmoteSource,
-  IUserEmoteIntegration,
-  IUserEmoteIntegrationRecord,
+import {
+  getEmoteId,
+  type EmoteSource,
+  type IUserEmoteIntegration,
+  type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
 import type { InjectOnHoverHint } from "~/app.vue";
-import { idb } from "~/client-only/IndexedDB";
+import { emotesIDB } from "~/client-only/services";
 
 const { asyncState, isCollectionSelected } = defineProps<{
   asyncState: ReadyUserCollectionAsyncState;
@@ -150,12 +151,11 @@ const emoteSource = ref<EmoteSource>();
 const throttledMouseover = useThrottleFn(
   makeMouseoverHandler({
     async findEmote(target) {
-      const { emoteId } = target.dataset;
-      assert.ok(
-        typeof emoteId === "string" && emoteId.length && emoteSource.value,
+      assert.ok(emoteSource.value);
+      const emoteId = getEmoteId(target);
+      const getEmoteBySource = await emotesIDB.makeEmoteGetter(
+        emoteSource.value,
       );
-      const emotesStore = await idb.emotes;
-      const getEmoteBySource = emotesStore.getWithSource(emoteSource.value);
       const emote = await getEmoteBySource(emoteId);
       return emote;
     },
