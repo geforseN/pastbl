@@ -42,6 +42,7 @@
       v-if="selectedPasta"
       :key="selectedPasta.id"
       :pasta="selectedPasta"
+      @mouseover="throttledMouseover"
       @populate="
         (pastaTextContainer) =>
           populatePasta(pastaTextContainer, selectedPasta, emotesStore)
@@ -67,6 +68,9 @@
   </div>
 </template>
 <script lang="ts" setup>
+import type { InjectOnHoverHint } from "~/app.vue";
+import { getEmoteToken } from "~/integrations";
+
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
@@ -84,5 +88,28 @@ watch(
   () => {
     selectedPastaNumber.value = 1;
   },
+);
+const { makeMouseoverHandler } =
+  inject<InjectOnHoverHint>("hoveredEmote") || raise();
+
+const throttledMouseover = useThrottleFn(
+  makeMouseoverHandler({
+    findEmote(target) {
+      const token = getEmoteToken(target);
+      return emotesStore.findEmote(token);
+    },
+    findEmoteModifiersByTokens(tokens) {
+      assert.ok(tokens.length);
+      const emotes = tokens
+        .map(emotesStore.findEmote)
+        .filter(
+          (emote): emote is NonNullable<typeof emote> => emote !== undefined,
+        );
+      assert.ok(tokens.length === emotes.length);
+      return emotes;
+    },
+  }),
+  100,
+  true,
 );
 </script>
