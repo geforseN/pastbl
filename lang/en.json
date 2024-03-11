@@ -97,6 +97,7 @@
     "addTag": {
       "fail": {
         "title": "Failed to add pasta tag",
+        "tooManyTags": "Невозможно добавить более {max} тегов.",
         "emptyMessage": "Can not add the empty tag",
         "sameMessage": "The tag were already added to pasta",
         "tooLongMessage": "The tag is too long, max {max} characters",
