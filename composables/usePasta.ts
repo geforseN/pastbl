@@ -113,6 +113,14 @@ export const pastaTagLength = {
   max: 80,
 } as const;
 
+export const maxTagsInPasta = 15;
+
+const pastaTagsCount = { max: maxTagsInPasta } as const;
+
+export function getTagStatus(tag: string) {
+  return getLengthStatus(tag.length, pastaTagLength);
+}
+
 function usePastaTags(tags: Ref<string[]>) {
   const { t } = useI18n();
 
@@ -132,17 +140,20 @@ function usePastaTags(tags: Ref<string[]>) {
     },
     addTag(tag: string) {
       const m = "toast.addTag.fail.";
+      const title = t(`${m}title`);
+      assert.ok(
+        tags.value.length < maxTagsInPasta,
+        new ExtendedError(t(`${m}tooManyTags`, pastaTagsCount), { title }),
+      );
       const trimmed = megaTrim(tag);
-      const status = getLengthStatus(trimmed.length, pastaTagLength);
+      const status = getTagStatus(trimmed);
       assert.ok(
         status === "ok",
-        new ExtendedError(t(`${m}${status}Message`, pastaTagLength), {
-          title: t(`${m}title`),
-        }),
+        new ExtendedError(t(`${m}${status}Message`, pastaTagLength), { title }),
       );
       assert.ok(
         !tags.value.includes(trimmed),
-        new ExtendedError(t(`${m}sameMessage`), { title: t(`${m}title`) }),
+        new ExtendedError(t(`${m}sameMessage`), { title }),
       );
       const final = trimmed.startsWith("@") ? toLowerCase(trimmed) : trimmed;
       tags.value.push(final);
