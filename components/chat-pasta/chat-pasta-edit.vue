@@ -24,7 +24,7 @@
       />
     </client-only>
     <teleport to="body">
-      <dialog ref="routeGuardModalRef" class="modal">
+      <dialog ref="routeGuardDialogRef" class="modal">
         <div class="modal-box">
           <h3 class="text-lg font-bold">
             {{ $t("modal.chatPastaEdit.heading") }}
@@ -49,17 +49,27 @@
         </div>
       </dialog>
     </teleport>
+    <teleport to="body">
+      <chat-pasta-tag-add-dialog
+        ref="addTagDialogRef"
+        :tag="tag"
+        @must-add-tag="(value) => (mustAddTag = value)"
+      />
+    </teleport>
   </div>
 </template>
 <script lang="ts" setup>
-import type { PastaFormEdit } from "#build/components";
+import type { ChatPastaTagAddDialog, PastaFormEdit } from "#build/components";
 
 const pastaId = getRouteStringParam("pastaId", Number);
 const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
-const routeGuardModalRef = ref<HTMLDialogElement>();
+const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
+const routeGuardDialogRef = ref<HTMLDialogElement>();
+
 const mustAcceptChanges = ref<boolean | null>(null);
+const mustAddTag = ref<boolean | null>(null);
 
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
@@ -120,18 +130,35 @@ onMounted(async () => {
   megaPasta.value = structuredClone(pasta);
 });
 
+// FIXME: refactor callback (also need to refactor dialogs code)
 onBeforeRouteLeave(async () => {
-  assert.ok(routeGuardModalRef.value && pastaToEdit.value && megaPasta.value);
+  assert.ok(routeGuardDialogRef.value && pastaToEdit.value && megaPasta.value);
+  if (tag.value.length) {
+    assert.ok(addTagDialogRef.value?.dialogRef);
+    addTagDialogRef.value.dialogRef.showModal();
+    await until(mustAddTag).not.toBeNull();
+    if (mustAddTag.value) {
+      const mustPreventAddSameTag = !pastaToEdit.value.tags.includes(tag.value);
+      // if below is needed when in edit user remove e.g. 'x' tag and then leaves 'x' in tag input
+      if (mustPreventAddSameTag) {
+        pastaToEdit.value.tags.push(tag.value);
+      }
+      const pasta = makeRawPasta(pastaToEdit.value);
+      await pastasStore.putPasta(pasta);
+      megaPasta.value.tags.push(tag.value);
+    }
+    addTagDialogRef.value.dialogRef.close();
+  }
   const isTextSame = pastaToEdit.value.text === megaPasta.value.text;
   const isTagsSame =
     pastaToEdit.value.tags.toString() === megaPasta.value.tags.toString();
   if (!isTextSame || !isTagsSame) {
-    routeGuardModalRef.value.showModal();
-    await until(() => mustAcceptChanges.value).not.toBeNull();
+    routeGuardDialogRef.value.showModal();
+    await until(mustAcceptChanges).not.toBeNull();
     if (mustAcceptChanges.value) {
       await onPastaEditAccept();
     }
-    routeGuardModalRef.value.close();
+    routeGuardDialogRef.value.close();
   }
 });
 </script>
