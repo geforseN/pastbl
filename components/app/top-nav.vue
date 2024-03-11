@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar border-b-2 border-b-secondary/50 p-1">
-    <ol class="contents">
+    <ol class="contents space-x-2">
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
@@ -8,7 +8,7 @@
           pastbl
         </nuxt-link-locale>
       </li>
-      <li class="ml-2 hidden go-brr:block">
+      <li class="hidden go-brr:block">
         <nuxt-link-locale
           class="btn btn-outline flex-nowrap text-wrap border-twitch text-twitch"
           to="/collections"
@@ -17,13 +17,13 @@
           <emote-integration-logos class="min-w-8" />
         </nuxt-link-locale>
       </li>
-      <li class="ml-2 hidden go-brr:block">
+      <li class="hidden go-brr:block">
         <nuxt-link-locale class="btn btn-info flex-nowrap" to="/pastas/find">
           <strong>{{ $t("pasta.find.link") }}</strong>
           🔍
         </nuxt-link-locale>
       </li>
-      <li class="ml-2">
+      <li>
         <nuxt-link-locale
           to="/user/settings#heading"
           class="btn btn-outline flex-nowrap"
@@ -32,7 +32,8 @@
           ⚙️
         </nuxt-link-locale>
       </li>
-      <li class="ml-auto xs:mr-2">
+      <li class="xs:!ml-auto" />
+      <li>
         <select
           id="select-locale"
           class="select select-bordered select-xs absolute right-2 top-1 w-20 sm:select-md sm:static sm:w-max"
@@ -49,7 +50,7 @@
           </option>
         </select>
       </li>
-      <li class="ml-2">
+      <li>
         <select
           id="app-theme"
           v-model="selectedTheme.state.value"
