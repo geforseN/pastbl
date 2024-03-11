@@ -6,7 +6,12 @@
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
       @accept="onPastaEditAccept"
-      @decline="navigateTo(localePath('/'))"
+      @decline="
+        () => {
+          mustIgnoreRouteLeaveGuard = true;
+          navigateTo(localePath('/'));
+        }
+      "
       @add-tag="
         (newTag) => {
           pasta.addTag(newTag);
@@ -70,6 +75,7 @@ const routeGuardDialogRef = ref<HTMLDialogElement>();
 
 const mustAcceptChanges = ref<boolean | null>(null);
 const mustAddTag = ref<boolean | null>(null);
+const mustIgnoreRouteLeaveGuard = ref(false);
 
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
@@ -132,6 +138,9 @@ onMounted(async () => {
 
 // FIXME: refactor callback (also need to refactor dialogs code)
 onBeforeRouteLeave(async () => {
+  if (mustIgnoreRouteLeaveGuard.value) {
+    return;
+  }
   assert.ok(routeGuardDialogRef.value && pastaToEdit.value && megaPasta.value);
   if (tag.value.length) {
     assert.ok(addTagDialogRef.value?.dialogRef);
