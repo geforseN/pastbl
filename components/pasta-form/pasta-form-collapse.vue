@@ -85,7 +85,7 @@ function canPopulate() {
     until(() => pastaStore.text.isRestored).toBeTruthy({
       timeout: 3_000,
     }),
-    until(() => emotesStore.isInitialUserEmotesReady).toBeTruthy(),
+    until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);
 }
 </script>
