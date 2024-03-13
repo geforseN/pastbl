@@ -124,5 +124,10 @@ export const useEmotesStore = defineStore("emotes", () => {
       return globalEmotes.findEmote(token);
     },
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
+    canUseUserEmotes: computed(() =>
+      !userCollectionsStore.selectedCollectionLogin.state
+        ? true
+        : userEmotes.isInitialEmotesReady.value,
+    ),
   };
 });
