@@ -3,14 +3,14 @@
     <div class="flex items-end gap-1">
       <nuxt-link-locale
         :to="`https://twitch.tv/${login}`"
-        class="rounded-full border border-twitch focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
+        class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
       >
         <img
           :src="avatarUrl"
           :alt="$t('avatar.alt', { nickname })"
           width="48"
           height="48"
-          class="min-h-12 min-w-12 rounded-full bg-twitch/20"
+          class="min-h-12 min-w-12 rounded-full bg-twitch-accent/20"
         />
       </nuxt-link-locale>
       <span class="flex flex-col truncate">
@@ -23,7 +23,7 @@
       <div class="ml-auto flex flex-col gap-0.5">
         <nuxt-link-locale
           :to="`/collections/users/${login}`"
-          class="btn btn-info link btn-xs ml-auto w-24 text-nowrap focus:outline-twitch"
+          class="btn btn-info link btn-xs ml-auto w-24 text-nowrap focus:outline-twitch-accent"
         >
           {{ $t("collections.users.ready.button.more") }}
         </nuxt-link-locale>

@@ -1,16 +1,16 @@
 <template>
   <div
-    class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch p-2"
+    class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch-accent p-2"
     @mouseover="throttledMouseover"
   >
     <div class="flex gap-2">
       <div class="flex h-16 min-w-16 items-center">
         <nuxt-link-locale
           :to="`https://twitch.tv/${twitch.login}`"
-          class="rounded-full border border-twitch focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
+          class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
         >
           <img
-            class="rounded-full bg-twitch/20"
+            class="rounded-full bg-twitch-accent/20"
             width="64"
             height="64"
             :src="twitch.avatarUrl"
@@ -20,12 +20,12 @@
       </div>
       <div class="flex w-72 flex-col justify-between">
         <nuxt-link-locale
-          class="w-min max-w-72 truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch"
+          class="w-min max-w-72 truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
           :to="`https://twitch.tv/${twitch.login}`"
           :title="twitch.nickname"
         >
           <span
-            class="link inline-block text-2xl font-bold decoration-twitch underline-offset-4"
+            class="link inline-block text-2xl font-bold decoration-twitch-accent underline-offset-4"
           >
             {{ twitch.nickname }}
           </span>

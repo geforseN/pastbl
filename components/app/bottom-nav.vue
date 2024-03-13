@@ -4,9 +4,9 @@
     <ol class="contents">
       <li class="w-1/2">
         <nuxt-link-locale
-          class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch bg-twitch/10 text-twitch hover:bg-twitch/20"
+          class="btn btn-ghost h-16 w-full flex-nowrap rounded-none border-0 border-twitch-accent bg-twitch-accent/10 text-twitch-accent hover:bg-twitch-accent/20"
           to="/collections"
-          active-class="border-t-2 border-t-twitch"
+          active-class="border-t-2 border-t-twitch-accent"
         >
           <span class="w-min break-words uppercase xs:w-auto">
             {{ $t("collections.index.link") }}
