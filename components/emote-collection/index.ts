@@ -4,37 +4,37 @@ import type {
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
-export type Colors = {
-  border: string;
-  background: string;
-  outline: string;
-  asd: string;
+export type CollectionStyle = {
+  borderAccent: string;
+  backgroundBase: string;
+  outlineAccent: string;
+  scrollbar: string;
 };
 
-export const colorsClassRecord: Record<EmoteSource, Colors> = {
+export const collectionsStyles: Record<EmoteSource, CollectionStyle> = {
   BetterTTV: {
-    border: "border-bttv-accent",
-    background: "bg-bttv-base",
-    outline: "outline-bttv-accent",
-    asd: "bg-bttv-accent",
+    borderAccent: "border-bttv-accent",
+    backgroundBase: "bg-bttv-base",
+    outlineAccent: "outline-bttv-accent",
+    scrollbar: "scrollbar-track-bttv-base scrollbar-thumb-bttv-accent",
   },
   FrankerFaceZ: {
-    border: "border-ffz-accent",
-    background: "bg-ffz-base",
-    outline: "outline-ffz-accent",
-    asd: "bg-ffz-accent",
+    borderAccent: "border-ffz-accent",
+    backgroundBase: "bg-ffz-base",
+    outlineAccent: "outline-ffz-accent",
+    scrollbar: "scrollbar-track-ffz-base scrollbar-thumb-ffz-accent",
   },
   SevenTV: {
-    border: "border-7tv-accent",
-    background: "bg-7tv-base",
-    outline: "outline-7tv-accent",
-    asd: "bg-7tv-accent",
+    borderAccent: "border-7tv-accent",
+    backgroundBase: "bg-7tv-base",
+    outlineAccent: "outline-7tv-accent",
+    scrollbar: "scrollbar-track-7tv-base scrollbar-thumb-7tv-accent",
   },
   Twitch: {
-    border: "border-twitch-accent",
-    background: "bg-twitch-base",
-    outline: "outline-twitch-accent",
-    asd: "bg-twitch-accent",
+    borderAccent: "border-twitch-accent",
+    backgroundBase: "bg-twitch-base",
+    outlineAccent: "outline-twitch-accent",
+    scrollbar: "scrollbar-track-twitch-base scrollbar-thumb-twitch-accent",
   },
 };
 

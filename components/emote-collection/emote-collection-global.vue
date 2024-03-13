@@ -1,7 +1,7 @@
 <template>
   <article
     class="rounded-btn border-2 p-2 text-white"
-    :class="colors.background + ' ' + colors.border"
+    :class="[styles.backgroundBase, styles.borderAccent]"
   >
     <header class="flex justify-between">
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
@@ -18,18 +18,18 @@
             v-for="set of props.collection.sets"
             :key="set.name"
             :set="set"
-            :colors="colors"
+            :colors="styles"
           />
         </div>
         <div
-          :class="colors.border"
+          :class="styles.borderAccent"
           class="flex flex-col rounded-box border-2 p-2"
         >
           <emote-collection-updated-at
             :updated-at="props.collection.updatedAt"
             @refresh="emit('refresh')"
           />
-          <span class="my-1 h-0 w-full border-t" :class="colors.border">
+          <span class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
             &nbsp;
           </span>
           <div class="flex items-center justify-between gap-2">
@@ -54,13 +54,12 @@
 <script setup lang="ts" generic="Source extends EmoteSource">
 import type { EmoteSource } from "~/integrations";
 import {
-  colorsClassRecord,
+  collectionsStyles,
   type GlobalCollectionProps,
 } from "~/components/emote-collection";
 
-const checkedSources = defineModel("checkedSources", {
+const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
-  type: Array<EmoteSource>,
 });
 const props = defineProps<GlobalCollectionProps<Source>>();
 const emit = defineEmits<{
@@ -70,8 +69,9 @@ defineSlots<{
   headingMiddle?: unknown;
 }>();
 
-const colors = colorsClassRecord[props.source];
+const styles = computed(() => collectionsStyles[props.source]);
 
-const mustBeUsedId =
-  "global-" + props.source.toLowerCase() + "-emotes-must-be-used";
+const mustBeUsedId = computed(
+  () => "global-" + props.source.toLowerCase() + "-emotes-must-be-used",
+);
 </script>
