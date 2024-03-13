@@ -1,7 +1,7 @@
 <template>
   <article
     class="rounded-btn border-2 p-2 text-white"
-    :class="colors.background + ' ' + colors.border"
+    :class="[styles.backgroundBase, styles.borderAccent]"
   >
     <header class="flex justify-between">
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
@@ -17,11 +17,11 @@
             v-for="set of props.collection.sets"
             :key="set.name"
             :set="set"
-            :colors="colors"
+            :colors="styles"
           />
         </div>
         <div
-          :class="colors.border"
+          :class="styles.borderAccent"
           class="flex flex-col rounded-box border-2 p-1 px-2"
         >
           <emote-collection-updated-at
@@ -39,7 +39,7 @@
 <script setup lang="ts" generic="Source extends EmoteSource">
 import type { EmoteSource } from "~/integrations";
 import {
-  colorsClassRecord,
+  collectionsStyles,
   type UserIntegrationProps,
 } from "~/components/emote-collection";
 
@@ -48,5 +48,5 @@ const emit = defineEmits<{
   refresh: [];
 }>();
 
-const colors = computed(() => colorsClassRecord[props.source]);
+const styles = computed(() => collectionsStyles[props.source]);
 </script>

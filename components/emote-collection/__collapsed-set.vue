@@ -1,5 +1,8 @@
 <template>
-  <div class="collapse collapse-arrow border-2" :class="props.colors.border">
+  <div
+    class="collapse collapse-arrow border-2"
+    :class="props.colors.borderAccent"
+  >
     <input
       :id="id"
       v-model="isOpen"
@@ -26,15 +29,15 @@
     <main class="collapse-content">
       <slot v-if="mustRenderContent" name="emoteList">
         <div
-          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2"
-          :class="props.colors.border"
+          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2 scrollbar"
+          :class="[props.colors.borderAccent, props.colors.scrollbar]"
           tabindex="0"
         >
           <div
             v-for="emote of props.set.emotes"
             :key="emote.id"
             class="grid min-h-8 place-items-center hover:scale-110 hover:outline hover:outline-1"
-            :class="props.colors.background + ' ' + props.colors.outline"
+            :class="[props.colors.backgroundBase, props.colors.outlineAccent]"
             :title="emote.token + ' from ' + props.set.source"
           >
             <img
@@ -55,7 +58,7 @@
   </div>
 </template>
 <script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
-import type { Colors } from "~/components/emote-collection";
+import type { CollectionStyle } from "~/components/emote-collection";
 import type { IEmoteSetT } from "~/integrations";
 
 const { t } = useI18n({
@@ -83,7 +86,7 @@ const mustRenderContent = ref(false);
 const props = withDefaults(
   defineProps<{
     set: EmoteSetT;
-    colors: Colors;
+    colors: CollectionStyle;
     defaultEmoteSize?: {
       width?: number;
       height?: number;

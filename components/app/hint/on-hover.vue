@@ -9,7 +9,7 @@
       class="flex max-w-96 flex-col items-center gap-1 rounded-lg border p-2 text-white"
       :class="[
         emoteModifiers?.length && 'rounded-br-none',
-        colorsClassRecord[emote.source].background,
+        collectionsStyles[emote.source].backgroundBase,
       ]"
     >
       <button
@@ -20,7 +20,7 @@
       </button>
       <div
         class="flex items-center gap-1 overflow-x-auto p-1 scrollbar"
-        :class="scrollbarStyles[emote.source]"
+        :class="collectionsStyles[emote.source].scrollbar"
       >
         <template v-for="image of emote.images.value" :key="image">
           <img
@@ -123,17 +123,10 @@
 </template>
 <script lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
-import { colorsClassRecord } from "~/components/emote-collection";
+import { collectionsStyles } from "~/components/emote-collection";
 import { Emote } from "#imports";
 import type { IEmote } from "~/integrations";
 const oh = "app.hint.onHover." as const;
-
-const scrollbarStyles = {
-  BetterTTV: `scrollbar-track-bttv-base scrollbar-thumb-bttv-accent`,
-  FrankerFaceZ: "scrollbar-track-ffz-base scrollbar-thumb-ffz-accent",
-  SevenTV: "scrollbar-track-7tv-base scrollbar-thumb-7tv-accent",
-  Twitch: "scrollbar-track-twitch-base scrollbar-thumb-twitch-accent",
-} as const;
 </script>
 <script setup lang="ts">
 const props = defineProps<{
