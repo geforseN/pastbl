@@ -21,7 +21,7 @@
             {{ props.set.name }}
           </h3>
           <span class="text-sm">
-            {{ t("collections.emotes", props.set.emotes.length) }}
+            {{ $t("collections.emotes", props.set.emotes.length) }}
           </span>
         </div>
       </slot>
@@ -60,26 +60,6 @@
 <script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
 import type { CollectionStyle } from "~/components/emote-collection";
 import type { IEmoteSetT } from "~/integrations";
-
-const { t } = useI18n({
-  pluralRules: {
-    ru(choice, choicesLength, _orgRule) {
-      console.log("gogogo");
-      if (choice === 0) {
-        return 0;
-      }
-      const teen = choice > 10 && choice < 20;
-      const endsWithOne = choice % 10 === 1;
-      if (!teen && endsWithOne) {
-        return 1;
-      }
-      if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
-        return 2;
-      }
-      return choicesLength < 4 ? 2 : 3;
-    },
-  },
-});
 
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
