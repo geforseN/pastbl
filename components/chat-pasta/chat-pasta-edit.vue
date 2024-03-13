@@ -29,58 +29,53 @@
       />
     </client-only>
     <teleport to="body">
-      <dialog ref="routeGuardDialogRef" class="modal">
-        <div class="modal-box">
-          <h3 class="text-lg font-bold">
-            {{ $t("modal.chatPastaEdit.heading") }}
-          </h3>
-          <p class="py-4">{{ $t("modal.chatPastaEdit.body") }}</p>
-          <form method="dialog" class="modal-action" @submit.prevent>
-            <button
-              class="btn btn-error"
-              type="reset"
-              @click="mustAcceptChanges = false"
-            >
-              {{ $t("modal.chatPastaEdit.decline") }}
-            </button>
-            <button
-              class="btn btn-success"
-              type="submit"
-              @click="mustAcceptChanges = true"
-            >
-              {{ $t("modal.chatPastaEdit.accept") }}
-            </button>
-          </form>
-        </div>
-      </dialog>
-    </teleport>
-    <teleport to="body">
+      <chat-pasta-accept-changes-dialog
+        ref="acceptChangesDialogRef"
+        :tags="megaPasta.tags"
+        :text="megaPasta.text"
+        :on-success="onPastaEditAccept"
+      />
       <chat-pasta-tag-add-dialog
         ref="addTagDialogRef"
         :tag="tag"
-        @must-add-tag="(value) => (mustAddTag = value)"
+        :on-success="
+          async () => {
+            assert.ok(initialPasta);
+            // if below is needed when in edit user remove e.g. 'x' tag and then leaves 'x' in tag input
+            const pasta = makeRawPasta(initialPasta);
+            if (!pasta.tags.includes(tag)) {
+              pasta.tags.push(tag);
+            }
+            await pastasStore.putPasta(pasta);
+            initialPasta = pasta;
+            megaPasta.tags.push(tag);
+          }
+        "
       />
     </teleport>
   </div>
 </template>
 <script lang="ts" setup>
-import type { ChatPastaTagAddDialog, PastaFormEdit } from "#build/components";
+import type {
+  ChatPastaAcceptChangesDialog,
+  ChatPastaTagAddDialog,
+  PastaFormEdit,
+} from "#build/components";
 
 const pastaId = getRouteStringParam("pastaId", Number);
 const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
 const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
-const routeGuardDialogRef = ref<HTMLDialogElement>();
+const acceptChangesDialogRef =
+  ref<InstanceType<typeof ChatPastaAcceptChangesDialog>>();
 
-const mustAcceptChanges = ref<boolean | null>(null);
-const mustAddTag = ref<boolean | null>(null);
 const mustIgnoreRouteLeaveGuard = ref(false);
 
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
 
-const pastaToEdit = ref<IDBMegaPasta>();
+const initialPasta = ref<IDBMegaPasta>();
 const megaPasta = ref<IDBMegaPasta>({
   ...createMegaPasta("", []),
   id: -1,
@@ -106,7 +101,7 @@ async function onPastaEditAccept() {
   const pasta = toValue(megaPasta);
   assert.ok(pasta);
   const text = toValue(trimmedText);
-  await pastasStore.putPasta({
+  const pasta_ = {
     id: pasta.id,
     createdAt: pasta.createdAt,
     lastCopiedAt: pasta.lastCopiedAt,
@@ -115,7 +110,9 @@ async function onPastaEditAccept() {
     tags: [...toRaw(pasta.tags)],
     validTokens: makeValidTokens(text),
     updatedAt: Date.now(),
-  });
+  };
+  await pastasStore.putPasta(pasta_);
+  initialPasta.value = pasta_;
 }
 
 async function canPopulate() {
@@ -132,42 +129,18 @@ onMounted(async () => {
   await canPopulate();
   pastaFormEditRef.value?.pastaFormTextareaRef.textareaRef.focus();
   const pasta = pastasStore.getPastaById(pastaId);
-  pastaToEdit.value = pasta;
+  // FIXME: here also can assign clone to pastaToEdit
+  initialPasta.value = pasta;
   megaPasta.value = structuredClone(pasta);
 });
 
-// FIXME: refactor callback (also need to refactor dialogs code)
 onBeforeRouteLeave(async () => {
   if (mustIgnoreRouteLeaveGuard.value) {
     return;
   }
-  assert.ok(routeGuardDialogRef.value && pastaToEdit.value && megaPasta.value);
-  if (tag.value.length) {
-    assert.ok(addTagDialogRef.value?.dialogRef);
-    addTagDialogRef.value.dialogRef.showModal();
-    await until(mustAddTag).not.toBeNull();
-    if (mustAddTag.value) {
-      const mustPreventAddSameTag = !pastaToEdit.value.tags.includes(tag.value);
-      // if below is needed when in edit user remove e.g. 'x' tag and then leaves 'x' in tag input
-      if (mustPreventAddSameTag) {
-        pastaToEdit.value.tags.push(tag.value);
-      }
-      const pasta = makeRawPasta(pastaToEdit.value);
-      await pastasStore.putPasta(pasta);
-      megaPasta.value.tags.push(tag.value);
-    }
-    addTagDialogRef.value.dialogRef.close();
-  }
-  const isTextSame = pastaToEdit.value.text === megaPasta.value.text;
-  const isTagsSame =
-    pastaToEdit.value.tags.toString() === megaPasta.value.tags.toString();
-  if (!isTextSame || !isTagsSame) {
-    routeGuardDialogRef.value.showModal();
-    await until(mustAcceptChanges).not.toBeNull();
-    if (mustAcceptChanges.value) {
-      await onPastaEditAccept();
-    }
-    routeGuardDialogRef.value.close();
-  }
+  assert.ok(addTagDialogRef.value);
+  await addTagDialogRef.value.execute();
+  assert.ok(acceptChangesDialogRef.value && initialPasta.value);
+  await acceptChangesDialogRef.value.execute(initialPasta.value);
 });
 </script>

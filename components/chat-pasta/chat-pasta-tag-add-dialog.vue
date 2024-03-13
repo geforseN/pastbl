@@ -7,17 +7,13 @@
       <p class="py-4">{{ $t("modal.chatPastaTagAdd.body") }}</p>
       {{ $t("modal.chatPastaTagAdd.tag") }}: {{ props.tag }}
       <form method="dialog" class="modal-action" @submit.prevent>
-        <button
-          class="btn btn-error"
-          type="reset"
-          @click="emit('mustAddTag', false)"
-        >
+        <button class="btn btn-error" type="reset" @click="mustAddTag = false">
           {{ $t("modal.chatPastaTagAdd.decline") }}
         </button>
         <button
           class="btn btn-success"
           type="submit"
-          @click="emit('mustAddTag', true)"
+          @click="mustAddTag = true"
         >
           {{ $t("modal.chatPastaTagAdd.accept") }}
         </button>
@@ -28,15 +24,25 @@
 <script setup lang="ts">
 const props = defineProps<{
   tag: string;
+  onSuccess: () => MaybePromise<void>;
 }>();
 
-const emit = defineEmits<{
-  mustAddTag: [boolean];
-}>();
-
+const mustAddTag = ref<boolean | null>(null);
 const dialogRef = ref<HTMLDialogElement>();
 
 defineExpose({
   dialogRef,
+  async execute() {
+    if (!props.tag.length) {
+      return;
+    }
+    assert.ok(dialogRef.value);
+    dialogRef.value.showModal();
+    await until(mustAddTag).not.toBeNull();
+    if (mustAddTag.value) {
+      await props.onSuccess();
+    }
+    dialogRef.value.close();
+  },
 });
 </script>
