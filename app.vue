@@ -108,7 +108,7 @@ function updateHoveredEmote(
     // NOTE: here hoveredEmojiModifiers MUST be null (and it is, because nullEveryState function is called)
     return;
   }
-  assert.ok(typeof findEmoteModifiersByTokens === "function");
+  assert.ok(isFn(findEmoteModifiersByTokens));
   const modifiersTokens = [...wrapperElement.children]
     .filter(
       (child): child is HTMLElement =>

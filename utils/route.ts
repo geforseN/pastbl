@@ -1,3 +1,5 @@
+import { isFn } from "./guard";
+
 export function getRouteStringParam(
   key: string,
   transformFn?: undefined,
@@ -13,7 +15,7 @@ export function getRouteStringParam<T>(
 ) {
   const value = useRoute().params[key];
   assert.ok(typeof value === "string", `Page param ${key} must be a string`);
-  if (typeof transformFn === "function") {
+  if (isFn(transformFn)) {
     return transformFn(value);
   }
   return value;
