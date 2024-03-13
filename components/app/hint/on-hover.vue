@@ -77,7 +77,13 @@
       v-if="props.emoji"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
-      <span class="text-4xl">{{ props.emoji }}</span>
+      <button
+        class="btn btn-square btn-error btn-xs self-end bg-error/20 text-error hover:text-base-content"
+        @click="emit('close')"
+      >
+        X
+      </button>
+      <span class="text-6xl">{{ props.emoji }}</span>
       <span class="space-x-1">
         <!-- TODO: ? add i18n for emoji name ? -->
         <span>{{ emojiData.name }}</span>
@@ -103,7 +109,9 @@ const props = defineProps<{
   emoji?: Nullish<string>;
   emoteModifiers?: Nullish<IEmote[]>;
 }>();
-
+const emit = defineEmits<{
+  close: [];
+}>();
 const hoveredEmoteContainerRef = ref<HTMLDivElement>();
 
 defineExpose({
