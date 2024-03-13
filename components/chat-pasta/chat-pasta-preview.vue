@@ -15,6 +15,7 @@
           <span
             ref="pastaTextContainerRef"
             class="twitch-text p-0 text-[13px]/[18px]"
+            @mouseover="throttledMouseover"
           >
             {{ props.text }}
           </span>
@@ -30,6 +31,9 @@
   </article>
 </template>
 <script lang="ts" setup>
+import type { InjectOnHoverHint } from "~/app.vue";
+import { getEmoteToken } from "~/integrations";
+
 const pastaTextContainerRef = ref();
 
 const userStore = useUserStore();
@@ -47,4 +51,28 @@ async function repopulateText() {
 }
 
 watch(() => props.text, repopulateText);
+
+const { makeMouseoverHandler } =
+  inject<InjectOnHoverHint>("hoveredEmote") || raise();
+
+const throttledMouseover = useThrottleFn(
+  makeMouseoverHandler({
+    findEmote(target) {
+      const token = getEmoteToken(target);
+      return emotesStore.findEmote(token);
+    },
+    findEmoteModifiersByTokens(tokens) {
+      assert.ok(tokens.length);
+      const emotes = tokens
+        .map(emotesStore.findEmote)
+        .filter(
+          (emote): emote is NonNullable<typeof emote> => emote !== undefined,
+        );
+      assert.ok(tokens.length === emotes.length);
+      return emotes;
+    },
+  }),
+  100,
+  true,
+);
 </script>
