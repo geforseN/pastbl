@@ -49,7 +49,12 @@
 <script setup lang="ts">
 import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
-import type { IEmote } from "~/integrations";
+import {
+  findEmoteWrapper,
+  getEmoteToken,
+  isEmoteModifier,
+  type IEmote,
+} from "~/integrations";
 import type { RouteLocation, RouteLocationRaw } from "#vue-router";
 
 const localePath = useLocalePath();
@@ -86,12 +91,14 @@ const onHoverHintRefContainer = computed(
 );
 
 function updateHoveredEmoteContainerStyle(event: MouseEvent) {
-  assert.ok(event.target instanceof Element && onHoverHintRefContainer.value);
-  const targetRect = event.target.getBoundingClientRect();
-  const bottom = window.innerHeight - targetRect.top;
-  const left = targetRect.right / 2;
-  onHoverHintRefContainer.value.style.bottom = `${bottom}px`;
+  const { target } = event;
+  assert.ok(target instanceof HTMLElement && onHoverHintRefContainer.value);
+  const targetRect = target.getBoundingClientRect();
+  const top = event.pageY - event.offsetY;
+  const left = targetRect.left + targetRect.width / 2;
+  onHoverHintRefContainer.value.style.top = `${top}px`;
   onHoverHintRefContainer.value.style.left = `${left}px`;
+  onHoverHintRefContainer.value.style.transform = "translate(-50%, -100%)";
 }
 
 function updateHoveredEmote(
@@ -103,23 +110,15 @@ function updateHoveredEmote(
   nullEveryState();
   hoveredEmote.value = value;
   updateHoveredEmoteContainerStyle(event);
-  const wrapperElement = event.target.closest("[data-emote-wrapper]");
+  const wrapperElement = findEmoteWrapper(event.target);
   if (!wrapperElement) {
     // NOTE: here hoveredEmojiModifiers MUST be null (and it is, because nullEveryState function is called)
     return;
   }
   assert.ok(isFn(findEmoteModifiersByTokens));
   const modifiersTokens = [...wrapperElement.children]
-    .filter(
-      (child): child is HTMLElement =>
-        child instanceof HTMLElement && child.matches("[data-emote-modifier]"),
-    )
-    .map((child) => child.dataset.token);
-  assert.ok(
-    modifiersTokens.every(
-      (token): token is string => typeof token === "string",
-    ),
-  );
+    .filter(isEmoteModifier)
+    .map(getEmoteToken);
   hoveredEmojiModifiers.value = findEmoteModifiersByTokens(modifiersTokens);
 }
 
@@ -135,43 +134,56 @@ function nullEveryState() {
   hoveredEmoji.value = null;
 }
 
-function makeMouseoverHandler(options: {
-  findEmote: (target: HTMLImageElement) => MaybePromise<IEmote | undefined>;
-  findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[];
-}) {
+function makeMouseoverHandler(
+  options: {
+    findEmote?: (target: HTMLImageElement) => MaybePromise<IEmote | undefined>;
+    findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[];
+    findEmojiData?: (
+      emoji: string,
+    ) => MaybePromise<Record<string, number | string> | undefined>;
+  } = {},
+) {
   return async function (event: Event) {
     assert.ok(event instanceof MouseEvent);
     const { target, relatedTarget, currentTarget } = event;
     if (!(target instanceof Element)) {
       return withLogSync(null, "not an element");
     }
-    if (relatedTarget?.classList.contains("emote-hint")) {
-      return withLogSync(nullEveryState, "hint is hovered");
-    }
     if (target === currentTarget) {
       return withLogSync(nullEveryState, "cursor moved away");
     }
-    if (target.classList.contains("emoji")) {
+    const isWrappedEmoji =
+      target instanceof HTMLElement &&
+      typeof target.dataset.emojiToken === "string";
+    if (isWrappedEmoji) {
       return updateHoveredEmoji(target.innerHTML, event);
     }
     if (
       relatedTarget instanceof HTMLImageElement &&
-      !(target instanceof HTMLImageElement)
+      !(
+        target instanceof HTMLImageElement ||
+        /* NOTE: target instanceof HTMLInputElement is FIX for collapses-set component, first row in emote set can not trigger hoveredEmote set without this hack    */
+        target instanceof HTMLInputElement
+      )
     ) {
-      return nullEveryState();
+      return withLogSync(nullEveryState, "not an image");
     }
-    if (target instanceof HTMLImageElement) {
+    if (target instanceof HTMLImageElement && isFn(options.findEmote)) {
       const emote = await options.findEmote(target);
       if (!emote) {
         return;
       }
-      updateHoveredEmote(emote, event, options.findEmoteModifiersByTokens);
+      return updateHoveredEmote(
+        emote,
+        event,
+        options.findEmoteModifiersByTokens,
+      );
     }
+    console.log(target);
   };
 }
 
 const onHoverHintInject = {
-  hoveredEmote,
   makeMouseoverHandler,
 };
 
