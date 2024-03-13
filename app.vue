@@ -41,6 +41,7 @@
         :emote="hoveredEmote"
         :emoji="hoveredEmoji"
         :emote-modifiers="hoveredEmojiModifiers"
+        @close="nullEveryState"
       />
     </Body>
   </div>
