@@ -18,8 +18,7 @@
             {{ props.set.name }}
           </h3>
           <span class="text-sm">
-            {{ props.set.emotes.length }}
-            emotes
+            {{ t("collections.emotes", props.set.emotes.length) }}
           </span>
         </div>
       </slot>
@@ -41,6 +40,7 @@
             <img
               :id="`${emote.id}:${emote.source}`"
               :data-emote-id="emote.id"
+              :data-token="emote.token"
               :src="emote.url"
               :alt="emote.token"
               :width="emote.width || props.defaultEmoteSize.width"
@@ -57,6 +57,26 @@
 <script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
 import type { Colors } from "~/components/emote-collection";
 import type { IEmoteSetT } from "~/integrations";
+
+const { t } = useI18n({
+  pluralRules: {
+    ru(choice, choicesLength, _orgRule) {
+      console.log("gogogo");
+      if (choice === 0) {
+        return 0;
+      }
+      const teen = choice > 10 && choice < 20;
+      const endsWithOne = choice % 10 === 1;
+      if (!teen && endsWithOne) {
+        return 1;
+      }
+      if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+        return 2;
+      }
+      return choicesLength < 4 ? 2 : 3;
+    },
+  },
+});
 
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
