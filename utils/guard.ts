@@ -15,6 +15,12 @@ export function isIsoDate(str: string) {
   );
 }
 
+export function isFn<F extends (...args: unknown[]) => unknown>(
+  maybeFn: unknown,
+): maybeFn is F {
+  return typeof maybeFn === "function";
+}
+
 export function isIsoDate2(str: string) {
   if (str.includes("T")) {
     if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(str)) {
