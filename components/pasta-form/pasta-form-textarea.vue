@@ -9,6 +9,7 @@
       props.modelStatus === 'success' && 'bg-success/5',
     ]"
     :placeholder="$t('pasta.formCommon.textareaPlaceholder')"
+    enterkeyhint="done"
     @keyup.enter.exact.prevent="
       () => {
         if (!previousValue) {
