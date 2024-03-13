@@ -71,13 +71,23 @@ export function makeWrappedEmoteAsString(emote: EmoteT) {
   return `<span class="inline-block">${makeEmoteAsString(emote)}</span>`;
 }
 
-export function getEmoteToken(target: HTMLImageElement) {
+export function getEmoteToken(target: HTMLElement) {
   const { token } = target.dataset;
   assert.ok(typeof token === "string");
   return token;
 }
 
-export function getEmoteId(target: HTMLImageElement) {
+export function isEmoteModifier(target: Element): target is HTMLElement {
+  return (
+    target instanceof HTMLElement && target.matches("[data-emote-modifier]")
+  );
+}
+
+export function findEmoteWrapper(target: HTMLImageElement) {
+  return target.closest("[data-emote-wrapper]");
+}
+
+export function getEmoteId(target: HTMLElement) {
   const { emoteId } = target.dataset;
   assert.ok(typeof emoteId === "string" && emoteId.length);
   return emoteId;
