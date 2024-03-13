@@ -31,7 +31,6 @@ const mustAddTag = ref<boolean | null>(null);
 const dialogRef = ref<HTMLDialogElement>();
 
 defineExpose({
-  dialogRef,
   async execute() {
     if (!props.tag.length) {
       return;
