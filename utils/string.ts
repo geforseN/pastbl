@@ -4,6 +4,7 @@ export function toLowerCase(str: string) {
 
 export function megaTrim(str: string) {
   return str
+    .replaceAll("\n", " ")
     .trim()
     .split(" ")
     .map((word) => word.trim())
