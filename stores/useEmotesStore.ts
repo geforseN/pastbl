@@ -97,7 +97,7 @@ export const useEmotesStore = defineStore("emotes", () => {
     () => globalCollectionsStore.checkedCollections,
   );
   const userEmotes = useUserEmotes(
-    () => userCollectionsStore.readyIntegrations,
+    () => userCollectionsStore.selectedCollection.readyIntegrations,
   );
 
   watch(
@@ -119,15 +119,15 @@ export const useEmotesStore = defineStore("emotes", () => {
         globalEmotes.findEmote(token, emotesCache.set)
       );
     },
-    // NOTE: MUST use it in global emotes component OR there is a change that emote with same token in userEmote will be found, but global emote expected
+    // NOTE: MUST use it in global emotes component OR there is a chance that emote with same token in userEmote will be found, but global emote expected
     findGlobalEmote(token: string) {
       return globalEmotes.findEmote(token);
     },
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
-    canUseUserEmotes: computed(() =>
-      !userCollectionsStore.selectedCollectionLogin.state
-        ? true
-        : userEmotes.isInitialEmotesReady.value,
+    canUseUserEmotes: computed(
+      () =>
+        userCollectionsStore.selectedLogin.isEmpty ||
+        userEmotes.isInitialEmotesReady.value,
     ),
   };
 });

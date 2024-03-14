@@ -61,10 +61,7 @@
             <button
               class="btn btn-outline btn-sm my-0.5 justify-start p-0 hover:border-secondary"
               @click="
-                () =>
-                  userCollectionsStore.selectLogin(
-                    collectionToSelect.user.twitch.login,
-                  )
+                () => userCollectionsStore.selectCollection(collectionToSelect)
               "
             >
               <div class="flex items-center gap-1 rounded-btn p-0.5">

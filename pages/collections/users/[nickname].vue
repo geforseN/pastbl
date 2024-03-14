@@ -3,8 +3,10 @@
     <div v-if="collection.state.value !== null" class="flex flex-col gap-2">
       <user-collection-ready
         v-if="collection.state.value !== null"
-        :async-state="collection as ReadyUserCollectionAsyncState"
-        :is-collection-selected="userCollectionsStore.isSelectedLogin(login)"
+        :async-state="collection"
+        :is-collection-selected="
+          userCollectionsStore.isCollectionSelected(login)
+        "
         @delete="
           async () => {
             await userCollectionsStore.deleteCollection(login);
@@ -17,7 +19,7 @@
           }
         "
         @refresh="collection.execute(0, 'refresh')"
-        @select="userCollectionsStore.selectLogin(login)"
+        @select="userCollectionsStore.selectCollection(login)"
         @refresh-integration="
           (integration) =>
             collection.execute(0, 'refresh-integration', integration)

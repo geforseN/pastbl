@@ -1,5 +1,11 @@
 <template>
-  <div class="flex flex-col gap-0.5 rounded-btn border border-base-content p-1">
+  <div
+    :class="
+      isRefreshing &&
+      'animate-pulse bg-gradient-to-r from-base-300 to-twitch-accent'
+    "
+    class="space-y-0.5 rounded-btn p-2"
+  >
     <div class="flex items-end gap-1">
       <nuxt-link-locale
         :to="`https://twitch.tv/${login}`"
@@ -29,10 +35,12 @@
         </nuxt-link-locale>
         <button
           class="btn btn-success btn-xs w-24 flex-nowrap gap-0"
+          :disabled="isRefreshing"
           @click="emit('refresh')"
         >
           {{ $t("collections.users.ready.button.refresh") }}
-          <icon name="ic:round-refresh" />
+          <span v-if="isRefreshing" class="loading loading-spinner" />
+          <icon v-else name="ic:round-refresh" />
         </button>
       </div>
     </div>
@@ -54,13 +62,15 @@
 </template>
 <script setup lang="ts">
 import { UseTimeAgo } from "@vueuse/components";
-const { updatedAt, nickname, login, avatarUrl, isSelected } = defineProps<{
-  updatedAt: number;
-  nickname: string;
-  login: Lowercase<string>;
-  avatarUrl: string;
-  isSelected: boolean;
-}>();
+const { updatedAt, nickname, login, avatarUrl, isSelected, isRefreshing } =
+  defineProps<{
+    updatedAt: number;
+    nickname: string;
+    login: Lowercase<string>;
+    avatarUrl: string;
+    isSelected: boolean;
+    isRefreshing: boolean;
+  }>();
 
 const emit = defineEmits<{
   refresh: [];

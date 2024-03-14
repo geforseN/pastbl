@@ -153,7 +153,7 @@ async function handleCollectionLoad() {
         }),
       );
       const login = toLowerCase(nickname);
-      const collection = await userCollectionsStore.loadCollection(login);
+      const collection = await userCollectionsStore.refreshCollection(login);
       const statuses = Object.values(collection.integrations)
         .map((integration) => {
           const emojiStatus = integration.status === "ready" ? "✅" : "❌";
@@ -167,7 +167,7 @@ async function handleCollectionLoad() {
         description: t(m + "success.message", { nickname, statuses }),
       });
       if (mustSelectCollectionOnLoad.state.value) {
-        userCollectionsStore.selectedCollectionLogin.state = login;
+        userCollectionsStore.selectCollection(login);
       }
     },
     {

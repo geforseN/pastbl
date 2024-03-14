@@ -95,7 +95,7 @@ const MAP = {
       },
     },
   },
-  TO_IDB: {
+  FOR_IDB: {
     _integration: {
       // FIXME: move from MAP
       getEmotes(integration: IUserEmoteIntegration) {
@@ -120,10 +120,10 @@ const MAP = {
           isReadyUserIntegration,
         );
         const idbIntegrations = readyIntegrations.map(
-          MAP.TO_IDB._integration.prepare,
+          MAP.FOR_IDB._integration.prepare,
         );
         return {
-          emotes: readyIntegrations.flatMap(MAP.TO_IDB._integration.getEmotes),
+          emotes: readyIntegrations.flatMap(MAP.FOR_IDB._integration.getEmotes),
           collection: {
             ...collection,
             integrations: flatGroupBy(
@@ -139,21 +139,22 @@ const MAP = {
 
 const emoteIds = {
   getUnique(collections: IndexedDBUserEmoteCollection[]) {
-    const setsOfEmoteIds = flatGroupBy(
+    const setsOfEmoteIds = mapFlatGroupBy(
       [...emoteSources],
       (source) => source,
       () => new Set<string>(),
     );
-    const setsOfEmoteIdsToIgnore = flatGroupBy(
+    const setsOfEmoteIdsToIgnore = mapFlatGroupBy(
       [...emoteSources],
       (source) => source,
       () => new Set<string>(),
     );
     for (const collection of collections) {
-      for (const integration of Object.values(collection.integrations)) {
+      const integrations = Object.values(collection.integrations);
+      for (const integration of integrations) {
         const { source } = integration;
-        const emoteIds = setsOfEmoteIds[source];
-        const emoteIdsToIgnore = setsOfEmoteIdsToIgnore[source];
+        const emoteIds = setsOfEmoteIds.get(source)!;
+        const emoteIdsToIgnore = setsOfEmoteIdsToIgnore.get(source)!;
         for (const set of integration.sets) {
           for (const emoteId of set.emoteIds) {
             if (emoteIdsToIgnore.has(emoteId)) {
@@ -173,6 +174,20 @@ const emoteIds = {
   },
 };
 
+const userCollectionApi = {
+  async get(login: Lowercase<string>) {
+    const fetchedAt = Date.now();
+    const collectionsRecord = await $fetch("/api/collections/users", {
+      query: { nicknames: login },
+    });
+    return {
+      ...collectionsRecord[login],
+      fetchedAt,
+      receivedAt: Date.now(),
+    };
+  },
+};
+
 export const userCollectionsService = {
   getAllLogins() {
     return IDB.getAllLogins();
@@ -182,9 +197,14 @@ export const userCollectionsService = {
   },
   async put(collection: IUserEmoteCollection) {
     const { collection: preparedCollection, emotes } =
-      MAP.TO_IDB.collection.fullPrepare(collection);
+      MAP.FOR_IDB.collection.fullPrepare(collection);
     // TODO: make it transactional (not a big deal)
     await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
+  },
+  async refresh(login: Lowercase<string>) {
+    const collection = await userCollectionApi.get(login);
+    await this.put(collection);
+    return collection;
   },
   async delete(login: Lowercase<string>) {
     const [collection, allCollections] = await Promise.all([

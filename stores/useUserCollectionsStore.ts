@@ -1,12 +1,22 @@
 import { defineStore } from "pinia";
 import { userCollectionsService } from "~/client-only/services";
-import type {
-  IBasicUserEmoteCollection,
-  IUserEmoteIntegrationRecord,
+import {
+  isReadyUserIntegration,
+  type IBasicUserEmoteCollection,
+  type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
 type Login = Lowercase<string> | "";
 type LoginSource = Login | IBasicUserEmoteCollection;
+
+function getLogin(loginSource: LoginSource) {
+  const login =
+    typeof loginSource === "string"
+      ? loginSource
+      : loginSource.user.twitch.login;
+  assert.ok(typeof login === "string");
+  return login;
+}
 
 const stateOptions = {
   shallow: true,
@@ -22,38 +32,33 @@ function useSelectedLogin() {
 
   return {
     selectedCollectionLogin,
-    selectLogin(login: Login) {
+    ...selectedCollectionLogin,
+    changeTo(login: Login) {
       selectedCollectionLogin.state.value = login;
     },
-    isSelectedLogin(login: Login) {
+    isEqualTo(login: Login) {
       return selectedCollectionLogin.state.value === login;
     },
-    tryRemoveLogin(login: string) {
-      const isSameLoginReceived = selectedCollectionLogin.state.value === login;
-      if (isSameLoginReceived) {
+    tryRemove(login: Login) {
+      if (this.isEqualTo(login)) {
         selectedCollectionLogin.state.value = "";
       }
     },
+    isEmpty: computed(() => selectedCollectionLogin.state.value === ""),
   };
 }
 
 function useSelectedCollection(selectedLogin: Ref<Login>) {
-  const self = useAsyncState(
-    (login: Login) => {
-      return userCollectionsService.get(login);
+  const asyncState = useAsyncState(userCollectionsService.get, null, {
+    ...stateOptions,
+    immediate: false,
+    onError() {
+      asyncState.state.value = null;
     },
-    null,
-    {
-      ...stateOptions,
-      immediate: false,
-      onError() {
-        self.state.value = null;
-      },
-    },
-  );
+  });
 
   const _login = computed(() => {
-    const state = self.state.value;
+    const state = asyncState.state.value;
     if (!state) {
       return "";
     }
@@ -62,35 +67,48 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
 
   watch(selectedLogin, async (login) => {
     assert.ok(login === toLowerCase(login));
-    await self.execute(0, login);
+    await asyncState.execute(0, login);
   });
 
-  const { execute: _, ...returnValue } = self;
   return {
-    ...returnValue,
-    tryRefreshCollection(login: Login) {
-      const isSameLoginReceived = _login.value === login;
-      if (isSameLoginReceived) {
-        return self.execute(0, login);
+    ...asyncState,
+    tryRefresh(login: Login) {
+      const isSameLogin = _login.value === login;
+      if (isSameLogin) {
+        return asyncState.execute(0, login);
       }
     },
+    readyIntegrations: computed(() => {
+      if (!asyncState.state.value) {
+        return {};
+      }
+      const values = Object.values(asyncState.state.value.integrations);
+      const ready = values.filter(isReadyUserIntegration);
+      return ready as Partial<IUserEmoteIntegrationRecord>;
+    }),
   };
 }
 
-const userCollectionApi = {
-  async get(login: Login) {
-    assert.ok(login, "No login of user collection provided");
-    const fetchedAt = Date.now();
-    const collectionsRecord = await $fetch("/api/collections/users", {
-      query: { nicknames: login },
-    });
-    return {
-      ...collectionsRecord[login],
-      fetchedAt,
-      receivedAt: Date.now(),
-    };
-  },
-};
+function useCollectionsRefresh(options: {
+  beforeLoadingCompleted: (login: Login) => MaybePromise<void>;
+}) {
+  const currentlyUpdated = ref(new Set<Login>());
+
+  return {
+    async execute(loginSource: LoginSource) {
+      const login = getLogin(loginSource);
+      currentlyUpdated.value.add(login);
+      const collection = await userCollectionsService.refresh(login);
+      await options.beforeLoadingCompleted(login);
+      currentlyUpdated.value.delete(login);
+      return collection;
+    },
+    isCurrentlyRefreshing(loginSource: LoginSource) {
+      const login = getLogin(loginSource);
+      return currentlyUpdated.value.has(login);
+    },
+  };
+}
 
 export const useUserCollectionsStore = defineStore("user-collections", () => {
   const loginsToSelect = useAsyncState(
@@ -104,16 +122,10 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     [],
     stateOptions,
   );
-  const {
-    selectedCollectionLogin,
-    isSelectedLogin,
-    selectLogin,
-    tryRemoveLogin,
-  } = useSelectedLogin();
 
-  const selectedCollection = useSelectedCollection(
-    selectedCollectionLogin.state,
-  );
+  const selectedLogin = useSelectedLogin();
+
+  const selectedCollection = useSelectedCollection(selectedLogin.state);
 
   function refreshStates() {
     return Promise.all([
@@ -122,32 +134,31 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     ]);
   }
 
+  const collectionsRefresh = useCollectionsRefresh({
+    async beforeLoadingCompleted(login) {
+      await refreshStates();
+      await selectedCollection.tryRefresh(login);
+    },
+  });
+
   return {
-    selectedCollectionLogin,
+    selectedLogin,
+    selectCollection(loginSource: LoginSource) {
+      return selectedLogin.changeTo(getLogin(loginSource));
+    },
+    isCollectionSelected(loginSource: LoginSource) {
+      return selectedLogin.isEqualTo(getLogin(loginSource));
+    },
     loginsToSelect,
     collectionsToSelect,
     selectedCollection,
-    readyIntegrations: computed(() => {
-      if (!selectedCollection.state.value) {
-        return {};
-      }
-      const values = Object.values(selectedCollection.state.value.integrations);
-      const { ready } = groupBy(values, (integration) => integration.status);
-      return ready as Partial<IUserEmoteIntegrationRecord>;
-    }),
-    async loadCollection(login: Login) {
-      const collection = await userCollectionApi.get(login);
-      await userCollectionsService.put(collection);
-      await refreshStates();
-      await selectedCollection.tryRefreshCollection(login);
-      return collection;
-    },
-    async deleteCollection(login: Login) {
+    refreshCollection: collectionsRefresh.execute,
+    isCollectionRefreshing: collectionsRefresh.isCurrentlyRefreshing,
+    async deleteCollection(loginSource: LoginSource) {
+      const login = getLogin(loginSource);
       await userCollectionsService.delete(login);
       await refreshStates();
-      tryRemoveLogin(login);
+      selectedLogin.tryRemove(login);
     },
-    isSelectedLogin,
-    selectLogin,
   };
 });
