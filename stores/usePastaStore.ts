@@ -15,7 +15,7 @@ export const usePastaStore = defineStore("pasta", () => {
   return {
     pasta,
     pastaTrimmedText: computed(() => megaTrim(debouncedPastaText.value)),
-    handleTagAddToPasta(newTag: string) {
+    addTag(newTag: string) {
       try {
         pasta.addTag(newTag);
         tag.state.value = "";
@@ -25,5 +25,8 @@ export const usePastaStore = defineStore("pasta", () => {
       }
     },
     text,
+    addInputTag() {
+      return this.addTag(pasta.tag.value);
+    },
   };
 });
