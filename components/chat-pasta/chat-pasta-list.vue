@@ -1,16 +1,10 @@
 <template>
-  <dynamic-scroller
-    v-if="pastasStore.canShowPastas"
-    :items="pastasStore.pastasToShow"
-    :min-item-size="100"
-    class="pasta-list flex max-h-[50dvh] flex-col overflow-y-auto go-brr:max-h-[66dvh]"
-    @mouseover="throttledMouseover"
-  >
+  <dynamic-scroller :min-item-size="100">
     <template #default="{ item: pasta, index, active }">
       <dynamic-scroller-item
         :item="pasta"
         :active="active"
-        :size-dependencies="[pasta.message]"
+        :size-dependencies="[pasta.text]"
         :data-index="index"
       >
         <chat-pasta
@@ -35,7 +29,7 @@
               :pasta-id="pasta.id"
               :is-clipboard-supported="userStore.clipboard.isSupported"
               @copy="userStore.copyPasta(pasta)"
-              @delete="pastasStore.removePasta(pasta)"
+              @delete="emit('removePasta', pasta)"
             />
           </template>
         </chat-pasta>
@@ -44,39 +38,15 @@
   </dynamic-scroller>
 </template>
 <script lang="ts">
-import type { InjectOnHoverHint } from "~/app.vue";
-import { getEmoteToken } from "~/integrations";
-
 export const l = "pasta.list." as const;
 </script>
 <script setup lang="ts">
-const pastasStore = usePastasStore();
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 
-const { makeMouseoverHandler } =
-  inject<InjectOnHoverHint>("hoveredEmote") || raise();
-
-const throttledMouseover = useThrottleFn(
-  makeMouseoverHandler({
-    findEmote(target) {
-      const token = getEmoteToken(target);
-      return emotesStore.findEmote(token);
-    },
-    findEmoteModifiersByTokens(tokens) {
-      assert.ok(tokens.length);
-      const emotes = tokens
-        .map(emotesStore.findEmote)
-        .filter(
-          (emote): emote is NonNullable<typeof emote> => emote !== undefined,
-        );
-      assert.ok(tokens.length === emotes.length);
-      return emotes;
-    },
-  }),
-  100,
-  true,
-);
+const emit = defineEmits<{
+  removePasta: [IDBMegaPasta];
+}>();
 </script>
 <style>
 .pasta-list .chat-pasta .chat-pasta-sidebar {
