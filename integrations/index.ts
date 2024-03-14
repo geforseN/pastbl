@@ -206,11 +206,14 @@ type SomeIntegration<T extends IUserEmoteIntegration> =
   | ReadyIntegration<T>
   | FailIntegration<T>;
 
-export type IUserEmoteCollection = {
+export type IBasicUserEmoteCollection = {
   user: {
     twitch: TwitchUser;
   };
   updatedAt: number;
+};
+
+export type IUserEmoteCollection = IBasicUserEmoteCollection & {
   integrations: {
     FrankerFaceZ?: SomeIntegration<FrankerFaceZUserIntegration>;
     BetterTTV?: SomeIntegration<BetterTTVUserIntegration>;

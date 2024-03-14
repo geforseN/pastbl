@@ -1,8 +1,12 @@
 import { defineStore } from "pinia";
 import { userCollectionsService } from "~/client-only/services";
-import type { IUserEmoteIntegrationRecord } from "~/integrations";
+import type {
+  IBasicUserEmoteCollection,
+  IUserEmoteIntegrationRecord,
+} from "~/integrations";
 
 type Login = Lowercase<string> | "";
+type LoginSource = Login | IBasicUserEmoteCollection;
 
 const stateOptions = {
   shallow: true,
