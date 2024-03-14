@@ -230,7 +230,7 @@ function populateToken(
     return token;
   }
   if (isEmoji(token)) {
-    return `<span class="emoji">${emojify(token)}</span>`;
+    return `<span data-emoji-token=${token}>${emojify(token)}</span>`;
   }
   const tokenAsEmote = this.emotesStore.findEmote(token);
   if (!tokenAsEmote) {
