@@ -5,7 +5,7 @@
       v-model:tag="tag"
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
-      @accept="onPastaEditAccept"
+      @accept="refreshPastaState"
       @decline="
         () => {
           mustIgnoreRouteLeaveGuard = true;
@@ -33,7 +33,7 @@
         ref="acceptChangesDialogRef"
         :tags="megaPasta.tags"
         :text="megaPasta.text"
-        :on-success="onPastaEditAccept"
+        :on-success="refreshPastaState"
       />
       <chat-pasta-tag-add-dialog
         ref="addTagDialogRef"
@@ -97,22 +97,10 @@ watchDebounced(
   { debounce: 200 },
 );
 
-async function onPastaEditAccept() {
-  const pasta = toValue(megaPasta);
-  assert.ok(pasta);
-  const text = toValue(trimmedText);
-  const pasta_ = {
-    id: pasta.id,
-    createdAt: pasta.createdAt,
-    lastCopiedAt: pasta.lastCopiedAt,
-    text,
-    length: pasta.length,
-    tags: [...toRaw(pasta.tags)],
-    validTokens: makeValidTokens(text),
-    updatedAt: Date.now(),
-  };
-  await pastasStore.putPasta(pasta_);
-  initialPasta.value = pasta_;
+async function refreshPastaState() {
+  const pasta = refreshPasta(megaPasta, trimmedText);
+  await pastasStore.putPasta(pasta);
+  initialPasta.value = pasta;
 }
 
 async function canPopulate() {
