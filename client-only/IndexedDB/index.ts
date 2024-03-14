@@ -7,7 +7,6 @@ import type {
   IEmote,
   IEmoteSet,
   IUserEmoteIntegration,
-  IUserEmoteCollection,
   IGlobalEmoteCollection,
   FrankerFaceZUserIntegration,
   FrankerFaceZSet,
@@ -21,6 +20,7 @@ import type {
   EmoteSource,
   ITwitchUserIntegration,
   InternalGenericUserEmoteIntegration,
+  IBasicUserEmoteCollection,
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
 
@@ -78,10 +78,7 @@ export type IndexedDBUserEmoteIntegrationRecord = {
 export type IndexedDBUserEmoteIntegration =
   IndexedDBUserEmoteIntegrationRecord[keyof IndexedDBUserEmoteIntegrationRecord];
 
-export type IndexedDBUserEmoteCollection = Omit<
-  IUserEmoteCollection,
-  "integrations"
-> & {
+export type IndexedDBUserEmoteCollection = IBasicUserEmoteCollection & {
   integrations: Partial<IndexedDBUserEmoteIntegrationRecord>;
 };
 
