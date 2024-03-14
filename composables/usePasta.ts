@@ -22,6 +22,25 @@ export type IDBMegaPasta = MegaPasta & {
   id: number;
 };
 
+export function refreshPasta(
+  idbMegaPasta: MaybeRef<IDBMegaPasta>,
+  trimmedText: MaybeRef<string> = megaTrim(toValue(idbMegaPasta).text),
+): IDBMegaPasta {
+  const pasta_ = toValue(idbMegaPasta);
+  const text = toValue(trimmedText);
+  const pasta = {
+    id: pasta_.id,
+    createdAt: pasta_.createdAt,
+    lastCopiedAt: pasta_.lastCopiedAt,
+    text,
+    length: pasta_.length,
+    tags: [...toRaw(pasta_.tags)],
+    validTokens: makeValidTokens(text),
+    updatedAt: Date.now(),
+  };
+  return pasta;
+}
+
 // LINK: http://facweb.cs.depaul.edu/sjost/it212/documents/ascii-pr.htm
 // NOTE: SPACE and DELETE is not included (SPACE === 32, DELETE === 127)
 // PROBABLY can drop more charCodes, but no idea which characters are valid for emote name
@@ -36,6 +55,14 @@ function isValidToken(word: string) {
     }
   }
   return true;
+}
+
+export function makeRawPasta(pasta: IDBMegaPasta): IDBMegaPasta {
+  return {
+    ...pasta,
+    tags: toRaw([...pasta.tags]),
+    validTokens: toRaw([...pasta.validTokens]),
+  };
 }
 
 export const pastaTextLength = {
