@@ -64,6 +64,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+import type { PastaFormTextarea } from "#build/components";
+
 const tagToAddModel = defineModel<string>("tag", { default: "" });
 const pastaTextModel = defineModel<string>("text", { required: true });
 
@@ -88,7 +90,7 @@ const emit = defineEmits<{
   createPasta: [];
 }>();
 
-const pastaFormTextareaRef = ref<HTMLInputElement>();
+const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
 
 defineExpose({
   pastaFormTextareaRef,

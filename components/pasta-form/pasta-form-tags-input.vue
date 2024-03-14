@@ -29,7 +29,10 @@
         {{ $t("pasta.formCommon.tag.addButton") }}
       </button>
     </div>
-    <span v-if="isTagTooLong" class="underline decoration-error">
+    <span
+      v-if="isTagTooLong"
+      class="max-w-xs text-wrap break-words underline decoration-error"
+    >
       {{ $t("toast.addTag.fail.tooLongMessage", pastaTagLength) }}
     </span>
   </div>

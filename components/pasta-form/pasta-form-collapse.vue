@@ -41,12 +41,14 @@
         v-model:text="pastaStore.pasta.text"
         :pasta-tags="pastaStore.pasta.tags"
         :hinted-tags-map="pastasStore.mostPopularTagsEntries"
-        @add-tag="(tag) => pastaStore.handleTagAddToPasta(tag)"
+        @add-tag="(tag) => pastaStore.addTag(tag)"
         @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
         @create-pasta="
-          () =>
-            pastasStore.createPasta(
+          async () => {
+            assert.ok(addTagDialogRef);
+            await addTagDialogRef.execute();
+            await pastasStore.createPasta(
               {
                 tags: pastaStore.pasta.tags,
                 text: pastaStore.pasta.text,
@@ -54,7 +56,8 @@
               {
                 onEnd: pastaStore.pasta.reset,
               },
-            )
+            );
+          }
         "
       />
       <chat-pasta-preview
@@ -63,21 +66,31 @@
         :can-populate
       />
     </div>
+    <teleport to="body">
+      <chat-pasta-tag-add-dialog
+        ref="addTagDialogRef"
+        :tag="pastaStore.pasta.tag"
+        :on-success="pastaStore.addInputTag"
+      />
+    </teleport>
   </div>
 </template>
 <script setup lang="ts">
+import type { ChatPastaTagAddDialog, PastaForm } from "#build/components";
+
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 
-const pastaFormRef = ref();
+const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
+const pastaFormRef = ref<InstanceType<typeof PastaForm>>();
 const { isFormCollapseOpen: isOpen } = storeToRefs(useUserStore());
 
 watch(useMagicKeys().i, async () => {
   isOpen.value = true;
   // NOTE: without sleep will be ugly layout shift when collapse become opened
   await sleep(100);
-  pastaFormRef.value.pastaFormTextareaRef.textareaRef.focus();
+  pastaFormRef.value!.pastaFormTextareaRef!.textareaRef!.focus();
 });
 
 function canPopulate() {
