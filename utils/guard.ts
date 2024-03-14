@@ -2,8 +2,11 @@ export function isNotNullable<T>(value: T): value is NonNullable<T> {
   return value !== undefined && value !== null;
 }
 
-export const isObject = (obj: unknown): obj is Record<string, unknown> =>
-  obj !== null && typeof obj === "object";
+export function isObject<T extends Record<string, unknown>>(
+  obj: unknown,
+): obj is T {
+  return obj !== null && typeof obj === "object";
+}
 
 export function isIsoDate(str: string) {
   if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) {
@@ -13,6 +16,13 @@ export function isIsoDate(str: string) {
   return (
     d instanceof Date && !Number.isNaN(d.getTime()) && d.toISOString() === str
   );
+}
+
+export function isError<E extends Error, EC extends ErrorConstructor>(
+  value: unknown,
+  ErrorConstructor?: EC,
+): value is E {
+  return value instanceof (ErrorConstructor || Error);
 }
 
 export function isFn<F extends (...args: unknown[]) => unknown>(
