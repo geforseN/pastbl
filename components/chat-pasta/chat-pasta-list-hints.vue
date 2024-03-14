@@ -70,6 +70,7 @@
 </template>
 <script lang="ts" setup>
 import { l } from "~/components/chat-pasta/chat-pasta-list.vue";
+
 defineSlots<{
   default: () => void;
 }>();
@@ -81,9 +82,7 @@ const userCollectionsStore = useUserCollectionsStore();
 const selectedCollection = computed(
   () => userCollectionsStore.selectedCollection.state,
 );
-const selectedLogin = computed(
-  () => userCollectionsStore.selectedCollectionLogin.state,
-);
+const selectedLogin = computed(() => userCollectionsStore.selectedLogin.state);
 
 const isEmotesLoaded = computedAsync(
   () =>

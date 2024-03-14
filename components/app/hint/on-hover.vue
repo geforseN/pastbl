@@ -126,6 +126,7 @@ import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import { collectionsStyles } from "~/components/emote-collection";
 import { Emote } from "#imports";
 import type { IEmote } from "~/integrations";
+
 const oh = "app.hint.onHover." as const;
 </script>
 <script setup lang="ts">
