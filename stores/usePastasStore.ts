@@ -170,13 +170,13 @@ export const usePastasStore = defineStore("pastas", () => {
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
   const { selectedShowStrategy, pastasToShow, usersPastasMap } = usePastasShow(
     sortedPastas,
-    computed(() => useUserCollectionsStore().selectedCollectionLogin.state),
+    computed(() => useUserCollectionsStore().selectedLogin.state),
   );
   const canShowPastas = computedAsync(async () => {
     await Promise.all([
-      until(() => useEmotesStore().isInitialUserEmotesReady).toBe(true),
+      until(() => useEmotesStore().canUseUserEmotes).toBe(true),
       until(pastas.isReady).toBe(true, { timeout: 3_500 }),
-    ]);
+    ]).catch(() => {});
     return true;
   }, false);
 

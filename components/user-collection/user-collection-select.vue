@@ -5,7 +5,7 @@
     </h2>
     <select
       id="user-collection"
-      v-model="userCollectionsStore.selectedCollectionLogin.state"
+      v-model="userCollectionsStore.selectedLogin.state"
       name="user-collection"
       class="select select-info w-full"
     >
