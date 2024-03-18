@@ -156,6 +156,7 @@
     "loadFromFile": "Загрузить пасты из файла"
   },
   "pasta": {
+    "length": "Длинна пасты",
     "makeChangesIn": "Внесите изменения в пасту",
     "createdAt": "Создана",
     "list": {
