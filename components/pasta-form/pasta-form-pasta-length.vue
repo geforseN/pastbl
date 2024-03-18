@@ -1,13 +1,15 @@
 <template>
   <span class="px-1.5">
-    {{ $t("pasta.formCommon.length") }}:
+    {{ $t("pasta.length") }}:
     <span v-bind="$attrs" :class="classes[status]">
-      {{ pastaText.length }}
+      {{ props.pastaText.length }}
     </span>
   </span>
 </template>
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false });
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = defineProps<{
   pastaTextStatus?: "success" | "warning" | "error";
@@ -22,5 +24,5 @@ const classes = {
   error: "text-error",
   warning: "text-warning",
   success: "text-success",
-};
+} as const;
 </script>

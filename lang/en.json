@@ -156,6 +156,7 @@
     "loadFromFile": "Load pastas from file"
   },
   "pasta": {
+    "length": "Pasta length",
     "makeChangesIn": "Make changes in pasta",
     "createdAt": "Created",
     "list": {
