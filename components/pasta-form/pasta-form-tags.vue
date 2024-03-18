@@ -12,7 +12,7 @@
       <span class="line-clamp-2 break-all pb-0.5 pl-1.5 pr-1">{{ tag }}</span>
       <button
         class="btn btn-xs h-full border-0 bg-base-content text-base-100"
-        :title="$t('pasta.formCommon.tag.removeButton', { tag })"
+        :title="$t('tag.remove', { tag })"
         @click.prevent="emit('removeTag', tag)"
       >
         <span>x</span>

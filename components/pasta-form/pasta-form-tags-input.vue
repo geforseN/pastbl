@@ -26,7 +26,7 @@
         @click.prevent="emitTag"
       >
         <span class="text-xl">+</span>
-        {{ $t("pasta.formCommon.tag.addButton") }}
+        {{ $t("tag.add") }}
       </button>
     </div>
     <span

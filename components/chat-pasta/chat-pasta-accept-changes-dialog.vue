@@ -11,14 +11,14 @@
           type="reset"
           @click="mustAcceptChanges = false"
         >
-          {{ $t("modal.chatPastaEdit.decline") }}
+          {{ $t("changes.decline") }}
         </button>
         <button
           class="btn btn-success"
           type="submit"
           @click="mustAcceptChanges = true"
         >
-          {{ $t("modal.chatPastaEdit.accept") }}
+          {{ $t("changes.accept") }}
         </button>
       </form>
     </div>
@@ -34,9 +34,8 @@ const props = defineProps<{
   onSuccess: () => MaybePromise<void>;
 }>();
 
-const isTextSame = (pasta: IDBMegaPasta) => pasta.text === props.text;
-const isTagsSame = (pasta: IDBMegaPasta) =>
-  pasta.tags.toString() === props.tags.toString();
+const isTextSame = isPastaTextSame.bind(props);
+const isTagsSame = isPastaTagsSame.bind(props);
 
 defineExpose({
   async execute(pasta: IDBMegaPasta) {
