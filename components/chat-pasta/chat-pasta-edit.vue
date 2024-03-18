@@ -5,6 +5,8 @@
       v-model:tag="tag"
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
+      :trimmed-text
+      :is-pasta-same
       @accept="refreshPastaState"
       @decline="
         () => {
@@ -128,5 +130,22 @@ onBeforeRouteLeave(async () => {
   await addTagDialogRef.value.execute();
   assert.ok(acceptChangesDialogRef.value && initialPasta.value);
   await acceptChangesDialogRef.value.execute(initialPasta.value);
+});
+
+const isTextSame = isPastaTextSame.bind(megaPasta);
+const isTagsSame = isPastaTagsSame.bind(megaPasta);
+const isPastaSame = computed(() => {
+  if (!initialPasta.value) {
+    return false;
+  }
+  // @ts-expect-error initialPasta.value is not undefined
+  return isTextSame(initialPasta) && isTagsSame(initialPasta);
+});
+
+useEventListener("beforeunload", (event) => {
+  if (!isPastaSame.value) {
+    event.preventDefault();
+    event.returnValue = true;
+  }
 });
 </script>

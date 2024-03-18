@@ -1,4 +1,25 @@
 {
+  "tags": {
+    "noAdded": "No added tags",
+    "remove": "Remove tags"
+  },
+  "tag": {
+    "delete": "Delete tag: {tag}",
+    "add": "Add tag"
+  },
+  "accept": "Accept",
+  "decline": "Decline",
+  "changes": {
+    "accept": "Accept changes",
+    "decline": "Decline changes"
+  },
+  "refresh": "Refresh",
+  "refreshing": "Refreshing",
+  "button": {
+    "delete": "Delete",
+    "deleting": "Deleting"
+  },
+  "updated": "Updated",
   "app": {
     "hint": {
       "current-emotes": {
@@ -135,6 +156,7 @@
     "loadFromFile": "Load pastas from file"
   },
   "pasta": {
+    "makeChangesIn": "Make changes in pasta",
     "createdAt": "Created",
     "list": {
       "loading": "Loading pastas",
@@ -229,11 +251,7 @@
         "inputPlaceholder": "Add tag (optional)"
       }
     },
-    "edit": {
-      "heading": "Edit pasta",
-      "accept": "Accept",
-      "decline": "Decline"
-    }
+    "edit": "Edit pasta"
   },
   "user": {
     "settings": {

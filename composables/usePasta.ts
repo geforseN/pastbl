@@ -102,6 +102,24 @@ export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {
   };
 }
 
+export function isPastaTextSame(
+  this: MaybeRef<{ text: IDBMegaPasta["text"] }>,
+  pasta: MaybeRef<IDBMegaPasta>,
+) {
+  return toValue(pasta).text === toValue(this).text;
+}
+
+export function isPastaTagsSame(
+  this: MaybeRef<{ tags: IDBMegaPasta["tags"] }>,
+  pasta: MaybeRef<IDBMegaPasta>,
+) {
+  return toValue(pasta).tags.toString() === toValue(this).tags.toString();
+}
+
+export function makeMegaPasta(text: string, tags: string[] = []): MegaPasta {
+  return createMegaPasta(text, tags.slice());
+}
+
 type UsePastaStateParam = {
   tag?: Ref<string>;
   tags?: Ref<string[]>;
