@@ -99,7 +99,12 @@ defineSlots<{
 }>();
 
 const id = computed(
-  () => "is-" + props.set.source + "-" + props.set.name + "-collapse-open",
+  () =>
+    "is-" +
+    dasherize(props.set.source) +
+    "-" +
+    dasherize(props.set.name) +
+    "-collapse-open",
 );
 </script>
 <style scoped>
