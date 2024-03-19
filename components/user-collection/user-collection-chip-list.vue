@@ -9,7 +9,7 @@
       :nickname="collection.user.twitch.nickname"
       :avatar-url="collection.user.twitch.avatarUrl"
       :is-selected="userCollectionsStore.isCollectionSelected(collection)"
-      :is-loading="userCollectionsStore.isCollectionRefreshing(collection)"
+      :is-refreshing="userCollectionsStore.isCollectionRefreshing(collection)"
       @delete="userCollectionsStore.deleteCollection(collection)"
       @refresh="userCollectionsStore.refreshCollection(collection)"
       @select="userCollectionsStore.selectCollection(collection)"
