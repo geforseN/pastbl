@@ -37,7 +37,7 @@
         <div class="relative flex items-center justify-between gap-2">
           <emote-collection-updated-at :time="collection.updatedAt" />
           <!-- FIXME: remove 'absolute' & 'relative', use grid -->
-          <user-collection-select-status
+          <emote-collection-user-select-status
             size="sm"
             selected-class="rounded-badge gap-0 pt-1"
             class="absolute bottom-0 right-0 h-fit w-min text-wrap"
@@ -49,17 +49,17 @@
       </div>
     </div>
     <div class="flex items-center justify-between gap-1">
-      <user-collection-delete-button-dialog
+      <emote-collection-user-delete-button-dialog
         v-slot="{ revealDialog }"
         class="-top-4 left-0"
         @delete="emit('delete')"
       >
-        <user-collection-delete-button
+        <emote-collection-user-delete-button
           size="sm"
           class="gap-0.5 border border-error-content"
           @click="revealDialog"
         />
-      </user-collection-delete-button-dialog>
+      </emote-collection-user-delete-button-dialog>
       <button
         v-if="isCollectionSelected"
         class="btn btn-error btn-sm shrink"
