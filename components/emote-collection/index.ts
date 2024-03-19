@@ -46,10 +46,12 @@ type Props<
   // NOTE: without question mark for 'collection' and 'reason' vue will show an error like 'Missing required prop'
   collection?: unknown;
   reason?: unknown;
+  isRefreshing?: unknown;
 } & (
   | {
       status: "ready";
       collection: RecordT[SourceT];
+      isRefreshing: boolean;
     }
   | {
       status: "failed";

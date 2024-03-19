@@ -146,6 +146,9 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     selectCollection(loginSource: LoginSource) {
       return selectedLogin.changeTo(getLogin(loginSource));
     },
+    unselectCollection() {
+      return selectedLogin.changeTo("");
+    },
     isCollectionSelected(loginSource: LoginSource) {
       return selectedLogin.isEqualTo(getLogin(loginSource));
     },

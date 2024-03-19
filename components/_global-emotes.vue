@@ -21,7 +21,7 @@
       <dev-only>
         <div class="form-control rounded-btn border border-accent p-2">
           <label for="find-global-emote" class="ml-1 cursor-pointer text-xl">
-            Find emote
+            {{ $t("emote.find") }}
           </label>
           <input
             id="find-global-emote"
@@ -40,8 +40,11 @@
           v-model:checkedSources="globalCollectionsStore.checkedSources.state"
           status="ready"
           :collection="collection"
+          :is-refreshing="
+            globalCollectionsStore.isCurrentlyRefreshing(collection)
+          "
           :source="collection.source"
-          @refresh="globalCollectionsStore.refreshCollection(collection.source)"
+          @refresh="globalCollectionsStore.refreshCollection(collection)"
         >
           <template #headingMiddle>
             <span class="ml-1 mr-auto">
