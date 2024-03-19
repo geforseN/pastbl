@@ -24,7 +24,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { buttonSizes } from "../emote-collection";
+import { buttonComponentsStyles } from "../emote-collection";
 
 const collectionActiveTooltipRef = ref<HTMLDivElement>();
 const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
@@ -40,5 +40,5 @@ const emit = defineEmits<{
   select: [];
 }>();
 
-const size = computed(() => buttonSizes[props.size]);
+const size = computed(() => buttonComponentsStyles[props.size]);
 </script>

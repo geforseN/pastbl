@@ -17,7 +17,7 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { buttonSizes, type ButtonSize } from ".";
+import { buttonComponentsStyles, type ButtonSize } from ".";
 
 const props = withDefaults(
   defineProps<{
@@ -35,5 +35,5 @@ const props = withDefaults(
   },
 );
 
-const size = computed(() => buttonSizes[props.size]);
+const size = computed(() => buttonComponentsStyles[props.size]);
 </script>

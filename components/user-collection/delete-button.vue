@@ -9,12 +9,12 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { buttonSizes, type ButtonSize } from "../emote-collection";
+import { buttonComponentsStyles, type ButtonSize } from "../emote-collection";
 
 const props = defineProps<{
   size: ButtonSize;
   iconClass?: string;
 }>();
 
-const size = computed(() => buttonSizes[props.size]);
+const size = computed(() => buttonComponentsStyles[props.size]);
 </script>
