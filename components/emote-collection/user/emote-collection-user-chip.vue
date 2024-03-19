@@ -29,7 +29,7 @@
           </time>
         </span>
       </div>
-      <user-collection-select-status
+      <emote-collection-user-select-status
         size="xs"
         class="w-fit"
         :is-selected="isSelected"
@@ -51,18 +51,18 @@
         :is-refreshing="isRefreshing"
         @click="emit('refresh')"
       />
-      <user-collection-delete-button-dialog
+      <emote-collection-user-delete-button-dialog
         v-slot="{ revealDialog }"
         class="right-0 top-2"
         @delete="emit('delete')"
       >
-        <user-collection-delete-button
+        <emote-collection-user-delete-button
           size="xs"
           class="w-full -translate-y-0.5 flex-nowrap justify-between"
           icon-class="translate-x-1"
           @click="revealDialog"
         />
-      </user-collection-delete-button-dialog>
+      </emote-collection-user-delete-button-dialog>
     </div>
   </div>
 </template>

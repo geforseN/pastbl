@@ -27,7 +27,7 @@
         </template>
       </button>
     </div>
-    <user-collection-fetch-channels-search
+    <emote-collection-user-fetch-channels-search
       :must-show="channelsSearch.mustShow"
       :channels="channelsSearch.state"
       @load="

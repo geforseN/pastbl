@@ -1,6 +1,6 @@
 <template>
   <div v-auto-animate class="space-y-1">
-    <user-collection-chip
+    <emote-collection-user-chip
       v-for="collection of userCollectionsStore.collectionsToSelect.state"
       :key="collection.user.twitch.login"
       class="border border-base-content"
