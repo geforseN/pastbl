@@ -9,7 +9,10 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { buttonComponentsStyles, type ButtonSize } from "../emote-collection";
+import {
+  buttonComponentsStyles,
+  type ButtonSize,
+} from "~/components/emote-collection";
 
 const props = defineProps<{
   size: ButtonSize;
