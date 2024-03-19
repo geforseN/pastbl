@@ -34,38 +34,50 @@
             {{ twitch.nickname }}
           </span>
         </nuxt-link-locale>
-        <div class="flex items-center justify-between gap-2">
-          <user-collection-ready-time :date="new Date(collection.updatedAt)" />
-          <button
-            class="btn btn-success btn-sm border border-success-content"
-            :disabled="asyncState.isLoading.value"
-            @click="() => emit('refresh')"
-          >
-            {{ $t("collections.users.ready.button.refresh") }}
-            <span
-              v-if="asyncState.isLoading.value"
-              class="loading loading-spinner"
-            />
-            <icon v-else name="ic:round-refresh" class="-ml-2" />
-          </button>
+        <div class="relative flex items-center justify-between gap-2">
+          <emote-collection-updated-at :time="collection.updatedAt" />
+          <!-- FIXME: remove 'absolute' & 'relative', use grid -->
+          <user-collection-select-status
+            size="sm"
+            selected-class="rounded-badge gap-0 pt-1"
+            class="absolute bottom-0 right-0 h-fit w-min text-wrap"
+            :is-selected="isCollectionSelected"
+            :nickname="twitch.nickname"
+            @select="emit('select')"
+          />
         </div>
       </div>
     </div>
     <div class="flex items-center justify-between gap-1">
-      <user-collection-ready-delete-button
-        :nickname="twitch.nickname"
-        @delete="() => emit('delete')"
-      />
-      <user-collection-ready-status
-        :is-collection-selected="isCollectionSelected"
-        :nickname="twitch.nickname"
-        @select="() => emit('select')"
+      <user-collection-delete-button-dialog
+        v-slot="{ revealDialog }"
+        class="-top-4 left-0"
+        @delete="emit('delete')"
+      >
+        <user-collection-delete-button
+          size="sm"
+          class="gap-0.5 border border-error-content"
+          @click="revealDialog"
+        />
+      </user-collection-delete-button-dialog>
+      <button
+        v-if="isCollectionSelected"
+        class="btn btn-error btn-sm shrink"
+        @click="emit('unselect')"
+      >
+        {{ $t("userCollection.makeInactive") }}
+      </button>
+      <emote-collection-refresh-button
+        size="sm"
+        class="gap-0.5"
+        :is-refreshing="asyncState.isLoading.value"
+        @click="emit('refresh')"
       />
     </div>
     <dev-only>
       <div class="form-control rounded-btn border border-accent p-2">
         <label for="find-user-emote" class="ml-1 cursor-pointer text-xl">
-          Find emote
+          {{ $t("emote.find") }}
         </label>
         <input
           id="find-user-emote"
@@ -121,6 +133,7 @@ const emit = defineEmits<{
   refresh: [];
   delete: [];
   select: [];
+  unselect: [];
   refreshIntegration: [newIntegration: IUserEmoteIntegration];
 }>();
 

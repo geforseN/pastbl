@@ -21,26 +21,28 @@
             :colors="styles"
           />
         </div>
-        <div
-          :class="styles.borderAccent"
-          class="flex flex-col rounded-box border-2 p-2"
-        >
-          <emote-collection-updated-at
-            :updated-at="props.collection.updatedAt"
-            @refresh="emit('refresh')"
-          />
-          <span class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
+        <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
+          <div class="flex justify-between">
+            <emote-collection-updated-at :time="props.collection.updatedAt" />
+            <emote-collection-refresh-button
+              size="xs"
+              class="w-fit gap-0.5"
+              :is-refreshing="props.isRefreshing"
+              @click="emit('refresh')"
+            />
+          </div>
+          <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
             &nbsp;
-          </span>
+          </div>
           <div class="flex items-center justify-between gap-2">
-            <label :for="mustBeUsedId">Should be used in pastas</label>
+            <label :for="mustBeUsedId">{{ $t("mustBeInPastas") }}</label>
             <input
               :id="mustBeUsedId"
               v-model="checkedSources"
               :name="mustBeUsedId"
               type="checkbox"
               :value="props.source"
-              class="checkbox-success checkbox"
+              class="checkbox-accent checkbox"
             />
           </div>
         </div>
