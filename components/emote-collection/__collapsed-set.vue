@@ -21,7 +21,7 @@
             {{ props.set.name }}
           </h3>
           <span class="text-sm">
-            {{ $t("collections.emotes", props.set.emotes.length) }}
+            {{ t("emote", props.set.emotes.length) }}
           </span>
         </div>
       </slot>
@@ -63,6 +63,19 @@ import type { IEmoteSetT } from "~/integrations";
 
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
+
+const { t } = useI18n({
+  pluralRules,
+  messages: {
+    ru: {
+      emote: "нет эмоутов | {n} эмоут | {n} эмоута | {n} эмоутов",
+    },
+    en: {
+      emote: "no emotes | {n} emote | {n} emotes",
+    },
+  },
+});
+
 const props = withDefaults(
   defineProps<{
     set: EmoteSetT;
