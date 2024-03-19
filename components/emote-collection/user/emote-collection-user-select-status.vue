@@ -24,7 +24,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { buttonComponentsStyles } from "../emote-collection";
+import { buttonComponentsStyles } from "~/components/emote-collection";
 
 const collectionActiveTooltipRef = ref<HTMLDivElement>();
 const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
