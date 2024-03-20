@@ -37,10 +37,55 @@ const ENGLISH_DEFAULT_MESSAGES = {
 } satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
 
 const russianTimeRules = {
-  second: ["секунд", "секунду", "секунды", "секунд"],
-  minute: ["минут", "минуту", "минуты", "минут"],
-  hour: ["часов", "час", "часа", "часов"],
-  day: ["дней", "день", "дня", "дней"],
+  year: {
+    one: {
+      past: "в прошлом году",
+      future: "в следующем году",
+    },
+    list: ["лет", "год", "года", "лет"],
+  },
+  month: {
+    one: {
+      past: "в прошлом месяце",
+      future: "в следующем месяце",
+    },
+    list: ["месяцев", "месяц", "месяца", "месяцев"],
+  },
+  week: {
+    one: {
+      past: "на прошлой неделе",
+      future: "на следующей неделе",
+    },
+    list: ["недель", "неделю", "недели", "недель"],
+  },
+  day: {
+    one: {
+      past: "вчера",
+      future: "завтра",
+    },
+    list: ["дней", "день", "дня", "дней"],
+  },
+  minute: {
+    one: {
+      past: "минуту назад",
+      future: "через минуту",
+    },
+    list: ["минут", "минуту", "минуты", "минут"],
+  },
+  hour: {
+    one: {
+      past: "час назад",
+      future: "через час",
+    },
+    list: ["часов", "час", "часа", "часов"],
+  },
+  second: {
+    one: {
+      past: "секунду назад",
+      future: "через секунду",
+    },
+    list: ["секунд", "секунду", "секунды", "секунд"],
+  },
 };
 
 // FIXME: большинство окончаний неверны
@@ -48,62 +93,13 @@ export const RUSSIAN_CONDITIONAL_MESSAGES = {
   justNow: "только что",
   past: (n) => (n.match(/\d/) ? `${n} назад` : n),
   future: (n) => (n.match(/\d/) ? `через ${n}` : n),
-  month: (n, past) =>
-    n === 1
-      ? past
-        ? "в прошлом месяце"
-        : "в следующем месяце"
-      : `${n} месяц${n < 5 ? "а" : "ев"}`,
-  year: (n, isPast) => {
-    assert.ok(Number.isInteger(n));
-    if (n === 1) {
-      if (isPast) {
-        return "в прошлом году";
-      }
-      return "в следующем году";
-    }
-    const decade /* 0..9 */ = n % 10;
-    const hundred /* 0..99 */ = n % 100;
-
-    if (decade === 1 && hundred !== 11) {
-      return `${n} год`;
-    }
-    if (decade >= 2 && decade <= 4 && hundred >= 12 && hundred <= 14) {
-      return `${n} года`;
-    }
-    return `${n} лет`;
-  },
-  day: (n /* NOTE: only 1..31 tested, other may be wrong */, isPast) => {
-    if (n === 1) {
-      if (isPast) {
-        return "вчера";
-      }
-      return "завтра";
-    }
-    const decade /* 0..9 */ = n % 10;
-    const hundred /* 0..99 */ = n % 100;
-    const isTeen = hundred > 10 && hundred < 20;
-    if (decade === 1) {
-      if (!isTeen) {
-        return `${n} день`;
-      }
-    }
-    if (decade >= 2 && decade <= 4) {
-      if (!isTeen) {
-        return `${n} дня`;
-      }
-    }
-    return `${n} дней`;
-  },
-  week: (n, past) =>
-    n === 1
-      ? past
-        ? "на прошлой неделе"
-        : "на следующей неделе"
-      : `${n} недел${n === 1 ? "я" : n < 5 ? "и" : "ь" /* NOTE: wrong when n > 20 */}`,
-  hour: (n) => ruTimeOf("hour")(n),
-  minute: (n) => ruTimeOf("minute")(n),
-  second: (n) => ruTimeOf("second")(n),
+  month: ruTimeOf("month"),
+  year: ruTimeOf("year"),
+  day: ruTimeOf("day"),
+  week: ruTimeOf("week"),
+  hour: ruTimeOf("hour"),
+  minute: ruTimeOf("minute"),
+  second: ruTimeOf("second"),
   invalid: "",
 } satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
 
@@ -197,9 +193,17 @@ function getRussianPluralIndex(n: number) {
 }
 
 function ruTimeOf(key: keyof typeof russianTimeRules) {
-  return (n: number) => {
+  const rule = russianTimeRules[key];
+  return (n: number, isPast: boolean) => {
     assert.ok(Number.isInteger(n));
+    if (n === 1) {
+      const { one } = rule;
+      if (isPast) {
+        return one.past;
+      }
+      return one.future;
+    }
     const index = getRussianPluralIndex(n);
-    return `${n} ${russianTimeRules[key][index]}`;
+    return `${n} ${rule.list[index]}`;
   };
 }
