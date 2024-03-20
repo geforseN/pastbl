@@ -28,5 +28,5 @@ const props = defineProps<{
 
 const time = computed(() => new Date(props.time));
 
-const timeAgo = useI18TimeAgo(time);
+const timeAgo = useI18nTimeAgo(time);
 </script>
