@@ -76,7 +76,7 @@ function isLocale(locale: string): locale is keyof typeof messageByLocale {
   return locales.has(locale as keyof typeof messageByLocale);
 }
 
-export function useI18TimeAgo<
+export function useI18nTimeAgo<
   UnitNames extends string = UseTimeAgoUnitNamesDefault,
 >(
   time: MaybeRefOrGetter<Date | number | string>,
@@ -101,10 +101,12 @@ export function useI18TimeAgo<
     }),
   });
 
-  const timeAgo = formatTimeAgo(
-    new Date(toValue(time)),
-    options_ as Omit<UseTimeAgoOptions<boolean, UnitNames>, "controls">,
-    toValue(now),
+  const timeAgo = computed(() =>
+    formatTimeAgo(
+      new Date(toValue(time)),
+      options_ as UseTimeAgoOptions<boolean, UnitNames>,
+      toValue(now),
+    ),
   );
 
   return timeAgo;
