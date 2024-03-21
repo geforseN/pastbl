@@ -128,7 +128,7 @@ const userIntegrationsGetters = {
 const querySchema = z.object({
   sources: z
     .string()
-    .max(sum(emoteSources, (source) => source.length, emoteSources.length))
+    .max(sum([...emoteSources], (source) => source.length, emoteSources.length))
     .optional()
     .transform((sources) => {
       if (!sources) {
