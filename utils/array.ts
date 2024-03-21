@@ -25,14 +25,14 @@ export function swap<A extends unknown[]>(array: A, i: number, j: number) {
   return array;
 }
 
-export function sum<A extends readonly unknown[]>(
-  array: A,
-  cb: (value: A[number], index: number, array: A) => number,
+export function sum<T>(
+  array: T[],
+  cb: (value: T, index: number, array: T[]) => number,
   initialValue: number = 0,
 ) {
   return array.reduce(
-    (acc: number, value, index, array) => acc + cb(value, index, array as A),
-    initialValue as number,
+    (acc, value, index, array) => acc + cb(value, index, array),
+    initialValue,
   );
 }
 
