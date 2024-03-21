@@ -50,12 +50,13 @@
     </div>
     <div class="flex items-center justify-between gap-1">
       <emote-collection-user-delete-button-dialog
-        v-slot="{ revealDialog }"
-        class="-top-4 left-0"
+        v-slot="{ revealDialog, isDialogRevealed }"
+        class="left-0 top-8"
         @delete="emit('delete')"
       >
         <emote-collection-user-delete-button
           size="sm"
+          :disabled="isDialogRevealed"
           class="gap-0.5 border border-error-content"
           @click="revealDialog"
         />
