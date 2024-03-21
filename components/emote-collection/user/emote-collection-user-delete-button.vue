@@ -1,5 +1,9 @@
 <template>
-  <button class="btn btn-error flex-nowrap" :class="[size.btn]">
+  <!-- NOTE: focus:outline* classes are needed because in some scenarios the button has no default focus styles from 'btn' (focus-within is used in .css) -->
+  <button
+    class="btn btn-error flex-nowrap focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-error"
+    :class="size.btn"
+  >
     {{ $t("delete") }}
     <icon
       name="ic:round-delete-outline"
