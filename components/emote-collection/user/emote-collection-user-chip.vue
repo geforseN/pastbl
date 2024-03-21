@@ -20,24 +20,35 @@
             class="avatar min-w-12 rounded-full bg-twitch-accent/20"
           />
         </nuxt-link-locale>
-        <span class="flex flex-col truncate">
-          <span class="text-xl font-bold" :title="nickname">
+        <div>
+          <p class="truncate text-xl font-bold" :title="nickname">
             {{ nickname }}
-          </span>
-          <time :datetime="date.toISOString()">
-            {{ $t("updated") }} {{ timeAgo }}
-          </time>
-        </span>
+          </p>
+          <emote-collection-user-select-status
+            size="xs"
+            class="w-fit"
+            :is-selected="isSelected"
+            :nickname="nickname"
+            @select="emit('select')"
+          />
+        </div>
       </div>
-      <emote-collection-user-select-status
-        size="xs"
-        class="w-fit"
-        :is-selected="isSelected"
-        :nickname="nickname"
-        @select="emit('select')"
-      />
+      <emote-collection-updated-at class="w-fit" :time="updatedAt" />
     </div>
     <div class="space-y-0.5">
+      <emote-collection-user-delete-button-dialog
+        v-slot="{ revealDialog, isDialogRevealed }"
+        class="right-0 top-6"
+        @delete="emit('delete')"
+      >
+        <emote-collection-user-delete-button
+          size="xs"
+          :disabled="isDialogRevealed"
+          class="w-full flex-nowrap justify-between"
+          icon-class="translate-x-1"
+          @click="revealDialog"
+        />
+      </emote-collection-user-delete-button-dialog>
       <nuxt-link-locale
         :to="`/collections/users/${login}`"
         class="btn btn-info link btn-xs w-full text-nowrap focus:outline-twitch-accent"
@@ -51,18 +62,6 @@
         :is-refreshing="isRefreshing"
         @click="emit('refresh')"
       />
-      <emote-collection-user-delete-button-dialog
-        v-slot="{ revealDialog }"
-        class="right-0 top-2"
-        @delete="emit('delete')"
-      >
-        <emote-collection-user-delete-button
-          size="xs"
-          class="w-full -translate-y-0.5 flex-nowrap justify-between"
-          icon-class="translate-x-1"
-          @click="revealDialog"
-        />
-      </emote-collection-user-delete-button-dialog>
     </div>
   </div>
 </template>
@@ -82,7 +81,4 @@ const emit = defineEmits<{
   delete: [];
   select: [];
 }>();
-const date = computed(() => new Date(updatedAt));
-
-const timeAgo = useI18TimeAgo(date);
 </script>
