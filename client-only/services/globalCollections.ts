@@ -30,6 +30,12 @@ export const globalCollectionsService = {
     await IDB.putMany(values);
     return all;
   },
+  async refreshMany(sources: EmoteSource[]) {
+    const collections = await API.getMany(sources);
+    const values = objectValues(collections);
+    await IDB.putMany(values);
+    return values;
+  },
   async getAll() {
     if (process.server) {
       return {};
