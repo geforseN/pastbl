@@ -9,11 +9,11 @@
   </button>
   <div
     v-else
-    ref="collectionActiveTooltipRef"
+    ref="selectedStatusRef"
     :class="[
       size.btn,
       props.isSelected && props.selectedClass,
-      toValue(collectionActiveTooltip.focused) && 'tooltip-open',
+      isSelectedStatusFocused && 'tooltip-open',
     ]"
     class="btn btn-success tooltip tooltip-top tooltip-success flex items-center gap-0.5 rounded-full font-bold focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
     tabindex="0"
@@ -26,8 +26,8 @@
 <script lang="ts" setup>
 import { buttonComponentsStyles } from "~/components/emote-collection";
 
-const collectionActiveTooltipRef = ref<HTMLDivElement>();
-const collectionActiveTooltip = useFocus(collectionActiveTooltipRef);
+const selectedStatusRef = ref<HTMLDivElement>();
+const { focused: isSelectedStatusFocused } = useFocus(selectedStatusRef);
 
 const props = defineProps<{
   isSelected: boolean;
