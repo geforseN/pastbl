@@ -29,12 +29,6 @@ export const pastas = pgTable(
     })
       .notNull()
       .references(() => twitchUsers.id),
-    authorNickname: varchar("author_nickname", {
-      length: TWITCH_USER_NICK_LENGTH,
-    }).references(() => twitchUsers.nickname, {
-      onUpdate: "cascade",
-      onDelete: "cascade",
-    }),
   },
   ({ authorTwitchId }) => ({
     ownerTwitchIdIndex: index("pastas_index").on(authorTwitchId),
@@ -46,13 +40,13 @@ export const pastasRelations = relations(pastas, ({ one, many }) => ({
     fields: [pastas.authorTwitchId],
     references: [twitchUsers.id],
   }),
-  tags: many(tagsToPastas),
+  tags: many(pastasTags /* tagsToPastas */),
 }));
 
 export const pastasTags = pgTable(
   "pastas_tags",
   {
-    value: varchar("tag", { length: TAG_MAX_LENGTH }).notNull().unique(),
+    value: varchar("tag", { length: TAG_MAX_LENGTH }).notNull().primaryKey(),
   },
   ({ value }) => ({
     tagIndex: index("tags_index").on(value),
@@ -69,7 +63,7 @@ export const tagsToPastas = pgTable(
     tagValue: varchar("tag_id")
       .notNull()
       .references(() => pastasTags.value),
-    pastaUuid: integer("pasta_uuid")
+    pastaUuid: uuid("pasta_uuid")
       .notNull()
       .references(() => pastas.uuid),
   },
@@ -118,12 +112,17 @@ export const previousPastasRelations = relations(previousPastas, ({ one }) => ({
 
 export const twitchUsers = pgTable("twitch_users", {
   id: varchar("id", { length: TWITCH_USER_ID_LENGTH }).primaryKey().notNull(),
-  nickname: varchar("nickname", { length: TWITCH_USER_NICK_LENGTH }).notNull(),
-  login: varchar("login", { length: TWITCH_USER_NICK_LENGTH }).notNull(),
+  nickname: varchar("nickname", { length: TWITCH_USER_NICK_LENGTH })
+    .notNull()
+    .unique(),
+  login: varchar("login", { length: TWITCH_USER_NICK_LENGTH })
+    .notNull()
+    .unique(),
   description: varchar("description", { length: 192 }),
-  profileUrl: varchar("profile_url", { length: 192 }),
+  profileImageUrl: varchar("profile_image_url", { length: 192 }),
 });
 export type TwitchUser = typeof twitchUsers.$inferSelect;
+export type InsertTwitchUser = typeof twitchUsers.$inferInsert;
 
 export const twitchUsersRelations = relations(twitchUsers, ({ many }) => ({
   author: many(pastas, { relationName: "author" }),
