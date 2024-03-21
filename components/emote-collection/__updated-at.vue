@@ -1,30 +1,43 @@
 <template>
-  <div class="flex items-baseline justify-between gap-2">
-    <div>
-      <time :datetime="time.toISOString()">
+  <div class="dropdown space-x-0.5" :class="props.dropdownClass">
+    <time
+      :datetime="time.toISOString()"
+      class="w-full text-ellipsis text-nowrap"
+    >
+      {{ $t("updated") }}
+      {{ timeAgo }}
+    </time>
+    <div
+      tabindex="0"
+      role="button"
+      class="btn btn-circle btn-ghost btn-xs translate-y-[1px] text-info"
+    >
+      <icon name="ic:outline-info" size="20" />
+    </div>
+    <div
+      :class="props.dropdownContentClass"
+      class="card dropdown-content compact z-[10] w-max rounded-box border bg-base-100 shadow"
+    >
+      <div class="card-body font-bold text-base-content">
         {{ $t("updated") }}
-        {{ timeAgo }}
-      </time>
-      <div class="dropdown dropdown-end dropdown-hover ml-1">
-        <div tabindex="0" role="button">
-          <icon name="ic:outline-info" size="20" class="text-info" />
-        </div>
-        <div
-          class="card dropdown-content compact z-[1] w-max rounded-box border bg-base-100 shadow"
-        >
-          <div class="card-body font-bold text-base-content">
-            {{ $t("updated") }}
-            {{ time.toLocaleString() }}
-          </div>
-        </div>
+        {{ time.toLocaleString() }}
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{
-  time: Date | number | string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    time: Date | number | string;
+    dropdownClass?: string;
+    dropdownContentClass?: string;
+  }>(),
+  {
+    dropdownClass:
+      "dropdown-end dropdown-bottom dropdown-hover  flex flex-nowrap",
+    dropdownContentClass: "",
+  },
+);
 
 const time = computed(() => new Date(props.time));
 
