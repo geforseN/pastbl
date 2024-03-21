@@ -2,12 +2,19 @@
 export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
+    typedPages: true,
+  },
+  features: {
+    devLogs: false,
   },
   devtools: {
     enabled: true,
     timeline: {
       enabled: true,
     },
+  },
+  typescript: {
+    strict: true,
   },
   nitro: {
     experimental: {
@@ -46,7 +53,6 @@ export default defineNuxtConfig({
     },
     viewTransition: true,
   },
-
   i18n: {
     lazy: true,
     langDir: "lang",
@@ -76,6 +82,7 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@vuestic/nuxt",
     "@nuxtjs/i18n",
+    "nuxt-auth-utils",
   ],
   vuestic: {
     css: false,
