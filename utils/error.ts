@@ -12,10 +12,14 @@ export function assertIsError<EC extends new (...args: any[]) => Error>(
 
 function assertOk(
   value: unknown,
-  messageOrError?: string | Error,
+  messageOrErrorOrFn?: string | Error | (() => string | Error | undefined),
 ): asserts value {
   if (!value) {
-    raise(messageOrError);
+    const maybeErrorLike =
+      typeof messageOrErrorOrFn === "function"
+        ? messageOrErrorOrFn()
+        : messageOrErrorOrFn;
+    raise(maybeErrorLike);
   }
 }
 
@@ -26,10 +30,7 @@ function assertResponseOk(
   ),
 ) {
   if (!response.ok) {
-    if (messageOrError instanceof Error) {
-      throw messageOrError;
-    }
-    throw new Error(messageOrError);
+    raise(messageOrError);
   }
 }
 
