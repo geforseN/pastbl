@@ -13,7 +13,7 @@
           }
         "
       >
-        &lt&lt
+        &lt;&lt;
       </button>
       <input
         id="current-pasta-number"
@@ -34,7 +34,7 @@
           }
         "
       >
-        &gt&gt
+        &gt;&gt;
       </button>
     </div>
     <!-- NOTE: chat-pasta :key is important, without it component populate emit will be called once -->
