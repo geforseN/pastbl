@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="hoveredEmoteContainerRef"
-    class="absolute z-50 flex items-end"
-    @mouseleave="emit('close')"
-  >
+  <div ref="hoveredEmoteContainerRef" class="absolute z-50 flex items-end">
     <div
       v-if="emote"
       class="flex max-w-96 flex-col items-center gap-1 rounded-lg border p-2 text-white"
