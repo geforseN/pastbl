@@ -32,24 +32,21 @@
           class="line-clamp-2 w-fit break-all"
         />
       </div>
-      <div
-        class="relative top-[3px] flex justify-between px-0.5"
-        :title="new Date(props.pasta.createdAt).toString()"
-      >
-        <use-time-ago #="{ timeAgo }" :time="props.pasta.createdAt">
-          <!-- FIXME: translate timeAgo -->
-          <time>{{ $t("pasta.createdAt") }} {{ timeAgo }}</time>
-        </use-time-ago>
-        <time>{{ new Date(props.pasta.createdAt).toDateString() }}</time>
-      </div>
+      <time-of
+        message-key="pasta.createdAt"
+        dropdown-class="dropdown-top dropdown-hover"
+        dropdown-content-class="-translate-x-1/2"
+        :date="props.pasta.createdAt"
+      />
     </div>
     <slot name="sidebar" />
   </div>
 </template>
 <script lang="ts" setup>
-import { UseTimeAgo } from "@vueuse/components";
-
-const props = defineProps<{ pasta: IDBMegaPasta }>();
+const props = defineProps<{
+  pasta: IDBMegaPasta;
+  emotesStore?: ReturnType<typeof useEmotesStore>;
+}>();
 
 defineSlots<{
   creatorData?: () => unknown;
