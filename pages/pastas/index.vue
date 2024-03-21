@@ -36,6 +36,7 @@
         <icon name="ic:file-download" size="31" />
       </div>
     </button>
+    <span class="text-7xl">Корзина</span>
     <app-page-link-pastas-find />
     <app-page-link-main />
   </div>
@@ -157,14 +158,14 @@ if (process.client) {
   assert.ok(reader);
   reader.onload = async function (event) {
     const megaPastas = getMegaPastasOnFileLoad(event);
-    const [succeeded, failed] = await tupleSettledPromises(
+    const { fulfilled, rejected } = await groupAsync(
       megaPastas.map((pasta) => pastasIdbService.add(pasta)),
     );
     pastasStore.pastas.state = [
       ...pastasStore.pastas.state,
-      ...succeeded.toSorted((a, b) => a.id - b.id),
+      ...fulfilled.toSorted((a, b) => a.id - b.id),
     ];
-    assert.ok(!failed.length);
+    assert.ok(!rejected.length);
   };
 }
 </script>

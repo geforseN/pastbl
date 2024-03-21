@@ -1,30 +1,16 @@
-function isPromiseResultFulfilled<T>(
-  result: PromiseSettledResult<Awaited<T>>,
-): result is PromiseFulfilledResult<Awaited<T>> {
-  return result.status === "fulfilled";
-}
+import { groupBy } from "./object";
 
-function isPromiseResultRejected<T>(
-  result: PromiseSettledResult<Awaited<T>>,
-): result is PromiseRejectedResult {
-  return result.status === "rejected";
-}
-
-export async function tupleSettledPromises<T>(
-  values: ReadonlyArray<MaybePromise<T>>,
-) {
-  const settledValues = await Promise.allSettled(values);
-  return settledValues.reduce(
-    (accumulator, settledPromise) => {
-      if (isPromiseResultFulfilled(settledPromise)) {
-        accumulator[0].push(settledPromise.value);
-      } else if (isPromiseResultRejected(settledPromise)) {
-        accumulator[1].push(settledPromise.reason);
-      }
-      return accumulator;
-    },
-    [[], []] as [Awaited<T>[], unknown[]],
-  );
+export async function groupAsync<T>(values: MaybePromise<T>[]) {
+  const settled = await Promise.allSettled(values);
+  return groupBy(
+    settled,
+    (result) => result.status,
+    // @ts-expect-error result is object, which either has value or reason property (depending on status property)
+    (result) => result.value || result.reason,
+  ) as {
+    fulfilled: Awaited<T>[];
+    rejected: unknown[];
+  };
 }
 
 export function sleep(time: number) {

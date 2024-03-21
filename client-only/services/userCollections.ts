@@ -18,6 +18,7 @@ import {
   type EmoteT,
   type IEmoteSetT,
 } from "~/integrations";
+import { groupAsync } from "~/utils/promise";
 import { setIntersection } from "~/utils/set";
 
 const IDB = {
@@ -230,10 +231,7 @@ export const userCollectionsService = {
       },
     );
     // TODO: make it transactional (probably not a big deal)
-    await Promise.all([
-      tupleSettledPromises(deletePromises),
-      IDB.delete(login),
-    ]);
+    await Promise.all([groupAsync(deletePromises), IDB.delete(login)]);
   },
   async get(login: Lowercase<string>) {
     if (process.server) {
@@ -294,7 +292,7 @@ function makeSetPopulateFn(
 ) {
   return async function (idbSet: IndexedDBUserEmoteSet) {
     const { emoteIds, ...set } = idbSet;
-    const [emotes] = await tupleSettledPromises(
+    const { fulfilled: emotes } = await groupAsync(
       emoteIds.map(async (emoteId: string) => {
         const cachedEmote = getEmoteFromCache(emoteId);
         if (cachedEmote) {
