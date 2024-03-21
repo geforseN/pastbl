@@ -42,8 +42,8 @@ class EmotesStore {
   }
 
   deleteManyWithSource(source: EmoteSource) {
-    return (emoteIds: string[]) => {
-      return Promise.all(
+    return async (emoteIds: string[]) => {
+      await Promise.all(
         emoteIds.map((emoteId) => this.db.delete("emotes", [emoteId, source])),
       );
     };
