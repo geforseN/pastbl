@@ -39,7 +39,7 @@
     "husky": "^9.0.11",
     "knip": "^5.0.2",
     "lint-staged": "^15.2.2",
-    "nuxt": "^3.10.3",
+    "nuxt": "^3.11.0",
     "nuxt-auth-utils": "^0.0.20",
     "nuxt-icon": "^0.6.8",
     "nuxt-scheduler": "^0.1.9",
