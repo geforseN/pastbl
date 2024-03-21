@@ -38,15 +38,18 @@
       </div>
       <app-hint-on-hover
         ref="onHoverHintRef"
+        v-on-click-outside="nullEveryState"
         :emote="hoveredEmote"
         :emoji="hoveredEmoji"
         :emote-modifiers="hoveredEmojiModifiers"
         @close="nullEveryState"
+        @mouseleave="nullEveryState"
       />
     </Body>
   </div>
 </template>
 <script setup lang="ts">
+import { vOnClickOutside } from "@vueuse/components";
 import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 import {
@@ -138,7 +141,7 @@ function makeMouseoverHandler(
   options: {
     findEmote?: (target: HTMLImageElement) => MaybePromise<IEmote | undefined>;
     findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[];
-    findEmojiData?: (
+    _findEmojiData?: (
       emoji: string,
     ) => MaybePromise<Record<string, number | string> | undefined>;
   } = {},
