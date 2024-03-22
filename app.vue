@@ -38,29 +38,24 @@
       </div>
       <app-hint-on-hover
         ref="onHoverHintRef"
-        v-on-click-outside="nullEveryState"
-        :emote="hoveredEmote"
-        :emoji="hoveredEmoji"
-        :emote-modifiers="hoveredEmojiModifiers"
-        @close="nullEveryState"
-        @mouseleave="nullEveryState"
+        v-on-click-outside="onHoverHint.onClickOutside"
+        :emoji="onHoverHint.emoji.value"
+        :emote="onHoverHint.emote.value"
+        :emote-modifiers="onHoverHint.emoteModifiers.value"
+        @close="onHoverHint.onCloseEmit"
+        @mouseleave="onHoverHint.onMouseleave"
       />
     </Body>
   </div>
 </template>
 <script setup lang="ts">
-import { vOnClickOutside } from "@vueuse/components";
 import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
-import {
-  findEmoteWrapper,
-  getEmoteToken,
-  isEmoteModifier,
-  type IEmote,
-} from "~/integrations";
 import type { RouteLocation, RouteLocationRaw } from "#vue-router";
 
 const localePath = useLocalePath();
+
+const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
 
 const go = (path: RouteLocation | RouteLocationRaw) =>
   navigateTo(localePath(path));
@@ -85,113 +80,12 @@ onKeyStroke((event) => {
   return handler();
 });
 
-const hoveredEmoji = ref<Nullish<string>>();
-const hoveredEmojiModifiers = ref<Nullish<IEmote[]>>();
-const hoveredEmote = ref<Nullish<IEmote>>();
-const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
-const onHoverHintRefContainer = computed(
-  () => onHoverHintRef.value?.hoveredEmoteContainerRef,
+const onHoverHint = useOnHoverHint(
+  computed(() => onHoverHintRef.value?.containerRef || raise()),
 );
 
-function updateHoveredEmoteContainerStyle(event: MouseEvent) {
-  const { target } = event;
-  assert.ok(target instanceof HTMLElement && onHoverHintRefContainer.value);
-  const targetRect = target.getBoundingClientRect();
-  const top = event.pageY - event.offsetY;
-  const left = targetRect.left + targetRect.width / 2;
-  onHoverHintRefContainer.value.style.top = `${top}px`;
-  onHoverHintRefContainer.value.style.left = `${left}px`;
-  onHoverHintRefContainer.value.style.transform = "translate(-50%, -100%)";
-}
-
-function updateHoveredEmote(
-  value: IEmote,
-  event: MouseEvent,
-  findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[],
-) {
-  assert.ok(event.target instanceof HTMLImageElement);
-  nullEveryState();
-  hoveredEmote.value = value;
-  updateHoveredEmoteContainerStyle(event);
-  const wrapperElement = findEmoteWrapper(event.target);
-  if (!wrapperElement) {
-    // NOTE: here hoveredEmojiModifiers MUST be null (and it is, because nullEveryState function is called)
-    return;
-  }
-  assert.ok(isFn(findEmoteModifiersByTokens));
-  const modifiersTokens = [...wrapperElement.children]
-    .filter(isEmoteModifier)
-    .map(getEmoteToken);
-  hoveredEmojiModifiers.value = findEmoteModifiersByTokens(modifiersTokens);
-}
-
-function updateHoveredEmoji(value: string, event: MouseEvent) {
-  nullEveryState();
-  hoveredEmoji.value = value;
-  updateHoveredEmoteContainerStyle(event);
-}
-
-function nullEveryState() {
-  hoveredEmojiModifiers.value = null;
-  hoveredEmote.value = null;
-  hoveredEmoji.value = null;
-}
-
-function makeMouseoverHandler(
-  options: {
-    findEmote?: (target: HTMLImageElement) => MaybePromise<IEmote | undefined>;
-    findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[];
-    _findEmojiData?: (
-      emoji: string,
-    ) => MaybePromise<Record<string, number | string> | undefined>;
-  } = {},
-) {
-  return async function (event: Event) {
-    assert.ok(event instanceof MouseEvent);
-    const { target, relatedTarget, currentTarget } = event;
-    if (!(target instanceof Element)) {
-      return withLogSync(null, "not an element");
-    }
-    if (target === currentTarget) {
-      return withLogSync(nullEveryState, "cursor moved away");
-    }
-    const isWrappedEmoji =
-      target instanceof HTMLElement &&
-      typeof target.dataset.emojiToken === "string";
-    if (isWrappedEmoji) {
-      return updateHoveredEmoji(target.innerHTML, event);
-    }
-    if (
-      relatedTarget instanceof HTMLImageElement &&
-      !(
-        target instanceof HTMLImageElement ||
-        /* NOTE: target instanceof HTMLInputElement is FIX for collapses-set component, first row in emote set can not trigger hoveredEmote set without this hack    */
-        target instanceof HTMLInputElement
-      )
-    ) {
-      return withLogSync(nullEveryState, "not an image");
-    }
-    if (target instanceof HTMLImageElement && isFn(options.findEmote)) {
-      const emote = await options.findEmote(target);
-      if (!emote) {
-        return;
-      }
-      return updateHoveredEmote(
-        emote,
-        event,
-        options.findEmoteModifiersByTokens,
-      );
-    }
-    console.log(target);
-  };
-}
-
-const onHoverHintInject = {
-  makeMouseoverHandler,
-};
-
-export type InjectOnHoverHint = typeof onHoverHintInject;
-provide("hoveredEmote", onHoverHintInject);
+export type OnHoverHint = typeof onHoverHint;
+provide("onHoverHint", onHoverHint);
 
 onMounted(() => {
   document.documentElement.classList.remove("dark", "light");

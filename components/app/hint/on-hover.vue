@@ -1,5 +1,5 @@
 <template>
-  <div ref="hoveredEmoteContainerRef" class="absolute z-50 flex items-end">
+  <div ref="containerRef" class="absolute z-50 flex items-end">
     <div
       v-if="emote"
       class="flex max-w-96 flex-col items-center gap-1 rounded-lg border p-2 text-white"
@@ -134,10 +134,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   close: [];
 }>();
-const hoveredEmoteContainerRef = ref<HTMLDivElement>();
+const containerRef = ref<HTMLDivElement>();
 
 defineExpose({
-  hoveredEmoteContainerRef,
+  containerRef,
 });
 
 const emote = computed(() => props.emote && Emote.create(props.emote));

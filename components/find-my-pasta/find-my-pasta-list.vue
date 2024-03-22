@@ -68,7 +68,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { InjectOnHoverHint } from "~/app.vue";
+import type { OnHoverHint } from "~/app.vue";
 import { getEmoteToken } from "~/integrations";
 
 const userStore = useUserStore();
@@ -89,11 +89,11 @@ watch(
     selectedPastaNumber.value = 1;
   },
 );
-const { makeMouseoverHandler } =
-  inject<InjectOnHoverHint>("hoveredEmote") || raise();
+
+const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
 
 const throttledMouseover = useThrottleFn(
-  makeMouseoverHandler({
+  onHoverHint.makeMouseoverHandler({
     findEmote(target) {
       const token = getEmoteToken(target);
       return emotesStore.findEmote(token);

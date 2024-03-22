@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
-import type { InjectOnHoverHint } from "~/app.vue";
+import type { OnHoverHint } from "~/app.vue";
 
 const englishKeys = objectKeys(emoteDataByGroup);
 
@@ -36,10 +36,10 @@ watch(
   { immediate: true },
 );
 
-const hintOnHover = inject<InjectOnHoverHint>("hoveredEmote") || raise();
+const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
 
 const throttledMouseover = useThrottleFn(
-  hintOnHover.makeMouseoverHandler(),
+  onHoverHint.makeMouseoverHandler(),
   100,
   true,
 );
