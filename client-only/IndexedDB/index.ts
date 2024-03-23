@@ -130,12 +130,11 @@ export type MyKeyValueSchema = {
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
   "badges:count": number;
-  "active-user-collection:login":
-    | IndexedDBUserEmoteCollection["user"]["twitch"]["login"]
-    | "";
+  "active-user-collection:login": Login;
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
+  "pastas:work-mode": "server" | "client";
   "create-pasta-form-collapse:is-open": boolean;
   "global-collections:checked-sources": EmoteSource[];
   "user-collection-fetch:must-select-onload": true;

@@ -9,19 +9,21 @@
       name="show-pastas"
       class="select select-secondary select-sm w-1/2"
     >
-      <option
-        v-for="[showStrategy, translated] of Object.entries(showOptions)"
-        :key="showStrategy"
-        :value="showStrategy"
-        :disabled="!selectedLogin && translated.mustHaveUserCollection"
-        :title="
-          !selectedLogin && translated.mustHaveUserCollection
-            ? $t(s + 'requestForSelect')
-            : undefined
-        "
-      >
-        {{ translated.text }}
-      </option>
+      <dev-only>
+        <option
+          v-for="[showStrategy, translated] of Object.entries(showOptions)"
+          :key="showStrategy"
+          :value="showStrategy"
+          :disabled="!selectedLogin && translated.mustHaveUserCollection"
+          :title="
+            !selectedLogin && translated.mustHaveUserCollection
+              ? $t(s + 'requestForSelect')
+              : undefined
+          "
+        >
+          {{ translated.text }}
+        </option>
+      </dev-only>
     </select>
   </div>
 </template>

@@ -12,6 +12,14 @@ export function megaTrim(str: string) {
     .join(" ");
 }
 
+export function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function toTitleCase(str: string) {
+  return str.replace(/\w\S*/g, capitalizeFirstLetter);
+}
+
 export function dasherize(str: string) {
   return str
     .replace(/([a-z])([A-Z])/g, "$1-$2")

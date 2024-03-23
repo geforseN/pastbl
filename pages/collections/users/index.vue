@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-96 flex-col gap-2">
-    <user-collection-chip-list />
+    <emote-collection-user-chip-list />
     <app-page-link-emotes />
     <app-page-link-main />
   </div>

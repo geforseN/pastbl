@@ -5,9 +5,10 @@
       v-model:checkedSources="globalCollectionsStore.checkedSources.state"
       status="ready"
       :collection="collection"
+      :is-refreshing="globalCollectionsStore.isCurrentlyRefreshing(collection)"
       :source="collection.source"
       @mouseover="throttledMouseover"
-      @refresh="globalCollectionsStore.refreshCollection(collection.source)"
+      @refresh="globalCollectionsStore.refreshCollection(collection)"
     />
     <app-page-link to="global-emotes">
       <template #right><emote-integration-logos /></template>
@@ -17,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { InjectOnHoverHint } from "~/app.vue";
+import type { OnHoverHint } from "~/app.vue";
 import { emoteSources, getEmoteToken } from "~/integrations";
 
 const globalCollectionsStore = useGlobalCollectionsStore();
@@ -31,12 +32,11 @@ const collection = computed(
   () => globalCollectionsStore.collections.state[source],
 );
 
-const { makeMouseoverHandler } =
-  inject<InjectOnHoverHint>("hoveredEmote") || raise();
+const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
 
 const emotesStore = useEmotesStore();
 const throttledMouseover = useThrottleFn(
-  makeMouseoverHandler({
+  onHoverHint.makeMouseoverHandler({
     findEmote(target) {
       const token = getEmoteToken(target);
       return emotesStore.findGlobalEmote(token);

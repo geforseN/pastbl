@@ -6,6 +6,9 @@
     <user-settings-nickname-color
       v-model="userStore.user.nickname.color.state"
     />
+    <!-- TODO: use aria-describedby for hint -->
+    <!-- TODO: add 'must ask before pasta delete' radio input -->
+    <!-- TODO: add 'must ask before pasta delete (time to ignore)' range input -->
     <user-settings-on-pasta-copy
       v-model="userStore.user.pasta.oncopy.state"
       :options="{
@@ -15,6 +18,12 @@
         'alert&sound': $t(wo + 'alert&sound'),
       }"
     />
+    <dev-only>
+      <div>
+        <!-- Update emotes -->
+        <label>Обновление эмоутов</label>
+      </div>
+    </dev-only>
   </section>
 </template>
 <script lang="ts">

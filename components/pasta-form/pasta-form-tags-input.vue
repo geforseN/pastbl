@@ -29,6 +29,7 @@
         {{ $t("tag.add") }}
       </button>
     </div>
+    <!-- TODO: show note that on ',' will add tag -->
     <span
       v-if="isTagTooLong"
       class="max-w-xs text-wrap break-words underline decoration-error"

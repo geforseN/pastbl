@@ -22,6 +22,62 @@ async function handlePreferences<
   }
 }
 
+function usePastasWorkMode(defaultValue: "server" | "client") {
+  const workMode = useIndexedDBKeyValue("pastas:work-mode", defaultValue, {
+    onRestored(value) {
+      console.log({ isClientModeRESTORED: value === "client" });
+      isClientMode.value = value === "client";
+    },
+  });
+
+  const isClientMode = ref(defaultValue === "client");
+  const isServerMode = ref(defaultValue === "server");
+
+  return {
+    workMode,
+    isServer: readonly(isServerMode),
+    isClient: computed({
+      get() {
+        console.log({ isClientModeGET: isClientMode.value });
+        return isClientMode.value;
+      },
+      set(value) {
+        console.log({ isClientModeSET: value });
+        isClientMode.value = value;
+        isServerMode.value = !value;
+        workMode.state.value = value ? "client" : "server";
+      },
+    }),
+  };
+}
+
+function useFormCollapse() {
+  const isFormCollapseOpen = useIndexedDBKeyValue(
+    "create-pasta-form-collapse:is-open",
+    false,
+  );
+
+  return {
+    isOpen: computed({
+      get() {
+        return isFormCollapseOpen.state.value;
+      },
+      set(value) {
+        isFormCollapseOpen.state.value = value;
+      },
+    }),
+    close() {
+      isFormCollapseOpen.state.value = false;
+    },
+    open() {
+      isFormCollapseOpen.state.value = true;
+    },
+    toggle() {
+      isFormCollapseOpen.state.value = !isFormCollapseOpen.state.value;
+    },
+  };
+}
+
 export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
@@ -79,20 +135,9 @@ export const useUserStore = defineStore("user", () => {
 
   const pastasStore = usePastasStore();
 
-  const isFormCollapseOpen = useIndexedDBKeyValue(
-    "create-pasta-form-collapse:is-open",
-    false,
-  );
-
   return {
-    isFormCollapseOpen: computed({
-      get() {
-        return isFormCollapseOpen.state.value;
-      },
-      set(value) {
-        isFormCollapseOpen.state.value = value;
-      },
-    }),
+    pastasWorkMode: usePastasWorkMode("server"),
+    formCollapse: useFormCollapse(),
     preferences,
     user,
     clipboard,

@@ -1,4 +1,4 @@
-import { emojify, has as isEmoji } from "node-emoji";
+import { emojify, has as isEmoji, find, search } from "node-emoji";
 import {
   makeWrappedEmoteAsString,
   makeEmoteAsStringWithModifiersWrapper,
@@ -206,6 +206,7 @@ function usePastaTags(tags: Ref<string[]>) {
   };
 }
 
+// FIXME: watch for app.vue, maybe code duplicate
 function findModifiers(
   tokenIndex: number,
   tokens: string[],
@@ -247,9 +248,17 @@ function populateToken(
   if (!this.pasta.validTokens.includes(token)) {
     return token;
   }
+  if (token.startsWith("ffz")) {
+  }
   if (isEmoji(token)) {
     return `<span data-emoji-token=${token}>${emojify(token)}</span>`;
   }
+  //  const emojis = search(token);
+  //  if (emojis.length) {
+  //    return emojis
+  //      .map((emoji) => `<span data-emoji-token=${token}>${emoji.emoji}</span>`)
+  //      .join("");
+  //  }
   const tokenAsEmote = this.emotesStore.findEmote(token);
   if (!tokenAsEmote) {
     return token;
@@ -278,4 +287,94 @@ export function populatePasta(
   } satisfies ThisParameterType<typeof populateToken>);
 
   pastaTextContainer.innerHTML = populatedWords.join(" ");
+}
+
+class _PastaTime {
+  createdAt;
+  updatedAt;
+  lastCopiedAt;
+
+  constructor(
+    megaPastaTime: Pick<
+      IDBMegaPasta,
+      "createdAt" | "updatedAt" | "lastCopiedAt"
+    >,
+  ) {
+    this.createdAt = megaPastaTime.createdAt;
+    this.updatedAt = megaPastaTime.updatedAt;
+    this.lastCopiedAt = megaPastaTime.lastCopiedAt;
+  }
+
+  asUpdated() {
+    return new _PastaTime({
+      updatedAt: Date.now(),
+      createdAt: this.createdAt,
+      lastCopiedAt: this.lastCopiedAt,
+    });
+  }
+
+  create() {
+    return new _PastaTime({
+      createdAt: Date.now(),
+      updatedAt: undefined,
+      lastCopiedAt: undefined,
+    });
+  }
+}
+
+class _PastaText {
+  text: string;
+  length: number;
+  validTokens: string[];
+
+  constructor(
+    megaPastaText: Pick<IDBMegaPasta, "text" | "length" | "validTokens">,
+  ) {
+    this.text = megaPastaText.text;
+    this.length = megaPastaText.length;
+    this.validTokens = megaPastaText.validTokens;
+  }
+
+  asRefreshed(str: string) {
+    return new _PastaText({
+      text: str,
+      length: str.length,
+      validTokens: makeValidTokens(str),
+    });
+  }
+}
+
+class _PastaTags {
+  tags: string[];
+
+  constructor(megaPasta: Pick<IDBMegaPasta, "tags">) {
+    this.tags = megaPasta.tags;
+  }
+
+  get clone() {
+    return new _PastaTags({ tags: [...toRaw(this.tags)] });
+  }
+}
+
+class _Pasta {
+  id: number;
+  text: _PastaText;
+  tags: _PastaTags;
+  time: _PastaTime;
+
+  constructor(megaPasta: IDBMegaPasta) {
+    this.id = megaPasta.id;
+    this.text = new _PastaText(megaPasta);
+    this.tags = new _PastaTags(megaPasta);
+    this.time = new _PastaTime(megaPasta);
+  }
+
+  asRefreshed(text: string) {
+    return new _Pasta({
+      id: this.id,
+      ...this.tags.clone,
+      ...this.time.asUpdated(),
+      ...this.text.asRefreshed(text),
+    });
+  }
 }

@@ -49,6 +49,7 @@ const querySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
+  // handleCacheHeaders(event, {});
   const { sources } = querySchema.parse(query);
   const collections = await Promise.all(
     sources.map((source) => getCachedGlobalCollection(source)),

@@ -53,6 +53,9 @@ export function withLogSync<T>(
 }
 
 export function countKeys<T extends Record<string, unknown>>(array: T[]) {
+  if (!process.dev) {
+    return;
+  }
   return array.reduce(
     (acc, value) => {
       objectKeys(value).forEach((key) => {
