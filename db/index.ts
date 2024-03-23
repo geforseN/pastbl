@@ -1,15 +1,14 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { eq } from "drizzle-orm";
 import {
   pastas,
   pastasTags,
   tagsToPastas,
   twitchUsers,
   type InsertTwitchUser,
-  type TwitchUser,
 } from "./schema";
 import * as schema from "./schema";
-import { eq } from "drizzle-orm";
 
 export const client = postgres(env.databaseUrl);
 export const db = drizzle(client, { schema });
@@ -28,9 +27,10 @@ export function createPasta(
       .insert(pastasTags)
       .values(tags.map((value) => ({ value })))
       .onConflictDoNothing();
+    const pastaUuid = pasta.uuid;
     await tx
       .insert(tagsToPastas)
-      .values(tags.map((tagValue) => ({ tagValue, pastaUuid: pasta.uuid })));
+      .values(tags.map((tagValue) => ({ tagValue, pastaUuid })));
     return {
       ...pasta,
       tags,

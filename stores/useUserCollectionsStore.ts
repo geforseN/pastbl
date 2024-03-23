@@ -3,10 +3,11 @@ import { userCollectionsService } from "~/client-only/services";
 import {
   isReadyUserIntegration,
   type IBasicUserEmoteCollection,
+  type IUserEmoteCollection,
   type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
-type Login = Lowercase<string> | "";
+export type Login = Lowercase<string> | "";
 type LoginSource = Login | IBasicUserEmoteCollection;
 
 function getLogin(loginSource: LoginSource) {
@@ -87,6 +88,14 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
       return ready as Partial<IUserEmoteIntegrationRecord>;
     }),
   };
+}
+
+function useCollectionAutoRefresh(collection: Ref<IUserEmoteCollection>) {
+  const userStore = useUserStore();
+
+  watch(collection, () => {});
+
+  return {};
 }
 
 function useCollectionsRefresh(options: {

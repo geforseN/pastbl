@@ -90,6 +90,10 @@ const userIntegrationsGetters = {
           ? emote.images.url_1x.replace("/static/", "/animated/")
           : emote.images.url_1x;
         return createUserEmote(emote, url);
+        /* return {
+          ...createUserEmote(emote, url),
+          __plain: emote,
+        }; */
       },
     );
     const sets: ITwitchUserIntegration["sets"] = objectEntries(
@@ -224,6 +228,7 @@ export default defineEventHandler(async (event) => {
   const twitchUser = {
     id: query.twitchUserId,
     nickname: query.twitchUserNickname,
+    // FIXME: user can have login, which is not equal to lowercase nickname
     login: toLowerCase(query.twitchUserNickname),
   };
   const integrations = await Promise.all(

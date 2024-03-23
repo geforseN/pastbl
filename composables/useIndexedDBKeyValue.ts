@@ -18,7 +18,9 @@ class IndexedDBValue {
 export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
   key: K,
   defaultValue: MyKeyValueSchema[K],
-  watchDebouncedOptions: WatchDebouncedOptions<true | false> = {},
+  options: WatchDebouncedOptions<true | false> & {
+    onRestored?: (value: MyKeyValueSchema[K]) => void;
+  } = {},
 ) {
   const idbValue = new IndexedDBValue(key);
   const isLoading = ref(true);
@@ -41,7 +43,9 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
         if (!isRestoredOk) {
           await idbValue.set(defaultValue).catch(setErrorWithThrow);
         }
-        set(state, isRestoredOk ? restoredValue : defaultValue);
+        const value = isRestoredOk ? restoredValue : defaultValue;
+        set(state, value);
+        options.onRestored?.(value);
         isRestored.value = true;
       })
       .finally(() => {
@@ -65,11 +69,9 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
           });
       },
       {
-        ...watchDebouncedOptions,
-        deep:
-          watchDebouncedOptions.deep ??
-          (typeof state === "object" && state !== null),
-        debounce: watchDebouncedOptions.debounce ?? 500,
+        ...options,
+        deep: options.deep ?? (typeof state === "object" && state !== null),
+        debounce: options.debounce ?? 500,
       },
     );
   } else {

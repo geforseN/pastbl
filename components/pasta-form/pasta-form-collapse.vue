@@ -1,9 +1,13 @@
 <template>
   <div
     class="collapse collapse-arrow border-2"
-    @keyup.enter.exact="() => (isOpen = !isOpen)"
+    @keyup.enter.exact="userStore.formCollapse.toggle"
   >
-    <input v-model="isOpen" type="checkbox" name="is-create-pasta-open" />
+    <input
+      v-model="userStore.formCollapse.isOpen"
+      type="checkbox"
+      name="is-create-pasta-open"
+    />
     <div class="collapse-title text-xl font-medium after:mt-1">
       <header class="flex justify-between text-3xl font-bold">
         <span class="flex items-center gap-2">
@@ -11,7 +15,10 @@
           <h2>{{ $t("pasta.create.heading") }}</h2>
         </span>
         <transition name="jokerge">
-          <div v-if="!isOpen" class="flex translate-x-3.5 items-center gap-1">
+          <div
+            v-if="!userStore.formCollapse.isOpen"
+            class="flex translate-x-3.5 items-center gap-1"
+          >
             <img
               class="h-8 w-8 translate-y-1"
               src="https://cdn.7tv.app/emote/6306876cbe8c19d70f9d6b22/1x.webp"
@@ -26,7 +33,7 @@
     </div>
     <div
       class="collapse-content"
-      @keyup.escape="() => (isOpen = false)"
+      @keyup.escape="userStore.formCollapse.close"
       @keyup.stop="
         () => {}
         /* NOTE: 
@@ -60,11 +67,16 @@
           }
         "
       />
-      <chat-pasta-preview
-        v-show="!!pastaStore.pastaTrimmedText.length"
-        :text="pastaStore.pastaTrimmedText"
-        :can-populate
-      />
+      <button class="btn btn-primary" @click="() => pastaStore.postPasta()">
+        POST
+      </button>
+      <dev-only>
+        <chat-pasta-preview
+          v-show="!!pastaStore.pastaTrimmedText.length"
+          :text="pastaStore.pastaTrimmedText"
+          :can-populate
+        />
+      </dev-only>
     </div>
     <teleport to="body">
       <chat-pasta-tag-add-dialog
@@ -81,17 +93,23 @@ import type { ChatPastaTagAddDialog, PastaForm } from "#build/components";
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
+const userStore = useUserStore();
 
 const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
 const pastaFormRef = ref<InstanceType<typeof PastaForm>>();
-const { isFormCollapseOpen: isOpen } = storeToRefs(useUserStore());
 
-watch(useMagicKeys().i, async () => {
-  isOpen.value = true;
+async function focusOnTextarea() {
   // NOTE: without sleep will be ugly layout shift when collapse become opened
   await sleep(100);
   pastaFormRef.value!.pastaFormTextareaRef!.textareaRef!.focus();
+}
+
+watch(useMagicKeys().i, () => {
+  userStore.formCollapse.open();
+  focusOnTextarea();
 });
+
+whenever(() => userStore.formCollapse.isOpen, focusOnTextarea);
 
 function canPopulate() {
   return Promise.all([

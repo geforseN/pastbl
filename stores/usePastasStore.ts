@@ -243,20 +243,19 @@ export const usePastasStore = defineStore("pastas", () => {
             },
           ),
         );
-        const tags = toRaw(basePasta.tags);
-        const megaPasta = createMegaPasta(trimmedText, tags);
+        const megaPasta = makeMegaPasta(trimmedText, basePasta.tags);
         const megaPastaWithId = await pastasIdbService
           .add(megaPasta)
           .catch((reason) => {
-            const message =
-              reason instanceof Error
-                ? reason.message
-                : t(m + "fail.genericFailMessage");
+            const message = isError(reason)
+              ? reason.message
+              : t(m + "fail.genericFailMessage");
             throw new ExtendedError(message, {
               title: t(m + "fail.title"),
             });
           });
         pastas.state.value = [...pastas.state.value, megaPastaWithId];
+        // pushToast('pastaAdded')
         toast.add({ title: t(m + "success.title") });
         await options.onEnd?.();
       } catch (error) {
@@ -369,5 +368,45 @@ class RemovePastaNotification {
         click: undo.click,
       },
     ];
+  }
+}
+
+class PastaText {
+  previous?: string;
+  current: string;
+
+  constructor(text: string) {
+    this.current = text;
+  }
+
+  update(text: string) {
+    this.previous = this.current;
+    this.current = text;
+  }
+}
+
+class Pasta {
+  #validTokens;
+  #prevText?: string;
+  text: string;
+  // OR
+  #text;
+
+  constructor({ validTokens, text }) {
+    this.#validTokens = validTokens;
+    this.text = text;
+    // OR
+    this.#text = new PastaText(text);
+  }
+
+  get validTokens() {
+    if (!this.#prevText) {
+      return this.#validTokens;
+    }
+  }
+
+  refresh({ text }) {
+    this.#prevText = this.text;
+    this.text = text;
   }
 }

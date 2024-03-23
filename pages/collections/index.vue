@@ -17,8 +17,8 @@
         />
       </template>
     </app-page-link>
-    <user-collection-fetch />
-    <user-collection-select />
+    <emote-collection-user-fetch />
+    <emote-collection-user-select />
     <app-page-link-main />
   </div>
 </template>

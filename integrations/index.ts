@@ -233,9 +233,10 @@ export {
   type FrankerFaceZUserIntegration,
 } from "./FrankerFaceZ/index";
 
+// TODO
 export {
   BetterTTV,
-  // TODO: IBetterTTV: RECORD 'Set' 'Emote' 'UserIntegration'
+  // TODO: TODO: IBetterTTV: RECORD 'Set' 'Emote' 'UserIntegration'
   type IBetterTTVSet,
   type IBetterTTVEmote,
   type BetterTTVUserIntegration,

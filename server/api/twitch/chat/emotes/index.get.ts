@@ -12,6 +12,7 @@ export default cachedEventHandler(
   async (event) => {
     const { broadcasterId } = querySchema.parse(getQuery(event));
     const apiChatEmotes = await fetchChatEmotes(broadcasterId);
+    // TODO: here need to map emotes, emote must be ITwitchEmote extend IEmote
     return apiChatEmotes;
   },
   { maxAge: 60 * 15 },

@@ -85,6 +85,7 @@ export class Emote {
   readonly isListed;
   readonly isModifier;
   readonly isWrapper;
+  // TODO: toIdb(): SomeObjectIDKWhichFormOf
 
   integrationLink: EmoteIntegrationLink;
 

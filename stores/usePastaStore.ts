@@ -12,7 +12,18 @@ export const usePastaStore = defineStore("pasta", () => {
 
   const debouncedPastaText = refDebounced(pasta.text, 200);
 
+  const postPasta = () => {
+    return $fetch("/api/pastas", {
+      method: "POST",
+      body: {
+        text: pasta.text.value,
+        tags: pasta.tags.value,
+      },
+    });
+  };
+
   return {
+    postPasta,
     pasta,
     pastaTrimmedText: computed(() => megaTrim(debouncedPastaText.value)),
     addTag(newTag: string) {

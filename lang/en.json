@@ -7,19 +7,26 @@
     "delete": "Delete tag: {tag}",
     "add": "Add tag"
   },
+  "emote": {
+    "find": "Find emote"
+  },
+  "mustBeInPastas": "Must be in pastas",
   "accept": "Accept",
   "decline": "Decline",
   "changes": {
     "accept": "Accept changes",
     "decline": "Decline changes"
   },
+  "userCollection": {
+    "makeInactive": "Make inactive"
+  },
+  "loaded": "Loaded",
   "refresh": "Refresh",
   "refreshing": "Refreshing",
-  "button": {
-    "delete": "Delete",
-    "deleting": "Deleting"
-  },
+  "delete": "Delete",
+  "deleting": "Deleting",
   "updated": "Updated",
+  "created": "Created",
   "app": {
     "hint": {
       "current-emotes": {
@@ -57,10 +64,21 @@
       "body": "What to do before moving to another page?",
       "accept": "Accept changes",
       "decline": "Decline changes"
+    },
+    "chatPastaTagAdd": {
+      "heading": "Tag input filled",
+      "body": "What to do with tag input value?",
+      "accept": "Add to pasta",
+      "decline": "Nothing",
+      "tag": "Tag"
     }
   },
   "main": {
     "link": "Go to main page"
+  },
+  "account": {
+    "logout": "Logout",
+    "loginWithTwitch": "Login with Twitch"
   },
   "avatar": {
     "alt": "{nickname} avatar"
@@ -279,6 +297,7 @@
     "index": {
       "link": "Emotes and emojis"
     },
+    "emotes": "1 emote | {count} emotes",
     "emojis": {
       "link": "Emojis",
       "headings": {

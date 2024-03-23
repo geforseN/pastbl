@@ -122,7 +122,6 @@
 const { t, locale, locales, setLocale } = useI18n();
 
 const selectedTheme = useIndexedDBKeyValue("app:daisyui-theme", "dark");
-
 const themes = computedWithControl(locale, () => ({
   dark: t("theme.dark"),
   light: t("theme.light"),

@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer components {
+  --ffz-cursed {
+    filter: grayscale(1) brightness(0.7) contrast(2.5);
+  }
+
+  --ffz-x {
+    filter: scaleX(-1);
+  }
+
+  --ffz-y {
+    filter: scaleY(-1);
+  }
+
+  --ffz-w {
+    /* from 1.4 to 2.0 ? or just max-width 128 */
+  }
+
   .twitch-text {
     overflow-wrap: anywhere;
     text-size-adjust: 100%;
