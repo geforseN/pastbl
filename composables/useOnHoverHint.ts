@@ -108,8 +108,6 @@ export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
     emote,
     emoji,
     emoteModifiers,
-    onCloseEmit: nullEveryState,
-    onClickOutside,
-    onMouseleave: nullEveryState,
+    close: nullEveryState,
   };
 }
