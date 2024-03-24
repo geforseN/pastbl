@@ -29,12 +29,12 @@
         </nuxt-layout>
         <app-hint-on-hover
           ref="onHoverHintRef"
-          v-on-click-outside="onHoverHint.onClickOutside"
+          v-on-click-outside="onHoverHint.close"
           :emoji="onHoverHint.emoji.value"
           :emote="onHoverHint.emote.value"
           :emote-modifiers="onHoverHint.emoteModifiers.value"
-          @close="onHoverHint.onCloseEmit"
-          @mouseleave="onHoverHint.onMouseleave"
+          @close="onHoverHint.close"
+          @mouseleave="onHoverHint.close"
         />
         <app-bottom-nav />
         <dev-only>
@@ -87,7 +87,6 @@ const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
 const onHoverHint = useOnHoverHint(
   computed(() => onHoverHintRef.value?.containerRef || raise()),
 );
-export type OnHoverHint = typeof onHoverHint;
 provide("onHoverHint", onHoverHint);
 
 onMounted(() => {

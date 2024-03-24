@@ -17,7 +17,6 @@
 </template>
 <script lang="ts" setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
-import type { OnHoverHint } from "~/app.vue";
 
 const englishKeys = objectKeys(emoteDataByGroup);
 
