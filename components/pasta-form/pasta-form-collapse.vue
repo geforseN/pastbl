@@ -70,13 +70,13 @@
       <button class="btn btn-primary" @click="() => pastaStore.postPasta()">
         POST
       </button>
-      <dev-only>
+      <client-only>
         <chat-pasta-preview
           v-show="!!pastaStore.pastaTrimmedText.length"
           :text="pastaStore.pastaTrimmedText"
           :can-populate
         />
-      </dev-only>
+      </client-only>
     </div>
     <teleport to="body">
       <chat-pasta-tag-add-dialog

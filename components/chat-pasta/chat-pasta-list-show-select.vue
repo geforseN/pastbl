@@ -3,13 +3,13 @@
     <label for="show-pastas" class="label font-bold">
       {{ t(s + "label") }}
     </label>
-    <select
-      id="show-pastas"
-      v-model="selectedShowStrategy"
-      name="show-pastas"
-      class="select select-secondary select-sm w-1/2"
-    >
-      <dev-only>
+    <client-only>
+      <select
+        id="show-pastas"
+        v-model="selectedShowStrategy"
+        name="show-pastas"
+        class="select select-secondary select-sm w-1/2"
+      >
         <option
           v-for="[showStrategy, translated] of Object.entries(showOptions)"
           :key="showStrategy"
@@ -23,8 +23,11 @@
         >
           {{ translated.text }}
         </option>
-      </dev-only>
-    </select>
+      </select>
+      <template #fallback>
+        <select class="select select-secondary select-sm w-1/2"></select>
+      </template>
+    </client-only>
   </div>
 </template>
 <script lang="ts" setup>
