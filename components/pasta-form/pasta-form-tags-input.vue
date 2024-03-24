@@ -24,7 +24,11 @@
         </datalist>
       </client-only>
       <button
-        class="btn btn-secondary join-item box-content grow px-2"
+        class="btn btn-info join-item box-content grow px-2"
+        :class="
+          modelValue.trimStart().startsWith('@') &&
+          'border-twitch-accent bg-twitch-accent text-twitch-base hover:border-twitch-accent hover:bg-twitch-accent/90 focus:outline-twitch-accent'
+        "
         @click.prevent="emitTag"
       >
         <span class="text-xl">+</span>

@@ -6,13 +6,22 @@
     <div
       v-for="tag of props.tags"
       :key="tag"
-      class="flex rounded-lg bg-secondary"
+      class="join flex rounded-lg"
       :title="tag"
     >
-      <span class="line-clamp-2 break-all pb-0.5 pl-1.5 pr-1">{{ tag }}</span>
+      <span
+        class="join-item rounded-lg py-0.5 pl-1.5 pr-1 text-sm"
+        :class="
+          tag.startsWith('@')
+            ? 'bg-twitch-accent text-twitch-base'
+            : 'bg-info text-info-content'
+        "
+      >
+        {{ tag }}
+      </span>
       <button
-        class="btn btn-xs h-full border-0 bg-base-content text-base-100"
-        :title="$t('tag.remove', { tag })"
+        class="btn btn-outline join-item btn-xs h-full border-l-0"
+        :title="$t('tag.delete', { tag })"
         @click.prevent="emit('removeTag', tag)"
       >
         <span>x</span>
