@@ -123,7 +123,6 @@ import {
   type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
-import type { OnHoverHint } from "~/app.vue";
 import { emotesIDB } from "~/client-only/services";
 
 const { asyncState, isCollectionSelected } = defineProps<{

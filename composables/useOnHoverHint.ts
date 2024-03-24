@@ -5,6 +5,8 @@ import {
   type IEmote,
 } from "~/integrations";
 
+export type OnHoverHint = ReturnType<typeof useOnHoverHint>;
+
 export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
   const emoji = ref<Nullish<string>>();
   const emote = ref<Nullish<IEmote>>();

@@ -31,7 +31,6 @@
   </article>
 </template>
 <script lang="ts" setup>
-import type { OnHoverHint } from "~/app.vue";
 import { getEmoteToken } from "~/integrations";
 
 const pastaTextContainerRef = ref();

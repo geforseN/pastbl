@@ -73,7 +73,6 @@
 </template>
 <script setup lang="ts">
 import type { UseAsyncStateReturnBase } from "@vueuse/core";
-import type { OnHoverHint } from "~/app.vue";
 import { userCollectionsService } from "~/client-only/services";
 import {
   getEmoteToken,

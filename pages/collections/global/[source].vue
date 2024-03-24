@@ -18,7 +18,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { OnHoverHint } from "~/app.vue";
 import { emoteSources, getEmoteToken } from "~/integrations";
 
 const globalCollectionsStore = useGlobalCollectionsStore();
