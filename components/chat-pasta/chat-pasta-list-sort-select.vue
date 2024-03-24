@@ -3,20 +3,25 @@
     <label for="sort-pastas" class="label font-bold">
       {{ t(s + "label") }}
     </label>
-    <select
-      id="sort-pastas"
-      v-model="selectedSortStrategy"
-      class="select select-secondary select-sm w-1/2"
-      name="sort-pastas"
-    >
-      <option
-        v-for="[sortStrategy, translatedText] of Object.entries(sortOptions)"
-        :key="sortStrategy"
-        :value="sortStrategy"
+    <client-only>
+      <select
+        id="sort-pastas"
+        v-model="selectedSortStrategy"
+        class="select select-secondary select-sm w-1/2"
+        name="sort-pastas"
       >
-        {{ translatedText }}
-      </option>
-    </select>
+        <option
+          v-for="[sortStrategy, translatedText] of Object.entries(sortOptions)"
+          :key="sortStrategy"
+          :value="sortStrategy"
+        >
+          {{ translatedText }}
+        </option>
+      </select>
+      <template #fallback>
+        <select class="select select-secondary select-sm w-1/2"></select>
+      </template>
+    </client-only>
   </div>
 </template>
 <script lang="ts" setup>

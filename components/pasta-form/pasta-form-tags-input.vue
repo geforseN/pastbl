@@ -18,9 +18,11 @@
         "
         @keyup.enter.prevent="emitTag"
       />
-      <datalist id="add-tag-suggestions">
-        <slot name="addTagSuggestions" />
-      </datalist>
+      <client-only>
+        <datalist id="add-tag-suggestions">
+          <slot name="addTagSuggestions" />
+        </datalist>
+      </client-only>
       <button
         class="btn btn-secondary join-item box-content grow px-2"
         @click.prevent="emitTag"
