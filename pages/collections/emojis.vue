@@ -35,7 +35,7 @@ watch(
   { immediate: true },
 );
 
-const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
+const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.makeMouseoverHandler(),

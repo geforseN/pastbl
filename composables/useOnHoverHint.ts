@@ -5,7 +5,34 @@ import {
   type IEmote,
 } from "~/integrations";
 
-export type OnHoverHint = ReturnType<typeof useOnHoverHint>;
+export type ExtendedOnHoverHint = ReturnType<typeof useExtendedOnHoverHint>;
+
+export function useExtendedOnHoverHint(container: ComputedRef<HTMLElement>) {
+  const onHoverHint = useOnHoverHint(container);
+  const emotesStore = useEmotesStore();
+
+  return {
+    ...onHoverHint,
+    allEmotesHandler: onHoverHint.makeMouseoverHandler({
+      findEmote(target) {
+        const token = getEmoteToken(target);
+        return emotesStore.findEmote(token);
+      },
+      findEmoteModifiersByTokens(tokens) {
+        assert.ok(tokens.length);
+        const emotes = tokens.map(emotesStore.findEmote).filter(isNotNullable);
+        assert.ok(tokens.length === emotes.length);
+        return emotes;
+      },
+    }),
+    globalEmotesHandler: onHoverHint.makeMouseoverHandler({
+      findEmote(target) {
+        const token = getEmoteToken(target);
+        return emotesStore.findGlobalEmote(token);
+      },
+    }),
+  };
+}
 
 export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
   const emoji = ref<Nullish<string>>();
