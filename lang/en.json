@@ -1,4 +1,6 @@
 {
+  "yes": "Yes",
+  "no": "No",
   "tags": {
     "noAdded": "No added tags",
     "remove": "Remove tags"
@@ -175,6 +177,7 @@
   },
   "pasta": {
     "length": "Pasta length",
+    "makePublic?": "Make pasta public?",
     "makeChangesIn": "Make changes in pasta",
     "createdAt": "Created",
     "list": {
@@ -245,6 +248,10 @@
           "part3": "click"
         }
       }
+    },
+    "publish": {
+      "heading": "Publish pasta",
+      "button": "Publish pasta"
     },
     "create": {
       "heading": "Create pasta",

@@ -1,3 +1,31 @@
+const API = {
+  postPasta(text: string, tags: string[], isPublic: boolean) {
+    return $fetch("/api/pastas", {
+      method: "POST",
+      body: {
+        text,
+        tags,
+        isPublic,
+      },
+    });
+  },
+};
+
+function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
+  const isPublicPasta = useIndexedDBKeyValue("pasta:is-public", false);
+
+  return {
+    isPublicPasta,
+    postPasta() {
+      return API.postPasta(
+        pasta.text.value,
+        pasta.tags.value,
+        isPublicPasta.state.value,
+      );
+    },
+  };
+}
+
 export const usePastaStore = defineStore("pasta", () => {
   const text = useIndexedDBKeyValue("pasta:text", "");
   const tags = useIndexedDBKeyValue("pasta:tags", []);
@@ -11,19 +39,11 @@ export const usePastaStore = defineStore("pasta", () => {
   const toast = useNuxtToast();
 
   const debouncedPastaText = refDebounced(pasta.text, 200);
-
-  const postPasta = () => {
-    return $fetch("/api/pastas", {
-      method: "POST",
-      body: {
-        text: pasta.text.value,
-        tags: pasta.tags.value,
-      },
-    });
-  };
+  const publishPasta = usePublishPasta(pasta);
 
   return {
-    postPasta,
+    publishPasta,
+    postPasta: publishPasta.postPasta,
     pasta,
     pastaTrimmedText: computed(() => megaTrim(debouncedPastaText.value)),
     addTag(newTag: string) {

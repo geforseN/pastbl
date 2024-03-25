@@ -12,7 +12,15 @@
       <header class="flex justify-between text-3xl font-bold">
         <span class="flex items-center gap-2">
           <kbd class="kbd kbd-sm -ml-0.5 px-2 pb-[1px] pt-0.5">i</kbd>
-          <h2>{{ $t("pasta.create.heading") }}</h2>
+          <h2>
+            {{
+              $t(
+                userStore.pastasWorkMode.isClient
+                  ? "pasta.create.heading"
+                  : "pasta.publish.heading",
+              )
+            }}
+          </h2>
         </span>
         <transition name="jokerge">
           <div
@@ -46,6 +54,7 @@
         ref="pastaFormRef"
         v-model:tag="pastaStore.pasta.tag"
         v-model:text="pastaStore.pasta.text"
+        v-model:is-public="pastaStore.publishPasta.isPublicPasta.state"
         :pasta-tags="pastaStore.pasta.tags"
         :hinted-tags-map="pastasStore.mostPopularTagsEntries"
         @add-tag="(tag) => pastaStore.addTag(tag)"
@@ -66,10 +75,13 @@
             );
           }
         "
+        @publish-pasta="
+          async () => {
+            await pastaStore.postPasta();
+            useNuxtToast().add({ title: 'Pasta posted!' });
+          }
+        "
       />
-      <button class="btn btn-primary" @click="() => pastaStore.postPasta()">
-        POST
-      </button>
       <client-only>
         <chat-pasta-preview
           v-show="!!pastaStore.pastaTrimmedText.length"

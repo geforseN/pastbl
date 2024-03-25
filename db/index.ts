@@ -7,6 +7,7 @@ import {
   tagsToPastas,
   twitchUsers,
   type InsertTwitchUser,
+  type PastaPublicity,
 } from "./schema";
 import * as schema from "./schema";
 
@@ -16,21 +17,24 @@ export const db = drizzle(client, { schema });
 export function createPasta(
   text: string,
   tags: string[],
-  authorTwitchId: `${number}`,
+  publisherTwitchId: string,
+  publicity: PastaPublicity,
 ) {
   return db.transaction(async (tx) => {
     const [pasta] = await tx
       .insert(pastas)
-      .values({ text, authorTwitchId })
+      .values({ text, publisherTwitchId, publicity })
       .returning();
-    await tx
-      .insert(pastasTags)
-      .values(tags.map((value) => ({ value })))
-      .onConflictDoNothing();
-    const pastaUuid = pasta.uuid;
-    await tx
-      .insert(tagsToPastas)
-      .values(tags.map((tagValue) => ({ tagValue, pastaUuid })));
+    if (tags.length) {
+      await tx
+        .insert(pastasTags)
+        .values(tags.map((value) => ({ value })))
+        .onConflictDoNothing();
+      const pastaUuid = pasta.uuid;
+      await tx
+        .insert(tagsToPastas)
+        .values(tags.map((tagValue) => ({ tagValue, pastaUuid })));
+    }
     return {
       ...pasta,
       tags,
@@ -40,7 +44,7 @@ export function createPasta(
 
 export function getPastas(authorTwitchId: `${number}`) {
   return db.query.pastas.findMany({
-    where: (pastas, { eq }) => eq(pastas.authorTwitchId, authorTwitchId),
+    where: (pastas, { eq }) => eq(pastas.publisherTwitchId, authorTwitchId),
     with: {
       tags: true,
     },
@@ -53,7 +57,7 @@ export function getPastasWithNoTags(authorTwitchId: `${number}`) {
   return db
     .select()
     .from(pastas)
-    .where(eq(pastas.authorTwitchId, authorTwitchId));
+    .where(eq(pastas.publisherTwitchId, authorTwitchId));
 }
 
 export function upsertTwitchUser(twitchUser: InsertTwitchUser) {

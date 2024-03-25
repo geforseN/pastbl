@@ -37,24 +37,22 @@
           @mouseleave="onHoverHint.close"
         />
         <app-bottom-nav />
-        <dev-only>
-          <div class="fixed bottom-0 left-0">
-            <!-- <label for="asd" class="label cursor-pointer">
-            <span class="label-text">Mode</span>
-          </label> -->
-            <!-- <div class="flex items-center gap-1 border border-b-0 border-l-0">
-              Server mode
-              <input
-                id="asd"
-                v-model="userStore.pastasWorkMode.isClient"
-                name="asd"
-                type="checkbox"
-                class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
-              />
-              Client mode
-            </div> -->
+        <client-only>
+          <!-- FIXME: can not see on mobile resolution -->
+          <div
+            class="fixed bottom-0 right-1/2 flex translate-x-1/2 items-center gap-1 rounded-t-btn border border-b-0 bg-base-300 px-2 pb-1.5 pt-1.5 text-center"
+          >
+            Server mode
+            <input
+              id="pastas-work-mode"
+              v-model="userStore.pastasWorkMode.isClient"
+              name="pastas-work-mode"
+              type="checkbox"
+              class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
+            />
+            Client mode
           </div>
-        </dev-only>
+        </client-only>
         <u-notifications>
           <template #title="{ title }">
             <span class="text-xl">{{ title }}</span>
@@ -72,6 +70,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 
+const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
 useKeysListenWithAlt([
@@ -97,5 +96,18 @@ onMounted(() => {
 .emote {
   display: inline;
   margin: -5px 0;
+}
+
+input#pastas-work-mode:not(:checked) {
+  background-color: theme(colors.twitch-accent);
+  border-color: theme(colors.twitch-accent);
+}
+
+input#pastas-work-mode:not(:checked):hover {
+  background-color: theme(colors.secondary/80%);
+}
+
+input#pastas-work-mode:checked:hover {
+  background-color: theme(colors.twitch-accent/80%);
 }
 </style>

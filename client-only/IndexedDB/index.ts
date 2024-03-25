@@ -134,6 +134,7 @@ export type MyKeyValueSchema = {
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
+  "pasta:is-public": boolean;
   "pastas:work-mode": "server" | "client";
   "create-pasta-form-collapse:is-open": boolean;
   "global-collections:checked-sources": EmoteSource[];

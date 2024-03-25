@@ -9,10 +9,10 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-const TAG_MAX_LENGTH = 128;
-const MAX_TAGS_IN_PASTA = 10;
+export const TAG_MAX_LENGTH = 128;
+export const MAX_TAGS_IN_PASTA = 10;
 const TWITCH_USER_ID_LENGTH = 64;
-const PASTA_TEXT_LENGTH = 1984;
+export const PASTA_TEXT_LENGTH = 1984;
 const PREVIOUS_PASTA_TAGS_STRING_LENGTH =
   TAG_MAX_LENGTH * MAX_TAGS_IN_PASTA + (MAX_TAGS_IN_PASTA - 1);
 const TWITCH_USER_NICK_LENGTH = 25;
@@ -21,6 +21,7 @@ export const pastaPublicityEnum = pgEnum("pasta_publicity", [
   "public",
   "private",
 ]);
+export type PastaPublicity = (typeof pastaPublicityEnum.enumValues)[number];
 
 export const pastas = pgTable(
   "pastas",
@@ -29,22 +30,21 @@ export const pastas = pgTable(
     text: varchar("text", { length: PASTA_TEXT_LENGTH }).notNull(),
     publishedAt: timestamp("published_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at"),
-    // TODO: rename author to poster ?
-    authorTwitchId: varchar("author_twitch_id", {
+    publisherTwitchId: varchar("publisher_twitch_id", {
       length: TWITCH_USER_ID_LENGTH,
     })
       .notNull()
       .references(() => twitchUsers.id),
     publicity: pastaPublicityEnum("publicity").notNull().default("public"),
   },
-  ({ authorTwitchId }) => ({
+  ({ publisherTwitchId: authorTwitchId }) => ({
     ownerTwitchIdIndex: index("pastas_index").on(authorTwitchId),
   }),
 );
 
 export const pastasRelations = relations(pastas, ({ one, many }) => ({
   author: one(twitchUsers, {
-    fields: [pastas.authorTwitchId],
+    fields: [pastas.publisherTwitchId],
     references: [twitchUsers.id],
   }),
   tags: many(pastasTags),

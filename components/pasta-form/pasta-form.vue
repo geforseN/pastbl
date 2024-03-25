@@ -9,15 +9,44 @@
         class="mx-0.5"
         @enter-pressed="emit('createPasta')"
       />
+      <!-- NOTE: after xl: template is horrible -->
+      <div
+        v-if="userStore.pastasWorkMode.isServer"
+        class="-mb-1 ml-1.5 flex grow items-center gap-1"
+      >
+        <label for="pasta-is-public" class="grow cursor-pointer">
+          {{ $t("pasta.makePublic?") }}
+        </label>
+        <span>{{ $t(isPublic ? "yes" : "no") }}</span>
+        <input
+          id="pasta-is-public"
+          v-model="isPublic"
+          type="checkbox"
+          name="pasta-is-public"
+          class="checkbox-info checkbox"
+        />
+      </div>
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
         <button
           ref="createPastaButton"
           class="btn btn-primary h-max text-lg focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
-          @click="emit('createPasta')"
+          @click="
+            emit(
+              userStore.pastasWorkMode.isClient
+                ? 'createPasta'
+                : 'publishPasta',
+            )
+          "
         >
-          {{ $t("pasta.create.button") }}
+          {{
+            $t(
+              userStore.pastasWorkMode.isClient
+                ? "pasta.create.button"
+                : "pasta.publish.button",
+            )
+          }}
         </button>
         <div class="flex h-full flex-col justify-between">
           <pasta-form-pasta-length
@@ -66,8 +95,11 @@
 <script lang="ts" setup>
 import type { PastaFormTextarea } from "#build/components";
 
+const userStore = useUserStore();
+
 const tagToAddModel = defineModel<string>("tag", { default: "" });
 const pastaTextModel = defineModel<string>("text", { required: true });
+const isPublic = defineModel<boolean>("isPublic", { required: true });
 
 const trimmedText = ref(pastaTextModel.value);
 watchDebounced(
@@ -88,6 +120,7 @@ const emit = defineEmits<{
   removeTag: [tag: string];
   removeAllTags: [];
   createPasta: [];
+  publishPasta: [];
 }>();
 
 const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();

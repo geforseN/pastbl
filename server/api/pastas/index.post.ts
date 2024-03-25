@@ -1,36 +1,26 @@
 import { z } from "zod";
-import { db } from "~/db";
-import { pastas, pastasTags, tagsToPastas } from "~/db/schema";
+import { createPasta } from "~/db";
+import { MAX_TAGS_IN_PASTA, PASTA_TEXT_LENGTH } from "~/db/schema";
+import { megaTrim } from "~/utils/string";
 
 const bodySchema = z.object({
-  text: z.string(),
+  text: z.string().max(PASTA_TEXT_LENGTH).transform(megaTrim),
   tags: z
     .array(z.string())
+    .max(MAX_TAGS_IN_PASTA)
     .optional()
-    .transform((tags) => tags ?? []),
+    .default([])
+    .transform((tags) => tags.map(megaTrim))
+    .refine((tags) => tags.every((tag) => !tag.includes(","))),
+  isPublic: z.boolean().default(true),
 });
 
 export default defineEventHandler(async (event) => {
-  const { tags, text } = bodySchema.parse(await readBody(event));
+  const { text, tags, isPublic } = bodySchema.parse(await readBody(event));
   const session = await requireUserSession(event);
-  const authorTwitchId = session.user.twitch.id;
-  const pasta = await db.transaction(async (tx) => {
-    const [pasta] = await tx
-      .insert(pastas)
-      .values({ text, authorTwitchId })
-      .returning();
-    await tx
-      .insert(pastasTags)
-      .values(tags.map((value) => ({ value })))
-      .onConflictDoNothing();
-    await tx
-      .insert(tagsToPastas)
-      .values(tags.map((tagValue) => ({ tagValue, pastaUuid: pasta.uuid })));
-    return {
-      ...pasta,
-      tags,
-    };
-  });
+  const publisherTwitchId = session.user.twitch.id;
+  const publicity = isPublic ? "public" : "private";
+  const pasta = await createPasta(text, tags, publisherTwitchId, publicity);
   return {
     pasta,
   };
