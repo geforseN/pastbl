@@ -180,7 +180,7 @@
     "length": "Длинна пасты",
     "makePublic?": "Сделать пасту публичной?",
     "makeChangesIn": "Внесите изменения в пасту",
-    "createdAt": "Создана",
+    "created": "Создана",
     "list": {
       "loading": "Пасты загружаются",
       "clipboardFail": {

@@ -33,7 +33,7 @@
         />
       </div>
       <time-of
-        message-key="pasta.createdAt"
+        message-key="pasta.created"
         dropdown-class="dropdown-top dropdown-hover"
         dropdown-content-class="-translate-x-1/2"
         :date="props.pasta.createdAt"
