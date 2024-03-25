@@ -83,7 +83,7 @@ useKeysListenWithAlt([
 ]);
 
 const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
-const onHoverHint = useOnHoverHint(
+const onHoverHint = useExtendedOnHoverHint(
   computed(() => onHoverHintRef.value?.containerRef || raise()),
 );
 provide("onHoverHint", onHoverHint);

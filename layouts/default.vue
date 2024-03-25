@@ -17,26 +17,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getEmoteToken } from "~/integrations";
-
 const pastasStore = usePastasStore();
-const emotesStore = useEmotesStore();
 
-const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
+const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.makeMouseoverHandler({
-    findEmote(target) {
-      const token = getEmoteToken(target);
-      return emotesStore.findEmote(token);
-    },
-    findEmoteModifiersByTokens(tokens) {
-      assert.ok(tokens.length);
-      const emotes = tokens.map(emotesStore.findEmote).filter(isNotNullable);
-      assert.ok(tokens.length === emotes.length);
-      return emotes;
-    },
-  }),
+  onHoverHint.allEmotesHandler,
   100,
   true,
 );

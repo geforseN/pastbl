@@ -61,20 +61,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getEmoteToken } from "~/integrations";
-
 const globalCollectionsStore = useGlobalCollectionsStore();
-const emotesStore = useEmotesStore();
 
-const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
+const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.makeMouseoverHandler({
-    findEmote(target) {
-      const token = getEmoteToken(target);
-      return emotesStore.findGlobalEmote(token);
-    },
-  }),
+  onHoverHint.globalEmotesHandler,
   100,
   true,
 );

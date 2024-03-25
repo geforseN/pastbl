@@ -161,7 +161,7 @@ async function getRefreshedIntegration(source: EmoteSource) {
   return newIntegration;
 }
 
-const onHoverHint = inject<OnHoverHint>("onHoverHint") || raise();
+const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 const emoteSource = ref<EmoteSource>();
 
 const throttledMouseover = useThrottleFn(
