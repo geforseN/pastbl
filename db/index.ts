@@ -42,9 +42,9 @@ export function createPasta(
   });
 }
 
-export function getPastas(authorTwitchId: `${number}`) {
+export function getPastas(publisherTwitchId: string) {
   return db.query.pastas.findMany({
-    where: (pastas, { eq }) => eq(pastas.publisherTwitchId, authorTwitchId),
+    where: (pastas, { eq }) => eq(pastas.publisherTwitchId, publisherTwitchId),
     with: {
       tags: true,
     },
@@ -53,11 +53,11 @@ export function getPastas(authorTwitchId: `${number}`) {
 
 // LINK: https://orm.drizzle.team/docs/joins#many-to-many-example
 
-export function getPastasWithNoTags(authorTwitchId: `${number}`) {
+export function getPastasWithNoTags(publisherTwitchId: string) {
   return db
     .select()
     .from(pastas)
-    .where(eq(pastas.publisherTwitchId, authorTwitchId));
+    .where(eq(pastas.publisherTwitchId, publisherTwitchId));
 }
 
 export function upsertTwitchUser(twitchUser: InsertTwitchUser) {

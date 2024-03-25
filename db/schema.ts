@@ -37,8 +37,8 @@ export const pastas = pgTable(
       .references(() => twitchUsers.id),
     publicity: pastaPublicityEnum("publicity").notNull().default("public"),
   },
-  ({ publisherTwitchId: authorTwitchId }) => ({
-    ownerTwitchIdIndex: index("pastas_index").on(authorTwitchId),
+  ({ publisherTwitchId }) => ({
+    ownerTwitchIdIndex: index("pastas_index").on(publisherTwitchId),
   }),
 );
 
@@ -96,7 +96,7 @@ export const previousPastas = pgTable("previous_pastas", {
     .notNull()
     .references(() => pastas.uuid),
   text: varchar("text", { length: PASTA_TEXT_LENGTH }).notNull(),
-  authorTwitchId: varchar("author_twitch_id")
+  publisherTwitchId: varchar("publisher_twitch_id")
     .notNull()
     .references(() => twitchUsers.id),
   lastUpdatedAt: timestamp("last_updated_at").notNull(),
@@ -107,7 +107,7 @@ export const previousPastas = pgTable("previous_pastas", {
 
 export const previousPastasRelations = relations(previousPastas, ({ one }) => ({
   author: one(twitchUsers, {
-    fields: [previousPastas.authorTwitchId],
+    fields: [previousPastas.publisherTwitchId],
     references: [twitchUsers.id],
   }),
   latestPasta: one(pastas, {
