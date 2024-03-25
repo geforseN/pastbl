@@ -36,6 +36,7 @@
       </button>
     </div>
     <!-- TODO: show note that on ',' will add tag -->
+    <!-- TODO: show note that tag which starts with '@' will be user tag -->
     <span
       v-if="isTagTooLong"
       class="max-w-xs text-wrap break-words underline decoration-error"
