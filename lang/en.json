@@ -179,7 +179,7 @@
     "length": "Pasta length",
     "makePublic?": "Make pasta public?",
     "makeChangesIn": "Make changes in pasta",
-    "createdAt": "Created",
+    "created": "Created",
     "list": {
       "loading": "Loading pastas",
       "clipboardFailMessage": {
