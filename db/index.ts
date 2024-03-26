@@ -33,46 +33,69 @@ export function createPasta(
 
 // TODO: use 'with clause' or/and 'prepared statement' in SQL queries
 
-export const FIRST_PAGE_PASTAS_COUNT = 15;
+const FIRST_PAGE_PASTAS_COUNT = 15;
 
-export function getFirstPagePastas(
-  publisherTwitchId: Pasta["publisherTwitchId"],
-) {
-  return db
-    .select({
-      id: pastas.id,
-      text: pastas.text,
-      publicity: pastas.publicity,
-      publishedAt: pastas.publishedAt,
-    })
-    .from(pastas)
-    .where(eq(pastas.publisherTwitchId, publisherTwitchId))
-    .orderBy(pastas.publisherTwitchId, desc(pastas.publishedAt))
-    .limit(FIRST_PAGE_PASTAS_COUNT);
+function getFirstPagePastas(publisherTwitchId: Pasta["publisherTwitchId"]) {
+  return db.query.pastas.findMany({
+    columns: {
+      updatedAt: false,
+      publisherTwitchId: false,
+    },
+    where: eq(pastas.publisherTwitchId, publisherTwitchId),
+    orderBy: [pastas.publisherTwitchId, desc(pastas.id)],
+    limit: FIRST_PAGE_PASTAS_COUNT,
+    with: {
+      tags: true,
+    },
+  });
 }
 
-export const CURSOR_BASED_PASTAS_COUNT = 10;
+const CURSOR_BASED_PASTAS_COUNT = 10;
 
-export function getNextPagePastas(
+function getNextPagePastas(
   publisherTwitchId: Pasta["publisherTwitchId"],
   pastaId: Pasta["id"],
 ) {
-  return db
-    .select({
-      id: pastas.id,
-      text: pastas.text,
-      publicity: pastas.publicity,
-      publishedAt: pastas.publishedAt,
-    })
-    .from(pastas)
-    .where(
-      and(
-        eq(pastas.publisherTwitchId, publisherTwitchId),
-        lt(pastas.id, pastaId),
-      ),
-    )
-    .orderBy(pastas.publisherTwitchId, desc(pastas.publishedAt))
-    .limit(CURSOR_BASED_PASTAS_COUNT);
+  return db.query.pastas.findMany({
+    columns: {
+      updatedAt: false,
+      publisherTwitchId: false,
+    },
+    where: and(
+      eq(pastas.publisherTwitchId, publisherTwitchId),
+      lt(pastas.id, pastaId),
+    ),
+    orderBy: [pastas.publisherTwitchId, desc(pastas.id)],
+    limit: CURSOR_BASED_PASTAS_COUNT,
+    with: {
+      tags: true,
+    },
+  });
+}
+
+export async function getPastas(
+  twitchUserId: string,
+  next: Pasta["id"] | null,
+) {
+  if (next === null) {
+    const pastas = await getFirstPagePastas(twitchUserId);
+    const next =
+      pastas.length === FIRST_PAGE_PASTAS_COUNT
+        ? pastas[pastas.length - 1].id
+        : null;
+    return {
+      pastas,
+      next,
+    };
+  }
+  const pastas = await getNextPagePastas(twitchUserId, next);
+  return {
+    pastas,
+    next:
+      pastas.length === CURSOR_BASED_PASTAS_COUNT
+        ? pastas[pastas.length - 1].id
+        : null,
+  };
 }
 
 export function deletePasta(pastaId: Pasta["id"]) {
