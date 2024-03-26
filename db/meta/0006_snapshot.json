@@ -1,0 +1,130 @@
+{
+  "id": "520341d7-5d72-4149-9d94-7ff773698b8e",
+  "prevId": "f19e44c5-ce64-42aa-9208-3bf4d91f50f3",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "pastas": {
+      "name": "pastas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar(1984)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publisher_twitch_id": {
+          "name": "publisher_twitch_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "publicity": {
+          "name": "publicity",
+          "type": "pasta_publicity",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'public'"
+        }
+      },
+      "indexes": {
+        "publisher": {
+          "name": "publisher",
+          "columns": ["publisher_twitch_id"],
+          "isUnique": false
+        },
+        "publisher_newest": {
+          "name": "publisher_newest",
+          "columns": ["publisher_twitch_id", "published_at"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "pastas_tags": {
+      "name": "pastas_tags",
+      "schema": "",
+      "columns": {
+        "pasta_id": {
+          "name": "pasta_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tag": {
+          "name": "tag",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "pastas": {
+          "name": "pastas",
+          "columns": ["pasta_id"],
+          "isUnique": false
+        },
+        "values": {
+          "name": "values",
+          "columns": ["tag"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "pastas_tags_pasta_id_pastas_id_fk": {
+          "name": "pastas_tags_pasta_id_pastas_id_fk",
+          "tableFrom": "pastas_tags",
+          "tableTo": "pastas",
+          "columnsFrom": ["pasta_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "pastas_tags_pasta_id_tag_pk": {
+          "name": "pastas_tags_pasta_id_tag_pk",
+          "columns": ["pasta_id", "tag"]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "pasta_publicity": {
+      "name": "pasta_publicity",
+      "values": {
+        "public": "public",
+        "private": "private"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

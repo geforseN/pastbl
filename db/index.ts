@@ -1,12 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { eq } from "drizzle-orm";
-import {
-  pastas,
-  pastasTags,
-  tagsToPastas,
-  type PastaPublicity,
-} from "./schema";
+import { and, desc, eq, lt } from "drizzle-orm";
+import { pastas, pastasTags, type Pasta, type PastaPublicity } from "./schema";
 import * as schema from "./schema";
 
 export const client = postgres(env.databaseUrl);
@@ -24,14 +19,10 @@ export function createPasta(
       .values({ text, publisherTwitchId, publicity })
       .returning();
     if (tags.length) {
+      const pastaId = pasta.id;
       await tx
         .insert(pastasTags)
-        .values(tags.map((value) => ({ value })))
-        .onConflictDoNothing();
-      const pastaUuid = pasta.uuid;
-      await tx
-        .insert(tagsToPastas)
-        .values(tags.map((tagValue) => ({ tagValue, pastaUuid })));
+        .values(tags.map((value) => ({ value, pastaId })));
     }
     return {
       ...pasta,
@@ -40,13 +31,52 @@ export function createPasta(
   });
 }
 
-export function getPastas(publisherTwitchId: string) {
-  return db.query.pastas.findMany({
-    where: (pastas, { eq }) => eq(pastas.publisherTwitchId, publisherTwitchId),
-    with: {
-      tags: true,
-    },
-  });
+// TODO: use 'with clause' or/and 'prepared statement' in SQL queries
+
+export const FIRST_PAGE_PASTAS_COUNT = 15;
+
+export function getFirstPagePastas(
+  publisherTwitchId: Pasta["publisherTwitchId"],
+) {
+  return db
+    .select({
+      id: pastas.id,
+      text: pastas.text,
+      publicity: pastas.publicity,
+      publishedAt: pastas.publishedAt,
+    })
+    .from(pastas)
+    .where(eq(pastas.publisherTwitchId, publisherTwitchId))
+    .orderBy(pastas.publisherTwitchId, desc(pastas.publishedAt))
+    .limit(FIRST_PAGE_PASTAS_COUNT);
+}
+
+export const CURSOR_BASED_PASTAS_COUNT = 10;
+
+export function getNextPagePastas(
+  publisherTwitchId: Pasta["publisherTwitchId"],
+  pastaId: Pasta["id"],
+) {
+  return db
+    .select({
+      id: pastas.id,
+      text: pastas.text,
+      publicity: pastas.publicity,
+      publishedAt: pastas.publishedAt,
+    })
+    .from(pastas)
+    .where(
+      and(
+        eq(pastas.publisherTwitchId, publisherTwitchId),
+        lt(pastas.id, pastaId),
+      ),
+    )
+    .orderBy(pastas.publisherTwitchId, desc(pastas.publishedAt))
+    .limit(CURSOR_BASED_PASTAS_COUNT);
+}
+
+export function deletePasta(pastaId: Pasta["id"]) {
+  return db.delete(pastas).where(eq(pastas.id, pastaId)).returning();
 }
 
 // LINK: https://orm.drizzle.team/docs/joins#many-to-many-example
