@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "publisher" ON "pastas" ("publisher_twitch_id");
