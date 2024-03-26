@@ -5,8 +5,6 @@ import {
   pastas,
   pastasTags,
   tagsToPastas,
-  twitchUsers,
-  type InsertTwitchUser,
   type PastaPublicity,
 } from "./schema";
 import * as schema from "./schema";
@@ -58,14 +56,4 @@ export function getPastasWithNoTags(publisherTwitchId: string) {
     .select()
     .from(pastas)
     .where(eq(pastas.publisherTwitchId, publisherTwitchId));
-}
-
-export function upsertTwitchUser(twitchUser: InsertTwitchUser) {
-  return db
-    .insert(twitchUsers)
-    .values(twitchUser)
-    .onConflictDoUpdate({
-      target: [twitchUsers.id],
-      set: twitchUser,
-    });
 }
