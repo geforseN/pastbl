@@ -11,9 +11,7 @@ export const pastaIdParamSchema = z
   .transform(Number)
   .refine(Number.isInteger);
 
-export function getPastaIdParam<E extends H3Event<EventHandlerRequest>>(
-  event: E,
-) {
+export function getPastaIdParam<E extends H3E>(event: E) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
 }
 
@@ -56,3 +54,21 @@ export const defaultPastaPublicity = "public" as const satisfies PastaPublicity;
 export const pastaPublicitySchema = z
   .enum(pastasPublicity)
   .default(defaultPastaPublicity);
+
+const patchPastaTextSchema = z.object({
+  text: pastaTextSchema,
+});
+
+export async function getPastaTextFromBody<E extends H3E>(event: E) {
+  return patchPastaTextSchema.parse(await readBody(event)).text;
+}
+
+const bodySchema = z.object({
+  text: pastaTextSchema,
+  tags: pastaTagsSchema,
+  publicity: pastaPublicitySchema,
+});
+
+export async function getPastaFromBody<E extends H3E>(event: E) {
+  return bodySchema.parse(await readBody(event));
+}
