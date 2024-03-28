@@ -1,3 +1,5 @@
+import type { UserSessionComposable } from "#auth-utils";
+
 type StringWithoutAmpersand<S extends string> = S extends `${infer T}${infer U}`
   ? T extends "&"
     ? never
@@ -22,32 +24,58 @@ async function handlePreferences<
   }
 }
 
-function usePastasWorkMode(defaultValue: "server" | "client") {
+function usePastasWorkMode(
+  defaultValue: "server" | "client",
+  userSession: UserSessionComposable,
+  isOnline: Ref<boolean>,
+) {
   const workMode = useIndexedDBKeyValue("pastas:work-mode", defaultValue, {
     onRestored(value) {
-      console.log({ isClientModeRESTORED: value === "client" });
       isClientMode.value = value === "client";
     },
   });
 
   const isClientMode = ref(defaultValue === "client");
   const isServerMode = ref(defaultValue === "server");
+  const isClient = computed({
+    get() {
+      return isClientMode.value;
+    },
+    set(value) {
+      isClientMode.value = value;
+      isServerMode.value = !value;
+      workMode.state.value = value ? "client" : "server";
+    },
+  });
+  const canHaveServerModeStatus = computed(() => {
+    if (!isOnline.value) {
+      if (userSession.loggedIn.value) {
+        return "offline";
+      }
+      return "offline&not-logged-in";
+    }
+    if (!userSession.loggedIn.value) {
+      return "not-logged-in";
+    }
+    return "ok";
+  });
+
+  const canHaveServerMode = computed(
+    () => canHaveServerModeStatus.value === "ok",
+  );
+
+  watchImmediate(canHaveServerMode, (canHaveServerMode) => {
+    if (!canHaveServerMode && !isClient.value) {
+      isClient.value = true;
+    }
+  });
 
   return {
+    canHaveServerMode,
+    canHaveServerModeStatus,
     workMode,
     isServer: readonly(isServerMode),
-    isClient: computed({
-      get() {
-        console.log({ isClientModeGET: isClientMode.value });
-        return isClientMode.value;
-      },
-      set(value) {
-        console.log({ isClientModeSET: value });
-        isClientMode.value = value;
-        isServerMode.value = !value;
-        workMode.state.value = value ? "client" : "server";
-      },
-    }),
+    isClient,
   };
 }
 
@@ -109,6 +137,9 @@ export const useUserStore = defineStore("user", () => {
   const clipboard = useClipboard();
   const toast = useNuxtToast();
   const { t } = useI18n();
+  const userSession = useUserSession();
+  const isOnline = useOnline();
+  const pastasWorkMode = usePastasWorkMode("server", userSession, isOnline);
 
   const actions = {
     pasta: {
@@ -136,7 +167,7 @@ export const useUserStore = defineStore("user", () => {
   const pastasStore = usePastasStore();
 
   return {
-    pastasWorkMode: usePastasWorkMode("server"),
+    pastasWorkMode,
     formCollapse: useFormCollapse(),
     preferences,
     user,
