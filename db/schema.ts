@@ -9,17 +9,16 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import { TAG_MAX_LENGTH } from "~/server/utils/pastas-tags";
+import {
+  defaultPastaPublicity,
+  PASTA_TEXT_LENGTH,
+  pastasPublicity,
+} from "~/server/utils/pastas";
 
-export const TAG_MAX_LENGTH = 128;
-export const MAX_TAGS_IN_PASTA = 10;
 const TWITCH_USER_ID_LENGTH = 64;
-export const PASTA_TEXT_LENGTH = 1984;
 
-export const pastaPublicityEnum = pgEnum("pasta_publicity", [
-  "public",
-  "private",
-]);
-export type PastaPublicity = (typeof pastaPublicityEnum.enumValues)[number];
+export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 
 export const pastas = pgTable(
   "pastas",
@@ -33,7 +32,7 @@ export const pastas = pgTable(
     publisherTwitchId: varchar("publisher_twitch_id", {
       length: TWITCH_USER_ID_LENGTH,
     }).notNull(),
-    publicity: pastaPublicityEnum("publicity").notNull().default("public"),
+    publicity: pastasPublicityEnum("publicity").default(defaultPastaPublicity),
   },
   ({ publisherTwitchId, publishedAt }) => ({
     publisher: index("publisher").on(publisherTwitchId),
@@ -54,7 +53,9 @@ export const pastasTags = pgTable(
   {
     pastaId: integer("pasta_id")
       .notNull()
-      .references(() => pastas.id),
+      .references(() => pastas.id, {
+        onDelete: "cascade",
+      }),
     value: varchar("tag", { length: TAG_MAX_LENGTH }).notNull(),
   },
   ({ pastaId, value }) => ({
