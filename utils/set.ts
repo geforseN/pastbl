@@ -21,12 +21,28 @@ export function setIntersection<T>(...sets: Set<T>[]) {
   return result;
 }
 
-function setIntersectionOfTwoSets<T>(firstSet: Set<T>, secondSet: Set<T>) {
-  const result = new Set<T>();
+function getMinMaxOfTwoSets<T>(firstSet: Set<T>, secondSet: Set<T>) {
   const minSet = firstSet.size < secondSet.size ? firstSet : secondSet;
   const maxSet = minSet === firstSet ? secondSet : firstSet;
+  return { minSet, maxSet };
+}
+
+function setIntersectionOfTwoSets<T>(firstSet: Set<T>, secondSet: Set<T>) {
+  const result = new Set<T>();
+  const { minSet, maxSet } = getMinMaxOfTwoSets(firstSet, secondSet);
   for (const value of minSet) {
     if (maxSet.has(value)) {
+      result.add(value);
+    }
+  }
+  return result;
+}
+
+export function setDifferenceOtTwoSets<T>(firstSet: Set<T>, secondSet: Set<T>) {
+  const result = new Set<T>();
+  const { minSet, maxSet } = getMinMaxOfTwoSets(firstSet, secondSet);
+  for (const value of minSet) {
+    if (!maxSet.has(value)) {
       result.add(value);
     }
   }
