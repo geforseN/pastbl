@@ -1,9 +1,7 @@
-import type { TwitchUser } from "./db/schema";
+import { UserTwitch } from "./server/api/auth/twitch.get";
 
 declare module "#auth-utils" {
-  interface User {
-    twitch: TwitchUser;
-  }
+  interface User extends UserTwitch {}
 
   interface UserSession {}
 }
