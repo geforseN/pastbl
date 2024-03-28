@@ -8,7 +8,7 @@ export async function patchPastaText(
   text: Pasta["text"],
 ) {
   // TODO: with transaction add old pastas in previousPastas table
-  return await db
+  const [pasta] = await db
     .update(pastas)
     .set({ text, updatedAt: sql`now()` })
     .where(
@@ -18,4 +18,6 @@ export async function patchPastaText(
       ),
     )
     .returning();
+  assert.ok(pasta, "Failed to update pasta text");
+  return pasta;
 }
