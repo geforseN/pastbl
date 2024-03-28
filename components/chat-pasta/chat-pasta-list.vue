@@ -1,40 +1,37 @@
 <template>
-  <dynamic-scroller :min-item-size="100">
-    <template #default="{ item: pasta, index, active }">
-      <dynamic-scroller-item
-        :item="pasta"
-        :active="active"
-        :size-dependencies="[pasta.text]"
-        :data-index="index"
+  <dynamic-scroller :min-item-size="100" #="{ item: pasta, index, active }">
+    <dynamic-scroller-item
+      :item="pasta"
+      :active="active"
+      :size-dependencies="[pasta.text]"
+      :data-index="index"
+    >
+      <chat-pasta
+        :key="`${pasta.id}:${pasta.text}`"
+        :pasta="pasta"
+        @populate="
+          (pastaTextContainer) => {
+            populatePasta(pastaTextContainer, pasta, emotesStore);
+          }
+        "
       >
-        <chat-pasta
-          :key="`${pasta.id}:${pasta.text}`"
-          :pasta="pasta"
-          @populate="
-            (pastaTextContainer) => {
-              populatePasta(pastaTextContainer, pasta, emotesStore);
-            }
-          "
-        >
-          <template #creatorData>
-            <chat-pasta-creator-data
-              :badges-count="userStore.user.badges.count.state"
-              :nickname="userStore.user.nickname.text.state"
-              :nickname-color="userStore.user.debounced.nickname.color"
-            />
-          </template>
-          <template #sidebar>
-            <chat-pasta-sidebar
-              dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
-              :pasta-id="pasta.id"
-              :is-clipboard-supported="userStore.clipboard.isSupported"
-              @copy="userStore.copyPasta(pasta)"
-              @delete="emit('removePasta', pasta)"
-            />
-          </template>
-        </chat-pasta>
-      </dynamic-scroller-item>
-    </template>
+        <template #creatorData>
+          <chat-pasta-creator-data
+            :badges-count="userStore.user.badges.count.state"
+            :nickname="userStore.user.nickname.text.state"
+            :nickname-color="userStore.user.debounced.nickname.color"
+          />
+        </template>
+        <template #sidebar>
+          <chat-pasta-sidebar
+            dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
+            :pasta-edit-page-path="`/pastas/edit/${pasta.id}`"
+            @copy="userStore.copyPasta(pasta)"
+            @delete="emit('removePasta', pasta)"
+          />
+        </template>
+      </chat-pasta>
+    </dynamic-scroller-item>
   </dynamic-scroller>
 </template>
 <script lang="ts">
