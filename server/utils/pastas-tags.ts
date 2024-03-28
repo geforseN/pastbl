@@ -1,6 +1,5 @@
 import assert from "node:assert";
 import { z } from "zod";
-import { H3Event, EventHandlerRequest } from "h3";
 import { megaTrim } from "~/utils/string";
 
 export const TAG_MAX_LENGTH = 128;
@@ -33,16 +32,12 @@ const pastaTagSchema = z
   .transform(megaTrim)
   .refine((tag) => !tag.includes(","));
 
-export async function getPastaTagFromBody<
-  E extends H3Event<EventHandlerRequest>,
->(event: E) {
+export async function getPastaTagFromBody<E extends H3E>(event: E) {
   const body = await readBody(event);
   return pastaTagSchema.parse(body.tag);
 }
 
-export async function getPastaTagsFromBody<
-  E extends H3Event<EventHandlerRequest>,
->(event: E) {
+export async function getPastaTagsFromBody<E extends H3E>(event: E) {
   const body = await readBody(event);
   return pastaTagsSchema.parse(body.tags);
 }
