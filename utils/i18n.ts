@@ -88,18 +88,17 @@ const russianTimeRules = {
   },
 };
 
-// FIXME: большинство окончаний неверны
-export const RUSSIAN_CONDITIONAL_MESSAGES = {
+const RUSSIAN_CONDITIONAL_MESSAGES = {
   justNow: "только что",
   past: (n) => (n.match(/\d/) ? `${n} назад` : n),
   future: (n) => (n.match(/\d/) ? `через ${n}` : n),
-  month: ruTimeOf("month"),
-  year: ruTimeOf("year"),
-  day: ruTimeOf("day"),
-  week: ruTimeOf("week"),
-  hour: ruTimeOf("hour"),
-  minute: ruTimeOf("minute"),
-  second: ruTimeOf("second"),
+  month: getRussianTimeRuleOf("month"),
+  year: getRussianTimeRuleOf("year"),
+  day: getRussianTimeRuleOf("day"),
+  week: getRussianTimeRuleOf("week"),
+  hour: getRussianTimeRuleOf("hour"),
+  minute: getRussianTimeRuleOf("minute"),
+  second: getRussianTimeRuleOf("second"),
   invalid: "",
 } satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
 
@@ -151,7 +150,7 @@ export function useI18nTimeAgo<
 }
 export const pluralRules = {
   // TODO: refactor, make fast return of 3
-  ru(choice: number, choicesLength: number, orgRule: unknown) {
+  ru(choice: number, choicesLength: number, _orgRule: unknown) {
     if (choice === 0) {
       return 0;
     }
@@ -179,8 +178,8 @@ function getRussianPluralIndex(n: number) {
   if (n === 0) {
     return 0;
   }
-  const last /* 0..9 */ = n % 10;
-  const inTeen /* is between 11 and 19 */ = n > 10 && n < 20;
+  const last /* NOTE: last is between 0 and 9 */ = n % 10;
+  const inTeen /* is n between 11 and 19 */ = n > 10 && n < 20;
   if (!inTeen) {
     if (last === 1) {
       return 1;
@@ -192,7 +191,7 @@ function getRussianPluralIndex(n: number) {
   return 3;
 }
 
-function ruTimeOf(key: keyof typeof russianTimeRules) {
+function getRussianTimeRuleOf(key: keyof typeof russianTimeRules) {
   const rule = russianTimeRules[key];
   return (n: number, isPast: boolean) => {
     assert.ok(Number.isInteger(n));
