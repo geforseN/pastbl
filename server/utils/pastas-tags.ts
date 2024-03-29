@@ -32,12 +32,12 @@ const pastaTagSchema = z
   .transform(megaTrim)
   .refine((tag) => !tag.includes(","));
 
-export async function getPastaTagFromBody<E extends H3E>(event: E) {
+export async function getPastaTagFromBody(event: H3E) {
   const body = await readBody(event);
   return pastaTagSchema.parse(body.tag);
 }
 
-export async function getPastaTagsFromBody<E extends H3E>(event: E) {
+export async function getPastaTagsFromBody(event: H3E) {
   const body = await readBody(event);
   return pastaTagsSchema.parse(body.tags);
 }

@@ -1,17 +1,12 @@
 import assert from "node:assert";
 import { z } from "zod";
-import type { H3Event, EventHandlerRequest } from "h3";
-import { isNullish } from "~/utils/guard";
-import type { Nullish } from "~/utils/types";
 import { megaTrim } from "~/utils/string";
+import { isEmptyObject, isNullish } from "~/utils/guard";
+import type { Nullish } from "~/utils/types";
 
-export const pastaIdParamSchema = z
-  .string()
-  .min(1)
-  .transform(Number)
-  .refine(Number.isInteger);
+export const pastaIdParamSchema = z.coerce.number().int().positive();
 
-export function getPastaIdParam<E extends H3E>(event: E) {
+export function getPastaIdParam(event: H3E) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
 }
 
@@ -34,9 +29,7 @@ const pastasCursorQuerySchema = z
   .object({ cursor: z.string().nullish() })
   .transform(({ cursor }) => ({ cursor: transformCursor(cursor) }));
 
-export function getPastasCursorFromQuery<
-  E extends H3Event<EventHandlerRequest>,
->(event: E) {
+export function getPastasCursorFromQuery(event: H3E) {
   return pastasCursorQuerySchema.parse(getQuery(event)).cursor;
 }
 
@@ -51,24 +44,43 @@ export const pastaTextSchema = z
 export const pastasPublicity = ["public", "private"] as const;
 export type PastaPublicity = (typeof pastasPublicity)[number];
 export const defaultPastaPublicity = "public" as const satisfies PastaPublicity;
-export const pastaPublicitySchema = z
-  .enum(pastasPublicity)
-  .default(defaultPastaPublicity);
+export const pastaPublicitySchema = z.enum(pastasPublicity);
 
-const patchPastaTextSchema = z.object({
-  text: pastaTextSchema,
-});
+const patchPastaTextSchema = z
+  .object({
+    text: pastaTextSchema,
+  })
+  .strict();
 
-export async function getPastaTextFromBody<E extends H3E>(event: E) {
+export async function getPastaTextFromBody(event: H3E) {
   return patchPastaTextSchema.parse(await readBody(event)).text;
 }
 
-const bodySchema = z.object({
+const postPastaSchema = z.object({
   text: pastaTextSchema,
   tags: pastaTagsSchema,
   publicity: pastaPublicitySchema,
 });
 
-export async function getPastaFromBody<E extends H3E>(event: E) {
-  return bodySchema.parse(await readBody(event));
+export async function getPastaFromBody(event: H3E) {
+  return postPastaSchema.parse(await readBody(event));
+}
+
+const patchPastaPublicitySchema = z
+  .object({
+    publicity: pastaPublicitySchema,
+  })
+  .strict();
+
+export async function getPastaPublicityFromBody(event: H3E) {
+  return patchPastaPublicitySchema.parse(await readBody(event)).publicity;
+}
+
+const patchPastaSchema = patchPastaTextSchema
+  .merge(patchPastaPublicitySchema)
+  .partial()
+  .refine((object) => !isEmptyObject(object));
+
+export async function getPastaPatchesFromBody(event: H3E) {
+  return patchPastaSchema.parse(await readBody(event));
 }
