@@ -14,6 +14,18 @@ export function isObject<T extends Record<string, unknown>>(
   return obj !== null && typeof obj === "object";
 }
 
+export function isEmptyObject(object: Record<string, unknown>) {
+  // eslint-disable-next-line no-unreachable-loop
+  for (const _ in object) {
+    return false;
+  }
+  return true;
+}
+
+export function isEmptyObject2(object: Record<string, unknown>) {
+  return Object.keys(object).length === 0;
+}
+
 export function isIsoDate(str: string) {
   if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) {
     return false;
