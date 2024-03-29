@@ -127,3 +127,23 @@ export async function deletePasta(
       ),
     );
 }
+
+export async function patchPasta(
+  pastaId: Pasta["id"],
+  publisherTwitchId: Pasta["publisherTwitchId"],
+  entries: Partial<Pick<Pasta, "text" | "publicity">>,
+) {
+  // TODO: with transaction add old pastas in previousPastas table
+  const [pasta] = await db
+    .update(pastas)
+    .set({ ...entries, updatedAt: sql`now()` })
+    .where(
+      and(
+        eq(pastas.publisherTwitchId, publisherTwitchId),
+        eq(pastas.id, pastaId),
+      ),
+    )
+    .returning();
+  assert.ok(pasta, "Failed to patch pasta");
+  return pasta;
+}
