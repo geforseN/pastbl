@@ -4,7 +4,7 @@ import { megaTrim } from "~/utils/string";
 import { isEmptyObject, isNullish } from "~/utils/guard";
 import type { Nullish } from "~/utils/types";
 
-export const pastaIdParamSchema = z.coerce.number().int().positive();
+export const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
 export function getPastaIdParam(event: H3E) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
