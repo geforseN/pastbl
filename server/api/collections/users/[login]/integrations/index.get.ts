@@ -1,0 +1,8 @@
+import { getTwitchUser } from "~/server/api/twitch/users/[login].get";
+
+export default defineEventHandler(async (event) => {
+  const login = getTwitchLoginRouteParam(event);
+  const sources = getEmoteSourcesFromQuery(event);
+  const account = await getTwitchUser(login);
+  return await getUserEmoteIntegrations(sources, account);
+});

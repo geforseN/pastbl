@@ -1,14 +1,10 @@
-import { z } from "zod";
-import { sum } from "~/utils/array";
 import { flatGroupBy } from "~/utils/object";
 import {
   type EmoteSource,
-  emoteSources,
   createFFZGlobalCollection,
   create7TVGlobalCollection,
   BetterTTV,
   IGlobalEmoteCollectionRecord,
-  isValidEmoteSource,
 } from "~/integrations";
 import { BetterTTVApi } from "~/integrations/BetterTTV/api";
 import { getFFZGlobalEmoteSets } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
@@ -17,6 +13,7 @@ import {
   type ITwitchGlobalEmoteResponse,
   makeTwitchGlobalCollection,
 } from "~/integrations/Twitch";
+import { getEmoteSourcesFromQuery } from "~/server/utils/emote-source";
 
 export const getCachedGlobalCollection = defineCachedFunction(
   async (source: EmoteSource) => await getGlobalCollection(source),
@@ -28,29 +25,9 @@ export const getCachedGlobalCollection = defineCachedFunction(
   },
 );
 
-const querySchema = z.object({
-  sources: z
-    .string()
-    .max(sum([...emoteSources], (source) => source.length, emoteSources.length))
-    .optional()
-    .transform((sources) => {
-      if (!sources) {
-        return emoteSources;
-      }
-      const validSources: Readonly<EmoteSource[]> = [
-        ...new Set(sources.split("+")),
-      ].filter(isValidEmoteSource);
-      if (!validSources.length) {
-        return emoteSources;
-      }
-      return validSources;
-    }),
-});
-
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event);
-  // handleCacheHeaders(event, {});
-  const { sources } = querySchema.parse(query);
+  // TODO: handleCacheHeaders(event, {});
+  const sources = getEmoteSourcesFromQuery(event);
   const collections = await Promise.all(
     sources.map((source) => getCachedGlobalCollection(source)),
   );

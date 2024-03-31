@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 const querySchema = z.object({
   emote_set_id: z.string(),
 });
