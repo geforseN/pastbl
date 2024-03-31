@@ -45,3 +45,7 @@ export function getValidIndex<T>(
   assert.ok(index >= 0, messageOrError);
   return index;
 }
+
+export function uniqueValues<T>(array: T[]) {
+  return [...new Set(array)];
+}
