@@ -2,16 +2,18 @@ import { z } from "zod";
 import { assert } from "~/utils/error";
 import { toLowerCase } from "~/utils/string";
 
-const paramSchema = z.string().transform(toLowerCase);
-
-export default cachedEventHandler(
-  async (event) => {
-    const login = paramSchema.parse(getRouterParam(event, "login"));
+export const getTwitchUser = defineCachedFunction(
+  async (login: Lowercase<string>) => {
     const apiUser = await fetchUser(login);
     return makeTwitchUser(apiUser);
   },
   { maxAge: 60 * 15 },
 );
+
+export default defineEventHandler(async (event) => {
+  const login = getTwitchLoginRouteParam(event);
+  return await getTwitchUser(login);
+});
 
 type ApiTwitchGetUsersResponse = {
   data: {
@@ -31,21 +33,27 @@ type ApiTwitchGetUsersResponse = {
 
 const twitchUserSchema = z.object({
   id: z.number(),
-  login: z.string().transform(toLowerCase),
+  login: z
+    .string()
+    .refine(
+      (login): login is Lowercase<string> => login === toLowerCase(login),
+    ),
   nickname: z.string(),
   description: z.string(),
   avatarUrl: z.string(),
   createdAt: z.string(),
 });
 
-function makeTwitchUser(dataItem: ApiTwitchGetUsersResponse["data"][number]) {
+function makeTwitchUser(
+  apiTwitchUser: ApiTwitchGetUsersResponse["data"][number],
+) {
   return twitchUserSchema.parse({
-    id: Number(dataItem.id),
-    login: toLowerCase(dataItem.login),
-    nickname: dataItem.display_name,
-    description: dataItem.description,
-    avatarUrl: dataItem.profile_image_url,
-    createdAt: dataItem.created_at,
+    id: Number(apiTwitchUser.id),
+    login: apiTwitchUser.login,
+    nickname: apiTwitchUser.display_name,
+    description: apiTwitchUser.description,
+    avatarUrl: apiTwitchUser.profile_image_url,
+    createdAt: apiTwitchUser.created_at,
   });
 }
 
