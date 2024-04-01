@@ -8,21 +8,26 @@ import { getUserTwitchIntegration } from "~/server/api/collections/users/[login]
 import { toLowerCase } from "~/utils/string";
 import { flatGroupBy } from "~/utils/object";
 import { uniqueValues } from "~/utils/array";
-import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
 
 const TWITCH_LOGIN_MIN_LENGTH = 3;
-const TWITCH_LOGIN_MAX_LENGTH = 32;
+const TWITCH_LOGIN_MAX_LENGTH = 25;
 
-// FIXME: refine no spaces, \n, \t, etc.
 const loginParamSchema = z
   .string()
-  .trim()
   .min(TWITCH_LOGIN_MIN_LENGTH)
   .max(TWITCH_LOGIN_MAX_LENGTH)
-  .transform(toLowerCase);
+  .transform((str) => toLowerCase(str.replace(/\s+/g, "")));
 
 export function getTwitchLoginRouteParam(event: H3E) {
   return loginParamSchema.parse(getRouterParam(event, "login"));
+}
+
+const loginQuerySchema = z.object({
+  login: loginParamSchema,
+});
+
+export function getTwitchLoginFromQuery(event: H3E) {
+  return loginQuerySchema.parse(getQuery(event)).login;
 }
 
 const TWITCH_LOGINS_MAX_QUERY_STRING_COUNT =
@@ -123,3 +128,9 @@ export async function getUsersEmoteCollections(logins: Lowercase<string>[]) {
   );
   return grouped;
 }
+
+const querySchema = z.object({
+  login: z.string(),
+});
+const { nickname } = querySchema.parse(getQuery(event));
+const login = toLowerCase(nickname);

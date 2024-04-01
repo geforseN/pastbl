@@ -13,6 +13,7 @@ const EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH = sources_.reduce(
   (min, source) => Math.min(min, source.length),
   0,
 );
+
 export const emoteSourcesQueryStringSchema = z
   .string()
   .min(EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH)
