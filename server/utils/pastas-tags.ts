@@ -5,11 +5,19 @@ import { megaTrim } from "~/utils/string";
 export const TAG_MAX_LENGTH = 128;
 export const MAX_TAGS_IN_PASTA = 10;
 
+const pastaTagSchema = z
+  .string()
+  .min(1)
+  .max(TAG_MAX_LENGTH)
+  .refine((tag) => !tag.includes(","))
+  .transform(megaTrim)
+  .transform((tag) => (tag.startsWith("@") ? tag.toLowerCase() : tag));
+
 export const pastaTagsSchema = z
   .string()
   .min(1)
   .max(TAG_MAX_LENGTH * MAX_TAGS_IN_PASTA + MAX_TAGS_IN_PASTA - 1)
-  .or(z.array(z.string()).min(1).max(MAX_TAGS_IN_PASTA))
+  .or(z.array(pastaTagSchema).min(1).max(MAX_TAGS_IN_PASTA))
   .transform((value) => {
     if (typeof value === "string") {
       value = value.split(",");
@@ -24,13 +32,6 @@ export const pastaTagsSchema = z
       tags.length <= MAX_TAGS_IN_PASTA &&
       tags.every((tag) => tag.length && tag.length <= TAG_MAX_LENGTH),
   );
-
-const pastaTagSchema = z
-  .string()
-  .min(1)
-  .max(TAG_MAX_LENGTH)
-  .transform(megaTrim)
-  .refine((tag) => !tag.includes(","));
 
 export async function getPastaTagFromBody(event: H3E) {
   const body = await readBody(event);
