@@ -1,23 +1,5 @@
 import { groupBy } from "~/utils/object";
 
-type ApiTwitchGetSearchChannelsResponse = {
-  data: {
-    broadcaster_language: string;
-    broadcaster_login: string;
-    display_name: string;
-    game_id: string;
-    game_name: string;
-    id: string;
-    is_live: boolean;
-    /** @deprecated, now it's always an empty array, use tags instead */
-    tag_ids: string[];
-    tags: string[];
-    thumbnail_url: string;
-    title: string;
-    started_at: string;
-  }[];
-};
-
 export type Channel = {
   id: string;
   login: string;
@@ -38,15 +20,6 @@ export type Channel = {
       startedAt: "";
     }
 );
-
-function fetchChannels(query: string) {
-  return twitchApi.fetch<ApiTwitchGetSearchChannelsResponse>(
-    "/search/channels",
-    {
-      query: { query, first: 8 },
-    },
-  );
-}
 
 function makeChannel(
   apiChannel: ApiTwitchGetSearchChannelsResponse["data"][number],

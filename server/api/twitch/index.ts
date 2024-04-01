@@ -10,6 +10,7 @@
 //   GET https://api.twitch.tv/helix/chat/emotes/global
 //   GET https://api.twitch.tv/helix/chat/emotes/set
 
+// TODO: use =>
 // GET https://api.twitch.tv/helix/chat/badges/global
 // GET https://api.twitch.tv/helix/chat/badges
 
