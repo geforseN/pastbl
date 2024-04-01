@@ -2,10 +2,6 @@ import { getUserBetterTTVIntegration } from "./BetterTTV.get";
 import { getUserFrankerFaceZIntegration } from "./FrankerFaceZ.get";
 import { getUserSevenTVIntegration } from "./SevenTV.get";
 import { getUserTwitchIntegration } from "./Twitch.get";
-import {
-  getTwitchUser,
-  TwitchUser,
-} from "~/server/api/twitch/users/[login].get";
 
 export async function getUserEmoteIntegrations(user: TwitchUser) {
   const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all([
