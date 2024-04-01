@@ -5,8 +5,7 @@ import type {
   InternalUserEmoteIntegration,
   IEmoteCollectionOwner,
 } from "~/integrations";
-import type { ApiTwitchGetChatEmotesResponse } from "~/server/api/twitch/chat/emotes/index.get";
-import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
+import type { TwitchApi } from "~/server/utils/twitch/twitch-api.types";
 
 type TwitchApiGlobalEmote = {
   // MOTE: 'static' is always included (for now), animated is optional
@@ -86,20 +85,8 @@ const userEmoteProto = {
   isListed: true,
 } as const satisfies Partial<ITwitchEmote>;
 
-function createUserEmote2(
-  apiEmote: ApiTwitchGetChatEmotesResponse["data"][number],
-  url: string,
-): ITwitchEmote {
-  return Object.create(userEmoteProto, {
-    id: { value: apiEmote.id },
-    token: { value: apiEmote.name },
-    url: { value: url },
-    isAnimated: { value: apiEmote.format === "animated" },
-  });
-}
-
 export function createUserEmote(
-  apiEmote: ApiTwitchGetChatEmotesResponse["data"][number],
+  apiEmote: TwitchApi["getChatEmotes"]["responseItem"],
   url: string,
 ): ITwitchEmote {
   return {
@@ -110,24 +97,6 @@ export function createUserEmote(
     token: apiEmote.name,
     isAnimated: apiEmote.format.includes("animated"),
   };
-}
-
-function getTwitchUserEmoteSet(
-  response: ApiTwitchGetChatEmotesResponse,
-): ITwitchEmoteSet {
-  return {
-    id: "twitch:global",
-    name: `Channel emotes`,
-    source: "Twitch",
-    updatedAt: Date.now(),
-    emotes: response.data.map((emote) => new TwitchEmote(emote, "channel")),
-  };
-}
-
-export function getTwitchUserIntegration(
-  apiChatEmotes: ApiTwitchGetChatEmotesResponse,
-) {
-  return apiChatEmotes;
 }
 
 export function makeTwitchGlobalCollection(
@@ -173,4 +142,70 @@ export function createUserIntegration(
     },
     updatedAt: Date.now(),
   };
+}
+
+const twitchTypeRecord = {
+  bitstier: "Bits emotes",
+  follower: "Follower emotes",
+  subscriptions: "Subscriber emotes",
+} as const;
+
+function makeTwitchKey(
+  emoteType: "bitstier" | "follower" | "subscriptions",
+  emoteTier: string,
+  emoteSetId: string,
+) {
+  const type = twitchTypeRecord[emoteType];
+  if (type !== "Subscriber emotes") {
+    return type + ":" + emoteSetId;
+  }
+  const tier = Number(emoteTier) / 1000;
+  assert.ok(!Number.isNaN(tier));
+  return `${type} - tier ${tier}` + ":" + emoteSetId;
+}
+
+export function makeUserTwitchIntegration(
+  apiEmotes: TwitchApi["getChatEmotes"]["responseItem"][],
+  user: TwitchUser,
+) {
+  const groupedEmotes = groupBy(
+    apiEmotes,
+    (emote) => makeTwitchKey(emote.emote_type, emote.tier, emote.emote_set_id),
+    (emote): ITwitchEmote => {
+      const url = emote.format.includes("animated")
+        ? emote.images.url_1x.replace("/static/", "/animated/")
+        : emote.images.url_1x;
+      return createUserEmote(emote, url);
+    },
+  );
+  const sets: ITwitchUserIntegration["sets"] = objectEntries(groupedEmotes).map(
+    ([key, emotes]) => {
+      assert.ok(typeof key === "string");
+      const [name, id] = key.split(":");
+      return {
+        id,
+        name,
+        source: "Twitch",
+        updatedAt: Date.now(),
+        emotes,
+      };
+    },
+  );
+  const reducedSetsRecord = sets.reduce(
+    (acc, set) => {
+      if (!Object.hasOwn(acc, set.name)) {
+        acc[set.name] = set;
+        return acc;
+      }
+      const existing = acc[set.name];
+      existing.updatedAt = Math.max(existing.updatedAt, set.updatedAt);
+      existing.emotes.push(...set.emotes);
+      existing.id += `+${set.id}`;
+      return acc;
+    },
+    {} as Record<string, ITwitchUserIntegration["sets"][number]>,
+  );
+  const reducedSets = Object.values(reducedSetsRecord);
+  const integration = createUserIntegration(user, reducedSets);
+  return integration;
 }
