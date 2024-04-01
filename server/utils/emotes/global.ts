@@ -1,8 +1,4 @@
 import { EmoteSource } from "~/integrations";
-import { getBetterTTVGlobalCollection } from "~/server/api/collections/global/BetterTTV.get";
-import { getFrankerFaceZGlobalCollection } from "~/server/api/collections/global/FrankerFaceZ.get";
-import { getSevenTVGlobalCollection } from "~/server/api/collections/global/SevenTv.get";
-import { getTwitchGlobalCollection } from "~/server/api/collections/global/Twitch.get";
 import { flatGroupBy } from "~/utils/object";
 
 const globalEmoteCollectionsGetters = {
