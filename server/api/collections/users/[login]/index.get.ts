@@ -1,4 +1,3 @@
-import { getTwitchUser } from "~/server/api/twitch/users/[login].get";
 import { getUserEmoteIntegrations } from "~/server/api/collections/users/[login]/integrations/all.get";
 
 export async function getUserEmoteCollection(login: Lowercase<string>) {
@@ -7,6 +6,7 @@ export async function getUserEmoteCollection(login: Lowercase<string>) {
   return {
     user: {
       twitch: account,
+      twitchAccount: account,
     },
     twitchAccount: account,
     integrations,

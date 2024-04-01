@@ -4,10 +4,6 @@ import {
   createFFZUserSets,
 } from "~/integrations/FrankerFaceZ";
 import { FrankerFaceZApi } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
-import {
-  getTwitchUser,
-  TwitchUser,
-} from "~/server/api/twitch/users/[login].get";
 
 export const getUserFrankerFaceZIntegration = makeUserIntegrationGetter(
   "FrankerFaceZ",
@@ -26,8 +22,8 @@ export const getUserFrankerFaceZIntegration = makeUserIntegrationGetter(
 export default defineEventHandler(async (event) => {
   const login = getTwitchLoginRouteParam(event);
   const user = await getTwitchUser(login);
-  const twitchIntegration = await getUserFrankerFaceZIntegration(user);
+  const integration = await getUserFrankerFaceZIntegration(user);
   return {
-    FrankerFaceZ: twitchIntegration,
+    FrankerFaceZ: integration,
   };
 });

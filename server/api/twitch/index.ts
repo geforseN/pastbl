@@ -14,4 +14,5 @@
 // GET https://api.twitch.tv/helix/chat/badges
 
 // GET https://api.twitch.tv/helix/chat/settings
+// TODO: use =>
 // GET https://api.twitch.tv/helix/chat/color

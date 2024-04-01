@@ -5,19 +5,14 @@ import {
   type ITwitchEmote,
   type ITwitchUserIntegration,
 } from "~/integrations/Twitch";
-import {
-  getTwitchUser,
-  type TwitchUser,
-} from "~/server/api/twitch/users/[login].get";
 import { groupBy, objectEntries } from "~/utils/object";
 
 export default defineEventHandler(async (event) => {
   const login = getTwitchLoginRouteParam(event);
   const user = await getTwitchUser(login);
-  const twitchIntegration = await getUserTwitchIntegration(user);
+  const integration = await getUserTwitchIntegration(user);
   return {
-    Twitch: twitchIntegration,
-    user,
+    Twitch: integration,
   };
 });
 
@@ -49,11 +44,7 @@ export const getUserTwitchIntegration = makeUserIntegrationGetter(
 );
 
 export async function _getUserTwitchIntegration(user: TwitchUser) {
-  const emotesResponse = await $fetch("/api/twitch/chat/emotes", {
-    query: {
-      broadcaster_id: user.id,
-    },
-  });
+  const emotesResponse = await fetchChatEmotes(user.id);
   const { data: emotesData } = emotesResponse;
   const groupedEmotes = groupBy(
     emotesData,

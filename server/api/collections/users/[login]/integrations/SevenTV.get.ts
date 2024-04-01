@@ -1,8 +1,4 @@
 import { SevenTV } from "~/integrations/SevenTV";
-import {
-  getTwitchUser,
-  TwitchUser,
-} from "~/server/api/twitch/users/[login].get";
 
 export const getUserSevenTVIntegration = makeUserIntegrationGetter(
   "SevenTV",
@@ -14,8 +10,8 @@ export const getUserSevenTVIntegration = makeUserIntegrationGetter(
 export default defineEventHandler(async (event) => {
   const login = getTwitchLoginRouteParam(event);
   const user = await getTwitchUser(login);
-  const twitchIntegration = await getUserSevenTVIntegration(user);
+  const integration = await getUserSevenTVIntegration(user);
   return {
-    SevenTV: twitchIntegration,
+    SevenTV: integration,
   };
 });

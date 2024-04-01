@@ -1,8 +1,4 @@
 import { BetterTTV } from "~/integrations/BetterTTV";
-import {
-  getTwitchUser,
-  TwitchUser,
-} from "~/server/api/twitch/users/[login].get";
 
 export const getUserBetterTTVIntegration = makeUserIntegrationGetter(
   "BetterTTV",
@@ -14,8 +10,8 @@ export const getUserBetterTTVIntegration = makeUserIntegrationGetter(
 export default defineEventHandler(async (event) => {
   const login = getTwitchLoginRouteParam(event);
   const user = await getTwitchUser(login);
-  const twitchIntegration = await getUserBetterTTVIntegration(user);
+  const integration = await getUserBetterTTVIntegration(user);
   return {
-    BetterTTV: twitchIntegration,
+    BetterTTV: integration,
   };
 });
