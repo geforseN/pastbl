@@ -19,7 +19,6 @@ import {
   type ITwitchUserIntegration,
   type ITwitchEmote,
 } from "./Twitch";
-import type { TwitchUser } from "~/server/api/twitch/users/[login].get";
 
 export const availableEmoteSources = [
   "FrankerFaceZ",
