@@ -21,7 +21,7 @@ export type TwitchToken = z.infer<typeof twitchTokenSchema>;
 export function revokeTwitchToken(token: TwitchToken) {
   return $fetch("/oauth2/revoke", {
     ...twitchTokenBaseOptions,
-    body: `client_id=${env.twitchClientId}&token=${token.access_token}`,
+    body: `client_id=${env.TWITCH_APP_CLIENT_ID}&token=${token.access_token}`,
   });
 }
 
@@ -41,7 +41,7 @@ export function removeTwitchTokenFromStorage() {
 
 const getTwitchTokenOptions = {
   ...twitchTokenBaseOptions,
-  body: `client_id=${env.twitchClientId}&client_secret=${env.twitchClientSecret}&grant_type=client_credentials`,
+  body: `client_id=${env.TWITCH_APP_CLIENT_ID}&client_secret=${env.TWITCH_APP_CLIENT_SECRET}&grant_type=client_credentials`,
 };
 
 export async function fetchTwitchToken() {

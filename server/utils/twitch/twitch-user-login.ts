@@ -26,7 +26,7 @@ export function getTwitchLoginFromQuery(event: H3E) {
 }
 
 const TWITCH_LOGINS_MAX_QUERY_STRING_COUNT =
-  env.twitchLoginsMaxQueryStringCount;
+  env.TWITCH_LOGINS_MAX_QUERY_STRING_COUNT;
 
 const TWITCH_LOGINS_QUERY_STRING_PLUS_SIGN_COUNT =
   TWITCH_LOGINS_MAX_QUERY_STRING_COUNT - 1;
