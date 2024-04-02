@@ -7,7 +7,7 @@
         v-model="pastaTextModel"
         :model-status="pastaStatus"
         class="mx-0.5"
-        @enter-pressed="emit('createPasta')"
+        @enter-pressed="mainEmit"
       />
       <!-- NOTE: after xl: template is horrible -->
       <pasta-form-is-public
@@ -21,13 +21,7 @@
         <button
           ref="createPastaButton"
           class="btn btn-primary h-max text-lg focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
-          @click="
-            emit(
-              userStore.pastasWorkMode.isClient
-                ? 'createPasta'
-                : 'publishPasta',
-            )
-          "
+          @click="mainEmit"
         >
           {{
             $t(
@@ -116,6 +110,11 @@ const emit = defineEmits<{
   createPasta: [];
   publishPasta: [];
 }>();
+
+const mainEmit = () =>
+  userStore.pastasWorkMode.isClient
+    ? emit("createPasta")
+    : emit("publishPasta");
 
 const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
 
