@@ -65,11 +65,8 @@ export function makeRawPasta(pasta: IDBMegaPasta): IDBMegaPasta {
   };
 }
 
-export const pastaTextLength = {
-  max: 1984,
-  min: 1,
-} as const;
-
+export const getPastaLengthStatus = makeLengthStatus(pastaTextLength);
+// FIXME: rename 'statusOptions"
 export const statusOptions = {
   ...pastaTextLength,
   warning: 500,
@@ -153,18 +150,7 @@ export const usePasta = (params: UsePastaStateParam = {}) => {
   };
 };
 
-export const pastaTagLength = {
-  min: 1,
-  max: 80,
-} as const;
-
-export const maxTagsInPasta = 15;
-
-const pastaTagsCount = { max: maxTagsInPasta } as const;
-
-export function getTagStatus(tag: string) {
-  return getLengthStatus(tag.length, pastaTagLength);
-}
+export const getTagLengthStatus = makeLengthStatus(pastaTagLength);
 
 function usePastaTags(tags: Ref<string[]>) {
   const { t } = useI18n();
@@ -187,11 +173,11 @@ function usePastaTags(tags: Ref<string[]>) {
       const m = "toast.addTag.fail.";
       const title = t(`${m}title`);
       assert.ok(
-        tags.value.length < maxTagsInPasta,
+        tags.value.length < pastaTagsCount.max,
         new ExtendedError(t(`${m}tooManyTags`, pastaTagsCount), { title }),
       );
       const trimmed = megaTrim(tag);
-      const status = getTagStatus(trimmed);
+      const status = getTagLengthStatus(trimmed);
       assert.ok(
         status === "ok",
         new ExtendedError(t(`${m}${status}Message`, pastaTagLength), { title }),
