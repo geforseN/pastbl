@@ -89,7 +89,7 @@ export function getTextStatus(text: MaybeRef<string>) {
 }
 
 export function makeValidTokens(text: string) {
-  return [...new Set(text.split(" "))].filter(isValidToken);
+  return uniqueValues(text.split(" ")).filter(isValidToken);
 }
 
 export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {

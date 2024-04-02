@@ -17,7 +17,7 @@ export function useFindPastasTags(
   );
 
   const allPastasTags = computed(() => {
-    const unique = [...new Set(allPastas.value.flatMap((pasta) => pasta.tags))];
+    const unique = uniqueValues(allPastas.value.flatMap((pasta) => pasta.tags));
     return withLogSync(
       unique.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1)),
       "allPastasTags",
@@ -39,16 +39,16 @@ export function useFindPastasTags(
     a.toLowerCase() > b.toLowerCase() ? 1 : -1;
 
   const showedPastasTags = computed(() => {
-    const unique = [
-      ...new Set(showedPastas.value.flatMap((pasta) => pasta.tags)),
-    ];
+    const unique = uniqueValues(
+      showedPastas.value.flatMap((pasta) => pasta.tags),
+    );
     return withLogSync(unique.sort(_mySorter), "showedPastasTags");
   });
 
   const tagsOfPastasWithTextOccurrence = computed(() => {
     const tags = pastasWithTextOccurrence.value.flatMap((pasta) => pasta.tags);
     return withLogSync(
-      [...new Set(tags)].sort(_mySorter),
+      uniqueValues(tags).sort(_mySorter),
       "tagsOfPastasWithTextOccurrence",
     );
   });
