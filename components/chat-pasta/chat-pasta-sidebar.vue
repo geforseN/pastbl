@@ -4,7 +4,7 @@
   >
     <button
       class="btn btn-square btn-accent btn-md border-2 border-accent-content text-xs"
-      :disabled="!props.isClipboardSupported"
+      :disabled="!$clipboard.isSupported"
       @click="emit('copy')"
     >
       {{ $t(d + "copy") }}
@@ -24,7 +24,7 @@
         <li>
           <button
             class="btn btn-accent h-max gap-y-0.5"
-            :disabled="!props.isClipboardSupported"
+            :disabled="!$clipboard.isSupported"
             @click="emit('copy')"
           >
             {{ $t(d + "copy") }}
@@ -58,7 +58,6 @@ const d = "pasta.dropdown.buttons." as const;
 
 const props = defineProps<{
   pastaId: number;
-  isClipboardSupported: boolean;
   dropdownClass: string;
 }>();
 

@@ -2,7 +2,7 @@
   <div>
     <client-only>
       <div
-        v-if="!userStore.clipboard.isSupported"
+        v-if="!$clipboard.isSupported"
         class="alert alert-warning flex flex-col justify-center gap-1 p-3"
       >
         <h3 class="font-bold">{{ $t(l + "clipboardFail.heading") }}</h3>
@@ -85,7 +85,6 @@ defineSlots<{
 }>();
 
 const pastasStore = usePastasStore();
-const userStore = useUserStore();
 const userCollectionsStore = useUserCollectionsStore();
 
 const selectedCollection = computed(

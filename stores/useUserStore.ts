@@ -171,7 +171,6 @@ export const useUserStore = defineStore("user", () => {
     formCollapse: useFormCollapse(),
     preferences,
     user,
-    clipboard,
     async copyPasta(pasta: IDBMegaPasta) {
       await this.copyText(pasta.text);
       await pastasStore.patchPatchLastCopied(pasta);
