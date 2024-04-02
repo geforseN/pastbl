@@ -9,10 +9,10 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { TAG_MAX_LENGTH } from "~/server/utils/pastas-tags";
+import { PASTA_TAG_MAX_LENGTH } from "~/server/utils/pastas-tags";
 import {
   defaultPastaPublicity,
-  PASTA_TEXT_LENGTH,
+  PASTA_TEXT_MAX_LENGTH,
   pastasPublicity,
 } from "~/server/utils/pastas";
 
@@ -22,7 +22,7 @@ export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 
 const pastasColumns = {
   id: serial("id").primaryKey(),
-  text: varchar("text", { length: PASTA_TEXT_LENGTH }).notNull(),
+  text: varchar("text", { length: PASTA_TEXT_MAX_LENGTH }).notNull(),
   publishedAt: timestamp("published_at", { mode: "string" })
     .notNull()
     .defaultNow(),
@@ -58,7 +58,7 @@ const pastasTagsColumns = {
     .references(() => pastas.id, {
       onDelete: "cascade",
     }),
-  value: varchar("tag", { length: TAG_MAX_LENGTH }).notNull(),
+  value: varchar("tag", { length: PASTA_TAG_MAX_LENGTH }).notNull(),
 } as const;
 
 export const pastasTags = pgTable(

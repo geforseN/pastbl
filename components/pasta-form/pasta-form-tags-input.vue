@@ -46,6 +46,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { pastaTagLength } from "~/server/utils/pastas-tags";
+
 const modelValue = defineModel<string>({ required: true });
 
 const isTagTooLong = computed(

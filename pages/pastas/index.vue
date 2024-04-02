@@ -100,8 +100,8 @@ function makeMegaPastas(pastas: AnyPasta[]) {
     }
     const tags = (pasta.tags ?? [])
       .map(megaTrim)
-      .filter((tag) => getTagStatus(tag) === "ok")
-      .slice(0, maxTagsInPasta);
+      .filter((tag) => getTagLengthStatus(tag) === "ok")
+      .slice(0, pastaTagsCount.max);
     const megaPasta = createMegaPasta(text, tags);
     pastas.push(megaPasta);
     return pastas;

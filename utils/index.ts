@@ -1,17 +1,18 @@
-export function getLengthStatus(
-  length: number,
-  options: { min: number; max: number },
-) {
-  if (!length) {
-    return "empty";
-  }
-  if (length < options.min) {
-    return "tooShort";
-  }
-  if (length > options.max) {
-    return "tooLong";
-  }
-  return "ok";
+export function makeLengthStatus({ min, max }: { min: number; max: number }) {
+  return (lengthLike: number | { length: number }) => {
+    const length =
+      typeof lengthLike === "number" ? lengthLike : lengthLike.length;
+    if (!length) {
+      return "empty";
+    }
+    if (length < min) {
+      return "tooShort";
+    }
+    if (length > max) {
+      return "tooLong";
+    }
+    return "ok";
+  };
 }
 
 export function writableComputedForKey<
