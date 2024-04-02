@@ -46,13 +46,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
-
 const cs = "collections.users.fetch.channels-search." as const;
 
 const props = defineProps<{
   mustShow: boolean;
-  channels: ExtraChannel[];
+  channels: Channel[];
 }>();
 const emit = defineEmits<{
   load: [nickname: string];
