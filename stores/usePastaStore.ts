@@ -1,11 +1,21 @@
-const API = {
+export const PASTAS_API = {
   postPasta(text: string, tags: string[], isPublic: boolean) {
     return $fetch("/api/pastas", {
       method: "POST",
       body: {
         text,
         tags,
-        isPublic,
+        publicity: isPublic ? "public" : "private",
+      },
+    });
+  },
+  deletePasta(pastaId: number) {
+    return $fetch(`/api/pastas/${pastaId}`, { method: "DELETE" });
+  },
+  getPastas(cursor: string | null) {
+    return $fetch("/api/pastas", {
+      query: {
+        cursor,
       },
     });
   },
@@ -17,7 +27,7 @@ function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
   return {
     isPublicPasta,
     postPasta() {
-      return API.postPasta(
+      return PASTAS_API.postPasta(
         pasta.text.value,
         pasta.tags.value,
         isPublicPasta.state.value,
