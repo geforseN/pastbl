@@ -1,4 +1,4 @@
-import { makeUserIntegrationGetter } from "./integrations";
+import { makeUserIntegrationGetter } from "./integrations-handler-make";
 import { SevenTV, create7TVGlobalCollection } from "~/integrations/SevenTV";
 import { get7TVGlobalEmotesSet } from "~/integrations/SevenTV/SevenTV.api";
 
