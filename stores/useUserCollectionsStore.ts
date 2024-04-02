@@ -67,7 +67,7 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
   });
 
   watch(selectedLogin, async (login) => {
-    assert.ok(login === toLowerCase(login));
+    assert.ok(isLowercase(login));
     await asyncState.execute(0, login);
   });
 

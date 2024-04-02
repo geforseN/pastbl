@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { TwitchApi } from "./twitch-api.types";
-import { toLowerCase } from "~/utils/string";
+import { isLowercase } from "~/utils/string";
 
 export type TwitchUser = ReturnType<typeof makeTwitchUser>;
 
@@ -8,7 +8,7 @@ const twitchUserSchema = z.object({
   id: z.string().refine((id): id is TwitchUserId => !Number.isNaN(Number(id))),
   login: z
     .string()
-    .refine((login): login is TwitchUserLogin => login === toLowerCase(login)),
+    .refine((login): login is TwitchUserLogin => isLowercase(login)),
   nickname: z.string(),
   description: z.string(),
   avatarUrl: z.string(),
