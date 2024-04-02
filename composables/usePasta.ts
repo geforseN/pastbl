@@ -40,7 +40,7 @@ export function refreshPasta(
     text,
     length: pasta_.length,
     tags: [...toRaw(pasta_.tags)],
-    validTokens: makeValidTokens(text),
+    validTokens: makeValidTokensFromPastaText(text),
     updatedAt: Date.now(),
   };
   return pasta;
@@ -88,7 +88,7 @@ export function getTextStatus(text: MaybeRef<string>) {
   return "success";
 }
 
-export function makeValidTokens(text: string) {
+export function makeValidTokensFromPastaText(text: string) {
   return uniqueValues(text.split(" ")).filter(isValidToken);
 }
 
@@ -100,7 +100,7 @@ export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {
     createdAt: Date.now(),
     updatedAt: undefined,
     lastCopiedAt: undefined,
-    validTokens: makeValidTokens(text),
+    validTokens: makeValidTokensFromPastaText(text),
   };
 }
 
@@ -330,7 +330,7 @@ class _PastaText {
     return new _PastaText({
       text: str,
       length: str.length,
-      validTokens: makeValidTokens(str),
+      validTokens: makeValidTokensFromPastaText(str),
     });
   }
 }
