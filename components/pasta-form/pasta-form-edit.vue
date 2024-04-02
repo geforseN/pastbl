@@ -12,10 +12,7 @@
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
-        <span
-          v-if="props.isPastaSame"
-          class="badge badge-error badge-lg font-bold"
-        >
+        <span v-if="isPastaSame" class="badge badge-error badge-lg font-bold">
           {{ $t("pasta.makeChangesIn") }}
         </span>
         <div class="flex gap-4">
@@ -23,7 +20,7 @@
             {{ $t("decline") }}
           </button>
           <button
-            :disabled="props.isPastaSame"
+            :disabled="isPastaSame"
             class="btn btn-success grow"
             @click="emit('accept')"
           >
@@ -33,7 +30,7 @@
         <div
           class="flex h-full w-fit flex-col items-center justify-between gap-0.5"
         >
-          <pasta-form-pasta-length :pasta-text="props.trimmedText" />
+          <pasta-form-pasta-length :pasta-text="trimmedText" />
           <button
             v-if="tags.length"
             class="btn btn-error btn-sm"
@@ -65,7 +62,7 @@ const text = defineModel<string>("text", { required: true });
 const tag = defineModel<string>("tag", { required: true });
 const tags = defineModel<string[]>("tags", { required: true });
 
-const props = defineProps<{
+defineProps<{
   trimmedText: string;
   isPastaSame: boolean;
 }>();
