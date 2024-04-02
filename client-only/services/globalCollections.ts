@@ -66,16 +66,11 @@ const IDB = {
 };
 
 const API = {
-  async get<S extends EmoteSource>(
+  get<S extends EmoteSource>(
     source: S,
   ): Promise<IGlobalEmoteCollectionRecord[S]> {
-    assert.ok(!source.includes("+"));
-    const newCollectionRecord = await $fetch("/api/collections/global", {
-      query: { sources: source },
-    });
-    const newCollection = newCollectionRecord[source];
-    assert.ok(newCollection, `Failed to load ${source} global collection`);
-    return newCollection;
+    assert.ok(isValidEmoteSource(source));
+    return $fetch(`/api/collections/global/${source}`);
   },
   getMany(sources: EmoteSource[]) {
     assert.ok(sources.every(isValidEmoteSource));
@@ -84,8 +79,6 @@ const API = {
     });
   },
   getAll() {
-    return $fetch("/api/collections/global", {
-      query: { sources: emoteSources.join("+") },
-    });
+    return $fetch("/api/collections/global/all");
   },
 };
