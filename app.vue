@@ -23,7 +23,7 @@
     <Body lang="en">
       <div class="relative grid grid-rows-layout">
         <app-top-nav />
-        <NuxtLoadingIndicator />
+        <nuxt-loading-indicator />
         <nuxt-layout>
           <nuxt-page />
         </nuxt-layout>
