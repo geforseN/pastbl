@@ -38,20 +38,7 @@
         />
         <app-bottom-nav />
         <client-only>
-          <!-- FIXME: can not see on mobile resolution -->
-          <div
-            class="fixed bottom-0 right-1/2 flex translate-x-1/2 items-center gap-1 rounded-t-btn border border-b-0 bg-base-300 px-2 pb-1.5 pt-1.5 text-center"
-          >
-            Server mode
-            <input
-              id="pastas-work-mode"
-              v-model="userStore.pastasWorkMode.isClient"
-              name="pastas-work-mode"
-              type="checkbox"
-              class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
-            />
-            Client mode
-          </div>
+          <app-pastas-work-mode-toggle />
         </client-only>
         <u-notifications>
           <template #title="{ title }">
