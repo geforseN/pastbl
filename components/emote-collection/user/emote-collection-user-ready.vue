@@ -124,6 +124,7 @@ import {
 } from "~/integrations";
 import type { ReadyUserCollectionAsyncState } from "~/pages/collections/users/[nickname].vue";
 import { emotesIDB } from "~/client-only/services";
+import { USERS_COLLECTIONS_API } from "~/client-only/services/userCollections";
 
 const { asyncState, isCollectionSelected } = defineProps<{
   asyncState: ReadyUserCollectionAsyncState;
@@ -148,17 +149,11 @@ const readyIntegrations = computed(() => {
   ) as IUserEmoteIntegrationRecord;
 });
 
-async function getRefreshedIntegration(source: EmoteSource) {
-  const record = await $fetch("/api/collections/users/integrations", {
-    query: {
-      sources: source,
-      twitchUserId: twitch.value.id,
-      twitchUserNickname: twitch.value.nickname,
-    },
-  });
-  const newIntegration = record[source];
-  assert.ok(newIntegration);
-  return newIntegration;
+async function getRefreshedIntegration<S extends EmoteSource>(source: S) {
+  return await USERS_COLLECTIONS_API.integrations.refresh(
+    source,
+    twitch.value.login,
+  );
 }
 
 const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();

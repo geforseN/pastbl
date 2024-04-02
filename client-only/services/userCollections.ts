@@ -175,18 +175,26 @@ const emoteIds = {
   },
 };
 
-const userCollectionApi = {
+export const USERS_COLLECTIONS_API = {
   async get(login: Lowercase<string>) {
     assert.ok(isLowercase(login));
     const fetchedAt = Date.now();
-    const collectionsRecord = await $fetch("/api/collections/users", {
-      query: { nicknames: login },
-    });
+    const collection = await $fetch(`/api/collections/users/${login}`);
     return {
-      ...collectionsRecord[login],
+      ...collection,
       fetchedAt,
       receivedAt: Date.now(),
     };
+  },
+  integrations: {
+    async refresh(source: EmoteSource, login: TwitchUserLogin) {
+      assert.ok(isValidEmoteSource(source) && isLowercase(login));
+      const integration = await $fetch(
+        `/api/collections/users/${login}/integrations/${source}`,
+      );
+      assert.ok(integration);
+      return integration;
+    },
   },
 };
 
@@ -204,7 +212,7 @@ export const userCollectionsService = {
     await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
   },
   async refresh(login: Lowercase<string>) {
-    const collection = await userCollectionApi.get(login);
+    const collection = await USERS_COLLECTIONS_API.get(login);
     await this.put(collection);
     return collection;
   },
