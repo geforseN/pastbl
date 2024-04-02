@@ -58,8 +58,7 @@
       <template #sidebar>
         <chat-pasta-sidebar
           dropdown-class="dropdown dropdown-top dropdown-hover xs:dropdown-end go-brr:dropdown-bottom"
-          :pasta-id="selectedPasta.id"
-          :is-clipboard-supported="userStore.clipboard.isSupported"
+          :pasta-edit-page-path="`/pastas/edit/${selectedPasta.id}`"
           @copy="userStore.copyPasta(selectedPasta)"
           @delete="pastasStore.removePasta(selectedPasta)"
         />

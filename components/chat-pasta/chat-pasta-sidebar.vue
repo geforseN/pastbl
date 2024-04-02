@@ -9,7 +9,7 @@
     >
       {{ $t(d + "copy") }}
     </button>
-    <div :class="props.dropdownClass">
+    <div :class="dropdownClass">
       <div
         tabindex="0"
         role="button"
@@ -32,13 +32,19 @@
           </button>
         </li>
         <li>
-          <nuxt-link-locale
-            :to="`/pastas/edit/${props.pastaId}`"
+          <slot
+            name="editButton"
             class="btn btn-info h-max w-full gap-y-0.5"
+            :text="$t(d + 'edit')"
           >
-            {{ $t(d + "edit") }}
-            <icon name="ic:outline-edit" />
-          </nuxt-link-locale>
+            <nuxt-link-locale
+              :to="pastaEditPagePath"
+              class="btn btn-info h-max w-full gap-y-0.5"
+            >
+              {{ $t(d + "edit") }}
+              <icon name="ic:outline-edit" />
+            </nuxt-link-locale>
+          </slot>
         </li>
         <li>
           <button
@@ -56,13 +62,17 @@
 <script setup lang="ts">
 const d = "pasta.dropdown.buttons." as const;
 
-const props = defineProps<{
-  pastaId: number;
+defineProps<{
+  pastaEditPagePath: string;
   dropdownClass: string;
 }>();
 
 const emit = defineEmits<{
   delete: [];
   copy: [];
+}>();
+
+defineSlots<{
+  editButton: () => unknown;
 }>();
 </script>
