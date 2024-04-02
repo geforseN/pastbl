@@ -1,7 +1,9 @@
-import assert from "node:assert";
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
 import { pastaTagLength, pastaTagsCount } from "~/config/const";
+
+const lowercaseMentionTag = (tag: string) =>
+  tag.startsWith("@") ? tag.toLowerCase() : tag;
 
 const pastaTagSchema = z
   .string()
@@ -9,29 +11,31 @@ const pastaTagSchema = z
   .max(pastaTagLength.max)
   .refine((tag) => !tag.includes(","))
   .transform(megaTrim)
-  .transform((tag) => (tag.startsWith("@") ? tag.toLowerCase() : tag));
+  .transform(lowercaseMentionTag);
 
 export const pastaTagsSchema = z
   .string()
   .min(pastaTagLength.min)
   .max(pastaTagLength.max * pastaTagsCount.max + pastaTagsCount.max - 1)
-  .or(z.array(pastaTagSchema).min(pastaTagLength.min).max(pastaTagLength.max))
+  .or(z.array(pastaTagSchema).min(pastaTagsCount.min).max(pastaTagsCount.max))
   .transform((value) => {
     if (typeof value === "string") {
       value = value.split(",");
     } else {
-      assert.ok(value.every((tag) => !tag.includes(",")));
+      value = value.filter((tag) => !tag.includes(","));
     }
-    return value.map(megaTrim).filter((tag) => tag.length);
+    return value
+      .map(megaTrim)
+      .filter((tag) => tag.length)
+      .map(lowercaseMentionTag);
   })
   .refine(
     (tags) =>
-      tags.length >= pastaTagLength.min &&
-      tags.length <= pastaTagLength.max &&
+      tags.length >= pastaTagsCount.min &&
+      tags.length <= pastaTagsCount.max &&
       tags.every(
         (tag) =>
-          tag.length >= pastaTextLength.min &&
-          tag.length <= pastaTextLength.max,
+          tag.length >= pastaTagLength.min && tag.length <= pastaTagLength.max,
       ),
   );
 
