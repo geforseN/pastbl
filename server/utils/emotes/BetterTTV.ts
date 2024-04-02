@@ -1,4 +1,4 @@
-import { makeUserIntegrationGetter } from "./integrations";
+import { makeUserIntegrationGetter } from "./integrations-handler-make";
 import { BetterTTV } from "~/integrations/BetterTTV";
 import { BetterTTVApi } from "~/integrations/BetterTTV/api";
 
