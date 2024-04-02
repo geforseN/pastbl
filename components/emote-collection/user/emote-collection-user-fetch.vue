@@ -53,7 +53,6 @@
 <script lang="ts">
 import { set } from "@vueuse/core";
 import type { EmoteSource } from "~/integrations";
-import type { ExtraChannel } from "~/server/api/twitch/search/channels.get";
 
 const f = "collections.users.fetch.";
 
@@ -65,7 +64,7 @@ function useChannelsSearch(nickname: Ref<string>) {
   const { data: state } = useFetch("/api/twitch/search/channels", {
     lazy: true,
     query: { nickname },
-    default(): ExtraChannel[] {
+    default(): Channel[] {
       return [];
     },
     onRequest() {
