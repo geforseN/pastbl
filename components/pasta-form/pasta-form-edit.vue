@@ -61,9 +61,9 @@
 <script setup lang="ts">
 import type { PastaFormTextarea } from "#build/components";
 
-const text = defineModel("text", { required: true, type: String });
-const tag = defineModel("tag", { required: true, type: String });
-const tags = defineModel("tags", { required: true, type: Array<string> });
+const text = defineModel<string>("text", { required: true });
+const tag = defineModel<string>("tag", { required: true });
+const tags = defineModel<string[]>("tags", { required: true });
 
 const props = defineProps<{
   trimmedText: string;
