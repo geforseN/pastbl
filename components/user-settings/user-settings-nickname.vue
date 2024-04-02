@@ -16,5 +16,5 @@
 <script lang="ts" setup>
 import { s } from "~/components/user-settings/user-settings.vue";
 
-const nickname = defineModel({ required: true, type: String });
+const nickname = defineModel<string>({ required: true });
 </script>
