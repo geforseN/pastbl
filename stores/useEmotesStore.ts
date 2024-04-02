@@ -43,7 +43,7 @@ function useEmotes<
       (integration) => integration.source,
       (integration) => {
         const emotes = integration.sets.flatMap(
-          (set: { emotes: IEmote[] }) => set.emotes,
+          (set: { emotes: IEmote[] }) => set.emotes ?? [],
         );
         const emoteEntries = emotes.map((emote: IEmote): [string, IEmote] => {
           return [emote.token, emote];

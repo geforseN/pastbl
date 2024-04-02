@@ -109,7 +109,7 @@ const MAP = {
             const { emotes, ...idbSet } = set;
             return {
               ...idbSet,
-              emoteIds: emotes.map((emote) => emote.id),
+              emoteIds: (emotes ?? []).map((emote) => emote.id),
             };
           }),
         } as IndexedDBUserEmoteIntegration;
@@ -293,8 +293,8 @@ function makeSetPopulateFn(
 ) {
   return async function (idbSet: IndexedDBUserEmoteSet) {
     const { emoteIds, ...set } = idbSet;
-    const { fulfilled: emotes } = await groupAsync(
-      emoteIds.map(async (emoteId: string) => {
+    const { fulfilled: emotes = [] } = await groupAsync(
+      (emoteIds ?? []).map(async (emoteId: string) => {
         const cachedEmote = getEmoteFromCache(emoteId);
         if (cachedEmote) {
           return cachedEmote;
