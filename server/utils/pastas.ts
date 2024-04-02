@@ -3,6 +3,7 @@ import { z } from "zod";
 import { megaTrim } from "~/utils/string";
 import { isEmptyObject, isNullish } from "~/utils/guard";
 import type { Nullish } from "~/utils/types";
+import { pastaTextLength } from "~/config/const";
 
 export const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
@@ -33,17 +34,10 @@ export function getPastasCursorFromQuery(event: H3E) {
   return pastasCursorQuerySchema.parse(getQuery(event)).cursor;
 }
 
-export const PASTA_TEXT_MIN_LENGTH = 1;
-export const PASTA_TEXT_MAX_LENGTH = 1984;
-export const pastaTextLength = {
-  min: PASTA_TEXT_MIN_LENGTH,
-  max: PASTA_TEXT_MAX_LENGTH,
-} as const;
-
 export const pastaTextSchema = z
   .string()
-  .min(PASTA_TEXT_MIN_LENGTH)
-  .max(PASTA_TEXT_MAX_LENGTH)
+  .min(pastaTextLength.min)
+  .max(pastaTextLength.max)
   .transform(megaTrim);
 
 export const pastasPublicity = ["public", "private"] as const;

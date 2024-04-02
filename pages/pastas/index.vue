@@ -43,6 +43,7 @@
 </template>
 <script lang="ts">
 import { pastasIdbService } from "~/client-only/services";
+import { pastaTagsCount } from "~/config/const";
 
 type MiniPasta = {
   tags?: string[];

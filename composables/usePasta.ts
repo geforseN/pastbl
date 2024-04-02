@@ -1,5 +1,10 @@
 import { emojify, has as isEmoji, find, search } from "node-emoji";
 import {
+  pastaTagsCount,
+  pastaTextLength,
+  pastaTagLength,
+} from "~/config/const";
+import {
   makeWrappedEmoteAsString,
   makeEmoteAsStringWithModifiersWrapper,
   type IEmote,
