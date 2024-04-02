@@ -6,6 +6,8 @@ import type {
   IEmoteCollectionOwner,
 } from "~/integrations";
 import type { TwitchApi } from "~/server/utils/twitch/twitch-api.types";
+import { groupBy, objectEntries } from "~/utils/object";
+import { assert } from "~/utils/error";
 
 type TwitchApiGlobalEmote = {
   // MOTE: 'static' is always included (for now), animated is optional
