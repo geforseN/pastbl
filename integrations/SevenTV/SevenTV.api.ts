@@ -27,8 +27,8 @@ export async function get7TVSetById(
 }
 
 export async function get7TVUserProfileByTwitchId(
-  twitchId: number,
-  login?: Lowercase<string>,
+  twitchId: TwitchUserId,
+  login?: TwitchUserLogin,
 ): Promise<SevenTVApiUserProfile> {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   assert.response.ok(response, new UserNotFoundError("SevenTV", login));

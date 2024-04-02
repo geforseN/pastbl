@@ -8,8 +8,8 @@ import type { BetterTTVUserIntegration } from "./entity/BetterTTVUserIntegration
 import type { IBetterTTVSet } from "./entity/BetterTTVSet";
 
 export async function makeBTTVUserIntegration(
-  twitchId: number,
-  twitchLogin: Lowercase<string>,
+  twitchId: TwitchUserId,
+  twitchLogin: TwitchUserLogin,
 ) {
   const bttvUser = await BetterTTVApi.getUserByTwitchId(twitchId, twitchLogin);
   const user = {

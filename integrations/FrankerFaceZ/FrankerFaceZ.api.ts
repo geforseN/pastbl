@@ -7,9 +7,7 @@ import { assert } from "~/utils/error";
 // NOTE: FFZ documentation
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
-export async function getFFZUserByTwitchLogin(
-  login: Lowercase<string>,
-): Promise<{
+export async function getFFZUserByTwitchLogin(login: TwitchUserLogin): Promise<{
   badges: Record<`${number}`, FrankerFaceZApiBadge>;
   sets: Record<`${number}`, never>;
   user: FrankerFaceZApiUser;
@@ -19,7 +17,9 @@ export async function getFFZUserByTwitchLogin(
   return response.json();
 }
 
-export async function getFFZUserRoomByTwitchId(twitchId: number): Promise<{
+export async function getFFZUserRoomByTwitchId(
+  twitchId: TwitchUserId,
+): Promise<{
   room: FrankerFaceZApiRoom;
   sets: Record<`${number}`, FrankerFaceZApiEmoteSet>;
 }> {
@@ -45,8 +45,8 @@ export async function getFFZGlobalEmoteSets(): Promise<{
 
 export const FrankerFaceZApi = {
   async getUser(
-    id: number,
-    login: Lowercase<string>,
+    id: TwitchUserId,
+    login: TwitchUserLogin,
   ): Promise<{
     badges: Record<`${number}`, FrankerFaceZApiBadge>;
     sets: Record<`${number}`, never>;
