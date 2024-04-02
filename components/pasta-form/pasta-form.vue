@@ -10,22 +10,11 @@
         @enter-pressed="emit('createPasta')"
       />
       <!-- NOTE: after xl: template is horrible -->
-      <div
+      <pasta-form-is-public
         v-if="userStore.pastasWorkMode.isServer"
-        class="-mb-1 ml-1.5 flex grow items-center gap-1"
-      >
-        <label for="pasta-is-public" class="grow cursor-pointer">
-          {{ $t("pasta.makePublic?") }}
-        </label>
-        <span>{{ $t(isPublic ? "yes" : "no") }}</span>
-        <input
-          id="pasta-is-public"
-          v-model="isPublic"
-          type="checkbox"
-          name="pasta-is-public"
-          class="checkbox-info checkbox"
-        />
-      </div>
+        v-model="isPublic"
+        class="-mb-1 ml-1.5 flex grow items-center gap-1 xl:hidden"
+      />
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
@@ -49,6 +38,11 @@
           }}
         </button>
         <div class="flex h-full flex-col justify-between">
+          <pasta-form-is-public
+            v-if="userStore.pastasWorkMode.isServer"
+            v-model="isPublic"
+            class="ml-1.5 hidden grow items-center gap-1 xl:flex"
+          />
           <pasta-form-pasta-length
             :pasta-text-status="pastaStatus"
             :pasta-text="trimmedText"
