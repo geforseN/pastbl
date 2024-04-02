@@ -7,7 +7,7 @@ export const twitchApi = {
 
 export function createTwitchApiFetch(token?: TwitchToken) {
   const headers = new Headers({
-    "Client-ID": env.twitchClientId,
+    "Client-ID": env.TWITCH_APP_CLIENT_ID,
   });
   if (token !== undefined) {
     headers.append("Authorization", `Bearer ${token.access_token}`);
