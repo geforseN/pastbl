@@ -10,7 +10,7 @@ export function createTwitchApiFetch(token?: TwitchToken) {
   const headers = new Headers({
     "Client-ID": env.TWITCH_APP_CLIENT_ID,
   });
-  if (token !== undefined) {
+  if (token) {
     headers.append("Authorization", `Bearer ${token.access_token}`);
   }
   return $fetch.create({
@@ -33,11 +33,11 @@ export async function fetchTwitchUser(login: Lowercase<string>) {
   return data[0];
 }
 
-export function fetchTwitchChannels(query: string) {
+export function fetchTwitchChannels(string: string) {
   return twitchApi.fetch<TwitchApi["getSearchChannels"]["response"]>(
     "/search/channels",
     {
-      query: { query, first: 8 },
+      query: { query: string, first: 8 },
     },
   );
 }
