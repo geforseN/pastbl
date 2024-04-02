@@ -5,7 +5,7 @@ export function isNotNullable<T>(value: T): value is NonNullable<T> {
 }
 
 export function isNullish<T>(value: Nullish<T>): value is null | undefined {
-  return value === undefined && value === null;
+  return value === undefined || value === null;
 }
 
 export function isObject<T extends Record<string, unknown>>(
