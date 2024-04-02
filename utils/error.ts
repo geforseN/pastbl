@@ -1,5 +1,9 @@
 import type { NotificationColor } from "@nuxt/ui/dist/runtime/types";
 
+type RaiseReason_ = string | Error | undefined;
+
+type RaiseReason = RaiseReason_ | (() => RaiseReason_);
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function assertIsError<EC extends new (...args: any[]) => Error>(
   maybeError: unknown,
@@ -10,15 +14,9 @@ export function assertIsError<EC extends new (...args: any[]) => Error>(
   }
 }
 
-function assertOk(
-  value: unknown,
-  messageOrErrorOrFn?: string | Error | (() => string | Error | undefined),
-): asserts value {
+function assertOk(value: unknown, reason?: RaiseReason): asserts value {
   if (!value) {
-    const maybeErrorLike =
-      typeof messageOrErrorOrFn === "function"
-        ? messageOrErrorOrFn()
-        : messageOrErrorOrFn;
+    const maybeErrorLike = typeof reason === "function" ? reason() : reason;
     raise(maybeErrorLike);
   }
 }
@@ -84,9 +82,7 @@ export class ExtendedError extends Error {
   }
 }
 
-// generic is necessary for type inference, this rule is wrong here
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export function withOkAssert<V extends unknown>(reason: string) {
+export function withOkAssert<V>(reason: string) {
   return function (value: V) {
     assertOk(value, reason);
     return value;
