@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { pastasIdbService } from "~/client-only/services";
+import { pastaTextLength } from "~/config/const";
 
 export type PastaSortStrategy =
   | "newest-first"
@@ -103,17 +104,15 @@ function usePastasShow(
     return new Set(pastas);
   });
 
+  const selectedUserPastas = computed(() =>
+    usersPastasMap.value.get(selectedLogin.value),
+  );
+
   const pastasToShow = {
     all: computed(() => sortedPastas.value),
-    "selected-user": computed(() => {
-      const userPastas = usersPastasMap.value.get(selectedLogin.value);
-      if (!userPastas) {
-        return [];
-      }
-      return userPastas;
-    }),
+    "selected-user": computed(() => selectedUserPastas.value || []),
     "only-selected-user": computed(() => {
-      const userPastas = usersPastasMap.value.get(selectedLogin.value);
+      const userPastas = selectedUserPastas.value;
       if (!userPastas) {
         return [];
       }
@@ -232,7 +231,7 @@ export const usePastasStore = defineStore("pastas", () => {
     ) {
       const m = "toast.createPasta.";
       const trimmedText = megaTrim(basePasta.text);
-      const lengthStatus = getLengthStatus(trimmedText.length, pastaTextLength);
+      const lengthStatus = getPastaLengthStatus(trimmedText);
       try {
         assert.ok(
           lengthStatus === "ok",

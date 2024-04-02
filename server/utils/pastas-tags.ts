@@ -1,34 +1,21 @@
 import assert from "node:assert";
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
-
-export const PASTA_TAG_MIN_LENGTH = 1;
-export const PASTA_TAG_MAX_LENGTH = 128;
-export const pastaTagLength = {
-  min: PASTA_TAG_MIN_LENGTH,
-  max: PASTA_TAG_MAX_LENGTH,
-} as const;
-
-export const MIN_TAGS_IN_PASTA = 0;
-export const MAX_TAGS_IN_PASTA = 10;
-export const pastaTagsCount = {
-  min: MIN_TAGS_IN_PASTA,
-  max: MAX_TAGS_IN_PASTA,
-};
+import { pastaTagLength, pastaTagsCount } from "~/config/const";
 
 const pastaTagSchema = z
   .string()
-  .min(PASTA_TAG_MAX_LENGTH)
-  .max(PASTA_TAG_MAX_LENGTH)
+  .min(pastaTagLength.min)
+  .max(pastaTagLength.max)
   .refine((tag) => !tag.includes(","))
   .transform(megaTrim)
   .transform((tag) => (tag.startsWith("@") ? tag.toLowerCase() : tag));
 
 export const pastaTagsSchema = z
   .string()
-  .min(PASTA_TAG_MAX_LENGTH)
-  .max(PASTA_TAG_MAX_LENGTH * MAX_TAGS_IN_PASTA + MAX_TAGS_IN_PASTA - 1)
-  .or(z.array(pastaTagSchema).min(MIN_TAGS_IN_PASTA).max(MAX_TAGS_IN_PASTA))
+  .min(pastaTagLength.min)
+  .max(pastaTagLength.max * pastaTagsCount.max + pastaTagsCount.max - 1)
+  .or(z.array(pastaTagSchema).min(pastaTagLength.min).max(pastaTagLength.max))
   .transform((value) => {
     if (typeof value === "string") {
       value = value.split(",");
@@ -39,12 +26,12 @@ export const pastaTagsSchema = z
   })
   .refine(
     (tags) =>
-      tags.length >= MIN_TAGS_IN_PASTA &&
-      tags.length <= MAX_TAGS_IN_PASTA &&
+      tags.length >= pastaTagLength.min &&
+      tags.length <= pastaTagLength.max &&
       tags.every(
         (tag) =>
-          tag.length >= PASTA_TAG_MIN_LENGTH &&
-          tag.length <= PASTA_TAG_MAX_LENGTH,
+          tag.length >= pastaTextLength.min &&
+          tag.length <= pastaTextLength.max,
       ),
   );
 
