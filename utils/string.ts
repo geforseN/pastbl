@@ -2,6 +2,10 @@ export function toLowerCase(str: string) {
   return str.toLowerCase() as Lowercase<string>;
 }
 
+export function isLowercase(str: string): str is Lowercase<string> {
+  return str === toLowerCase(str);
+}
+
 export function megaTrim(str: string) {
   return str
     .replaceAll("\n", " ")

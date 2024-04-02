@@ -79,7 +79,7 @@ function usePastasShow(
       const loginsMentioned = pasta.tags.filter((tag) => tag.startsWith("@"));
       for (const tag of loginsMentioned) {
         const login = tag.replace("@", "");
-        assert.ok(login === toLowerCase(login));
+        assert.ok(isLowercase(login));
         if (map.has(login)) {
           map.get(login)!.push(pasta);
         } else {

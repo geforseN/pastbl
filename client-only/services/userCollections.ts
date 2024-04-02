@@ -177,6 +177,7 @@ const emoteIds = {
 
 const userCollectionApi = {
   async get(login: Lowercase<string>) {
+    assert.ok(isLowercase(login));
     const fetchedAt = Date.now();
     const collectionsRecord = await $fetch("/api/collections/users", {
       query: { nicknames: login },
