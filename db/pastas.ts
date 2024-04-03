@@ -33,10 +33,7 @@ const CURSOR_FIRST_PAGE_PASTAS_COUNT = 15 as const;
 
 const getFirstPagePastas = db.query.pastas
   .findMany({
-    columns: {
-      updatedAt: false,
-      publisherTwitchId: false,
-    },
+    columns: { publisherTwitchId: false },
     where: (pastas, { eq }) =>
       eq(pastas.publisherTwitchId, sql.placeholder("publisherTwitchId")),
     orderBy: (pastas, { desc }) => [pastas.publisherTwitchId, desc(pastas.id)],
@@ -53,10 +50,7 @@ const CURSOR_NEXT_PAGES_PASTAS_COUNT = 10 as const;
 
 const getNextPagePastas = db.query.pastas
   .findMany({
-    columns: {
-      updatedAt: false,
-      publisherTwitchId: false,
-    },
+    columns: { publisherTwitchId: false },
     where: (pastas, { and, eq, lt }) =>
       and(
         eq(pastas.publisherTwitchId, sql.placeholder("publisherTwitchId")),
@@ -136,7 +130,7 @@ export async function patchPasta(
   // TODO: with transaction add old pastas in previousPastas table
   const [pasta] = await db
     .update(pastas)
-    .set({ ...entries, updatedAt: sql`now()` })
+    .set({ ...entries, lastUpdatedAt: sql`now()` })
     .where(
       and(
         eq(pastas.publisherTwitchId, publisherTwitchId),

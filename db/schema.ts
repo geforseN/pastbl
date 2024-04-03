@@ -22,7 +22,7 @@ const pastasColumns = {
   publishedAt: timestamp("published_at", { mode: "string" })
     .notNull()
     .defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }),
+  lastUpdatedAt: timestamp("last_updated_at", { mode: "string" }),
   publisherTwitchId: varchar("publisher_twitch_id", {
     length: TWITCH_USER_ID_LENGTH,
   }).notNull(),
