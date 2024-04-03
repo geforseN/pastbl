@@ -6,6 +6,6 @@ export default defineEventHandler(async (event) => {
   const text = await getPastaTextFromBody(event);
   const pasta = await patchPasta(pastaId, userTwitchId, { text });
   return {
-    updatedAt: pasta.updatedAt,
+    lastUpdatedAt: pasta.lastUpdatedAt,
   };
 });
