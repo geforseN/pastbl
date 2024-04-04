@@ -22,7 +22,7 @@ export type Channel = {
 );
 
 function makeChannel(
-  apiChannel: ApiTwitchGetSearchChannelsResponse["data"][number],
+  apiChannel: TwitchApi["getSearchChannels"]["responseItem"],
 ) {
   return {
     id: apiChannel.id,
@@ -57,7 +57,7 @@ function getSortedChannels(
 }
 
 export async function getChannels(login: Lowercase<string>) {
-  const apiChannels = await fetchChannels(login);
+  const apiChannels = await fetchTwitchChannels(login);
   const channels = apiChannels.data.map(makeChannel);
   const sortedChannels = getSortedChannels(channels, login);
   return sortedChannels;
