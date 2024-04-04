@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
 import { pastaTagLength, pastaTagsCount } from "~/config/const";
+import { transformPastaTag } from "~/utils/pasta-tag";
 
 const pastaTagSchema = z
   .string()
@@ -17,7 +18,7 @@ export const pastaTagsSchema = z
       .filter((tag) => pastaTagSchema.safeParse(tag).success)
       .map(megaTrim)
       .filter((tag) => tag.length >= pastaTagLength.min)
-      .map((tag) => (tag.startsWith("@") ? tag.toLowerCase() : tag));
+      .map(transformPastaTag);
   });
 
 export async function getPastaTagFromBody(event: H3E) {

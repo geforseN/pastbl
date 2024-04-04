@@ -76,9 +76,9 @@ function usePastasShow(
 
   const usersPastasMap = computed(() =>
     sortedPastas.value.reduce((map, pasta) => {
-      const loginsMentioned = pasta.tags.filter((tag) => tag.startsWith("@"));
+      const loginsMentioned = pasta.tags.filter(isPastaMentionTagLike);
       for (const tag of loginsMentioned) {
-        const login = tag.replace("@", "");
+        const login = parseLoginFromPastaMentionTag(tag);
         assert.ok(isLowercase(login));
         if (map.has(login)) {
           map.get(login)!.push(pasta);
@@ -117,7 +117,7 @@ function usePastasShow(
         return [];
       }
       return userPastas.filter((pasta) => {
-        const loginsTags = pasta.tags.filter((tag) => tag.startsWith("@"));
+        const loginsTags = pasta.tags.filter(isPastaMentionTagLike);
         return (
           loginsTags.length === 1 && loginsTags[0] === selectedLoginTag.value
         );

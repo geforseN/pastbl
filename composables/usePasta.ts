@@ -191,7 +191,7 @@ function usePastaTags(tags: Ref<string[]>) {
         !tags.value.includes(trimmed),
         new ExtendedError(t(`${m}sameMessage`), { title }),
       );
-      const final = trimmed.startsWith("@") ? toLowerCase(trimmed) : trimmed;
+      const final = transformPastaTag(tag);
       tags.value.push(final);
     },
   };
