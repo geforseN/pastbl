@@ -70,15 +70,15 @@ const API = {
     source: S,
   ): Promise<IGlobalEmoteCollectionRecord[S]> {
     assert.ok(isValidEmoteSource(source));
-    return $fetch(`/api/collections/global/${source}`);
+    return $fetch(`/api/v1/collections/global/${source}`);
   },
   getMany(sources: EmoteSource[]) {
     assert.ok(sources.every(isValidEmoteSource));
-    return $fetch("/api/collections/global", {
+    return $fetch("/api/v1/collections/global", {
       query: { sources: sources.join("+") },
     });
   },
   getAll() {
-    return $fetch("/api/collections/global/all");
+    return $fetch("/api/v1/collections/global/all");
   },
 };

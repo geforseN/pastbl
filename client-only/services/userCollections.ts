@@ -179,7 +179,7 @@ export const USERS_COLLECTIONS_API = {
   async get(login: Lowercase<string>) {
     assert.ok(isLowercase(login));
     const fetchedAt = Date.now();
-    const collection = await $fetch(`/api/collections/users/${login}`);
+    const collection = await $fetch(`/api/v1/collections/users/${login}`);
     return {
       ...collection,
       fetchedAt,
@@ -190,7 +190,7 @@ export const USERS_COLLECTIONS_API = {
     async refresh(source: EmoteSource, login: TwitchUserLogin) {
       assert.ok(isValidEmoteSource(source) && isLowercase(login));
       const integration = await $fetch(
-        `/api/collections/users/${login}/integrations/${source}`,
+        `/api/v1/collections/users/${login}/integrations/${source}`,
       );
       assert.ok(integration);
       return integration;
