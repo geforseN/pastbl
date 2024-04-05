@@ -4,13 +4,15 @@
   >
     <slot name="leftColumn">
       <chat-pasta-list-hints>
-        <chat-pasta-list
-          v-if="pastasStore.canShowPastas"
-          class="pasta-list flex max-h-[50dvh] w-[420px] flex-col overflow-y-auto go-brr:max-h-[66dvh]"
-          :items="pastasStore.pastasToShow"
-          @mouseover="throttledMouseover"
-          @remove-pasta="(pasta) => pastasStore.removePasta(pasta)"
-        />
+        <client-only>
+          <chat-pasta-list
+            v-if="pastasStore.canShowPastas"
+            class="pasta-list flex max-h-[50dvh] w-[420px] flex-col overflow-y-auto go-brr:max-h-[66dvh]"
+            :items="pastasStore.pastasToShow"
+            @mouseover="throttledMouseover"
+            @remove-pasta="(pasta) => pastasStore.removePasta(pasta)"
+          />
+        </client-only>
       </chat-pasta-list-hints>
     </slot>
     <slot />
