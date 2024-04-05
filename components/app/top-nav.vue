@@ -68,7 +68,7 @@
         </div>
         <a
           v-else
-          href="/api/auth/twitch"
+          href="/api/v1/auth/twitch"
           class="group btn btn-ghost flex-nowrap bg-twitch-accent text-base-300"
         >
           <span
