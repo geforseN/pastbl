@@ -1,5 +1,8 @@
 <template>
-  <dynamic-scroller :min-item-size="100" #="{ item: pasta, index, active }">
+  <dynamic-scroller
+    v-slot="{ item: pasta, index, active }"
+    :min-item-size="100"
+  >
     <dynamic-scroller-item
       :item="pasta"
       :active="active"
