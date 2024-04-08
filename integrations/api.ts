@@ -1,6 +1,6 @@
 export {
   FrankerFaceZApi,
-  getFFZUserByTwitchLogin as getFFZProfileByTwitchUsername,
+  getFFZUserByTwitchLogin,
   getFFZUserRoomByTwitchId,
 } from "~/integrations/FrankerFaceZ/FrankerFaceZ.api";
 export {
