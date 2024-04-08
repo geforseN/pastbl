@@ -7,13 +7,11 @@ export interface FrankerFaceZGlobalCollection
 export class FFZGlobalCollection implements FrankerFaceZGlobalCollection {
   name;
   sets;
-  source;
-  updatedAt;
+  source = "FrankerFaceZ" as const;
+  updatedAt = Date.now();
 
   constructor(sets: FrankerFaceZSet[]) {
     this.name = "FrankerFaceZ Global Emotes Collection" as const;
     this.sets = sets;
-    this.source = "FrankerFaceZ" as const;
-    this.updatedAt = Date.now();
   }
 }

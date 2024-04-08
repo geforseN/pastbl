@@ -14,7 +14,7 @@ export class FFZUserIntegration implements FrankerFaceZUserIntegration {
   name;
   sets;
   source;
-  updatedAt;
+  updatedAt = Date.now();
   owner;
 
   constructor(
@@ -24,7 +24,6 @@ export class FFZUserIntegration implements FrankerFaceZUserIntegration {
     this.name = partialCollection.name;
     this.sets = sets;
     this.source = partialCollection.source;
-    this.updatedAt = Date.now();
     this.owner = partialCollection.owner;
   }
 }

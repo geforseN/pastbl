@@ -112,11 +112,10 @@ export class TwitchGlobalCollection implements ITwitchGlobalCollection {
   name = "Twitch Global Emotes Collection" as const;
   source = "Twitch" as const;
   sets;
-  updatedAt;
+  updatedAt = Date.now();
 
   constructor(sets: ITwitchEmoteSet[]) {
     this.sets = sets;
-    this.updatedAt = Date.now();
   }
 }
 

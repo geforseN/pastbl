@@ -1,20 +1,17 @@
-import {
-  getFFZProfileByTwitchUsername,
-  getFFZUserRoomByTwitchId,
-} from "../api";
+import { getFFZUserByTwitchLogin, getFFZUserRoomByTwitchId } from "../api";
 import { createFFZPartialUserIntegration } from "./entity/createFFZPartialUserIntegration";
 import { createFFZUserSets } from "./entity/createFFZUserSets";
 
 export const FrankerFaceZ = {
   userIntegration: {
-    async givePartial(login: Lowercase<string>) {
-      const profile = await getFFZProfileByTwitchUsername(login);
+    async givePartial(login: TwitchUserLogin) {
+      const profile = await getFFZUserByTwitchLogin(login);
       return withLog(
         createFFZPartialUserIntegration(profile),
         "FFZPartialCollection",
       );
     },
-    async giveSets(twitchId: number) {
+    async giveSets(twitchId: TwitchUserId) {
       const room = await getFFZUserRoomByTwitchId(twitchId);
       return withLog(createFFZUserSets(room.sets), "FFZSets");
     },

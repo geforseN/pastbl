@@ -84,8 +84,6 @@ type SevenTVApiSetOwner = {
 };
 
 export type SevenTVApiSetEmote = {
-  // NOTE: basicly, actor_id field is equal to __SevenTV__EmoteCollection__['id']
-  // can be null if emote was add in some early times, at new added emotes it is not null
   actor_id: string | null;
   data: SevenTVApiEmoteData;
   id: string;

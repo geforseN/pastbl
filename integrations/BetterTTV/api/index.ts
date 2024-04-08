@@ -1,7 +1,6 @@
 import { UserNotFoundError } from "../../UserNotFoundError";
 import type { Emote, GlobalEmote, User } from "./types";
 import { assert } from "~/utils/error";
-import { withLog, countKeys } from "~/utils/dev-only";
 
 export type IBetterTTVApi = {
   Emote: Emote;
@@ -19,10 +18,6 @@ export const BetterTTVApi = {
     );
     assert.response.ok(response, new UserNotFoundError("BetterTTV", login));
     const json = await response.json();
-    withLog(
-      countKeys([...json.channelEmotes, ...json.sharedEmotes]),
-      "BetterTTV user emotes keys",
-    );
     return json as IBetterTTVApi["User"];
   },
   // LINK: https://betterttv.com/developers/api#global-emotes

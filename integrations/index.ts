@@ -20,14 +20,12 @@ import {
   type ITwitchEmote,
 } from "./Twitch";
 
-export const availableEmoteSources = [
+export const emoteSources = [
+  "BetterTTV",
   "FrankerFaceZ",
   "SevenTV",
-  "BetterTTV",
+  "Twitch",
 ] as const;
-export type AvailableEmoteSource = (typeof availableEmoteSources)[number];
-
-export const emoteSources = [...availableEmoteSources, "Twitch"] as const;
 export type EmoteSource = (typeof emoteSources)[number];
 
 const emoteSourcesSet = new Set<EmoteSource>([...emoteSources]);
