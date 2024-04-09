@@ -47,7 +47,7 @@ class EmoteSize {
 
 class EmoteIntegrationLink {
   // eslint-disable-next-line no-useless-constructor
-  constructor(readonly emote: Emote) {}
+  constructor(readonly emote: OnHoverHintEmote) {}
 
   get value() {
     assert.ok(this.canBe());
@@ -65,14 +65,15 @@ class EmoteIntegrationLink {
   }
 
   static #integrationLinkGetters = {
-    FrankerFaceZ: (emote: Emote) =>
+    FrankerFaceZ: (emote: OnHoverHintEmote) =>
       `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
-    BetterTTV: (emote: Emote) => `https://betterttv.com/emotes/${emote.id}`,
-    SevenTV: (emote: Emote) => `https://7tv.app/emotes/${emote.id}`,
+    BetterTTV: (emote: OnHoverHintEmote) =>
+      `https://betterttv.com/emotes/${emote.id}`,
+    SevenTV: (emote: OnHoverHintEmote) => `https://7tv.app/emotes/${emote.id}`,
   } as const;
 }
 
-export class Emote {
+export class OnHoverHintEmote {
   readonly id: string;
   readonly token: string;
   readonly url: EmoteUrl;
@@ -125,7 +126,7 @@ export class Emote {
   }
 
   static create(emote: IEmote) {
-    return new Emote(emote, {
+    return new OnHoverHintEmote(emote, {
       url: new EmoteUrl(emote.url),
       width: new EmoteSize(emote.width || 32),
       height: new EmoteSize(emote.height || 32),
@@ -136,7 +137,7 @@ export class Emote {
   // /////////////////////////
 
   images = computed(() => {
-    return Emote.#sizes
+    return OnHoverHintEmote.#sizes
       .filter((size) => this.#canHaveSize(size))
       .map((size) => this.#ofSize(size));
   });
