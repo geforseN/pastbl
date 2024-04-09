@@ -73,7 +73,7 @@ function getTwitchGlobalEmoteSet(
     id: "twitch:global",
     name: "Global Emotes",
     source: "Twitch",
-    updatedAt: Date.now(),
+    formedAt: Date.now(),
     emotes: response.data.map((emote) => new TwitchEmote(emote, "global")),
   };
 }
@@ -112,7 +112,7 @@ export class TwitchGlobalCollection implements ITwitchGlobalCollection {
   name = "Twitch Global Emotes Collection" as const;
   source = "Twitch" as const;
   sets;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(sets: ITwitchEmoteSet[]) {
     this.sets = sets;
@@ -141,7 +141,7 @@ export function createUserIntegration(
         user: twitchUser,
       },
     },
-    updatedAt: Date.now(),
+    formedAt: Date.now(),
   };
 }
 
@@ -187,7 +187,7 @@ export function makeUserTwitchIntegration(
         id,
         name,
         source: "Twitch",
-        updatedAt: Date.now(),
+        formedAt: Date.now(),
         emotes,
       };
     },
@@ -199,7 +199,7 @@ export function makeUserTwitchIntegration(
         return acc;
       }
       const existing = acc[set.name];
-      existing.updatedAt = Math.max(existing.updatedAt, set.updatedAt);
+      existing.formedAt = Math.max(existing.formedAt, set.formedAt);
       existing.emotes.push(...set.emotes);
       existing.id += `+${set.id}`;
       return acc;

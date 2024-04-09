@@ -15,7 +15,7 @@ export class FFZSet implements FrankerFaceZSet {
   id;
   name;
   source = "FrankerFaceZ" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(
     ffzApiSet: FrankerFaceZApiEmoteSet,

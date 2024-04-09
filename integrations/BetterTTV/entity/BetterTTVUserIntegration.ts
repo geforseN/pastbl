@@ -19,7 +19,7 @@ export class BTTVUserIntegration implements BetterTTVUserIntegration {
   sets;
   owner;
   source = "BetterTTV" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(user: BetterTTVUserIntegration["owner"], sets: IBetterTTVSet[]) {
     this.name = `BetterTTV ${user.twitch.login} Emotes Collection`;

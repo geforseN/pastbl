@@ -23,7 +23,7 @@
         </div>
         <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
           <div class="flex justify-between">
-            <emote-collection-updated-at :time="props.collection.updatedAt" />
+            <emote-collection-formed-at :time="props.collection.formedAt" />
             <emote-collection-refresh-button
               size="xs"
               class="w-fit gap-0.5"

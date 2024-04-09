@@ -10,7 +10,7 @@ export class BetterTTVSet implements IBetterTTVSet {
   id: string;
   name: string;
   source = "BetterTTV" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(emotes: IBetterTTVEmote[], id: string, name: string) {
     this.emotes = emotes;

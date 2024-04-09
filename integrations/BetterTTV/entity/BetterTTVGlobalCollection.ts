@@ -8,7 +8,7 @@ export class BTTVGlobalCollection implements BetterTTVGlobalCollection {
   name = "BetterTTV Global Emotes Collection" as const;
   sets;
   source = "BetterTTV" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(sets: IBetterTTVSet[]) {
     this.sets = sets;

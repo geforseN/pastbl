@@ -10,7 +10,7 @@
         userCollectionsStore.isCollectionRefreshing(selectedCollection)
       "
       :login="selectedCollection.user.twitch.login"
-      :updated-at="selectedCollection.updatedAt"
+      :formed-at="selectedCollection.formedAt"
       @delete="userCollectionsStore.deleteCollection(selectedCollection)"
       @refresh="userCollectionsStore.refreshCollection(selectedCollection)"
     />

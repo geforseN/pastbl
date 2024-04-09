@@ -5,13 +5,12 @@ export interface FrankerFaceZGlobalCollection
   extends InternalGlobalEmoteCollection<"FrankerFaceZ", FrankerFaceZSet> {}
 
 export class FFZGlobalCollection implements FrankerFaceZGlobalCollection {
-  name;
+  name = "FrankerFaceZ Global Emotes Collection" as const;
   sets;
   source = "FrankerFaceZ" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
 
   constructor(sets: FrankerFaceZSet[]) {
-    this.name = "FrankerFaceZ Global Emotes Collection" as const;
     this.sets = sets;
   }
 }

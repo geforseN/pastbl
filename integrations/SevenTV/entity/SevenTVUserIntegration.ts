@@ -16,14 +16,14 @@ export class SevenTVUserIntegration implements ISevenTVUserIntegration {
   name;
   sets;
   source;
-  updatedAt;
+  formedAt;
   owner;
 
   constructor(owner: I7TVCollectionOwner, sets: [I7TVSet]) {
     this.name = `SevenTV ${owner.displayName} Emotes Collection`;
     this.sets = sets;
     this.source = "SevenTV" as const;
-    this.updatedAt = Date.now();
+    this.formedAt = Date.now();
     this.owner = owner;
   }
 

@@ -14,8 +14,8 @@ export class SevenTVSet implements I7TVSet {
   id;
   readonly isValid;
   name;
-  source;
-  updatedAt;
+  source = "SevenTV" as const;
+  formedAt = Date.now();
 
   constructor(
     apiSet: SevenTVApiEmoteSet<true | false>,
@@ -26,7 +26,5 @@ export class SevenTVSet implements I7TVSet {
     this.id = apiSet.id;
     this.isValid = "emotes" in apiSet;
     this.name = apiSet.name;
-    this.source = "SevenTV" as const;
-    this.updatedAt = Date.now();
   }
 }

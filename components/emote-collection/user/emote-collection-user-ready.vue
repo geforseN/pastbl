@@ -35,7 +35,7 @@
           </span>
         </nuxt-link-locale>
         <div class="relative flex items-center justify-between gap-2">
-          <emote-collection-updated-at :time="collection.updatedAt" />
+          <emote-collection-formed-at :time="collection.formedAt" />
           <!-- FIXME: remove 'absolute' & 'relative', use grid -->
           <emote-collection-user-select-status
             size="sm"
