@@ -121,7 +121,7 @@ export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
   id: string;
   name: string;
   source: SourceT;
-  updatedAt: number;
+  formedAt: number;
 }
 
 export interface IEmoteCollectionOwner {}
@@ -133,7 +133,7 @@ export interface InternalGlobalEmoteCollection<
   name: `${SourceT} Global Emotes Collection`;
   sets: SetT[];
   source: SourceT;
-  updatedAt: ReturnType<(typeof Date)["now"]>;
+  formedAt: number;
 }
 
 export type IGlobalEmoteCollection =
@@ -156,7 +156,7 @@ export interface InternalGenericUserEmoteIntegration<
   name: string;
   owner: OwnerT;
   source: SourceT;
-  updatedAt: number;
+  formedAt: number;
 }
 
 export interface InternalUserEmoteIntegration<
@@ -207,7 +207,7 @@ export type IBasicUserEmoteCollection = {
   user: {
     twitch: TwitchUser;
   };
-  updatedAt: number;
+  formedAt: number;
 };
 
 export type IUserEmoteCollection = IBasicUserEmoteCollection & {

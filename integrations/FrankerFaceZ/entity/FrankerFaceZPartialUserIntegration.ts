@@ -13,7 +13,7 @@ export class FFZPartialUserIntegration
   name;
   sets = [];
   source = "FrankerFaceZ" as const;
-  updatedAt = Date.now();
+  formedAt = Date.now();
   owner;
   capacity;
 

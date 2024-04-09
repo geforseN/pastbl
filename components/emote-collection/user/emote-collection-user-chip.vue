@@ -33,7 +33,7 @@
           />
         </div>
       </div>
-      <emote-collection-updated-at class="w-fit" :time="updatedAt" />
+      <emote-collection-formed-at class="w-fit" :time="formedAt" />
     </div>
     <div class="space-y-0.5">
       <emote-collection-user-delete-button-dialog
@@ -66,9 +66,9 @@
   </div>
 </template>
 <script setup lang="ts">
-const { updatedAt, nickname, login, avatarUrl, isSelected, isRefreshing } =
+const { formedAt, nickname, login, avatarUrl, isSelected, isRefreshing } =
   defineProps<{
-    updatedAt: number;
+    formedAt: number;
     nickname: string;
     login: Lowercase<string>;
     avatarUrl: string;

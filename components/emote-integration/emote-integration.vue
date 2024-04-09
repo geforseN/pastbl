@@ -24,7 +24,7 @@
           :class="styles.borderAccent"
           class="flex justify-between rounded-box border-2 p-1 px-2"
         >
-          <emote-collection-updated-at :time="props.collection.updatedAt" />
+          <emote-collection-formed-at :time="props.collection.formedAt" />
           <emote-collection-refresh-button
             size="xs"
             class="w-fit gap-0.5"
@@ -39,7 +39,7 @@
     </main>
   </article>
 </template>
-
+<!-- FIXME: delete me -->
 <script lang="ts" setup></script>
 
 <style></style>

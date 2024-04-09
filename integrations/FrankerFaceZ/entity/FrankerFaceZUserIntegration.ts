@@ -14,7 +14,7 @@ export class FFZUserIntegration implements FrankerFaceZUserIntegration {
   name;
   sets;
   source;
-  updatedAt = Date.now();
+  formedAt = Date.now();
   owner;
 
   constructor(
