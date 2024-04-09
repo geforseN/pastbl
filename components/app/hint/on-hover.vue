@@ -120,7 +120,6 @@
 <script lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import { collectionsStyles } from "~/components/emote-collection";
-import { Emote } from "#imports";
 import type { IEmote } from "~/integrations";
 
 const oh = "app.hint.onHover." as const;
@@ -140,9 +139,11 @@ defineExpose({
   containerRef,
 });
 
-const emote = computed(() => props.emote && Emote.create(props.emote));
+const emote = computed(
+  () => props.emote && OnHoverHintEmote.create(props.emote),
+);
 const emoteModifiers = computed(() =>
-  props.emoteModifiers?.map((modifier) => Emote.create(modifier)),
+  props.emoteModifiers?.map((modifier) => OnHoverHintEmote.create(modifier)),
 );
 
 const emoji = computed(() => props.emoji);
