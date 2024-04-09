@@ -1,9 +1,7 @@
-import { defineStore } from "pinia";
 import { userCollectionsService } from "~/client-only/services";
 import {
   isReadyUserIntegration,
   type IBasicUserEmoteCollection,
-  type IUserEmoteCollection,
   type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
@@ -88,14 +86,6 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
       return ready as Partial<IUserEmoteIntegrationRecord>;
     }),
   };
-}
-
-function useCollectionAutoRefresh(collection: Ref<IUserEmoteCollection>) {
-  const userStore = useUserStore();
-
-  watch(collection, () => {});
-
-  return {};
 }
 
 function useCollectionsRefresh(options: {

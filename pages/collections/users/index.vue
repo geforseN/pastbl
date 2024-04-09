@@ -5,4 +5,3 @@
     <app-page-link-main />
   </div>
 </template>
-<script lang="ts" setup></script>
