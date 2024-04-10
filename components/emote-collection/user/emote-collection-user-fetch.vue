@@ -61,9 +61,9 @@ function useChannelsSearch(nickname: Ref<string>) {
   const hide = () => set(mustShow, false);
   const show = () => set(mustShow, true);
 
-  const { data: state } = useFetch("/api/twitch/search/channels", {
+  const { data: state } = useFetch("/api/v1/twitch/search/channels", {
     lazy: true,
-    query: { nickname },
+    query: { login: nickname },
     default(): Channel[] {
       return [];
     },
