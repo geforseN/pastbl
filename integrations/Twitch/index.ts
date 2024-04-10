@@ -109,7 +109,6 @@ export function makeTwitchGlobalCollection(
 }
 
 export class TwitchGlobalCollection implements ITwitchGlobalCollection {
-  name = "Twitch Global Emotes Collection" as const;
   source = "Twitch" as const;
   sets;
   formedAt = Date.now();
