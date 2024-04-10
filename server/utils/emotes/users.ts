@@ -7,9 +7,7 @@ export async function getUserEmoteCollection(login: Lowercase<string>) {
   return <IUserEmoteCollection>{
     user: {
       twitch: account,
-      twitchAccount: account,
     },
-    twitchAccount: account,
     integrations,
     formedAt: Date.now(),
   };
