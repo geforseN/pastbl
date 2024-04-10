@@ -197,11 +197,13 @@ function usePastaTags(tags: Ref<string[]>) {
   };
 }
 
+export type FindEmoteFn = (token: string) => IEmote | undefined;
+
 // FIXME: watch for app.vue, maybe code duplicate
 function findModifiers(
   tokenIndex: number,
   tokens: string[],
-  emotesStore: ReturnType<typeof useEmotesStore>,
+  findEmote: FindEmoteFn,
 ) {
   const emotes: IEmote[] = [];
   const indexes: number[] = [];
@@ -210,7 +212,7 @@ function findModifiers(
     if (!token) {
       break;
     }
-    const tokenAsEmote = emotesStore.findEmote(token);
+    const tokenAsEmote = findEmote(token);
     if (!tokenAsEmote || !tokenAsEmote.isModifier) {
       break;
     }
@@ -225,9 +227,9 @@ function findModifiers(
 
 function populateToken(
   this: {
-    pasta: IDBMegaPasta;
+    validTokens: IDBMegaPasta["validTokens"];
     indexesOfPastaTokensToSkip: Set<number>;
-    emotesStore: ReturnType<typeof useEmotesStore>;
+    findEmote: FindEmoteFn;
   },
   token: string,
   index: number,
@@ -236,7 +238,7 @@ function populateToken(
   if (this.indexesOfPastaTokensToSkip.has(index)) {
     return "";
   }
-  if (!this.pasta.validTokens.includes(token)) {
+  if (!this.validTokens.includes(token)) {
     return token;
   }
   if (token.startsWith("ffz")) {
@@ -250,11 +252,11 @@ function populateToken(
   //      .map((emoji) => `<span data-emoji-token=${token}>${emoji.emoji}</span>`)
   //      .join("");
   //  }
-  const tokenAsEmote = this.emotesStore.findEmote(token);
+  const tokenAsEmote = this.findEmote(token);
   if (!tokenAsEmote) {
     return token;
   }
-  const modifiers = findModifiers(index, tokens, this.emotesStore);
+  const modifiers = findModifiers(index, tokens, this.findEmote);
   if (!modifiers.emotes.length) {
     return makeWrappedEmoteAsString(tokenAsEmote);
   }
@@ -266,14 +268,14 @@ function populateToken(
 
 export function populatePasta(
   pastaTextContainer: HTMLElement,
-  pasta: IDBMegaPasta,
-  emotesStore: ReturnType<typeof useEmotesStore>,
+  validTokens: IDBMegaPasta["validTokens"],
+  findEmote: FindEmoteFn,
 ) {
   const pastaText = pastaTextContainer.innerText;
 
   const populatedWords = pastaText.split(" ").map(populateToken, {
-    pasta,
-    emotesStore,
+    validTokens,
+    findEmote,
     indexesOfPastaTokensToSkip: new Set(),
   } satisfies ThisParameterType<typeof populateToken>);
 

@@ -12,7 +12,11 @@
           :pasta="pasta"
           @populate="
             (pastaTextContainer) => {
-              populatePasta(pastaTextContainer, pasta, emotesStore);
+              populatePasta(
+                pastaTextContainer,
+                pasta.validTokens,
+                emotesStore.findEmote,
+              );
             }
           "
         >
