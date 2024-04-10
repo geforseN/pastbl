@@ -1,7 +1,7 @@
 <template>
   <div
     class="collapse collapse-arrow border-2"
-    :class="props.colors.borderAccent"
+    :class="props.styles.borderAccent"
   >
     <input
       :id="id"
@@ -30,14 +30,14 @@
       <slot v-if="mustRenderContent" name="emoteList">
         <div
           class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2 scrollbar"
-          :class="[props.colors.borderAccent, props.colors.scrollbar]"
+          :class="[props.styles.borderAccent, props.styles.scrollbar]"
           tabindex="0"
         >
           <div
             v-for="emote of props.set.emotes"
             :key="emote.id"
             class="grid min-h-8 place-items-center hover:scale-110 hover:outline hover:outline-1"
-            :class="[props.colors.backgroundBase, props.colors.outlineAccent]"
+            :class="[props.styles.backgroundBase, props.styles.outlineAccent]"
             :title="emote.token + ' from ' + props.set.source"
           >
             <img
@@ -79,7 +79,7 @@ const { t } = useI18n({
 const props = withDefaults(
   defineProps<{
     set: EmoteSetT;
-    colors: CollectionStyle;
+    styles: CollectionStyle;
     defaultEmoteSize?: {
       width?: number;
       height?: number;
