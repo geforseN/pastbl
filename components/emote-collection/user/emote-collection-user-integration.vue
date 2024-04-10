@@ -5,10 +5,7 @@
   >
     <header class="flex justify-between">
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
-      <emote-integration-logo
-        :source="props.source"
-        :must-wrap-to-link="true"
-      />
+      <emote-integration-logo :source="props.source" with-link />
     </header>
     <main>
       <div v-if="props.status === 'ready'" class="flex flex-col gap-1.5">

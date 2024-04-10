@@ -1,10 +1,5 @@
 <template>
-  <nuxt-link
-    v-if="props.mustWrapToLink"
-    external
-    target="_blank"
-    :to="data.href"
-  >
+  <nuxt-link v-if="props.withLink" external target="_blank" :to="data.href">
     <img v-bind="$attrs" :src="data.src" :alt="data.alt" />
   </nuxt-link>
   <img v-else v-bind="$attrs" :src="data.src" :alt="data.alt" />
@@ -38,8 +33,9 @@ defineOptions({ inheritAttrs: false });
 
 const props = defineProps<{
   source: import("~/integrations").EmoteSource;
-  mustWrapToLink?: boolean;
+  withLink?: boolean;
 }>();
 
+// NOTE: data is not reactive, use computed for reactivity
 const data = dataRecord[props.source];
 </script>
