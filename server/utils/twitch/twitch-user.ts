@@ -30,3 +30,25 @@ export async function getTwitchUser(login: Lowercase<string>) {
   const apiUser = await fetchTwitchUser(login);
   return makeTwitchUser(apiUser);
 }
+
+const userTwitchSchema = z
+  .object({
+    id: z.string(),
+    login: z.string(),
+    display_name: z.string(),
+    profile_image_url: z.string(),
+  })
+  .transform((twitchUser) => ({
+    twitch: {
+      id: twitchUser.id,
+      login: twitchUser.login,
+      profileImageUrl: twitchUser.profile_image_url,
+      nickname: twitchUser.display_name,
+    },
+  }));
+
+export function parseUserTwitch(user: unknown) {
+  return userTwitchSchema.parse(user);
+}
+
+export type UserTwitch = z.infer<typeof userTwitchSchema>;
