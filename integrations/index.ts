@@ -130,7 +130,6 @@ export interface InternalGlobalEmoteCollection<
   SourceT extends EmoteSource,
   SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
 > {
-  name: `${SourceT} Global Emotes Collection`;
   sets: SetT[];
   source: SourceT;
   formedAt: number;
