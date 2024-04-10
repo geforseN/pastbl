@@ -1,5 +1,5 @@
 <template>
-  <dynamic-scroller :min-item-size="100">
+  <dynamic-scroller :min-item-size="100" list-tag="ul" item-tag="li">
     <template #default="{ item: pasta, index, active }">
       <dynamic-scroller-item
         :item="pasta"
