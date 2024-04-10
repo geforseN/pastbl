@@ -2,11 +2,7 @@
   <app-page-link to="main">
     <template #right>
       <div class="flex items-center gap-2">
-        <span class="text-nowrap text-xs">
-          <kbd class="kbd pt-1">Alt</kbd>
-          <span class="mx-0.5">+</span>
-          <kbd class="kbd pt-1">H</kbd>
-        </span>
+        <combine-keyboard-keys first="Alt" last="H" />
         <icon name="ic:home" size="30" />
       </div>
     </template>
