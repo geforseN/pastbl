@@ -4,7 +4,7 @@
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
-        <nuxt-link-locale class="logo relative bottom-[1px] text-5xl" to="/">
+        <nuxt-link-locale class="logo relative bottom-px text-5xl" to="/">
           pastbl
         </nuxt-link-locale>
       </li>

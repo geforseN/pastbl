@@ -10,7 +10,7 @@
     <div
       tabindex="0"
       role="button"
-      class="btn btn-circle btn-ghost btn-xs translate-y-[1px] text-info"
+      class="btn btn-circle btn-ghost btn-xs translate-y-px text-info"
     >
       <icon name="ic:outline-info" size="20" />
     </div>
