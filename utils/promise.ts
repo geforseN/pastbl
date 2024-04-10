@@ -5,8 +5,7 @@ export async function groupAsync<T>(values: MaybePromise<T>[]) {
   return groupBy(
     settled,
     (result) => result.status,
-    // @ts-expect-error result is object, which either has value or reason property (depending on status property)
-    (result) => result.value || result.reason,
+    (result) => (result.status === "fulfilled" ? result.value : result.reason),
   ) as {
     fulfilled: Awaited<T>[];
     rejected: unknown[];
