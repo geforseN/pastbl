@@ -43,8 +43,12 @@ const props = defineProps<{
 
 async function repopulateText() {
   await props.canPopulate();
-  const validTokens = makeValidTokens(props.text);
-  populatePasta(pastaTextContainerRef.value, { validTokens }, emotesStore);
+  const validTokens = makeValidTokensFromPastaText(props.text);
+  populatePasta(
+    pastaTextContainerRef.value,
+    validTokens,
+    emotesStore.findEmote,
+  );
 }
 
 watch(() => props.text, repopulateText);

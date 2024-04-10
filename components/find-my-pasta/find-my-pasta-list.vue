@@ -45,7 +45,11 @@
       @mouseover="throttledMouseover"
       @populate="
         (pastaTextContainer) =>
-          populatePasta(pastaTextContainer, selectedPasta, emotesStore)
+          populatePasta(
+            pastaTextContainer,
+            selectedPasta.validTokens,
+            emotesStore.findEmote,
+          )
       "
     >
       <template #creatorData>
