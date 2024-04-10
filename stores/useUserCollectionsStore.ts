@@ -154,7 +154,10 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     loginsToSelect,
     collectionsToSelect,
     selectedCollection,
-    refreshCollection: collectionsRefresh.execute,
+    async refreshCollection(source: LoginSource) {
+      await collectionsRefresh.execute(source);
+      await refreshStates();
+    },
     isCollectionRefreshing: collectionsRefresh.isCurrentlyRefreshing,
     async deleteCollection(loginSource: LoginSource) {
       const login = getLogin(loginSource);
