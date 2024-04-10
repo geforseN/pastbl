@@ -1,4 +1,4 @@
-import { UserTwitch } from "./server/api/auth/twitch.get";
+import { UserTwitch } from "~/server/utils/twitch/twitch-user";
 
 declare module "#auth-utils" {
   interface User extends UserTwitch {}
