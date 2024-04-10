@@ -28,11 +28,7 @@
     >
       <div class="py-1">{{ $t("pastas.saveToFile") }}</div>
       <div class="flex items-center gap-2">
-        <span class="text-nowrap text-xs text-base-content">
-          <kbd class="kbd pt-1">Alt</kbd>
-          <span class="mx-0.5">+</span>
-          <kbd class="kbd pt-1">S</kbd>
-        </span>
+        <combine-keyboard-keys first="Alt" last="S" />
         <icon name="ic:file-download" size="31" />
       </div>
     </button>
