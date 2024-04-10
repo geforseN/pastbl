@@ -13,14 +13,11 @@
     </header>
     <main>
       <div v-if="props.status === 'ready'" class="flex flex-col gap-1.5">
-        <div class="flex flex-col gap-1.5">
-          <emote-collection-collapsed-set
-            v-for="set of props.collection.sets"
-            :key="set.name"
-            :set="set"
-            :colors="styles"
-          />
-        </div>
+        <ul class="space-y-1.5">
+          <li v-for="set of props.collection.sets" :key="set.name">
+            <emote-collection-collapsed-set :set :styles />
+          </li>
+        </ul>
         <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
           <div class="flex justify-between">
             <emote-collection-formed-at :time="props.collection.formedAt" />
