@@ -28,17 +28,10 @@
           <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
             &nbsp;
           </div>
-          <div class="flex items-center justify-between gap-2">
-            <label :for="mustBeUsedId">{{ $t("mustBeInPastas") }}</label>
-            <input
-              :id="mustBeUsedId"
-              v-model="checkedSources"
-              :name="mustBeUsedId"
-              type="checkbox"
-              :value="props.source"
-              class="checkbox-accent checkbox"
-            />
-          </div>
+          <emote-collection-global-must-be-used
+            v-model="checkedSources"
+            :source="props.source"
+          />
         </div>
       </div>
       <div v-else-if="props.status === 'failed'">
@@ -66,8 +59,4 @@ defineSlots<{
 }>();
 
 const styles = computed(() => collectionsStyles[props.source]);
-
-const mustBeUsedId = computed(
-  () => "global-" + props.source.toLowerCase() + "-emotes-must-be-used",
-);
 </script>
