@@ -5,8 +5,8 @@ import {
   type IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
-export type Login = Lowercase<string> | "";
-type LoginSource = Login | IBasicUserEmoteCollection;
+export type SelectableLogin = TwitchUserLogin | "";
+type LoginSource = SelectableLogin | IBasicUserEmoteCollection;
 
 function getLogin(loginSource: LoginSource) {
   const login =
@@ -32,13 +32,13 @@ function useSelectedLogin() {
   return {
     selectedCollectionLogin,
     ...selectedCollectionLogin,
-    changeTo(login: Login) {
+    changeTo(login: SelectableLogin) {
       selectedCollectionLogin.state.value = login;
     },
-    isEqualTo(login: Login) {
+    isEqualTo(login: SelectableLogin) {
       return selectedCollectionLogin.state.value === login;
     },
-    tryRemove(login: Login) {
+    tryRemove(login: SelectableLogin) {
       if (this.isEqualTo(login)) {
         selectedCollectionLogin.state.value = "";
       }
@@ -47,7 +47,7 @@ function useSelectedLogin() {
   };
 }
 
-function useSelectedCollection(selectedLogin: Ref<Login>) {
+function useSelectedCollection(selectedLogin: Ref<SelectableLogin>) {
   const asyncState = useAsyncState(userCollectionsService.get, null, {
     ...stateOptions,
     immediate: false,
@@ -71,7 +71,7 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
 
   return {
     ...asyncState,
-    tryRefresh(login: Login) {
+    tryRefresh(login: SelectableLogin) {
       const isSameLogin = _login.value === login;
       if (isSameLogin) {
         return asyncState.execute(0, login);
@@ -89,9 +89,9 @@ function useSelectedCollection(selectedLogin: Ref<Login>) {
 }
 
 function useCollectionsRefresh(options: {
-  beforeLoadingCompleted: (login: Login) => MaybePromise<void>;
+  beforeLoadingCompleted: (login: SelectableLogin) => MaybePromise<void>;
 }) {
-  const currentlyUpdated = ref(new Set<Login>());
+  const currentlyUpdated = ref(new Set<SelectableLogin>());
 
   return {
     async execute(loginSource: LoginSource) {
