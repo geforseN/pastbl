@@ -4,7 +4,7 @@
       v-for="collection of userCollectionsStore.collectionsToSelect.state"
       :key="collection.user.twitch.login"
       class="border border-base-content"
-      :updated-at="collection.formedAt"
+      :formed-at="collection.formedAt"
       :login="collection.user.twitch.login"
       :nickname="collection.user.twitch.nickname"
       :avatar-url="collection.user.twitch.avatarUrl"
