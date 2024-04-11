@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-2">
     <pasta-form-edit
       ref="pastaFormEditRef"
       v-model:tag="tag"

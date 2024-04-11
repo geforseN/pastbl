@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <form class="space-y-2">
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
@@ -78,7 +78,7 @@
         />
       </template>
     </pasta-form-tags-input>
-  </div>
+  </form>
 </template>
 <script lang="ts" setup>
 import type { PastaFormTextarea } from "#build/components";

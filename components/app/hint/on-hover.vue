@@ -64,7 +64,7 @@
     </div>
     <div
       v-if="emoteModifiers?.length"
-      class="divide flex h-fit flex-col divide-y-2 rounded-r border border-primary bg-base-100"
+      class="divide h-fit divide-y-2 rounded-r border border-primary bg-base-100"
     >
       <div
         v-for="(modifier, i) of emoteModifiers"

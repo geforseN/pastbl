@@ -2,7 +2,7 @@
   <div
     ref="channelsContainerRef"
     v-auto-animate
-    class="flex max-h-60 flex-col overflow-y-auto rounded"
+    class="max-h-60 overflow-y-auto rounded"
     :class="props.mustShow && props.channels.length && 'border border-accent'"
   >
     <template v-if="props.mustShow">

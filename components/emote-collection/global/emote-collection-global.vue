@@ -9,7 +9,7 @@
       <emote-integration-logo :source="props.source" with-link />
     </header>
     <main>
-      <div v-if="props.status === 'ready'" class="flex flex-col gap-1.5">
+      <div v-if="props.status === 'ready'" class="space-y-1.5">
         <ul class="space-y-1.5">
           <li v-for="set of props.collection.sets" :key="set.name">
             <emote-collection-collapsed-set :set :styles />
