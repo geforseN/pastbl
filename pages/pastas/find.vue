@@ -4,7 +4,7 @@
   >
     <!-- NOTE: for below component w-full and max-w-[414px] is necessary for no layout shift -->
     <find-my-pasta-list class="w-full max-w-[414px]" />
-    <div class="flex w-96 flex-col gap-2">
+    <div class="w-96 space-y-2">
       <find-my-pasta-params />
       <app-page-link-main />
     </div>

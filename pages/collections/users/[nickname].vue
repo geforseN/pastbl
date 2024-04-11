@@ -1,6 +1,6 @@
 <template>
   <div class="w-96">
-    <div v-if="collection.state.value !== null" class="flex flex-col gap-2">
+    <div v-if="collection.state.value !== null" class="space-y-2">
       <emote-collection-user-ready
         v-if="collection.state.value !== null"
         :async-state="collection"
