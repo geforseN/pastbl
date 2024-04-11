@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="space-y-2">
     <chat-pasta-edit />
     <app-page-link-emotes />
     <app-page-link-main />
