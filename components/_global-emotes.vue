@@ -6,7 +6,7 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div class="flex flex-col gap-2" @mouseover="throttledMouseover">
+    <div class="space-y-2" @mouseover="throttledMouseover">
       <button
         class="btn btn-primary btn-lg w-full flex-nowrap text-pretty border-2 border-base-content text-xl"
         @click="globalCollectionsStore.refreshAllCollections"

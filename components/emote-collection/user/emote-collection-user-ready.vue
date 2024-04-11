@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-96 flex-col gap-2 rounded-box border-2 border-twitch-accent p-2"
+    class="w-96 space-y-2 rounded-box border-2 border-twitch-accent p-2"
     :class="
       asyncState.isLoading.value &&
       'animate-pulse bg-gradient-to-t from-base-300 to-twitch-accent/50'
