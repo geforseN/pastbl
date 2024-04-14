@@ -1,5 +1,5 @@
 <template>
-  <section class="flex w-full flex-col gap-1 rounded-box border-2 p-2">
+  <section class="w-full space-y-1 rounded-box border-2 p-2">
     <h2 id="heading" class="p-2 text-2xl font-bold xs:text-3xl">
       {{ $t(f + "heading") }}
     </h2>
