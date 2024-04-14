@@ -17,16 +17,16 @@
             ref="pastaTextContainerRef"
             class="twitch-text p-0 text-[13px]/[18px]"
           >
-            {{ props.pasta.text }}
+            {{ pasta.text }}
           </span>
         </span>
       </span>
       <div
-        v-if="props.pasta.tags.length !== 0"
+        v-if="pasta.tags.length !== 0"
         class="relative top-1 flex flex-wrap gap-x-1 gap-y-0.5"
       >
         <chat-pasta-tag
-          v-for="tag of props.pasta.tags"
+          v-for="tag of pasta.tags"
           :key="tag"
           :tag="tag"
           class="line-clamp-2 w-fit break-all"
@@ -36,16 +36,15 @@
         message-key="pasta.created"
         dropdown-class="dropdown-top dropdown-hover"
         dropdown-content-class="-translate-x-1/2"
-        :date="props.pasta.createdAt"
+        :date="pasta.createdAt"
       />
     </div>
     <slot name="sidebar" />
   </div>
 </template>
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   pasta: IDBMegaPasta;
-  emotesStore?: ReturnType<typeof useEmotesStore>;
 }>();
 
 defineSlots<{

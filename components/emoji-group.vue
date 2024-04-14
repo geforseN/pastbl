@@ -25,7 +25,7 @@
 <script setup lang="ts">
 const isOpen = ref(false);
 
-const { group, title } = defineProps<{
+defineProps<{
   title: string;
   group: { emoji: string; name: string; slug: string }[];
 }>();

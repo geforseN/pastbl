@@ -66,15 +66,14 @@
   </div>
 </template>
 <script setup lang="ts">
-const { formedAt, nickname, login, avatarUrl, isSelected, isRefreshing } =
-  defineProps<{
-    formedAt: number;
-    nickname: string;
-    login: Lowercase<string>;
-    avatarUrl: string;
-    isSelected: boolean;
-    isRefreshing: boolean;
-  }>();
+defineProps<{
+  formedAt: number;
+  nickname: string;
+  login: Lowercase<string>;
+  avatarUrl: string;
+  isSelected: boolean;
+  isRefreshing: boolean;
+}>();
 
 const emit = defineEmits<{
   refresh: [];

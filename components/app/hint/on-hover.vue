@@ -94,7 +94,7 @@
       </div>
     </div>
     <div
-      v-if="props.emoji"
+      v-if="emoji"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
       <button
@@ -103,7 +103,7 @@
       >
         X
       </button>
-      <span class="text-6xl">{{ props.emoji }}</span>
+      <span class="text-6xl">{{ emoji }}</span>
       <span class="space-x-1">
         <!-- TODO: ? add i18n for emoji name ? -->
         <span>{{ emojiData.name }}</span>
