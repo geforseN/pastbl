@@ -2,7 +2,7 @@
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
     <h2 class="collapse-title text-xl font-bold">{{ $t(ta + "heading") }}</h2>
-    <div class="collapse-content flex flex-col gap-1">
+    <div class="collapse-content space-y-1">
       <article class="flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-tags">
           <h3>{{ $t(ta + "must-respect") }}</h3>
@@ -24,7 +24,7 @@
           class="select select-primary !h-40 w-full p-2"
         >
           <option
-            v-for="tag of props.tagsToSelect"
+            v-for="tag of tagsToSelect"
             :key="tag"
             :value="tag"
             class="h-6 p-1 odd:bg-base-300"
@@ -33,14 +33,14 @@
           </option>
         </select>
         <div class="px-1">
-          <span class="font-bold text-warning">{{ $t(h + "part1") }}</span>
-          <span>
-            &nbsp;{{ $t(h + "part2") }}&nbsp;
-            <span class="inline-flex items-baseline">
+          <span class="font-bold text-warning">{{ $t("note") }}: </span>
+          <i18n-t :keypath="`${ta}select-hint`" tag="span">
+            <span class="inline-flex items-baseline gap-x-0.5">
               <kbd class="kbd kbd-sm">CTRL</kbd>
-              &nbsp;+&nbsp;{{ $t(h + "part3") }}
+              +
+              <span>{{ $t("click") }}</span>
             </span>
-          </span>
+          </i18n-t>
         </div>
       </div>
     </div>
@@ -51,19 +51,19 @@ import { f } from "~/components/find-my-pasta/find-my-pasta-params.vue";
 </script>
 <script setup lang="ts">
 const ta = f + ("tags." as const);
-const h = ta + "select-hint.";
 
-const mustRespectSelectedTags = defineModel("mustRespectSelectedTags", {
+const mustRespectSelectedTags = defineModel<boolean>(
+  "mustRespectSelectedTags",
+  {
+    required: true,
+  },
+);
+
+const selectedPastaTags = defineModel<string[]>("selectedPastaTags", {
   required: true,
-  type: Boolean,
 });
 
-const selectedPastaTags = defineModel("selectedPastaTags", {
-  required: true,
-  type: Array<string>,
-});
-
-const props = defineProps<{
+defineProps<{
   tagsToSelect: string[];
 }>();
 </script>
