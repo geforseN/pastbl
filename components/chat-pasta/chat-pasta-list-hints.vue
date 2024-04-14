@@ -26,12 +26,7 @@
       <!-- NOTE: chat-pasta-list expected here -->
     </slot>
     <client-only>
-      <div
-        v-if="pastasStore.pastas.isLoading"
-        class="skeleton flex h-[50dvh] justify-center rounded-btn rounded-t-none p-2 go-brr:h-[66dvh]"
-      >
-        {{ $t(l + "loading") }}
-      </div>
+      <chat-pasta-list-skeleton v-if="pastasStore.pastas.isLoading" />
       <div
         v-else-if="pastasStore.pastas.isReady"
         class="divide-y-2 rounded-btn rounded-t-none border-2"
@@ -74,11 +69,7 @@
         </template>
       </div>
       <template #fallback>
-        <div
-          class="skeleton flex h-[50dvh] justify-center rounded-btn rounded-t-none p-2 go-brr:h-[66dvh]"
-        >
-          {{ $t(l + "loading") }}
-        </div>
+        <chat-pasta-list-skeleton />
       </template>
     </client-only>
   </div>
