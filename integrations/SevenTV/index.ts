@@ -50,7 +50,7 @@ export const SevenTV = {
   },
 };
 
-export type { I7TVGlobalCollection } from "./entity/SevenTVGlobalCollection";
+export type { I7TVGlobalCollection as I7TVGlobalIntegration } from "./entity/SevenTVGlobalCollection";
 export type { ISevenTVUserIntegration } from "./entity/SevenTVUserIntegration";
 export type { I7TVSet } from "./entity/SevenTVSet";
 export type { I7TVEmote } from "./entity/SevenTVEmote";

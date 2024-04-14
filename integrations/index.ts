@@ -1,21 +1,21 @@
 import {
-  type FrankerFaceZGlobalCollection,
+  type FrankerFaceZGlobalIntegration,
   type FrankerFaceZUserIntegration,
   type FrankerFaceZEmote,
 } from "./FrankerFaceZ/index";
 import {
-  type BetterTTVGlobalCollection,
+  type BetterTTVGlobalIntegration,
   type BetterTTVUserIntegration,
   type IBetterTTVEmote,
 } from "./BetterTTV/index";
 import {
   SevenTVWrappedEmoteString,
-  type I7TVGlobalCollection,
+  type I7TVGlobalIntegration,
   type ISevenTVUserIntegration,
   type I7TVEmote,
 } from "./SevenTV/index";
 import {
-  type ITwitchGlobalCollection,
+  type ITwitchGlobalIntegration,
   type ITwitchUserIntegration,
   type ITwitchEmote,
 } from "./Twitch";
@@ -63,7 +63,7 @@ const emoteTemplateStrings = {
 export function makeWrappedEmoteAsString(emote: EmoteT) {
   const templateString = emoteTemplateStrings.wrapped[emote.source];
   if (templateString) {
-    return templateString(emote);
+    return templateString(emote) as string;
   }
   return `<span class="inline-block">${makeEmoteAsString(emote)}</span>`;
 }
@@ -135,17 +135,17 @@ export interface InternalGlobalEmoteCollection<
   formedAt: number;
 }
 
-export type IGlobalEmoteCollection =
-  | FrankerFaceZGlobalCollection
-  | BetterTTVGlobalCollection
-  | I7TVGlobalCollection
-  | ITwitchGlobalCollection;
+export type IGlobalEmoteIntegration =
+  | FrankerFaceZGlobalIntegration
+  | BetterTTVGlobalIntegration
+  | I7TVGlobalIntegration
+  | ITwitchGlobalIntegration;
 
-export type IGlobalEmoteCollectionRecord = {
-  FrankerFaceZ: FrankerFaceZGlobalCollection;
-  BetterTTV: BetterTTVGlobalCollection;
-  SevenTV: I7TVGlobalCollection;
-  Twitch: ITwitchGlobalCollection;
+export type IGlobalEmoteIntegrationRecord = {
+  FrankerFaceZ: FrankerFaceZGlobalIntegration;
+  BetterTTV: BetterTTVGlobalIntegration;
+  SevenTV: I7TVGlobalIntegration;
+  Twitch: ITwitchGlobalIntegration;
 };
 
 export interface InternalGenericUserEmoteIntegration<
@@ -178,7 +178,7 @@ export type IUserEmoteIntegration =
 
 export type IUserEmoteIntegrationSetRecord = {
   [k in EmoteSource]: IUserEmoteIntegrationRecord[k]["sets"][number] &
-    IGlobalEmoteCollectionRecord[k]["sets"][number];
+    IGlobalEmoteIntegrationRecord[k]["sets"][number];
 };
 
 export type IEmoteSetT =

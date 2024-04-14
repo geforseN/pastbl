@@ -44,13 +44,13 @@
 import type { EmoteSource } from "~/integrations";
 import {
   collectionsStyles,
-  type GlobalCollectionProps,
+  type GlobalIntegrationProps,
 } from "~/components/emote-collection";
 
 const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });
-const props = defineProps<GlobalCollectionProps<Source>>();
+const props = defineProps<GlobalIntegrationProps<Source>>();
 const emit = defineEmits<{
   refresh: [];
 }>();

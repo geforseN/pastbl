@@ -34,7 +34,7 @@ export type IBetterTTV = {
     Integration: BetterTTVUserIntegration;
   };
 };
-export type { BetterTTVGlobalCollection } from "./entity/BetterTTVGlobalCollection";
+export type { BetterTTVGlobalCollection as BetterTTVGlobalIntegration } from "./entity/BetterTTVGlobalCollection";
 export type { BetterTTVUserIntegration } from "./entity/BetterTTVUserIntegration";
 export type { IBetterTTVSet } from "./entity/BetterTTVSet";
 export type { IBetterTTVEmote } from "./entity/BetterTTVEmote";
