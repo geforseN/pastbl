@@ -7,7 +7,7 @@
         ref="pastaFormTextareaRef"
         v-model="text"
         class="mx-0.5"
-        @enter-pressed="emit('accept')"
+        @submit="emit('accept')"
       />
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"

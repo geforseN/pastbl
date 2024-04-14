@@ -7,7 +7,7 @@
         v-model="pastaTextModel"
         :model-status="pastaStatus"
         class="mx-0.5"
-        @enter-pressed="mainEmit"
+        @submit="mainEmit"
       />
       <!-- NOTE: after xl: template is horrible -->
       <pasta-form-is-public
