@@ -3,25 +3,20 @@
     <label for="sort-pastas" class="label font-bold">
       {{ t(s + "label") }}
     </label>
-    <client-only>
-      <select
-        id="sort-pastas"
-        v-model="selectedSortStrategy"
-        class="select select-secondary select-sm w-1/2"
-        name="sort-pastas"
+    <select
+      id="sort-pastas"
+      v-model="selectedSortStrategy"
+      class="select select-secondary select-sm w-1/2"
+      name="sort-pastas"
+    >
+      <option
+        v-for="[sortStrategy, translatedText] of sortEntries"
+        :key="sortStrategy"
+        :value="sortStrategy"
       >
-        <option
-          v-for="[sortStrategy, translatedText] of Object.entries(sortOptions)"
-          :key="sortStrategy"
-          :value="sortStrategy"
-        >
-          {{ translatedText }}
-        </option>
-      </select>
-      <template #fallback>
-        <select class="select select-secondary select-sm w-1/2"></select>
-      </template>
-    </client-only>
+        {{ translatedText }}
+      </option>
+    </select>
   </div>
 </template>
 <script lang="ts" setup>
@@ -33,14 +28,14 @@ const s = l + "sort.";
 const so = l + "sort.options.";
 const { t, locale } = useI18n();
 
-const sortOptions = computedWithControl(
+const sortEntries = computedWithControl(
   locale,
   () =>
-    ({
-      "newest-first": t(so + "newest-first"),
-      "oldest-first": t(so + "oldest-first"),
-      "last-updated": t(so + "last-updated"),
-      "last-copied": t(so + "last-copied"),
-    }) satisfies Record<PastaSortStrategy, string>,
+    [
+      ["newest-first", t(so + "newest-first")],
+      ["oldest-first", t(so + "oldest-first")],
+      ["last-updated", t(so + "last-updated")],
+      ["last-copied", t(so + "last-copied")],
+    ] satisfies [PastaSortStrategy, string][],
 );
 </script>
