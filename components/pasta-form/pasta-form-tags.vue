@@ -4,7 +4,7 @@
     class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
   >
     <div
-      v-for="tag of props.tags"
+      v-for="tag of tags"
       :key="tag"
       class="join flex rounded-lg"
       :title="tag"
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{ tags: string[] }>();
+defineProps<{ tags: string[] }>();
 const emit = defineEmits<{ removeTag: [tag: string] }>();
 // TODO: can add on tag mouseover logic with hint:
 // if user mouseovered then click on any place of tag will remove it,

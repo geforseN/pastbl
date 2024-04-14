@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-const { jsonData } = defineProps<{ jsonData: object }>();
+defineProps<{ jsonData: object }>();
 </script>
 
 <style scoped>

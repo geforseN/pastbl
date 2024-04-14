@@ -10,7 +10,7 @@
       name="pasta-oncopy"
     >
       <option
-        v-for="[name, translatedText] in Object.entries(props.options)"
+        v-for="[name, translatedText] in Object.entries(options)"
         :key="name"
         :value="name"
       >
@@ -25,7 +25,7 @@ import { s } from "~/components/user-settings/user-settings.vue";
 </script>
 <script lang="ts" setup>
 const oncopy = defineModel<string>({ required: true });
-const props = defineProps<{
+defineProps<{
   options: Record<MyKeyValueSchema["pasta:oncopy"], string>;
 }>();
 </script>
