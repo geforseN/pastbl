@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col px-2">
-    <span>
+  <div class="px-2">
+    <p>
       {{ $t(ae + "global.before") }}
       <nuxt-link-locale
         :to="{
@@ -11,8 +11,8 @@
       >
         {{ $t("collections.global.link") }}
       </nuxt-link-locale>
-    </span>
-    <span>
+    </p>
+    <p>
       {{ $t(ae + "user.before") }}
       <nuxt-link-locale
         :to="{
@@ -26,7 +26,7 @@
       >
         {{ $t(ae + "user.link") }}
       </nuxt-link-locale>
-    </span>
+    </p>
   </div>
 </template>
 <script setup lang="ts">
