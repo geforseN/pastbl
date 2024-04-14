@@ -73,10 +73,9 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { f } from "~/components/find-my-pasta/find-my-pasta-params.vue";
-</script>
 <script lang="ts" setup>
+import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
+
 const r = f + ("range." as const);
 
 const range = defineModel<number[]>({

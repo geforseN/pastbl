@@ -46,17 +46,14 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { f } from "~/components/find-my-pasta/find-my-pasta-params.vue";
-</script>
 <script setup lang="ts">
+import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
+
 const ta = f + ("tags." as const);
 
 const mustRespectSelectedTags = defineModel<boolean>(
   "mustRespectSelectedTags",
-  {
-    required: true,
-  },
+  { required: true },
 );
 
 const selectedPastaTags = defineModel<string[]>("selectedPastaTags", {

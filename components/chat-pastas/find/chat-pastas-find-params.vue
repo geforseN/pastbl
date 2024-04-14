@@ -15,20 +15,20 @@
         class="input input-secondary m-1 -mt-1 border-2"
       />
     </article>
-    <find-my-pasta-length-range
+    <chat-pastas-find-length-range
       v-model="pastaFindStore.length.range"
       v-model:max-value="pastaFindStore.length.max"
       v-model:min-value="pastaFindStore.length.min"
       v-model:respect="pastaFindStore.mustRespectLengthRange"
     />
-    <find-my-pasta-tags
+    <chat-pastas-find-tags
       v-model:must-respect-selected-tags="
         pastaFindStore.mustRespectSelectedTags
       "
       v-model:selected-pasta-tags="pastaFindStore.selectedPastaTags"
       :tags-to-select="pastaFindStore.tagsToSelect"
     />
-    <find-my-pasta-date />
+    <chat-pastas-find-date />
   </section>
 </template>
 <script lang="ts">
