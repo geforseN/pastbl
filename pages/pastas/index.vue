@@ -1,38 +1,35 @@
 <template>
-  <div class="flex w-96 flex-col gap-2">
-    <div class="flex flex-col gap-1">
-      <article class="form-control rounded-btn border p-2">
-        <label for="load-pastas">
-          <h3 class="p-1 pt-0 text-2xl font-bold">
-            {{ $t("pastas.loadFromFile") }}
-          </h3>
-        </label>
-        <input
-          id="load-pastas"
-          name="load-pastas"
-          class="file-input file-input-primary"
-          type="file"
-          accept="application/json"
-          @change="
-            (event) => {
-              assert.ok(reader);
-              loadPastasFromFile(event, reader);
-            }
-          "
-        />
-      </article>
-    </div>
+  <div class="w-96 space-y-2">
+    <article class="form-control rounded-btn border p-2">
+      <label for="load-pastas">
+        <h3 class="p-1 pt-0 text-2xl font-bold">
+          {{ $t("pastas.loadFromFile") }}
+        </h3>
+      </label>
+      <input
+        id="load-pastas"
+        name="load-pastas"
+        class="file-input file-input-primary"
+        type="file"
+        accept="application/json"
+        @change="
+          (event) => {
+            assert.ok(reader);
+            loadPastasFromFile(event, reader);
+          }
+        "
+      />
+    </article>
     <button
       class="btn btn-primary btn-lg h-max flex-nowrap text-balance px-4 text-3xl"
       @click="() => savePastasToFile(pastasStore.pastas.state)"
     >
       <div class="py-1">{{ $t("pastas.saveToFile") }}</div>
       <div class="flex items-center gap-2">
-        <combine-keyboard-keys first="Alt" last="S" />
+        <combine-keyboard-keys class="text-base-content" first="Alt" last="S" />
         <icon name="ic:file-download" size="31" />
       </div>
     </button>
-    <span class="text-7xl">Корзина</span>
     <app-page-link-pastas-find />
     <app-page-link-main />
   </div>
