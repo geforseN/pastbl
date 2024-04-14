@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1 rounded-box border p-2">
+  <div class="space-y-1 rounded-box border p-2">
     <h2 class="p-1 text-3xl font-bold">{{ $t("pasta.edit") }}</h2>
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
@@ -12,7 +12,10 @@
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
-        <span v-if="isPastaSame" class="badge badge-error badge-lg font-bold">
+        <span
+          v-if="isPastaSame"
+          class="badge badge-error badge-lg hidden h-fit w-fit font-bold xl:block"
+        >
           {{ $t("pasta.makeChangesIn") }}
         </span>
         <div class="flex gap-4">
@@ -44,6 +47,12 @@
         </div>
       </div>
     </div>
+    <span
+      v-if="isPastaSame"
+      class="badge badge-error badge-lg h-fit w-fit font-bold"
+    >
+      {{ $t("pasta.makeChangesIn") }}
+    </span>
     <pasta-form-tags
       class="xs:max-w-[420px]"
       :tags="tags"
