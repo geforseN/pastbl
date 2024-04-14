@@ -1,4 +1,5 @@
 import { isFn } from "./guard";
+import { assert } from "./error";
 
 export function getRouteStringParam(
   key: string,
