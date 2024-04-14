@@ -1,4 +1,6 @@
 {
+  "click": "Click",
+  "note": "Note",
   "yes": "Yes",
   "no": "No",
   "tags": {
@@ -242,11 +244,7 @@
       "tags": {
         "heading": "Required tags",
         "must-respect": "Must respect selected tags",
-        "select-hint": {
-          "part1": "NOTE:",
-          "part2": "To select multiple tags, use",
-          "part3": "click"
-        }
+        "select-hint": "To select multiple tags, use {0}"
       }
     },
     "publish": {
