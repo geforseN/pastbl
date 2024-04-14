@@ -46,7 +46,8 @@
   </section>
 </template>
 <script lang="ts" setup>
-import { f } from "./find-my-pasta-params.vue";
+import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
+
 const d = f + "date.";
 const pastaFindStore = usePastaFindStore();
 </script>
