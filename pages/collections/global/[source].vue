@@ -22,7 +22,7 @@ import { emoteSources } from "~/integrations";
 
 const globalCollectionsStore = useGlobalCollectionsStore();
 
-const maybeSource = getRouteStringParam("source");
+const maybeSource = getRouteStringParam("source", toLowerCase);
 const source =
   [...emoteSources].find((source) => toLowerCase(source) === maybeSource) ||
   raise();
