@@ -2,12 +2,12 @@ import { idb } from "../IndexedDB";
 import { emoteSources, isValidEmoteSource } from "~/integrations";
 import type {
   EmoteSource,
-  IGlobalEmoteCollection,
-  IGlobalEmoteCollectionRecord,
+  IGlobalEmoteIntegration,
+  IGlobalEmoteIntegrationRecord,
 } from "~/integrations";
 
 export const globalCollectionsService = {
-  async tryLoadMissing(state: Partial<IGlobalEmoteCollectionRecord>) {
+  async tryLoadMissing(state: Partial<IGlobalEmoteIntegrationRecord>) {
     const missingSources = emoteSources.filter((source) => !state[source]);
     if (!missingSources.length) {
       return;
@@ -19,7 +19,7 @@ export const globalCollectionsService = {
   },
   async refresh<S extends EmoteSource>(
     source: S,
-  ): Promise<IGlobalEmoteCollectionRecord[S]> {
+  ): Promise<IGlobalEmoteIntegrationRecord[S]> {
     const collection = await API.get(source);
     await IDB.put(collection);
     return collection;
@@ -44,7 +44,7 @@ export const globalCollectionsService = {
     return flatGroupBy(
       collections,
       (collection) => collection.source,
-    ) as Partial<IGlobalEmoteCollectionRecord>;
+    ) as Partial<IGlobalEmoteIntegrationRecord>;
   },
 };
 
@@ -53,11 +53,11 @@ const IDB = {
     const collectionIdb = await idb.collections;
     return await collectionIdb.global.getAll();
   },
-  async put(collection: IGlobalEmoteCollection) {
+  async put(collection: IGlobalEmoteIntegration) {
     const collectionIdb = await idb.collections;
     return await collectionIdb.global.put(collection);
   },
-  async putMany(collections: IGlobalEmoteCollection[]) {
+  async putMany(collections: IGlobalEmoteIntegration[]) {
     const collectionsIdb = await idb.collections;
     return await Promise.all(
       collections.map((collection) => collectionsIdb.global.put(collection)),
@@ -68,7 +68,7 @@ const IDB = {
 const API = {
   get<S extends EmoteSource>(
     source: S,
-  ): Promise<IGlobalEmoteCollectionRecord[S]> {
+  ): Promise<IGlobalEmoteIntegrationRecord[S]> {
     assert.ok(isValidEmoteSource(source));
     return $fetch(`/api/v1/collections/global/${source}`);
   },

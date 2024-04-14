@@ -2,12 +2,12 @@ import {
   emoteSources,
   isValidEmoteSource,
   type EmoteSource,
-  type IGlobalEmoteCollection,
-  type IGlobalEmoteCollectionRecord,
+  type IGlobalEmoteIntegration,
+  type IGlobalEmoteIntegrationRecord,
 } from "~/integrations";
 import { globalCollectionsService } from "~/client-only/services";
 
-type SourceKey = IGlobalEmoteCollection | IGlobalEmoteCollection["source"];
+type SourceKey = IGlobalEmoteIntegration | IGlobalEmoteIntegration["source"];
 
 function getSource(key: SourceKey) {
   return typeof key === "string" ? key : key.source;
@@ -88,7 +88,7 @@ export const useGlobalCollectionsStore = defineStore(
           checkedSources.state.value.includes(collection.source),
         );
         const record = flatGroupBy(checked, (collection) => collection.source);
-        return record as Partial<IGlobalEmoteCollectionRecord>;
+        return record as Partial<IGlobalEmoteIntegrationRecord>;
       }),
       async refreshCollection(key: SourceKey) {
         const source = getSource(key);

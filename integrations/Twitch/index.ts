@@ -63,7 +63,7 @@ class TwitchEmote implements ITwitchEmote {
   }
 }
 export interface ITwitchEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
-export interface ITwitchGlobalCollection
+export interface ITwitchGlobalIntegration
   extends InternalGlobalEmoteCollection<"Twitch", ITwitchEmoteSet> {}
 
 function getTwitchGlobalEmoteSet(
@@ -103,12 +103,12 @@ export function createUserEmote(
 
 export function makeTwitchGlobalCollection(
   response: ITwitchGlobalEmoteResponse,
-): ITwitchGlobalCollection {
+): ITwitchGlobalIntegration {
   const set = getTwitchGlobalEmoteSet(response);
   return new TwitchGlobalCollection([set]);
 }
 
-export class TwitchGlobalCollection implements ITwitchGlobalCollection {
+export class TwitchGlobalCollection implements ITwitchGlobalIntegration {
   source = "Twitch" as const;
   sets;
   formedAt = Date.now();

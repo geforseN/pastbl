@@ -7,7 +7,7 @@ import type {
   IEmote,
   IEmoteSet,
   IUserEmoteIntegration,
-  IGlobalEmoteCollection,
+  IGlobalEmoteIntegration,
   FrankerFaceZUserIntegration,
   FrankerFaceZSet,
   FrankerFaceZEmote,
@@ -95,8 +95,8 @@ export interface CollectionsSchema extends DBSchema {
     value: IndexedDBUserEmoteCollection;
   };
   global: {
-    key: IGlobalEmoteCollection["source"];
-    value: IGlobalEmoteCollection;
+    key: IGlobalEmoteIntegration["source"];
+    value: IGlobalEmoteIntegration;
   };
 }
 

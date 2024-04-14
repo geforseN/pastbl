@@ -1,7 +1,7 @@
 import type {
   IEmote,
   EmoteSource,
-  IGlobalEmoteCollectionRecord,
+  IGlobalEmoteIntegrationRecord,
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
@@ -31,7 +31,7 @@ class EmotesCache {
 type EmoteMapRecord = Record<EmoteSource, EmoteMap>;
 
 function useEmotes<
-  T extends IGlobalEmoteCollectionRecord | IUserEmoteIntegrationRecord,
+  T extends IGlobalEmoteIntegrationRecord | IUserEmoteIntegrationRecord,
 >(sourceToWatchCb: () => Partial<T>, onReady = () => {}) {
   const record = ref<Partial<EmoteMapRecord>>({});
   const sources = computed(() => objectKeys(record.value));

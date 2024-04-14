@@ -18,7 +18,7 @@ export const FrankerFaceZ = {
   },
 };
 
-export type { FrankerFaceZGlobalCollection } from "./entity/FrankerFaceZGlobalCollection";
+export type { FrankerFaceZGlobalCollection as FrankerFaceZGlobalIntegration } from "./entity/FrankerFaceZGlobalCollection";
 export type { FrankerFaceZUserIntegration } from "./entity/FrankerFaceZUserIntegration";
 export type { FrankerFaceZSet } from "./entity/FrankerFaceZSet";
 export type { FrankerFaceZEmote } from "./entity/FrankerFaceZEmote";
