@@ -23,6 +23,10 @@ import type {
   IBasicUserEmoteCollection,
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
+import type {
+  PastaShowStrategy,
+  PastaSortStrategy,
+} from "~/composables/pastas";
 
 export async function openIdb<T extends DBSchema>(
   name: string,
@@ -125,12 +129,12 @@ export interface PastasSchema extends DBSchema {
 }
 
 export type MyKeyValueSchema = {
-  "app:daisyui-theme": "dark" | "light";
+  "app:daisyui-theme": "system" | "dark" | "light";
   "nickname:value": string;
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
   "badges:count": number;
-  "active-user-collection:login": Login;
+  "active-user-collection:login": SelectableLogin;
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
