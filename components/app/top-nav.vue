@@ -33,36 +33,48 @@
         </nuxt-link-locale>
       </li>
       <li class="xs:!ml-auto" />
-      <li>
+      <li class="relative">
+        <label
+          for="select-locale"
+          class="pointer-events-none absolute inset-0 left-4 text-warning"
+        >
+          {{ $t("language") }}
+        </label>
         <select
           id="select-locale"
           class="select select-bordered select-xs absolute right-40 top-1 w-20 sm:select-md sm:static sm:w-max"
           name="select-locale"
-          @change="changeLocale"
+          @change="locales.change"
         >
           <option
-            v-for="availableLocale in locales"
-            :key="availableLocale.code"
-            :value="availableLocale.code"
-            :selected="availableLocale.code === locale"
+            v-for="locale in locales.objects"
+            :key="locale.code"
+            :value="locale.code"
+            :selected="locale.code === locales.selected"
           >
-            {{ availableLocale.name }}
+            {{ locale.name }}
           </option>
         </select>
       </li>
-      <li>
+      <li class="relative">
+        <label
+          for="app-theme"
+          class="pointer-events-none absolute inset-0 left-4 text-warning"
+        >
+          {{ $t("theme.label") }}
+        </label>
         <select
           id="app-theme"
-          v-model="selectedTheme.state.value"
-          class="select select-bordered select-xs absolute right-40 top-8 w-20 sm:select-md sm:static sm:w-max"
+          v-model="themes.selected"
+          class="select select-bordered select-md hidden w-max sm:block"
           name="select-app-theme"
         >
           <option
-            v-for="[theme, translatedText] in Object.entries(themes)"
-            :key="translatedText"
+            v-for="[theme, name] of themes.entries"
+            :key="name"
             :value="theme"
           >
-            {{ translatedText }}
+            {{ name }}
           </option>
         </select>
       </li>
@@ -80,33 +92,11 @@
   </nav>
 </template>
 <script setup lang="ts">
-const { t, locale, locales, setLocale } = useI18n();
+const themes = reactive(useThemes());
 
-const selectedTheme = useIndexedDBKeyValue("app:daisyui-theme", "dark");
-const themes = computedWithControl(locale, () => ({
-  // TODO: add system
-  dark: t("theme.dark"),
-  light: t("theme.light"),
-}));
+const locales = reactive(useLocales());
 
 const userSession = reactive(useUserSession());
-
-async function changeLocale(event: Event) {
-  assert.ok(event instanceof Event && event.target);
-  const { value } = event.target as unknown as { value: string };
-  assert.ok(typeof value === "string");
-  await setLocale(value);
-}
-
-onMounted(() => {
-  watch(
-    selectedTheme.state,
-    () => {
-      document.documentElement.dataset.theme = selectedTheme.state.value;
-    },
-    { immediate: true },
-  );
-});
 </script>
 <style scoped>
 strong {
