@@ -1,4 +1,4 @@
-import type { NotificationColor } from "@nuxt/ui/dist/runtime/types";
+import type { NotificationColor } from "~/utils/toast/common";
 
 type RaiseReason_ = string | Error | undefined;
 
@@ -15,6 +15,16 @@ export function assertIsError<EC extends new (...args: any[]) => Error>(
 }
 
 function assertOk(value: unknown, reason?: RaiseReason): asserts value {
+  if (!value) {
+    const maybeErrorLike = typeof reason === "function" ? reason() : reason;
+    raise(maybeErrorLike);
+  }
+}
+
+export function assertNeverEver(
+  value: unknown,
+  reason?: RaiseReason,
+): asserts value {
   if (!value) {
     const maybeErrorLike = typeof reason === "function" ? reason() : reason;
     raise(maybeErrorLike);
