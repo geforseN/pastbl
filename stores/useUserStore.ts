@@ -1,111 +1,3 @@
-import type { UserSessionComposable } from "#auth-utils";
-
-type StringWithoutAmpersand<S extends string> = S extends `${infer T}${infer U}`
-  ? T extends "&"
-    ? never
-    : U extends "&"
-      ? never
-      : string
-  : never;
-
-async function handlePreferences<
-  K extends string,
-  PK extends StringWithoutAmpersand<K>,
->(
-  handlers: Record<Exclude<PK, "none">, () => MaybePromise<void>>,
-  preferenceRef: Ref<K>,
-) {
-  const preference = preferenceRef.value;
-  if (preference === "none") {
-    return;
-  }
-  for (const action of preference.split("&")) {
-    await handlers[action as Exclude<PK, "none">]();
-  }
-}
-
-function usePastasWorkMode(
-  defaultValue: "server" | "client",
-  userSession: UserSessionComposable,
-  isOnline: Ref<boolean>,
-) {
-  const workMode = useIndexedDBKeyValue("pastas:work-mode", defaultValue, {
-    onRestored(value) {
-      isClientMode.value = value === "client";
-    },
-  });
-
-  const isClientMode = ref(defaultValue === "client");
-  const isServerMode = ref(defaultValue === "server");
-  const isClient = computed({
-    get() {
-      return isClientMode.value;
-    },
-    set(value) {
-      isClientMode.value = value;
-      isServerMode.value = !value;
-      workMode.state.value = value ? "client" : "server";
-    },
-  });
-  const canHaveServerModeStatus = computed(() => {
-    if (!isOnline.value) {
-      if (userSession.loggedIn.value) {
-        return "offline";
-      }
-      return "offline&not-logged-in";
-    }
-    if (!userSession.loggedIn.value) {
-      return "not-logged-in";
-    }
-    return "ok";
-  });
-
-  const canHaveServerMode = computed(
-    () => canHaveServerModeStatus.value === "ok",
-  );
-
-  watchImmediate(canHaveServerMode, (canHaveServerMode) => {
-    if (!canHaveServerMode && !isClient.value) {
-      isClient.value = true;
-    }
-  });
-
-  return {
-    canHaveServerMode,
-    canHaveServerModeStatus,
-    workMode,
-    isServer: readonly(isServerMode),
-    isClient,
-  };
-}
-
-function useFormCollapse() {
-  const isFormCollapseOpen = useIndexedDBKeyValue(
-    "create-pasta-form-collapse:is-open",
-    false,
-  );
-
-  return {
-    isOpen: computed({
-      get() {
-        return isFormCollapseOpen.state.value;
-      },
-      set(value) {
-        isFormCollapseOpen.state.value = value;
-      },
-    }),
-    close() {
-      isFormCollapseOpen.state.value = false;
-    },
-    open() {
-      isFormCollapseOpen.state.value = true;
-    },
-    toggle() {
-      isFormCollapseOpen.state.value = !isFormCollapseOpen.state.value;
-    },
-  };
-}
-
 export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
@@ -135,7 +27,7 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const clipboard = useClipboard();
-  const toast = useNuxtToast();
+  const toast = useMyToast();
   const { t } = useI18n();
   const userSession = useUserSession();
   const isOnline = useOnline();
@@ -143,13 +35,9 @@ export const useUserStore = defineStore("user", () => {
 
   const actions = {
     pasta: {
-      oncopy: {
+      onTextCopy: {
         alert() {
-          toast.add({
-            description: t("toast.copyPasta.success.message"),
-            title: t("toast.copyPasta.success.title"),
-            timeout: 1_700,
-          });
+          toast.notify("success", "pastaCopied");
         },
         async sound() {
           await new Audio("/sounds/click.wav").play();
@@ -160,7 +48,8 @@ export const useUserStore = defineStore("user", () => {
 
   const preferences = {
     pasta: {
-      oncopy: () => handlePreferences(actions.pasta.oncopy, pastaOncopy.state),
+      oncopy: () =>
+        handlePreferences(actions.pasta.onTextCopy, pastaOncopy.state),
     },
   };
 
@@ -172,23 +61,24 @@ export const useUserStore = defineStore("user", () => {
     preferences,
     user,
     async copyPasta(pasta: IDBMegaPasta) {
-      await this.copyText(pasta.text);
-      await pastasStore.patchPatchLastCopied(pasta);
-      await preferences.pasta.oncopy();
+      await this.copyText(pasta.text, {
+        async onSuccess() {
+          preferences.pasta.oncopy();
+          await pastasStore.patchPastaLastCopied(pasta);
+        },
+      });
     },
-    async copyText(text: string) {
-      const m = "toast.copyText.fail.";
+    async copyText(text: string, options: { onSuccess?: () => Promise<void> }) {
       try {
         await clipboard.copy(text);
-        assert.ok(toValue(clipboard.copied), t(m + "clipboardMessage"));
+        assert.ok(
+          toValue(clipboard.copied),
+          t("toast.copyText.fail.clipboardMessage"),
+        );
+        await options.onSuccess?.();
+        preferences.pasta.oncopy();
       } catch (reason: Error | unknown) {
-        const description =
-          reason instanceof Error ? reason.message : t(m + "genericMessage");
-        toast.add({
-          description,
-          timeout: 7_000,
-          color: "red",
-        });
+        throw toast.fail("copyText__genericFail");
       }
     },
   };

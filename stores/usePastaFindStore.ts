@@ -1,59 +1,5 @@
-const time = (value: number) => new Date(value).toISOString().slice(0, 16);
-
-function usePastaFindTimeRange<
-  PK extends keyof Pick<
-    IDBMegaPasta,
-    "createdAt" | "lastCopiedAt" | "updatedAt"
-  >,
->(
-  pastaTimePropertyKey: PK,
-  pastas: Ref<IDBMegaPasta[]>,
-  ascendingPastas = computed(() =>
-    pastas.value
-      .filter((pasta) => pasta[pastaTimePropertyKey] !== undefined)
-      .toSorted((a, b) => a[pastaTimePropertyKey]! - b[pastaTimePropertyKey]!),
-  ),
-) {
-  const ascendingTimes = computed(() =>
-    ascendingPastas.value.map((pasta) => pasta[pastaTimePropertyKey]),
-  );
-  const from = ref<ReturnType<Date["toISOString"]>>();
-  const to = ref<ReturnType<Date["toISOString"]>>();
-
-  const min = computed(() => ascendingTimes.value[0] || 0);
-  const max = computed(() => ascendingTimes.value.at(-1) || 0);
-
-  watchOnce([min, max], ([min, max]) => {
-    from.value = time(min);
-    to.value = time(max);
-  });
-
-  const appropriatePastas = computed(() => {
-    if (from.value === undefined || to.value === undefined) {
-      return ascendingPastas.value;
-    }
-    const minIndex = ascendingPastas.value.findIndex(
-      (pasta) =>
-        pasta[pastaTimePropertyKey]! >= new Date(from.value!).valueOf(),
-    );
-    const maximalIndex = ascendingPastas.value.findLastIndex(
-      (pasta) => pasta[pastaTimePropertyKey]! <= new Date(to.value!).valueOf(),
-    );
-    const maxIndex = Math.max(minIndex, maximalIndex);
-    return ascendingPastas.value.slice(minIndex, maxIndex + 1);
-  });
-
-  return {
-    appropriatePastas,
-    from,
-    to,
-    max: computed(() => time(ascendingTimes.value.at(-1) || 0)),
-    min: computed(() => time(ascendingTimes.value[0] || 0)),
-  };
-}
-
 export const usePastaFindStore = defineStore("pasta-find", () => {
-  const { sortedPastas } = storeToRefs(usePastasStore());
+  const { sortedPastas, pastasTextLength } = storeToRefs(usePastasStore());
 
   const pastasToShowOnPage = computed(() => {
     const [smallestPastaList, ...othersPastaLists] =
@@ -73,8 +19,12 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
 
   const { text, debouncedText, textAppropriatePastas } =
     useFindPastaText(sortedPastas);
+
   const { mustRespectLengthRange, lengthAppropriatePastas, length } =
-    useFindPastasLength(sortedPastas);
+    useFindPastasLength(sortedPastas, {
+      minCb: () => pastasTextLength.value.min,
+      maxCb: () => pastasTextLength.value.max,
+    });
 
   const {
     mustRespectSelectedTags,

@@ -1,25 +1,4 @@
-export const PASTAS_API = {
-  postPasta(text: string, tags: string[], isPublic: boolean) {
-    return $fetch("/api/v1/pastas", {
-      method: "POST",
-      body: {
-        text,
-        tags,
-        publicity: isPublic ? "public" : "private",
-      },
-    });
-  },
-  deletePasta(pastaId: number) {
-    return $fetch(`/api/v1/pastas/${pastaId}`, { method: "DELETE" });
-  },
-  getPastas(cursor: string | null) {
-    return $fetch("/api/v1/pastas", {
-      query: {
-        cursor,
-      },
-    });
-  },
-};
+import { PASTAS_API } from "~/api/pastas";
 
 function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
   const isPublicPasta = useIndexedDBKeyValue("pasta:is-public", false);
@@ -46,7 +25,7 @@ export const usePastaStore = defineStore("pasta", () => {
     tag: tag.state,
     tags: tags.state,
   });
-  const toast = useNuxtToast();
+  const toast = useMyToast();
 
   const debouncedPastaText = refDebounced(pasta.text, 200);
   const publishPasta = usePublishPasta(pasta);
@@ -61,8 +40,7 @@ export const usePastaStore = defineStore("pasta", () => {
         pasta.addTag(newTag);
         tag.state.value = "";
       } catch (error) {
-        assert.isError(error, ExtendedError);
-        toast.add(error);
+        toast.throw(error);
       }
     },
     text,
