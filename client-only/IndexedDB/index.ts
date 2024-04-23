@@ -23,10 +23,6 @@ import type {
   IBasicUserEmoteCollection,
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
-import type {
-  PastaShowStrategy,
-  PastaSortStrategy,
-} from "~/composables/pastas";
 
 export async function openIdb<T extends DBSchema>(
   name: string,
@@ -134,7 +130,7 @@ export type MyKeyValueSchema = {
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";
   "badges:count": number;
-  "active-user-collection:login": SelectableLogin;
+  "active-user-collection:login": SelectedLogin;
   "pasta:text": string;
   "pasta:tags": string[];
   "pasta:tag": string;
