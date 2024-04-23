@@ -1,5 +1,3 @@
-import type { Nullish } from "./types";
-
 export function isNotNullable<T>(value: T): value is NonNullable<T> {
   return value !== undefined && value !== null;
 }

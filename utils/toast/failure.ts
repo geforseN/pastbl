@@ -25,7 +25,7 @@ const failureFns = {
     new ExtendedError(t("toast.putPasta.fail.sameValuesMessage"), {
       title: t("toast.putPasta.fail.title"),
     }),
-  pastaCreateBadLength: (
+  createPasta__BadLength: (
     t,
     lengthStatus: Exclude<ReturnType<typeof getPastaLengthStatus>, "ok">,
   ) => {
@@ -37,6 +37,15 @@ const failureFns = {
       },
     );
   },
+  copyText__genericFail: (t) => ({
+    description: t("toast.copyText.fail.genericMessage"),
+    timeout: 7_000,
+    color: "red",
+  }),
+  copyText__clipboardFail: (t) => ({
+    description: t("toast.copyText.fail.clipboardMessage"),
+    color: "red",
+  }),
 } as const satisfies NotificationMakeFnsRecord<typeof FAILURE_COLOR>;
 
 export type FailureNotificationName = keyof typeof failureFns;

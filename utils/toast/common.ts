@@ -1,7 +1,4 @@
-// TODO: remove below line
-// import type { NuxtI18nOptions, VueI18nConfig } from "@nuxtjs/i18n";
 import { type VueI18nTranslation } from "vue-i18n";
-import type { OmitFirst } from "../types";
 
 export type TFn = VueI18nTranslation;
 
@@ -9,14 +6,10 @@ export type UseNuxtToastReturn = ReturnType<typeof useNuxtToast>;
 export type Notification = Parameters<UseNuxtToastReturn["add"]>[0];
 export type NotificationColor = NonNullable<Notification["color"]>;
 
-export type NotificationMakeFnsRecord<C extends NotificationColor> = Readonly<
-  Record<string, (t: TFn, ...args: any[]) => Notification & { color: C }>
->;
-
-// TODO: remove below
-// type Rec<C extends NotificationColor> = Parameters<
-//   typeof makeNotificationGetter<C>
-// >[0];
+export type NotificationMakeFnsRecord<
+  NC extends NotificationColor,
+  N extends Notification & { color: NC } = Notification & { color: NC },
+> = Readonly<Record<string, (t: TFn, ...args: any[]) => N>>;
 
 export function makeNotificationGetter<
   C extends NotificationColor,

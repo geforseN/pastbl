@@ -8,9 +8,8 @@ export const SUCCESS_COLOR = "green" as const;
 const successFns = {
   pastaCopied: (t) => ({
     color: SUCCESS_COLOR,
-    description: t("toast.copyPasta.success.message"),
     timeout: 1_700,
-    title: t("toast.copyPasta.success.title"),
+    title: t("toast.copyPasta.success"),
   }),
   collectionFetched: (t, nickname: string, statuses: string) => ({
     color: SUCCESS_COLOR,

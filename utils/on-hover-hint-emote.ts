@@ -86,7 +86,6 @@ export class OnHoverHintEmote {
   readonly isListed;
   readonly isModifier;
   readonly isWrapper;
-  // TODO: toIdb(): SomeObjectIDKWhichFormOf
 
   integrationLink: EmoteIntegrationLink;
 
@@ -126,7 +125,7 @@ export class OnHoverHintEmote {
   }
 
   static create(emote: IEmote) {
-    return new OnHoverHintEmote(emote, {
+    return new this(emote, {
       url: new EmoteUrl(emote.url),
       width: new EmoteSize(emote.width || 32),
       height: new EmoteSize(emote.height || 32),

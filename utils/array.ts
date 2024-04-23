@@ -36,7 +36,7 @@ export function sum<T>(
   );
 }
 
-export function getValidIndex<T>(
+export function getIndex<T>(
   array: MaybeRef<T[]>,
   cb: (value: T, index: number, array: T[]) => boolean,
   messageOrError = new Error("Invalid index"),
