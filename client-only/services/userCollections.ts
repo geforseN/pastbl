@@ -13,7 +13,7 @@ import {
   type IUserEmoteCollection,
   type IUserEmoteIntegration,
   type EmoteSource,
-  isValidEmoteSource,
+  isEmoteSource,
   isReadyUserIntegration,
   type EmoteT,
   type IEmoteSetT,
@@ -188,7 +188,7 @@ export const USERS_COLLECTIONS_API = {
   },
   integrations: {
     async refresh(source: EmoteSource, login: TwitchUserLogin) {
-      assert.ok(isValidEmoteSource(source) && isLowercase(login));
+      assert.ok(isEmoteSource(source) && isLowercase(login));
       const integration = await $fetch(
         `/api/v1/collections/users/${login}/integrations/${source}`,
       );
@@ -211,7 +211,7 @@ export const userCollectionsService = {
     // TODO: make it transactional (not a big deal)
     await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
   },
-  async refresh(login: Lowercase<string>) {
+  async load(login: Lowercase<string>) {
     const collection = await USERS_COLLECTIONS_API.get(login);
     await this.put(collection);
     return collection;
@@ -228,7 +228,7 @@ export const userCollectionsService = {
     const deletePromises = Object.entries(allEmoteIdsRecord).map(
       // NOTE: MUST use async function OR assert will fail other promises
       async ([source, allEmoteIds]) => {
-        assert.ok(isValidEmoteSource(source));
+        assert.ok(isEmoteSource(source));
         const collectionEmoteIds = collectionEmoteIdsRecord[source];
         assert.ok(
           collectionEmoteIds,

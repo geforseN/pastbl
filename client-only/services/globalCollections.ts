@@ -1,5 +1,5 @@
 import { idb } from "../IndexedDB";
-import { emoteSources, isValidEmoteSource } from "~/integrations";
+import { emoteSources, isEmoteSource } from "~/integrations";
 import type {
   EmoteSource,
   IGlobalEmoteIntegration,
@@ -17,20 +17,20 @@ export const globalCollectionsService = {
     await IDB.putMany(values);
     return values;
   },
-  async refresh<S extends EmoteSource>(
+  async load<S extends EmoteSource>(
     source: S,
   ): Promise<IGlobalEmoteIntegrationRecord[S]> {
     const collection = await API.get(source);
     await IDB.put(collection);
     return collection;
   },
-  async refreshAll() {
+  async loadAll() {
     const all = await API.getAll();
     const values = Object.values(all);
     await IDB.putMany(values);
     return all;
   },
-  async refreshMany(sources: EmoteSource[]) {
+  async loadMany(sources: EmoteSource[]) {
     const collections = await API.getMany(sources);
     const values = objectValues(collections);
     await IDB.putMany(values);
@@ -69,11 +69,11 @@ const API = {
   get<S extends EmoteSource>(
     source: S,
   ): Promise<IGlobalEmoteIntegrationRecord[S]> {
-    assert.ok(isValidEmoteSource(source));
+    assert.ok(isEmoteSource(source));
     return $fetch(`/api/v1/collections/global/${source}`);
   },
   getMany(sources: EmoteSource[]) {
-    assert.ok(sources.every(isValidEmoteSource));
+    assert.ok(sources.every(isEmoteSource));
     return $fetch("/api/v1/collections/global", {
       query: { sources: sources.join("+") },
     });
