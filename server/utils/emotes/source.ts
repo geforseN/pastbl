@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { emoteSources, isValidEmoteSource } from "~/integrations";
+import { emoteSources, isEmoteSource } from "~/integrations";
 import { uniqueValues } from "~/utils/array";
 
 const sources_ = [...emoteSources];
@@ -19,7 +19,7 @@ export const emoteSourcesQueryStringSchema = z
   .min(EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH)
   .max(EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH)
   .transform((sources) => {
-    const validSources = sources.split("+").filter(isValidEmoteSource);
+    const validSources = sources.split("+").filter(isEmoteSource);
     return uniqueValues(validSources);
   });
 
