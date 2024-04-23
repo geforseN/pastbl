@@ -1,18 +1,15 @@
 export function usePastas<T extends IDBMegaPasta>(
-  initFn: () => MaybePromise<T[]>,
+  getPastas: () => Promise<T[]>,
 ) {
-  const pastas = useAsyncState(initFn, [], {
-    shallow: true,
-    throwError: true,
-  });
+  const pastas = useMyAsyncState(getPastas, []);
 
   return {
     ...pastas,
     getIndexById(id: number) {
-      return getValidIndex(
+      return getIndex(
         pastas.state,
         (pasta_) => pasta_.id === id,
-        createExtendedError("pasta::getById", id),
+        createExtendedError("getPastaById", id),
       );
     },
     getEntryById(id: number) {
