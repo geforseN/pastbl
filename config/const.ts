@@ -17,4 +17,5 @@ export const PASTA_TEXT_MAX_LENGTH = 1984;
 export const pastaTextLength = {
   min: PASTA_TEXT_MIN_LENGTH,
   max: PASTA_TEXT_MAX_LENGTH,
+  warning: 500,
 } as const;
