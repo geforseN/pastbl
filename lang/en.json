@@ -1,4 +1,6 @@
 {
+  "language": "Language",
+  "my-collection": "My Collection",
   "click": "Click",
   "note": "Note",
   "yes": "Yes",
@@ -88,26 +90,26 @@
     "alt": "{nickname} avatar"
   },
   "theme": {
+    "system": "System",
     "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+    "label": "Theme"
   },
   "toast": {
     "copyText": {
       "fail": {
-        "genericMessage": "Pasta text copy failed",
-        "clipboardMessage": "Pasta text not copied due to Clipboard API error"
-      }
+        "genericMessage": "Text copy failed",
+        "clipboardMessage": "Text not copied due to Clipboard API error"
+      },
+      "success": "Text copied 🤙"
     },
     "copyPasta": {
-      "success": {
-        "title": "Pasta copied 🤙",
-        "message": "Pasta copied successfully"
-      }
+      "success": "Pasta text copied 🤙"
     },
     "putPasta": {
       "fail": {
         "title": "Update pasta fail",
-        "message": "Can not update pasta: text or tags must be different"
+        "sameValuesMessage": "Can not update pasta: text or tags must be different"
       },
       "success": {
         "title": "Update pasta success",
