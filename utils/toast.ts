@@ -57,26 +57,14 @@ export function useMyToast() {
     fail<K extends FailureNotificationName>(name: K, ...args: any[]) {
       return failure.notify(name, ...args) as unknown as ExtendedError;
     },
-    __g__() {
-      // TODO: fix args type infer (remove any, add some cool type)
-      this.notify("success", "collectionFetched");
-    },
-    success: {
-      notify<K extends SuccessNotificationName>(fnName: K, ...args: any[]) {
-        const notification = getSuccessNotification(t, fnName, ...args);
-        return toast.add(notification);
-      },
-    },
-    warning: {
-      notify<K extends WarningNotificationName>(fnName: K, ...args: any[]) {
-        const notification = getWarningNotification(t, fnName, ...args);
-        return toast.add(notification);
-      },
-    },
-    _add: toast.add,
-    tryRaise(reason: unknown): never {
-      assert.isError(reason, ExtendedError);
-      toast.add(reason);
+    throw(reason: unknown): never {
+      const error =
+        reason instanceof ExtendedError
+          ? reason
+          : new ExtendedError(
+              findErrorMessage(reason, "An unknown error occurred"),
+            );
+      toast.add(error);
       throw reason;
     },
     failure,
