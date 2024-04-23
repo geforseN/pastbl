@@ -1,14 +1,15 @@
 import { EmoteSource, IUserEmoteIntegration } from "~/integrations";
+import { findErrorMessage } from "~/utils/error";
 
 function handleEmoteIntegrationError(
   fail: unknown,
   source: EmoteSource,
   nickname: string,
 ) {
-  const reason =
-    fail instanceof Error
-      ? fail.message
-      : `Failed to load ${source} integration of ${nickname}`;
+  const reason = findErrorMessage(
+    fail,
+    `Failed to load ${source} integration of ${nickname}`,
+  );
   return {
     status: "fail" as const,
     source,
