@@ -20,7 +20,7 @@ export class SevenTVUserIntegration implements ISevenTVUserIntegration {
   owner;
 
   constructor(owner: I7TVCollectionOwner, sets: [I7TVSet]) {
-    this.name = `SevenTV ${owner.displayName} Emotes Collection`;
+    this.name = `${owner.displayName} Emotes`;
     this.sets = sets;
     this.source = "SevenTV" as const;
     this.formedAt = Date.now();

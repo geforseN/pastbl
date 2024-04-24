@@ -132,7 +132,7 @@ export function createUserIntegration(
   sets: ITwitchEmoteSet[],
 ): ITwitchUserIntegration {
   return {
-    name: `Twitch ${twitchUser.nickname} Emotes Integration`,
+    name: `${twitchUser.nickname} Emotes`,
     source: "Twitch",
     sets,
     owner: {
@@ -191,7 +191,8 @@ export function makeUserTwitchIntegration(
       };
     },
   );
-  const reducedSetsRecord = sets.reduce(
+  const sortedSets = sets.sort((a, b) => a.name.localeCompare(b.name));
+  const reducedSetsRecord = sortedSets.reduce(
     (acc, set) => {
       if (!Object.hasOwn(acc, set.name)) {
         acc[set.name] = set;

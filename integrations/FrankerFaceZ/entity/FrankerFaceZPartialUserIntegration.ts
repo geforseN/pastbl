@@ -18,7 +18,7 @@ export class FFZPartialUserIntegration
   capacity;
 
   constructor(owner: FrankerFaceZCollectionOwner, capacity: number) {
-    this.name = `FrankerFaceZ ${owner.displayName} Emotes Collection` as const;
+    this.name = `${owner.displayName} Emotes` as const;
     this.owner = owner;
     this.capacity = capacity;
   }
