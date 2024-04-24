@@ -60,7 +60,6 @@ import { vOnClickOutside } from "@vueuse/components";
 import { savePastasToFile } from "./pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 
-const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
 useKeysListenWithAlt([
