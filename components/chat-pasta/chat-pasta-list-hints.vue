@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-1">
     <client-only>
       <div
         v-if="!$clipboard.isSupported"
@@ -62,7 +62,7 @@
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <app-hint-current-emotes
             v-if="isEmotesLoaded && selectedCollection"
-            class="max-w-[400px]"
+            class="w-80 xs:max-w-[400px]"
             :collection="selectedCollection"
           />
           <app-hint-add-emotes v-else />
