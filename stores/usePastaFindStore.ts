@@ -1,5 +1,6 @@
 export const usePastaFindStore = defineStore("pasta-find", () => {
-  const { sortedPastas, pastasTextLength } = storeToRefs(usePastasStore());
+  const pastasStore = usePastasStore();
+  const { sortedPastas } = storeToRefs(pastasStore);
 
   const pastasToShowOnPage = computed(() => {
     const [smallestPastaList, ...othersPastaLists] =
@@ -22,8 +23,8 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
 
   const { mustRespectLengthRange, lengthAppropriatePastas, length } =
     useFindPastasLength(sortedPastas, {
-      minCb: () => pastasTextLength.value.min,
-      maxCb: () => pastasTextLength.value.max,
+      minCb: () => pastasStore.pastasTextLength.min,
+      maxCb: () => pastasStore.pastasTextLength.max,
     });
 
   const {
