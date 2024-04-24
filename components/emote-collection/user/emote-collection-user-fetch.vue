@@ -50,38 +50,9 @@
     </div>
   </form>
 </template>
+<!-- TODO: move to file no setup script -->
 <script lang="ts">
-import { set } from "@vueuse/core";
-import type { EmoteSource } from "~/integrations";
-
 const f = "collections.users.fetch.";
-
-function useChannelsSearch(nickname: Ref<string>) {
-  const mustShow = ref(false);
-  const hide = () => set(mustShow, false);
-  const show = () => set(mustShow, true);
-
-  const { data: state } = useFetch("/api/v1/twitch/search/channels", {
-    lazy: true,
-    query: { login: nickname },
-    default(): Channel[] {
-      return [];
-    },
-    onRequest() {
-      hide();
-      state.value = [];
-      assert.ok(nickname.value);
-    },
-    onResponse: show,
-  });
-
-  return {
-    state,
-    mustShow,
-    show,
-    hide,
-  };
-}
 
 async function loadCollection(
   getCollectionAsyncFn: () => Promise<void>,
@@ -101,14 +72,8 @@ async function loadCollection(
     await options.onEnd?.();
   }
 }
-const sourceMap = new Map<EmoteSource, string>([
-  ["FrankerFaceZ", "🐶"],
-  ["BetterTTV", "🅱️"],
-  ["SevenTV", "7️⃣"],
-  ["Twitch", "🟣"],
-]);
 </script>
-<script lang="ts" setup>
+<script setup lang="ts">
 const inputRef = ref<HTMLInputElement>();
 const channelsContainerRef = ref<HTMLDivElement>();
 
@@ -137,34 +102,19 @@ const mustSelectCollectionOnLoad = useIndexedDBKeyValue(
 );
 const isLoadingCollection = ref(false);
 const userCollectionsStore = useUserCollectionsStore();
-const toast = useNuxtToast();
-const { t } = useI18n();
+
+const toast = useMyToast();
+
 async function handleCollectionLoad() {
   const nickname = channelsSearchNickname.value;
   isLoadingCollection.value = true;
   await loadCollection(
     async () => {
-      const m = "toast.loadCollection.";
-      assert.ok(
-        nickname?.length,
-        new ExtendedError(t(m + "fail.emptyInputMessage"), {
-          title: t(m + "fail.title"),
-        }),
-      );
+      assert.ok(nickname?.length, toast.fail("fetchCollectionEmptyInput"));
       const login = toLowerCase(nickname);
       const collection = await userCollectionsStore.refreshCollection(login);
-      const statuses = Object.values(collection.integrations)
-        .map((integration) => {
-          const emojiStatus = integration.status === "ready" ? "✅" : "❌";
-          return sourceMap.get(integration.source) + emojiStatus;
-        })
-        .join(", ");
-      toast.add({
-        color: "green",
-        title: t(m + "success.title"),
-        timeout: 7_000,
-        description: t(m + "success.message", { nickname, statuses }),
-      });
+      const status = getEmoteIntegrationsStatus(collection);
+      toast.notify("success", "collectionFetched", nickname, status);
       if (mustSelectCollectionOnLoad.state.value) {
         userCollectionsStore.selectCollection(login);
       }
@@ -173,10 +123,7 @@ async function handleCollectionLoad() {
       beforeLoad() {
         channelsSearchNickname.value = "";
       },
-      onError(error) {
-        assert.isError(error, ExtendedError);
-        toast.add(error);
-      },
+      onError: toast.throw,
       onEnd() {
         isLoadingCollection.value = false;
       },
@@ -184,3 +131,8 @@ async function handleCollectionLoad() {
   );
 }
 </script>
+<style scoped>
+h2 {
+  scroll-margin: 20px;
+}
+</style>
