@@ -21,34 +21,37 @@
       <Link rel="manifest" href="/site.webmanifest" />
     </Head>
     <Body lang="en">
-      <div class="relative grid grid-rows-layout">
-        <app-top-nav />
-        <nuxt-loading-indicator />
-        <nuxt-layout>
-          <nuxt-page />
-        </nuxt-layout>
-        <app-hint-on-hover
-          ref="onHoverHintRef"
-          v-on-click-outside="onHoverHint.close"
-          :emoji="onHoverHint.emoji.value"
-          :emote="onHoverHint.emote.value"
-          :emote-modifiers="onHoverHint.emoteModifiers.value"
-          @close="onHoverHint.close"
-          @mouseleave="onHoverHint.close"
-        />
-        <app-bottom-nav />
-        <client-only>
-          <app-pastas-work-mode-toggle />
-        </client-only>
-        <u-notifications>
-          <template #title="{ title }">
-            <span class="text-xl">{{ title }}</span>
-          </template>
-          <template #description="{ description }">
-            <span class="font-bold">{{ description }}</span>
-          </template>
-        </u-notifications>
-      </div>
+      <app-drawer-wrapper>
+        <div class="relative grid grid-rows-layout">
+          <app-top-nav />
+          <nuxt-loading-indicator />
+          <nuxt-layout>
+            <nuxt-page />
+          </nuxt-layout>
+          <app-hint-on-hover
+            ref="onHoverHintRef"
+            v-on-click-outside="onHoverHint.close"
+            :emoji="onHoverHint.emoji.value"
+            :emote="onHoverHint.emote.value"
+            :emote-modifiers="onHoverHint.emoteModifiers.value"
+            @close="onHoverHint.close"
+            @mouseleave="onHoverHint.close"
+          />
+          <client-only>
+            <app-pastas-work-mode-toggle
+              class="fixed bottom-0 right-1/2 translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+            />
+          </client-only>
+          <u-notifications>
+            <template #title="{ title }">
+              <span class="text-xl">{{ title }}</span>
+            </template>
+            <template #description="{ description }">
+              <span class="font-bold">{{ description }}</span>
+            </template>
+          </u-notifications>
+        </div>
+      </app-drawer-wrapper>
     </Body>
   </div>
 </template>
