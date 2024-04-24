@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 right-1/2 flex translate-x-1/2 flex-col rounded-t-btn border-2 border-b-0 bg-base-300 px-2 pb-1.5 pt-1.5 text-center"
+    class="flex flex-col rounded-btn border-2 bg-base-300 p-2 text-center"
     :class="
       userStore.pastasWorkMode.isClient
         ? 'border-secondary'
@@ -12,7 +12,10 @@
       <input
         id="pastas-work-mode"
         v-model="userStore.pastasWorkMode.isClient"
-        :disabled="!userStore.pastasWorkMode.canHaveServerMode"
+        :disabled="
+          !userStore.pastasWorkMode.canHaveServerMode &&
+          userStore.pastasWorkMode.isClient
+        "
         name="pastas-work-mode"
         type="checkbox"
         class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
