@@ -40,7 +40,7 @@
       </header>
     </div>
     <div
-      class="collapse-content"
+      class="collapse-content space-y-2"
       @keyup.escape="userStore.formCollapse.close"
       @keyup.stop="
         () => {}
@@ -56,7 +56,7 @@
         v-model:text="pastaStore.pasta.text"
         v-model:is-public="pastaStore.publishPasta.isPublicPasta.state"
         :pasta-tags="pastaStore.pasta.tags"
-        :hinted-tags-map="pastasStore.mostPopularTagsEntries"
+        :hinted-tags-map="pastasStore.pastasTags.sortedEntriesByPopularity"
         @add-tag="(tag) => pastaStore.addTag(tag)"
         @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
@@ -64,21 +64,15 @@
           async () => {
             assert.ok(addTagDialogRef);
             await addTagDialogRef.execute();
-            await pastasStore.createPasta(
-              {
-                tags: pastaStore.pasta.tags,
-                text: pastaStore.pasta.text,
-              },
-              {
-                onEnd: pastaStore.pasta.reset,
-              },
-            );
+            await pastasStore.createPasta(pastaStore.pasta);
+            pastaStore.pasta.reset();
           }
         "
         @publish-pasta="
           async () => {
             await pastaStore.postPasta();
             useNuxtToast().add({ title: 'Pasta posted!' });
+            pastaStore.pasta.reset();
           }
         "
       />
