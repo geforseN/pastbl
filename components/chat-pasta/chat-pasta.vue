@@ -6,11 +6,11 @@
     probably this can be refactored and visual regression wont happened
   -->
   <div
-    class="chat-pasta flex flex-col gap-x-2 gap-y-1 border border-info p-2 xs:flex-row xs:gap-y-0"
+    class="chat-pasta flex w-min flex-col gap-x-2 gap-y-1 border border-info xs:!flex-row xs:gap-y-0 xs:p-2"
   >
     <div class="flex w-[340px] flex-col">
-      <span class="block grow border border-secondary">
-        <span class="block w-full px-[10px] py-[5px]">
+      <span class="block grow xs:border xs:border-secondary">
+        <span class="block w-full xs:px-[10px] xs:py-[5px]">
           <slot name="creatorData" />
           <span aria-hidden="true">{{ ": " }}</span>
           <span
