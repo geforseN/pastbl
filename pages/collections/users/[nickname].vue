@@ -74,6 +74,7 @@
 <script setup lang="ts">
 import type { UseAsyncStateReturnBase } from "@vueuse/core";
 import { userCollectionsService } from "~/client-only/services";
+import { USERS_COLLECTIONS_API } from "~/client-only/services/userCollections";
 import {
   type IUserEmoteCollection,
   type IUserEmoteIntegration,
@@ -94,7 +95,7 @@ const throttledMouseover = useThrottleFn(
   true,
 );
 
-const collection = useAsyncState(
+const collection = useMyAsyncState(
   async (
     strategy: "get" | "refresh" | "refresh-integration" = "get",
     newIntegration?: IUserEmoteIntegration,
@@ -105,7 +106,13 @@ const collection = useAsyncState(
     // FIXME: refactor, move to service
     switch (strategy) {
       case "get": {
-        const collection_ = await userCollectionsService.get(login);
+        const collection_ = await userCollectionsService
+          .get(login)
+          .catch(async () => {
+            const collection = await USERS_COLLECTIONS_API.get(login);
+            await userCollectionsService.put(collection);
+            return collection;
+          });
         assert.ok(collection_, `No collection found with login: ${login}`);
         return collection_;
       }
@@ -134,7 +141,6 @@ const collection = useAsyncState(
     }
   },
   null,
-  { shallow: true, resetOnExecute: false },
 );
 
 export type ReadyUserCollectionAsyncState = UseAsyncStateReturnBase<
