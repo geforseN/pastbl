@@ -29,9 +29,7 @@ export const emoteSources = [
 export type EmoteSource = (typeof emoteSources)[number];
 
 const emoteSourcesSet = new Set<EmoteSource>([...emoteSources]);
-export function isValidEmoteSource(
-  maybeSource: string,
-): maybeSource is EmoteSource {
+export function isEmoteSource(maybeSource: string): maybeSource is EmoteSource {
   return emoteSourcesSet.has(maybeSource as EmoteSource);
 }
 
