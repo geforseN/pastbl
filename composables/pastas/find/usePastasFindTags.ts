@@ -5,10 +5,8 @@ export function useFindPastasTags(
   pastasWithTextOccurrence: Ref<IDBMegaPasta[]>,
 ) {
   const selectedPastaTags = ref<string[]>([]);
-  const [mustRespectSelectedTags, debouncedMustRespect] = refWithDebounced(
-    true,
-    700,
-  );
+  const mustRespectSelectedTags = ref(true);
+  const debouncedMustRespect = refDebounced(mustRespectSelectedTags, 700);
 
   const allPastasTags = computed(() => {
     const unique = uniqueValues(allPastas.value.flatMap((pasta) => pasta.tags));
