@@ -1,6 +1,6 @@
 import type {
   EmoteSource,
-  IGlobalEmoteCollectionRecord,
+  IGlobalEmoteIntegrationRecord,
   IUserEmoteIntegrationRecord,
 } from "~/integrations";
 
@@ -45,8 +45,8 @@ export const collectionsStyles: Record<EmoteSource, CollectionStyle> = {
 };
 
 type Props<
-  SourceT extends EmoteSource,
   RecordT extends Record<EmoteSource, unknown>,
+  SourceT extends EmoteSource,
 > = {
   source: SourceT;
   // NOTE: without question mark for 'collection' and 'reason' vue will show an error like 'Missing required prop'
@@ -66,13 +66,13 @@ type Props<
 );
 
 export type UserIntegrationProps<SourceT extends EmoteSource> = Props<
-  SourceT,
-  IUserEmoteIntegrationRecord
+  IUserEmoteIntegrationRecord,
+  SourceT
 >;
 
-export type GlobalCollectionProps<SourceT extends EmoteSource> = Props<
-  SourceT,
-  IGlobalEmoteCollectionRecord
+export type GlobalIntegrationProps<SourceT extends EmoteSource> = Props<
+  IGlobalEmoteIntegrationRecord,
+  SourceT
 >;
 
 export const buttonComponentsStyles = {
