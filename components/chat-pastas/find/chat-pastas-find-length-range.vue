@@ -18,8 +18,8 @@
         v-model="range"
         range
         :disabled="!respect"
-        :min="minValue"
-        :max="maxValue"
+        :min
+        :max
         color="secondary"
         class="w-full px-2 pt-2"
         track-label-visible
@@ -40,7 +40,7 @@
             id="pasta-to-find-min-length"
             v-model="range[0]"
             :disabled="!respect"
-            :min="minValue"
+            :min="min"
             :max="range[1]"
             buttons
             :flat="false"
@@ -61,7 +61,7 @@
             v-model="range[1]"
             :disabled="!respect"
             :min="range[0]"
-            :max="maxValue"
+            :max="max"
             buttons
             :flat="false"
             margins="0"
@@ -78,12 +78,10 @@ import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
 
 const r = f + ("range." as const);
 
-const range = defineModel<number[]>({
-  required: true,
-});
-const minValue = defineModel("minValue", { required: true, type: Number });
-const maxValue = defineModel("maxValue", { required: true, type: Number });
-const respect = defineModel("respect", { required: true, type: Boolean });
+const range = defineModel<number[]>({ required: true });
+const min = defineModel<number>("min", { required: true });
+const max = defineModel<number>("max", { required: true });
+const respect = defineModel<boolean>("respect", { required: true });
 </script>
 <style scoped>
 :deep(.va-slider__container)
