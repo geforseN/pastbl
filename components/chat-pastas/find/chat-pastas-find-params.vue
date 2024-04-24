@@ -17,8 +17,8 @@
     </article>
     <chat-pastas-find-length-range
       v-model="pastaFindStore.length.range"
-      v-model:max-value="pastaFindStore.length.max"
-      v-model:min-value="pastaFindStore.length.min"
+      v-model:max="pastaFindStore.length.max"
+      v-model:min="pastaFindStore.length.min"
       v-model:respect="pastaFindStore.mustRespectLengthRange"
     />
     <chat-pastas-find-tags
