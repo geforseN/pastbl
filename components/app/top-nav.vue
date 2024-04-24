@@ -23,7 +23,7 @@
           🔍
         </nuxt-link-locale>
       </li>
-      <li>
+      <li class="hidden go-brr:block">
         <nuxt-link-locale
           to="/user/settings#heading"
           class="btn btn-outline flex-nowrap"
@@ -32,17 +32,17 @@
           ⚙️
         </nuxt-link-locale>
       </li>
-      <li class="xs:!ml-auto" />
-      <li class="relative">
+      <li class="!ml-auto"></li>
+      <li class="relative hidden sm:block">
         <label
           for="select-locale"
-          class="pointer-events-none absolute inset-0 left-4 text-warning"
+          class="absolute -top-1.5 left-3 block bg-base-100 px-1 text-base/tight opacity-80"
         >
           {{ $t("language") }}
         </label>
         <select
           id="select-locale"
-          class="select select-bordered select-xs absolute right-40 top-1 w-20 sm:select-md sm:static sm:w-max"
+          class="select select-bordered select-sm xs:select-md"
           name="select-locale"
           @change="locales.change"
         >
@@ -59,14 +59,14 @@
       <li class="relative">
         <label
           for="app-theme"
-          class="pointer-events-none absolute inset-0 left-4 text-warning"
+          class="absolute -top-1.5 left-3 block bg-base-100 px-1 text-base/tight opacity-80"
         >
           {{ $t("theme.label") }}
         </label>
         <select
           id="app-theme"
           v-model="themes.selected"
-          class="select select-bordered select-md hidden w-max sm:block"
+          class="select select-bordered select-sm xs:select-md"
           name="select-app-theme"
         >
           <option
@@ -78,7 +78,7 @@
           </option>
         </select>
       </li>
-      <li>
+      <li class="hidden go-brr:block">
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"
           :login="userSession.user.twitch.login"
@@ -87,6 +87,14 @@
           @logout="userSession.clear"
         />
         <auth-twitch-login-btnlink v-else />
+      </li>
+      <!-- <li class="bg-red-500">
+        <client-only>
+          <app-pastas-work-mode-toggle />
+        </client-only>
+      </li> -->
+      <li>
+        <app-drawer-burger-button class="go-brr:hidden" />
       </li>
     </ol>
   </nav>
