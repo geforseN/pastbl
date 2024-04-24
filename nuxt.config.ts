@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     typedPages: true,
   },
   features: {
-    devLogs: false,
+    devLogs: true,
   },
   devtools: {
     enabled: true,
@@ -16,7 +16,14 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  vite: {
+    esbuild: {
+      pure: ["console.log"],
+    },
+  },
   nitro: {
+    compressPublicAssets: true,
+    minify: true,
     experimental: {
       tasks: true,
     },
@@ -25,6 +32,7 @@ export default defineNuxtConfig({
       "0 0 1 * *": "get-twitch-token",
     },
   },
+  // TODO: fixme
   imports: {
     dirs: ["./composables", "./utils", "./stores"],
     imports: [
@@ -72,17 +80,16 @@ export default defineNuxtConfig({
     ],
   },
   modules: [
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
-    "@nuxt/ui",
-    "@nuxtjs/tailwindcss",
-    "@vueuse/nuxt",
     "@formkit/auto-animate/nuxt",
-    "nuxt-scheduler",
-    "nuxt-icon",
-    "@vuestic/nuxt",
+    "@nuxt/ui",
     "@nuxtjs/i18n",
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
+    "@vuestic/nuxt",
+    "@vueuse/nuxt",
     "nuxt-auth-utils",
+    "nuxt-icon",
+    "@nuxt/eslint",
   ],
   vuestic: {
     css: false,
