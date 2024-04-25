@@ -8,12 +8,7 @@
         collectionsStyles[emote.source].backgroundBase,
       ]"
     >
-      <button
-        class="btn btn-square btn-error btn-xs self-end bg-error/20 text-error hover:text-base-content"
-        @click="emit('close')"
-      >
-        X
-      </button>
+      <app-hint-on-hover-close-button @click="emit('close')" />
       <div
         class="flex items-center gap-1 overflow-x-auto p-1 scrollbar"
         :class="collectionsStyles[emote.source].scrollbar"
@@ -97,12 +92,7 @@
       v-if="emoji"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
-      <button
-        class="btn btn-square btn-error btn-xs self-end bg-error/20 text-error hover:text-base-content"
-        @click="emit('close')"
-      >
-        X
-      </button>
+      <app-hint-on-hover-close-button @click="emit('close')" />
       <span class="text-6xl">{{ emoji }}</span>
       <span class="space-x-1">
         <!-- TODO: ? add i18n for emoji name ? -->
