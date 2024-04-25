@@ -11,6 +11,11 @@ const successFns = {
     timeout: 1_700,
     title: t("toast.copyPasta.success"),
   }),
+  textCopied: (t) => ({
+    color: SUCCESS_COLOR,
+    timeout: 1_700,
+    title: t("toast.copyText.success"),
+  }),
   collectionFetched: (t, nickname: string, statuses: string) => ({
     color: SUCCESS_COLOR,
     description: t("toast.loadCollection.success.message", {
