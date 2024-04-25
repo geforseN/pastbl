@@ -35,7 +35,7 @@
           "
         >
           <samp>
-            <auth-twitch-login-btnlink class="btn-xs w-full text-sm" />
+            <auth-twitch-login-link-button class="btn-xs w-full text-sm" />
           </samp>
         </li>
         <li
