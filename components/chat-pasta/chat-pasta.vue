@@ -6,7 +6,7 @@
     probably this can be refactored and visual regression wont happened
   -->
   <div
-    class="chat-pasta flex w-min flex-col gap-x-2 gap-y-1 border border-info xs:!flex-row xs:gap-y-0 xs:p-2"
+    class="chat-pasta flex flex-col gap-x-2 gap-y-1 border border-info xs:!flex-row xs:gap-y-0 xs:p-2"
   >
     <div class="flex w-[340px] flex-col">
       <span class="block grow xs:border xs:border-secondary">
