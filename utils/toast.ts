@@ -61,12 +61,12 @@ export function useMyToast() {
       const error =
         reason instanceof ExtendedError
           ? reason
-          : new ExtendedError(
-              findErrorMessage(reason, "An unknown error occurred"),
-            );
-      toast.add(error);
+          : new ExtendedError(findErrorMessage(reason, t("error-occurred")));
+      toast.add(error.mustAddLocale ? error.withAddedLocale(t) : error);
       throw reason;
     },
     failure,
   };
 }
+
+export { createNoLocaleFailureNotification } from "~/utils/toast/failure";

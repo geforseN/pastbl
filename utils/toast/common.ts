@@ -3,13 +3,24 @@ import { type VueI18nTranslation } from "vue-i18n";
 export type TFn = VueI18nTranslation;
 
 export type UseNuxtToastReturn = ReturnType<typeof useNuxtToast>;
-export type Notification = Parameters<UseNuxtToastReturn["add"]>[0];
+export type Notification = Parameters<UseNuxtToastReturn["add"]>[0] & {
+  mustAddLocale?: boolean;
+};
+
 export type NotificationColor = NonNullable<Notification["color"]>;
 
 export type NotificationMakeFnsRecord<
   NC extends NotificationColor,
+  MustAddLocale extends boolean = false,
   N extends Notification & { color: NC } = Notification & { color: NC },
-> = Readonly<Record<string, (t: TFn, ...args: any[]) => N>>;
+> = Readonly<
+  Record<
+    string,
+    MustAddLocale extends true
+      ? (...args: any[]) => N
+      : (t: TFn, ...args: any[]) => N
+  >
+>;
 
 export function makeNotificationGetter<
   C extends NotificationColor,
