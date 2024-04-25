@@ -1,4 +1,7 @@
 {
+  "restore-internet-connection": "Восстановите интернет-соединение",
+  "server-mode": "Серверный режим",
+  "client-mode": "Клиентский режим",
   "error-occurred": "Произошла ошибка",
   "language": "Язык",
   "my-collection": "Моя Коллекция",

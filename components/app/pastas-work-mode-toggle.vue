@@ -8,7 +8,7 @@
     "
   >
     <div class="flex items-center gap-1 self-center">
-      Server mode
+      {{ $t("server-mode") }}
       <input
         id="pastas-work-mode"
         v-model="userStore.pastasWorkMode.isClient"
@@ -20,7 +20,7 @@
         type="checkbox"
         class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
       />
-      Client mode
+      {{ $t("client-mode") }}
     </div>
     <div
       v-if="!userStore.pastasWorkMode.canHaveServerMode"
@@ -43,7 +43,7 @@
             userStore.pastasWorkMode.canHaveServerModeStatus.includes('offline')
           "
         >
-          <samp>Restore Internet Connection</samp>
+          <samp>{{ $t("restore-internet-connection") }}</samp>
         </li>
       </ul>
     </div>

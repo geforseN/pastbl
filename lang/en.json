@@ -1,4 +1,7 @@
 {
+  "restore-internet-connection": "Restore Internet Connection",
+  "server-mode": "Server mode",
+  "client-mode": "Client mode",
   "error-occurred": "Error occurred",
   "language": "Language",
   "my-collection": "My Collection",
