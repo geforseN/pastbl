@@ -1,8 +1,6 @@
-import assert from "node:assert";
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
-import { isEmptyObject, isNullish } from "~/utils/guard";
-import type { Nullish } from "~/utils/types";
+import { isEmptyObject } from "~/utils/guard";
 import { pastaTextLength } from "~/config/const";
 
 export const pastaIdParamSchema = z.coerce.number().safe().int().positive();
@@ -11,24 +9,9 @@ export function getPastaIdParam(event: H3E) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
 }
 
-function transformCursor(cursor: Nullish<string>) {
-  if (isNullish(cursor)) {
-    return null;
-  }
-  const cursorAsNumber = Number(cursor);
-  assert.ok(
-    Number.isInteger(cursorAsNumber),
-    createError({
-      statusCode: 400,
-      message: "Next cursor must be a integer",
-    }),
-  );
-  return cursorAsNumber;
-}
-
-const pastasCursorQuerySchema = z
-  .object({ cursor: z.string().nullish() })
-  .transform(({ cursor }) => ({ cursor: transformCursor(cursor) }));
+const pastasCursorQuerySchema = z.object({
+  cursor: pastaIdParamSchema.nullish().default(null),
+});
 
 export function getPastasCursorFromQuery(event: H3E) {
   return pastasCursorQuerySchema.parse(getQuery(event)).cursor;
