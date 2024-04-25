@@ -75,20 +75,50 @@ export class ExtendedError extends Error {
   title?: string;
   color: NotificationColor;
   timeout: number;
+  mustAddLocale: boolean;
+  tDescriptionInterpolations?: Record<string, unknown>;
 
   constructor(
-    message: string,
+    description: string,
     {
       title,
       color = "red",
       timeout = 5_000,
-    }: { title?: string; color?: NotificationColor; timeout?: number } = {},
+      mustAddLocale = false,
+      tDescriptionInterpolations,
+    }: {
+      title?: string;
+      color?: NotificationColor;
+      timeout?: number;
+      mustAddLocale?: boolean;
+      tDescriptionInterpolations?: Record<string, unknown>;
+    } = {},
   ) {
-    super(message);
-    this.description = message;
+    super(description);
+    this.description = description;
     this.title = title;
     this.color = color;
     this.timeout = timeout;
+    this.mustAddLocale = mustAddLocale;
+    this.tDescriptionInterpolations = tDescriptionInterpolations;
+  }
+
+  withAddedLocale(t: TFn) {
+    if (!this.mustAddLocale) {
+      return new ExtendedError(this.description, {
+        ...this,
+      });
+    }
+    return new ExtendedError(
+      this.tDescriptionInterpolations
+        ? t(this.description, this.tDescriptionInterpolations)
+        : t(this.description),
+      {
+        ...this,
+        title: this.title ? t(this.title) : undefined,
+        mustAddLocale: false,
+      },
+    );
   }
 }
 
