@@ -2,13 +2,13 @@
   <div class="w-96 space-y-2">
     <emote-collection-global
       v-if="collection"
-      v-model:checkedSources="globalCollectionsStore.checkedSources.state"
+      v-model:checkedSources="globalIntegrationsStore.checkedSources.state"
       status="ready"
       :collection="collection"
-      :is-refreshing="globalCollectionsStore.isCurrentlyRefreshing(collection)"
+      :is-refreshing="globalIntegrationsStore.isCurrentlyLoading(collection)"
       :source="collection.source"
       @mouseover="throttledMouseover"
-      @refresh="globalCollectionsStore.refreshCollection(collection)"
+      @refresh="globalIntegrationsStore.loadIntegration(collection)"
     />
     <app-page-link to="global-emotes">
       <template #right><emote-integration-logos /></template>
@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { emoteSources } from "~/integrations";
 
-const globalCollectionsStore = useGlobalCollectionsStore();
+const globalIntegrationsStore = useGlobalIntegrationsStore();
 
 const maybeSource = getRouteStringParam("source", toLowerCase);
 const source =
@@ -28,7 +28,7 @@ const source =
   raise();
 // NOTE: collection can be undefined if deleted data in IndexedDB deleted or (it is first time user and global collections did not load yet)
 const collection = computed(
-  () => globalCollectionsStore.collections.state[source],
+  () => globalIntegrationsStore.integrations.state[source],
 );
 
 const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();

@@ -5,10 +5,10 @@ import {
 } from "~/integrations";
 import { globalCollectionsService } from "~/client-only/services";
 
-export const useGlobalCollectionsStore = defineStore(
+export const useGlobalIntegrationsStore = defineStore(
   "global-collections",
   () => {
-    const collections = useAsyncObject(globalCollectionsService.getAll);
+    const integrations = useAsyncObject(globalCollectionsService.getAll);
 
     const checkedSources = useIndexedDBKeyValue(
       "global-collections:checked-sources",
@@ -19,49 +19,49 @@ export const useGlobalCollectionsStore = defineStore(
       globalCollectionsService,
     );
 
-    watchOnce(collections.state, async (state) => {
+    watchOnce(integrations.state, async (state) => {
       const missingSources = emoteSources.filter((source) => !state[source]);
       if (!missingSources.length) {
         return;
       }
       const missing = await integrationsLoad.executeMany(missingSources);
-      collections.state.value = {
-        ...collections.state.value,
+      integrations.state.value = {
+        ...integrations.state.value,
         ...missing,
       };
     });
 
     return {
       checkedSources,
-      collections,
-      checkedCollections: computed(() => {
-        const values = Object.values(collections.state.value);
+      integrations,
+      checkedIntegrations: computed(() => {
+        const values = Object.values(integrations.state.value);
         const checked = values.filter((collection) =>
           checkedSources.state.value.includes(collection.source),
         );
         const record = flatGroupBy(checked, (collection) => collection.source);
         return record as Partial<IGlobalEmoteIntegrationRecord>;
       }),
-      async refreshCollection(source: SomeEmoteSource) {
+      async loadIntegration(source: SomeEmoteSource) {
         const emoteSource = getEmoteSource(source);
         const refreshed = await integrationsLoad.execute(emoteSource);
-        collections.state.value = {
-          ...collections.state.value,
+        integrations.state.value = {
+          ...integrations.state.value,
           [emoteSource]: refreshed,
         };
       },
-      async refreshAllCollections() {
+      async loadAllIntegrations() {
         const all = await integrationsLoad.executeAll();
         // NOTE: for loop and triggerRef could be replaced with => collections.state.value = all
         // HOWEVER: order of entries will change and view of global collections will change order
         for (const [source, collection] of Object.entries(all)) {
           assert.ok(isEmoteSource(source));
           // @ts-expect-error weird type error
-          collections.state.value[source] = collection;
+          integrations.state.value[source] = collection;
         }
-        triggerRef(collections.state);
+        triggerRef(integrations.state);
       },
-      isCurrentlyRefreshing(source: SomeEmoteSource) {
+      isCurrentlyLoading(source: SomeEmoteSource) {
         return integrationsLoad.isCurrentlyLoading(getEmoteSource(source));
       },
     };
