@@ -5,20 +5,21 @@ export function usePastas<T extends IDBMegaPasta>(
 
   return {
     ...pastas,
-    getIndexById(id: number) {
+    // eslint-disable-next-line require-await
+    async getIndexById(id: number) {
       return getIndex(
         pastas.state,
         (pasta_) => pasta_.id === id,
         createNoLocaleFailureNotification("getPasta__noEntityWithId", id),
       );
     },
-    getEntryById(id: number) {
-      const index = this.getIndexById(id);
+    async getEntryById(id: number) {
+      const index = await this.getIndexById(id);
       const pasta = pastas.state.value[index];
       return [index, pasta] as const;
     },
-    getById(id: number) {
-      const index = this.getIndexById(id);
+    async getById(id: number) {
+      const index = await this.getIndexById(id);
       const pasta = pastas.state.value[index];
       return pasta;
     },

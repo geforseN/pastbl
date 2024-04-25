@@ -1,4 +1,3 @@
-import { defineStore } from "pinia";
 import { pastasIdbService } from "~/client-only/services";
 
 export const usePastasStore = defineStore("pastas", () => {
@@ -46,7 +45,7 @@ export const usePastasStore = defineStore("pastas", () => {
       toast.notify("success", "pastaCreated");
     },
     async removePasta(pasta: IDBMegaPasta) {
-      const index = pastas.getIndexById(pasta.id);
+      const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
       await pastasIdbService.moveFromListToBin(pasta);
       pastas.removeAt(index);
       toast.notify("warning", "pastaRemoved", async () => {
@@ -55,20 +54,19 @@ export const usePastasStore = defineStore("pastas", () => {
       });
     },
     async patchPastaLastCopied(pasta: IDBMegaPasta) {
-      try {
-        const index = pastas.getIndexById(pasta.id);
-        const newPasta = await pastasIdbService.patchLastCopied(toRaw(pasta));
-        pastas.mutateAt(index, newPasta);
-      } catch (reason) {
-        throw toast.fail("patchPastaLastCopied");
-      }
+      const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
+      const newPasta = await pastasIdbService.patchLastCopied(toRaw(pasta));
+      pastas.mutateAt(index, newPasta);
     },
     async putPasta(pasta: IDBMegaPasta) {
-      const [index, oldPasta] = pastas.getEntryById(pasta.id);
+      const [index, oldPasta] = await pastas
+        .getEntryById(pasta.id)
+        .catch(toast.throw);
       assert.ok(
         !isPastasSame(oldPasta, pasta),
         toast.fail("pastaPut__sameValues"),
       );
+      // FIXME: ?unsafe?, add error handler (toast) for put
       await pastasIdbService.put(pasta);
       pastas.mutateAt(index, pasta);
       toast.notify("success", "pastaPut");
