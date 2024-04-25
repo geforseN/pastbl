@@ -38,7 +38,9 @@ export default {
     require("daisyui"),
     require("@savvywombat/tailwindcss-grid-areas"),
     require("tailwindcss-debug-screens"),
-    require("tailwind-heropatterns"),
+    require("tailwind-heropatterns")({
+      patterns: ["graph-paper"],
+    }),
     require("tailwind-scrollbar"),
   ],
   daisyui: {

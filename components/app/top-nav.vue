@@ -2,7 +2,7 @@
   <nav class="navbar border-b-2 border-b-secondary/50 p-1">
     <ol class="contents space-x-2">
       <li
-        class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
+        class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content bg-hero-graph-paper"
       >
         <nuxt-link-locale class="logo relative bottom-px text-5xl" to="/">
           pastbl
@@ -10,7 +10,7 @@
       </li>
       <li class="hidden go-brr:block">
         <nuxt-link-locale
-          class="btn btn-outline flex-nowrap text-wrap border-twitch-accent text-twitch-accent"
+          class="btn btn-outline flex-nowrap text-wrap border-twitch-accent bg-base-100 text-twitch-accent"
           to="/collections"
         >
           <strong>{{ $t("collections.index.link") }}</strong>
@@ -26,7 +26,7 @@
       <li class="hidden go-brr:block">
         <nuxt-link-locale
           to="/user/settings#heading"
-          class="btn btn-outline flex-nowrap"
+          class="btn btn-outline flex-nowrap bg-base-100"
         >
           <strong>{{ $t("user.settings.link") }}</strong>
           ⚙️
@@ -78,7 +78,7 @@
           </option>
         </select>
       </li>
-      <li class="hidden go-brr:block">
+      <li class="hidden bg-base-100 go-brr:block">
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"
           :login="userSession.user.twitch.login"
