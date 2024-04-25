@@ -1,3 +1,7 @@
+async function playClickSound() {
+  await new Audio("/sounds/click.wav").play();
+}
+
 export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
@@ -26,60 +30,58 @@ export const useUserStore = defineStore("user", () => {
     },
   };
 
-  const clipboard = useClipboard();
   const toast = useMyToast();
-  const { t } = useI18n();
-  const userSession = useUserSession();
-  const isOnline = useOnline();
-  const pastasWorkMode = usePastasWorkMode("server", userSession, isOnline);
 
-  const actions = {
-    pasta: {
-      onTextCopy: {
+  const formCollapse = useFormCollapse();
+
+  const pastasWorkMode = usePastasWorkMode(
+    "server",
+    useUserSession(),
+    useOnline(),
+  );
+
+  const preferences = {
+    onPastaTextCopy() {
+      return handlePreferences(pastaOncopy.state, {
         alert() {
           toast.notify("success", "pastaCopied");
         },
-        async sound() {
-          await new Audio("/sounds/click.wav").play();
-        },
-      },
+        sound: playClickSound,
+      });
     },
-  };
-
-  const preferences = {
-    pasta: {
-      oncopy: () =>
-        handlePreferences(actions.pasta.onTextCopy, pastaOncopy.state),
+    onTextCopy() {
+      return handlePreferences(pastaOncopy.state, {
+        alert() {
+          toast.notify("success", "textCopied");
+        },
+        sound: playClickSound,
+      });
     },
   };
 
   const pastasStore = usePastasStore();
 
+  const copyText = useCopyText({
+    onFail() {
+      toast.notify("failure", "copyText__genericFail");
+    },
+  });
+
   return {
     pastasWorkMode,
-    formCollapse: useFormCollapse(),
+    formCollapse,
     preferences,
     user,
     async copyPasta(pasta: IDBMegaPasta) {
-      await this.copyText(pasta.text, {
+      await copyText(pasta.text, {
         async onSuccess() {
-          preferences.pasta.oncopy();
+          preferences.onPastaTextCopy();
           await pastasStore.patchPastaLastCopied(pasta);
         },
       });
     },
-    async copyText(text: string, options: { onSuccess?: () => Promise<void> }) {
-      try {
-        await clipboard.copy(text);
-        assert.ok(
-          toValue(clipboard.copied),
-          t("toast.copyText.fail.clipboardMessage"),
-        );
-        await options.onSuccess?.();
-        preferences.pasta.oncopy();
-      } catch (reason: Error | unknown) {
-        throw toast.fail("copyText__genericFail");
-      }
+    async copyText(text: string) {
+      await copyText(text, { onSuccess: preferences.onTextCopy });
     },
   };
 });
