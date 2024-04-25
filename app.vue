@@ -39,7 +39,7 @@
           />
           <client-only>
             <app-pastas-work-mode-toggle
-              class="fixed bottom-0 right-1/2 translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
           </client-only>
           <u-notifications>
