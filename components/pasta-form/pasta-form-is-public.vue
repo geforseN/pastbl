@@ -1,11 +1,11 @@
 <template>
   <div>
-    <label for="pasta-is-public" class="grow cursor-pointer">
+    <label :for="id" class="grow cursor-pointer">
       {{ $t("pasta.makePublic?") }}
     </label>
     <span>{{ $t(isPublic ? "yes" : "no") }}</span>
     <input
-      id="pasta-is-public"
+      :id
       v-model="isPublic"
       type="checkbox"
       name="pasta-is-public"
@@ -15,4 +15,6 @@
 </template>
 <script lang="ts" setup>
 const isPublic = defineModel<boolean>({ required: true });
+
+const id = useId();
 </script>
