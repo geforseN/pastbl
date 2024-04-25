@@ -19,12 +19,7 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     ]);
   }
 
-  const collectionsLoad = useUsersCollectionsLoad(userCollectionsService.load, {
-    async beforeQueueRemove(login) {
-      await refreshStates();
-      await selectedCollection.executeIfSameLogin(login);
-    },
-  });
+  const collectionsLoad = useUsersCollectionsLoad(userCollectionsService.load);
 
   return {
     selectedLogin,
@@ -44,6 +39,8 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
       const login = getUserLogin(loginSource);
       const collection = await collectionsLoad.execute(login);
       await refreshStates();
+      // NOTE: it is important to call 'executeIfSameLogin' after refreshStates, otherwise selectedCollection may not be updated
+      await selectedCollection.executeIfSameLogin(login);
       return collection;
     },
     isCollectionRefreshing(loginSource: LoginSource) {
