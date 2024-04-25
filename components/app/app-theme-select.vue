@@ -2,7 +2,7 @@
   <div class="relative">
     <label
       for="app-theme"
-      class="absolute -top-1.5 left-3 block bg-base-100 px-1 py-0 text-base/tight opacity-80"
+      class="absolute -top-1.5 left-2.5 block rounded-md bg-base-100/95 px-1 py-0 text-sm/tight xs:-top-2 xs:left-3 xs:text-sm/tight"
     >
       {{ $t("theme.label") }}
     </label>
