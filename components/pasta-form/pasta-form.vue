@@ -9,12 +9,13 @@
         class="mx-0.5"
         @submit="mainEmit"
       />
-      <!-- NOTE: after xl: template is horrible -->
-      <pasta-form-is-public
-        v-if="userStore.pastasWorkMode.isServer"
-        v-model="isPublic"
-        class="-mb-1 ml-1.5 flex grow items-center gap-1 xl:hidden"
-      />
+      <client-only>
+        <pasta-form-is-public
+          v-show="userStore.pastasWorkMode.isServer"
+          v-model="isPublic"
+          class="-mb-2 ml-1.5 flex items-center gap-1 xl:hidden"
+        />
+      </client-only>
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
@@ -32,15 +33,17 @@
           }}
         </button>
         <div class="flex h-full flex-col justify-between">
-          <pasta-form-is-public
-            v-if="userStore.pastasWorkMode.isServer"
-            v-model="isPublic"
-            class="ml-1.5 hidden grow items-center gap-1 xl:flex"
-          />
           <pasta-form-pasta-length
             :pasta-text-status="pastaStatus"
             :pasta-text="trimmedText"
           />
+          <client-only>
+            <pasta-form-is-public
+              v-show="userStore.pastasWorkMode.isServer"
+              v-model="isPublic"
+              class="hidden xl:ml-1.5 xl:flex xl:items-center xl:gap-1"
+            />
+          </client-only>
           <button
             v-if="props.pastaTags.length"
             class="btn btn-error btn-sm"
