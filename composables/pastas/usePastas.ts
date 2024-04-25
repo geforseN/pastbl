@@ -9,7 +9,7 @@ export function usePastas<T extends IDBMegaPasta>(
       return getIndex(
         pastas.state,
         (pasta_) => pasta_.id === id,
-        createExtendedError("getPastaById", id),
+        createNoLocaleFailureNotification("getPasta__noEntityWithId", id),
       );
     },
     getEntryById(id: number) {

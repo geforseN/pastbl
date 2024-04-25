@@ -1,24 +1,21 @@
 export function usePastaTags(tags: Ref<string[]>) {
-  const { t } = useI18n();
-
+  const ensurePastaTags = definePastaTagsEnsure(tags);
   return {
     removeTag(tag: string) {
       tags.value = withRemoved(
         tags,
         tag,
-        new ExtendedError(t("toast.removeTag.fail.noExistMessage"), {
-          title: t("toast.removeTag.fail.title"),
-        }),
+        createNoLocaleFailureNotification("removePastaTag__noExist"),
       );
     },
     removeAllTags() {
       tags.value = [];
     },
     addTag(tag: string) {
-      ensurePastaTags.canHaveMore(tags, t);
+      ensurePastaTags.canHaveMore();
       const trimmed = megaTrim(tag);
-      ensurePastaTag.lengthIsOk(trimmed, t);
-      ensurePastaTags.hasNoSameTag(tags, trimmed, t);
+      ensurePastaTag.lengthIsOk(trimmed);
+      ensurePastaTags.hasNoSameTag(trimmed);
       const final = transformPastaTag(tag);
       tags.value.push(final);
     },

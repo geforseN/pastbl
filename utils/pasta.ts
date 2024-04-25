@@ -113,12 +113,13 @@ export function makeMegaPasta(text: string, tags: string[] = []): MegaPasta {
   return createMegaPasta(text, tags.slice());
 }
 
-// eslint-disable-next-line require-await
-export async function makeMegaPasta2(basePasta: BasePasta) {
+export function makeMegaPasta2(basePasta: BasePasta) {
   const trimmedText = megaTrim(basePasta.text);
   const lengthStatus = getPastaLengthStatus(trimmedText);
   if (lengthStatus !== "ok") {
-    throw createExtendedError("createPastas__badLength", lengthStatus);
+    return Promise.reject(
+      createNoLocaleFailureNotification("createPasta__badLength", lengthStatus),
+    );
   }
-  return makeMegaPasta(trimmedText, basePasta.tags);
+  return Promise.resolve(makeMegaPasta(trimmedText, basePasta.tags));
 }

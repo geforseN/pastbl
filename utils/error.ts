@@ -1,4 +1,4 @@
-import type { NotificationColor } from "~/utils/toast/common";
+import type { NotificationColor, TFn } from "~/utils/toast/common";
 
 type RaiseReason_ = string | Error | undefined;
 
