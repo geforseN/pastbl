@@ -9,9 +9,9 @@
       :nickname="collection.user.twitch.nickname"
       :avatar-url="collection.user.twitch.avatarUrl"
       :is-selected="userCollectionsStore.isCollectionSelected(collection)"
-      :is-refreshing="userCollectionsStore.isCollectionRefreshing(collection)"
+      :is-refreshing="userCollectionsStore.isCollectionLoading(collection)"
       @delete="userCollectionsStore.deleteCollection(collection)"
-      @refresh="userCollectionsStore.refreshCollection(collection)"
+      @refresh="userCollectionsStore.loadCollection(collection)"
       @select="userCollectionsStore.selectCollection(collection)"
     />
   </div>

@@ -187,7 +187,7 @@ export const USERS_COLLECTIONS_API = {
     };
   },
   integrations: {
-    async refresh(source: EmoteSource, login: TwitchUserLogin) {
+    async get(source: EmoteSource, login: TwitchUserLogin) {
       assert.ok(isEmoteSource(source) && isLowercase(login));
       const integration = await $fetch(
         `/api/v1/collections/users/${login}/integrations/${source}`,
