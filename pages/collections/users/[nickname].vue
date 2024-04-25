@@ -117,7 +117,7 @@ const collection = useMyAsyncState(
         return collection_;
       }
       case "refresh": {
-        return userCollectionsStore.refreshCollection(login);
+        return userCollectionsStore.loadCollection(login);
       }
       case "refresh-integration": {
         const collection_ = collection.state.value;
