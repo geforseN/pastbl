@@ -34,11 +34,10 @@ export const useUserStore = defineStore("user", () => {
 
   const formCollapse = useFormCollapse();
 
-  const pastasWorkMode = usePastasWorkMode(
-    "server",
-    useUserSession(),
-    useOnline(),
-  );
+  const pastasWorkMode = usePastasWorkMode("server", {
+    isLoggedIn: useUserSession().loggedIn,
+    isOnline: useOnline(),
+  });
 
   const preferences = {
     onPastaTextCopy() {
