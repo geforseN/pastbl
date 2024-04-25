@@ -64,13 +64,13 @@ export const getPastaLengthStatus = makeLengthStatus(pastaTextLength);
 
 export function getTextStatus(text: MaybeRef<string>) {
   const status = getPastaLengthStatus(toValue(text));
-  if (status === "tooLong") {
-    return "error";
+  if (status === "warning") {
+    return "warning";
   }
   if (status === "ok") {
     return "success";
   }
-  return "warning";
+  return "error";
 }
 
 export function makeValidTokensFromPastaText(text: string) {
