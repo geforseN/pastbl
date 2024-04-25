@@ -1,9 +1,9 @@
-import type { UserSessionComposable } from "#auth-utils";
-
 export function usePastasWorkMode(
   defaultValue: "server" | "client",
-  userSession: UserSessionComposable,
-  isOnline: Ref<boolean>,
+  {
+    isOnline,
+    isLoggedIn,
+  }: { isOnline: Ref<boolean>; isLoggedIn: ComputedRef<boolean> },
 ) {
   const workMode = useIndexedDBKeyValue("pastas:work-mode", defaultValue, {
     onRestored(value) {
@@ -25,12 +25,12 @@ export function usePastasWorkMode(
   });
   const canHaveServerModeStatus = computed(() => {
     if (!isOnline.value) {
-      if (userSession.loggedIn.value) {
+      if (isLoggedIn.value) {
         return "offline";
       }
       return "offline&not-logged-in";
     }
-    if (!userSession.loggedIn.value) {
+    if (!isLoggedIn.value) {
       return "not-logged-in";
     }
     return "ok";
@@ -42,9 +42,7 @@ export function usePastasWorkMode(
 
   watchImmediate(canHaveServerMode, (canHaveServerMode) => {
     if (process.client && !canHaveServerMode) {
-      sleep(1000).then(() => {
-        isClient.value = true;
-      });
+      isClient.value = true;
     }
   });
 
