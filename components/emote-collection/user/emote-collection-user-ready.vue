@@ -104,9 +104,7 @@
         "
         @refresh="
           async () => {
-            const newIntegration = await getRefreshedIntegration(
-              integration.source,
-            );
+            const newIntegration = await getIntegration(integration.source);
             assert.ok(newIntegration.status === 'ready');
             emit('refreshIntegration', newIntegration);
           }
@@ -149,8 +147,8 @@ const readyIntegrations = computed(() => {
   ) as IUserEmoteIntegrationRecord;
 });
 
-async function getRefreshedIntegration<S extends EmoteSource>(source: S) {
-  return await USERS_COLLECTIONS_API.integrations.refresh(
+async function getIntegration<S extends EmoteSource>(source: S) {
+  return await USERS_COLLECTIONS_API.integrations.get(
     source,
     twitch.value.login,
   );

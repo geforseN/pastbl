@@ -7,7 +7,7 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
 
   const selectedLogin = useSelectedUserCollectionLogin();
 
-  const selectedCollection = useSelectedUserCollection(
+  const selected = useSelectedUserCollection(
     userCollectionsService.get,
     selectedLogin.state,
   );
@@ -34,16 +34,16 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     },
     loginsToSelect,
     collectionsToSelect,
-    selectedCollection,
-    async refreshCollection(loginSource: LoginSource) {
+    selectedCollection: selected,
+    async loadCollection(loginSource: LoginSource) {
       const login = getUserLogin(loginSource);
       const collection = await collectionsLoad.execute(login);
       await refreshStates();
       // NOTE: it is important to call 'executeIfSameLogin' after refreshStates, otherwise selectedCollection may not be updated
-      await selectedCollection.executeIfSameLogin(login);
+      await selected.executeIfSameLogin(login);
       return collection;
     },
-    isCollectionRefreshing(loginSource: LoginSource) {
+    isCollectionLoading(loginSource: LoginSource) {
       const login = getUserLogin(loginSource);
       return collectionsLoad.isCurrentlyLoading(login);
     },

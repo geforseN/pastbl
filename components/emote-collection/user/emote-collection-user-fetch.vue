@@ -110,9 +110,9 @@ async function handleCollectionLoad() {
   isLoadingCollection.value = true;
   await loadCollection(
     async () => {
-      assert.ok(nickname?.length, toast.fail("fetchCollectionEmptyInput"));
+      assert.ok(nickname?.length, toast.fail("fetchCollection__emptyInput"));
       const login = toLowerCase(nickname);
-      const collection = await userCollectionsStore.refreshCollection(login);
+      const collection = await userCollectionsStore.loadCollection(login);
       const status = getEmoteIntegrationsStatus(collection);
       toast.notify("success", "collectionFetched", nickname, status);
       if (mustSelectCollectionOnLoad.state.value) {
