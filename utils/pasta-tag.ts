@@ -1,4 +1,7 @@
 import { pastaTagLength, pastaTagsCount } from "~/config/const";
+import { makeLengthStatus } from "~/utils/make-length-status";
+import { toLowerCase } from "~/utils/string";
+import { assert } from "~/utils/error";
 
 export function isPastaMentionTagLike(tag: string) {
   return tag.startsWith("@");
@@ -6,7 +9,7 @@ export function isPastaMentionTagLike(tag: string) {
 
 export function transformPastaTag(tag: string) {
   if (isPastaMentionTagLike(tag)) {
-    return tag.toLowerCase();
+    return toLowerCase(tag);
   }
   return tag;
 }
@@ -15,40 +18,32 @@ export function parseLoginFromPastaMentionTag(mentionTag: string) {
   return mentionTag.replace("@", "");
 }
 
+export function definePastaTagsEnsure(tags: Ref<string[]>) {
+  return {
+    canHaveMore() {
+      assert.ok(
+        toValue(tags).length < pastaTagsCount.max,
+        createNoLocaleFailureNotification("addPastaTag__toManyTags"),
+      );
+    },
+    hasNoSameTag(tag: MaybeRef<string>) {
+      const tag_ = toValue(tag);
+      assert.ok(
+        !toValue(tags).includes(tag_),
+        createNoLocaleFailureNotification("addPastaTag__sameTag", tag_),
+      );
+    },
+  };
+}
+
 export const getTagLengthStatus = makeLengthStatus(pastaTagLength);
 
-type _T = (str: string, ...args: any[]) => string;
-
-const _getTitle = (t: _T) => t("toast.addTag.fail.title");
-const _getTitleObject = (t: _T) => ({ title: _getTitle(t) });
-
-export const ensurePastaTags = {
-  canHaveMore(tags: MaybeRef<string[]>, t: _T) {
-    assert.ok(
-      toValue(tags).length < pastaTagsCount.max,
-      new ExtendedError(
-        t("toast.addTag.fail.tooManyTags", pastaTagsCount),
-        _getTitleObject(t),
-      ),
-    );
-  },
-  hasNoSameTag(tags: MaybeRef<string[]>, tag: MaybeRef<string>, t: _T) {
-    assert.ok(
-      !toValue(tags).includes(toValue(tag)),
-      new ExtendedError(t("toast.addTag.fail.sameMessage"), _getTitleObject(t)),
-    );
-  },
-};
-
 export const ensurePastaTag = {
-  lengthIsOk(tag: MaybeRef<string>, t: _T) {
+  lengthIsOk(tag: MaybeRef<string>) {
     const status = getTagLengthStatus(toValue(tag));
     assert.ok(
       status === "ok",
-      new ExtendedError(
-        t(`toast.addTag.fail.${status}Message`, pastaTagLength),
-        _getTitleObject(t),
-      ),
+      createNoLocaleFailureNotification("addPastaTag__badLength", status),
     );
   },
 };
