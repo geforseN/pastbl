@@ -9,7 +9,7 @@
     <div class="space-y-2" @mouseover="throttledMouseover">
       <button
         class="btn btn-primary btn-lg w-full flex-nowrap text-pretty border-2 border-base-content text-xl"
-        @click="globalCollectionsStore.refreshAllCollections"
+        @click="globalIntegrationsStore.loadAllIntegrations"
       >
         {{ $t("collections.global.refresh-all-button") }}
         <div
@@ -32,19 +32,19 @@
         </div>
       </dev-only>
       <template
-        v-for="collection of globalCollectionsStore.collections.state"
+        v-for="collection of globalIntegrationsStore.integrations.state"
         :key="collection.source"
       >
         <emote-collection-global
           v-if="collection"
-          v-model:checkedSources="globalCollectionsStore.checkedSources.state"
+          v-model:checkedSources="globalIntegrationsStore.checkedSources.state"
           status="ready"
           :collection="collection"
           :is-refreshing="
-            globalCollectionsStore.isCurrentlyRefreshing(collection)
+            globalIntegrationsStore.isCurrentlyLoading(collection)
           "
           :source="collection.source"
-          @refresh="globalCollectionsStore.refreshCollection(collection)"
+          @refresh="globalIntegrationsStore.loadIntegration(collection)"
         >
           <template #headingMiddle>
             <span class="ml-1 mr-auto">
@@ -61,7 +61,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const globalCollectionsStore = useGlobalCollectionsStore();
+const globalIntegrationsStore = useGlobalIntegrationsStore();
 
 const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 
