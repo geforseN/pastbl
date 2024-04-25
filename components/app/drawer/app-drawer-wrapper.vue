@@ -30,13 +30,10 @@
         <li>
           <app-links-user-settings />
         </li>
-        <li class="!mt-auto"></li>
-        <li>
+        <div class="!mt-auto mr-auto space-y-4">
           <app-theme-select />
-        </li>
-        <li class="mb-2">
           <app-locale-select />
-        </li>
+        </div>
       </ul>
     </div>
   </div>
