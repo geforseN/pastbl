@@ -31,7 +31,7 @@ import { l } from "~/components/chat-pasta/chat-pasta-list.vue";
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{
-  selectedLogin: Lowercase<string> | "";
+  selectedLogin: SelectedLogin;
 }>();
 
 const s = l + "show.";
