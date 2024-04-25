@@ -21,7 +21,7 @@
       <Link rel="manifest" href="/site.webmanifest" />
     </Head>
     <Body lang="en">
-      <app-drawer-wrapper>
+      <app-drawer>
         <div class="relative grid grid-rows-layout">
           <app-top-nav />
           <nuxt-loading-indicator />
@@ -51,7 +51,7 @@
             </template>
           </u-notifications>
         </div>
-      </app-drawer-wrapper>
+      </app-drawer>
     </Body>
   </div>
 </template>

@@ -16,6 +16,7 @@
         <li>
           <label
             for="app-drawer"
+            aria-label="close sidebar"
             class="btn btn-square btn-error drawer-button ml-auto"
           >
             <icon name="ic:sharp-close" />
