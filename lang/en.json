@@ -1,4 +1,5 @@
 {
+  "error-occurred": "Error occurred",
   "language": "Language",
   "my-collection": "My Collection",
   "click": "Click",
@@ -135,16 +136,10 @@
         "undoLabel": "Undo pasta remove"
       }
     },
-    "patchPatchLastCopied": {
-      "fail": {
-        "message": "Failed to update pasta last copied time",
-        "title": "Pasta state update failed"
-      }
-    },
     "getPastaIndexById": {
       "fail": {
         "title": "Find pasta fail",
-        "message": "Could not find pasta with id={id}"
+        "noEntityWithSuchId": "Could not find pasta with id={id}"
       }
     },
     "addTag": {
@@ -152,7 +147,7 @@
         "title": "Failed to add pasta tag",
         "tooManyTags": "Невозможно добавить более {max} тегов.",
         "emptyMessage": "Can not add the empty tag",
-        "sameMessage": "The tag were already added to pasta",
+        "sameMessage": "The tag '{tag}' were already added to pasta",
         "tooLongMessage": "The tag is too long, max {max} characters",
         "tooShortMessage": "The tag is too short, min {min} characters"
       }
