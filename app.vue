@@ -23,7 +23,7 @@
     <Body lang="en">
       <app-drawer>
         <div class="relative grid grid-rows-layout">
-          <app-top-nav />
+          <app-top-nav class="sticky top-0 z-50 bg-base-100/90" />
           <nuxt-loading-indicator />
           <nuxt-layout>
             <nuxt-page />
