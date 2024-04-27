@@ -4,7 +4,7 @@
     <div class="drawer-content">
       <slot />
     </div>
-    <div class="drawer-side">
+    <div class="drawer-side" v-bind="$attrs">
       <label
         for="app-drawer"
         aria-label="close sidebar"
