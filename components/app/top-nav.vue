@@ -4,7 +4,10 @@
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content bg-hero-graph-paper"
       >
-        <nuxt-link-locale class="logo relative bottom-px text-5xl" to="/">
+        <nuxt-link-locale
+          class="pastbl__logo relative bottom-px text-5xl"
+          to="/"
+        >
           pastbl
         </nuxt-link-locale>
       </li>
@@ -54,7 +57,7 @@ strong {
   @apply underline decoration-2 underline-offset-2;
 }
 
-.logo {
+.pastbl__logo {
   -webkit-text-stroke: 2px theme(colors.base-100);
 }
 </style>
