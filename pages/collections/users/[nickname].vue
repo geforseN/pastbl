@@ -7,17 +7,7 @@
         :is-collection-selected="
           userCollectionsStore.isCollectionSelected(login)
         "
-        @delete="
-          async () => {
-            await userCollectionsStore.deleteCollection(login);
-            if ($route.path.endsWith(`/collections/users/${login}`)) {
-              await $router.push({
-                path: '/collections',
-                hash: '#heading',
-              });
-            }
-          }
-        "
+        @delete="async () => await userCollectionsStore.deleteCollection(login)"
         @refresh="collection.execute(0, 'refresh')"
         @select="userCollectionsStore.selectCollection(login)"
         @unselect="userCollectionsStore.unselectCollection()"
