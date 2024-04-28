@@ -11,7 +11,7 @@
         class="drawer-overlay"
       />
       <ul
-        class="menu min-h-full w-80 space-y-2 bg-base-200 p-4 pt-1 text-base-content"
+        class="menu min-h-full w-80 space-y-2 bg-base-100 p-4 pt-1 text-base-content"
       >
         <li>
           <label
