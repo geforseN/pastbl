@@ -32,8 +32,6 @@ export const useUserStore = defineStore("user", () => {
 
   const toast = useMyToast();
 
-  const formCollapse = useFormCollapse();
-
   const pastasWorkMode = usePastasWorkMode("server", {
     isLoggedIn: useUserSession().loggedIn,
     isOnline: useOnline(),
@@ -68,7 +66,6 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     pastasWorkMode,
-    formCollapse,
     preferences,
     user,
     async copyPasta(pasta: IDBMegaPasta) {

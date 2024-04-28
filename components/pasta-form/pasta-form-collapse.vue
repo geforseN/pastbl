@@ -1,10 +1,17 @@
 <template>
   <div
     class="collapse collapse-arrow border-2"
-    @keyup.enter.exact="userStore.formCollapse.toggle"
+    :class="
+      !$formCollapse.isOpen
+        ? null
+        : userStore.pastasWorkMode.isClient
+          ? 'border-secondary'
+          : 'border-twitch-accent'
+    "
+    @keyup.enter.exact="$formCollapse.toggle"
   >
     <input
-      v-model="userStore.formCollapse.isOpen"
+      v-model="$formCollapse.isOpen"
       type="checkbox"
       name="is-create-pasta-open"
     />
@@ -24,7 +31,7 @@
         </span>
         <transition name="jokerge">
           <div
-            v-if="!userStore.formCollapse.isOpen"
+            v-if="!$formCollapse.isOpen"
             class="flex translate-x-3.5 items-center gap-1"
           >
             <img
@@ -41,7 +48,7 @@
     </div>
     <div
       class="collapse-content space-y-2"
-      @keyup.escape="userStore.formCollapse.close"
+      @keyup.escape="$formCollapse.close"
       @keyup.stop="
         () => {}
         /* NOTE: 
@@ -110,12 +117,13 @@ async function focusOnTextarea() {
   pastaFormRef.value!.pastaFormTextareaRef!.textareaRef!.focus();
 }
 
+const { $formCollapse } = useNuxtApp();
+
 watch(useMagicKeys().i, () => {
-  userStore.formCollapse.open();
+  $formCollapse.open();
   focusOnTextarea();
 });
-
-whenever(() => userStore.formCollapse.isOpen, focusOnTextarea);
+whenever(() => $formCollapse.isOpen, focusOnTextarea);
 
 function canPopulate() {
   return Promise.all([
