@@ -1,39 +1,39 @@
 export function usePastas<T extends IDBMegaPasta>(
   getPastas: () => Promise<T[]>,
 ) {
-  const pastas = useMyAsyncState(getPastas, []);
+  const _pastas = useMyAsyncState(getPastas, []);
 
   return {
-    ...pastas,
+    ..._pastas,
     // eslint-disable-next-line require-await
     async getIndexById(id: number) {
       return getIndex(
-        pastas.state,
+        _pastas.state,
         (pasta_) => pasta_.id === id,
         createNoLocaleFailureNotification("getPasta__noEntityWithId", id),
       );
     },
     async getEntryById(id: number) {
       const index = await this.getIndexById(id);
-      const pasta = pastas.state.value[index];
+      const pasta = _pastas.state.value[index];
       return [index, pasta] as const;
     },
     async getById(id: number) {
       const index = await this.getIndexById(id);
-      const pasta = pastas.state.value[index];
+      const pasta = _pastas.state.value[index];
       return pasta;
     },
     removeAt(index: number) {
-      pastas.state.value = pastas.state.value.toSpliced(index, 1);
+      _pastas.state.value = _pastas.state.value.toSpliced(index, 1);
     },
-    push(pasta: T) {
-      pastas.state.value = [...pastas.state.value, pasta];
+    push(...pastas: T[]) {
+      _pastas.state.value = [..._pastas.state.value, ...pastas];
     },
     pushAt(index: number, pasta: T) {
-      pastas.state.value = pastas.state.value.toSpliced(index, 0, pasta);
+      _pastas.state.value = _pastas.state.value.toSpliced(index, 0, pasta);
     },
     mutateAt(index: number, pasta: T) {
-      pastas.state.value = pastas.state.value.with(index, pasta);
+      _pastas.state.value = _pastas.state.value.with(index, pasta);
     },
   };
 }

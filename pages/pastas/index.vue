@@ -155,10 +155,8 @@ if (process.client) {
     const { fulfilled, rejected } = await groupAsync(
       megaPastas.map((pasta) => pastasIdbService.add(pasta)),
     );
-    pastasStore.pastas.state = [
-      ...pastasStore.pastas.state,
-      ...fulfilled.toSorted((a, b) => a.id - b.id),
-    ];
+    const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
+    pastasStore.pastas.push(...sorted);
     assert.ok(!rejected.length);
   };
 }
