@@ -1,9 +1,10 @@
 <template>
   <dynamic-scroller
-    list-class="flex flex-col items-center w-fit"
+    list-class="w-[340px] xs:w-auto"
     :min-item-size="100"
     list-tag="ul"
     item-tag="li"
+    item-class="max-w-[340px] xs:max-w-none"
   >
     <template #default="{ item: pasta, index, active }">
       <dynamic-scroller-item
@@ -14,14 +15,10 @@
       >
         <chat-pasta
           :key="`${pasta.id}:${pasta.text}`"
-          :pasta="pasta"
+          v-bind="pasta"
           @populate="
             (pastaTextContainer) => {
-              populatePasta(
-                pastaTextContainer,
-                pasta.validTokens,
-                emotesStore.findEmote,
-              );
+              populatePasta(pastaTextContainer, pasta.validTokens, findEmote);
             }
           "
         >
@@ -46,11 +43,19 @@
   </dynamic-scroller>
 </template>
 <script lang="ts">
+import type { IEmote } from "~/integrations";
+
 export const l = "pasta.list." as const;
 </script>
 <script setup lang="ts">
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
+
+const props = defineProps<{
+  findEmote?(token: string): IEmote | undefined;
+}>();
+
+const findEmote = props.findEmote || emotesStore.findEmote;
 
 const emit = defineEmits<{
   removePasta: [IDBMegaPasta];
