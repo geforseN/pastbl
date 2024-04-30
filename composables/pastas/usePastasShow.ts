@@ -52,7 +52,7 @@ export function usePastasShow(
     usersPastasMap.value.get(selectedLogin.value),
   );
 
-  const pastasToShow = {
+  const pastasToShow: Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>> = {
     all: computed(() => sortedPastas.value),
     "selected-user": computed(() => selectedUserPastas.value || []),
     "only-selected-user": computed(() => {
@@ -61,23 +61,19 @@ export function usePastasShow(
         return [];
       }
       return userPastas.filter((pasta) => {
-        const loginsTags = pasta.tags.filter(isPastaMentionTagLike);
-        return (
-          loginsTags.length === 1 && loginsTags[0] === selectedLoginTag.value
-        );
+        const tags = pasta.tags.filter(isPastaMentionTagLike);
+        return tags.length === 1 && tags[0] === selectedLoginTag.value;
       });
     }),
     "except-selected-user": computed(() => notSelectedUserPastas.value),
-    "all-selectable-users": computed(() => {
-      return [...selectablePastasSet.value];
-    }),
-    "all-without-selectable-users": computed(() => {
-      return sortedPastas.value.filter(
+    "all-selectable-users": computed(() => [...selectablePastasSet.value]),
+    "all-without-selectable-users": computed(() =>
+      sortedPastas.value.filter(
         (pasta) => !selectablePastasSet.value.has(pasta),
-      );
-    }),
+      ),
+    ),
     none: computed(() => []),
-  } satisfies Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>>;
+  };
 
   return {
     selectedShowStrategy: computed({
