@@ -49,14 +49,14 @@ export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
 export function useEmotesWithInitialReady(
   sourceToWatchCb: () => Partial<MinimalEmoteIntegrationRecord>,
 ) {
-  const initialization = useInitialization(false);
+  const isInitialized = useBool(false);
 
   const emotes = useEmotes(sourceToWatchCb, {
-    onCallEnd: initialization.tryStart,
+    onCallEnd: isInitialized.tryMakeTrue,
   });
 
   return {
     ...emotes,
-    isInitialEmotesReady: initialization.state,
+    isInitialEmotesReady: isInitialized.state,
   };
 }
