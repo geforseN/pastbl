@@ -12,11 +12,21 @@ export const useUserStore = defineStore("user", () => {
 
   const debouncedNicknameColor = refDebounced(nicknameColor.state, 200);
 
+  const userSession = useUserSession();
+
   const user = {
     nickname: {
       color: nicknameColor,
       text: nicknameText,
     },
+    nickname_: computed(() => {
+      if (!userSession.loggedIn.value) {
+        return nicknameText.state.value;
+      }
+      return (
+        userSession.user.value?.twitch.nickname || nicknameText.state.value
+      );
+    }),
     badges: {
       count: badgesCount,
     },
@@ -33,7 +43,7 @@ export const useUserStore = defineStore("user", () => {
   const toast = useMyToast();
 
   const pastasWorkMode = usePastasWorkMode("server", {
-    isLoggedIn: useUserSession().loggedIn,
+    isLoggedIn: userSession.loggedIn,
     isOnline: useOnline(),
   });
 
