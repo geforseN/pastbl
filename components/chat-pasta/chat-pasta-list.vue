@@ -25,7 +25,7 @@
           <template #creatorData>
             <chat-pasta-creator-data
               :badges-count="userStore.user.badges.count.state"
-              :nickname="userStore.user.nickname.text.state"
+              :nickname="userStore.user.nickname_"
               :nickname-color="userStore.user.debounced.nickname.color"
             />
           </template>

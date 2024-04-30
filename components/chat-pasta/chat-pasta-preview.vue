@@ -7,7 +7,7 @@
       <span class="block w-full px-[10px] py-[5px]">
         <chat-pasta-creator-data
           :badges-count="userStore.user.badges.count.state"
-          :nickname="userStore.user.nickname.text.state"
+          :nickname="userStore.user.nickname_"
           :nickname-color="userStore.user.nickname.color.state"
         />
         <span aria-hidden="true">{{ ": " }}</span>
