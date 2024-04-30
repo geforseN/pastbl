@@ -2,15 +2,17 @@ import type { EmoteSource, IEmote } from "~/integrations";
 
 type RecordOfEmotesMap = Record<EmoteSource, EmotesMap>;
 
-type MinimalEmoteIntegration = Record<
+export type MinimalEmoteIntegration = {
+  source: EmoteSource;
+  sets: { emotes?: IEmote[] }[];
+};
+
+export type MinimalEmoteIntegrationRecord = Record<
   EmoteSource,
-  {
-    source: EmoteSource;
-    sets: { emotes?: IEmote[] }[];
-  }
+  MinimalEmoteIntegration
 >;
 
-export function useEmotes<T extends MinimalEmoteIntegration>(
+export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
   integrationsCb: () => Partial<T>,
   onReady?: () => void,
 ) {
@@ -18,18 +20,12 @@ export function useEmotes<T extends MinimalEmoteIntegration>(
 
   watch(integrationsCb, (value) => {
     const integrations = Object.values(
-      value as Partial<MinimalEmoteIntegration>,
+      value as Partial<MinimalEmoteIntegrationRecord>,
     );
     const integrationsRecord = flatGroupBy(
       integrations,
       (integration) => integration.source,
-      (integration) => {
-        const emotes = integration.sets.flatMap((set) => set.emotes ?? []);
-        const emoteEntries = emotes.map((emote: IEmote) => {
-          return [emote.token, emote] as const;
-        });
-        return new Map(emoteEntries);
-      },
+      getEmotesMapFromIntegration,
     );
     record.value = integrationsRecord;
     onReady?.();
@@ -51,7 +47,7 @@ export function useEmotes<T extends MinimalEmoteIntegration>(
 }
 
 export function useEmotesWithInitialReady(
-  sourceToWatchCb: () => Partial<MinimalEmoteIntegration>,
+  sourceToWatchCb: () => Partial<MinimalEmoteIntegrationRecord>,
 ) {
   const isInitialEmotesReady = ref(false);
 
