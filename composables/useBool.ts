@@ -1,14 +1,14 @@
-export function useInitialization(initialValue: boolean) {
+export function useBool(initialValue: boolean) {
   const state = ref(initialValue);
 
   return {
     state,
-    tryStart() {
+    tryMakeTrue() {
       if (!state.value) {
         state.value = true;
       }
     },
-    tryStop() {
+    tryMakeFalse() {
       if (state.value) {
         state.value = false;
       }

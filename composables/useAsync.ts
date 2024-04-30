@@ -22,29 +22,29 @@ export function useMyAsyncState<
 ) {
   const _options = { ...USE_ASYNC_STATE_DEFAULT_OPTIONS, ...options };
 
-  const initialization = useInitialization(_options.immediate);
+  const isInitialized = useBool(_options.immediate);
 
   const asyncState = useVueUseAsyncState(promiseOrAsyncFn, initialState, {
     ..._options,
     onError(error) {
-      initialization.tryStop();
+      isInitialized.tryMakeFalse();
       _options.onError?.(error);
     },
     onSuccess(data) {
-      initialization.tryStop();
+      isInitialized.tryMakeFalse();
       _options.onSuccess?.(data);
     },
   });
 
   return {
     ...asyncState,
-    isInitializing: initialization.state satisfies Ref<boolean>,
+    isInitializing: isInitialized.state satisfies Ref<boolean>,
     isRefreshing: computed(
-      () => !initialization.state.value && asyncState.isLoading.value,
+      () => !isInitialized.state.value && asyncState.isLoading.value,
     ),
     async execute(delay = 0, ...args: Params) {
       const result = await asyncState.execute(delay, ...args);
-      initialization.tryStop();
+      isInitialized.tryMakeFalse();
       return result;
     },
   };
