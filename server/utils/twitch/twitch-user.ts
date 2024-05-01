@@ -42,7 +42,7 @@ const userTwitchSchema = z
     twitch: {
       id: twitchUser.id,
       login: twitchUser.login,
-      profileImageUrl: twitchUser.profile_image_url,
+      avatarUrl: twitchUser.profile_image_url,
       nickname: twitchUser.display_name,
     },
   }));

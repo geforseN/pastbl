@@ -5,20 +5,7 @@
       class="my-0.5 flex items-center space-x-2 divide-x divide-twitch-accent rounded-btn border border-twitch-accent p-0.5"
     >
       <div class="flex gap-1">
-        <div class="flex h-6 w-6 items-center">
-          <nuxt-link-locale
-            :to="`/collections/users/${login}`"
-            class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
-          >
-            <img
-              :src="avatarUrl"
-              :alt="$t('avatar.alt', { nickname })"
-              width="24"
-              height="24"
-              class="min-w-6 rounded-full bg-twitch-accent/20"
-            />
-          </nuxt-link-locale>
-        </div>
+        <twitch-user-avatar :user="props.collection.user.twitch" :size="24" />
         <nuxt-link-locale
           :to="`/collections/users/${login}`"
           class="link line-clamp-1 break-all font-bold"
@@ -65,20 +52,10 @@
               "
             >
               <div class="flex items-center gap-1 rounded-btn p-0.5">
-                <div class="flex h-6 w-6 items-center">
-                  <nuxt-link-locale
-                    :to="`/collections/users/${login}`"
-                    class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
-                  >
-                    <img
-                      :src="collectionToSelect.user.twitch.avatarUrl"
-                      :alt="$t('avatar.alt', { nickname })"
-                      width="24"
-                      height="24"
-                      class="min-w-6 rounded-full bg-twitch-accent/20"
-                    />
-                  </nuxt-link-locale>
-                </div>
+                <twitch-user-avatar
+                  :user="collectionToSelect.user.twitch"
+                  :size="24"
+                />
                 <span class="line-clamp-1 break-all">
                   {{ collectionToSelect.user.twitch.nickname }}
                 </span>
@@ -103,8 +80,6 @@ const props = defineProps<{
 }>();
 const nickname = computed(() => props.collection.user.twitch.nickname);
 const login = computed(() => props.collection.user.twitch.login);
-
-const avatarUrl = computed(() => props.collection.user.twitch.avatarUrl);
 
 const userCollectionsStore = useUserCollectionsStore();
 </script>
