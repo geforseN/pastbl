@@ -7,21 +7,8 @@
     "
     @mouseover="throttledMouseover"
   >
-    <div class="flex gap-2">
-      <div class="flex h-16 min-w-16 items-center">
-        <nuxt-link-locale
-          :to="`https://twitch.tv/${twitch.login}`"
-          class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
-        >
-          <img
-            class="rounded-full bg-twitch-accent/20"
-            width="64"
-            height="64"
-            :src="twitch.avatarUrl"
-            :alt="$t('avatar.alt', { nickname: twitch.nickname })"
-          />
-        </nuxt-link-locale>
-      </div>
+    <div v-if="state && twitch" class="flex gap-2">
+      <twitch-user-avatar :user="twitch" :size="64" />
       <div class="flex w-72 flex-col justify-between">
         <nuxt-link-locale
           class="w-min max-w-72 truncate rounded-lg focus:no-underline focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"

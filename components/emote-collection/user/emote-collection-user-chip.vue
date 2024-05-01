@@ -8,18 +8,7 @@
   >
     <div class="space-y-0.5">
       <div class="flex items-end gap-1">
-        <nuxt-link-locale
-          :to="`https://twitch.tv/${login}`"
-          class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
-        >
-          <img
-            :src="avatarUrl"
-            :alt="$t('avatar.alt', { nickname })"
-            width="48"
-            height="48"
-            class="avatar min-w-12 rounded-full bg-twitch-accent/20"
-          />
-        </nuxt-link-locale>
+        <twitch-user-avatar :user="{ avatarUrl, login, nickname }" :size="48" />
         <div>
           <p class="truncate text-xl font-bold" :title="nickname">
             {{ nickname }}
