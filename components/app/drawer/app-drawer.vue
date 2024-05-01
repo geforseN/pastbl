@@ -13,7 +13,7 @@
       <ul
         class="menu min-h-full w-80 space-y-2 bg-base-100 p-4 pt-1 text-base-content"
       >
-        <li>
+        <li class="mt-1">
           <label
             for="app-drawer"
             aria-label="close sidebar"
