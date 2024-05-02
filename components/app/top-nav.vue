@@ -32,9 +32,7 @@
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"
           class="bg-base-100"
-          :login="userSession.user.twitch.login"
-          :nickname="userSession.user.twitch.nickname"
-          :profile-image-url="userSession.user.twitch.profileImageUrl"
+          :user="userSession.user.twitch"
           @logout="userSession.clear"
         />
         <auth-twitch-login-link-button v-else />
