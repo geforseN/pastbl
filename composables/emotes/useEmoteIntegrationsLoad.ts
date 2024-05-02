@@ -1,15 +1,9 @@
-import {
-  emoteSources,
-  isEmoteSource,
-  type EmoteSource,
-  type IGlobalEmoteIntegration,
-  type IGlobalEmoteIntegrationRecord,
-} from "~/integrations";
+import { emoteSources, isEmoteSource, type EmoteSource } from "~/integrations";
 
-export function useGlobalIntegrationsLoad(loaders: {
-  load: (source: EmoteSource) => Promise<IGlobalEmoteIntegration>;
-  loadAll: () => Promise<IGlobalEmoteIntegrationRecord>;
-  loadMany: (sources: EmoteSource[]) => Promise<IGlobalEmoteIntegration[]>;
+export function useEmoteIntegrationsLoad<I, IR>(loaders: {
+  load: (source: EmoteSource) => Promise<I>;
+  loadAll: () => Promise<IR>;
+  loadMany: (sources: EmoteSource[]) => Promise<I[]>;
 }) {
   const asyncQueue = ref(new Set<EmoteSource>());
   return {
@@ -23,10 +17,10 @@ export function useGlobalIntegrationsLoad(loaders: {
       }
       return integrations;
     },
-    async execute(sources: EmoteSource) {
-      asyncQueue.value.add(sources);
-      const integration = await loaders.load(sources);
-      asyncQueue.value.delete(sources);
+    async execute(source: EmoteSource) {
+      asyncQueue.value.add(source);
+      const integration = await loaders.load(source);
+      asyncQueue.value.delete(source);
       return integration;
     },
     async executeAll() {

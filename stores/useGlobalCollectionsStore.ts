@@ -1,6 +1,7 @@
 import {
   emoteSources,
   isEmoteSource,
+  type IGlobalEmoteIntegration,
   type IGlobalEmoteIntegrationRecord,
 } from "~/integrations";
 import { globalCollectionsService } from "~/client-only/services";
@@ -15,9 +16,10 @@ export const useGlobalIntegrationsStore = defineStore(
       [...emoteSources],
     );
 
-    const integrationsLoad = useGlobalIntegrationsLoad(
-      globalCollectionsService,
-    );
+    const integrationsLoad = useEmoteIntegrationsLoad<
+      IGlobalEmoteIntegration,
+      IGlobalEmoteIntegrationRecord
+    >(globalCollectionsService);
 
     watchOnce(integrations.state, async (state) => {
       const missingSources = emoteSources.filter((source) => !state[source]);
