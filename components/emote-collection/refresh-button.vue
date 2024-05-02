@@ -1,17 +1,17 @@
 <template>
   <button
     class="btn btn-accent"
-    :class="[size.btn, props.isRefreshing && props.refreshingClass]"
-    :disabled="props.isRefreshing"
+    :class="[size.btn, props.isParentRefreshing && props.refreshingClass]"
+    :disabled="props.isParentRefreshing"
   >
-    {{ props.isRefreshing ? $t("refreshing") : $t("refresh") }}
+    {{ props.isParentRefreshing ? $t("refreshing") : $t("refresh") }}
     <icon
       name="ic:round-refresh"
       :size="size.icon"
       :class="[
         size.iconClass,
         props.iconClass,
-        props.isRefreshing && props.iconRefreshingClass,
+        props.isParentRefreshing && props.iconRefreshingClass,
       ]"
     />
   </button>
@@ -22,7 +22,7 @@ import { buttonComponentsStyles, type ButtonSize } from ".";
 const props = withDefaults(
   defineProps<{
     size: ButtonSize;
-    isRefreshing: boolean;
+    isParentRefreshing: boolean;
     iconClass?: string;
     iconRefreshingClass?: string;
     refreshingClass?: string;
