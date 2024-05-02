@@ -75,10 +75,7 @@ const MAP = {
         );
         return {
           ...collection,
-          integrations: flatGroupBy(
-            populatedIntegrations,
-            (integration) => integration.source,
-          ),
+          integrations: flatGroupBySource(populatedIntegrations),
         } as IUserEmoteCollection;
       },
       getEmoteIds(collection: IndexedDBUserEmoteCollection) {
@@ -117,9 +114,7 @@ const MAP = {
     },
     collection: {
       fullPrepare(collection: IUserEmoteCollection) {
-        const readyIntegrations = Object.values(collection.integrations).filter(
-          isReadyUserIntegration,
-        );
+        const readyIntegrations = getReadyUserIntegrations(collection);
         const idbIntegrations = readyIntegrations.map(
           MAP.FOR_IDB._integration.prepare,
         );
@@ -127,9 +122,8 @@ const MAP = {
           emotes: readyIntegrations.flatMap(MAP.FOR_IDB._integration.getEmotes),
           collection: {
             ...collection,
-            integrations: flatGroupBy(
+            integrations: flatGroupBySource(
               idbIntegrations,
-              (idbIntegration) => idbIntegration.source,
             ) as IndexedDBUserEmoteIntegrationRecord,
           },
         };
