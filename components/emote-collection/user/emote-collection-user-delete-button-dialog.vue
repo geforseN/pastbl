@@ -1,18 +1,18 @@
 <template>
   <div ref="containerRef" class="relative">
     <slot
-      :reveal-dialog="
+      :reveal="
         () => {
-          isDialogRevealed = true;
+          isRevealed = true;
           nextTick(() => {
             cancelButtonRef!.focus();
           });
         }
       "
-      :is-dialog-revealed
+      :is-revealed
     />
     <div
-      v-show="isDialogRevealed"
+      v-show="isRevealed"
       class="card card-compact absolute z-[1] w-72 border-2 bg-base-100 p-2 text-base-content"
       v-bind="$attrs"
     >
@@ -29,7 +29,7 @@
             class="btn btn-outline btn-sm grow focus:outline focus:outline-offset-2 focus:outline-primary"
             @click="
               () => {
-                isDialogRevealed = false;
+                isRevealed = false;
                 nextTick(() => {
                   setFocusOnDeleteButton();
                 });
@@ -49,14 +49,14 @@ defineOptions({ inheritAttrs: false });
 const containerRef = ref<HTMLDivElement>();
 const cardRef = ref<HTMLDivElement>();
 const cancelButtonRef = ref<HTMLButtonElement>();
-const isDialogRevealed = ref(false);
+const isRevealed = ref(false);
 
 const emit = defineEmits<{
   delete: [];
 }>();
 
 onClickOutside(cardRef, () => {
-  isDialogRevealed.value = false;
+  isRevealed.value = false;
 });
 
 function setFocusOnDeleteButton() {

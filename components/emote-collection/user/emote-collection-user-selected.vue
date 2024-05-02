@@ -11,6 +11,7 @@
       :formed-at="selected.formedAt"
       @delete="userCollectionsStore.deleteCollection(selected)"
       @refresh="userCollectionsStore.loadCollection(selected)"
+      @unselect="userCollectionsStore.unselectCollection"
     />
   </div>
 </template>

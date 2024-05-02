@@ -13,12 +13,12 @@
           <p class="truncate text-xl font-bold" :title="nickname">
             {{ nickname }}
           </p>
-          <emote-collection-user-select-status
+          <emote-collection-user-select-button
             size="xs"
             class="w-fit"
-            :is-selected="isSelected"
-            :nickname="nickname"
+            :is-selected
             @select="emit('select')"
+            @unselect="emit('unselect')"
           />
         </div>
       </div>
@@ -26,16 +26,16 @@
     </div>
     <div class="space-y-0.5">
       <emote-collection-user-delete-button-dialog
-        v-slot="{ revealDialog, isDialogRevealed }"
+        v-slot="dialog"
         class="right-0 top-6"
         @delete="emit('delete')"
       >
         <emote-collection-user-delete-button
           size="xs"
-          :disabled="isDialogRevealed"
+          :disabled="dialog.isRevealed"
           class="w-full flex-nowrap justify-between"
           icon-class="translate-x-1"
-          @click="revealDialog"
+          @click="dialog.reveal"
         />
       </emote-collection-user-delete-button-dialog>
       <nuxt-link-locale
@@ -48,7 +48,7 @@
         size="xs"
         class="w-full flex-nowrap justify-between"
         icon-refreshing-class="absolute right-1 animate-spin rounded-full bg-inherit"
-        :is-refreshing="isRefreshing"
+        :is-parent-refreshing="isRefreshing"
         @click="emit('refresh')"
       />
     </div>
@@ -68,5 +68,6 @@ const emit = defineEmits<{
   refresh: [];
   delete: [];
   select: [];
+  unselect: [];
 }>();
 </script>
