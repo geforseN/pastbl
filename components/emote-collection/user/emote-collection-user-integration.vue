@@ -7,6 +7,15 @@
       <h2 class="ml-1 text-xl">{{ props.source }}</h2>
       <emote-integration-logo :source="props.source" with-link />
     </header>
+    <!-- TODO: add UserIntegration.linkToPage: string -->
+    <nuxt-link
+      v-if="
+        props.collection?.owner?.displayName?.toLowercase?.() === 'uselessmouth'
+      "
+      to="https://7tv.app/users/623dec3a1aeb248de84964bf"
+    >
+      YES
+    </nuxt-link>
     <main>
       <div v-if="props.status === 'ready'" class="space-y-1.5">
         <ul class="space-y-1.5">
@@ -22,7 +31,7 @@
           <emote-collection-refresh-button
             size="xs"
             class="w-fit gap-0.5"
-            :is-refreshing="props.isRefreshing"
+            :is-parent-refreshing="props.isRefreshing"
             @click="emit('refresh')"
           />
         </div>
