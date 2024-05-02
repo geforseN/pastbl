@@ -16,7 +16,7 @@
           <emote-collection-user-select-button
             size="xs"
             class="w-fit"
-            :is-selected
+            :is-collection-selected="isSelected"
             @select="emit('select')"
             @unselect="emit('unselect')"
           />

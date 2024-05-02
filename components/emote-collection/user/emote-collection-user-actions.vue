@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-0.5 border border-red-500">
     <div class="flex items-center justify-between gap-1">
-      <emote-collection-user-status-button
+      <emote-collection-user-select-button
         :is-collection-selected
         size="sm"
         @select="emit('select')"
