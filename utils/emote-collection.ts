@@ -1,3 +1,10 @@
+import {
+  isReadyUserIntegration,
+  type EmoteSource,
+  type IUserEmoteCollection,
+  type IUserEmoteIntegrationRecord,
+} from "~/integrations";
+
 export { getUserLogin } from "~/utils/emote-collection/emote-collection-user-login";
 export type {
   LoginSource,
@@ -11,3 +18,24 @@ export {
   getEmotesMapFromIntegration,
   getEmotesMapFromIntegrations,
 } from "~/utils/emote-collection/get-emotes";
+
+export function getReadyUserIntegrations(collection: IUserEmoteCollection) {
+  const values = Object.values(collection.integrations);
+  return values.filter(isReadyUserIntegration);
+}
+
+export function getReadyUserIntegrationsRecord(
+  collection: IUserEmoteCollection,
+) {
+  const ready = getReadyUserIntegrations(collection);
+  return flatGroupBy(
+    ready,
+    (integration) => integration.source,
+  ) as IUserEmoteIntegrationRecord;
+}
+
+export function flatGroupBySource<T extends { source: EmoteSource }>(
+  items: T[],
+) {
+  return flatGroupBy(items, (item) => item.source);
+}

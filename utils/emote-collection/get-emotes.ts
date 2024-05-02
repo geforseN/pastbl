@@ -14,8 +14,8 @@ export function getEmotesMapFromIntegration<T extends MinimalEmoteIntegration>(
 export function getEmotesMapFromIntegrations<
   T extends Partial<MinimalEmoteIntegrationRecord>,
 >(integrations: T) {
-  const integrations_ = Object.values(integrations);
-  const emotes = integrations_
+  const values = Object.values(integrations);
+  const emotes = values
     .flatMap((integration) => integration.sets ?? [])
     .flatMap((set) => set.emotes ?? []);
   const emotesEntries = emotes.map((emote) => [emote.token, emote] as const);
