@@ -1,12 +1,15 @@
 <template>
   <button
-    :class="[size.btn, props.isSelected ? 'btn-error' : 'btn-primary']"
+    :class="[
+      size.btn,
+      props.isCollectionSelected ? 'btn-error' : 'btn-primary',
+    ]"
     class="btn"
-    @click="emit(props.isSelected ? 'unselect' : 'select')"
+    @click="emit(props.isCollectionSelected ? 'unselect' : 'select')"
   >
     {{
       $t(
-        props.isSelected
+        props.isCollectionSelected
           ? "userCollection.makeInactive"
           : "collections.users.ready.button.select",
       )
@@ -17,7 +20,7 @@
 import { buttonComponentsStyles } from "~/components/emote-collection";
 
 const props = defineProps<{
-  isSelected: boolean;
+  isCollectionSelected: boolean;
   size: "xs" | "sm";
 }>();
 
