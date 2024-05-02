@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown space-x-0.5" :class="props.dropdownClass">
+  <div class="dropdown w-fit space-x-0.5" :class="props.dropdownClass">
     <time
       :datetime="time.toISOString()"
       class="w-full text-ellipsis text-nowrap"
@@ -10,7 +10,7 @@
     <div
       tabindex="0"
       role="button"
-      class="btn btn-circle btn-ghost btn-xs translate-y-px text-info"
+      class="btn btn-circle btn-ghost btn-xs text-info"
     >
       <icon name="ic:outline-info" size="20" />
     </div>

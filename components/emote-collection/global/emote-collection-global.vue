@@ -21,7 +21,7 @@
             <emote-collection-refresh-button
               size="xs"
               class="w-fit gap-0.5"
-              :is-refreshing="props.isRefreshing"
+              :is-parent-refreshing="props.isRefreshing"
               @click="emit('refresh')"
             />
           </div>
