@@ -1,8 +1,4 @@
-import {
-  isReadyUserIntegration,
-  type IUserEmoteCollection,
-  type IUserEmoteIntegrationRecord,
-} from "~/integrations";
+import { type IUserEmoteCollection } from "~/integrations";
 
 export function useSelectedUserCollection(
   getCollection: (
@@ -42,9 +38,7 @@ export function useSelectedUserCollection(
       if (!asyncState.state.value) {
         return {};
       }
-      const values = Object.values(asyncState.state.value.integrations);
-      const ready = values.filter(isReadyUserIntegration);
-      return ready as Partial<IUserEmoteIntegrationRecord>;
+      return getReadyUserIntegrationsRecord(asyncState.state.value);
     }),
   };
 }
