@@ -187,13 +187,20 @@ export const USERS_COLLECTIONS_API = {
     };
   },
   integrations: {
-    async get(source: EmoteSource, login: TwitchUserLogin) {
-      assert.ok(isEmoteSource(source) && isLowercase(login));
-      const integration = await $fetch(
+    get(source: EmoteSource, login: TwitchUserLogin) {
+      return $fetch(
         `/api/v1/collections/users/${login}/integrations/${source}`,
       );
-      assert.ok(integration);
-      return integration;
+    },
+    getAll(login: TwitchUserLogin) {
+      return $fetch(`/api/v1/collections/users/${login}/integrations`);
+    },
+    getMany(sources: EmoteSource[], login: TwitchUserLogin) {
+      return $fetch(`/api/v1/collections/users/${login}/integrations`, {
+        params: {
+          sources: sources.join("+"),
+        },
+      });
     },
   },
 };
