@@ -19,6 +19,10 @@
         href="/favicon-16x16.png"
       />
       <Link rel="manifest" href="/site.webmanifest" />
+      <Meta
+        name="google-site-verification"
+        content="CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw"
+      />
     </Head>
     <Body lang="en">
       <app-drawer class="z-50">
