@@ -1,62 +1,72 @@
 <template>
-  <article
-    class="rounded-btn border-2 p-2 text-white"
-    :class="[styles.backgroundBase, styles.borderAccent]"
-  >
-    <header class="flex justify-between">
-      <h2 class="ml-1 text-xl">{{ props.source }}</h2>
-      <slot name="headingMiddle" />
-      <emote-integration-logo :source="props.source" with-link />
-    </header>
-    <main>
-      <div v-if="props.status === 'ready'" class="space-y-1.5">
-        <ul class="space-y-1.5">
-          <li v-for="set of props.collection.sets" :key="set.name">
-            <emote-collection-collapsed-set :set :styles />
-          </li>
-        </ul>
-        <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
-          <div class="flex justify-between">
-            <emote-collection-formed-at :time="props.collection.formedAt" />
-            <emote-collection-refresh-button
-              size="xs"
-              class="w-fit gap-0.5"
-              :is-parent-refreshing="props.isRefreshing"
-              @click="emit('refresh')"
-            />
-          </div>
-          <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
-            &nbsp;
-          </div>
-          <emote-collection-global-must-be-used
-            v-model="checkedSources"
-            :source="props.source"
+  <div class="w-96 rounded-box border-2 p-2">
+    <div class="flex justify-between p-2">
+      <h2 id="heading" class="text-3xl font-bold">
+        {{ $t("collections.global.link") }}
+      </h2>
+      <emote-integration-logos />
+    </div>
+    <div class="space-y-2" @mouseover="throttledMouseover">
+      <button
+        class="btn btn-primary btn-lg w-full flex-nowrap text-pretty border-2 border-base-content text-xl"
+        @click="globalCollectionStore.integrations.loadAll"
+      >
+        {{ $t("collections.global.refresh-all-button") }}
+        <div
+          class="rounded border-[3px] border-base-100 bg-base-content p-1 pr-2"
+        >
+          <emote-integration-logos class="min-w-8" />
+        </div>
+      </button>
+      <dev-only>
+        <div class="form-control rounded-btn border border-accent p-2">
+          <label for="find-global-emote" class="ml-1 cursor-pointer text-xl">
+            {{ $t("emote.find") }}
+          </label>
+          <input
+            id="find-global-emote"
+            type="search"
+            name="find-global-emote"
+            class="input input-sm input-accent"
           />
         </div>
-      </div>
-      <div v-else-if="props.status === 'failed'">
-        {{ props.reason }}
-      </div>
-    </main>
-  </article>
+      </dev-only>
+      <template
+        v-for="integration of globalCollectionStore.integrations.state"
+        :key="integration.source"
+      >
+        <!-- 
+        :is-refreshing="
+            globalCollectionStore.integrations.isCurrentlyLoading(integration)
+          "
+       -->
+        <emote-collection-global-integration
+          v-model:checkedSources="globalCollectionStore.checkedSources.state"
+          :integration
+          @refresh="globalCollectionStore.integrations.load(integration)"
+        >
+          <template #headingMiddle>
+            <span class="ml-1 mr-auto">
+              <nuxt-link-locale
+                :to="`/collections/global/${toLowerCase(integration.source)}`"
+              >
+                <icon name="carbon:link" />
+              </nuxt-link-locale>
+            </span>
+          </template>
+        </emote-collection-global-integration>
+      </template>
+    </div>
+  </div>
 </template>
-<script setup lang="ts" generic="Source extends EmoteSource">
-import type { EmoteSource } from "~/integrations";
-import {
-  collectionsStyles,
-  type GlobalIntegrationProps,
-} from "~/components/emote-collection";
+<script setup lang="ts">
+const globalCollectionStore = useGlobalCollectionStore();
 
-const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
-  required: true,
-});
-const props = defineProps<GlobalIntegrationProps<Source>>();
-const emit = defineEmits<{
-  refresh: [];
-}>();
-defineSlots<{
-  headingMiddle?: unknown;
-}>();
+const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
 
-const styles = computed(() => collectionsStyles[props.source]);
+const throttledMouseover = useThrottleFn(
+  onHoverHint.globalEmotesHandler,
+  100,
+  true,
+);
 </script>

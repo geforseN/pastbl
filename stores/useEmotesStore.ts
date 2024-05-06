@@ -5,10 +5,10 @@ export const useEmotesStore = defineStore("emotes", () => {
 
   const pastasStore = usePastasStore();
   const userCollectionsStore = useUserCollectionsStore();
-  const globalIntegrationsStore = useGlobalIntegrationsStore();
+  const globalCollectionStore = useGlobalCollectionStore();
 
   const globalEmotes = useEmotes(
-    () => globalIntegrationsStore.checkedIntegrations,
+    () => globalCollectionStore.integrations.checked,
   );
   const userEmotes = useEmotesWithInitialReady(
     () => userCollectionsStore.selectedCollection.readyIntegrations,
@@ -17,7 +17,7 @@ export const useEmotesStore = defineStore("emotes", () => {
   watch(
     [
       () => userCollectionsStore.selectedCollection.state,
-      () => globalIntegrationsStore.checkedSources.state,
+      () => globalCollectionStore.checkedSources.state,
     ],
     () => {
       emotesCache.clear();
