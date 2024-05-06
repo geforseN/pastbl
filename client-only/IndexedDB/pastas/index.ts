@@ -2,6 +2,7 @@ import type { OpenDBCallbacks } from "idb";
 import type { PastasSchema } from "~/client-only/IndexedDB";
 import { PastasListStore } from "~/client-only/IndexedDB/pastas/PastasList";
 import { PastasSharedStore } from "~/client-only/IndexedDB/pastas/PastasShared";
+import { openIdb } from "~/client-only/IndexedDB/open";
 
 const openPastasIdbUpgrade: OpenDBCallbacks<PastasSchema>["upgrade"] = (
   database,
@@ -34,11 +35,11 @@ class PastasStore {
   ) {}
 }
 
-export const pastasIdb = import("~/client-only/IndexedDB")
-  .then(({ openIdb }) =>
-    openIdb<PastasSchema>("pastas", 7, openPastasIdbUpgrade),
-  )
-  .then(
-    (idb) =>
-      new PastasStore(new PastasListStore(idb), new PastasSharedStore(idb)),
-  );
+export const pastasIdb = openIdb<PastasSchema>(
+  "pastas",
+  7,
+  openPastasIdbUpgrade,
+).then(
+  (idb) =>
+    new PastasStore(new PastasListStore(idb), new PastasSharedStore(idb)),
+);
