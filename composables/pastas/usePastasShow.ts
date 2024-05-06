@@ -31,7 +31,7 @@ export function usePastasShow(
         }
       }
       return map;
-    }, new Map<Lowercase<string>, IDBMegaPasta[]>()),
+    }, new Map<TwitchUserLogin, IDBMegaPasta[]>()),
   );
 
   const notSelectedUserPastas = computed(() => {

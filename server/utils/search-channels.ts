@@ -40,7 +40,7 @@ function makeChannel(
 
 function getSortedChannels(
   channels: Channel[],
-  login: Lowercase<string>,
+  login: TwitchUserLogin,
 ): Channel[] {
   const groupedByIsLive = groupBy(channels, (channel) =>
     channel.isLive ? "live" : "notLive",
@@ -56,7 +56,7 @@ function getSortedChannels(
   return sorted;
 }
 
-export async function getChannels(login: Lowercase<string>) {
+export async function getChannels(login: TwitchUserLogin) {
   const apiChannels = await fetchTwitchChannels(login);
   const channels = apiChannels.data.map(makeChannel);
   const sortedChannels = getSortedChannels(channels, login);

@@ -16,7 +16,7 @@ export function SevenTVWrappedEmoteString(emote: I7TVEmote) {
 export const SevenTV = {
   async giveUserIntegration(
     twitchId: TwitchUserId,
-    twitchLogin?: Lowercase<string>,
+    twitchLogin?: TwitchUserLogin,
   ) {
     const profile = await get7TVUserProfileByTwitchId(twitchId, twitchLogin);
     return create7TVUserIntegration(profile);
@@ -39,7 +39,7 @@ export const SevenTV = {
   },
   async createUserIntegration(
     twitchId: TwitchUserId,
-    twitchLogin?: Lowercase<string>,
+    twitchLogin?: TwitchUserLogin,
   ): Promise<ISevenTVUserIntegration> {
     const integration = await this.giveUserIntegration(twitchId, twitchLogin);
     const activeSet = await this.giveActiveSet(integration);

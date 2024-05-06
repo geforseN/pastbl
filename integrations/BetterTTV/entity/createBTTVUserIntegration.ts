@@ -7,7 +7,7 @@ import {
 } from "./BetterTTVUserIntegration";
 
 export function createBTTVUserIntegration(
-  user: IBetterTTVApi["User"] & { twitch: { login: Lowercase<string> } },
+  user: IBetterTTVApi["User"] & { twitch: { login: TwitchUserLogin } },
 ): BetterTTVUserIntegration {
   const setEntries = [
     {
