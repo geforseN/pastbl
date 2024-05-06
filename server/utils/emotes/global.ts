@@ -1,5 +1,6 @@
 import { EmoteSource } from "~/integrations";
-import { flatGroupBy } from "~/utils/object";
+import { flatGroupBySource } from "~/utils/emote-collection";
+import { findErrorMessage } from "~/utils/error";
 
 const globalEmoteCollectionsGetters = {
   BetterTTV: getBetterTTVGlobalCollection,
@@ -9,6 +10,7 @@ const globalEmoteCollectionsGetters = {
 };
 
 export async function getAllGlobalEmoteCollections() {
+  // TODO: add four catches here
   // TODO: add timeout
   // TODO: ? add streaming ?
   const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all([
@@ -26,11 +28,18 @@ export async function getAllGlobalEmoteCollections() {
   };
 }
 
-export async function getGlobalEmoteCollections(sources: EmoteSource[]) {
-  const getters = sources.map(
-    (source) => globalEmoteCollectionsGetters[source],
+export async function getGlobalEmoteIntegrations(sources: EmoteSource[]) {
+  const integrations = await Promise.all(
+    sources.map((source) =>
+      globalEmoteCollectionsGetters[source]().catch((reason) => ({
+        source,
+        status: "failed",
+        reason: findErrorMessage(
+          reason,
+          `Failed to load ${source} Global Emote Integration`,
+        ),
+      })),
+    ),
   );
-  const collections = await Promise.all(getters.map((getter) => getter()));
-  const grouped = flatGroupBy(collections, (collection) => collection.source);
-  return grouped;
+  return flatGroupBySource(integrations);
 }
