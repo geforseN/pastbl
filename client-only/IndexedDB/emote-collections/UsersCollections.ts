@@ -9,7 +9,7 @@ export class UsersCollectionsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
-  async get(login: Lowercase<string>) {
+  async get(login: TwitchUserLogin) {
     const collection = await this.db.transaction("users").store.get(login);
     assert.ok(
       collection,
@@ -26,7 +26,7 @@ export class UsersCollectionsStore {
     return this.db.transaction("users").store.getAllKeys();
   }
 
-  delete(login: Lowercase<string>) {
+  delete(login: TwitchUserLogin) {
     return this.db.delete("users", login);
   }
 

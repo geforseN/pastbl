@@ -26,11 +26,12 @@ function makeTwitchUser(apiTwitchUser: TwitchApi["getUser"]["responseItem"]) {
   });
 }
 
-export async function getTwitchUser(login: Lowercase<string>) {
+export async function getTwitchUser(login: TwitchUserLogin) {
   const apiUser = await fetchTwitchUser(login);
   return makeTwitchUser(apiUser);
 }
 
+// TODO: refactor it
 const userTwitchSchema = z
   .object({
     id: z.string(),

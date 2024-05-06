@@ -58,7 +58,7 @@
 defineProps<{
   formedAt: number;
   nickname: string;
-  login: Lowercase<string>;
+  login: TwitchUserLogin;
   avatarUrl: string;
   isSelected: boolean;
   isRefreshing: boolean;

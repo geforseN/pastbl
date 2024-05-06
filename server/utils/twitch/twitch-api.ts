@@ -19,7 +19,7 @@ export function createTwitchApiFetch(token?: TwitchToken) {
   });
 }
 
-export async function fetchTwitchUser(login: Lowercase<string>) {
+export async function fetchTwitchUser(login: TwitchUserLogin) {
   const { data } = await twitchApi.fetch<TwitchApi["getUser"]["response"]>(
     "/users",
     {

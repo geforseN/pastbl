@@ -12,7 +12,7 @@ export type IBetterTTVApi = {
 
 export const BetterTTVApi = {
   // LINK: https://betterttv.com/developers/api#user
-  async getUserByTwitchId(twitchId: TwitchUserId, login?: Lowercase<string>) {
+  async getUserByTwitchId(twitchId: TwitchUserId, login?: TwitchUserLogin) {
     const response = await fetch(
       `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
     );

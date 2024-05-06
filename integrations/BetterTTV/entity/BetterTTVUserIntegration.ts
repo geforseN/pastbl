@@ -9,7 +9,7 @@ export interface BetterTTVUserIntegration
       avatarUrl: string;
       id: string;
       twitch: {
-        login: Lowercase<string>;
+        login: TwitchUserLogin;
       };
     }
   > {}

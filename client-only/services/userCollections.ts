@@ -26,7 +26,7 @@ const IDB = {
     const collectionsIdb = await idb.collections;
     return collectionsIdb.users;
   },
-  async get(login: Lowercase<string>) {
+  async get(login: TwitchUserLogin) {
     const IDB = await this._getIDB();
     return IDB.get(login);
   },
@@ -48,7 +48,7 @@ const IDB = {
     const IDB = await this._getIDB();
     return IDB.put(collection);
   },
-  async delete(login: Lowercase<string>) {
+  async delete(login: TwitchUserLogin) {
     const IDB = await this._getIDB();
     return IDB.delete(login);
   },
@@ -170,8 +170,7 @@ const emoteIds = {
 };
 
 export const USERS_COLLECTIONS_API = {
-  async get(login: Lowercase<string>) {
-    assert.ok(isLowercase(login));
+  async get(login: TwitchUserLogin) {
     const fetchedAt = Date.now();
     const collection = await $fetch(`/api/v1/collections/users/${login}`);
     return {
@@ -212,12 +211,12 @@ export const userCollectionsService = {
     // TODO: make it transactional (not a big deal)
     await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
   },
-  async load(login: Lowercase<string>) {
+  async load(login: TwitchUserLogin) {
     const collection = await USERS_COLLECTIONS_API.get(login);
     await this.put(collection);
     return collection;
   },
-  async delete(login: Lowercase<string>) {
+  async delete(login: TwitchUserLogin) {
     const [collection, allCollections] = await Promise.all([
       IDB.get(login),
       IDB.getAll(),
@@ -243,7 +242,7 @@ export const userCollectionsService = {
     // TODO: make it transactional (probably not a big deal)
     await Promise.all([groupAsync(deletePromises), IDB.delete(login)]);
   },
-  async get(login: Lowercase<string>) {
+  async get(login: TwitchUserLogin) {
     if (process.server) {
       return null;
     }
