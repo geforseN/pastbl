@@ -1,8 +1,8 @@
 import type { IDBPDatabase } from "idb";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
-import type { IGlobalEmoteIntegration } from "~/integrations";
+import type { LoadedEmoteIntegration } from "~/integrations/integrations";
 
-export class GlobalCollectionStore {
+export class GlobalIntegrationsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
@@ -14,11 +14,7 @@ export class GlobalCollectionStore {
     return this.db.getAllKeys("global");
   }
 
-  add(collection: IGlobalEmoteIntegration) {
-    return this.db.add("global", collection);
-  }
-
-  put(collection: IGlobalEmoteIntegration) {
+  put(collection: LoadedEmoteIntegration) {
     return this.db
       .transaction("global", "readwrite")
       .objectStore("global")

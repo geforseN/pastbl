@@ -1,6 +1,6 @@
 import type { OpenDBCallbacks } from "idb";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
-import { GlobalCollectionStore } from "~/client-only/IndexedDB/emote-collections/GlobalCollections";
+import { GlobalIntegrationsStore } from "~/client-only/IndexedDB/emote-collections/GlobalIntegrationsStore";
 import { UsersCollectionsStore } from "~/client-only/IndexedDB/emote-collections/UsersCollections";
 
 const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
@@ -26,7 +26,7 @@ const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
 class CollectionsStore {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    public readonly global: GlobalCollectionStore,
+    public readonly global: GlobalIntegrationsStore,
     public readonly users: UsersCollectionsStore,
   ) {}
 }
