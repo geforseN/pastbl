@@ -1,5 +1,6 @@
 import type { IDBPDatabase, OpenDBCallbacks } from "idb";
 import type { MyKeyValueSchema, KeyValueSchema } from "~/client-only/IndexedDB";
+import { openIdb } from "~/client-only/IndexedDB/open";
 
 export class KeyValueStore {
   // eslint-disable-next-line no-useless-constructor
@@ -25,6 +26,6 @@ const keyValueOpenIdbUpdates: OpenDBCallbacks<KeyValueSchema>["upgrade"] = (
   }
 };
 
-export const kvIdb = import("~/client-only/IndexedDB")
-  .then(({ openIdb }) => openIdb("key-value", 1, keyValueOpenIdbUpdates))
-  .then((idb) => new KeyValueStore(idb));
+export const kvIdb = openIdb("key-value", 1, keyValueOpenIdbUpdates).then(
+  (idb) => new KeyValueStore(idb),
+);

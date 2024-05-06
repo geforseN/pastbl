@@ -1,6 +1,7 @@
 import type { IDBPDatabase, OpenDBCallbacks } from "idb";
 import type { EmotesSchema } from "~/client-only/IndexedDB";
 import type { EmoteSource, IEmote } from "~/integrations";
+import { openIdb } from "~/client-only/IndexedDB/open";
 
 const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
   database,
@@ -54,8 +55,8 @@ class EmotesStore {
   }
 }
 
-export const emotesIdb = import("~/client-only/IndexedDB")
-  .then(({ openIdb }) =>
-    openIdb<EmotesSchema>("emotes", 1, openEmotesIdbUpgrade),
-  )
-  .then((idb) => new EmotesStore(idb));
+export const emotesIdb = openIdb<EmotesSchema>(
+  "emotes",
+  1,
+  openEmotesIdbUpgrade,
+).then((idb) => new EmotesStore(idb));

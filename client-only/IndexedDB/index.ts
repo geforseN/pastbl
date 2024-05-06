@@ -1,4 +1,4 @@
-import type { DBSchema, IDBPDatabase, OpenDBCallbacks } from "idb";
+import type { DBSchema } from "idb";
 import { collectionsIdb } from "~/client-only/IndexedDB/emote-collections";
 import { pastasIdb } from "~/client-only/IndexedDB/pastas";
 import { emotesIdb } from "~/client-only/IndexedDB/emotes";
@@ -24,17 +24,6 @@ import type {
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
 
-export async function openIdb<T extends DBSchema>(
-  name: string,
-  version: number,
-  upgrade: OpenDBCallbacks<T>["upgrade"],
-) {
-  if (process.server) {
-    return {} as IDBPDatabase<T>;
-  }
-  const { openDB } = await import("idb");
-  return openDB<T>(name, version, { upgrade });
-}
 interface GenericIndexedDBUserEmoteIntegration<
   SourceT extends EmoteSource,
   IntegrationT extends IUserEmoteIntegration,

@@ -2,6 +2,7 @@ import type { OpenDBCallbacks } from "idb";
 import type { CollectionsSchema } from "~/client-only/IndexedDB";
 import { GlobalIntegrationsStore } from "~/client-only/IndexedDB/emote-collections/GlobalIntegrationsStore";
 import { UsersCollectionsStore } from "~/client-only/IndexedDB/emote-collections/UsersCollections";
+import { openIdb } from "~/client-only/IndexedDB/open";
 
 const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
   (database) => {
@@ -31,18 +32,14 @@ class CollectionsStore {
   ) {}
 }
 
-export const collectionsIdb = import("~/client-only/IndexedDB")
-  .then(({ openIdb }) =>
-    openIdb<CollectionsSchema>(
-      "emote-collections",
-      6,
-      openCollectionsIdbUpgrade,
+export const collectionsIdb = openIdb<CollectionsSchema>(
+  "emote-collections",
+  6,
+  openCollectionsIdbUpgrade,
+).then(
+  (idb) =>
+    new CollectionsStore(
+      new GlobalIntegrationsStore(idb),
+      new UsersCollectionsStore(idb),
     ),
-  )
-  .then(
-    (idb) =>
-      new CollectionsStore(
-        new GlobalCollectionStore(idb),
-        new UsersCollectionsStore(idb),
-      ),
-  );
+);
