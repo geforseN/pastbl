@@ -23,6 +23,15 @@
           </label>
         </li>
         <li>
+          <auth-logged-in-dropdown
+            v-if="userSession.loggedIn && userSession.user"
+            class="border bg-base-100"
+            :user="userSession.user"
+            @logout="userSession.clear"
+          />
+          <auth-twitch-login-link-button class="w-full" v-else />
+        </li>
+        <li>
           <app-links-emote-integrations />
         </li>
         <li>
@@ -39,3 +48,6 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const userSession = reactive(useUserSession());
+</script>
