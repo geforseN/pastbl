@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar border-b-2 border-b-secondary/50 p-1">
-    <ol class="contents space-x-2">
+    <ul class="contents space-x-2">
       <li
         class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content bg-hero-graph-paper"
       >
@@ -28,11 +28,11 @@
         <app-theme-select />
       </li>
       <li class="!ml-auto go-brr:hidden"></li>
-      <li>
+      <li class="hidden min-[380px]:block">
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"
           class="bg-base-100"
-          :user="userSession.user.twitch"
+          :user="userSession.user"
           @logout="userSession.clear"
         />
         <auth-twitch-login-link-button v-else />
@@ -40,7 +40,7 @@
       <li class="xl:hidden">
         <app-drawer-burger-button />
       </li>
-    </ol>
+    </ul>
   </nav>
 </template>
 <script setup lang="ts">
