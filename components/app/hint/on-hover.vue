@@ -5,13 +5,13 @@
       class="flex max-w-96 flex-col items-center gap-1 rounded-lg border p-2 text-white"
       :class="[
         emoteModifiers?.length && 'rounded-br-none',
-        collectionsStyles[emote.source].backgroundBase,
+        styles!.backgroundBase,
       ]"
     >
       <app-hint-on-hover-close-button @click="emit('close')" />
       <div
         class="flex items-center gap-1 overflow-x-auto p-1 scrollbar"
-        :class="collectionsStyles[emote.source].scrollbar"
+        :class="styles!.scrollbar"
       >
         <template v-for="image of emote.images.value" :key="image">
           <img
@@ -81,6 +81,7 @@
           class="link line-clamp-2 max-w-48 break-all font-bold"
           :href="modifier.integrationLink.value"
         >
+          {{ emote!.token }}
         </nuxt-link>
         <span v-else class="line-clamp-2 max-w-48 break-all font-bold">
           {{ modifier.token }}
@@ -109,7 +110,7 @@
 </template>
 <script lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
-import { collectionsStyles } from "~/components/emote-collection";
+import { emoteIntegrationsStyles } from "~/components/emote-collection";
 import type { IEmote } from "~/integrations";
 
 const oh = "app.hint.onHover." as const;
@@ -138,4 +139,8 @@ const emoteModifiers = computed(() =>
 
 const emoji = computed(() => props.emoji);
 const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
+
+const styles = computed(
+  () => emote.value && emoteIntegrationsStyles[emote.value.source],
+);
 </script>
