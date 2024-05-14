@@ -1,10 +1,15 @@
 <template>
+  <!-- LINK: https://tailwindcss.com/blog/tailwindcss-v3-2#container-queries -->
+  <!-- LINK: https://tailwindcss.com/blog/tailwindcss-v3-2#container-queries -->
+  <!-- LINK: https://github.com/Akryum/vue-virtual-scroller/blob/master/packages/vue-virtual-scroller/README.md#dynamicscroller -->
+  <!-- NOTE: item-class must not be display:inline or else width of component will be incorrect -->
   <dynamic-scroller
-    list-class="w-[340px] xs:w-auto"
+    class="chat-pasta-list hidden"
+    list-class="min-w-[340px] sm:min-w-[420px]"
     :min-item-size="100"
-    list-tag="ul"
     item-tag="li"
-    item-class="max-w-[340px] xs:max-w-none"
+    list-tag="ol"
+    :buffer="500"
   >
     <template #default="{ item: pasta, index, active }">
       <dynamic-scroller-item
@@ -12,6 +17,7 @@
         :active="active"
         :size-dependencies="[pasta.text]"
         :data-index="index"
+        class=""
       >
         <chat-pasta
           :key="`${pasta.id}:${pasta.text}`"
@@ -19,6 +25,11 @@
           @populate="
             (pastaTextContainer) => {
               populatePasta(pastaTextContainer, pasta.validTokens, findEmote);
+            }
+          "
+          @show-tag-context-menu="
+            (event, tag) => {
+              console.log(event, tag);
             }
           "
         >
@@ -31,6 +42,7 @@
           </template>
           <template #sidebar>
             <chat-pasta-sidebar
+              class="@[300px]:bg-red-200"
               dropdown-class="dropdown dropdown-top xs:dropdown-end dropdown-hover"
               :pasta-edit-page-path="`/pastas/edit/${pasta.id}`"
               @copy="userStore.copyPasta(pasta)"
@@ -49,28 +61,14 @@ export const l = "pasta.list." as const;
 </script>
 <script setup lang="ts">
 const userStore = useUserStore();
-const emotesStore = useEmotesStore();
 
 const props = defineProps<{
-  findEmote?(token: string): IEmote | undefined;
+  findEmote?: (token: string) => IEmote | undefined;
 }>();
 
-const findEmote = props.findEmote || emotesStore.findEmote;
+const findEmote = props.findEmote || useEmotesStore().findEmote;
 
 const emit = defineEmits<{
   removePasta: [IDBMegaPasta];
 }>();
 </script>
-<style>
-.pasta-list .chat-pasta .chat-pasta-sidebar {
-  @apply xs:dropdown-left;
-
-  .dropdown .dropdown-content {
-    @apply flex w-max flex-row xs:-translate-y-1/2;
-
-    * {
-      @apply w-min;
-    }
-  }
-}
-</style>

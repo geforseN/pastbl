@@ -2,14 +2,17 @@
   <div class="mx-1">
     <client-only>
       <div
-        v-if="!$clipboard.isSupported"
+        v-if="false && !$clipboard.isSupported"
         class="alert alert-warning flex w-[420px] flex-col justify-center gap-1 p-3"
       >
         <h3 class="font-bold">{{ $t(l + "clipboardFail.heading") }}</h3>
         <p>{{ $t(l + "clipboardFail.explanation") }}</p>
       </div>
     </client-only>
-    <div class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5">
+    <div
+      v-if="false"
+      class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5"
+    >
       <client-only>
         <chat-pasta-list-sort-select
           v-model="pastasStore.selectedSortStrategy"
@@ -25,7 +28,7 @@
     <slot name="default">
       <!-- NOTE: chat-pasta-list expected here -->
     </slot>
-    <client-only>
+    <client-only v-if="false">
       <chat-pasta-list-skeleton v-if="pastasStore.pastas.isLoading" />
       <div
         v-else-if="pastasStore.pastas.isReady"
@@ -53,12 +56,9 @@
             {{ $t(l + "show.selected-user.onEmpty.afterTag") }}
           </span>
         </div>
-        <div
-          v-if="!pastasStore.pastas.state.length"
-          class="flex justify-center bg-warning font-bold text-warning-content"
-        >
-          {{ $t(l + "empty") }}
-        </div>
+        <chat-pasta-list-hint-on-empty
+          v-if="!pastasStore.pastasToShow.length"
+        />
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <app-hint-current-emotes
             v-if="isEmotesLoaded && selectedCollection"
