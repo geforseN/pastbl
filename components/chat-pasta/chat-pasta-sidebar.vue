@@ -1,19 +1,19 @@
 <template>
   <div
-    class="chat-pasta-sidebar flex flex-row-reverse justify-between gap-x-2 gap-y-0.5 xs:flex-col xs:justify-between xs:gap-x-0"
+    class="chat-pasta-sidebar flex flex-row justify-between gap-x-2 gap-y-0.5 p-1 xs:gap-x-0 sm:flex-col sm:justify-between"
   >
     <button
-      class="btn btn-square btn-accent btn-md border-2 border-accent-content text-xs"
+      class="btn btn-accent border-2 border-accent-content text-xs/[1.2] xs:btn-square xs:btn-md xs:h-auto"
       :disabled="!$clipboard.isSupported"
       @click="emit('copy')"
     >
       {{ $t(d + "copy") }}
     </button>
-    <div :class="dropdownClass">
+    <div class="!h-7 xs:h-auto" :class="dropdownClass">
       <div
         tabindex="0"
         role="button"
-        class="btn btn-square btn-primary border-2 border-primary-content xs:btn-xs xs:h-full xs:w-full"
+        class="btn btn-square btn-primary !h-7 min-h-0 border-2 border-primary-content xs:btn-xs xs:h-full xs:w-full"
       >
         <icon name="ic:baseline-more-horiz" />
       </div>
