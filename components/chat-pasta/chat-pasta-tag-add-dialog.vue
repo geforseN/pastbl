@@ -5,7 +5,7 @@
         {{ $t("modal.chatPastaTagAdd.heading") }}
       </h3>
       <p class="py-4">{{ $t("modal.chatPastaTagAdd.body") }}</p>
-      {{ $t("modal.chatPastaTagAdd.tag") }}: {{ props.tag }}
+      {{ $t("tag._", props.tag) }}
       <form method="dialog" class="modal-action" @submit.prevent>
         <button class="btn btn-error" type="reset" @click="mustAddTag = false">
           {{ $t("modal.chatPastaTagAdd.decline") }}
@@ -15,7 +15,7 @@
           type="submit"
           @click="mustAddTag = true"
         >
-          {{ $t("modal.chatPastaTagAdd.accept") }}
+          {{ $t("nothing") }}
         </button>
       </form>
     </div>

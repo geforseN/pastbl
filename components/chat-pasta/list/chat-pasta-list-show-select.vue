@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-baseline justify-between">
     <label for="show-pastas" class="label font-bold">
-      {{ t(s + "label") }}
+      {{ t("pastas.show") }}
     </label>
     <select
       id="show-pastas"
@@ -16,7 +16,7 @@
         :disabled="!selectedLogin && translated.mustHaveUserCollection"
         :title="
           !selectedLogin && translated.mustHaveUserCollection
-            ? $t(s + 'requestForSelect')
+            ? $t('person.emoteCollection.requestForSelect')
             : undefined
         "
       >
@@ -26,16 +26,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { l } from "~/components/chat-pasta/chat-pasta-list.vue";
-
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{
   selectedLogin: SelectedLogin;
 }>();
 
-const s = l + "show.";
-const so = l + "show.options.";
+const so = "pasta.list.show.options.";
 const { t, locale } = useI18n();
 
 const selectedLogin = computed(() => props.selectedLogin);
