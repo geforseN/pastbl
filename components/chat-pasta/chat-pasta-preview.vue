@@ -1,9 +1,9 @@
 <template>
   <article class="flex flex-col rounded-box border p-3">
     <h3 class="mb-1 ml-1 text-2xl font-bold">
-      {{ $t("pasta.create.preview.heading") }}
+      {{ $t("pasta.preview") }}
     </h3>
-    <span class="w-[340px] grow border border-secondary">
+    <span class="w-[342px] grow border border-secondary">
       <span class="block w-full px-[10px] py-[5px]">
         <chat-pasta-creator-data
           :badges-count="userStore.user.badges.count.state"
@@ -24,7 +24,7 @@
       class="btn btn-accent btn-md -ml-px w-[342px] rounded-t-none text-lg"
       @click="() => userStore.copyText(props.text)"
     >
-      {{ $t("pasta.create.preview.copyButton") }}
+      {{ $t("text.copy") }}
     </button>
   </article>
 </template>

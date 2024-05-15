@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-baseline justify-between">
     <label for="sort-pastas" class="label font-bold">
-      {{ t(s + "label") }}
+      {{ t("pastas.sort") }}
     </label>
     <select
       id="sort-pastas"
@@ -20,22 +20,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { l } from "~/components/chat-pasta/chat-pasta-list.vue";
-
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });
 
-const s = l + "sort.";
-const so = l + "sort.options.";
 const { t, locale } = useI18n();
 
 const sortEntries = computedWithControl(
   locale,
   () =>
     [
-      ["newest-first", t(so + "newest-first")],
-      ["oldest-first", t(so + "oldest-first")],
-      ["last-updated", t(so + "last-updated")],
-      ["last-copied", t(so + "last-copied")],
+      ["newest-first", t("newest-first")],
+      ["oldest-first", t("oldest-first")],
+      ["last-updated", t("last-updated")],
+      ["last-copied", t("last-copied")],
     ] satisfies [PastaSortStrategy, string][],
 );
 </script>

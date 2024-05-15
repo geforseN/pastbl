@@ -2,17 +2,14 @@
   <div class="mx-1">
     <client-only>
       <div
-        v-if="false && !$clipboard.isSupported"
+        v-if="!$clipboard.isSupported"
         class="alert alert-warning flex w-[420px] flex-col justify-center gap-1 p-3"
       >
-        <h3 class="font-bold">{{ $t(l + "clipboardFail.heading") }}</h3>
-        <p>{{ $t(l + "clipboardFail.explanation") }}</p>
+        <h3 class="font-bold">{{ $t("pasta.list.clipboardFail.heading") }}</h3>
+        <p>{{ $t("pasta.list.clipboardFail.explanation") }}</p>
       </div>
     </client-only>
-    <div
-      v-if="false"
-      class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5"
-    >
+    <div class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5">
       <client-only>
         <chat-pasta-list-sort-select
           v-model="pastasStore.selectedSortStrategy"
@@ -25,10 +22,8 @@
         />
       </client-only>
     </div>
-    <slot name="default">
-      <!-- NOTE: chat-pasta-list expected here -->
-    </slot>
-    <client-only v-if="false">
+    <slot name="default"><!-- NOTE: chat-pasta-list expected here --></slot>
+    <client-only>
       <chat-pasta-list-skeleton v-if="pastasStore.pastas.isLoading" />
       <div
         v-else-if="pastasStore.pastas.isReady"
@@ -36,35 +31,49 @@
       >
         <div
           v-if="
-            ['selected-user', 'only-selected-user'].includes(
-              pastasStore.selectedShowStrategy,
-            ) && !pastasStore.pastasToShow.length
+            pastasStore.isPersonTagShowStrategySelected &&
+            pastasStore.isNoPastasToShow
           "
           class="flex px-2 py-1.5"
         >
-          <span class="text-nowrap">
-            {{ $t(l + "show.selected-user.onEmpty.beforeTag") }}
-          </span>
-          &nbsp;
-          <chat-pasta-tag
-            class="line-clamp-1 w-fit break-all"
-            :tag="`@${selectedLogin}`"
-            :title="selectedLogin"
-          />
-          &nbsp;
-          <span class="text-nowrap">
-            {{ $t(l + "show.selected-user.onEmpty.afterTag") }}
-          </span>
+          <i18n-t keypath="pastas.notFoundWithTag">
+            <template #tag>
+              <chat-pasta-tag
+                class="mx-1 line-clamp-1 w-fit break-all"
+                :tag="`@${selectedLogin}`"
+                :title="selectedLogin"
+              />
+            </template>
+          </i18n-t>
         </div>
         <chat-pasta-list-hint-on-empty
-          v-if="!pastasStore.pastasToShow.length"
+          v-if="!pastasStore.pastas.state.length"
         />
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
-          <app-hint-current-emotes
+          <div
+            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-[420px]"
             v-if="isEmotesLoaded && selectedCollection"
-            class="w-80 xs:max-w-[400px]"
-            :collection="selectedCollection"
-          />
+          >
+            <div>
+              {{ "________________" }}
+              <select-person-collection-dropdown
+                class="ml-auto"
+                :collections="userCollectionsStore.collectionsToSelect.state"
+                @select="userCollectionsStore.selectCollection"
+              />
+            </div>
+            <i18n-t
+              keypath="emotes.showingPastasWithPerson"
+              class="flex flex-wrap items-center gap-0.5 px-2 py-0.5"
+              tag="div"
+            >
+              <template #person>
+                <selected-person-collection-badge
+                  :twitch="selectedCollection.user.twitch"
+                />
+              </template>
+            </i18n-t>
+          </div>
           <app-hint-add-emotes v-else />
         </template>
       </div>
@@ -74,9 +83,7 @@
     </client-only>
   </div>
 </template>
-<script lang="ts" setup>
-import { l } from "~/components/chat-pasta/chat-pasta-list.vue";
-
+<script setup lang="ts">
 defineSlots<{
   default: () => void;
 }>();
