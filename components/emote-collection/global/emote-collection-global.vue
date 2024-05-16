@@ -9,41 +9,24 @@
     <div class="space-y-2" @mouseover="throttledMouseover">
       <button
         class="btn btn-primary btn-lg w-full flex-nowrap text-pretty border-2 border-base-content text-xl"
-        @click="globalCollectionStore.integrations.loadAll"
+        @click="globalCollectionStore.integrations.updateAll"
       >
-        {{ $t("collections.global.refresh-all-button") }}
+        {{ $t("collections.global.update-all-emotes") }}
         <div
           class="rounded border-[3px] border-base-100 bg-base-content p-1 pr-2"
         >
-          <emote-integration-logos class="min-w-8" />
+          <emote-integration-logos />
         </div>
       </button>
-      <dev-only>
-        <div class="form-control rounded-btn border border-accent p-2">
-          <label for="find-global-emote" class="ml-1 cursor-pointer text-xl">
-            {{ $t("emote.find") }}
-          </label>
-          <input
-            id="find-global-emote"
-            type="search"
-            name="find-global-emote"
-            class="input input-sm input-accent"
-          />
-        </div>
-      </dev-only>
+      <dev-only><emote-collection-search-emote /></dev-only>
       <template
         v-for="integration of globalCollectionStore.integrations.state"
         :key="integration.source"
       >
-        <!-- 
-        :is-refreshing="
-            globalCollectionStore.integrations.isCurrentlyLoading(integration)
-          "
-       -->
         <emote-collection-global-integration
           v-model:checkedSources="globalCollectionStore.checkedSources.state"
           :integration
-          @refresh="globalCollectionStore.integrations.load(integration)"
+          @update="globalCollectionStore.integrations.update(integration)"
         >
           <template #headingMiddle>
             <span class="ml-1 mr-auto">

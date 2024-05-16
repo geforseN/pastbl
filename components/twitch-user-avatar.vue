@@ -1,8 +1,8 @@
 <template>
-  <!-- class="flex items-center h-asd min-w-asd" -->
   <div class="flex">
     <nuxt-link-locale
-      :to="`https://twitch.tv/${user.login}`"
+      target="_blank"
+      :to
       class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
     >
       <img
@@ -16,8 +16,11 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   user: Pick<TwitchUser, "avatarUrl" | "login" | "nickname">;
   size: number;
+  to?: string;
 }>();
+
+const to = computed(() => props.to ?? `https://twitch.tv/${props.user.login}`);
 </script>

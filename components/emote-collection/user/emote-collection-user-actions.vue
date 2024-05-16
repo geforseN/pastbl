@@ -1,11 +1,11 @@
 <template>
-  <div class="space-y-0.5 border border-red-500">
-    <div class="flex items-center justify-between gap-1">
-      <emote-collection-user-select-button
-        :is-collection-selected
+  <div class="divide-y rounded-btn border-2 border-info">
+    <div class="flex justify-between p-1">
+      <refresh-button
+        :is-in-process="isCollectionRefreshing"
         size="sm"
-        @select="emit('select')"
-        @unselect="emit('unselect')"
+        class="gap-0.5"
+        @click="emit('refresh')"
       />
       <emote-collection-user-delete-button-dialog
         v-slot="dialog"
@@ -20,8 +20,8 @@
         />
       </emote-collection-user-delete-button-dialog>
     </div>
-    <div class="flex justify-between">
-      <span class="mx-2">
+    <div class="flex items-center justify-between p-1">
+      <output class="mx-2">
         {{
           $t(
             isCollectionSelected
@@ -29,12 +29,11 @@
               : "userCollection.notSelected",
           )
         }}
-      </span>
-      <emote-collection-refresh-button
-        :is-parent-refreshing="isCollectionRefreshing"
+      </output>
+      <emote-collection-user-select-button
+        :is-collection-selected
         size="sm"
-        class="gap-0.5"
-        @click="emit('refresh')"
+        @click="isCollectionSelected ? emit('unselect') : emit('select')"
       />
     </div>
   </div>
@@ -43,6 +42,7 @@
 defineProps<{
   isCollectionSelected: boolean;
   isCollectionRefreshing: boolean;
+  // TODO: collection: {status: SomeEmoteCollection['status']};
 }>();
 
 const emit = defineEmits<{

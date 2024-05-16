@@ -74,22 +74,20 @@ async function loadCollection(
 }
 </script>
 <script setup lang="ts">
-const inputRef = ref<HTMLInputElement>();
-const channelsContainerRef = ref<HTMLDivElement>();
-
-onMounted(() => {
-  const params = useUrlSearchParams<{
-    "focus-fetch-input"?: "true";
-  }>("history");
-  if (params["focus-fetch-input"]) {
-    inputRef.value?.focus();
-  }
+defineExpose({
+  focusInput() {
+    inputRef.value!.focus();
+  },
 });
+
+const channelsContainerRef = ref<HTMLDivElement>();
 
 const channelsSearchNickname = ref("");
 const channelsSearch = reactive(
   useChannelsSearch(useDebounce(channelsSearchNickname, 500)),
 );
+
+const inputRef = ref<HTMLInputElement>();
 
 whenever(useFocus(inputRef).focused, channelsSearch.show);
 onClickOutside(channelsContainerRef, channelsSearch.hide, {

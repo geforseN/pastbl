@@ -81,8 +81,8 @@ const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
 const emit = defineEmits<{
   decline: [];
   accept: [];
-  addTag: [tag: string];
-  removeTag: [tag: string];
+  addTag: [string];
+  removeTag: [string];
   removeAllTags: [];
 }>();
 

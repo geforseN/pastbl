@@ -8,7 +8,7 @@
           class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-primary"
           :to="`/collections/users/${login}`"
         >
-          {{ $t("my-collection") }}
+          {{ $t("collection.my") }}
           <icon name="carbon:link" size="16" class="min-h-4 min-w-4" />
         </nuxt-link-locale>
       </li>
@@ -17,7 +17,7 @@
           class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-red-500"
           @click="emit('logout')"
         >
-          {{ $t("account.logout") }}
+          {{ $t("logout") }}
           <icon name="ic:baseline-log-out" size="16" class="min-h-4 min-w-4" />
         </button>
       </li>

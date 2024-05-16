@@ -5,29 +5,28 @@
       props.isCollectionSelected ? 'btn-error' : 'btn-primary',
     ]"
     class="btn"
-    @click="emit(props.isCollectionSelected ? 'unselect' : 'select')"
   >
     {{
       $t(
         props.isCollectionSelected
-          ? "userCollection.makeInactive"
+          ? "collection._makeInactive"
           : "collections.users.ready.button.select",
       )
     }}
+    <icon
+      v-if="props.isCollectionSelected"
+      name="material-symbols:person-off-outline"
+    />
+    <icon v-else name="material-symbols:person-check-outline" />
   </button>
 </template>
 <script lang="ts" setup>
-import { buttonComponentsStyles } from "~/components/emote-collection";
+import { sizeStyles, type ButtonSize } from "~/components/button";
 
 const props = defineProps<{
   isCollectionSelected: boolean;
-  size: "xs" | "sm";
+  size: ButtonSize;
 }>();
 
-const emit = defineEmits<{
-  select: [];
-  unselect: [];
-}>();
-
-const size = computed(() => buttonComponentsStyles[props.size]);
+const size = computed(() => sizeStyles[props.size]);
 </script>

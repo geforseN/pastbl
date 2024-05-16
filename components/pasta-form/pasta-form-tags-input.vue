@@ -7,12 +7,12 @@
         class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content/80 empty:pr-0 xl:w-auto xl:min-w-[320px]"
         :class="isTagTooLong && 'border-error focus:outline-error'"
         type="text"
-        :placeholder="$t('pasta.formCommon.tag.inputPlaceholder')"
+        :placeholder="$t('pasta-form-tags-input.placeholder')"
         list="add-tag-suggestions"
         @keyup="
           (event) => {
             if (event.key === ',') {
-              addTagOnCommaPress(event);
+              tryAddTagOnCommaPress(event);
             }
           }
         "
@@ -37,6 +37,7 @@
     </div>
     <!-- TODO: show note that on ',' will add tag -->
     <!-- TODO: show note that tag which starts with '@' will be user tag -->
+    <!-- TODO: show note that tags.length > pastaTagsCount.max -->
     <span
       v-if="isTagTooLong"
       class="max-w-xs text-wrap break-words underline decoration-error"
@@ -54,7 +55,9 @@ const isTagTooLong = computed(
   () => modelValue.value.length > pastaTagLength.max,
 );
 
-const emit = defineEmits<{ addTag: [tagToAdd: string] }>();
+const emit = defineEmits<{
+  addTag: [string];
+}>();
 
 defineSlots<{
   addTagSuggestions: () => unknown;
@@ -64,14 +67,12 @@ function emitTag() {
   emit("addTag", modelValue.value);
 }
 
-function addTagOnCommaPress(event: KeyboardEvent) {
+function tryAddTagOnCommaPress(event: KeyboardEvent) {
   const input = modelValue.value;
   const commaIndex = input.indexOf(",");
   assert.ok(commaIndex >= 0);
   const tag = input.slice(0, commaIndex);
-  if (tag.length !== 0) {
-    emit("addTag", tag);
-  }
+  emit("addTag", tag);
   // NOTE: must remove comma even if tag is empty
   modelValue.value = input.slice(commaIndex + 1);
   nextTick(() => {

@@ -1,29 +1,35 @@
 <template>
   <div class="rounded-btn border-2 p-1">
     <h2 class="p-1 text-xl font-bold">
-      {{ $t("pastas.withUserEmotes", { login }) }}
+      {{ $t("pastas.withPersonEmotes", { login }) }}
     </h2>
     <div v-if="pastas.length" @mouseover="findEmoteInOpenedCollection">
       <chat-pasta-list
         v-if="canShowPastas"
-        class="pasta-list max-h-[46dvh]"
+        data-compact
+        class="pasta-list h-[16dvh]"
         :items="pastas"
         :find-emote
-        @remove-pasta="removePasta"
+        @remove-pasta="(pasta) => $emit('removePasta', pasta)"
       />
     </div>
     <chat-pasta-list-hint-on-empty v-else />
   </div>
 </template>
 <script setup lang="ts">
-import { getEmoteToken, type IEmote } from "~/integrations";
+import { getEmoteToken } from "~/integrations";
+import type { CanFindEmote } from "~/utils/pasta-dom";
 
-const { canShowPastas, findEmote, login, pastas, removePasta } = defineProps<{
-  canShowPastas: boolean;
-  findEmote(token: string): IEmote | undefined;
-  login: TwitchUserLogin;
-  pastas: IDBMegaPasta[];
-  removePasta(pasta: IDBMegaPasta): void;
+const props = defineProps<
+  CanFindEmote & {
+    canShowPastas: boolean;
+    login: TwitchUserLogin;
+    pastas: OmegaPasta[];
+  }
+>();
+
+defineEmits<{
+  removePasta: [OmegaPasta];
 }>();
 
 const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
@@ -32,10 +38,10 @@ const findEmoteInOpenedCollection = useThrottleFn(
   onHoverHint.makeMouseoverHandler({
     findEmote(target) {
       const token = getEmoteToken(target);
-      return findEmote(token);
+      return props.findEmote(token);
     },
     findEmoteModifiersByTokens(tokens) {
-      return tokens.map(findEmote).filter(isNotNullable);
+      return tokens.map(props.findEmote).filter(isNotNullable);
     },
   }),
   100,

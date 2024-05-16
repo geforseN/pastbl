@@ -1,6 +1,8 @@
 <template>
   <section class="divide-y-2 rounded-box border-2 p-2">
-    <h2 id="heading" class="p-2 text-3xl font-bold">{{ $t(s + "heading") }}</h2>
+    <h2 id="heading" class="p-2 text-3xl font-bold">
+      {{ $t("settings.change") }}
+    </h2>
     <user-settings-badges v-model="userStore.user.badges.count.state" />
     <user-settings-nickname v-model="userStore.user.nickname.text.state" />
     <user-settings-nickname-color

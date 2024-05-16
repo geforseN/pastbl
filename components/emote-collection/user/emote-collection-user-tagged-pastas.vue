@@ -14,9 +14,10 @@
     <div @mouseover="findEmoteForHoverHint">
       <chat-pasta-list
         v-if="pastas?.length && canShowPastas"
+        data-compact
         class="pasta-list max-h-[46dvh]"
         :items="pastas"
-        @remove-pasta="(pasta) => emit('removePasta', pasta)"
+        @remove-pasta="(pasta) => $emit('removePasta', pasta)"
       />
     </div>
   </div>
@@ -24,12 +25,12 @@
 <script setup lang="ts">
 defineProps<{
   login: TwitchUserLogin;
-  pastas?: IDBMegaPasta[];
+  pastas?: OmegaPasta[];
   canShowPastas: boolean;
 }>();
 
-const emit = defineEmits<{
-  removePasta: [IDBMegaPasta];
+defineEmits<{
+  removePasta: [OmegaPasta];
 }>();
 
 const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();

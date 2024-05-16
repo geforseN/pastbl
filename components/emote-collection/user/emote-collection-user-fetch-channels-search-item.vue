@@ -12,27 +12,26 @@
         v-if="isExact"
         class="badge text-nowrap rounded-md border-0 bg-success font-bold uppercase"
       >
-        {{ $t(cs + "exact") }}
+        {{ $t("exact") }}
       </span>
       <span
         v-if="isLive"
         class="badge text-nowrap rounded-md border-0 bg-red-600 font-bold uppercase"
       >
-        {{ $t(cs + "live") }}
+        {{ $t("live") }}
       </span>
-      <button class="btn btn-accent btn-xs" @click="emit('load')">
-        {{ $t(cs + "load") }}
+      <button class="btn btn-accent btn-xs" @click="$emit('load')">
+        {{ $t("load") }}
       </button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { Channel } from "~/server/utils/search-channels";
-const cs = "collections.users.fetch.channels-search." as const;
 
 defineProps<Channel>();
 
-const emit = defineEmits<{
+defineEmits<{
   load: [];
 }>();
 </script>

@@ -43,9 +43,7 @@
             :source="emote.source"
             width="20"
             class="inline h-min self-center"
-          />&nbsp;{{ emote.source }}&nbsp;{{
-            $t(oh + "emote.type." + emote.type)
-          }}
+          />&nbsp;{{ emote.source }}&nbsp;{{ $t(`emote.${emote.type}`) }}
         </span>
       </div>
       <dev-only>
@@ -86,7 +84,7 @@
         <span v-else class="line-clamp-2 max-w-48 break-all font-bold">
           {{ modifier.token }}
         </span>
-        {{ $t(oh + "emote.modifier") }}
+        {{ $t("emote.modifier") }}
       </div>
     </div>
     <div
@@ -102,20 +100,17 @@
         <span>:{{ emojiData.slug }}:</span>
       </span>
       <span>
-        {{ $t("collections.emojis.link") }} -
-        {{ $t("collections.emojis.headings." + emojiData.group) }}
+        {{ $t("emojis._") }} -
+        {{ $t("emojis._headings." + emojiData.group) }}
       </span>
     </div>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 import { emoteIntegrationsStyles } from "~/components/emote-collection";
 import type { IEmote } from "~/integrations";
 
-const oh = "app.hint.onHover." as const;
-</script>
-<script setup lang="ts">
 const props = defineProps<{
   emote?: Nullish<IEmote>;
   emoji?: Nullish<string>;
