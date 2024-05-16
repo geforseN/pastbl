@@ -28,7 +28,6 @@ const openPastasIdbUpgrade: OpenDBCallbacks<PastasSchema>["upgrade"] = (
 };
 
 class PastasStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     public readonly list: PastasListStore,
     public readonly shared: PastasSharedStore,

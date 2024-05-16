@@ -6,7 +6,6 @@ import {
 import { assert } from "~/utils/error";
 
 export class UsersCollectionsStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
 
   async get(login: TwitchUserLogin) {

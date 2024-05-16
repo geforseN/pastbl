@@ -1,12 +1,19 @@
 import { idb } from "~/client-only/IndexedDB";
 import { emoteSources, type EmoteSource } from "~/integrations";
 import type {
-  LoadedEmoteIntegrationsRecord,
-  LoadedEmoteIntegration,
+  SettledEmoteIntegrationsRecord,
+  SettledEmoteIntegration,
 } from "~/integrations/integrations";
+import { makeEmptyIntegration } from "~/integrations/integrations";
+
+const emptyIntegrations = Object.freeze(
+  flatGroupBySource(
+    emoteSources.map((source) => Object.freeze(makeEmptyIntegration(source))),
+  ),
+);
 
 export const service = {
-  __put(integration: LoadedEmoteIntegration) {
+  __put(integration: SettledEmoteIntegration) {
     return storage.put(integration);
   },
   async load<S extends EmoteSource>(source: S) {
@@ -26,9 +33,9 @@ export const service = {
     await storage.put(...values);
     return values;
   },
-  async getAll(): Promise<Partial<LoadedEmoteIntegrationsRecord>> {
+  async getAll(): Promise<SettledEmoteIntegrationsRecord> {
     if (process.server) {
-      return {};
+      return emptyIntegrations;
     }
     const stored = await storage.getAll();
     const all = emoteSources.map(
@@ -48,7 +55,7 @@ const storage = {
     const collectionsIdb = await idb.collections;
     return await collectionsIdb.global.getAll();
   },
-  async put(...integrations: LoadedEmoteIntegration<EmoteSource>[]) {
+  async put(...integrations: SettledEmoteIntegration<EmoteSource>[]) {
     const collectionsIdb = await idb.collections;
     assert.ok(integrations.length);
     if (integrations.length === 1) {
@@ -62,14 +69,14 @@ const storage = {
 
 const api = {
   get<S extends EmoteSource>(source: S) {
-    return $fetch(`/api/v1/collections/global/${source}`);
+    return $fetch(`/api/v1/collections/global/integrations/${source}`);
   },
   getMany(sources: EmoteSource[]) {
-    return $fetch("/api/v1/collections/global", {
+    return $fetch("/api/v1/collections/global/integrations", {
       query: { sources: sources.join("+") },
     });
   },
   getAll() {
-    return $fetch("/api/v1/collections/global/all");
+    return $fetch("/api/v1/collections/global/integrations/all");
   },
 };

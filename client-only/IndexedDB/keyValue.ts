@@ -3,7 +3,6 @@ import type { MyKeyValueSchema, KeyValueSchema } from "~/client-only/IndexedDB";
 import { openIdb } from "~/client-only/IndexedDB/open";
 
 export class KeyValueStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private idb: IDBPDatabase<KeyValueSchema>) {}
 
   set<Key extends keyof MyKeyValueSchema>(

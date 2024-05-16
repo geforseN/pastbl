@@ -1,6 +1,6 @@
-import { idb } from "../IndexedDB";
+import { idb } from "~/client-only/IndexedDB";
 
-export const pastasIdbService = {
+export const pastasService = {
   async getAll() {
     if (process.server) {
       return [];

@@ -7,7 +7,6 @@ import type {
   IEmote,
   IEmoteSet,
   IUserEmoteIntegration,
-  IGlobalEmoteIntegration,
   FrankerFaceZUserIntegration,
   FrankerFaceZSet,
   FrankerFaceZEmote,
@@ -19,17 +18,18 @@ import type {
   I7TVEmote,
   EmoteSource,
   ITwitchUserIntegration,
-  InternalGenericUserEmoteIntegration,
+  InternalGenericUserIntegration,
   IBasicUserEmoteCollection,
 } from "~/integrations";
 import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
+import type { SettledEmoteIntegration } from "~/integrations/integrations";
 
 interface GenericIndexedDBUserEmoteIntegration<
   SourceT extends EmoteSource,
   IntegrationT extends IUserEmoteIntegration,
   EmoteT extends IEmote,
   EmoteSetT extends IEmoteSet<SourceT, EmoteT>,
-> extends InternalGenericUserEmoteIntegration<SourceT, IntegrationT> {
+> extends InternalGenericUserIntegration<SourceT, IntegrationT> {
   sets: Array<
     Omit<EmoteSetT, "emotes"> & {
       emoteIds: EmoteT["id"][];
@@ -84,8 +84,8 @@ export interface CollectionsSchema extends DBSchema {
     value: IndexedDBUserEmoteCollection;
   };
   global: {
-    key: IGlobalEmoteIntegration["source"];
-    value: IGlobalEmoteIntegration;
+    key: SettledEmoteIntegration["source"];
+    value: SettledEmoteIntegration;
   };
 }
 
