@@ -1,14 +1,20 @@
-import { pastasIdbService } from "~/client-only/services";
+import { pastasService } from "~/client-only/services";
 
 export const usePastasStore = defineStore("pastas", () => {
-  const pastas = usePastas(async () =>
-    process.server ? [] : await pastasIdbService.getAll(),
-  );
+  const userCollectionsStore = useUserCollectionsStore();
+
+  const pastas = usePastas(pastasService.getAll);
 
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
-  const { selectedShowStrategy, pastasToShow, usersPastasMap } = usePastasShow(
+  const {
+    selectedShowStrategy,
+    pastasToShow,
+    usersPastasMap,
+    isNoPastasToShow,
+    isPersonTagShowStrategySelected,
+  } = usePastasShow(
     sortedPastas,
-    computed(() => useUserCollectionsStore().selectedLogin.state),
+    computed(() => userCollectionsStore.selectedLogin.state),
   );
   const pastasTextLength = usePastasTextLength(pastas.state);
   const pastasTags = usePastasTags(pastas.state);
@@ -33,6 +39,8 @@ export const usePastasStore = defineStore("pastas", () => {
     pastasTextLength,
     pastasToShow,
     usersPastasMap,
+    isNoPastasToShow,
+    isPersonTagShowStrategySelected,
     selectedShowStrategy,
     selectedSortStrategy,
     pastas,
@@ -40,22 +48,22 @@ export const usePastasStore = defineStore("pastas", () => {
     pastasTags,
     async createPasta(basePasta: BasePasta) {
       const megaPasta = await makeMegaPasta2(basePasta).catch(toast.throw);
-      const megaPastaWithId = await pastasIdbService.add(megaPasta);
+      const megaPastaWithId = await pastasService.add(megaPasta);
       pastas.push(megaPastaWithId);
       toast.notify("success", "pastaCreated");
     },
     async removePasta(pasta: IDBMegaPasta) {
       const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
-      await pastasIdbService.moveFromListToBin(pasta);
+      await pastasService.moveFromListToBin(pasta);
       pastas.removeAt(index);
       toast.notify("warning", "pastaRemoved", async () => {
-        await pastasIdbService.moveFromBinToList(pasta);
+        await pastasService.moveFromBinToList(pasta);
         pastas.pushAt(index, pasta);
       });
     },
     async patchPastaLastCopied(pasta: IDBMegaPasta) {
       const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
-      const newPasta = await pastasIdbService.patchLastCopied(toRaw(pasta));
+      const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
       pastas.mutateAt(index, newPasta);
     },
     async putPasta(pasta: IDBMegaPasta) {
@@ -66,8 +74,7 @@ export const usePastasStore = defineStore("pastas", () => {
         !isPastasSame(oldPasta, pasta),
         toast.fail("pastaPut__sameValues"),
       );
-      // FIXME: ?unsafe?, add error handler (toast) for put
-      await pastasIdbService.put(pasta);
+      await pastasService.put(pasta);
       pastas.mutateAt(index, pasta);
       toast.notify("success", "pastaPut");
     },
