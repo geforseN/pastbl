@@ -1,6 +1,10 @@
 {
-  "name": "pastbl",
+  "name": "pastbl - your pastas storage",
   "short_name": "pastbl",
+  "description": "Do Something With Pastas",
+  "start_url": "/en",
+  "background_color": "#1d232a",
+  "theme_color": "#ff52d9f2",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +17,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "categories": ["utilities"],
+  "display": "standalone",
+  "orientation": "portrait-primary"
 }
