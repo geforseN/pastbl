@@ -4,6 +4,7 @@ import {
   type IUserEmoteCollection,
   type IUserEmoteIntegrationRecord,
 } from "~/integrations";
+import { flatGroupBy } from "~/utils/object";
 
 export { getUserLogin } from "~/utils/emote-collection/emote-collection-user-login";
 export type {

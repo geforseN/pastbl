@@ -7,6 +7,10 @@ import {
 
 export type FindEmoteFn = (token: string) => IEmote | undefined;
 
+export interface CanFindEmote {
+  findEmote: FindEmoteFn;
+}
+
 function findModifiers(
   tokenIndex: number,
   tokens: string[],

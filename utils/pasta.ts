@@ -1,5 +1,7 @@
 import { pastaTextLength } from "~/config/const";
 
+export type PastaTags = string[];
+
 export type BasePasta = {
   text: string;
   tags: string[];
@@ -16,6 +18,8 @@ export type MegaPasta = BasePasta & {
 export type IDBMegaPasta = MegaPasta & {
   id: number;
 };
+
+export type OmegaPasta = IDBMegaPasta;
 
 export function refreshPasta(
   idbMegaPasta: MaybeRef<IDBMegaPasta>,

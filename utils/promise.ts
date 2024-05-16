@@ -12,6 +12,8 @@ export async function groupAsync<T>(values: MaybePromise<T>[]) {
   };
 }
 
-export function sleep(time: number) {
-  return new Promise((resolve) => setTimeout(resolve, time));
+export function sleep<T>(time: number, resolveValue?: T) {
+  return new Promise<T>((resolve) => {
+    setTimeout(resolve, time, resolveValue);
+  });
 }

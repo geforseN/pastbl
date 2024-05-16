@@ -8,5 +8,5 @@ export type OmitFirst<A> = A extends [first: unknown, ...other: infer AO]
   ? AO
   : never;
 
-export type ExcludeAmpersandInMiddle<S extends string> =
+export type ExcludeNotJoinedWithAmpersand<S extends string> =
   S extends `${string}&${string}` ? never : S;

@@ -1,18 +1,21 @@
 import type {
-  MinimalEmoteIntegration,
-  MinimalEmoteIntegrationRecord,
-} from "~/composables/emotes/useEmotes";
+  SettledEmoteIntegrationsRecord,
+  SettledEmoteIntegration,
+} from "~/integrations/integrations";
 
-export function getEmotesMapFromIntegration<T extends MinimalEmoteIntegration>(
+export function getEmotesMapFromIntegration<T extends SettledEmoteIntegration>(
   integration: T,
 ) {
+  if (integration.status === "failed" || integration.status === "loading") {
+    return new Map();
+  }
   const emotes = integration.sets.flatMap((set) => set.emotes ?? []);
   const emoteEntries = emotes.map((emote) => [emote.token, emote] as const);
   return new Map(emoteEntries);
 }
 
 export function getEmotesMapFromIntegrations<
-  T extends Partial<MinimalEmoteIntegrationRecord>,
+  T extends Partial<SettledEmoteIntegrationsRecord>,
 >(integrations: T) {
   const values = Object.values(integrations);
   const emotes = values
