@@ -17,8 +17,23 @@
         />
       </template>
     </app-page-link>
-    <emote-collection-user-fetch />
+    <emote-collection-user-fetch ref="fetchRef" />
     <emote-collection-user-select />
     <app-page-link-main />
   </div>
 </template>
+<script setup lang="ts">
+import type { EmoteCollectionUserFetch } from "#build/components";
+
+const fetchRef = ref<InstanceType<typeof EmoteCollectionUserFetch>>();
+
+onMounted(() => {
+  const params = useUrlSearchParams<{ focus?: "fetch" }>();
+  if (params.focus === "fetch") {
+    console.info('pages/collections: "focus-fetch" query param found', {
+      focusFetch: params.focus,
+    });
+    fetchRef.value?.focusInput();
+  }
+});
+</script>

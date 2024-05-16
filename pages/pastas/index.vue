@@ -22,7 +22,7 @@
     </article>
     <button
       class="btn btn-primary btn-lg h-max flex-nowrap text-balance px-4 text-3xl"
-      @click="() => savePastasToFile(pastasStore.pastas.state)"
+      @click="() => savePastasToFile(pastasStore.pastasToShow)"
     >
       <div class="py-1">{{ $t("pastas.saveToFile") }}</div>
       <div class="flex items-center gap-2">
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script lang="ts">
-import { pastasIdbService } from "~/client-only/services";
+import { pastasService } from "~/client-only/services";
 import { pastaTagsCount } from "~/config/const";
 
 type MiniPasta = {
@@ -153,7 +153,7 @@ if (process.client) {
   reader.onload = async function (event) {
     const megaPastas = getMegaPastasOnFileLoad(event);
     const { fulfilled, rejected } = await groupAsync(
-      megaPastas.map((pasta) => pastasIdbService.add(pasta)),
+      megaPastas.map((pasta) => pastasService.add(pasta)),
     );
     const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
     pastasStore.pastas.push(...sorted);
