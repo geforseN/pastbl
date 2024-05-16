@@ -9,7 +9,6 @@ import {
   type IBetterTTVEmote,
 } from "./BetterTTV/index";
 import {
-  SevenTVWrappedEmoteString,
   type I7TVGlobalIntegration,
   type ISevenTVUserIntegration,
   type I7TVEmote,
@@ -19,6 +18,7 @@ import {
   type ITwitchUserIntegration,
   type ITwitchEmote,
 } from "./Twitch";
+import { SevenTVWrappedEmoteString } from "./SevenTV/html";
 
 export const emoteSources = [
   "BetterTTV",
@@ -116,19 +116,22 @@ export function makeEmoteAsStringWithModifiersWrapper(
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
   emotes: EmoteT[];
-  id: string;
   name: string;
   source: SourceT;
   formedAt: number;
 }
 
-export interface IEmoteCollectionOwner {}
+export interface IEmoteCollectionOwner {
+  pageAddress: string;
+}
 
-export interface InternalGlobalEmoteCollection<
+export interface InternalGlobalIntegration<
   SourceT extends EmoteSource,
   SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
 > {
-  sets: SetT[];
+  sets: {
+    values: SetT[];
+  };
   source: SourceT;
   formedAt: number;
 }
@@ -146,11 +149,10 @@ export type IGlobalEmoteIntegrationRecord = {
   Twitch: ITwitchGlobalIntegration;
 };
 
-export interface InternalGenericUserEmoteIntegration<
+export interface InternalGenericUserIntegration<
   SourceT extends EmoteSource,
   OwnerT extends IEmoteCollectionOwner,
 > {
-  name: string;
   owner: OwnerT;
   source: SourceT;
   formedAt: number;
@@ -160,7 +162,7 @@ export interface InternalUserEmoteIntegration<
   SourceT extends EmoteSource,
   SetT extends IEmoteSet<SourceT, EmoteOf[SourceT]>,
   OwnerT extends IEmoteCollectionOwner,
-> extends InternalGenericUserEmoteIntegration<SourceT, OwnerT> {
+> extends InternalGenericUserIntegration<SourceT, OwnerT> {
   sets: SetT[];
 }
 
@@ -192,7 +194,7 @@ export type FailIntegration<T extends IUserEmoteIntegration> = T & {
 };
 
 export function isReadyUserIntegration<
-  T extends InternalGenericUserEmoteIntegration,
+  T extends InternalGenericUserIntegration,
 >(integration: T): integration is ReadyIntegration<T> {
   return (integration as ReadyIntegration<T>).status === "ready";
 }
@@ -216,35 +218,10 @@ export type IUserEmoteCollection = IBasicUserEmoteCollection & {
   };
 };
 
-export {
-  FrankerFaceZ,
-  createFFZGlobalCollection,
-  createFFZUserIntegration,
-  createFFZUserSets,
-  createFFZPartialUserIntegration,
-  type FrankerFaceZSet,
-  type FrankerFaceZEmote,
-  type FrankerFaceZUserIntegration,
-} from "./FrankerFaceZ/index";
+export { FrankerFaceZ } from "./FrankerFaceZ/index";
 
-// TODO
-export {
-  BetterTTV,
-  // TODO: TODO: IBetterTTV: RECORD 'Set' 'Emote' 'UserIntegration'
-  type IBetterTTVSet,
-  type IBetterTTVEmote,
-  type BetterTTVUserIntegration,
-} from "./BetterTTV";
+export { BetterTTV as BetterTTV } from "./BetterTTV";
 
-export {
-  SevenTV,
-  create7TVUserChannelSet,
-  create7TVUserIntegration,
-  create7TVGlobalCollection,
-  recreate7TVUserIntegration,
-  type ISevenTVUserIntegration,
-  type I7TVSet,
-  type I7TVEmote,
-} from "./SevenTV/index";
+export { SevenTV } from "./SevenTV/index";
 
 export type { ITwitchUserIntegration } from "./Twitch";

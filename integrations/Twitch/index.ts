@@ -1,5 +1,11 @@
+import {
+  definePersonIntegrationMaker,
+  defineGlobalIntegrationMaker,
+} from "../common";
+import type { API } from "./api-types";
+import { fetchTwitchChatEmotes, fetchTwitchGlobalEmotes } from "./api";
 import type {
-  InternalGlobalEmoteCollection,
+  InternalGlobalIntegration,
   IEmote,
   IEmoteSet,
   InternalUserEmoteIntegration,
@@ -9,20 +15,6 @@ import type { TwitchApi } from "~/server/utils/twitch/twitch-api.types";
 import { groupBy, objectEntries } from "~/utils/object";
 import { assert } from "~/utils/error";
 
-type TwitchApiGlobalEmote = {
-  // MOTE: 'static' is always included (for now), animated is optional
-  format: ("animated" | "static")[];
-  id: string;
-  images: {
-    url_1x: string; // `https://static-cdn.jtvnw.net/emoticons/v2/${TwitchApiGlobalEmote["id"]}/${TwitchApiGlobalEmote["format"][number]}/${TwitchApiGlobalEmote["theme_mode"][number]}/'1.0'`;
-    url_2x: string;
-    url_4x: string;
-  };
-  name: string;
-  scale: ["1.0", "2.0", "3.0"];
-  theme_mode: ["light", "dark"];
-};
-
 export interface ITwitchEmote extends IEmote {
   source: "Twitch";
   type: "global" | "channel";
@@ -30,10 +22,8 @@ export interface ITwitchEmote extends IEmote {
   height: number;
 }
 
-export interface ITwitchGlobalEmoteResponse {
-  data: TwitchApiGlobalEmote[];
-  template: "https://static-cdn.jtvnw.net/emoticons/v2/{{id}}/{{format}}/{{theme_mode}}/{{scale}}";
-}
+// const makePersonIntegration = definePersonIntegrationMaker("Twitch");
+const makeGlobalIntegration = defineGlobalIntegrationMaker("Twitch");
 
 class TwitchEmote implements ITwitchEmote {
   id;
@@ -51,7 +41,7 @@ class TwitchEmote implements ITwitchEmote {
   width = 28;
   height = 28;
 
-  constructor(apiEmote: TwitchApiGlobalEmote, type: "global" | "channel") {
+  constructor(apiEmote: API.GlobalEmote, type: "global" | "channel") {
     this.id = apiEmote.id;
     this.isAnimated = apiEmote.format.includes("animated");
     this.token = apiEmote.name;
@@ -64,13 +54,12 @@ class TwitchEmote implements ITwitchEmote {
 }
 export interface ITwitchEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
 export interface ITwitchGlobalIntegration
-  extends InternalGlobalEmoteCollection<"Twitch", ITwitchEmoteSet> {}
+  extends InternalGlobalIntegration<"Twitch", ITwitchEmoteSet> {}
 
 function getTwitchGlobalEmoteSet(
-  response: ITwitchGlobalEmoteResponse,
+  response: API.ChatEmotesResponse,
 ): ITwitchEmoteSet {
   return {
-    id: "twitch:global",
     name: "Global Emotes",
     source: "Twitch",
     formedAt: Date.now(),
@@ -78,22 +67,18 @@ function getTwitchGlobalEmoteSet(
   };
 }
 
-const userEmoteProto = {
-  height: 28,
-  width: 28,
-  source: "Twitch",
-  isModifier: false,
-  isWrapper: false,
-  isListed: true,
-} as const satisfies Partial<ITwitchEmote>;
-
 export function createUserEmote(
   apiEmote: TwitchApi["getChatEmotes"]["responseItem"],
   url: string,
 ): ITwitchEmote {
   return {
-    ...userEmoteProto,
     url,
+    height: 28,
+    width: 28,
+    source: "Twitch",
+    isModifier: false,
+    isWrapper: false,
+    isListed: true,
     type: "channel",
     id: apiEmote.id,
     token: apiEmote.name,
@@ -101,21 +86,9 @@ export function createUserEmote(
   };
 }
 
-export function makeTwitchGlobalCollection(
-  response: ITwitchGlobalEmoteResponse,
-): ITwitchGlobalIntegration {
+export function makeTwitchGlobalIntegration(response: API.ChatEmotesResponse) {
   const set = getTwitchGlobalEmoteSet(response);
-  return new TwitchGlobalCollection([set]);
-}
-
-export class TwitchGlobalCollection implements ITwitchGlobalIntegration {
-  source = "Twitch" as const;
-  sets;
-  formedAt = Date.now();
-
-  constructor(sets: ITwitchEmoteSet[]) {
-    this.sets = sets;
-  }
+  return makeGlobalIntegration([set]);
 }
 
 interface ITwitchCollectionOwner extends IEmoteCollectionOwner {}
@@ -128,7 +101,7 @@ export interface ITwitchUserIntegration
   > {}
 
 export function createUserIntegration(
-  twitchUser: Pick<TwitchUser, "id" | "login" | "nickname">,
+  twitchUser: TwitchUser,
   sets: ITwitchEmoteSet[],
 ): ITwitchUserIntegration {
   return {
@@ -136,6 +109,7 @@ export function createUserIntegration(
     source: "Twitch",
     sets,
     owner: {
+      pageAddress: "https://twitch.tv/" + twitchUser.login,
       twitch: {
         user: twitchUser,
       },
@@ -164,7 +138,7 @@ function makeTwitchKey(
   return `${type} - tier ${tier}` + ":" + emoteSetId;
 }
 
-export function makeUserTwitchIntegration(
+export function makePersonIntegration(
   apiEmotes: TwitchApi["getChatEmotes"]["responseItem"][],
   user: TwitchUser,
 ) {
@@ -210,3 +184,14 @@ export function makeUserTwitchIntegration(
   const integration = createUserIntegration(user, reducedSets);
   return integration;
 }
+
+export const Twitch = {
+  async getPersonIntegration(twitch: TwitchUser) {
+    const { data } = await fetchTwitchChatEmotes(twitch.id);
+    return makePersonIntegration(data, twitch);
+  },
+  async getGlobalIntegration() {
+    const response = await fetchTwitchGlobalEmotes();
+    return makeTwitchGlobalIntegration(response);
+  },
+};
