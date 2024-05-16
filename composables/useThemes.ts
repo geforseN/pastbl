@@ -11,9 +11,9 @@ export function useThemes() {
     locale,
     () =>
       [
-        ["system", t("theme.system")],
-        ["dark", t("theme.dark")],
-        ["light", t("theme.light")],
+        ["system", t("theme.$system")],
+        ["dark", t("theme.$dark")],
+        ["light", t("theme.$light")],
       ] satisfies [MyKeyValueSchema["app:daisyui-theme"], string][],
   );
 

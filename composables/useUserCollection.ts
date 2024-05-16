@@ -1,5 +1,7 @@
-import { userCollectionsService } from "~/client-only/services";
-import { USERS_COLLECTIONS_API as API } from "~/client-only/services/userCollections";
+import {
+  USERS_COLLECTIONS_API as API,
+  userCollectionsService,
+} from "~/client-only/services/userCollections";
 import { type IUserEmoteCollection } from "~/integrations";
 
 function useCollectionState(initFn) {}

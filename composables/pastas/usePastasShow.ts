@@ -52,7 +52,10 @@ export function usePastasShow(
     usersPastasMap.value.get(selectedLogin.value),
   );
 
-  const pastasToShow: Record<PastaShowStrategy, ComputedRef<IDBMegaPasta[]>> = {
+  const pastasToShowRecord: Record<
+    PastaShowStrategy,
+    ComputedRef<IDBMegaPasta[]>
+  > = {
     all: computed(() => sortedPastas.value),
     "selected-user": computed(() => selectedUserPastas.value || []),
     "only-selected-user": computed(() => {
@@ -75,6 +78,10 @@ export function usePastasShow(
     none: computed(() => []),
   };
 
+  const pastasToShow = computed(
+    () => pastasToShowRecord[selectedShowStrategy.state.value].value,
+  );
+
   return {
     selectedShowStrategy: computed({
       get() {
@@ -84,9 +91,13 @@ export function usePastasShow(
         selectedShowStrategy.state.value = value;
       },
     }),
-    pastasToShow: computed(
-      () => pastasToShow[selectedShowStrategy.state.value].value,
-    ),
+    pastasToShow,
     usersPastasMap,
+    isPersonTagShowStrategySelected: computed(() =>
+      ["selected-user", "only-selected-user"].includes(
+        selectedShowStrategy.state.value,
+      ),
+    ),
+    isNoPastasToShow: computed(() => pastasToShow.value.length === 0),
   };
 }

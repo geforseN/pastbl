@@ -1,8 +1,11 @@
-import { emoteSources, isEmoteSource, type EmoteSource } from "~/integrations";
+import { emoteSources, type EmoteSource } from "~/integrations";
 
-export function useEmoteIntegrationsLoad<I, IR>(loaders: {
+export function useEmoteIntegrationsLoad<
+  I extends { source: EmoteSource },
+  IRecord extends Record<EmoteSource, I>,
+>(loaders: {
   load: (source: EmoteSource) => Promise<I>;
-  loadAll: () => Promise<IR>;
+  loadAll: () => Promise<IRecord>;
   loadMany: (sources: EmoteSource[]) => Promise<I[]>;
 }) {
   const asyncQueue = ref(new Set<EmoteSource>());
@@ -28,8 +31,7 @@ export function useEmoteIntegrationsLoad<I, IR>(loaders: {
         asyncQueue.value.add(source);
       }
       const integrations = await loaders.loadAll();
-      for (const source in integrations) {
-        assert.ok(isEmoteSource(source));
+      for (const source of emoteSources) {
         asyncQueue.value.delete(source);
       }
       return integrations;
