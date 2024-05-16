@@ -23,8 +23,8 @@
             {{
               $t(
                 userStore.pastasWorkMode.isClient
-                  ? "pasta.create.heading"
-                  : "pasta.publish.heading",
+                  ? "pasta.create"
+                  : "pasta.publish",
               )
             }}
           </h2>
@@ -47,7 +47,7 @@
       </header>
     </div>
     <div
-      class="collapse-content space-y-2"
+      class="collapse-content space-y-2 px-1 xs:px-3"
       @keyup.escape="$formCollapse.close"
       @keyup.stop="
         () => {}
@@ -77,6 +77,7 @@
         "
         @publish-pasta="
           async () => {
+            // TODO: add loading state
             await pastaStore.postPasta();
             useNuxtToast().add({ title: 'Pasta posted!' });
             pastaStore.pasta.reset();

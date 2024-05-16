@@ -1,5 +1,12 @@
 <template>
-  <form class="space-y-2">
+  <form
+    class="space-y-2"
+    @submit.prevent="
+      () => {
+        console.log('SUBMIT');
+      }
+    "
+  >
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
@@ -27,8 +34,8 @@
           {{
             $t(
               userStore.pastasWorkMode.isClient
-                ? "pasta.create.button"
-                : "pasta.publish.button",
+                ? "pasta.create"
+                : "pasta.publish",
             )
           }}
         </button>
@@ -49,10 +56,10 @@
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
-            {{ $t("pasta.formCommon.tags.removeButton") }}
+            {{ $t("tags.delete") }}
           </button>
           <span v-else class="badge badge-warning badge-lg">
-            {{ $t("pasta.formCommon.tags.onEmptyBadge") }}
+            {{ $t("tags.noAdded") }}
           </span>
         </div>
       </div>
@@ -102,13 +109,13 @@ watchDebounced(
 );
 
 const props = defineProps<{
-  pastaTags: BasePasta["tags"];
+  pastaTags: string[];
   hintedTagsMap: [tagValue: string, tagCount: number][];
 }>();
 
 const emit = defineEmits<{
-  addTag: [tag: string];
-  removeTag: [tag: string];
+  addTag: [string];
+  removeTag: [string];
   removeAllTags: [];
   createPasta: [];
   publishPasta: [];

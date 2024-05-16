@@ -58,7 +58,7 @@
   </div>
 </template>
 <script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
-import type { CollectionStyle } from "~/components/emote-collection";
+import type { EmoteIntegrationStyle } from "~/components/emote-collection";
 import type { IEmoteSetT } from "~/integrations";
 
 const isOpen = ref(false);
@@ -79,7 +79,7 @@ const { t } = useI18n({
 const props = withDefaults(
   defineProps<{
     set: EmoteSetT;
-    styles: CollectionStyle;
+    styles: EmoteIntegrationStyle;
     defaultEmoteSize?: {
       width?: number;
       height?: number;

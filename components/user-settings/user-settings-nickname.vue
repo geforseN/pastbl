@@ -9,7 +9,7 @@
       class="input input-bordered input-secondary text-lg hover:bg-base-300 focus:bg-base-300"
       spellcheck="false"
       name="nickname"
-      :placeholder="$t(s + 'nickname-placeholder')"
+      :placeholder="$t('user.settings.nickname-placeholder')"
     />
   </article>
 </template>

@@ -1,12 +1,11 @@
 <template>
-  <!-- FIXME: remove 'absolute' & 'relative', use grid -->
+  <!-- NOTE: w-[25rem] is required, otherwise pastas related components will have x-scroll  -->
   <div
-    class="w-96 space-y-2 rounded-box border-2 border-twitch-accent p-2"
+    class="w-[25rem] space-y-2 rounded-box border-2 border-twitch-accent p-2"
     :class="
       isRefreshing &&
       'animate-pulse bg-gradient-to-t from-base-300 to-twitch-accent/50'
     "
-    @mouseover="throttledMouseover"
   >
     <div v-if="user?.twitch" class="flex gap-2">
       <twitch-user-avatar :user="user.twitch" :size="64" />
@@ -15,7 +14,14 @@
           :user="user.twitch"
           class="w-min max-w-72 truncate"
         />
-        <emote-collection-formed-at :time="formedAt" />
+        <emote-collection-formed-at v-if="formedAt" :time="formedAt" />
+      </div>
+    </div>
+    <div v-else class="flex gap-2">
+      <div class="skeleton size-16 rounded-full" />
+      <div class="flex w-72 flex-col justify-between">
+        <div class="skeleton h-8 w-full rounded-none" />
+        <div class="skeleton h-5 w-1/3 rounded-none" />
       </div>
     </div>
     <emote-collection-user-actions
@@ -29,24 +35,20 @@
     <dev-only>
       <emote-collection-search-emote />
     </dev-only>
-    <!-- SLOT for integrations -->
-    <template
-      v-for="integration of readyIntegrations"
-      :key="integration.source"
-    >
-      <!-- FIXME: no is-refreshing prop, must add ? -->
-      <!-- FIXME: no is-refreshing prop, must add ? -->
-      <!-- FIXME: no is-refreshing prop, must add ? -->
+    <div v-if="user?.twitch" @mouseover="throttledMouseover">
       <emote-collection-user-integration
-        v-if="integration"
-        status="ready"
-        :collection="integration"
-        :source="integration.source"
-        :data-integration-source="integration.source"
+        v-for="integration of readyIntegrations"
+        :key="integration.source"
+        :integration
+        :user="user.twitch"
         @refresh="async () => await collection.refreshIntegration(integration)"
       />
-    </template>
-    <div v-if="collection.state.value" class="space-y-2 bg-base-200">
+    </div>
+    <div
+      v-if="collection.state.value"
+      class="space-y-2 bg-base-200"
+      @mouseover="throttledMouseover"
+    >
       <emote-collection-user-tagged-pastas
         :login
         :pastas="userTaggedPastas"
@@ -54,7 +56,6 @@
         @remove-pasta="removePasta"
       />
       <emote-collection-user-own-populated-pastas
-        v-if="!isSelected"
         :login
         :pastas="pastasStore.pastasToShow"
         :can-show-pastas="pastasStore.canShowPastas"

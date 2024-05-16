@@ -36,7 +36,7 @@
               }
             "
           >
-            {{ $t("collections.users.ready.button.cancel") }}
+            {{ $t("cancel") }}
           </button>
         </div>
       </div>

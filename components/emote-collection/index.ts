@@ -1,10 +1,6 @@
-import type {
-  EmoteSource,
-  IGlobalEmoteIntegrationRecord,
-  IUserEmoteIntegrationRecord,
-} from "~/integrations";
+import type { EmoteSource } from "~/integrations";
 
-export type CollectionStyle = {
+export type EmoteIntegrationStyle = {
   borderAccent: string;
   backgroundBase: string;
   backgroundAccent: string;
@@ -12,7 +8,10 @@ export type CollectionStyle = {
   scrollbar: string;
 };
 
-export const collectionsStyles: Record<EmoteSource, CollectionStyle> = {
+export const emoteIntegrationsStyles: Record<
+  EmoteSource,
+  EmoteIntegrationStyle
+> = {
   BetterTTV: {
     borderAccent: "border-bttv-accent",
     backgroundBase: "bg-bttv-base",
@@ -43,49 +42,3 @@ export const collectionsStyles: Record<EmoteSource, CollectionStyle> = {
     scrollbar: "scrollbar-track-twitch-base scrollbar-thumb-twitch-accent",
   },
 };
-
-type Props<
-  RecordT extends Record<EmoteSource, unknown>,
-  SourceT extends EmoteSource,
-> = {
-  source: SourceT;
-  // NOTE: without question mark for 'collection' and 'reason' vue will show an error like 'Missing required prop'
-  collection?: unknown;
-  reason?: unknown;
-  isRefreshing?: unknown;
-} & (
-  | {
-      status: "ready";
-      collection: RecordT[SourceT];
-      isRefreshing: boolean;
-    }
-  | {
-      status: "failed";
-      reason: string;
-    }
-);
-
-export type UserIntegrationProps<SourceT extends EmoteSource> = Props<
-  IUserEmoteIntegrationRecord,
-  SourceT
->;
-
-export type GlobalIntegrationProps<SourceT extends EmoteSource> = Props<
-  IGlobalEmoteIntegrationRecord,
-  SourceT
->;
-
-export const buttonComponentsStyles = {
-  xs: {
-    btn: "btn-xs",
-    icon: "18",
-    iconClass: "min-w-[18px]",
-  },
-  sm: {
-    btn: "btn-sm",
-    icon: "20",
-    iconClass: "min-w-5",
-  },
-} as const;
-
-export type ButtonSize = keyof typeof buttonComponentsStyles;

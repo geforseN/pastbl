@@ -17,8 +17,7 @@
             size="xs"
             class="w-fit"
             :is-collection-selected="isSelected"
-            @select="emit('select')"
-            @unselect="emit('unselect')"
+            @click="isSelected ? emit('unselect') : emit('select')"
           />
         </div>
       </div>
@@ -42,13 +41,13 @@
         :to="`/collections/users/${login}`"
         class="btn btn-info link btn-xs w-full text-nowrap focus:outline-twitch-accent"
       >
-        {{ $t("collections.users.ready.button.more") }}
+        {{ $t("show-more") }}
       </nuxt-link-locale>
-      <emote-collection-refresh-button
+      <refresh-button
         size="xs"
         class="w-full flex-nowrap justify-between"
-        icon-refreshing-class="absolute right-1 animate-spin rounded-full bg-inherit"
-        :is-parent-refreshing="isRefreshing"
+        in-process-icon-class="absolute right-1 animate-spin rounded-full bg-inherit"
+        :is-in-process="isRefreshing"
         @click="emit('refresh')"
       />
     </div>

@@ -22,7 +22,7 @@
       <button
         class="btn btn-outline join-item btn-xs h-full border-l-0"
         :title="$t('tag.delete', { tag })"
-        @click.prevent="emit('removeTag', tag)"
+        @click.prevent="$emit('removeTag', tag)"
       >
         <span>x</span>
       </button>
@@ -30,8 +30,12 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{ tags: string[] }>();
-const emit = defineEmits<{ removeTag: [tag: string] }>();
+defineProps<{
+  tags: string[];
+}>();
+defineEmits<{
+  removeTag: [string];
+}>();
 // TODO: can add on tag mouseover logic with hint:
 // if user mouseovered then click on any place of tag will remove it,
 // should show transparent large text 'REMOVE' over that tag

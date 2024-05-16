@@ -28,19 +28,19 @@ const routePageLinkRecord = {
   },
   emotes: {
     path: "/collections",
-    textKey: "collections.index.link",
+    textKey: "emotesAndEmojis",
   },
   main: {
     path: "/",
-    textKey: "main.link",
+    textKey: "mainPage",
   },
   "user-settings": {
-    path: "/user/settings#heading",
-    textKey: "user.settings.link",
+    path: "/settings#heading",
+    textKey: "settings.change",
   },
   pastas: {
     path: "/pastas",
-    textKey: "pastas.link",
+    textKey: "pastas._",
   },
   "find-pasta": {
     path: "/pastas/find#heading",
@@ -48,7 +48,7 @@ const routePageLinkRecord = {
   },
   emojis: {
     path: "/collections/emojis",
-    textKey: "collections.emojis.link",
+    textKey: "emojis._",
   },
 } as const satisfies Record<string, { path: string; textKey: string }>;
 </script>

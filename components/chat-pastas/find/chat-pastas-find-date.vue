@@ -8,7 +8,7 @@
         <div class="space-y-1">
           <div class="form-control px-2 pb-0">
             <label for="from-pasta-created-at" class="cursor-pointer px-0.5">
-              {{ $t(d + "from") }}
+              {{ $t("from") }}
             </label>
             <input
               id="from-pasta-created-at"
@@ -25,7 +25,7 @@
           </div>
           <div class="form-control p-2 pb-0">
             <label for="to-pasta-created-at" class="cursor-pointer px-0.5">
-              {{ $t(d + "to") }}
+              {{ $t("to") }}
             </label>
             <input
               id="to-pasta-created-at"

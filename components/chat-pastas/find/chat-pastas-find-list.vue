@@ -42,6 +42,8 @@
       v-if="selectedPasta"
       :key="selectedPasta.id"
       :pasta="selectedPasta"
+      @copy="userStore.copyPasta(selectedPasta)"
+      @delete="pastasStore.removePasta(selectedPasta)"
       @mouseover="throttledMouseover"
       @populate="
         (pastaTextContainer) =>
@@ -57,14 +59,6 @@
           :badges-count="userStore.user.badges.count.state"
           :nickname="userStore.user.nickname_"
           :nickname-color="userStore.user.nickname.color.state"
-        />
-      </template>
-      <template #sidebar>
-        <chat-pasta-sidebar
-          dropdown-class="dropdown dropdown-top dropdown-hover xs:dropdown-end go-brr:dropdown-bottom"
-          :pasta-edit-page-path="`/pastas/edit/${selectedPasta.id}`"
-          @copy="userStore.copyPasta(selectedPasta)"
-          @delete="pastasStore.removePasta(selectedPasta)"
         />
       </template>
     </chat-pasta>

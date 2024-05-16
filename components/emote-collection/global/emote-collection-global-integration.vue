@@ -9,20 +9,36 @@
       <emote-integration-logo :source="integration.source" with-link />
     </header>
     <main>
-      <div v-if="integration.status === 'ready'" class="space-y-1.5">
-        <ul class="space-y-1.5">
+      <div class="space-y-1.5">
+        <ul v-if="canShowSets(integration)" class="space-y-1.5">
           <li v-for="set of integration.sets" :key="set.name">
             <emote-collection-collapsed-set :set :styles />
           </li>
         </ul>
         <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
           <div class="flex justify-between">
-            <emote-collection-formed-at :time="integration.formedAt" />
-            <emote-collection-refresh-button
+            <emote-collection-formed-at
+              v-if="hasFormedAt(integration)"
+              :time="integration.formedAt"
+            />
+            <span v-else-if="hasReason(integration)" class="italic">
+              {{ integration.reason }}
+            </span>
+            <span v-else>{{ $t("failed-to-load") }}</span>
+            <refresh-button
+              v-show="hasFormedAt(integration)"
               size="xs"
               class="w-fit gap-0.5"
-              :is-parent-refreshing="isRefreshing"
-              @click="emit('refresh')"
+              :is-in-process="integration.status === 'refreshing'"
+              @click="emit('update')"
+            />
+            <load-button
+              v-show="!hasFormedAt(integration)"
+              size="xs"
+              class="w-fit gap-0.5 text-white hover:text-secondary-content"
+              :class="[styles.backgroundBase, styles.borderAccent]"
+              :is-in-process="integration.status === 'loading'"
+              @click="emit('update')"
             />
           </div>
           <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
@@ -30,38 +46,43 @@
           </div>
           <emote-collection-global-integration-must-be-used
             v-model="checkedSources"
-            :source
+            :source="integration.source"
           />
         </div>
-      </div>
-      <div v-else-if="status === 'failed'">
-        {{ reason }}
       </div>
     </main>
   </article>
 </template>
 <script setup lang="ts" generic="Source extends EmoteSource">
 import type { EmoteSource } from "~/integrations";
-import { collectionsStyles } from "~/components/emote-collection";
-import { isReadyIntegration } from "~/integrations/integrations";
+import { emoteIntegrationsStyles } from "~/components/emote-collection";
 import type { SomeEmoteIntegration } from "~/integrations/integrations";
+import {
+  canShowSets,
+  hasFormedAt,
+  hasReason,
+} from "~/integrations/integrations";
 
 const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });
 
-const props = defineProps<{
-  integration: SomeEmoteIntegration<Source>;
-}>();
-
-const integration = computed(() => props.integration);
-
 const emit = defineEmits<{
-  refresh: [];
+  update: [];
 }>();
+
 defineSlots<{
   headingMiddle?: unknown;
 }>();
 
-const styles = computed(() => collectionsStyles[source]);
+const props = defineProps<{
+  integration: SomeEmoteIntegration<Source>;
+}>();
+const integration = computed(
+  () =>
+    props.integration /* TODO: add useShownGlobalIntegration, which will allow to use integration (better encapsulation) */,
+);
+const styles = computed(
+  () => emoteIntegrationsStyles[integration.value.source],
+);
 </script>
