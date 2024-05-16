@@ -1,7 +1,6 @@
 import type { EmoteSource, IEmote } from "~/integrations";
 
 class EmoteUrl {
-  // eslint-disable-next-line no-useless-constructor
   constructor(public readonly string: string) {}
 
   #tuple = computed(() => {
@@ -46,7 +45,6 @@ class EmoteSize {
 }
 
 class EmoteIntegrationLink {
-  // eslint-disable-next-line no-useless-constructor
   constructor(readonly emote: OnHoverHintEmote) {}
 
   get value() {

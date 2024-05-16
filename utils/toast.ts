@@ -38,10 +38,6 @@ export function useMyToast() {
       const error = this.of(name, ...args);
       return toast.add(error);
     },
-    raise<K extends FailureNotificationName>(name: K, ...args: any[]) {
-      const error = this.notify(name, ...args);
-      throw error;
-    },
   };
 
   return {

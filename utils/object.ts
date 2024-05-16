@@ -78,3 +78,15 @@ export function groupBy<T, K extends string | number | symbol, V>(
     return record;
   }, initialRecord);
 }
+
+export function objectSorted<O extends Record<string, unknown>>(
+  object: O,
+  compare: (a: string, b: string) => number = (a, b) => a.localeCompare(b),
+): O {
+  return Object.keys(object)
+    .sort(compare)
+    .reduce((acc, key) => {
+      acc[key] = object[key];
+      return acc;
+    }, {} as O);
+}
