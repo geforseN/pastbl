@@ -44,9 +44,11 @@ const getTwitchTokenOptions = {
   body: `client_id=${env.TWITCH_APP_CLIENT_ID}&client_secret=${env.TWITCH_APP_CLIENT_SECRET}&grant_type=client_credentials`,
 };
 
+const cool_fetch = $fetch.create(getTwitchTokenOptions);
+
 export async function fetchTwitchToken() {
   const fetchStartTime = Date.now();
-  const twitchToken = await $fetch("/oauth2/token", getTwitchTokenOptions);
+  const twitchToken = await cool_fetch("/oauth2/token");
   assert.ok(twitchToken !== null && typeof twitchToken === "object");
   return twitchTokenSchema.parse({ ...twitchToken, fetchStartTime });
 }

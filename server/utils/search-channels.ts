@@ -56,7 +56,7 @@ function getSortedChannels(
   return sorted;
 }
 
-export async function getChannels(login: TwitchUserLogin) {
+export async function getTwitchChannels(login: TwitchUserLogin) {
   const apiChannels = await fetchTwitchChannels(login);
   const channels = apiChannels.data.map(makeChannel);
   const sortedChannels = getSortedChannels(channels, login);

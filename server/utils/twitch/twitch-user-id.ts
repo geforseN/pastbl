@@ -4,3 +4,7 @@ export async function requireUserTwitchIdFromSession(event: H3E) {
 }
 
 export type TwitchUserId = `${number}`;
+
+export function canBeTwitchUserId(string: string): string is TwitchUserId {
+  return !Number.isNaN(Number(string));
+}
