@@ -190,7 +190,7 @@
     }
   },
   "emojis": {
-    "link": "Emojis",
+    "_": "Emojis",
     "_headings": {
       "Smileys & Emotion": "Smileys & Emotion",
       "People & Body": "People & Body",
