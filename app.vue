@@ -23,10 +23,11 @@
         name="google-site-verification"
         content="CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw"
       />
+      <Meta name="theme-color" content="#ff52d9f2" />
     </Head>
-    <Body lang="en">
+    <Body class="debug-screens">
       <app-drawer class="z-50">
-        <div class="relative grid grid-rows-layout">
+        <div class="relative grid">
           <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
           <nuxt-loading-indicator />
           <nuxt-layout>
@@ -41,11 +42,11 @@
             @close="onHoverHint.close"
             @mouseleave="onHoverHint.close"
           />
-          <client-only>
+          <!-- <client-only>
             <app-pastas-work-mode-toggle
               class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
-          </client-only>
+          </client-only> -->
           <u-notifications>
             <template #title="{ title }">
               <span class="text-xl">{{ title }}</span>
@@ -61,7 +62,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import { savePastasToFile } from "./pages/pastas/index.vue";
+import { savePastasToFile } from "~/pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 
 const pastasStore = usePastasStore();
@@ -72,7 +73,7 @@ useKeysListenWithAlt([
   ["f", (go) => go("/pastas/find")],
   ["m", (go) => go("/user/settings")],
   ["e", (go) => go("/collections")],
-  ["s", () => savePastasToFile(pastasStore.pastas.state)],
+  ["s", () => savePastasToFile(pastasStore.pastasToShow)],
 ]);
 
 const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
@@ -102,5 +103,15 @@ input#pastas-work-mode:not(:checked):hover {
 
 input#pastas-work-mode:checked:hover {
   background-color: theme(colors.twitch-accent/80%);
+}
+
+/* NOTE: 
+  icon class added by nuxt-icon svg's 
+  !important is necessary to override style attribute  
+*/
+.icon {
+  font-size: 10px !important;
+  line-height: 1 !important;
+  overflow-wrap: break-word;
 }
 </style>
