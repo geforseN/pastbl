@@ -21,6 +21,11 @@ export default defineNuxtConfig({
       pure: ["console.log"],
     },
   },
+  site: {
+    url: "https://pastbl.vercel.app",
+    title: "Pastas Are Here",
+    description: "Do Something With Pastas",
+  },
   nitro: {
     compressPublicAssets: true,
     minify: true,
@@ -32,14 +37,32 @@ export default defineNuxtConfig({
       "0 0 1 * *": "get-twitch-token",
     },
   },
-  // TODO: fixme
+  // FIXME: fix warnings in console
   imports: {
     dirs: ["./composables", "./utils", "./stores"],
+    // presets: [
+    //   {
+    //     package: "@vueuse/core",
+    //     cache: false,
+    //     ignore: [(name) => console.log({ name }) || name === "useAsyncState"],
+    //   },
+    // ],
     imports: [
+      // {
+      //   from: "@vueuse/core",
+      //   name: "useAsyncState",
+      //   as: "useVueUseAsyncState",
+      // },
+      // {
+      //   from: "../../node_modules/@vueuse/core/index.mjs",
+      //   name: "useAsyncState",
+      //   disabled: true,
+      // },
       {
         from: "../../node_modules/@nuxt/ui/dist/runtime/composables/useToast.mjs",
         name: "useToast",
         as: "useNuxtToast",
+        priority: 3,
       },
       {
         from: "../../node_modules/@vuestic/nuxt/dist/runtime/composables",
@@ -51,13 +74,16 @@ export default defineNuxtConfig({
   $development: {
     app: {
       head: {
-        title: "pastbl - dev",
+        titleTemplate: "pastbl - dev - %s",
       },
     },
   },
   app: {
     head: {
-      title: "pastbl",
+      htmlAttrs: {
+        lang: "en",
+      },
+      titleTemplate: "pastbl - %s",
     },
     viewTransition: true,
   },
@@ -81,8 +107,10 @@ export default defineNuxtConfig({
   },
   modules: [
     "@formkit/auto-animate/nuxt",
+    "@nuxt/test-utils/module",
     "@nuxt/ui",
     "@nuxtjs/i18n",
+    "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@vuestic/nuxt",
