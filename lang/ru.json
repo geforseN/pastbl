@@ -1,36 +1,41 @@
 {
+  "emote": {
+    "find": "Найти эмоут",
+    "global": "Глобальный эмоут",
+    "channel": "Личный эмоут",
+    "shared": "Общий эмоут",
+    "modifier": "Эмоут модификатор"
+  },
+  "emotes": {
+    "global": "Глобальный эмоуты",
+    "person": "Эмоуты персоны",
+    "$add": "Добавить {emotes}",
+    "showingPastasWithOnly": "Пасты показаны только с {emotes}",
+    "showingPastasWithPerson": "Пасты показаны с эмоутами {person}"
+  },
+  "person": {
+    "emoteCollection": {
+      "requestForSelect": "Пожалуйста, выберите персону с коллекцией эмоутов"
+    }
+  },
+  "newest-first": "Сперва новые",
+  "oldest-first": "Сперва старые",
+  "last-updated": "Последние обновленные",
+  "last-copied": "Последние скопированные",
+  "select": "Выбрать",
+  "failed-to-load": "Не удалось загрузить",
+  "remove": "Убрать",
+  "load": "Загрузить",
+  "loading": "Загружается",
   "restore-internet-connection": "Восстановите интернет-соединение",
   "server-mode": "Серверный режим",
   "client-mode": "Клиентский режим",
   "error-occurred": "Произошла ошибка",
   "language": "Язык",
-  "my-collection": "Моя Коллекция",
   "click": "Нажатие",
   "note": "Примечание",
   "yes": "Да",
   "no": "Нет",
-  "tags": {
-    "noAdded": "Нет добавленных тегов",
-    "remove": "Удалить теги"
-  },
-  "mustBeInPastas": "Должны быть в пастах",
-  "tag": {
-    "delete": "Удалить тег: {tag}",
-    "add": "Добавить тег"
-  },
-  "emote": {
-    "find": "Найти эмоут"
-  },
-  "accept": "Принять",
-  "decline": "Отклонить",
-  "changes": {
-    "accept": "Применить изменения",
-    "decline": "Отменить изменения"
-  },
-  "userCollection": {
-    "makeInactive": "Сделать неактивной"
-  },
-
   "loaded": "Загружено",
   "refresh": "Обновить",
   "refreshing": "Обновляется",
@@ -38,68 +43,220 @@
   "deleting": "Удаляется",
   "updated": "Обновлено",
   "created": "Создано",
-  "app": {
-    "hint": {
-      "current-emotes": {
-        "user": {
-          "before": "Пасты показаны с эмоутами",
-          "after": ""
-        }
-      },
-      "add-emotes": {
-        "global": {
-          "before": "В пастах показываются только",
-          "link": "глобальные эмоуты"
-        },
-        "user": {
-          "before": "Добавить",
-          "link": "эмоуты пользователей"
-        }
-      },
-      "onHover": {
-        "emote": {
-          "page": "Страница эмоута",
-          "type": {
-            "global": "Глобальный эмоут",
-            "channel": "Личный эмоут",
-            "shared": "Общий эмоут"
-          },
-          "modifier": "Эмоут модификатор"
-        }
-      }
-    }
+  "nothing": "Ничего",
+  "tags": {
+    "noAdded": "Нет добавленных тегов",
+    "delete": "Удалить теги"
+  },
+  "mustBeInPastas": "Должны быть в пастах",
+  "tag": {
+    "_": "Тэг: {tag}",
+    "delete": "Удалить тег: {tag}",
+    "add": "Добавить тег"
+  },
+
+  "accept": "Принять",
+  "decline": "Отклонить",
+  "changes": {
+    "accept": "Применить изменения",
+    "decline": "Отменить изменения"
+  },
+  "collection": {
+    "my": "Моя Коллекция",
+    "_makeInactive": "Сделать неактивной"
+  },
+  "userCollection": {
+    "selected": "Коллекция выбрана",
+    "notSelected": "Коллекция не выбрана",
+    "taggedPastas": {
+      "found": "Пасты с тэгом {0}",
+      "notFound": "Паст с тэгом {0} не найдено"
+    },
+    "failedToLoad": "Не удалось загрузить пользовательскую коллекцию с логином {login}"
   },
   "modal": {
     "chatPastaEdit": {
-      "heading": "Замена содержание пасты",
-      "body": "Что делать перед переходом на другую страницу?",
-      "accept": "Применить изменения",
-      "decline": "Отменить изменения"
+      "heading": "Обновление содержания пасты",
+      "body": "Что делать перед переходом на другую страницу?"
     },
     "chatPastaTagAdd": {
       "heading": "Ввод тега заполнен",
-      "body": "Что делать с входным значением тега?",
-      "accept": "Добавить к пасте",
-      "decline": "Ничего",
-      "tag": "Тег"
+      "body": "Что делать с входным значением тега?"
     }
   },
-  "main": {
-    "link": "Главная страница"
-  },
-  "account": {
-    "logout": "Выйти",
-    "loginWithTwitch": "Войти через Twitch"
-  },
+  "mainPage": "Главная страница",
+  "logout": "Выйти",
+  "loginWithTwitch": "Войти через Twitch",
   "avatar": {
     "alt": "Аватар {nickname}"
   },
   "theme": {
-    "system": "Системная",
-    "dark": "Темная",
-    "light": "Светлая",
-    "label": "Тема"
+    "_": "Тема",
+    "$system": "Системная",
+    "$dark": "Темная",
+    "$light": "Светлая"
   },
+
+  "pastas": {
+    "_": "Пасты",
+    "sort": "Сортировать пасты",
+    "show": "Показывать пасты",
+    "loading": "Пасты загружаются",
+    "saveToFile": "Сохранить пасты в файл",
+    "loadFromFile": "Загрузить пасты из файла",
+    "withPersonEmotes": "Пасты с эмоциями {login}",
+    "notFoundWithTag": "Пасты с тэгом {tag} не были найдены"
+  },
+  "pasta": {
+    "addTo": "Добавить к пасте",
+    "$created": "Создана",
+    "create": "Создать пасту",
+    "publish": "Опубликовать пасту",
+    "copy": "Копи&shy;ровать пасту",
+    "remove": "Удалить пасту",
+    "edit": "Редакти&shy;ровать пасту",
+    "length": "Длинна пасты",
+    "preview": "Предпросмотр пасты",
+    "makePublic?": "Сделать пасту публичной?",
+    "makeChangesIn": "Внесите изменения в пасту",
+    "list": {
+      "clipboardFail": {
+        "heading": "Ваш браузер не поддерживает Clipboard API!",
+        "explanation": "Вы не сможете скопировать пасту, нажав на специальную кнопку."
+      },
+      "empty": "Ни одна паста еще не добавлена!",
+      "show": {
+        "options": {
+          "all": "Все",
+          "selected-user": "Все с {'@'}{login}",
+          "only-selected-user": "Только c {'@'}{login}",
+          "except-selected-user": "Все, кроме {'@'}{login}",
+          "all-selectable-users": "Все с {'@'} в начале",
+          "all-without-selectable-users": "Все, кроме {'@'} в начале",
+          "none": "Ничего"
+        }
+      }
+    },
+    "find": {
+      "link": "Найти пасту",
+      "heading": "Поиск пасты",
+      "text-to-find": "Искомый текст",
+      "range": {
+        "heading": "Диапазон длинны",
+        "must-respect": "Учитывать выбранную длину",
+        "max": "Макс. длинна",
+        "min": "Мин. длинна"
+      },
+      "date": {
+        "heading": "Временной отрезок",
+        "createdAt": "Создана"
+      },
+      "tags": {
+        "heading": "Необходимые теги",
+        "must-respect": "Учитывать выбранные теги",
+        "select-hint": "Для выбора нескольких тегов используйте {0}"
+      }
+    },
+    "tags": {
+      "hint": "{tag}, использован один раз | {tag}, использован {count} раза"
+    },
+    "formCommon": {
+      "textareaPlaceholder": "Введите текст пасты",
+      "length": "Длинна пасты",
+      "tags": {
+        "removeButton": "Удалить выбранные теги"
+      },
+      "tag": {
+        "removeButton": "Удалить тег: {tag}",
+        "addButton": "Добавить тег",
+        "inputPlaceholder": "Добавить тег (опционально)"
+      }
+    }
+  },
+  "text": {
+    "copy": "Скопировать текст"
+  },
+  "pasta-form-tags-input": {
+    "placeholder": "Добавить тег (опционально)"
+  },
+  "settings": {
+    "change": "Изменить настройки",
+    "badges-count": "Количество значков",
+    "nickname": "Никнейм",
+    "nickname-placeholder": "Kappa",
+    "nickname-color": "Цвет никнейма",
+    "when": {
+      "pasta-copied": {
+        "label": "При копировании пасты",
+        "options": {
+          "none": "Ничего",
+          "sound": "Звук",
+          "alert": "Оповещение",
+          "alert&sound": "Оповещение и звук"
+        }
+      }
+    }
+  },
+  "emojis": {
+    "_": "Эмодзи",
+    "_headings": {
+      "Smileys & Emotion": "Улыбки и эмоции",
+      "People & Body": "Люди и тело",
+      "Animals & Nature": "Животные и природа",
+      "Food & Drink": "Еда и напитки",
+      "Travel & Places": "Путешествия и места",
+      "Activities": "Активности",
+      "Objects": "Объекты",
+      "Symbols": "Символы",
+      "Flags": "Флаги"
+    }
+  },
+  "emotesAndEmojis": "Эмоуты и эмодзи",
+  "collections": {
+    "index": {
+      "link": "Эмоуты и эмодзи"
+    },
+    "emotes": "нет эмоутов | 1 эмоут | {n} эмоута | {n} эмоутов",
+    "global": {
+      "link": "Глобальные эмоуты",
+      "update-all-emotes": "Обновить все глобальные эмоуты"
+    },
+    "users": {
+      "link": "Пользовательские эмоуты",
+      "selected": "Выбранная коллекция эмоутов",
+      "fetch": {
+        "heading": "Загрузить эмоуты",
+        "placeholder": "Введите Twitch никнейм",
+        "button": {
+          "text": "Загрузить коллекцию",
+          "text-on-load": "Загрузка"
+        },
+        "must-select-onload": "Выбрать коллекцию при успешной загрузке",
+        "channels-search": {
+          "load": "Загрузить",
+          "exact": "Точно",
+          "live": "В эфире"
+        }
+      },
+      "select": {
+        "heading": "Выбрать эмоуты",
+        "no-select": "Нет выбранной коллекции"
+      },
+      "ready": {
+        "button": {
+          "select": "Выбрать как активную"
+        },
+        "delete-text": "Удалить коллекцию {nickname}?",
+        "selected": "Коллекция активна",
+        "selected-tooltip": "Эмоумы {nickname} используются в пастах"
+      }
+    }
+  },
+  "chat-pasta-list-hint-on-empty": "Ни одна паста еще не добавлена!",
+  "from": "От",
+  "to": "До",
+  "show-more": "Показать еще",
+  "cancel": "Отменить",
   "toast": {
     "copyText": {
       "fail": {
@@ -170,190 +327,6 @@
       "success": {
         "title": "Эмоции загружены",
         "message": "Загружены эмоции для {nickname}: {statuses}"
-      }
-    }
-  },
-  "pastas": {
-    "link": "Пасты",
-    "saveToFile": "Сохранить пасты в файл",
-    "loadFromFile": "Загрузить пасты из файла"
-  },
-  "pasta": {
-    "length": "Длинна пасты",
-    "makePublic?": "Сделать пасту публичной?",
-    "makeChangesIn": "Внесите изменения в пасту",
-    "created": "Создана",
-    "list": {
-      "loading": "Пасты загружаются",
-      "clipboardFail": {
-        "heading": "Ваш браузер не поддерживает Clipboard API!",
-        "explanation": "Вы не сможете скопировать пасту, нажав на специальную кнопку."
-      },
-      "empty": "Ни одна паста еще не добавлена!",
-      "sort": {
-        "label": "Сортировать пасты",
-        "options": {
-          "newest-first": "Сперва новые",
-          "oldest-first": "Сперва старые",
-          "last-updated": "Последние обновленные",
-          "last-copied": "Последние скопированные"
-        }
-      },
-      "show": {
-        "label": "Показывать пасты",
-        "options": {
-          "all": "Все",
-          "selected-user": "Все с {'@'}{login}",
-          "only-selected-user": "Только c {'@'}{login}",
-          "except-selected-user": "Все, кроме {'@'}{login}",
-          "all-selectable-users": "Все с {'@'} в начале",
-          "all-without-selectable-users": "Все, кроме {'@'} в начале",
-          "none": "Ничего"
-        },
-        "requestForSelect": "Пожалуста, выберите пользователя с коллекцией эмоутов",
-        "selected-user": {
-          "onEmpty": {
-            "beforeTag": "Пасты с тэгом",
-            "afterTag": "не были найдены"
-          }
-        }
-      }
-    },
-    "dropdown": {
-      "buttons": {
-        "copy": "Скопир. пасту",
-        "delete": "Удал. пасту",
-        "edit": "Редакт. пасту"
-      }
-    },
-    "find": {
-      "link": "Найти пасту",
-      "heading": "Поиск пасты",
-      "text-to-find": "Искомый текст",
-      "range": {
-        "heading": "Диапазон длинны",
-        "must-respect": "Учитывать выбранную длину",
-        "max": "Макс. длинна",
-        "min": "Мин. длинна"
-      },
-      "date": {
-        "heading": "Временной отрезок",
-        "createdAt": "Создана",
-        "from": "От",
-        "to": "До"
-      },
-      "tags": {
-        "heading": "Необходимые теги",
-        "must-respect": "Учитывать выбранные теги",
-        "select-hint": "Для выбора нескольких тегов используйте {0}"
-      }
-    },
-    "publish": {
-      "heading": "Опубликовать пасту",
-      "button": "Опубликовать пасту"
-    },
-    "create": {
-      "heading": "Создать пасту",
-      "button": "Создать пасту",
-      "tags": {
-        "hint": "{tag}, использован один раз | {tag}, использован {count} раза"
-      },
-      "preview": {
-        "heading": "Предпросмотр пасты",
-        "copyButton": "Скопировать текст"
-      }
-    },
-    "formCommon": {
-      "textareaPlaceholder": "Введите текст пасты",
-      "length": "Длинна пасты",
-      "tags": {
-        "removeButton": "Удалить выбранные теги",
-        "onEmptyBadge": "Нет добавленных тегов"
-      },
-      "tag": {
-        "removeButton": "Удалить тег: {tag}",
-        "addButton": "Добавить тег",
-        "inputPlaceholder": "Добавить тег (опционально)"
-      }
-    },
-    "edit": "Редактировать пасту"
-  },
-  "user": {
-    "settings": {
-      "link": "Настройки",
-      "heading": "Изменить настройки",
-      "badges-count": "Количество значков",
-      "nickname": "Никнейм",
-      "nickname-placeholder": "Kappa",
-      "nickname-color": "Цвет никнейма",
-      "when": {
-        "pasta-copied": {
-          "label": "При копировании пасты",
-          "options": {
-            "none": "Ничего",
-            "sound": "Звук",
-            "alert": "Оповещение",
-            "alert&sound": "Оповещение и звук"
-          }
-        }
-      }
-    }
-  },
-  "collections": {
-    "index": {
-      "link": "Эмоуты и эмодзи"
-    },
-    "emotes": "нет эмоутов | 1 эмоут | {n} эмоута | {n} эмоутов",
-    "emojis": {
-      "link": "Эмодзи",
-      "headings": {
-        "Smileys & Emotion": "Улыбки и эмоции",
-        "People & Body": "Люди и тело",
-        "Animals & Nature": "Животные и природа",
-        "Food & Drink": "Еда и напитки",
-        "Travel & Places": "Путешествия и места",
-        "Activities": "Активности",
-        "Objects": "Объекты",
-        "Symbols": "Символы",
-        "Flags": "Флаги"
-      }
-    },
-    "global": {
-      "link": "Глобальные эмоуты",
-      "refresh-all-button": "Обновить все глобальные эмоуты"
-    },
-    "users": {
-      "link": "Пользовательские эмоуты",
-      "selected": "Выбранная коллекция эмоутов",
-      "fetch": {
-        "heading": "Загрузить эмоуты",
-        "placeholder": "Введите Twitch никнейм",
-        "button": {
-          "text": "Загрузить коллекцию",
-          "text-on-load": "Загрузка"
-        },
-        "must-select-onload": "Выбрать коллекцию при успешной загрузке",
-        "channels-search": {
-          "load": "Загрузить",
-          "exact": "Точно",
-          "live": "В эфире"
-        }
-      },
-      "select": {
-        "heading": "Выбрать эмоуты",
-        "no-select": "Нет выбранной коллекции"
-      },
-      "ready": {
-        "button": {
-          "more": "Показать еще",
-          "refresh": "Обновить",
-          "delete": "Удалить",
-          "select": "Выбрать как активную",
-          "cancel": "Отменить"
-        },
-        "delete-text": "Удалить коллекцию {nickname}?",
-        "selected": "Коллекция активна",
-        "selected-tooltip": "Эмоумы {nickname} используются в пастах"
       }
     }
   }
