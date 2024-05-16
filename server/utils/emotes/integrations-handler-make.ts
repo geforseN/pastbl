@@ -1,17 +1,20 @@
 import { EmoteSource, IUserEmoteIntegration } from "~/integrations";
+import { IEmote } from "~/integrations/abstract/Emote";
+import { IEmoteIntegration } from "~/integrations/abstract/EmoteIntegration";
+import { IEmoteSet } from "~/integrations/abstract/EmoteSet";
 import { findErrorMessage } from "~/utils/error";
 
 function handleEmoteIntegrationError(
   fail: unknown,
   source: EmoteSource,
-  nickname: string,
+  twitch: TwitchUser,
 ) {
   const reason = findErrorMessage(
     fail,
-    `Failed to load ${source} integration of ${nickname}`,
+    `Failed to load ${source} integration of ${twitch.nickname}`,
   );
   return {
-    status: "fail" as const,
+    status: "failed" as const,
     source,
     reason,
   };
@@ -24,18 +27,18 @@ function withReadyStatus<I extends IUserEmoteIntegration>(integration: I) {
   };
 }
 
-export function makeUserIntegrationGetter<S extends EmoteSource>(
-  source: S,
-  getUserCollectionIntegration: (
-    account: TwitchUser,
-  ) => Promise<IUserEmoteIntegration>,
-) {
-  return async (account: TwitchUser) => {
+export function makeIntegrationGetter<
+  S extends EmoteSource,
+  F extends (
+    ...args: any[]
+  ) => Promise<any | IEmoteIntegration<IEmoteSet<IEmote>>>,
+>(source: S, getIntegration: F) {
+  return async (...args: Parameters<F>) => {
     try {
-      const integration = await getUserCollectionIntegration(account);
+      const integration = await getIntegration(args);
       return withReadyStatus(integration);
     } catch (error) {
-      return handleEmoteIntegrationError(error, source, account.nickname);
+      return handleEmoteIntegrationError(error, source, ...args);
     }
   };
 }

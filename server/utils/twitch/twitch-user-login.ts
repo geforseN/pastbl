@@ -1,11 +1,17 @@
 import { z } from "zod";
-import { toLowerCase } from "~/utils/string";
+import { isLowercase, toLowerCase } from "~/utils/string";
 import { uniqueValues } from "~/utils/array";
 
 const TWITCH_LOGIN_MIN_LENGTH = 3;
 const TWITCH_LOGIN_MAX_LENGTH = 25;
 
 export type TwitchUserLogin = Lowercase<string>;
+
+export function canBeTwitchUserLogin(
+  string: string,
+): string is TwitchUserLogin {
+  return isLowercase(string);
+}
 
 const loginParamSchema = z
   .string()

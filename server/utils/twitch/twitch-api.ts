@@ -33,11 +33,11 @@ export async function fetchTwitchUser(login: TwitchUserLogin) {
   return data[0];
 }
 
-export function fetchTwitchChannels(string: string) {
+export function fetchTwitchChannels(input: string) {
   return twitchApi.fetch<TwitchApi["getSearchChannels"]["response"]>(
     "/search/channels",
     {
-      query: { query: string, first: 8 },
+      query: { query: input, first: 8 },
     },
   );
 }

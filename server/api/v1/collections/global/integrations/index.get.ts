@@ -1,4 +1,7 @@
 export default defineEventHandler(async (event) => {
   const sources = getEmoteSourcesFromQuery(event);
-  return await getGlobalEmoteIntegrations(sources);
+  const integrations = await getGlobalEmoteIntegrations(sources);
+  return {
+    integrations,
+  };
 });
