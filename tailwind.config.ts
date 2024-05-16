@@ -19,9 +19,6 @@ export default {
       spacing: {
         "twitch-badge": "18px",
       },
-      gridTemplateRows: {
-        layout: "4rem 1fr 4rem auto",
-      },
       colors: {
         "bttv-base": `#181d1f`,
         "bttv-accent": `#63b3ed`,
@@ -47,12 +44,12 @@ export default {
     themes: [
       {
         light: {
-          ...daisyuiThemes["light"],
+          ...daisyuiThemes.light,
         },
       },
       {
         dark: {
-          ...daisyuiThemes["dark"],
+          ...daisyuiThemes.dark,
           "base-content": "#ffffff",
         },
       },
