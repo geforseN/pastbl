@@ -1,7 +1,7 @@
-import type { UserTwitch } from "~/server/utils/twitch/twitch-user";
+import type { SessionUser } from "~/server/utils/twitch/twitch-user";
 
 declare module "#auth-utils" {
-  interface User extends UserTwitch {}
+  interface User extends SessionUser {}
 
   interface UserSession {}
 }
