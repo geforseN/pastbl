@@ -3,7 +3,6 @@ import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
 import { keyValueService } from "~/client-only/services";
 
 class IndexedDBValue {
-  // eslint-disable-next-line no-useless-constructor
   constructor(readonly key: keyof MyKeyValueSchema) {}
 
   get() {

@@ -1,10 +1,13 @@
-export type PastaSortStrategy =
-  | "newest-first"
-  | "oldest-first"
-  | "last-updated"
-  | "last-copied";
+const pastasSortOptions = [
+  "newest-first",
+  "oldest-first",
+  "last-updated",
+  "last-copied",
+] as const;
 
-export function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
+export type PastaSortStrategy = (typeof pastasSortOptions)[number];
+
+export function usePastasSort(allPastas: Ref<OmegaPasta[]>) {
   const selectedSortStrategy = useIndexedDBKeyValue(
     "pasta-list:sort-strategy",
     "newest-first",
@@ -33,7 +36,7 @@ export function usePastasSort(allPastas: Ref<IDBMegaPasta[]>) {
         return (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt);
       }),
     ),
-  } satisfies Record<PastaSortStrategy, ComputedRef<IDBMegaPasta[]>>;
+  } satisfies Record<PastaSortStrategy, ComputedRef<OmegaPasta[]>>;
 
   return {
     selectedSortStrategy: computed({
