@@ -8,7 +8,7 @@
       {{ $t("tag._", props.tag) }}
       <form method="dialog" class="modal-action" @submit.prevent>
         <button class="btn btn-error" type="reset" @click="mustAddTag = false">
-          {{ $t("modal.chatPastaTagAdd.decline") }}
+          {{ $t("pasta.addTo") }}
         </button>
         <button
           class="btn btn-success"

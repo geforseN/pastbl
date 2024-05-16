@@ -2,7 +2,7 @@
   <dialog ref="dialogRef" class="modal">
     <div class="modal-box">
       <h3 class="text-lg font-bold">
-        {{ $t("pasta.contentChange") }}
+        {{ $t("modal.chatPastaEdit.heading") }}
       </h3>
       <p class="py-4">{{ $t("modal.chatPastaEdit.body") }}</p>
       <form method="dialog" class="modal-action" @submit.prevent>
