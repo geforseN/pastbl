@@ -5,9 +5,10 @@ export function usePastasWorkMode(
     isLoggedIn,
   }: { isOnline: Ref<boolean>; isLoggedIn: ComputedRef<boolean> },
 ) {
+  assert.ok(isReadonly(isOnline));
   const workMode = useIndexedDBKeyValue("pastas:work-mode", defaultValue, {
     onRestored(value) {
-      isClientMode.value = value === "client";
+      isClient.value = value === "client";
     },
   });
 

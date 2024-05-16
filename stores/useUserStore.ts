@@ -42,9 +42,9 @@ export const useUserStore = defineStore("user", () => {
 
   const toast = useMyToast();
 
-  const pastasWorkMode = usePastasWorkMode("server", {
+  const pastasWorkMode = usePastasWorkMode("client", {
     isLoggedIn: userSession.loggedIn,
-    isOnline: useOnline(),
+    isOnline: readonly(useOnline()),
   });
 
   const preferences = {
