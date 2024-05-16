@@ -25,7 +25,6 @@ const openCollectionsIdbUpgrade: OpenDBCallbacks<CollectionsSchema>["upgrade"] =
   };
 
 class CollectionsStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     public readonly global: GlobalIntegrationsStore,
     public readonly users: UsersCollectionsStore,

@@ -2,7 +2,6 @@ import type { IDBPDatabase } from "idb";
 import type { PastasSchema } from "..";
 
 export class PastasSharedStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
   async movePastaFromListToBin(pasta: IDBMegaPasta) {
