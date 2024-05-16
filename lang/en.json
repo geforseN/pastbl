@@ -1,24 +1,48 @@
 {
+  "emote": {
+    "find": "Find emote",
+    "modifier": "Emote modifier",
+    "global": "Global emote",
+    "channel": "Channel emote",
+    "shared": "Shared emote"
+  },
+  "emotes": {
+    "global": "Global emotes",
+    "person": "Person emotes",
+    "$add": "Add {emotes}",
+    "showingPastasWithOnly": "Showing pastas with only {emotes}",
+    "showingPastasWithPerson": "Showing pastas with {person} emotes"
+  },
+  "person": {
+    "emoteCollection": {
+      "requestForSelect": "Please select a person emote collection"
+    }
+  },
+  "newest-first": "Newest first",
+  "oldest-first": "Oldest first",
+  "last-updated": "Last updated",
+  "last-copied": "Last copied",
+  "select": "Select",
+  "failed-to-load": "Failed to load",
+  "load": "Load",
+  "loading": "Loading",
   "restore-internet-connection": "Restore Internet Connection",
   "server-mode": "Server mode",
   "client-mode": "Client mode",
   "error-occurred": "Error occurred",
   "language": "Language",
-  "my-collection": "My Collection",
   "click": "Click",
   "note": "Note",
   "yes": "Yes",
   "no": "No",
   "tags": {
     "noAdded": "No added tags",
-    "remove": "Remove tags"
+    "delete": "Delete tags"
   },
   "tag": {
+    "_": "Tag: {tag}",
     "delete": "Delete tag: {tag}",
     "add": "Add tag"
-  },
-  "emote": {
-    "find": "Find emote"
   },
   "mustBeInPastas": "Must be in pastas",
   "accept": "Accept",
@@ -27,8 +51,18 @@
     "accept": "Accept changes",
     "decline": "Decline changes"
   },
+  "collection": {
+    "my": "My Collection",
+    "_makeInactive": "Make inactive"
+  },
   "userCollection": {
-    "makeInactive": "Make inactive"
+    "selected": "Collection is selected",
+    "notSelected": "Collection is not selected",
+    "taggedPastas": {
+      "found": "Pastas with {0} tag",
+      "notFound": "No pastas with {0} tag were found"
+    },
+    "failedToLoad": "Failed to load user collection with login: {login}"
   },
   "loaded": "Loaded",
   "refresh": "Refresh",
@@ -37,68 +71,184 @@
   "deleting": "Deleting",
   "updated": "Updated",
   "created": "Created",
-  "app": {
-    "hint": {
-      "current-emotes": {
-        "user": {
-          "before": "Showing pastas with",
-          "after": "emotes"
-        }
-      },
-      "add-emotes": {
-        "global": {
-          "before": "Showing pastas with only",
-          "link": "global emotes"
-        },
-        "user": {
-          "before": "Add",
-          "link": "user emotes"
-        }
-      },
-      "onHover": {
-        "emote": {
-          "page": "Emote page",
-          "type": {
-            "global": "Global emote",
-            "channel": "Channel emote",
-            "shared": "Shared emote"
-          },
-          "modifier": "Emote modifier"
-        }
-      }
-    }
-  },
+  "nothing": "Nothing",
   "modal": {
     "chatPastaEdit": {
       "heading": "Pasta content change",
-      "body": "What to do before moving to another page?",
-      "accept": "Accept changes",
-      "decline": "Decline changes"
+      "body": "What to do before moving to another page?"
     },
     "chatPastaTagAdd": {
       "heading": "Tag input filled",
-      "body": "What to do with tag input value?",
-      "accept": "Add to pasta",
-      "decline": "Nothing",
-      "tag": "Tag"
+      "body": "What to do with tag input value?"
     }
   },
-  "main": {
-    "link": "Go to main page"
-  },
-  "account": {
-    "logout": "Logout",
-    "loginWithTwitch": "Login with Twitch"
-  },
+  "mainPage": "Main page",
+  "loginWithTwitch": "Login with Twitch",
+  "logout": "Logout",
   "avatar": {
     "alt": "{nickname} avatar"
   },
   "theme": {
-    "system": "System",
-    "dark": "Dark",
-    "light": "Light",
-    "label": "Theme"
+    "_": "Theme",
+    "$system": "System",
+    "$dark": "Dark",
+    "$light": "Light"
   },
+  "pastas": {
+    "_": "Pastas",
+    "sort": "Sort pastas",
+    "show": "Show pastas",
+    "loading": "Loading pastas",
+    "saveToFile": "Save pastas to file",
+    "loadFromFile": "Load pastas from file",
+    "withPersonEmotes": "Pastas with {login} emotes",
+    "notFoundWithTag": "No pastas found with tag {tag}"
+  },
+  "text": {
+    "copy": "Copy text"
+  },
+  "pasta": {
+    "addTo": "Add to pasta",
+    "$created": "Created",
+    "create": "Create pasta",
+    "publish": "Publish pasta",
+    "copy": "Copy pasta",
+    "remove": "Remove pasta",
+    "edit": "Edit pasta",
+    "length": "Pasta length",
+    "preview": "Pasta preview",
+    "makePublic?": "Make pasta public?",
+    "makeChangesIn": "Make changes in pasta",
+    "enterText": "Enter pasta text",
+    "list": {
+      "loading": "Loading pastas",
+      "clipboardFailMessage": {
+        "heading": "Your browser does not support the clipboard API!",
+        "explanation": "You won't be able to copy pasta by pressing the special button."
+      },
+      "empty": "No pastas were added yet!",
+      "show": {
+        "options": {
+          "all": "All",
+          "selected-user": "All {'@'}{login}",
+          "only-selected-user": "Only {'@'}{login}",
+          "except-selected-user": "All, except {'@'}{login}",
+          "all-selectable-users": "All starting with {'@'}",
+          "all-without-selectable-users": "All, except starting with {'@'}",
+          "none": "None"
+        }
+      }
+    },
+    "find": {
+      "link": "Find pasta",
+      "heading": "Search pasta",
+      "text-to-find": "Text to find",
+      "range": {
+        "heading": "Length range",
+        "must-respect": "Must respect selected length",
+        "max": "Max length",
+        "min": "Min length"
+      },
+      "date": {
+        "heading": "Date range",
+        "createdAt": "Created at"
+      },
+      "tags": {
+        "heading": "Required tags",
+        "must-respect": "Must respect selected tags",
+        "select-hint": "To select multiple tags, use {0}"
+      }
+    },
+    "tags": {
+      "hint": "{tag}, was used one time | {tag}, was used {count} times"
+    },
+    "formCommon": {
+      "textareaPlaceholder": "Enter pasta text",
+      "length": "Pasta length"
+    }
+  },
+  "pasta-form-tags-input": {
+    "placeholder": "Add tag (optional)"
+  },
+  "chat-pasta-list-hint-on-empty": "No pastas were added yet!",
+  "settings": {
+    "change": "Change settings",
+    "badges-count": "Badges count",
+    "nickname": "Nickname",
+    "nickname-placeholder": "Kappa",
+    "nickname-color": "Nickname color",
+    "when": {
+      "pasta-copied": {
+        "label": "When pasta copied",
+        "options": {
+          "none": "None",
+          "alert": "Show alert",
+          "sound": "Play sound",
+          "alert&sound": "Show alert & play sound"
+        }
+      }
+    }
+  },
+  "emojis": {
+    "link": "Emojis",
+    "_headings": {
+      "Smileys & Emotion": "Smileys & Emotion",
+      "People & Body": "People & Body",
+      "Animals & Nature": "Animals & Nature",
+      "Food & Drink": "Food & Drink",
+      "Travel & Places": "Travel & Places",
+      "Activities": "Activities",
+      "Objects": "Objects",
+      "Symbols": "Symbols",
+      "Flags": "Flags"
+    }
+  },
+  "emotesAndEmojis": "Emotes and emojis",
+  "collections": {
+    "emotes": "1 emote | {count} emotes",
+    "global": {
+      "link": "Global emotes",
+      "update-all-emotes": "Update all global emotes"
+    },
+    "users": {
+      "link": "User emotes",
+      "selected": "Selected emote collection",
+      "fetch": {
+        "heading": "Fetch emotes",
+        "placeholder": "Enter Twitch nickname",
+        "button": {
+          "text": "Load collection",
+          "text-on-load": "Loading"
+        },
+        "must-select-onload": "Select collection on successful load",
+        "channels-search": {
+          "load": "Load",
+          "exact": "Exact",
+          "live": "Live"
+        }
+      },
+      "select": {
+        "heading": "Select emotes",
+        "no-select": "No collection selected"
+      },
+      "ready": {
+        "button": {
+          "refresh": "Refresh",
+          "delete": "Delete",
+          "select": "Select as active"
+        },
+        "delete-text": "Delete {nickname} collection?",
+        "selected": "Collection is active",
+        "selected-tooltip": "Emotes from {nickname} are used in pastas"
+      }
+    }
+  },
+  "exact": "Exact",
+  "live": "Live",
+  "from": "From",
+  "to": "To",
+  "show-more": "Show more",
+  "cancel": "Cancel",
   "toast": {
     "copyText": {
       "fail": {
@@ -169,190 +319,6 @@
       "success": {
         "title": "Emotes loaded",
         "message": "Loaded {nickname} emotes: {statuses}"
-      }
-    }
-  },
-  "pastas": {
-    "link": "Pastas",
-    "saveToFile": "Save pastas to file",
-    "loadFromFile": "Load pastas from file"
-  },
-  "pasta": {
-    "length": "Pasta length",
-    "makePublic?": "Make pasta public?",
-    "makeChangesIn": "Make changes in pasta",
-    "created": "Created",
-    "list": {
-      "loading": "Loading pastas",
-      "clipboardFailMessage": {
-        "heading": "Your browser does not support the clipboard API!",
-        "explanation": "You won't be able to copy pasta by pressing the special button."
-      },
-      "empty": "No pastas were added yet!",
-      "sort": {
-        "label": "Sort pastas",
-        "options": {
-          "newest-first": "Newest first",
-          "oldest-first": "Oldest first",
-          "last-updated": "Last updated",
-          "last-copied": "Last copied"
-        }
-      },
-      "show": {
-        "label": "Show pastas",
-        "options": {
-          "all": "All",
-          "selected-user": "All {'@'}{login}",
-          "only-selected-user": "Only {'@'}{login}",
-          "except-selected-user": "All, except {'@'}{login}",
-          "all-selectable-users": "All starting with {'@'}",
-          "all-without-selectable-users": "All, except starting with {'@'}",
-          "none": "None"
-        },
-        "requestForSelect": "Please select a user with emote collection",
-        "selected-user": {
-          "onEmpty": {
-            "beforeTag": "No pastas with tag",
-            "afterTag": "were found"
-          }
-        }
-      }
-    },
-    "dropdown": {
-      "buttons": {
-        "copy": "Copy pasta",
-        "delete": "Delete pasta",
-        "edit": "Edit pasta"
-      }
-    },
-    "find": {
-      "link": "Find pasta",
-      "heading": "Search pasta",
-      "text-to-find": "Text to find",
-      "range": {
-        "heading": "Length range",
-        "must-respect": "Must respect selected length",
-        "max": "Max length",
-        "min": "Min length"
-      },
-      "date": {
-        "heading": "Date range",
-        "createdAt": "Created at",
-        "from": "From",
-        "to": "To"
-      },
-      "tags": {
-        "heading": "Required tags",
-        "must-respect": "Must respect selected tags",
-        "select-hint": "To select multiple tags, use {0}"
-      }
-    },
-    "publish": {
-      "heading": "Publish pasta",
-      "button": "Publish pasta"
-    },
-    "create": {
-      "heading": "Create pasta",
-      "button": "Create pasta",
-      "tags": {
-        "hint": "{tag}, was used one time | {tag}, was used {count} times"
-      },
-      "preview": {
-        "heading": "Pasta preview",
-        "copyButton": "Copy text"
-      }
-    },
-    "formCommon": {
-      "textareaPlaceholder": "Enter pasta text",
-      "length": "Pasta length",
-      "tags": {
-        "removeButton": "Remove selected tags",
-        "onEmptyBadge": "No tags added"
-      },
-      "tag": {
-        "removeButton": "Remove tag: {tag}",
-        "addButton": "Add tag",
-        "inputPlaceholder": "Add tag (optional)"
-      }
-    },
-    "edit": "Edit pasta"
-  },
-  "user": {
-    "settings": {
-      "link": "Settings",
-      "heading": "Change settings",
-      "badges-count": "Badges count",
-      "nickname": "Nickname",
-      "nickname-placeholder": "Kappa",
-      "nickname-color": "Nickname color",
-      "when": {
-        "pasta-copied": {
-          "label": "When pasta copied",
-          "options": {
-            "none": "None",
-            "alert": "Show alert",
-            "sound": "Play sound",
-            "alert&sound": "Show alert & play sound"
-          }
-        }
-      }
-    }
-  },
-  "collections": {
-    "index": {
-      "link": "Emotes and emojis"
-    },
-    "emotes": "1 emote | {count} emotes",
-    "emojis": {
-      "link": "Emojis",
-      "headings": {
-        "Smileys & Emotion": "Smileys & Emotion",
-        "People & Body": "People & Body",
-        "Animals & Nature": "Animals & Nature",
-        "Food & Drink": "Food & Drink",
-        "Travel & Places": "Travel & Places",
-        "Activities": "Activities",
-        "Objects": "Objects",
-        "Symbols": "Symbols",
-        "Flags": "Flags"
-      }
-    },
-    "global": {
-      "link": "Global emotes",
-      "refresh-all-button": "Refresh all global emotes"
-    },
-    "users": {
-      "link": "User emotes",
-      "selected": "Selected emote collection",
-      "fetch": {
-        "heading": "Fetch emotes",
-        "placeholder": "Enter Twitch nickname",
-        "button": {
-          "text": "Load collection",
-          "text-on-load": "Loading"
-        },
-        "must-select-onload": "Select collection on successful load",
-        "channels-search": {
-          "load": "Load",
-          "exact": "Exact",
-          "live": "Live"
-        }
-      },
-      "select": {
-        "heading": "Select emotes",
-        "no-select": "No collection selected"
-      },
-      "ready": {
-        "button": {
-          "more": "Show more",
-          "refresh": "Refresh",
-          "delete": "Delete",
-          "select": "Select as active",
-          "cancel": "Cancel"
-        },
-        "delete-text": "Delete {nickname} collection?",
-        "selected": "Collection is active",
-        "selected-tooltip": "Emotes from {nickname} are used in pastas"
       }
     }
   }
