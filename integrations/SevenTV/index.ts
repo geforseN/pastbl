@@ -1,60 +1,35 @@
-import { get7TVSetById, get7TVUserProfileByTwitchId } from "./SevenTV.api";
-import type { I7TVEmote } from "./entity/SevenTVEmote";
-import type { ISevenTVUserIntegration } from "./entity/SevenTVUserIntegration";
-import { create7TVUserChannelSet } from "./entity/create7TVUserChannelSet";
-import { create7TVUserIntegration } from "./entity/create7TVUserIntegration";
-import { withLog } from "~/utils/dev-only";
+import { api } from "./api";
+import {
+  makeChannelSet,
+  makeGlobalIntegration,
+  makeGlobalSet,
+  makeOwner,
+  makePersonIntegration,
+} from "./api-transform";
+import type { API } from "./api-types";
 
-function SevenTVEmoteString(emote: I7TVEmote) {
-  return `<img data-token="${emote.token}" class="emote" src="${emote.url}" alt="${emote.token}" loading="lazy" width="${emote.width}">`;
-}
-
-export function SevenTVWrappedEmoteString(emote: I7TVEmote) {
-  return `<span class="inline-block">${SevenTVEmoteString(emote)}</span>`;
+async function getApiUserEmoteSet(profile: API.UserProfile) {
+  if (profile.emote_set.emotes !== undefined) {
+    return profile.emote_set as API.EmoteSetWithEmotes;
+  }
+  const set = (await api.getPersonSet(
+    profile.emote_set.id,
+  )) as API.EmoteSetWithEmotes;
+  assert.ok(set.emotes, "Failed to load person emotes");
+  return set;
 }
 
 export const SevenTV = {
-  async giveUserIntegration(
-    twitchId: TwitchUserId,
-    twitchLogin?: TwitchUserLogin,
-  ) {
-    const profile = await get7TVUserProfileByTwitchId(twitchId, twitchLogin);
-    return create7TVUserIntegration(profile);
+  async getGlobalIntegration() {
+    const apiSet = await api.getGlobalEmotesSet();
+    const set = makeGlobalSet(apiSet);
+    return makeGlobalIntegration([set]);
   },
-  async giveActiveSet(
-    userIntegration: Awaited<ReturnType<typeof this.giveUserIntegration>>,
-  ) {
-    const { activeSet } = userIntegration;
-    if (activeSet.isValid) {
-      return withLog(activeSet, {
-        logKey: "7TVSet",
-        additionalMessages: { isFastReturn: true },
-      });
-    }
-    const apiSet = await get7TVSetById(activeSet.id);
-    return withLog(create7TVUserChannelSet(apiSet), {
-      logKey: "7TVSet",
-      additionalMessages: { isFastReturn: false },
-    });
-  },
-  async createUserIntegration(
-    twitchId: TwitchUserId,
-    twitchLogin?: TwitchUserLogin,
-  ): Promise<ISevenTVUserIntegration> {
-    const integration = await this.giveUserIntegration(twitchId, twitchLogin);
-    const activeSet = await this.giveActiveSet(integration);
-    return {
-      ...integration,
-      sets: [activeSet],
-    };
+  async getPersonIntegration(twitch: TwitchUser) {
+    const profile = await api.getPersonProfile(twitch.id, twitch.login);
+    const apiSet = await getApiUserEmoteSet(profile);
+    const set = makeChannelSet(apiSet);
+    const owner = makeOwner(profile);
+    return makePersonIntegration([set], owner);
   },
 };
-
-export type { I7TVGlobalCollection as I7TVGlobalIntegration } from "./entity/SevenTVGlobalCollection";
-export type { ISevenTVUserIntegration } from "./entity/SevenTVUserIntegration";
-export type { I7TVSet } from "./entity/SevenTVSet";
-export type { I7TVEmote } from "./entity/SevenTVEmote";
-export { create7TVGlobalCollection } from "./entity/create7TVGlobalCollection";
-export { create7TVUserChannelSet } from "./entity/create7TVUserChannelSet";
-export { create7TVUserIntegration } from "./entity/create7TVUserIntegration";
-export { recreate7TVUserIntegration } from "./entity/recreate7TVUserIntegration";
