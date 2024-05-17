@@ -41,7 +41,7 @@
     <chat-pasta
       v-if="selectedPasta"
       :key="selectedPasta.id"
-      :pasta="selectedPasta"
+      v-bind="selectedPasta"
       @copy="userStore.copyPasta(selectedPasta)"
       @delete="pastasStore.removePasta(selectedPasta)"
       @mouseover="throttledMouseover"
