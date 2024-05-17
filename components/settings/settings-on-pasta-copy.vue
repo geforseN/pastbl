@@ -1,7 +1,7 @@
 <template>
   <div class="form-control p-2">
     <label for="pasta-oncopy" class="label cursor-pointer text-xl font-medium">
-      {{ $t(s + "when.pasta-copied.label") }}
+      {{ $t("settings.on-pasta-copied._") }}
     </label>
     <select
       id="pasta-oncopy"
@@ -19,12 +19,11 @@
     </select>
   </div>
 </template>
-<script lang="ts">
-import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
-import { s } from "~/components/user-settings/user-settings.vue";
-</script>
 <script lang="ts" setup>
+import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
+
 const oncopy = defineModel<string>({ required: true });
+
 defineProps<{
   options: Record<MyKeyValueSchema["pasta:oncopy"], string>;
 }>();

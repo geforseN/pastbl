@@ -3,21 +3,16 @@
     <h2 id="heading" class="p-2 text-3xl font-bold">
       {{ $t("settings.change") }}
     </h2>
-    <user-settings-badges v-model="userStore.user.badges.count.state" />
-    <user-settings-nickname v-model="userStore.user.nickname.text.state" />
-    <user-settings-nickname-color
-      v-model="userStore.user.nickname.color.state"
-    />
-    <!-- TODO: use aria-describedby for hint -->
-    <!-- TODO: add 'must ask before pasta delete' radio input -->
-    <!-- TODO: add 'must ask before pasta delete (time to ignore)' range input -->
-    <user-settings-on-pasta-copy
+    <settings-badges v-model="userStore.user.badges.count.state" />
+    <settings-nickname v-model="userStore.user.nickname.text.state" />
+    <settings-nickname-color v-model="userStore.user.nickname.color.state" />
+    <settings-on-pasta-copy
       v-model="userStore.user.pasta.oncopy.state"
       :options="{
-        none: $t(wo + 'none'),
-        alert: $t(wo + 'alert'),
-        sound: $t(wo + 'sound'),
-        'alert&sound': $t(wo + 'alert&sound'),
+        none: $t('settings.on-pasta-copied.options.none'),
+        alert: $t('settings.on-pasta-copied.options.alert'),
+        sound: $t('settings.on-pasta-copied.options.sound'),
+        'alert&sound': $t('settings.on-pasta-copied.options.alert&sound'),
       }"
     />
     <dev-only>
@@ -28,10 +23,6 @@
     </dev-only>
   </section>
 </template>
-<script lang="ts">
-export const s = "user.settings." as const;
-const wo = "user.settings.when.pasta-copied.options." as const;
-</script>
 <script setup lang="ts">
 const userStore = useUserStore();
 </script>

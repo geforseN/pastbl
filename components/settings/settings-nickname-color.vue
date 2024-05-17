@@ -4,7 +4,7 @@
       class="label cursor-pointer text-xl font-medium"
       for="nickname-color"
     >
-      <h3>{{ $t(s + "nickname-color") }}</h3>
+      <h3>{{ $t("settings.nickname.color") }}</h3>
     </label>
     <input
       id="nickname-color"
@@ -16,7 +16,5 @@
   </article>
 </template>
 <script lang="ts" setup>
-import { s } from "~/components/user-settings/user-settings.vue";
-
 const nicknameColor = defineModel<string>({ required: true });
 </script>

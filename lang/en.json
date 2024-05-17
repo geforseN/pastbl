@@ -172,20 +172,27 @@
   },
   "chat-pasta-list-hint-on-empty": "No pastas were added yet!",
   "settings": {
+    "_": "Settings",
     "change": "Change settings",
-    "badges-count": "Badges count",
-    "nickname": "Nickname",
-    "nickname-placeholder": "Kappa",
-    "nickname-color": "Nickname color",
-    "when": {
-      "pasta-copied": {
-        "label": "When pasta copied",
-        "options": {
-          "none": "None",
-          "alert": "Show alert",
-          "sound": "Play sound",
-          "alert&sound": "Show alert & play sound"
-        }
+    "nickname": {
+      "_": "Nickname",
+      "placeholder": "Kappa",
+      "color": "Nickname color"
+    },
+    "badges-count": {
+      "_": "Badges count",
+      "input": {
+        "toSmall": "Badges count can not be less than {n}!",
+        "toBig": "Badges count can not be more than {n}!"
+      }
+    },
+    "on-pasta-copied": {
+      "_": "When pasta copied",
+      "options": {
+        "none": "None",
+        "alert": "Show alert",
+        "sound": "Play sound",
+        "alert&sound": "Show alert & play sound"
       }
     }
   },
