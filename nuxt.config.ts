@@ -21,11 +21,11 @@ export default defineNuxtConfig({
       pure: ["console.log"],
     },
   },
-  site: {
-    url: "https://pastbl.vercel.app",
-    title: "Pastas Are Here",
-    description: "Do Something With Pastas",
-  },
+  // site: {
+  //   url: "https://pastbl.vercel.app",
+  //   title: "Pastas Are Here",
+  //   description: "Do Something With Pastas",
+  // },
   nitro: {
     compressPublicAssets: true,
     minify: true,
@@ -40,24 +40,7 @@ export default defineNuxtConfig({
   // FIXME: fix warnings in console
   imports: {
     dirs: ["./composables", "./utils", "./stores"],
-    // presets: [
-    //   {
-    //     package: "@vueuse/core",
-    //     cache: false,
-    //     ignore: [(name) => console.log({ name }) || name === "useAsyncState"],
-    //   },
-    // ],
     imports: [
-      // {
-      //   from: "@vueuse/core",
-      //   name: "useAsyncState",
-      //   as: "useVueUseAsyncState",
-      // },
-      // {
-      //   from: "../../node_modules/@vueuse/core/index.mjs",
-      //   name: "useAsyncState",
-      //   disabled: true,
-      // },
       {
         from: "../../node_modules/@nuxt/ui/dist/runtime/composables/useToast.mjs",
         name: "useToast",
@@ -110,7 +93,7 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxt/ui",
     "@nuxtjs/i18n",
-    "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
+    // "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@vuestic/nuxt",
