@@ -19,3 +19,8 @@ export const pastaTextLength = {
   max: PASTA_TEXT_MAX_LENGTH,
   warning: 500,
 } as const;
+
+export const badgesCount = {
+  min: 0,
+  max: 10,
+} as const;

@@ -18,7 +18,7 @@
         <app-links-pastas-find />
       </li>
       <li class="hidden xl:block">
-        <app-links-user-settings />
+        <settings-link />
       </li>
       <li class="!ml-auto hidden go-brr:block"></li>
       <li class="hidden sm:block">

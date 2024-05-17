@@ -38,7 +38,7 @@
           <app-links-pastas-find />
         </li>
         <li>
-          <app-links-user-settings />
+          <settings-link />
         </li>
         <div class="!mt-auto mr-auto space-y-4">
           <app-theme-select />
