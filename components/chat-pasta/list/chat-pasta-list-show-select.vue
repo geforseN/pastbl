@@ -33,15 +33,14 @@ const props = defineProps<{
 }>();
 
 const so = "pasta.list.show.options.";
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedLogin = computed(() => props.selectedLogin);
 const tOptions = reactive({
   login: computed(() => selectedLogin.value || "username"),
 });
 
-const showEntries = computedWithControl(
-  [locale, () => tOptions.login],
+const showEntries = computed(
   () =>
     [
       [

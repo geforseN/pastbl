@@ -6,15 +6,15 @@ export function useThemes() {
     "system",
   );
 
-  const { locale, t } = useI18n();
-  const entries = computedWithControl(
-    locale,
+  const { t } = useI18n();
+
+  const entries = computed(
     () =>
       [
         ["system", t("theme.$system")],
         ["dark", t("theme.$dark")],
         ["light", t("theme.$light")],
-      ] satisfies [MyKeyValueSchema["app:daisyui-theme"], string][],
+      ] as const satisfies [MyKeyValueSchema["app:daisyui-theme"], string][],
   );
 
   onMounted(() => {

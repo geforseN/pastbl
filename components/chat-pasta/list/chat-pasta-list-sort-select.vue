@@ -22,16 +22,15 @@
 <script lang="ts" setup>
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
-const sortEntries = computedWithControl(
-  locale,
+const sortEntries = computed(
   () =>
     [
       ["newest-first", t("newest-first")],
       ["oldest-first", t("oldest-first")],
       ["last-updated", t("last-updated")],
       ["last-copied", t("last-copied")],
-    ] satisfies [PastaSortStrategy, string][],
+    ] as const satisfies [PastaSortStrategy, string][],
 );
 </script>
