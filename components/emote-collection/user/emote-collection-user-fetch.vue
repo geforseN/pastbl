@@ -108,7 +108,9 @@ async function handleCollectionLoad() {
   isLoadingCollection.value = true;
   await loadCollection(
     async () => {
-      assert.ok(nickname?.length, toast.fail("fetchCollection__emptyInput"));
+      assert.ok(nickname.length, () =>
+        toast.throw("fetchCollection__emptyInput"),
+      );
       const login = toLowerCase(nickname);
       const collection = await userCollectionsStore.loadCollection(login);
       const status = getEmoteIntegrationsStatus(collection);
