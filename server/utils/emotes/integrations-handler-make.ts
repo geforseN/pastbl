@@ -35,7 +35,7 @@ export function makeIntegrationGetter<
 >(source: S, getIntegration: F) {
   return async (...args: Parameters<F>) => {
     try {
-      const integration = await getIntegration(args);
+      const integration = await getIntegration(...args);
       return withReadyStatus(integration);
     } catch (error) {
       return handleEmoteIntegrationError(error, source, ...args);
