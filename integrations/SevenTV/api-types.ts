@@ -134,3 +134,5 @@ export namespace API {
     emote_set: EmoteSetWithEmotes;
   };
 }
+
+export {};

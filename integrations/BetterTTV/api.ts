@@ -1,5 +1,5 @@
 import { UserNotFoundError } from "../UserNotFoundError";
-import type { API } from "./api-types";
+import type { API } from "./api-type";
 import { assert } from "~/utils/error";
 
 export const api = {

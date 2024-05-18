@@ -3,7 +3,7 @@ import {
   definePersonIntegrationMaker,
 } from "../common";
 import { api } from "./api";
-import type { API } from "./api-types";
+import type { API } from "./api-type";
 
 function defineSetMaker<E, T>(name: string, transformEmote: (emote: E) => T) {
   return function (emotes: E[]) {

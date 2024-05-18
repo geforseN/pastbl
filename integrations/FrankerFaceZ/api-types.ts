@@ -108,3 +108,5 @@ export namespace API {
     sets: EmoteSetsRecord;
   };
 }
+
+export {};
