@@ -7,7 +7,6 @@ import {
   makePersonIntegration,
 } from "./api-transform";
 import type { EmoteSetWithEmotes, UserProfile } from "./api-types";
-import { consola } from "consola";
 
 async function getApiUserEmoteSet(profile: UserProfile) {
   if (profile.emote_set.emotes !== undefined) {
@@ -24,7 +23,6 @@ export const SevenTV = {
   async getGlobalIntegration() {
     const apiSet = await api.getGlobalEmotesSet();
     const set = makeGlobalSet(apiSet);
-    consola.info("SevenTV Global Sets", { apiSet, set });
     return makeGlobalIntegration([set]);
   },
   async getPersonIntegration(twitch: TwitchUser) {
