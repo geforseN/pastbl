@@ -25,33 +25,6 @@ export interface ITwitchEmote extends IEmote {
 // const makePersonIntegration = definePersonIntegrationMaker("Twitch");
 const makeGlobalIntegration = defineGlobalIntegrationMaker("Twitch");
 
-class TwitchEmote implements ITwitchEmote {
-  id;
-  isAnimated;
-  token;
-  url;
-
-  isListed = true;
-  isModifier = false;
-  isWrapper = false;
-  source = "Twitch" as const;
-  type: "global" | "channel";
-  // LINK: https://dev.twitch.tv/docs/api/reference/#get-global-emotes
-  // NOTE: width and height are taken from Response Body data.images.url_1x
-  width = 28;
-  height = 28;
-
-  constructor(apiEmote: API.GlobalEmote, type: "global" | "channel") {
-    this.id = apiEmote.id;
-    this.isAnimated = apiEmote.format.includes("animated");
-    this.token = apiEmote.name;
-    this.url = apiEmote.images.url_1x;
-    this.type = type;
-    if (this.isAnimated) {
-      this.url = this.url.replace("/static/", "/animated/") as string;
-    }
-  }
-}
 export interface ITwitchEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
 export interface ITwitchGlobalIntegration
   extends InternalGlobalIntegration<"Twitch", ITwitchEmoteSet> {}
@@ -63,7 +36,26 @@ function getTwitchGlobalEmoteSet(
     name: "Global Emotes",
     source: "Twitch",
     formedAt: Date.now(),
-    emotes: response.data.map((emote) => new TwitchEmote(emote, "global")),
+    emotes: response.data.map((emote) => {
+      const isAnimated = emote.format.includes("animated");
+      let url = emote.images.url_1x;
+      if (isAnimated) {
+        url = url.replace("/static/", "/animated/");
+      }
+      return {
+        id: emote.id,
+        isAnimated,
+        token: emote.name,
+        url,
+        type: "global",
+        source: "Twitch",
+        height: 28,
+        width: 28,
+        isListed: true,
+        isModifier: false,
+        isWrapper: false,
+      };
+    }),
   };
 }
 

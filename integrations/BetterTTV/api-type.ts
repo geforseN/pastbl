@@ -48,3 +48,5 @@ export namespace API {
     sharedEmotes: SharedEmote[];
   };
 }
+
+export {};

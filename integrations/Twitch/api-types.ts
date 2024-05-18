@@ -123,3 +123,5 @@ export namespace API {
     getSearchChannels: ApiTwitchGetSearchChannelsResponse["data"][number];
   };
 }
+
+export {};
