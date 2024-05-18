@@ -1,4 +1,4 @@
-import { emoteSources, type EmoteSource } from "~/integrations";
+import { emoteSources, type EmoteSource } from "~/integrations/emote-source";
 
 export function useEmoteIntegrationsLoad<
   I extends { source: EmoteSource },

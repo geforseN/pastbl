@@ -7,17 +7,19 @@ import type {
   IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
 import {
-  emoteSources,
   type EmoteOf,
   type IEmote,
   type IUserEmoteCollection,
   type IUserEmoteIntegration,
-  type EmoteSource,
-  isEmoteSource,
   isReadyUserIntegration,
   type EmoteT,
   type IEmoteSetT,
 } from "~/integrations";
+import {
+  emoteSources,
+  isEmoteSource,
+  type EmoteSource,
+} from "~/integrations/emote-source";
 import { groupAsync } from "~/utils/promise";
 import { setIntersection } from "~/utils/set";
 
@@ -135,12 +137,12 @@ const MAP = {
 const emoteIds = {
   getUnique(collections: IndexedDBUserEmoteCollection[]) {
     const setsOfEmoteIds = mapFlatGroupBy(
-      [...emoteSources],
+      emoteSources,
       (source) => source,
       () => new Set<string>(),
     );
     const setsOfEmoteIdsToIgnore = mapFlatGroupBy(
-      [...emoteSources],
+      emoteSources,
       (source) => source,
       () => new Set<string>(),
     );
@@ -257,7 +259,7 @@ export const userCollectionsService = {
 };
 
 const sourcesEmotesCache = flatGroupBy(
-  [...emoteSources],
+  emoteSources,
   (source) => source,
   () => new Map(),
 ) as {

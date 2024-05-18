@@ -2,8 +2,8 @@ import {
   findEmoteWrapper,
   getEmoteToken,
   isEmoteModifier,
-  type IEmote,
-} from "~/integrations";
+} from "~/integrations/dom";
+import { type IEmote } from "~/integrations";
 
 export type ExtendedOnHoverHint = ReturnType<typeof useExtendedOnHoverHint>;
 

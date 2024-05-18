@@ -1,15 +1,13 @@
 import { z } from "zod";
-import { emoteSources, isEmoteSource } from "~/integrations";
+import { emoteSources, isEmoteSource } from "~/integrations/emote-source";
 import { uniqueValues } from "~/utils/array";
 
-const sources_ = [...emoteSources];
-
-const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = sources_.reduce(
+const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = emoteSources.reduce(
   (acc, source) => acc + source.length,
-  sources_.length,
+  emoteSources.length,
 );
 
-const EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH = sources_.reduce(
+const EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH = emoteSources.reduce(
   (min, source) => Math.min(min, source.length),
   0,
 );

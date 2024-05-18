@@ -2,8 +2,8 @@ import { emojify, has as hasEmoji } from "node-emoji";
 import {
   makeEmoteAsStringWithModifiersWrapper,
   makeWrappedEmoteAsString,
-  type IEmote,
-} from "~/integrations";
+} from "~/integrations/dom";
+import { type IEmote } from "~/integrations";
 
 export type FindEmoteFn = (token: string) => IEmote | undefined;
 

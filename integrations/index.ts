@@ -1,37 +1,8 @@
 import {
-  type FrankerFaceZGlobalIntegration,
-  type FrankerFaceZUserIntegration,
-  type FrankerFaceZEmote,
-} from "./FrankerFaceZ/index";
-import {
-  type BetterTTVGlobalIntegration,
-  type BetterTTVUserIntegration,
-  type IBetterTTVEmote,
-} from "./BetterTTV/index";
-import {
-  type I7TVGlobalIntegration,
-  type ISevenTVUserIntegration,
-  type I7TVEmote,
-} from "./SevenTV/index";
-import {
   type ITwitchGlobalIntegration,
   type ITwitchUserIntegration,
   type ITwitchEmote,
 } from "./Twitch";
-import { SevenTVWrappedEmoteString } from "./SevenTV/html";
-
-export const emoteSources = [
-  "BetterTTV",
-  "FrankerFaceZ",
-  "SevenTV",
-  "Twitch",
-] as const;
-export type EmoteSource = (typeof emoteSources)[number];
-
-const emoteSourcesSet = new Set<EmoteSource>([...emoteSources]);
-export function isEmoteSource(maybeSource: string): maybeSource is EmoteSource {
-  return emoteSourcesSet.has(maybeSource as EmoteSource);
-}
 
 export interface IEmote {
   id: string;
@@ -51,68 +22,6 @@ export type EmoteOf = {
   Twitch: ITwitchEmote;
 };
 export type EmoteT = EmoteOf[keyof EmoteOf];
-
-const emoteTemplateStrings = {
-  wrapped: {
-    SevenTV: SevenTVWrappedEmoteString,
-  },
-};
-
-export function makeWrappedEmoteAsString(emote: EmoteT) {
-  const templateString = emoteTemplateStrings.wrapped[emote.source];
-  if (templateString) {
-    return templateString(emote) as string;
-  }
-  return `<span class="inline-block">${makeEmoteAsString(emote)}</span>`;
-}
-
-export function getEmoteToken(target: HTMLElement) {
-  const { token } = target.dataset;
-  assert.ok(typeof token === "string");
-  return token;
-}
-
-export function isEmoteModifier(target: Element): target is HTMLElement {
-  return (
-    target instanceof HTMLElement && target.matches("[data-emote-modifier]")
-  );
-}
-
-export function findEmoteWrapper(target: HTMLImageElement) {
-  return target.closest("[data-emote-wrapper]");
-}
-
-export function getEmoteId(target: HTMLElement) {
-  const { emoteId } = target.dataset;
-  assert.ok(typeof emoteId === "string" && emoteId.length);
-  return emoteId;
-}
-
-function makeEmoteAsString(
-  emote: IEmote,
-  getAlt = (emote: IEmote) => emote.token,
-) {
-  const width = "width" in emote ? emote.width : "";
-  const height = "height" in emote ? emote.height : "";
-  return `<img data-token="${emote.token}" class="emote" src="${emote.url}" alt="${getAlt(emote)}" loading="lazy" width="${width}" height="${height}">`;
-}
-
-function makeModifierEmoteAsString(modifierEmote: IEmote) {
-  const style =
-    "pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
-  return `<span data-emote-modifier data-token="${modifierEmote.token}" style="${style}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
-}
-
-export function makeEmoteAsStringWithModifiersWrapper(
-  emote: IEmote,
-  modifierEmotes: IEmote[],
-) {
-  const emoteAsString = makeWrappedEmoteAsString(emote);
-  const modifiersAsString = modifierEmotes
-    .map(makeModifierEmoteAsString)
-    .join(" ");
-  return `<figure data-emote-wrapper style="display: inline-block; position: relative;">${emoteAsString}${modifiersAsString}</figure>`;
-}
 
 export interface IEmoteSet<SourceT extends EmoteSource, EmoteT extends IEmote> {
   emotes: EmoteT[];
@@ -218,10 +127,12 @@ export type IUserEmoteCollection = IBasicUserEmoteCollection & {
   };
 };
 
-export { FrankerFaceZ } from "./FrankerFaceZ/index";
+export { FrankerFaceZ } from "./FrankerFaceZ";
 
-export { BetterTTV as BetterTTV } from "./BetterTTV";
+export { BetterTTV } from "./BetterTTV";
 
-export { SevenTV } from "./SevenTV/index";
+export { SevenTV } from "./SevenTV";
 
 export type { ITwitchUserIntegration } from "./Twitch";
+
+export { type EmoteSource, emoteSources, isEmoteSource } from "./emote-source";

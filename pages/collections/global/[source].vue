@@ -9,10 +9,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { emoteSources } from "~/integrations";
+import { emoteSources } from "~/integrations/emote-source";
 
 const maybeSource = getRouteStringParam("source", toLowerCase);
 const source =
-  [...emoteSources].find((source) => toLowerCase(source) === maybeSource) ||
-  raise();
+  emoteSources.find((source) => toLowerCase(source) === maybeSource) || raise();
 </script>

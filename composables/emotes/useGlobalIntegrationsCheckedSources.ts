@@ -1,9 +1,9 @@
-import { emoteSources, type EmoteSource } from "~/integrations";
+import { emoteSources, type EmoteSource } from "~/integrations/emote-source";
 
 export function useGlobalIntegrationsCheckedSources() {
   const checkedSources = useIndexedDBKeyValue(
     "global-collections:checked-sources",
-    [...emoteSources],
+    emoteSources,
   );
 
   return {

@@ -1,10 +1,10 @@
 import { idb } from "~/client-only/IndexedDB";
-import { emoteSources, type EmoteSource } from "~/integrations";
-import type {
-  SettledEmoteIntegrationsRecord,
-  SettledEmoteIntegration,
+import { emoteSources, type EmoteSource } from "~/integrations/emote-source";
+import {
+  makeEmptyIntegration,
+  type SettledEmoteIntegrationsRecord,
+  type SettledEmoteIntegration,
 } from "~/integrations/integrations";
-import { makeEmptyIntegration } from "~/integrations/integrations";
 
 const emptyIntegrations = Object.freeze(
   flatGroupBySource(
