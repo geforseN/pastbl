@@ -1,5 +1,5 @@
 import { idb } from "../IndexedDB";
-import type { EmoteSource, IEmote } from "~/integrations";
+import type { IEmote, EmoteSource } from "~/integrations";
 
 export const emotesIDB = {
   async put(emotes: IEmote[]) {

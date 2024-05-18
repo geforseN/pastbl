@@ -1,10 +1,11 @@
-import { EmoteSource, emoteSources } from "~/integrations";
+import { EmoteSource, emoteSources } from "~/integrations/emote-source";
 import { BetterTTV } from "~/integrations/BetterTTV";
 import { FrankerFaceZ } from "~/integrations/FrankerFaceZ";
 import { SevenTV } from "~/integrations/SevenTV";
 import { Twitch } from "~/integrations/Twitch";
 import { flatGroupBySource } from "~/utils/emote-collection";
 
+// NOTE: this functions will always return resolved promises because in makeIntegrationGetter error caught and object with status="failed" & reason is returned
 export const personIntegrationsGetters = {
   BetterTTV: makeIntegrationGetter("BetterTTV", BetterTTV.getPersonIntegration),
   FrankerFaceZ: makeIntegrationGetter(
@@ -51,8 +52,6 @@ export async function getUserAllEmoteIntegrations(twitch: TwitchUser) {
   };
 }
 
-const allEmoteSources = [...emoteSources];
-
 export function getUserAllEmoteIntegrations2(user: TwitchUser) {
-  return getPersonEmoteIntegrations(allEmoteSources, user);
+  return getPersonEmoteIntegrations(emoteSources, user);
 }

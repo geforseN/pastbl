@@ -17,7 +17,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getEmoteToken } from "~/integrations";
+import { getEmoteToken } from "~/integrations/dom";
 import type { CanFindEmote } from "~/utils/pasta-dom";
 
 const props = defineProps<

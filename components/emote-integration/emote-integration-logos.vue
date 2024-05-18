@@ -16,5 +16,5 @@
   </span>
 </template>
 <script setup lang="ts">
-import { emoteSources } from "~/integrations";
+import { emoteSources } from "~/integrations/emote-source";
 </script>

@@ -75,7 +75,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getEmoteId, isEmoteSource } from "~/integrations";
+import { getEmoteId } from "~/integrations/dom";
+import { isEmoteSource } from "~/integrations/emote-source";
 import { emotesIDB } from "~/client-only/services";
 
 const { login } = defineProps<{

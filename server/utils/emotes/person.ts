@@ -1,7 +1,7 @@
 import type { IUserEmoteCollection } from "~/integrations";
 import { flatGroupBy } from "~/utils/object";
 
-export async function getUserEmoteCollection(login: TwitchUserLogin) {
+export async function getPersonEmoteCollection(login: TwitchUserLogin) {
   const twitch = await getTwitchUser(login);
   const integrations = await getUserAllEmoteIntegrations(twitch);
   return <IUserEmoteCollection>{
@@ -15,7 +15,7 @@ export async function getUserEmoteCollection(login: TwitchUserLogin) {
 
 export async function getUsersEmoteCollections(logins: TwitchUserLogin[]) {
   const collections = await Promise.all(
-    logins.map((login) => getUserEmoteCollection(login)),
+    logins.map((login) => getPersonEmoteCollection(login)),
   );
   const grouped = flatGroupBy(
     collections,
