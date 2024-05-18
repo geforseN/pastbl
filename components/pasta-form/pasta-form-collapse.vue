@@ -126,13 +126,14 @@ watch(useMagicKeys().i, () => {
 });
 whenever(() => $formCollapse.isOpen, focusOnTextarea);
 
-function canPopulate() {
-  return Promise.all([
+async function canPopulate() {
+  await Promise.all([
     until(() => pastaStore.text.isRestored).toBeTruthy({
-      timeout: 3_000,
+      timeout: 3000,
     }),
     until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);
+  return true;
 }
 </script>
 <style scoped>
