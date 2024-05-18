@@ -48,6 +48,7 @@ function defineEmoteSetMaker(type: string) {
       emotes: set.emotes.map(makeEmote),
       id: set.id,
       capacity: set.capacity,
+      source: "SevenTV" as const,
     };
   };
 }
