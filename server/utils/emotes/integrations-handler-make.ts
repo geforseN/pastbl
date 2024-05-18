@@ -7,11 +7,11 @@ import { findErrorMessage } from "~/utils/error";
 function handleEmoteIntegrationError(
   fail: unknown,
   source: EmoteSource,
-  twitch: TwitchUser,
+  twitch?: TwitchUser,
 ) {
   const reason = findErrorMessage(
     fail,
-    `Failed to load ${source} integration of ${twitch.nickname}`,
+    `Failed to load ${source} integration${twitch ? `for ${twitch.nickname}` : ""}`,
   );
   return {
     status: "failed" as const,
@@ -20,7 +20,7 @@ function handleEmoteIntegrationError(
   };
 }
 
-function withReadyStatus<I extends IUserEmoteIntegration>(integration: I) {
+function withReadyStatus<I extends object>(integration: I) {
   return {
     ...integration,
     status: "ready" as const,

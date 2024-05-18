@@ -12,6 +12,8 @@ import type {
   EmoteRelatedPerson,
   EmoteSetsRecord,
 } from "./api-types";
+import { assert } from "~/utils/error";
+import { isLowercase } from "~/utils/string";
 
 type MappedEmoteSet = Unwrap<Omit<EmoteSet, "id"> & { id: `${number}` }>;
 
