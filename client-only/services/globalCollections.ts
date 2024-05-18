@@ -24,13 +24,13 @@ export const service = {
   async loadAll() {
     const all = await api.getAll();
     const values = objectValues(all);
-    await storage.put(...values);
+    await storage.putMany(values);
     return all;
   },
   async loadMany(sources: EmoteSource[]) {
-    const integrations = await api.getMany(sources);
-    const values = objectValues(integrations);
-    await storage.put(...values);
+    const res = await api.getMany(sources);
+    const values = objectValues(res.integrations);
+    await storage.putMany(values);
     return values;
   },
   async getAll(): Promise<SettledEmoteIntegrationsRecord> {
@@ -55,12 +55,12 @@ const storage = {
     const collectionsIdb = await idb.collections;
     return await collectionsIdb.global.getAll();
   },
-  async put(...integrations: SettledEmoteIntegration<EmoteSource>[]) {
+  async put(integration: SettledEmoteIntegration<EmoteSource>) {
     const collectionsIdb = await idb.collections;
-    assert.ok(integrations.length);
-    if (integrations.length === 1) {
-      return await collectionsIdb.global.put(integrations[0]);
-    }
+    return await collectionsIdb.global.put(integration);
+  },
+  async putMany(integrations: SettledEmoteIntegration<EmoteSource>[]) {
+    const collectionsIdb = await idb.collections;
     return await Promise.all(
       integrations.map((collection) => collectionsIdb.global.put(collection)),
     );
