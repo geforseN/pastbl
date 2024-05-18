@@ -110,6 +110,7 @@ export function makeChannelSets(setsRecord: EmoteSetsRecord, capacity: number) {
         name: set.title,
         id: set.id,
         type: "global" as const,
+        source: "FrankerFaceZ" as const,
         emotes: set.emoticons.map(makeChannelEmote),
         capacity,
       };
@@ -123,6 +124,7 @@ function transformGlobalSet(set: MappedEmoteSet) {
     name: set.title,
     id: set.id,
     type: "global" as const,
+    source: "FrankerFaceZ" as const,
     emotes: set.emoticons.map(makeGlobalEmote),
   };
 }
@@ -135,6 +137,7 @@ function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
     name: set.title,
     id: set.id,
     type: "specific" as const,
+    source: "FrankerFaceZ" as const,
     emotes: set.emoticons.map(makeSpecificEmote),
     allowedTo: {
       twitchIds,
