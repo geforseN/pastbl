@@ -1,8 +1,5 @@
-import {
-  definePersonIntegrationMaker,
-  defineGlobalIntegrationMaker,
-} from "../common";
-import type { API } from "./api-types";
+import { defineGlobalIntegrationMaker } from "../common";
+import type { ChatEmotesResponse, TwitchApi } from "./api-types";
 import { fetchTwitchChatEmotes, fetchTwitchGlobalEmotes } from "./api";
 import type {
   InternalGlobalIntegration,
@@ -11,7 +8,6 @@ import type {
   InternalUserEmoteIntegration,
   IEmoteCollectionOwner,
 } from "~/integrations";
-import type { TwitchApi } from "~/server/utils/twitch/twitch-api.types";
 import { groupBy, objectEntries } from "~/utils/object";
 import { assert } from "~/utils/error";
 
@@ -22,7 +18,6 @@ export interface ITwitchEmote extends IEmote {
   height: number;
 }
 
-// const makePersonIntegration = definePersonIntegrationMaker("Twitch");
 const makeGlobalIntegration = defineGlobalIntegrationMaker("Twitch");
 
 export interface ITwitchEmoteSet extends IEmoteSet<"Twitch", ITwitchEmote> {}
@@ -30,7 +25,7 @@ export interface ITwitchGlobalIntegration
   extends InternalGlobalIntegration<"Twitch", ITwitchEmoteSet> {}
 
 function getTwitchGlobalEmoteSet(
-  response: API.ChatEmotesResponse,
+  response: ChatEmotesResponse,
 ): ITwitchEmoteSet {
   return {
     name: "Global Emotes",
@@ -78,7 +73,7 @@ export function createUserEmote(
   };
 }
 
-export function makeTwitchGlobalIntegration(response: API.ChatEmotesResponse) {
+export function makeTwitchGlobalIntegration(response: ChatEmotesResponse) {
   const set = getTwitchGlobalEmoteSet(response);
   return makeGlobalIntegration([set]);
 }

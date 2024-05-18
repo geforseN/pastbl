@@ -6,15 +6,15 @@ import {
   makeOwner,
   makePersonIntegration,
 } from "./api-transform";
-import type { API } from "./api-types";
+import type { EmoteSetWithEmotes, UserProfile } from "./api-types";
 
-async function getApiUserEmoteSet(profile: API.UserProfile) {
+async function getApiUserEmoteSet(profile: UserProfile) {
   if (profile.emote_set.emotes !== undefined) {
-    return profile.emote_set as API.EmoteSetWithEmotes;
+    return profile.emote_set as EmoteSetWithEmotes;
   }
   const set = (await api.getPersonSet(
     profile.emote_set.id,
-  )) as API.EmoteSetWithEmotes;
+  )) as EmoteSetWithEmotes;
   assert.ok(set.emotes, "Failed to load person emotes");
   return set;
 }
