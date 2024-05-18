@@ -3,7 +3,13 @@ import {
   definePersonIntegrationMaker,
 } from "../common";
 import { api } from "./api";
-import type { API } from "./api-type";
+import type {
+  ChannelEmote,
+  Emote,
+  GlobalEmote,
+  SharedEmote,
+  User,
+} from "./api-types";
 
 function defineSetMaker<E, T>(name: string, transformEmote: (emote: E) => T) {
   return function (emotes: E[]) {
@@ -15,7 +21,7 @@ function defineSetMaker<E, T>(name: string, transformEmote: (emote: E) => T) {
   };
 }
 
-function makeEmote<E extends API.Emote>(
+function makeEmote<E extends Emote>(
   emote: E,
   additional: { type: string } & Record<string, unknown>,
 ) {
@@ -33,7 +39,7 @@ function makeEmote<E extends API.Emote>(
 
 const makePersonIntegration = definePersonIntegrationMaker("BetterTTV");
 
-function makeOwner(bttv: API.User, twitch: TwitchUser) {
+function makeOwner(bttv: User, twitch: TwitchUser) {
   return {
     avatarUrl: bttv.avatar,
     id: bttv.id,
@@ -42,7 +48,7 @@ function makeOwner(bttv: API.User, twitch: TwitchUser) {
   };
 }
 
-const makeChannelEmote = (emote: API.ChannelEmote) =>
+const makeChannelEmote = (emote: ChannelEmote) =>
   makeEmote(emote, {
     type: "channel",
     isModifier: false,
@@ -50,7 +56,7 @@ const makeChannelEmote = (emote: API.ChannelEmote) =>
 
 const makeChannelSet = defineSetMaker("Channel emotes", makeChannelEmote);
 
-const makeSharedEmote = (emote: API.SharedEmote) =>
+const makeSharedEmote = (emote: SharedEmote) =>
   makeEmote(emote, {
     type: "shared",
     isModifier: false,
@@ -62,7 +68,7 @@ const makeSharedSet = defineSetMaker("Shared emotes", makeSharedEmote);
 
 const makeGlobalIntegration = defineGlobalIntegrationMaker("BetterTTV");
 
-const makeGlobalEmote = (emote: API.GlobalEmote) =>
+const makeGlobalEmote = (emote: GlobalEmote) =>
   makeEmote(emote, {
     type: "global",
     isModifier: emote.modifier,

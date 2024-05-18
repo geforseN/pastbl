@@ -4,11 +4,18 @@ import {
   definePersonIntegrationMaker,
 } from "../common";
 import { api } from "./api";
-import type { API } from "./api-types";
+import type {
+  EmoteSet,
+  UserStruct,
+  GlobalStruct,
+  Emote,
+  EmoteRelatedPerson,
+  EmoteSetsRecord,
+} from "./api-types";
 
-type MappedEmoteSet = Unwrap<Omit<API.EmoteSet, "id"> & { id: `${number}` }>;
+type MappedEmoteSet = Unwrap<Omit<EmoteSet, "id"> & { id: `${number}` }>;
 
-function makeOwner(profile: API.UserStruct) {
+function makeOwner(profile: UserStruct) {
   const { user, badges } = profile;
   if (user.emote_sets.length) {
     consola.warn(
@@ -52,7 +59,7 @@ export const FrankerFaceZ = {
   },
 };
 
-function makeEmoteRelatedPerson(person: API.EmoteRelatedPerson) {
+function makeEmoteRelatedPerson(person: EmoteRelatedPerson) {
   const { name: login } = person;
   assert.ok(isLowercase(login));
   return {
@@ -62,7 +69,7 @@ function makeEmoteRelatedPerson(person: API.EmoteRelatedPerson) {
   };
 }
 
-function makeEmote<E extends API.Emote>(
+function makeEmote<E extends Emote>(
   emote: E,
   additional: { type: string } & Record<string, unknown>,
 ) {
@@ -82,20 +89,17 @@ function makeEmote<E extends API.Emote>(
   };
 }
 
-function makeMappedEmoteSet(set: API.EmoteSet) {
+function makeMappedEmoteSet(set: EmoteSet) {
   return {
     ...set,
     id: set.id.toString(),
   } as MappedEmoteSet;
 }
 
-const makeChannelEmote = (emote: API.Emote) =>
+const makeChannelEmote = (emote: Emote) =>
   makeEmote(emote, { type: "channel" });
 
-export function makeChannelSets(
-  setsRecord: API.EmoteSetsRecord,
-  capacity: number,
-) {
+export function makeChannelSets(setsRecord: EmoteSetsRecord, capacity: number) {
   return Object.values(setsRecord)
     .map(makeMappedEmoteSet)
     .map((set) => {
@@ -109,8 +113,7 @@ export function makeChannelSets(
     });
 }
 
-const makeGlobalEmote = (emote: API.Emote) =>
-  makeEmote(emote, { type: "global" });
+const makeGlobalEmote = (emote: Emote) => makeEmote(emote, { type: "global" });
 
 function transformGlobalSet(set: MappedEmoteSet) {
   return {
@@ -121,7 +124,7 @@ function transformGlobalSet(set: MappedEmoteSet) {
   };
 }
 
-const makeSpecificEmote = (emote: API.Emote) =>
+const makeSpecificEmote = (emote: Emote) =>
   makeEmote(emote, { type: "specific" });
 
 function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
@@ -139,7 +142,7 @@ function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
 const makeGlobalIntegration = defineGlobalIntegrationMaker("FrankerFaceZ");
 const makePersonIntegration = definePersonIntegrationMaker("FrankerFaceZ");
 
-function transformGlobalSets(res: API.GlobalStruct) {
+function transformGlobalSets(res: GlobalStruct) {
   const defaultEmoteSetsIds = new Set(res.default_sets.map(String));
   const specificEmoteSets = new Map(Object.entries(res.user_ids));
   return Object.values(res.sets)

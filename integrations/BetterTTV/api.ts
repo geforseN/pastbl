@@ -1,6 +1,6 @@
 import { UserNotFoundError } from "../UserNotFoundError";
-import type { API } from "./api-type";
 import { assert } from "~/utils/error";
+import type { GlobalEmote, User } from "./api-types";
 
 export const api = {
   // LINK: https://betterttv.com/developers/api#user
@@ -10,7 +10,7 @@ export const api = {
     );
     assert.response.ok(response, new UserNotFoundError("BetterTTV", login));
     const json = await response.json();
-    return json as API.User;
+    return json as User;
   },
   // LINK: https://betterttv.com/developers/api#global-emotes
   async getGlobalEmotes() {
@@ -19,6 +19,6 @@ export const api = {
     );
     assert.response.ok(response, "Failed to load BetterTTV global emotes");
     const json = await response.json();
-    return json as API.GlobalEmote[];
+    return json as GlobalEmote[];
   },
 };
