@@ -30,7 +30,6 @@ function getTwitchGlobalEmoteSet(
   return {
     name: "Global Emotes",
     source: "Twitch",
-    formedAt: Date.now(),
     emotes: response.data.map((emote) => {
       const isAnimated = emote.format.includes("animated");
       let url = emote.images.url_1x;
