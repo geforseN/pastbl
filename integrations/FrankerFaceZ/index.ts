@@ -14,6 +14,7 @@ import type {
 } from "./api-types";
 import { assert } from "~/utils/error";
 import { isLowercase } from "~/utils/string";
+import { isNotNullable } from "~/utils/guard";
 
 type MappedEmoteSet = Unwrap<Omit<EmoteSet, "id"> & { id: `${number}` }>;
 
