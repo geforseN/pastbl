@@ -20,11 +20,9 @@ const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
     });
   }
 };
-class EmotesStore {
-  // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
 
-  // options: {onNotSingle: (emotes: IEmote[]) => }
+class EmotesStore {
+  constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
 
   put(emotes: IEmote[]) {
     return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
