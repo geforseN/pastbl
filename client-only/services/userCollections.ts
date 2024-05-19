@@ -1,11 +1,11 @@
 import { emotesIDB } from "./emotes";
-import { idb } from "~/client-only/IndexedDB";
 import type {
   IndexedDBUserEmoteCollection,
   IndexedDBUserEmoteIntegration,
   IndexedDBUserEmoteIntegrationRecord,
   IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
+import { personCollectionAPI } from "~/fetch_api/person";
 import {
   type EmoteOf,
   type IEmote,
@@ -22,39 +22,7 @@ import {
 } from "~/integrations/emote-source";
 import { groupAsync } from "~/utils/promise";
 import { setIntersection } from "~/utils/set";
-
-const IDB = {
-  async _getIDB() {
-    const collectionsIdb = await idb.collections;
-    return collectionsIdb.users;
-  },
-  async get(login: TwitchUserLogin) {
-    const IDB = await this._getIDB();
-    return IDB.get(login);
-  },
-  async getAllLogins() {
-    if (process.server) {
-      return [];
-    }
-    const IDB = await this._getIDB();
-    return IDB.getAllLogins();
-  },
-  async getAll() {
-    if (process.server) {
-      return [];
-    }
-    const IDB = await this._getIDB();
-    return IDB.getAll();
-  },
-  async put(collection: IndexedDBUserEmoteCollection) {
-    const IDB = await this._getIDB();
-    return IDB.put(collection);
-  },
-  async delete(login: TwitchUserLogin) {
-    const IDB = await this._getIDB();
-    return IDB.delete(login);
-  },
-};
+import { store } from "~/client-only/services/emote-collection-person/emote-collection-person-store";
 
 const MAP = {
   FROM_IDB: {
@@ -171,57 +139,24 @@ const emoteIds = {
   },
 };
 
-export const USERS_COLLECTIONS_API = {
-  async get(login: TwitchUserLogin) {
-    const fetchedAt = Date.now();
-    const collection = await $fetch(`/api/v1/collections/users/${login}`);
-    return {
-      ...collection,
-      fetchedAt,
-      receivedAt: Date.now(),
-    };
-  },
-  integrations: {
-    get(source: EmoteSource, login: TwitchUserLogin) {
-      return $fetch(
-        `/api/v1/collections/users/${login}/integrations/${source}`,
-      );
-    },
-    getAll(login: TwitchUserLogin) {
-      return $fetch(`/api/v1/collections/users/${login}/integrations`);
-    },
-    getMany(sources: EmoteSource[], login: TwitchUserLogin) {
-      return $fetch(`/api/v1/collections/users/${login}/integrations`, {
-        params: {
-          sources: sources.join("+"),
-        },
-      });
-    },
-  },
-};
-
 export const userCollectionsService = {
-  getAllLogins() {
-    return IDB.getAllLogins();
-  },
-  getAll() {
-    return IDB.getAll();
-  },
+  getAllLogins: store.getAllLogins,
+  getAll: store.getAll,
   async put(collection: IUserEmoteCollection) {
     const { collection: preparedCollection, emotes } =
       MAP.FOR_IDB.collection.fullPrepare(collection);
     // TODO: make it transactional (not a big deal)
-    await Promise.all([IDB.put(preparedCollection), emotesIDB.put(emotes)]);
+    await Promise.all([store.put(preparedCollection), emotesIDB.put(emotes)]);
   },
   async load(login: TwitchUserLogin) {
-    const collection = await USERS_COLLECTIONS_API.get(login);
+    const collection = await personCollectionAPI.get(login);
     await this.put(collection);
     return collection;
   },
   async delete(login: TwitchUserLogin) {
     const [collection, allCollections] = await Promise.all([
-      IDB.get(login),
-      IDB.getAll(),
+      store.get(login),
+      store.getAll(),
     ]);
     const collectionEmoteIdsRecord =
       MAP.FROM_IDB.collection.getEmoteIds(collection);
@@ -242,13 +177,13 @@ export const userCollectionsService = {
       },
     );
     // TODO: make it transactional (probably not a big deal)
-    await Promise.all([groupAsync(deletePromises), IDB.delete(login)]);
+    await Promise.all([groupAsync(deletePromises), store.delete(login)]);
   },
   async get(login: TwitchUserLogin) {
     if (process.server) {
       return null;
     }
-    const idbCollection = await IDB.get(login);
+    const idbCollection = await store.get(login);
     const emoteTransaction = await emotesIDB.emotesTransaction;
     const collection = await MAP.FROM_IDB.collection.fullPrepare(
       idbCollection,
