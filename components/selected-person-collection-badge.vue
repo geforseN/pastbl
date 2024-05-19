@@ -1,12 +1,12 @@
 <template>
   <div class="flex w-fit gap-1 rounded-btn border border-twitch-accent p-1">
     <twitch-user-avatar :user="twitch" :size="24" />
-    <nuxt-link-locale
-      :to="`/collections/persons/${twitch.login}`"
+    <emote-collection-person-link
       class="link line-clamp-1 break-all font-bold"
+      :login="twitch.login"
     >
       {{ twitch.nickname }}
-    </nuxt-link-locale>
+    </emote-collection-person-link>
   </div>
 </template>
 <script setup lang="ts">

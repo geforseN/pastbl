@@ -37,12 +37,12 @@
           @click="dialog.reveal"
         />
       </emote-collection-person-delete-button-dialog>
-      <nuxt-link-locale
-        :to="`/collections/persons/${login}`"
+      <emote-collection-person-link
+        :login
         class="btn btn-info link btn-xs w-full text-nowrap focus:outline-twitch-accent"
       >
         {{ $t("show-more") }}
-      </nuxt-link-locale>
+      </emote-collection-person-link>
       <refresh-button
         size="xs"
         class="w-full flex-nowrap justify-between"
