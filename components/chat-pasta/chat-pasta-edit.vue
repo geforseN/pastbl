@@ -64,7 +64,10 @@ import type {
   PastaFormEdit,
 } from "#build/components";
 
-const pastaId = getRouteStringParam("pastaId", Number);
+const { pastaId } = defineProps<{
+  pastaId: number;
+}>();
+
 const localePath = useLocalePath();
 
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
