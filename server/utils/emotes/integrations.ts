@@ -37,7 +37,7 @@ export async function getPersonEmoteIntegrations<S extends EmoteSource>(
   return grouped;
 }
 
-export async function getUserAllEmoteIntegrations(twitch: TwitchUser) {
+export async function getPersonAllEmoteIntegrations(twitch: TwitchUser) {
   const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all([
     personIntegrationsGetters.BetterTTV(twitch),
     personIntegrationsGetters.FrankerFaceZ(twitch),
@@ -52,6 +52,6 @@ export async function getUserAllEmoteIntegrations(twitch: TwitchUser) {
   };
 }
 
-export function getUserAllEmoteIntegrations2(user: TwitchUser) {
+export function getPersonAllEmoteIntegrations2(user: TwitchUser) {
   return getPersonEmoteIntegrations(emoteSources, user);
 }
