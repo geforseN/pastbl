@@ -7,18 +7,18 @@
         class="gap-0.5"
         @click="emit('refresh')"
       />
-      <emote-collection-user-delete-button-dialog
+      <emote-collection-person-delete-button-dialog
         v-slot="dialog"
         class="-left-[11.5rem] top-8"
         @delete="emit('delete')"
       >
-        <emote-collection-user-delete-button
+        <emote-collection-person-delete-button
           :disabled="dialog.isRevealed"
           size="sm"
           class="gap-0.5 border border-error-content"
           @click="dialog.reveal"
         />
-      </emote-collection-user-delete-button-dialog>
+      </emote-collection-person-delete-button-dialog>
     </div>
     <div class="flex items-center justify-between p-1">
       <output class="mx-2">
@@ -30,7 +30,7 @@
           )
         }}
       </output>
-      <emote-collection-user-select-button
+      <emote-collection-person-select-button
         :is-collection-selected
         size="sm"
         @click="isCollectionSelected ? emit('unselect') : emit('select')"
@@ -38,7 +38,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps<{
   isCollectionSelected: boolean;
   isCollectionRefreshing: boolean;

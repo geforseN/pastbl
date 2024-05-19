@@ -1,6 +1,6 @@
 import type { IUserEmoteCollection } from "~/integrations";
 
-export function useUsersCollectionsLoad(
+export function usePersonsCollectionsLoad(
   load: (login: TwitchUserLogin) => Promise<IUserEmoteCollection>,
 ) {
   const asyncQueue = ref(new Set<TwitchUserLogin>());

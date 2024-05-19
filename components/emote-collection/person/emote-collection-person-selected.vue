@@ -1,7 +1,7 @@
 <template>
   <div v-if="selected">
     <span class="px-2 font-bold">{{ $t("collections.users.selected") }}</span>
-    <emote-collection-user-chip
+    <emote-collection-person-chip
       class="border-2 border-twitch-accent"
       :nickname="selected.user.twitch.nickname"
       :avatar-url="selected.user.twitch.avatarUrl"

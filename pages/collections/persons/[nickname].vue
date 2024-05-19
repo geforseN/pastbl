@@ -1,6 +1,6 @@
 <template>
   <div class="w-96 space-y-2">
-    <emote-collection-user
+    <emote-collection-person
       :login
       @deleted="async () => await navigateTo(useLocalePath()('/collections'))"
     />

@@ -1,6 +1,6 @@
 import { type IUserEmoteCollection } from "~/integrations";
 
-export function useSelectedUserCollection(
+export function useSelectedPersonCollection(
   getCollection: (
     login: TwitchUserLogin,
   ) => Promise<IUserEmoteCollection | null>,

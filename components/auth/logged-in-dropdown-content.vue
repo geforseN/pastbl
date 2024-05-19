@@ -6,7 +6,7 @@
       <li class="w-fit">
         <nuxt-link-locale
           class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-primary"
-          :to="`/collections/users/${login}`"
+          :to="`/collections/persons/${login}`"
         >
           {{ $t("collection.my") }}
           <icon name="carbon:link" size="16" class="min-h-4 min-w-4" />
