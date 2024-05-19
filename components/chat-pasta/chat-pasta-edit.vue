@@ -59,7 +59,7 @@
 </template>
 <script lang="ts" setup>
 import type {
-  ChatPastaAcceptChangesDialog,
+  ChatPastaEditAcceptChangesDialog,
   ChatPastaTagAddDialog,
   PastaFormEdit,
 } from "#build/components";
@@ -73,7 +73,7 @@ const localePath = useLocalePath();
 const pastaFormEditRef = ref<InstanceType<typeof PastaFormEdit>>();
 const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
 const acceptChangesDialogRef =
-  ref<InstanceType<typeof ChatPastaAcceptChangesDialog>>();
+  ref<InstanceType<typeof ChatPastaEditAcceptChangesDialog>>();
 
 const mustIgnoreRouteLeaveGuard = ref(false);
 
