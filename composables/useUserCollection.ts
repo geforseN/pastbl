@@ -1,7 +1,5 @@
-import {
-  USERS_COLLECTIONS_API as API,
-  userCollectionsService,
-} from "~/client-only/services/userCollections";
+import { userCollectionsService } from "~/client-only/services/userCollections";
+import { personCollectionAPI } from "~/fetch_api/person";
 import { type IUserEmoteCollection } from "~/integrations";
 
 function useCollectionState(initFn) {}
@@ -33,7 +31,7 @@ export function useUserCollection(login: TwitchUserLogin) {
       const collection = await userCollectionsService
         .get(login)
         .catch(async () => {
-          const collection = await API.get(login);
+          const collection = await personCollectionAPI.get(login);
           await userCollectionsService.put(collection);
           return collection;
         });
@@ -58,13 +56,13 @@ export function useUserCollection(login: TwitchUserLogin) {
     IUserEmoteCollection["integrations"]
   >({
     load(source) {
-      return API.integrations.get(source, login);
+      return personCollectionAPI.integrations.get(source, login);
     },
     loadAll() {
-      return API.integrations.getAll(login);
+      return personCollectionAPI.integrations.getAll(login);
     },
     loadMany(sources) {
-      return API.integrations.getMany(sources, login);
+      return personCollectionAPI.integrations.getMany(sources, login);
     },
   });
 
