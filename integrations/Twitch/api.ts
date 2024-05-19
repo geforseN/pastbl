@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { $fetch } from "ofetch";
-import type { TwitchApi } from "./twitch-api.types";
+import type { TwitchApi } from "./api-types";
 
 export const twitchApi = {
   fetch: createTwitchApiFetch(),
