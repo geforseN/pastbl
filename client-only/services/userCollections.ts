@@ -140,8 +140,8 @@ const emoteIds = {
 };
 
 export const userCollectionsService = {
-  getAllLogins: store.getAllLogins,
-  getAll: store.getAll,
+  getAllLogins: () => store.getAllLogins(),
+  getAll: () => store.getAll(),
   async put(collection: IUserEmoteCollection) {
     const { collection: preparedCollection, emotes } =
       MAP.FOR_IDB.collection.fullPrepare(collection);
