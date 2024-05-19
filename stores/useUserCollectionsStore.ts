@@ -5,9 +5,9 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
 
   const collectionsToSelect = useAsyncArray(userCollectionsService.getAll);
 
-  const selectedLogin = useSelectedUserCollectionLogin();
+  const selectedLogin = useSelectedPersonCollectionLogin();
 
-  const selected = useSelectedUserCollection(
+  const selected = useSelectedPersonCollection(
     userCollectionsService.get,
     selectedLogin.state,
   );
@@ -19,7 +19,7 @@ export const useUserCollectionsStore = defineStore("user-collections", () => {
     ]);
   }
 
-  const collectionsLoad = useUsersCollectionsLoad(
+  const collectionsLoad = usePersonsCollectionsLoad(
     userCollectionsService.load.bind(userCollectionsService),
   );
 

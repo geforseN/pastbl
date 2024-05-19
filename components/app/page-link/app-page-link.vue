@@ -23,7 +23,7 @@ const routePageLinkRecord = {
     textKey: "collections.global.link",
   },
   "users-emotes": {
-    path: "/collections/users",
+    path: "/collections/persons",
     textKey: "collections.users.link",
   },
   emotes: {

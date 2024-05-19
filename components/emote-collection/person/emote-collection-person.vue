@@ -10,7 +10,7 @@
     <div v-if="user?.twitch" class="flex gap-2">
       <twitch-user-avatar :user="user.twitch" :size="64" />
       <div class="flex w-72 flex-col justify-between">
-        <emote-collection-user-title
+        <emote-collection-person-title
           :user="user.twitch"
           class="w-min max-w-72 truncate"
         />
@@ -24,7 +24,7 @@
         <div class="skeleton h-5 w-1/3 rounded-none" />
       </div>
     </div>
-    <emote-collection-user-actions
+    <emote-collection-person-actions
       :is-collection-selected="isSelected"
       :is-collection-refreshing="isRefreshing"
       @select="collection.select"
@@ -36,7 +36,7 @@
       <emote-collection-search-emote />
     </dev-only>
     <div v-if="user?.twitch" @mouseover="throttledMouseover">
-      <emote-collection-user-integration
+      <emote-collection-person-integration
         v-for="integration of readyIntegrations"
         :key="integration.source"
         :integration
@@ -49,13 +49,13 @@
       class="space-y-2 bg-base-200"
       @mouseover="throttledMouseover"
     >
-      <emote-collection-user-tagged-pastas
+      <emote-collection-person-tagged-pastas
         :login
         :pastas="userTaggedPastas"
         :can-show-pastas="pastasStore.canShowPastas"
         @remove-pasta="removePasta"
       />
-      <emote-collection-user-own-populated-pastas
+      <emote-collection-person-own-populated-pastas
         :login
         :pastas="pastasStore.pastasToShow"
         :can-show-pastas="pastasStore.canShowPastas"

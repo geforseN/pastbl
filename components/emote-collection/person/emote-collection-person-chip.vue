@@ -13,7 +13,7 @@
           <p class="truncate text-xl font-bold" :title="nickname">
             {{ nickname }}
           </p>
-          <emote-collection-user-select-button
+          <emote-collection-person-select-button
             size="xs"
             class="w-fit"
             :is-collection-selected="isSelected"
@@ -24,21 +24,21 @@
       <emote-collection-formed-at class="w-fit" :time="formedAt" />
     </div>
     <div class="space-y-0.5">
-      <emote-collection-user-delete-button-dialog
+      <emote-collection-person-delete-button-dialog
         v-slot="dialog"
         class="right-0 top-6"
         @delete="emit('delete')"
       >
-        <emote-collection-user-delete-button
+        <emote-collection-person-delete-button
           size="xs"
           :disabled="dialog.isRevealed"
           class="w-full flex-nowrap justify-between"
           icon-class="translate-x-1"
           @click="dialog.reveal"
         />
-      </emote-collection-user-delete-button-dialog>
+      </emote-collection-person-delete-button-dialog>
       <nuxt-link-locale
-        :to="`/collections/users/${login}`"
+        :to="`/collections/persons/${login}`"
         class="btn btn-info link btn-xs w-full text-nowrap focus:outline-twitch-accent"
       >
         {{ $t("show-more") }}
@@ -53,7 +53,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps<{
   formedAt: number;
   nickname: string;

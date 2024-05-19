@@ -5,6 +5,6 @@ export {
 } from "~/composables/emotes/useEmotes";
 export { useGlobalIntegrationsCheckedSources } from "~/composables/emotes/useGlobalIntegrationsCheckedSources";
 export { useGlobalIntegrations } from "~/composables/emotes/useGlobalIntegrations";
-export { useSelectedUserCollection } from "~/composables/emotes/useSelectedUserCollection";
-export { useSelectedUserCollectionLogin } from "~/composables/emotes/useSelectedUserCollectionLogin";
-export { useUsersCollectionsLoad } from "~/composables/emotes/useUsersCollectionsLoad";
+export { useSelectedPersonCollection } from "~/composables/emotes/useSelectedPersonCollection";
+export { useSelectedPersonCollectionLogin } from "~/composables/emotes/useSelectedPersonCollectionLogin";
+export { usePersonsCollectionsLoad } from "~/composables/emotes/usePersonsCollectionsLoad";

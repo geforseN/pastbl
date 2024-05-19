@@ -17,15 +17,15 @@
         />
       </template>
     </app-page-link>
-    <emote-collection-user-fetch ref="fetchRef" />
-    <emote-collection-user-select />
+    <emote-collection-person-fetch ref="fetchRef" />
+    <emote-collection-person-select />
     <app-page-link-main />
   </div>
 </template>
 <script setup lang="ts">
-import type { EmoteCollectionUserFetch } from "#build/components";
+import type { EmoteCollectionPersonFetch } from "#build/components";
 
-const fetchRef = ref<InstanceType<typeof EmoteCollectionUserFetch>>();
+const fetchRef = ref<InstanceType<typeof EmoteCollectionPersonFetch>>();
 
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();

@@ -5,7 +5,7 @@
     :class="mustShow && channels.length && 'border border-accent'"
   >
     <template v-if="mustShow">
-      <emote-collection-user-fetch-channels-search-item
+      <emote-collection-person-fetch-channels-search-item
         v-for="channel of channels"
         :key="channel.id"
         v-bind="channel"

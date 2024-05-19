@@ -1,4 +1,4 @@
-export function useSelectedUserCollectionLogin() {
+export function useSelectedPersonCollectionLogin() {
   const selectedCollectionLogin = useIndexedDBKeyValue(
     "active-user-collection:login",
     "",

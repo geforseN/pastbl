@@ -17,7 +17,7 @@
         {{ login }}
       </option>
     </select>
-    <emote-collection-user-selected />
+    <emote-collection-person-selected />
   </section>
 </template>
 <script setup lang="ts">
