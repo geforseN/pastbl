@@ -1,4 +1,4 @@
-import { PASTAS_API } from "~/fetch_api/pastas";
+import { pastasAPI } from "~/fetch_api/pastas";
 
 function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
   const isPublicPasta = useIndexedDBKeyValue("pasta:is-public", false);
@@ -6,7 +6,7 @@ function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
   return {
     isPublicPasta,
     postPasta() {
-      return PASTAS_API.postPasta(
+      return pastasAPI.postPasta(
         pasta.text.value,
         pasta.tags.value,
         isPublicPasta.state.value,
