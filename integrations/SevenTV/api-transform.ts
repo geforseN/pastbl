@@ -67,5 +67,6 @@ export function makeOwner(profile: UserProfile) {
     emoteCapacity: profile.emote_capacity,
     linkedAt: profile.linked_at,
     style: profile.user.style,
+    pageAddress: `https://7tv.app/users/${profile.user.id}`,
   };
 }
