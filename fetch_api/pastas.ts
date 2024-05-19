@@ -1,4 +1,4 @@
-export const PASTAS_API = {
+export const pastasAPI = {
   postPasta(text: string, tags: string[], isPublic: boolean) {
     return $fetch("/api/v1/pastas", {
       method: "POST",
