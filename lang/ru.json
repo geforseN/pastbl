@@ -9,10 +9,13 @@
   "emotes": {
     "global": "Глобальный эмоуты",
     "person": "Эмоуты персоны",
+    "select": "Выбрать эмоуты",
+    "add": "Добавить эмоуты",
     "$add": "Добавить {emotes}",
     "showingPastasWithOnly": "Пасты показаны только с {emotes}",
     "showingPastasWithPerson": "Пасты показаны с эмоутами {person}"
   },
+  "nobody": "Никто",
   "person": {
     "emoteCollection": {
       "requestForSelect": "Пожалуйста, выберите персону с коллекцией эмоутов"

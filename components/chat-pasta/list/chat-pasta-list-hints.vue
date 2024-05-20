@@ -54,14 +54,6 @@
             class="my-0.5 flex max-w-[342px] flex-col sm:max-w-[420px]"
             v-if="isEmotesLoaded && selectedCollection"
           >
-            <div>
-              {{ "________________" }}
-              <select-person-collection-dropdown
-                class="ml-auto"
-                :collections="userCollectionsStore.collectionsToSelect.state"
-                @select="userCollectionsStore.selectCollection"
-              />
-            </div>
             <i18n-t
               keypath="emotes.showingPastasWithPerson"
               class="flex flex-wrap items-center gap-0.5 px-2 py-0.5"
@@ -74,7 +66,16 @@
               </template>
             </i18n-t>
           </div>
-          <app-hint-add-emotes v-else />
+          <div v-else>
+            <app-hint-add-emotes />
+          </div>
+          <div class="flex justify-between p-1">
+            <add-emotes-button-link />
+            <select-person-collection-dropdown
+              :collections="userCollectionsStore.collectionsToSelect.state"
+              @select="userCollectionsStore.selectCollection"
+            />
+          </div>
         </template>
       </div>
       <template #fallback>
