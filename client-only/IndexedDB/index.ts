@@ -6,22 +6,10 @@ import { kvIdb } from "~/client-only/IndexedDB/keyValue";
 import type {
   IEmote,
   IEmoteSet,
-  IUserEmoteIntegration,
-  FrankerFaceZUserIntegration,
-  FrankerFaceZSet,
-  FrankerFaceZEmote,
-  BetterTTVUserIntegration,
-  IBetterTTVSet,
-  IBetterTTVEmote,
-  ISevenTVUserIntegration,
-  I7TVSet,
-  I7TVEmote,
   EmoteSource,
-  ITwitchUserIntegration,
   InternalGenericUserIntegration,
   IBasicUserEmoteCollection,
 } from "~/integrations";
-import type { ITwitchEmote, ITwitchEmoteSet } from "~/integrations/Twitch";
 import type { SettledEmoteIntegration } from "~/integrations/integrations";
 
 interface GenericIndexedDBUserEmoteIntegration<
