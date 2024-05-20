@@ -9,10 +9,13 @@
   "emotes": {
     "global": "Global emotes",
     "person": "Person emotes",
+    "select": "Select emotes",
+    "add": "Add emotes",
     "$add": "Add {emotes}",
     "showingPastasWithOnly": "Showing pastas with only {emotes}",
     "showingPastasWithPerson": "Showing pastas with {person} emotes"
   },
+  "nobody": "Nobody",
   "person": {
     "emoteCollection": {
       "requestForSelect": "Please select a person emote collection"
