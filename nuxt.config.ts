@@ -21,11 +21,11 @@ export default defineNuxtConfig({
       pure: ["console.log"],
     },
   },
-  // site: {
-  //   url: "https://pastbl.vercel.app",
-  //   title: "Pastas Are Here",
-  //   description: "Do Something With Pastas",
-  // },
+  site: {
+    url: "https://pastbl.vercel.app",
+    title: "Pastas Are Here",
+    description: "Do Something With Pastas",
+  },
   nitro: {
     compressPublicAssets: true,
     minify: true,
@@ -93,7 +93,7 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxt/ui",
     "@nuxtjs/i18n",
-    // "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
+    "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@vuestic/nuxt",
