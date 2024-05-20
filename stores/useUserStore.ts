@@ -78,7 +78,7 @@ export const useUserStore = defineStore("user", () => {
     pastasWorkMode,
     preferences,
     user,
-    async copyPasta(pasta: IDBMegaPasta) {
+    async copyPasta(pasta: OmegaPasta) {
       await copyText(pasta.text, {
         async onSuccess() {
           preferences.onPastaTextCopy();

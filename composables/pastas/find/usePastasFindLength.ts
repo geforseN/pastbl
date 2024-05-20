@@ -27,14 +27,14 @@ function useFindPastasLengthRange({
   };
 }
 
-function isPastaInRange(this: Ref<[number, number]>, pasta: IDBMegaPasta) {
+function isPastaInRange(this: Ref<[number, number]>, pasta: OmegaPasta) {
   return (
     pasta.text.length >= this.value[0] && pasta.text.length <= this.value[1]
   );
 }
 
 export function useFindPastasLength(
-  pastas: Ref<IDBMegaPasta[]>,
+  pastas: Ref<OmegaPasta[]>,
   {
     minCb,
     maxCb,

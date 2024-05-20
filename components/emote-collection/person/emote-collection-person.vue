@@ -103,7 +103,7 @@ const {
 const pastasStore = usePastasStore();
 const userTaggedPastas = computed(() => pastasStore.usersPastasMap.get(login));
 
-async function removePasta(pasta: IDBMegaPasta) {
+async function removePasta(pasta: OmegaPasta) {
   return await pastasStore.removePasta(pasta);
 }
 

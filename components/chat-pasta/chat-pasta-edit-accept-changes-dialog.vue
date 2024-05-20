@@ -38,7 +38,7 @@ const isTextSame = isPastaTextSame.bind(props);
 const isTagsSame = isPastaTagsSame.bind(props);
 
 defineExpose({
-  async execute(pasta: IDBMegaPasta) {
+  async execute(pasta: OmegaPasta) {
     if (isTextSame(pasta) && isTagsSame(pasta)) {
       return;
     }

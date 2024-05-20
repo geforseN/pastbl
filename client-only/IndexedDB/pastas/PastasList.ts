@@ -4,7 +4,7 @@ import type { PastasSchema } from "..";
 export class PastasListStore {
   constructor(private readonly idb: IDBPDatabase<PastasSchema>) {}
 
-  put(pasta: IDBMegaPasta) {
+  put(pasta: OmegaPasta) {
     return this.idb.put("list", pasta);
   }
 

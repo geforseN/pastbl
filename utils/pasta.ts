@@ -15,17 +15,15 @@ export type MegaPasta = BasePasta & {
   validTokens: string[];
 };
 
-export type IDBMegaPasta = MegaPasta & {
+export type OmegaPasta = MegaPasta & {
   id: number;
 };
 
-export type OmegaPasta = IDBMegaPasta;
-
 export function refreshPasta(
-  idbMegaPasta: MaybeRef<IDBMegaPasta>,
-  trimmedText: MaybeRef<string> = megaTrim(toValue(idbMegaPasta).text),
-): IDBMegaPasta {
-  const pasta_ = toValue(idbMegaPasta);
+  omegaPasta: MaybeRef<OmegaPasta>,
+  trimmedText: MaybeRef<string> = megaTrim(toValue(omegaPasta).text),
+): OmegaPasta {
+  const pasta_ = toValue(omegaPasta);
   const text = toValue(trimmedText);
   const pasta = {
     id: pasta_.id,
@@ -56,7 +54,7 @@ function isValidToken(word: string) {
   return true;
 }
 
-export function makeRawPasta(pasta: IDBMegaPasta): IDBMegaPasta {
+export function makeRawPasta(pasta: OmegaPasta): OmegaPasta {
   return {
     ...pasta,
     tags: toRaw([...pasta.tags]),
@@ -94,20 +92,20 @@ export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {
 }
 
 export function isPastaTextSame(
-  this: MaybeRef<{ text: IDBMegaPasta["text"] }>,
-  pasta: MaybeRef<IDBMegaPasta>,
+  this: MaybeRef<{ text: OmegaPasta["text"] }>,
+  pasta: MaybeRef<OmegaPasta>,
 ) {
   return toValue(pasta).text === toValue(this).text;
 }
 
 export function isPastaTagsSame(
-  this: MaybeRef<{ tags: IDBMegaPasta["tags"] }>,
-  pasta: MaybeRef<IDBMegaPasta>,
+  this: MaybeRef<{ tags: OmegaPasta["tags"] }>,
+  pasta: MaybeRef<OmegaPasta>,
 ) {
   return toValue(pasta).tags.toString() === toValue(this).tags.toString();
 }
 
-export function isPastasSame(pasta1: IDBMegaPasta, pasta2: IDBMegaPasta) {
+export function isPastasSame(pasta1: OmegaPasta, pasta2: OmegaPasta) {
   return (
     isPastaTextSame.call(pasta1, pasta2) && isPastaTagsSame.call(pasta1, pasta2)
   );

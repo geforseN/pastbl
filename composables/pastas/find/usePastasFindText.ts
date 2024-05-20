@@ -1,8 +1,8 @@
-function isPastaHasTextOccurrence(this: Ref<string>, pasta: IDBMegaPasta) {
+function isPastaHasTextOccurrence(this: Ref<string>, pasta: OmegaPasta) {
   return pasta.text.toLowerCase().includes(this.value.toLowerCase());
 }
 
-export function useFindPastaText(pastas: Ref<IDBMegaPasta[]>) {
+export function useFindPastaText(pastas: Ref<OmegaPasta[]>) {
   const text = ref("");
   const debouncedText = refDebounced(text, 700);
 

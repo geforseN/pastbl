@@ -8,7 +8,7 @@ export type PastaShowStrategy =
   | "none";
 
 export function usePastasShow(
-  sortedPastas: Ref<IDBMegaPasta[]>,
+  sortedPastas: Ref<OmegaPasta[]>,
   selectedLogin: Ref<SelectableLogin>,
 ) {
   const selectedShowStrategy = useIndexedDBKeyValue(
@@ -31,7 +31,7 @@ export function usePastasShow(
         }
       }
       return map;
-    }, new Map<TwitchUserLogin, IDBMegaPasta[]>()),
+    }, new Map<TwitchUserLogin, OmegaPasta[]>()),
   );
 
   const notSelectedUserPastas = computed(() => {
@@ -54,7 +54,7 @@ export function usePastasShow(
 
   const pastasToShowRecord: Record<
     PastaShowStrategy,
-    ComputedRef<IDBMegaPasta[]>
+    ComputedRef<OmegaPasta[]>
   > = {
     all: computed(() => sortedPastas.value),
     "selected-user": computed(() => selectedUserPastas.value || []),

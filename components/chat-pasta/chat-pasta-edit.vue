@@ -80,8 +80,8 @@ const mustIgnoreRouteLeaveGuard = ref(false);
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
 
-const initialPasta = ref<IDBMegaPasta>();
-const megaPasta = ref<IDBMegaPasta>({
+const initialPasta = ref<OmegaPasta>();
+const megaPasta = ref<OmegaPasta>({
   ...createMegaPasta("", []),
   id: -1,
 });

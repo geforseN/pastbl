@@ -55,7 +55,7 @@ const props = defineProps<Partial<CanFindEmote>>();
 const findEmote = props.findEmote || useEmotesStore().findEmote;
 
 const emit = defineEmits<{
-  removePasta: [IDBMegaPasta];
+  removePasta: [OmegaPasta];
 }>();
 </script>
 <style>

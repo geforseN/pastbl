@@ -52,7 +52,7 @@ export const usePastasStore = defineStore("pastas", () => {
       pastas.push(megaPastaWithId);
       toast.notify("success", "pastaCreated");
     },
-    async removePasta(pasta: IDBMegaPasta) {
+    async removePasta(pasta: OmegaPasta) {
       const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
       await pastasService.moveFromListToBin(pasta);
       pastas.removeAt(index);
@@ -61,12 +61,12 @@ export const usePastasStore = defineStore("pastas", () => {
         pastas.pushAt(index, pasta);
       });
     },
-    async patchPastaLastCopied(pasta: IDBMegaPasta) {
+    async patchPastaLastCopied(pasta: OmegaPasta) {
       const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
       const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
       pastas.mutateAt(index, newPasta);
     },
-    async putPasta(pasta: IDBMegaPasta) {
+    async putPasta(pasta: OmegaPasta) {
       const [index, oldPasta] = await pastas
         .getEntryById(pasta.id)
         .catch(toast.throw);

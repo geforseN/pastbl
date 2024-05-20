@@ -79,7 +79,7 @@ function makeSortedAnyPastas(pastas: MiniPasta[]): AnyPasta[] {
   ];
 }
 
-function makeMiniPasta(pasta: IDBMegaPasta): MiniPasta {
+function makeMiniPasta(pasta: OmegaPasta): MiniPasta {
   return {
     tags: pasta.tags.length ? pasta.tags : undefined,
     text: pasta.text,
@@ -109,7 +109,7 @@ function loadPastasFromFile(event: Event, reader: FileReader) {
   reader.readAsText(files[0]);
 }
 
-export function savePastasToFile(pastasToSave: IDBMegaPasta[]) {
+export function savePastasToFile(pastasToSave: OmegaPasta[]) {
   const link = document.createElement("a");
   const minimalPastas = pastasToSave.map((pasta) => ({
     ...makeMiniPasta(pasta),
