@@ -6,15 +6,7 @@ import type {
   IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
 import { personCollectionAPI } from "~/fetch_api/person";
-import {
-  type EmoteOf,
-  type IEmote,
-  type IUserEmoteCollection,
-  type IUserEmoteIntegration,
-  isReadyUserIntegration,
-  type EmoteT,
-  type IEmoteSetT,
-} from "~/integrations";
+import { type IEmote, isReadyUserIntegration } from "~/integrations";
 import {
   emoteSources,
   isEmoteSource,
@@ -140,8 +132,8 @@ const emoteIds = {
 };
 
 export const userCollectionsService = {
-  getAllLogins: () => store.getAllLogins(),
-  getAll: () => store.getAll(),
+  getAllLogins: store.getAllLogins.bind(store),
+  getAll: store.getAll.bind(store),
   async put(collection: IUserEmoteCollection) {
     const { collection: preparedCollection, emotes } =
       MAP.FOR_IDB.collection.fullPrepare(collection);

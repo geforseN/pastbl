@@ -130,9 +130,6 @@ export class OnHoverHintEmote {
     });
   }
 
-  // /////////////////////////
-  // /////////////////////////
-
   images = computed(() => {
     return OnHoverHintEmote.#sizes
       .filter((size) => this.#canHaveSize(size))
