@@ -1,5 +1,5 @@
 import { emoteSources, type EmoteSource } from "~/integrations/emote-source";
-import { service } from "~/client-only/services/globalCollections";
+import { service } from "~/client-only/services/global-integrations";
 import type {
   SettledEmoteIntegrationsRecord,
   SettledEmoteIntegration,

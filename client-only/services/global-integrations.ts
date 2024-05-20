@@ -5,6 +5,7 @@ import {
   type SettledEmoteIntegrationsRecord,
   type SettledEmoteIntegration,
 } from "~/integrations/integrations";
+import { globalIntegrationsAPI as api } from "~/fetch_api/global-integrations";
 
 const emptyIntegrations = Object.freeze(
   flatGroupBySource(
@@ -64,19 +65,5 @@ const storage = {
     return await Promise.all(
       integrations.map((collection) => collectionsIdb.global.put(collection)),
     );
-  },
-};
-
-const api = {
-  get<S extends EmoteSource>(source: S) {
-    return $fetch(`/api/v1/collections/global/integrations/${source}`);
-  },
-  getMany(sources: EmoteSource[]) {
-    return $fetch("/api/v1/collections/global/integrations", {
-      query: { sources: sources.join("+") },
-    });
-  },
-  getAll() {
-    return $fetch("/api/v1/collections/global/integrations/all");
   },
 };
