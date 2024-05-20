@@ -104,12 +104,12 @@ export interface EmotesSchema extends DBSchema {
 
 export interface PastasSchema extends DBSchema {
   list: {
-    key: IDBMegaPasta["id"];
-    value: IDBMegaPasta;
+    key: OmegaPasta["id"];
+    value: OmegaPasta;
   };
   bin: {
-    key: IDBMegaPasta["id"];
-    value: IDBMegaPasta;
+    key: OmegaPasta["id"];
+    value: OmegaPasta;
   };
 }
 

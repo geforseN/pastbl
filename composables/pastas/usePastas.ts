@@ -1,6 +1,4 @@
-export function usePastas<T extends IDBMegaPasta>(
-  getPastas: () => Promise<T[]>,
-) {
+export function usePastas<T extends OmegaPasta>(getPastas: () => Promise<T[]>) {
   const _pastas = useMyAsyncState(getPastas, []);
 
   return {

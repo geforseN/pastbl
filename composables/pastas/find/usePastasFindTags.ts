@@ -1,8 +1,8 @@
 export function useFindPastasTags(
-  allPastas: Ref<IDBMegaPasta[]>,
-  showedPastas: Ref<IDBMegaPasta[]>,
+  allPastas: Ref<OmegaPasta[]>,
+  showedPastas: Ref<OmegaPasta[]>,
   textToFind: Ref<string>,
-  pastasWithTextOccurrence: Ref<IDBMegaPasta[]>,
+  pastasWithTextOccurrence: Ref<OmegaPasta[]>,
 ) {
   const selectedPastaTags = ref<string[]>([]);
   const mustRespectSelectedTags = ref(true);

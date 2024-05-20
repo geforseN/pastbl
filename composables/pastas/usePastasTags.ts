@@ -1,4 +1,4 @@
-export function usePastasTags(pastas: Ref<IDBMegaPasta[]>) {
+export function usePastasTags(pastas: Ref<OmegaPasta[]>) {
   const allTags = computed(() => pastas.value.flatMap((pasta) => pasta.tags));
 
   return {

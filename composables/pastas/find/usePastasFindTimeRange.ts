@@ -1,11 +1,8 @@
 export function usePastaFindTimeRange<
-  PK extends keyof Pick<
-    IDBMegaPasta,
-    "createdAt" | "lastCopiedAt" | "updatedAt"
-  >,
+  PK extends keyof Pick<OmegaPasta, "createdAt" | "lastCopiedAt" | "updatedAt">,
 >(
   pastaTimePropertyKey: PK,
-  pastas: Ref<IDBMegaPasta[]>,
+  pastas: Ref<OmegaPasta[]>,
   ascendingPastas = computed(() =>
     pastas.value
       .filter((pasta) => pasta[pastaTimePropertyKey] !== undefined)

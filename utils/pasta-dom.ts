@@ -38,7 +38,7 @@ function findModifiers(
 
 function populateToken(
   this: {
-    validTokens: IDBMegaPasta["validTokens"];
+    validTokens: OmegaPasta["validTokens"];
     indexesOfPastaTokensToSkip: Set<number>;
     findEmote: FindEmoteFn;
   },
@@ -71,7 +71,7 @@ function populateToken(
 
 export function populatePasta(
   pastaTextContainer: HTMLElement,
-  validTokens: IDBMegaPasta["validTokens"],
+  validTokens: OmegaPasta["validTokens"],
   findEmote: FindEmoteFn,
 ) {
   const pastaText = pastaTextContainer.innerText;
