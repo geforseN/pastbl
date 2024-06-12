@@ -1,3 +1,5 @@
+import { VaSlider, VaCounter } from "vuestic-ui";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   experimental: {
@@ -104,6 +106,12 @@ export default defineNuxtConfig({
   ],
   vuestic: {
     css: false,
+    config: {
+      components: {
+        VaCounter,
+        VaSlider,
+      },
+    },
   },
   vue: {
     propsDestructure: true,
