@@ -3,6 +3,7 @@
     <chat-pasta-main-data
       :tags
       :text
+      @populateText="(container) => $emit('populate', container)"
       @show-tag-context-menu="handleContextMenu"
     >
       <template #beforeColon>
@@ -43,19 +44,6 @@ const emit = defineEmits<{
   copy: [];
   edit: [];
 }>();
-
-const isPopulateEmitCalledOnce = ref(false);
-
-const pastaTextContainerRef = ref();
-
-useIntersectionObserver(pastaTextContainerRef, ([entry]) => {
-  if (!entry.isIntersecting || isPopulateEmitCalledOnce.value) {
-    return;
-  }
-  assert.ok(entry.target instanceof HTMLElement);
-  emit("populate", entry.target);
-  isPopulateEmitCalledOnce.value = true;
-});
 
 function handleContextMenu(event: MouseEvent) {
   if (!(event.target instanceof HTMLElement)) {

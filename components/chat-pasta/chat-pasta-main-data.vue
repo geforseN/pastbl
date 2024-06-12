@@ -5,7 +5,7 @@
     >
       <slot name="beforeColon" />
       <span aria-hidden="true">{{ ": " }}</span>
-      <span ref="pastaTextContainerRef" class="twitch-text chat-pasta-text">
+      <span :ref="tryEmitPopulate" class="twitch-text chat-pasta-text">
         {{ text }}
       </span>
     </div>
@@ -31,9 +31,20 @@ defineProps<{
   tags: string[];
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
+  populateText: [container: HTMLElement];
   showTagContextMenu: [event: MouseEvent];
 }>();
+
+let isCalledOnce = false;
+function tryEmitPopulate(element: unknown) {
+  if (isCalledOnce) {
+    return;
+  }
+  assert.ok(element instanceof HTMLElement);
+  emit("populateText", element);
+  isCalledOnce = true;
+}
 
 defineSlots<{
   beforeColon: () => unknown;
