@@ -14,7 +14,6 @@
         :active="active"
         :size-dependencies="[pasta.text]"
         :data-index="index"
-        class=""
       >
         <chat-pasta
           :key="`${pasta.id}:${pasta.text}`"
