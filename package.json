@@ -80,5 +80,11 @@
     "**/*": "prettier --write --ignore-unknown",
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "repository": {
+    "url": "https://github.com/geforsen/pastbl"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
