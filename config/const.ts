@@ -24,3 +24,8 @@ export const badgesCount = {
   min: 0,
   max: 10,
 } as const;
+
+export const nicknameLength = {
+  min: 3,
+  max: 32,
+};
