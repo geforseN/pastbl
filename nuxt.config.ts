@@ -2,13 +2,29 @@ import { VaSlider, VaCounter } from "vuestic-ui";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 3,
+  },
   experimental: {
     viewTransition: true,
     typedPages: true,
   },
+  $production: {
+    modules: ["@nuxtjs/seo"],
+    site: {
+      defaultLocale: "en",
+    },
+    sitemap: {
+      sources: ["/api/__sitemap__/sanity", "/api/__sitemap__/urls"],
+    },
+    ogImage: {
+      enabled: false,
+    },
+  },
   features: {
     devLogs: true,
   },
+  debug: true,
   devtools: {
     enabled: true,
     timeline: {
@@ -95,7 +111,6 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxt/ui",
     "@nuxtjs/i18n",
-    "@nuxtjs/seo" /* LINK: https://nuxtseo.com/ */,
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@vuestic/nuxt",

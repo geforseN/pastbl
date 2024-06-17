@@ -1,6 +1,6 @@
 import { and, eq, sql } from "drizzle-orm";
-import { db } from "~/db";
-import { pastas, pastasTags, type Pasta } from "~/db/schema";
+import { db } from "~~/db";
+import { pastas, pastasTags, type Pasta } from "~~/db/schema";
 
 export function createPasta(
   text: string,

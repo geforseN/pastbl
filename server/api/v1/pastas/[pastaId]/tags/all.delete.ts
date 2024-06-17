@@ -1,4 +1,4 @@
-import { removeAllPastaTags } from "~/db/pastas_tags";
+import { removeAllPastaTags } from "~~/db/pastas_tags";
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event);

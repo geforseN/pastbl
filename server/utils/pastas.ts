@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
 import { isEmptyObject } from "~/utils/guard";
-import { pastaTextLength } from "~/config/const";
+import { pastaTextLength } from "~~/config/const";
 
 export const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 

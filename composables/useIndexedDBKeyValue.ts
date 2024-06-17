@@ -32,7 +32,7 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
     throw reason;
   };
 
-  if (process.client) {
+  if (import.meta.client) {
     idbValue
       .get()
       .catch(() => undefined)

@@ -1,4 +1,4 @@
-import { pastaTextLength } from "~/config/const";
+import { pastaTextLength } from "~~/config/const";
 
 export type PastaTags = string[];
 

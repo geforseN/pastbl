@@ -2,7 +2,7 @@ import { idb } from "~/client-only/IndexedDB";
 
 export const pastasService = {
   async getAll() {
-    if (process.server) {
+    if (import.meta.server) {
       return [];
     }
     const pastasIdb = await idb.pastas;

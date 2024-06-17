@@ -5,7 +5,7 @@ import {
   type SettledEmoteIntegrationsRecord,
   type SettledEmoteIntegration,
 } from "~/integrations/integrations";
-import { globalIntegrationsAPI as api } from "~/fetch_api/global-integrations";
+import { globalIntegrationsAPI as api } from "~/resources/global-integrations";
 
 const emptyIntegrations = Object.freeze(
   flatGroupBySource(
@@ -35,7 +35,7 @@ export const service = {
     return values;
   },
   async getAll(): Promise<SettledEmoteIntegrationsRecord> {
-    if (process.server) {
+    if (import.meta.server) {
       return emptyIntegrations;
     }
     const stored = await storage.getAll();

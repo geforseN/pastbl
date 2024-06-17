@@ -6,7 +6,7 @@ import {
   pastaTagLength,
   pastaTagsCount,
   pastaTextLength,
-} from "~/config/const";
+} from "~~/config/const";
 import { ExtendedError } from "~/utils/error";
 
 export const FAILURE_COLOR = "red" as const;

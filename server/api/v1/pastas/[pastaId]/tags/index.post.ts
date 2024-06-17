@@ -1,4 +1,4 @@
-import { addPastaTags } from "~/db/pastas_tags";
+import { addPastaTags } from "~~/db/pastas_tags";
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event);
