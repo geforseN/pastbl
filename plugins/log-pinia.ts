@@ -2,7 +2,7 @@ import type { PiniaPluginContext } from "pinia";
 
 function piniaLogPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    if (process.dev) {
+    if (import.meta.dev) {
       // eslint-disable-next-line no-console
       console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}`);
     }

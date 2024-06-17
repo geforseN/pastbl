@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { pastaTagLength } from "~/config/const";
+import { pastaTagLength } from "~~/config/const";
 
 const modelValue = defineModel<string>({ required: true });
 

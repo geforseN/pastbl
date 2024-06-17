@@ -28,7 +28,7 @@
   </article>
 </template>
 <script lang="ts" setup>
-import { nicknameLength } from "~/config/const";
+import { nicknameLength } from "~~/config/const";
 
 const nickname = defineModel<string>({
   required: true,

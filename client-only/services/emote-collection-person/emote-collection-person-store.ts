@@ -18,14 +18,14 @@ class EmoteCollectionsPersonStore {
   }
 
   async getAllLogins() {
-    if (process.server) {
+    if (import.meta.server) {
       return [];
     }
     return await this.#idb((store) => store.getAllLogins());
   }
 
   async getAll() {
-    if (process.server) {
+    if (import.meta.server) {
       return [];
     }
     return await this.#idb((store) => store.getAll());

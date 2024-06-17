@@ -1,6 +1,6 @@
 import { createRouter, defineEventHandler, useBase } from "h3";
 import { consola } from "consola";
-import { globalEmoteIntegrationsGetters } from "~/server/utils/emotes/global";
+import { globalEmoteIntegrationsGetters } from "~~/server/utils/emotes/global";
 
 const router = createRouter();
 

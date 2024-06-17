@@ -19,7 +19,7 @@
   </article>
 </template>
 <script lang="ts" setup>
-import { badgesCount } from "~/config/const";
+import { badgesCount } from "~~/config/const";
 
 const model = defineModel<number>({ required: true });
 </script>

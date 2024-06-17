@@ -6,7 +6,7 @@ export function openIdb<T extends DBSchema>(
   version: number,
   upgrade: OpenDBCallbacks<T>["upgrade"],
 ) {
-  if (process.server) {
+  if (import.meta.server) {
     return Promise.resolve({} as IDBPDatabase<T>);
   }
   return openDB<T>(name, version, { upgrade });

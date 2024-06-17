@@ -8,7 +8,7 @@ export function withLogSync<T>(
       },
 ): T {
   const returnValue = cbOrValue instanceof Function ? cbOrValue() : cbOrValue;
-  if (process.dev) {
+  if (import.meta.dev) {
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
       console.log({ [optionsOrKey]: returnValue });

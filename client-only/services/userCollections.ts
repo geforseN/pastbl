@@ -5,7 +5,7 @@ import type {
   IndexedDBUserEmoteIntegrationRecord,
   IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
-import { personCollectionAPI } from "~/fetch_api/person";
+import { personCollectionAPI } from "~/resources/person";
 import { type IEmote, isReadyUserIntegration } from "~/integrations";
 import {
   emoteSources,
@@ -172,7 +172,7 @@ export const userCollectionsService = {
     await Promise.all([groupAsync(deletePromises), store.delete(login)]);
   },
   async get(login: TwitchUserLogin) {
-    if (process.server) {
+    if (import.meta.server) {
       return null;
     }
     const idbCollection = await store.get(login);

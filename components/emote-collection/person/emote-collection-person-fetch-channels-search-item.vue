@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Channel } from "~/server/utils/search-channels";
+import type { Channel } from "~~/server/utils/search-channels";
 
 defineProps<Channel>();
 

@@ -1,5 +1,5 @@
 import { userCollectionsService } from "~/client-only/services/userCollections";
-import { personCollectionAPI } from "~/fetch_api/person";
+import { personCollectionAPI } from "~/resources/person";
 import { type IUserEmoteCollection } from "~/integrations";
 
 function useCollectionState(initFn) {}
@@ -26,7 +26,7 @@ export function useUserCollection(login: TwitchUserLogin) {
     { immediate: false },
   );
 
-  if (process.client) {
+  if (import.meta.client) {
     collection.execute(0, async () => {
       const collection = await userCollectionsService
         .get(login)
@@ -66,6 +66,10 @@ export function useUserCollection(login: TwitchUserLogin) {
     },
   });
 
+  function ensureCollectionLoaded() {
+    assert.ok(collection.state.value, "TODO add i18n message");
+  }
+
   return {
     ...collection,
     user: computed(() => collection.state.value?.user),
@@ -75,7 +79,7 @@ export function useUserCollection(login: TwitchUserLogin) {
       userCollectionsStore.isCollectionSelected(login),
     ),
     refreshIntegration(integration) {
-      assert.ok(collection.state.value);
+      ensureCollectionLoaded();
       return collection.execute(0, async () => {
         const newIntegration = await integrationsLoad.execute(
           integration.source,

@@ -1,8 +1,8 @@
 import { and, eq } from "drizzle-orm";
-import { pastasTags, type Pasta } from "~/db/schema";
-import { db } from "~/db";
+import { pastasTags, type Pasta } from "~~/db/schema";
+import { db } from "~~/db";
 import { setDifferenceOtTwoSets } from "~/utils/set";
-import { pastaTagsCount } from "~/config/const";
+import { pastaTagsCount } from "~~/config/const";
 
 function addPastaTag(pastaId: Pasta["id"], value: string) {
   return db.transaction(async (tx) => {

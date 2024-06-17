@@ -33,13 +33,9 @@ export default {
   },
   plugins: [
     require("daisyui"),
-    require("@savvywombat/tailwindcss-grid-areas"),
-    require("tailwindcss-debug-screens"),
-    require("tailwind-heropatterns")({
-      patterns: ["graph-paper"],
-    }),
+    process.dev && require("tailwindcss-debug-screens"),
     require("tailwind-scrollbar"),
-  ],
+  ].filter(Boolean),
   daisyui: {
     themes: [
       {

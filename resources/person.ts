@@ -1,4 +1,4 @@
-import type { EmoteSource } from "~/integrations/emote-source";
+import type { EmoteSource } from "~~/integrations/emote-source";
 
 export const personCollectionAPI = {
   async get(login: TwitchUserLogin) {

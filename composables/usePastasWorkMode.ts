@@ -42,7 +42,7 @@ export function usePastasWorkMode(
   );
 
   watchImmediate(canHaveServerMode, (canHaveServerMode) => {
-    if (process.client && !canHaveServerMode) {
+    if (import.meta.client && !canHaveServerMode) {
       isClient.value = true;
     }
   });
