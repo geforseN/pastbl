@@ -15,7 +15,7 @@
       <li>
         <button
           class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-red-500"
-          @click="emit('logout')"
+          @click="$emit('logout')"
         >
           {{ $t("logout") }}
           <icon name="ic:baseline-log-out" size="16" class="min-h-4 min-w-4" />
@@ -29,7 +29,7 @@ defineProps<{
   login: TwitchUserLogin;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   logout: [];
 }>();
 </script>

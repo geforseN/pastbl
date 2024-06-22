@@ -8,7 +8,7 @@
         styles!.backgroundBase,
       ]"
     >
-      <app-hint-on-hover-close-button @click="emit('close')" />
+      <app-hint-on-hover-close-button @click="$emit('close')" />
       <div
         class="flex items-center gap-1 overflow-x-auto p-1 scrollbar"
         :class="styles!.scrollbar"
@@ -91,7 +91,7 @@
       v-if="emoji"
       class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
     >
-      <app-hint-on-hover-close-button @click="emit('close')" />
+      <app-hint-on-hover-close-button @click="$emit('close')" />
       <span class="text-6xl">{{ emoji }}</span>
       <span class="space-x-1">
         <!-- TODO: ? add i18n for emoji name ? -->
@@ -116,7 +116,7 @@ const props = defineProps<{
   emoji?: Nullish<string>;
   emoteModifiers?: Nullish<IEmote[]>;
 }>();
-const emit = defineEmits<{
+defineEmits<{
   close: [];
 }>();
 const containerRef = ref<HTMLDivElement>();

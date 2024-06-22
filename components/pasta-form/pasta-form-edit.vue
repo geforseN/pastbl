@@ -56,11 +56,11 @@
     <pasta-form-tags
       class="xs:max-w-[420px]"
       :tags="tags"
-      @remove-tag="(tag) => emit('removeTag', tag)"
+      @remove-tag="(tag) => $emit('removeTag', tag)"
     />
     <pasta-form-tags-input
       v-model="tag"
-      @add-tag="(tag) => emit('addTag', tag)"
+      @add-tag="(tag) => $emit('addTag', tag)"
     />
   </div>
 </template>
@@ -78,7 +78,7 @@ defineProps<{
 
 const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
 
-const emit = defineEmits<{
+defineEmits<{
   decline: [];
   accept: [];
   addTag: [string];

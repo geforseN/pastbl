@@ -5,12 +5,12 @@
         :is-in-process="isCollectionRefreshing"
         size="sm"
         class="gap-0.5"
-        @click="emit('refresh')"
+        @click="$emit('refresh')"
       />
       <emote-collection-person-delete-button-dialog
         v-slot="dialog"
         class="-left-[11.5rem] top-8"
-        @delete="emit('delete')"
+        @delete="$emit('delete')"
       >
         <emote-collection-person-delete-button
           :disabled="dialog.isRevealed"
@@ -33,7 +33,7 @@
       <emote-collection-person-select-button
         :is-collection-selected
         size="sm"
-        @click="isCollectionSelected ? emit('unselect') : emit('select')"
+        @click="isCollectionSelected ? $emit('unselect') : $emit('select')"
       />
     </div>
   </div>
@@ -45,7 +45,7 @@ defineProps<{
   // TODO: collection: {status: SomeEmoteCollection['status']};
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   refresh: [];
   delete: [];
   select: [];
