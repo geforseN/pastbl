@@ -22,7 +22,7 @@ export const usePastasStore = defineStore("pastas", () => {
   const canShowPastas = computedAsync(async () => {
     await Promise.all([
       until(() => useEmotesStore().canUseUserEmotes).toBe(true),
-      until(pastas.isReady).toBe(true, { timeout: 3_500 }),
+      until(pastas.isReady).toBe(true, { timeout: 3500 }),
     ]).catch(() => {});
     return true;
   }, false);

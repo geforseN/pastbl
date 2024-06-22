@@ -5,7 +5,7 @@ async function playClickSound() {
 export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
-    debounce: 1_000,
+    debounce: 1000,
   });
   const badgesCount = useIndexedDBKeyValue("badges:count", 1);
   const pastaOncopy = useIndexedDBKeyValue("pasta:oncopy", "alert");

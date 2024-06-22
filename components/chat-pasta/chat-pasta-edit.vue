@@ -110,7 +110,7 @@ async function refreshPastaState() {
 
 async function canPopulate() {
   await Promise.all([
-    until(() => pastasStore.pastas.isReady).toBeTruthy({ timeout: 3_000 }),
+    until(() => pastasStore.pastas.isReady).toBeTruthy({ timeout: 3000 }),
     until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);
   await nextTick();
