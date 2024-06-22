@@ -32,7 +32,7 @@ function makeEmote<E extends IBetterTTV.API.Emote>(
 
 export const makePersonIntegration = definePersonIntegrationMaker("BetterTTV");
 
-export function makeOwner(bttv: IBetterTTV.API.User, twitch: TwitchUser) {
+export function makeOwner(bttv: IBetterTTV.API.User, twitch: PersonTwitch) {
   return {
     avatarUrl: bttv.avatar,
     id: bttv.id,

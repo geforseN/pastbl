@@ -8,10 +8,10 @@
     "
   >
     <div v-if="user?.twitch" class="flex gap-2">
-      <twitch-user-avatar :user="user.twitch" :size="64" />
+      <twitch-user-avatar :twitch="user.twitch" :size="64" />
       <div class="flex w-72 flex-col justify-between">
         <emote-collection-person-title
-          :user="user.twitch"
+          :twitch="user.twitch"
           class="w-min max-w-72 truncate"
         />
         <emote-collection-formed-at v-if="formedAt" :time="formedAt" />
@@ -40,7 +40,7 @@
         v-for="integration of readyIntegrations"
         :key="integration.source"
         :integration
-        :user="user.twitch"
+        :twitch="user.twitch"
         @refresh="async () => await collection.refreshIntegration(integration)"
       />
     </div>

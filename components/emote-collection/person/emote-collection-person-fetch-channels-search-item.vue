@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center gap-2 bg-base-content/30 p-1">
     <twitch-user-avatar
-      :user="{ avatarUrl: thumbnailUrl, login, nickname }"
+      :twitch="{ avatarUrl: thumbnailUrl, login, nickname }"
       :size="24"
     />
     <span class="line-clamp-1 break-all" :title="nickname">

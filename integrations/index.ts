@@ -38,7 +38,7 @@ export function isReadyUserIntegration<T extends object>(
 
 export type IBasicUserEmoteCollection = {
   user: {
-    twitch: TwitchUser;
+    twitch: PersonTwitch;
   };
   formedAt: number;
 };
