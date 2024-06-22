@@ -35,7 +35,7 @@
         >
           <pasta-form-pasta-length :pasta-text="trimmedText" />
           <button
-            v-if="tags.length"
+            v-if="tags.length > 0"
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >

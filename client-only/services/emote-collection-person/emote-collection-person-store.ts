@@ -9,34 +9,34 @@ class EmoteCollectionsPersonStore {
     private readonly idb: typeof import("~/client-only/IndexedDB").idb,
   ) {}
 
-  #idb<T>(fn: (store: UsersCollectionsStore) => T) {
-    return this.idb.collections.then((db) => fn(db.users));
+  #withStore<T>(callback: (store: UsersCollectionsStore) => T) {
+    return this.idb.collections.then((database) => callback(database.users));
   }
 
   async get(login: TwitchUserLogin) {
-    return await this.#idb((store) => store.get(login));
+    return await this.#withStore((store) => store.get(login));
   }
 
   async getAllLogins() {
     if (import.meta.server) {
       return [];
     }
-    return await this.#idb((store) => store.getAllLogins());
+    return await this.#withStore((store) => store.getAllLogins());
   }
 
   async getAll() {
     if (import.meta.server) {
       return [];
     }
-    return await this.#idb((store) => store.getAll());
+    return await this.#withStore((store) => store.getAll());
   }
 
   async put(collection: IndexedDBUserEmoteCollection) {
-    return await this.#idb((store) => store.put(collection));
+    return await this.#withStore((store) => store.put(collection));
   }
 
   async delete(login: TwitchUserLogin) {
-    return await this.#idb((store) => store.delete(login));
+    return await this.#withStore((store) => store.delete(login));
   }
 }
 

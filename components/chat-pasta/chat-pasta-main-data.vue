@@ -10,7 +10,7 @@
       </span>
     </div>
     <div
-      v-if="tags.length"
+      v-if="tags.length > 0"
       class="-mb-0.5 mt-0.5 inline-flex flex-wrap gap-0.5"
       @contextmenu="$emit('showTagContextMenu', $event)"
     >

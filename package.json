@@ -11,6 +11,8 @@
     "prepare": "husky",
     "analyze": "nuxi analyze",
     "test": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lintfix": "prettier --write --list-different . && lint:js --fix"
@@ -28,6 +30,8 @@
     "@vueuse/nuxt": "^10.11.0",
     "daisyui": "^4.12.2",
     "drizzle-kit": "^0.22.7",
+    "eslint": "^9.5.0",
+    "eslint-plugin-unicorn": "^54.0.0",
     "eslint-plugin-vue": "^9.26.0",
     "fake-indexeddb": "^6.0.0",
     "happy-dom": "^14.12.0",
@@ -40,12 +44,12 @@
     "nuxt-icon": "^0.6.10",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.4",
+    "tailwind-merge": "^2.3.0",
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.4.4",
     "tailwindcss-debug-screens": "^2.2.1",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0",
-    "eslint": "^9.5.0"
+    "typescript": "^5.5.0-beta",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "@antfu/utils": "^0.7.8",

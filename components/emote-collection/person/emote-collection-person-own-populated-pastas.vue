@@ -3,7 +3,7 @@
     <h2 class="p-1 text-xl font-bold">
       {{ $t("pastas.withPersonEmotes", { login }) }}
     </h2>
-    <div v-if="pastas.length" @mouseover="findEmoteInOpenedCollection">
+    <div v-if="pastas.length > 0" @mouseover="findEmoteInOpenedCollection">
       <chat-pasta-list
         v-if="canShowPastas"
         data-compact
@@ -32,7 +32,7 @@ defineEmits<{
   removePasta: [OmegaPasta];
 }>();
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const findEmoteInOpenedCollection = useThrottleFn(
   onHoverHint.makeMouseoverHandler({

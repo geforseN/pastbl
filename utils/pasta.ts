@@ -40,14 +40,15 @@ export function refreshPasta(
 
 // LINK: http://facweb.cs.depaul.edu/sjost/it212/documents/ascii-pr.htm
 // NOTE: SPACE and DELETE is not included (SPACE === 32, DELETE === 127)
-// PROBABLY can drop more charCodes, but no idea which characters are valid for emote name
-function isValidASCIICharCode(charCode: number) {
+// PROBABLY can drop more code points, but no idea which characters are valid for emote name
+function isValidASCIICodePoint(charCode: number) {
   return charCode > 32 && charCode < 127;
 }
 
 function isValidToken(word: string) {
-  for (let i = 0; i < word.length; i++) {
-    if (!isValidASCIICharCode(word.charCodeAt(i))) {
+  for (let index = 0; index < word.length; index++) {
+    const codePoint = word.codePointAt(index);
+    if (codePoint && !isValidASCIICodePoint(codePoint)) {
       return false;
     }
   }
@@ -112,7 +113,7 @@ export function isPastasSame(pasta1: OmegaPasta, pasta2: OmegaPasta) {
 }
 
 export function makeMegaPasta(text: string, tags: string[] = []): MegaPasta {
-  return createMegaPasta(text, tags.slice());
+  return createMegaPasta(text, [...tags]);
 }
 
 export function makeMegaPasta2(basePasta: BasePasta) {

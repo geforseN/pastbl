@@ -55,7 +55,7 @@
 const f = "collections.users.fetch.";
 
 async function loadCollection(
-  getCollectionAsyncFn: () => Promise<void>,
+  getCollection: () => Promise<void>,
   options: {
     beforeLoad?: () => MaybePromise<void>;
     onEnd?: () => MaybePromise<void>;
@@ -63,7 +63,7 @@ async function loadCollection(
   } = {},
 ) {
   try {
-    const collectionPromise = getCollectionAsyncFn();
+    const collectionPromise = getCollection();
     await options.beforeLoad?.();
     await collectionPromise;
   } catch (error) {

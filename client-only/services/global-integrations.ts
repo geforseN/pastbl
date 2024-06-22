@@ -29,8 +29,8 @@ export const service = {
     return all;
   },
   async loadMany(sources: EmoteSource[]) {
-    const res = await api.getMany(sources);
-    const values = objectValues(res.integrations);
+    const response = await api.getMany(sources);
+    const values = objectValues(response.integrations);
     await storage.putMany(values);
     return values;
   },

@@ -2,7 +2,7 @@
   <nav class="navbar border-b-2 border-b-secondary/50 p-1">
     <ul class="contents space-x-2">
       <li
-        class="border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content bg-hero-graph-paper"
+        class="bg-hero-graph-paper border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
       >
         <nuxt-link-locale
           class="pastbl__logo relative bottom-px text-5xl"
@@ -20,14 +20,14 @@
       <li class="hidden xl:block">
         <settings-link />
       </li>
-      <li class="!ml-auto hidden go-brr:block"></li>
+      <li class="!ml-auto hidden go-brr:block" />
       <li class="hidden sm:block">
         <app-locale-select />
       </li>
       <li class="hidden sm:block">
         <app-theme-select />
       </li>
-      <li class="!ml-auto go-brr:hidden"></li>
+      <li class="!ml-auto go-brr:hidden" />
       <li class="hidden min-[380px]:block">
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"

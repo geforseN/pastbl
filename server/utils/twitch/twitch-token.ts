@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { z } from "zod";
 import { $fetch } from "ofetch";
+import { environment } from "../environment";
 
 const twitchTokenBaseOptions = {
   method: "POST",
@@ -21,7 +22,7 @@ export type TwitchToken = z.infer<typeof twitchTokenSchema>;
 export function revokeTwitchToken(token: TwitchToken) {
   return $fetch("/oauth2/revoke", {
     ...twitchTokenBaseOptions,
-    body: `client_id=${env.TWITCH_APP_CLIENT_ID}&token=${token.access_token}`,
+    body: `client_id=${environment.TWITCH_APP_CLIENT_ID}&token=${token.access_token}`,
   });
 }
 
@@ -41,7 +42,7 @@ export function removeTwitchTokenFromStorage() {
 
 const getTwitchTokenOptions = {
   ...twitchTokenBaseOptions,
-  body: `client_id=${env.TWITCH_APP_CLIENT_ID}&client_secret=${env.TWITCH_APP_CLIENT_SECRET}&grant_type=client_credentials`,
+  body: `client_id=${environment.TWITCH_APP_CLIENT_ID}&client_secret=${environment.TWITCH_APP_CLIENT_SECRET}&grant_type=client_credentials`,
 };
 
 const cool_fetch = $fetch.create(getTwitchTokenOptions);

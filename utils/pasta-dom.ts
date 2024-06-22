@@ -4,17 +4,18 @@ import {
   makeWrappedEmoteAsString,
 } from "~/integrations/dom";
 import { type IEmote } from "~/integrations";
+import { assert } from "~/utils/error";
 
-export type FindEmoteFn = (token: string) => IEmote | undefined;
+export type FindEmote = (token: string) => IEmote | undefined;
 
 export interface CanFindEmote {
-  findEmote: FindEmoteFn;
+  findEmote: FindEmote;
 }
 
 function findModifiers(
   tokenIndex: number,
   tokens: string[],
-  findEmote: FindEmoteFn,
+  findEmote: FindEmote,
 ) {
   const emotes: IEmote[] = [];
   const indexes: number[] = [];
@@ -40,7 +41,7 @@ function populateToken(
   this: {
     validTokens: OmegaPasta["validTokens"];
     indexesOfPastaTokensToSkip: Set<number>;
-    findEmote: FindEmoteFn;
+    findEmote: FindEmote;
   },
   token: string,
   index: number,
@@ -60,7 +61,7 @@ function populateToken(
     return token;
   }
   const modifiers = findModifiers(index, tokens, this.findEmote);
-  if (!modifiers.emotes.length) {
+  if (modifiers.emotes.length === 0) {
     return makeWrappedEmoteAsString(tokenAsEmote);
   }
   for (const index of modifiers.indexes) {
@@ -72,15 +73,16 @@ function populateToken(
 export function populatePasta(
   pastaTextContainer: HTMLElement,
   validTokens: OmegaPasta["validTokens"],
-  findEmote: FindEmoteFn,
+  findEmote: FindEmote,
 ) {
-  const pastaText = pastaTextContainer.innerText;
-
-  const populatedWords = pastaText.split(" ").map(populateToken, {
-    validTokens,
-    findEmote,
-    indexesOfPastaTokensToSkip: new Set(),
-  } satisfies ThisParameterType<typeof populateToken>);
-
+  const pastaText = pastaTextContainer.textContent;
+  assert.ok(pastaText);
+  const populatedWords = pastaText.split(" ").map(
+    populateToken.bind({
+      validTokens,
+      findEmote,
+      indexesOfPastaTokensToSkip: new Set<number>(),
+    }),
+  );
   pastaTextContainer.innerHTML = populatedWords.join(" ");
 }

@@ -36,11 +36,14 @@ const emotesStore = useEmotesStore();
 
 const props = defineProps<{
   text: string;
-  canPopulate: () => MaybePromise<void>;
+  canPopulate: () => MaybePromise<boolean>;
 }>();
 
 async function repopulateText() {
-  await props.canPopulate();
+  const canContinue = await props.canPopulate();
+  if (!canContinue) {
+    return;
+  }
   const validTokens = makeValidTokensFromPastaText(props.text);
   populatePasta(
     pastaTextContainerRef.value,
@@ -51,7 +54,7 @@ async function repopulateText() {
 
 watch(() => props.text, repopulateText);
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.allEmotesHandler,

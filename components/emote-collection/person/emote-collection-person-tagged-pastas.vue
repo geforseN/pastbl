@@ -33,7 +33,7 @@ defineEmits<{
   removePasta: [OmegaPasta];
 }>();
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const findEmoteForHoverHint = useThrottleFn(
   onHoverHint.allEmotesHandler,

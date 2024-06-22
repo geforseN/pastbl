@@ -3,7 +3,7 @@
     <chat-pasta-main-data
       :tags
       :text
-      @populateText="(container) => $emit('populate', container)"
+      @populate-text="(container) => $emit('populate', container)"
       @show-tag-context-menu="handleContextMenu"
     >
       <template #beforeColon>

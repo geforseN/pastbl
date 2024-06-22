@@ -25,7 +25,7 @@
     />
     <client-only>
       <chat-pasta-preview
-        v-show="!!trimmedText.length"
+        v-show="trimmedText.length > 0"
         :text="trimmedText"
         :can-populate
       />
@@ -114,6 +114,7 @@ async function canPopulate() {
     until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);
   await nextTick();
+  return true;
 }
 
 onMounted(async () => {

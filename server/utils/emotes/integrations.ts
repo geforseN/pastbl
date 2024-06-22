@@ -1,4 +1,4 @@
-import { EmoteSource, emoteSources } from "~/integrations/emote-source";
+import { type EmoteSource, emoteSources } from "~/integrations/emote-source";
 import { BetterTTV } from "~/integrations/BetterTTV";
 import { FrankerFaceZ } from "~/integrations/FrankerFaceZ";
 import { SevenTV } from "~/integrations/SevenTV";

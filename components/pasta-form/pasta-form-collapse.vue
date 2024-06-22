@@ -86,7 +86,7 @@
       />
       <client-only>
         <chat-pasta-preview
-          v-show="!!pastaStore.pastaTrimmedText.length"
+          v-show="pastaStore.pastaTrimmedText.length > 0"
           :text="pastaStore.pastaTrimmedText"
           :can-populate
         />
@@ -129,7 +129,7 @@ whenever(() => $formCollapse.isOpen, focusOnTextarea);
 async function canPopulate() {
   await Promise.all([
     until(() => pastaStore.text.isRestored).toBeTruthy({
-      timeout: 3000,
+      timeout: 3_000,
     }),
     until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);

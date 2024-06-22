@@ -33,7 +33,7 @@ export function assertNeverEver(
 
 function assertResponseOk(
   response: Response,
-  messageOrError: string | Error = Error(
+  messageOrError: string | Error = new Error(
     `HTTP error, status = ${response.status} error: ${response.text()}`,
   ),
 ) {
@@ -60,12 +60,12 @@ export const assert: {
 
 export function raise(messageOrError?: string | Error): never {
   if (typeof messageOrError === "string") {
-    // eslint-disable-next-line unicorn/prefer-type-error
+    /* eslint-disable-next-line unicorn/prefer-type-error */
     throw new Error(messageOrError);
   } else if (messageOrError instanceof Error) {
     throw messageOrError;
   } else {
-    // eslint-disable-next-line unicorn/prefer-type-error
+    /* eslint-disable-next-line unicorn/prefer-type-error */
     throw new Error("Assertion failed");
   }
 }

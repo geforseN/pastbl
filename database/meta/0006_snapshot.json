@@ -1,0 +1,174 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.pastas": {
+      "name": "pastas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar(1984)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publisher_twitch_id": {
+          "name": "publisher_twitch_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "publicity": {
+          "name": "publicity",
+          "type": "pasta_publicity",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'public'"
+        }
+      },
+      "indexes": {
+        "publisher": {
+          "columns": [
+            {
+              "expression": "publisher_twitch_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
+          "name": "publisher",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
+        },
+        "publisher_newest": {
+          "columns": [
+            {
+              "expression": "publisher_twitch_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
+          "name": "publisher_newest",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.pastas_tags": {
+      "name": "pastas_tags",
+      "schema": "",
+      "columns": {
+        "pasta_id": {
+          "name": "pasta_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tag": {
+          "name": "tag",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "pastas": {
+          "columns": [
+            {
+              "expression": "pasta_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
+          "name": "pastas",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
+        },
+        "values": {
+          "columns": [
+            {
+              "expression": "tag",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
+          "name": "values",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "pastas_tags_pasta_id_pastas_id_fk": {
+          "name": "pastas_tags_pasta_id_pastas_id_fk",
+          "tableFrom": "pastas_tags",
+          "columnsFrom": ["pasta_id"],
+          "tableTo": "pastas",
+          "columnsTo": ["id"],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "pastas_tags_pasta_id_tag_pk": {
+          "name": "pastas_tags_pasta_id_tag_pk",
+          "columns": ["pasta_id", "tag"]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "public.pasta_publicity": {
+      "name": "pasta_publicity",
+      "schema": "public",
+      "values": ["public", "private"]
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "id": "520341d7-5d72-4149-9d94-7ff773698b8e",
+  "prevId": "f19e44c5-ce64-42aa-9208-3bf4d91f50f3"
+}

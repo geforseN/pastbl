@@ -6,21 +6,100 @@
     <slot name="leftColumn">
       <chat-pasta-list-hints>
         <client-only>
-          <chat-pasta-list
-            v-if="pastasStore.canShowPastas"
-            :items="pastasStore.pastasToShow"
-            @mouseover="throttledMouseover"
-            @remove-pasta="(pasta) => pastasStore.removePasta(pasta)"
-          />
+          <u-tabs :items="tabs" class="border border-base-content">
+            <template #item="{ item }">
+              <div
+                v-if="
+                  item.key === 'server' &&
+                  !userStore.pastasWorkMode.canHaveServerMode
+                "
+              >
+                __ CAN NOT HAVE SERVER PASTAS __
+              </div>
+              <div
+                v-if="
+                  item.key === 'server' &&
+                  userStore.pastasWorkMode.canHaveServerMode
+                "
+                ref="serverPastasListRef"
+                :class="[...chatPastaListConfig.tailwind.heights]"
+                class="overflow-y-auto"
+                @mouseover="throttledMouseover"
+              >
+                <chat-pasta
+                  v-for="pasta of serverPastas.list.value"
+                  :key="`${pasta.id}:${pasta.text}`"
+                  v-bind="pasta"
+                  @copy="userStore.copyPasta(pasta)"
+                  @edit="
+                    navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))
+                  "
+                  @remove="
+                    () => {
+                      /* TODO: move to file chat-pasta-server-list */
+                    }
+                  "
+                  @populate="
+                    (pastaTextContainer) => {
+                      populatePasta(
+                        pastaTextContainer,
+                        makeValidTokensFromPastaText(pasta.text),
+                        emotesStore.findEmote,
+                      );
+                    }
+                  "
+                  @show-tag-context-menu="
+                    (event, tag) => {
+                      console.log(event, tag);
+                    }
+                  "
+                >
+                  <template #creatorData>
+                    <chat-pasta-creator-data
+                      :badges-count="userStore.user.badges.count.state"
+                      :nickname="userStore.user.nickname_"
+                      :nickname-color="userStore.user.debounced.nickname.color"
+                    />
+                  </template>
+                </chat-pasta>
+              </div>
+              <chat-pasta-list
+                v-if="item.key === 'client' && pastasStore.canShowPastas"
+                :items="pastasStore.pastasToShow"
+                @mouseover="throttledMouseover"
+                @remove-pasta="pastasStore.removePasta"
+              />
+            </template>
+          </u-tabs>
         </client-only>
       </chat-pasta-list-hints>
     </slot>
   </div>
 </template>
 <script setup lang="ts">
-const pastasStore = usePastasStore();
+import type { ChatPastaList } from "#build/components";
+import { chatPastaList as chatPastaListConfig } from "~~/config/css.js";
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const tabs = [
+  {
+    label: "Server",
+    key: "server",
+  },
+  {
+    label: "Client",
+    key: "client",
+  },
+];
+
+const pastasStore = usePastasStore();
+const userStore = useUserStore();
+const emotesStore = useEmotesStore();
+
+const serverPastasListRef = ref<HTMLElement>();
+
+const serverPastas = useServerPastas(serverPastasListRef);
+
+const onHoverHint = injectOnHoverHint();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.allEmotesHandler,
@@ -35,7 +114,7 @@ const throttledMouseover = useThrottleFn(
 
 @media (min-width: 890px) {
   .chat-pasta-list {
-    max-height: 66dvh;
+    max-height: 60dvh;
   }
 }
 </style>

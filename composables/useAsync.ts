@@ -12,11 +12,10 @@ export const USE_ASYNC_STATE_DEFAULT_OPTIONS = {
 
 export function useMyAsyncState<
   Data,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Params extends any[] = [],
+  Parameters extends [] = [],
   Shallow extends boolean = true,
 >(
-  promiseOrAsyncFn: Promise<Data> | ((...args: Params) => Promise<Data>),
+  promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),
   initialState: Data,
   options: UseAsyncStateOptions<Shallow, Data> = {},
 ) {
@@ -42,7 +41,7 @@ export function useMyAsyncState<
     isRefreshing: computed(
       () => !isInitialized.state.value && asyncState.isLoading.value,
     ),
-    async execute(delay = 0, ...args: Params) {
+    async execute(delay = 0, ...args: Parameters) {
       const result = await asyncState.execute(delay, ...args);
       isInitialized.tryMakeFalse();
       return result;
@@ -51,13 +50,11 @@ export function useMyAsyncState<
 }
 
 export function useAsyncArray<
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  Data extends any[],
-  Params extends any[] = [],
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  Data extends [],
+  Parameters extends [] = [],
   Shallow extends boolean = true,
 >(
-  promiseOrAsyncFn: Promise<Data> | ((...args: Params) => Promise<Data>),
+  promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),
   options: UseAsyncStateOptions<Shallow, Data> = {},
 ) {
   const _options = { ...USE_ASYNC_STATE_DEFAULT_OPTIONS, ...options };
@@ -68,7 +65,7 @@ export function useAsyncArray<
   );
   return {
     ...asyncState,
-    execute(...args: Params) {
+    execute(...args: Parameters) {
       return asyncState.execute(0, ...args);
     },
   };
@@ -76,11 +73,10 @@ export function useAsyncArray<
 
 export function useAsyncObject<
   Data extends object,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Params extends any[] = [],
+  Parameters extends [] = [],
   Shallow extends boolean = true,
 >(
-  promiseOrAsyncFn: Promise<Data> | ((...args: Params) => Promise<Data>),
+  promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),
   options: UseAsyncStateOptions<Shallow, Data> = {},
 ) {
   const _options = { ...USE_ASYNC_STATE_DEFAULT_OPTIONS, ...options };
@@ -91,7 +87,7 @@ export function useAsyncObject<
   );
   return {
     ...asyncState,
-    execute(...args: Params) {
+    execute(...args: Parameters) {
       return asyncState.execute(0, ...args);
     },
   };

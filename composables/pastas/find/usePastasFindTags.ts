@@ -1,3 +1,7 @@
+function sortTags(a: string, b: string) {
+  return a.localeCompare(b, undefined, { sensitivity: "base" });
+}
+
 export function useFindPastasTags(
   allPastas: Ref<OmegaPasta[]>,
   showedPastas: Ref<OmegaPasta[]>,
@@ -27,20 +31,17 @@ export function useFindPastasTags(
     );
   });
 
-  const _mySorter = (a: string, b: string) =>
-    a.toLowerCase() > b.toLowerCase() ? 1 : -1;
-
   const showedPastasTags = computed(() => {
     const unique = uniqueValues(
       showedPastas.value.flatMap((pasta) => pasta.tags),
     );
-    return withLogSync(unique.sort(_mySorter), "showedPastasTags");
+    return withLogSync(unique.sort(sortTags), "showedPastasTags");
   });
 
   const tagsOfPastasWithTextOccurrence = computed(() => {
     const tags = pastasWithTextOccurrence.value.flatMap((pasta) => pasta.tags);
     return withLogSync(
-      uniqueValues(tags).sort(_mySorter),
+      uniqueValues(tags).sort(sortTags),
       "tagsOfPastasWithTextOccurrence",
     );
   });
@@ -49,16 +50,16 @@ export function useFindPastasTags(
     selectedPastaTags,
     mustRespectSelectedTags,
     tagsToSelect: computed(() => {
-      if (textToFind.value.length) {
+      if (textToFind.value.length > 0) {
         return tagsOfPastasWithTextOccurrence.value;
       }
-      if (!selectedPastaTags.value.length) {
+      if (selectedPastaTags.value.length === 0) {
         return allPastasTags.value;
       }
       return showedPastasTags.value;
     }),
     tagsAppropriatePastas: computed(() => {
-      if (debouncedMustRespect.value && selectedPastaTags.value.length) {
+      if (debouncedMustRespect.value && selectedPastaTags.value.length > 0) {
         return pastasWithSelectedTags.value;
       }
       return allPastas.value;

@@ -1,17 +1,17 @@
 import { and, eq } from "drizzle-orm";
-import { pastasTags, type Pasta } from "~~/db/schema";
-import { db } from "~~/db";
+import { pastasTags, type Pasta } from "~~/database/schema";
+import { database } from "~~/database";
 import { setDifferenceOtTwoSets } from "~/utils/set";
 import { pastaTagsCount } from "~~/config/const";
 
 function addPastaTag(pastaId: Pasta["id"], value: string) {
-  return db.transaction(async (tx) => {
-    const tags = await tx.query.pastasTags.findMany({
-      where: (pastasTags, { eq }) => eq(pastasTags.pastaId, pastaId),
+  return database.transaction(async (transaction) => {
+    const tags = await transaction.query.pastasTags.findMany({
+      where: eq(pastasTags.pastaId, pastaId),
       columns: { value: true },
     });
     assert.ok(tags.length < pastaTagsCount.max);
-    await tx
+    await transaction
       .insert(pastasTags)
       .values({ pastaId, value })
       .onConflictDoNothing();
@@ -25,9 +25,9 @@ export function addPastaTags(pastaId: Pasta["id"], values: string[]) {
   if (values.length === 1) {
     return addPastaTag(pastaId, values[0]);
   }
-  return db.transaction(async (tx) => {
-    const tags = await tx.query.pastasTags.findMany({
-      where: (pastasTags, { eq }) => eq(pastasTags.pastaId, pastaId),
+  return database.transaction(async (transaction) => {
+    const tags = await transaction.query.pastasTags.findMany({
+      where: eq(pastasTags.pastaId, pastaId),
       columns: { value: true },
     });
     assert.ok(tags.length < pastaTagsCount.max);
@@ -35,7 +35,7 @@ export function addPastaTags(pastaId: Pasta["id"], values: string[]) {
     const tagsToAdd = [
       ...setDifferenceOtTwoSets(new Set(values), existingTags),
     ].slice(0, pastaTagsCount.max - existingTags.size);
-    await tx
+    await transaction
       .insert(pastasTags)
       .values(tagsToAdd.map((value) => ({ pastaId, value })))
       .onConflictDoNothing();
@@ -43,11 +43,11 @@ export function addPastaTags(pastaId: Pasta["id"], values: string[]) {
 }
 
 export async function removePastaTag(pastaId: Pasta["id"], value: string) {
-  await db
+  await database
     .delete(pastasTags)
     .where(and(eq(pastasTags.pastaId, pastaId), eq(pastasTags.value, value)));
 }
 
 export async function removeAllPastaTags(pastaId: Pasta["id"]) {
-  await db.delete(pastasTags).where(eq(pastasTags.pastaId, pastaId));
+  await database.delete(pastasTags).where(eq(pastasTags.pastaId, pastaId));
 }

@@ -24,7 +24,7 @@ export function usePastasWorkMode(
       workMode.state.value = value ? "client" : "server";
     },
   });
-  const canHaveServerModeStatus = computed(() => {
+  const serverModeStatus = computed(() => {
     if (!isOnline.value) {
       if (isLoggedIn.value) {
         return "offline";
@@ -37,9 +37,7 @@ export function usePastasWorkMode(
     return "ok";
   });
 
-  const canHaveServerMode = computed(
-    () => canHaveServerModeStatus.value === "ok",
-  );
+  const canHaveServerMode = computed(() => serverModeStatus.value === "ok");
 
   watchImmediate(canHaveServerMode, (canHaveServerMode) => {
     if (import.meta.client && !canHaveServerMode) {
@@ -49,7 +47,7 @@ export function usePastasWorkMode(
 
   return {
     canHaveServerMode,
-    canHaveServerModeStatus,
+    canHaveServerModeStatus: serverModeStatus,
     workMode,
     isServer: readonly(isServerMode),
     isClient,

@@ -43,11 +43,11 @@ export function useMyToast() {
   return {
     notify<S extends NotificationStatus, K extends NotificationNameOfStatus<S>>(
       status: S,
-      fnName: K,
+      functionName: K,
       ...args: any[]
     ) {
       const getter = getters[status];
-      const notification = getter(t, fnName, ...args);
+      const notification = getter(t, functionName, ...args);
       return toast.add(notification);
     },
     fail<K extends FailureNotificationName>(name: K, ...args: any[]) {

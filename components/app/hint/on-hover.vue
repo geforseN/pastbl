@@ -13,7 +13,7 @@
         class="flex items-center gap-1 overflow-x-auto p-1 scrollbar"
         :class="styles!.scrollbar"
       >
-        <template v-for="image of emote.images.value" :key="image">
+        <template v-for="image of emote.images.value" :key="image.src">
           <img
             :src="image.src"
             :width="image.width"
@@ -79,7 +79,7 @@
           class="link line-clamp-2 max-w-48 break-all font-bold"
           :href="modifier.integrationLink.value"
         >
-          {{ emote!.token }}
+          {{ modifier.token }}
         </nuxt-link>
         <span v-else class="line-clamp-2 max-w-48 break-all font-bold">
           {{ modifier.token }}

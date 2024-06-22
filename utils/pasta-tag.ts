@@ -1,7 +1,7 @@
-import { pastaTagLength, pastaTagsCount } from "~~/config/const";
-import { makeLengthStatus } from "~/utils/make-length-status";
-import { toLowerCase } from "~/utils/string";
-import { assert } from "~/utils/error";
+import { pastaTagLength, pastaTagsCount } from "../config/const";
+import { makeLengthStatus } from "../utils/make-length-status";
+import { toLowerCase } from "../utils/string";
+import { assert } from "../utils/error";
 
 export function isPastaMentionTagLike(tag: string) {
   return tag.startsWith("@");

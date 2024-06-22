@@ -52,7 +52,7 @@
             />
           </client-only>
           <button
-            v-if="props.pastaTags.length"
+            v-if="props.pastaTags.length > 0"
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >

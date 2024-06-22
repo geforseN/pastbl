@@ -1,13 +1,13 @@
-export function toLowerCase(str: string) {
-  return str.toLowerCase() as Lowercase<string>;
+export function toLowerCase(string: string) {
+  return string.toLowerCase() as Lowercase<string>;
 }
 
-export function isLowercase(str: string): str is Lowercase<string> {
-  return str === toLowerCase(str);
+export function isLowercase(string: string): string is Lowercase<string> {
+  return string === toLowerCase(string);
 }
 
-export function megaTrim(str: string) {
-  return str
+export function megaTrim(string: string) {
+  return string
     .replaceAll("\n", " ")
     .trim()
     .split(" ")
@@ -16,17 +16,17 @@ export function megaTrim(str: string) {
     .join(" ");
 }
 
-export function capitalizeFirstLetter(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function toTitleCase(str: string) {
-  return str.replace(/\w\S*/g, capitalizeFirstLetter);
+export function toTitleCase(string: string) {
+  return string.replaceAll(/\w\S*/g, capitalizeFirstLetter);
 }
 
-export function dasherize(str: string) {
-  return str
-    .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .replace(/[\s_]+/g, "-")
+export function dasherize(string: string) {
+  return string
+    .replaceAll(/([a-z])([A-Z])/g, "$1-$2")
+    .replaceAll(/[\s_]+/g, "-")
     .toLowerCase();
 }

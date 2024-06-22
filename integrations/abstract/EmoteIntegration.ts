@@ -1,9 +1,6 @@
-import type { IEmote } from "./Emote";
 import type { IEmoteSet } from "./EmoteSet";
-import type { HasFormedAt, HasSource } from ".";
+import type { HasFormedAt, HasSource } from "./_internal";
 
-export interface IEmoteIntegration<Set extends IEmoteSet<IEmote>>
-  extends HasSource,
-    HasFormedAt {
-  sets: Set[];
+export interface IEmoteIntegration extends HasSource, HasFormedAt {
+  sets: IEmoteSet[];
 }

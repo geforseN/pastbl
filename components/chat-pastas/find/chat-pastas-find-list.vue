@@ -84,7 +84,7 @@ watch(
   },
 );
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.allEmotesHandler,

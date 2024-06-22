@@ -47,12 +47,12 @@
           </i18n-t>
         </div>
         <chat-pasta-list-hint-on-empty
-          v-if="!pastasStore.pastas.state.length"
+          v-if="pastasStore.pastas.state.length === 0"
         />
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <div
-            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-[420px]"
             v-if="isEmotesLoaded && selectedCollection"
+            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-[420px]"
           >
             <i18n-t
               keypath="emotes.showingPastasWithPerson"

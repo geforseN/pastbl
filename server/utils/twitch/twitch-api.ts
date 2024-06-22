@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { $fetch } from "ofetch";
 import type { TwitchApi } from "./twitch-api.types";
+import { environment } from "../environment";
 
 export const twitchApi = {
   fetch: createTwitchApiFetch(),
@@ -8,7 +9,7 @@ export const twitchApi = {
 
 export function createTwitchApiFetch(token?: TwitchToken) {
   const headers = new Headers({
-    "Client-ID": env.TWITCH_APP_CLIENT_ID,
+    "Client-ID": environment.TWITCH_APP_CLIENT_ID,
   });
   if (token) {
     headers.append("Authorization", `Bearer ${token.access_token}`);

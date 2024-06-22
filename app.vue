@@ -25,7 +25,7 @@
       />
       <Meta name="theme-color" content="#ff52d9f2" />
     </Head>
-    <Body class="debug-screens">
+    <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
           <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
@@ -75,6 +75,10 @@ useKeysListenWithAlt([
   ["e", (go) => go("/collections")],
   ["s", () => savePastasToFile(pastasStore.pastasToShow)],
 ]);
+
+if (import.meta.client && import.meta.dev) {
+  document.body.classList.add("debug-screens");
+}
 
 const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
 const onHoverHint = useExtendedOnHoverHint(

@@ -3,6 +3,7 @@ import type { EmoteSource, IEmote } from "~/integrations";
 class EmoteUrl {
   constructor(public readonly string: string) {}
 
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   #tuple = computed(() => {
     const url = this.string;
     if (!url) {
@@ -130,6 +131,7 @@ export class OnHoverHintEmote {
     });
   }
 
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   images = computed(() => {
     return OnHoverHintEmote.#sizes
       .filter((size) => this.#canHaveSize(size))
@@ -141,14 +143,18 @@ export class OnHoverHintEmote {
   #canHaveSize(size: 1 | 2 | 3 | 4) {
     switch (size) {
       case 1:
-      case 2:
+      case 2: {
         return true;
-      case 3:
+      }
+      case 3: {
         return this.source !== "FrankerFaceZ" && this.source !== "Twitch";
-      case 4:
+      }
+      case 4: {
         return this.source !== "BetterTTV";
-      default:
+      }
+      default: {
         raise();
+      }
     }
   }
 

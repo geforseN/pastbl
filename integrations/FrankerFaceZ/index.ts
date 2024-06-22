@@ -20,7 +20,7 @@ type MappedEmoteSet = Unwrap<Omit<EmoteSet, "id"> & { id: `${number}` }>;
 
 function makeOwner(profile: UserStruct) {
   const { user, badges } = profile;
-  if (user.emote_sets.length) {
+  if (user.emote_sets.length > 0) {
     consola.warn(
       "FrankerFaceZ API return user with non empty emote_sets array",
     );
@@ -56,8 +56,8 @@ export const FrankerFaceZ = {
     return makePersonIntegration(sets, owner);
   },
   async getGlobalIntegration() {
-    const res = await api.getGlobalEmotes();
-    const sets = transformGlobalSets(res);
+    const response = await api.getGlobalEmotes();
+    const sets = transformGlobalSets(response);
     return makeGlobalIntegration(sets);
   },
 };
@@ -148,10 +148,10 @@ function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
 const makeGlobalIntegration = defineGlobalIntegrationMaker("FrankerFaceZ");
 const makePersonIntegration = definePersonIntegrationMaker("FrankerFaceZ");
 
-function transformGlobalSets(res: GlobalStruct) {
-  const defaultEmoteSetsIds = new Set(res.default_sets.map(String));
-  const specificEmoteSets = new Map(Object.entries(res.user_ids));
-  return Object.values(res.sets)
+function transformGlobalSets(response: GlobalStruct) {
+  const defaultEmoteSetsIds = new Set(response.default_sets.map(String));
+  const specificEmoteSets = new Map(Object.entries(response.user_ids));
+  return Object.values(response.sets)
     .map(makeMappedEmoteSet)
     .map((set) => {
       if (defaultEmoteSetsIds.has(set.id)) {

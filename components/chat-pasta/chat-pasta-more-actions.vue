@@ -19,6 +19,7 @@
         tabindex="0"
         class="chat-pasta__sidebar-more-actions-list menu dropdown-content z-[1] flex w-max translate-x-[18%] flex-row flex-wrap gap-1 rounded-btn border border-base-content bg-base-100 p-2 shadow *:w-min"
       >
+        <!-- eslint-disable vue/no-v-html -->
         <li>
           <button class="btn btn-info flex-nowrap" @click="$emit('edit')">
             <span v-html="$t('pasta.edit')" />
@@ -35,6 +36,7 @@
             />
           </button>
         </li>
+        <!-- eslint-enable vue/no-v-html -->
       </ul>
     </div>
   </div>

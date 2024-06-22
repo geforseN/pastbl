@@ -1,6 +1,6 @@
 import { and, eq, sql } from "drizzle-orm";
-import { db } from "~~/db";
-import { pastas, pastasTags, type Pasta } from "~~/db/schema";
+import { database } from "~~/database";
+import { pastas, pastasTags, type Pasta } from "~~/database/schema";
 
 export function createPasta(
   text: string,
@@ -8,14 +8,14 @@ export function createPasta(
   publisherTwitchId: string,
   publicity: PastaPublicity,
 ) {
-  return db.transaction(async (tx) => {
-    const [pasta] = await tx
+  return database.transaction(async (transaction) => {
+    const [pasta] = await transaction
       .insert(pastas)
       .values({ text, publisherTwitchId, publicity })
       .returning();
-    if (tags.length) {
+    if (tags.length > 0) {
       const pastaId = pasta.id;
-      await tx
+      await transaction
         .insert(pastasTags)
         .values(tags.map((value) => ({ value, pastaId })))
         .onConflictDoNothing();
@@ -31,7 +31,7 @@ export function createPasta(
 
 const CURSOR_FIRST_PAGE_PASTAS_COUNT = 15 as const;
 
-const getFirstPagePastas = db.query.pastas
+const getFirstPagePastas = database.query.pastas
   .findMany({
     columns: { publisherTwitchId: false },
     where: (pastas, { eq }) =>
@@ -48,7 +48,7 @@ const getFirstPagePastas = db.query.pastas
 
 const CURSOR_NEXT_PAGES_PASTAS_COUNT = 10 as const;
 
-const getNextPagePastas = db.query.pastas
+const getNextPagePastas = database.query.pastas
   .findMany({
     columns: { publisherTwitchId: false },
     where: (pastas, { and, eq, lt }) =>
@@ -112,7 +112,7 @@ export async function deletePasta(
   publisherTwitchId: Pasta["publisherTwitchId"],
   pastaId: Pasta["id"],
 ) {
-  await db
+  await database
     .delete(pastas)
     .where(
       and(
@@ -128,7 +128,7 @@ export async function patchPasta(
   entries: Partial<Pick<Pasta, "text" | "publicity">>,
 ) {
   // TODO: with transaction add old pastas in previousPastas table
-  const [pasta] = await db
+  const [pasta] = await database
     .update(pastas)
     .set({ ...entries, lastUpdatedAt: sql`now()` })
     .where(

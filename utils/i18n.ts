@@ -6,10 +6,12 @@ import {
 } from "@vueuse/core";
 import { assert } from "./error";
 
+const numberInRegex = /\d/;
+
 const ENGLISH_DEFAULT_MESSAGES = {
   justNow: "just now",
-  past: (n) => (n.match(/\d/) ? `${n} ago` : n),
-  future: (n) => (n.match(/\d/) ? `in ${n}` : n),
+  past: (n) => (numberInRegex.test(n) ? `${n} ago` : n),
+  future: (n) => (numberInRegex.test(n) ? `in ${n}` : n),
   month: (n, past) =>
     n === 1
       ? past
@@ -34,7 +36,7 @@ const ENGLISH_DEFAULT_MESSAGES = {
   minute: (n) => `${n} minute${n > 1 ? "s" : ""}`,
   second: (n) => `${n} second${n > 1 ? "s" : ""}`,
   invalid: "",
-} satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
+} as const satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
 
 const russianTimeRules = {
   year: {
@@ -86,12 +88,12 @@ const russianTimeRules = {
     },
     list: ["секунд", "секунду", "секунды", "секунд"],
   },
-};
+} as const;
 
 const RUSSIAN_CONDITIONAL_MESSAGES = {
   justNow: "только что",
-  past: (n) => (n.match(/\d/) ? `${n} назад` : n),
-  future: (n) => (n.match(/\d/) ? `через ${n}` : n),
+  past: (n) => (numberInRegex.test(n) ? `${n} назад` : n),
+  future: (n) => (numberInRegex.test(n) ? `через ${n}` : n),
   month: getRussianTimeRuleOf("month"),
   year: getRussianTimeRuleOf("year"),
   day: getRussianTimeRuleOf("day"),
@@ -100,7 +102,7 @@ const RUSSIAN_CONDITIONAL_MESSAGES = {
   minute: getRussianTimeRuleOf("minute"),
   second: getRussianTimeRuleOf("second"),
   invalid: "",
-} satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
+} as const satisfies UseTimeAgoMessages<UseTimeAgoUnitNamesDefault>;
 
 const messageByLocale = {
   ru: RUSSIAN_CONDITIONAL_MESSAGES,

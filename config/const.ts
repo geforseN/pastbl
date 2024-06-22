@@ -13,7 +13,7 @@ export const pastaTagsCount = {
 } as const;
 
 export const PASTA_TEXT_MIN_LENGTH = 1;
-export const PASTA_TEXT_MAX_LENGTH = 1984;
+export const PASTA_TEXT_MAX_LENGTH = 1_984;
 export const pastaTextLength = {
   min: PASTA_TEXT_MIN_LENGTH,
   max: PASTA_TEXT_MAX_LENGTH,

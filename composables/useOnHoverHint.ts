@@ -4,8 +4,13 @@ import {
   isEmoteModifier,
 } from "~/integrations/dom";
 import { type IEmote } from "~/integrations";
+import { raise } from "~/utils/error";
 
-export type ExtendedOnHoverHint = ReturnType<typeof useExtendedOnHoverHint>;
+export function injectOnHoverHint() {
+  return (
+    inject<ReturnType<typeof useExtendedOnHoverHint>>("onHoverHint") || raise()
+  );
+}
 
 export function useExtendedOnHoverHint(container: ComputedRef<HTMLElement>) {
   const onHoverHint = useOnHoverHint(container);
@@ -76,7 +81,7 @@ export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
       // NOTE: here hoveredEmojiModifiers MUST be null (and it is, because nullEveryState function is called)
       return;
     }
-    assert.ok(isFn(findEmoteModifiers));
+    assert.ok(isFunction(findEmoteModifiers));
     const modifiersTokens = [...wrapperElement.children]
       .filter(isEmoteModifier)
       .map(getEmoteToken);
@@ -88,7 +93,7 @@ export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
       options: {
         findEmote?: (
           target: HTMLImageElement,
-        ) => MaybePromise<IEmote | undefined>;
+        ) => MaybePromise<ReturnType<FindEmote>>;
         findEmoteModifiersByTokens?: (tokens: string[]) => IEmote[];
         _findEmojiData?: (
           emoji: string,

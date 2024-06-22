@@ -146,9 +146,9 @@ function getMegaPastasOnFileLoad(event: ProgressEvent<FileReader>) {
 <script lang="ts" setup>
 const pastasStore = usePastasStore();
 
-const reader = process.client ? new FileReader() : null;
+const reader = import.meta.client ? new FileReader() : null;
 
-if (process.client) {
+if (import.meta.client) {
   assert.ok(reader);
   reader.onload = async function (event) {
     const megaPastas = getMegaPastasOnFileLoad(event);
