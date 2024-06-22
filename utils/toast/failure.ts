@@ -23,7 +23,7 @@ const failureFns = {
     }),
   copyText__genericFail: (t) => ({
     description: t("toast.copyText.fail.genericMessage"),
-    timeout: 7_000,
+    timeout: 7000,
     color: "red",
   }),
   copyText__clipboardFail: (t) => ({

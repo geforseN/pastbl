@@ -8,12 +8,12 @@ export const SUCCESS_COLOR = "green" as const;
 const successFns = {
   pastaCopied: (t) => ({
     color: SUCCESS_COLOR,
-    timeout: 1_700,
+    timeout: 1700,
     title: t("toast.copyPasta.success"),
   }),
   textCopied: (t) => ({
     color: SUCCESS_COLOR,
-    timeout: 1_700,
+    timeout: 1700,
     title: t("toast.copyText.success"),
   }),
   collectionFetched: (t, nickname: string, statuses: string) => ({
@@ -22,13 +22,13 @@ const successFns = {
       nickname,
       statuses,
     }),
-    timeout: 7_000,
+    timeout: 7000,
     title: t("toast.loadCollection.success.title"),
   }),
   pastaPut: (t) => ({
     color: SUCCESS_COLOR,
     description: t("toast.putPasta.success.message"),
-    timeout: 3_000,
+    timeout: 3000,
     title: t("toast.putPasta.success.title"),
   }),
   pastaCreated: (t) => ({

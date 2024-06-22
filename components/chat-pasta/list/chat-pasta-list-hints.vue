@@ -100,7 +100,7 @@ const selectedLogin = computed(() => userCollectionsStore.selectedLogin.state);
 const isEmotesLoaded = computedAsync(
   () =>
     until(() => useEmotesStore().isInitialUserEmotesReady).toBeTruthy({
-      timeout: 3_000,
+      timeout: 3000,
     }),
   false,
 );

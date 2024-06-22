@@ -7,7 +7,7 @@ export const WARNING_COLOR = "yellow" as const;
 
 const warningsFns = {
   pastaRemoved: (t, click: () => MaybePromise<void>) => ({
-    timeout: 7_000,
+    timeout: 7000,
     color: WARNING_COLOR,
     title: t("toast.removePasta.success.title"),
     description: t("toast.removePasta.success.message"),

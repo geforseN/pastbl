@@ -19,7 +19,7 @@ function getSetName(emote: {
       return `Follower emotes`;
     }
     case "subscriptions": {
-      const tier = Number(emote.tier) / 1_000;
+      const tier = Number(emote.tier) / 1000;
       assert.ok(!Number.isNaN(tier));
       return `Subscriber emotes - tier ${tier}`;
     }

@@ -83,7 +83,7 @@ export class ExtendedError extends Error {
     {
       title,
       color = "red",
-      timeout = 5_000,
+      timeout = 5000,
       mustAddLocale = false,
       tDescriptionInterpolations,
     }: {

@@ -49,14 +49,6 @@ export default withNuxt()
           ],
         },
       ],
-      "unicorn/numeric-separators-style": [
-        "error",
-        {
-          number: {
-            minimumDigits: 4,
-          },
-        },
-      ],
       /* TODO: specify this rule, do not use "off" */
       "unicorn/filename-case": "off",
       "unicorn/no-array-callback-reference": "off",

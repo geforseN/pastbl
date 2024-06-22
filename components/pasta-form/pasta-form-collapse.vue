@@ -129,7 +129,7 @@ whenever(() => $formCollapse.isOpen, focusOnTextarea);
 async function canPopulate() {
   await Promise.all([
     until(() => pastaStore.text.isRestored).toBeTruthy({
-      timeout: 3_000,
+      timeout: 3000,
     }),
     until(() => emotesStore.canUseUserEmotes).toBeTruthy(),
   ]);
