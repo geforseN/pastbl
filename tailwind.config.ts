@@ -1,19 +1,19 @@
 import type { Config } from "tailwindcss";
 import daisyuiThemes from "daisyui/src/theming/themes";
-import defaultTheme from "tailwindcss/defaultTheme";
+import { screens } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
-  content: [],
+  content: ["./config/css.{js, ts}"],
   theme: {
     screens: {
       xs: "420px",
-      sm: defaultTheme.screens.sm,
-      md: defaultTheme.screens.md,
+      sm: screens.sm,
+      md: screens.md,
       "go-brr": "890px",
-      lg: defaultTheme.screens.lg,
-      xl: defaultTheme.screens.xl,
-      "2xl": defaultTheme.screens["2xl"],
+      lg: screens.lg,
+      xl: screens.xl,
+      "2xl": screens["2xl"],
     },
     extend: {
       spacing: {
@@ -33,9 +33,9 @@ export default {
   },
   plugins: [
     require("daisyui"),
-    process.dev && require("tailwindcss-debug-screens"),
+    require("tailwindcss-debug-screens"),
     require("tailwind-scrollbar"),
-  ].filter(Boolean),
+  ],
   daisyui: {
     themes: [
       {

@@ -1,10 +1,8 @@
 {
-  "id": "4e7d8b49-2cfd-4f7b-94e7-d0186af49251",
-  "prevId": "32ef62b8-2dd0-45d0-8837-bf3309a740bd",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "pastas": {
+    "public.pastas": {
       "name": "pastas",
       "schema": "",
       "columns": {
@@ -50,16 +48,32 @@
       },
       "indexes": {
         "publisher_newest": {
+          "columns": [
+            {
+              "expression": "publisher_twitch_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
           "name": "publisher_newest",
-          "columns": ["publisher_twitch_id", "published_at"],
-          "isUnique": false
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "pastas_tags": {
+    "public.pastas_tags": {
       "name": "pastas_tags",
       "schema": "",
       "columns": {
@@ -72,16 +86,26 @@
       },
       "indexes": {
         "tags_index": {
+          "columns": [
+            {
+              "expression": "tag",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "with": {},
           "name": "tags_index",
-          "columns": ["tag"],
-          "isUnique": false
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "previous_pastas": {
+    "public.previous_pastas": {
       "name": "previous_pastas",
       "schema": "",
       "columns": {
@@ -121,17 +145,17 @@
         "previous_pastas_uuid_pastas_uuid_fk": {
           "name": "previous_pastas_uuid_pastas_uuid_fk",
           "tableFrom": "previous_pastas",
-          "tableTo": "pastas",
           "columnsFrom": ["uuid"],
+          "tableTo": "pastas",
           "columnsTo": ["uuid"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "tags_to_pastas": {
+    "public.tags_to_pastas": {
       "name": "tags_to_pastas",
       "schema": "",
       "columns": {
@@ -153,20 +177,20 @@
         "tags_to_pastas_tag_id_pastas_tags_tag_fk": {
           "name": "tags_to_pastas_tag_id_pastas_tags_tag_fk",
           "tableFrom": "tags_to_pastas",
-          "tableTo": "pastas_tags",
           "columnsFrom": ["tag_id"],
+          "tableTo": "pastas_tags",
           "columnsTo": ["tag"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "tags_to_pastas_pasta_uuid_pastas_uuid_fk": {
           "name": "tags_to_pastas_pasta_uuid_pastas_uuid_fk",
           "tableFrom": "tags_to_pastas",
-          "tableTo": "pastas",
           "columnsFrom": ["pasta_uuid"],
+          "tableTo": "pastas",
           "columnsTo": ["uuid"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -179,18 +203,18 @@
     }
   },
   "enums": {
-    "pasta_publicity": {
+    "public.pasta_publicity": {
       "name": "pasta_publicity",
-      "values": {
-        "public": "public",
-        "private": "private"
-      }
+      "schema": "public",
+      "values": ["public", "private"]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "4e7d8b49-2cfd-4f7b-94e7-d0186af49251",
+  "prevId": "32ef62b8-2dd0-45d0-8837-bf3309a740bd"
 }

@@ -1,10 +1,9 @@
-import { EmoteSource } from "~/integrations";
+import type { EmoteSource } from "~/integrations";
 import { BetterTTV } from "~/integrations/BetterTTV";
 import { FrankerFaceZ } from "~/integrations/FrankerFaceZ";
 import { SevenTV } from "~/integrations/SevenTV";
 import { Twitch } from "~/integrations/Twitch";
-
-import {
+import type {
   SettledEmoteIntegration,
   ReadyIntegration,
 } from "~/integrations/integrations";

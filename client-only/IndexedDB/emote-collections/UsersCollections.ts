@@ -6,10 +6,12 @@ import {
 import { assert } from "~/utils/error";
 
 export class UsersCollectionsStore {
-  constructor(private readonly db: IDBPDatabase<CollectionsSchema>) {}
+  constructor(private readonly database: IDBPDatabase<CollectionsSchema>) {}
 
   async get(login: TwitchUserLogin) {
-    const collection = await this.db.transaction("users").store.get(login);
+    const collection = await this.database
+      .transaction("users")
+      .store.get(login);
     assert.ok(
       collection,
       "Failed to find loaded user collection in your browser storage (IndexedDB)",
@@ -18,18 +20,18 @@ export class UsersCollectionsStore {
   }
 
   getAll() {
-    return this.db.transaction("users").store.getAll();
+    return this.database.transaction("users").store.getAll();
   }
 
   getAllLogins() {
-    return this.db.transaction("users").store.getAllKeys();
+    return this.database.transaction("users").store.getAllKeys();
   }
 
   delete(login: TwitchUserLogin) {
-    return this.db.delete("users", login);
+    return this.database.delete("users", login);
   }
 
   put(collection: IndexedDBUserEmoteCollection) {
-    return this.db.put("users", collection);
+    return this.database.put("users", collection);
   }
 }

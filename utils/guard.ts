@@ -7,9 +7,9 @@ export function isNullish<T>(value: Nullish<T>): value is null | undefined {
 }
 
 export function isObject<T extends Record<string, unknown>>(
-  obj: unknown,
-): obj is T {
-  return obj !== null && typeof obj === "object";
+  object: unknown,
+): object is T {
+  return object !== null && typeof object === "object";
 }
 
 export function isEmptyObject(object: Record<string, unknown>) {
@@ -24,13 +24,15 @@ export function isEmptyObject2(object: Record<string, unknown>) {
   return Object.keys(object).length === 0;
 }
 
-export function isIsoDate(str: string) {
-  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) {
+export function isIsoDate(string: string) {
+  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(string)) {
     return false;
   }
-  const d = new Date(str);
+  const d = new Date(string);
   return (
-    d instanceof Date && !Number.isNaN(d.getTime()) && d.toISOString() === str
+    d instanceof Date &&
+    !Number.isNaN(d.getTime()) &&
+    d.toISOString() === string
   );
 }
 
@@ -42,24 +44,26 @@ export function isError<E extends Error, EC extends ErrorConstructor>(
 }
 
 export function isFn<F extends (...args: unknown[]) => unknown>(
-  maybeFn: unknown,
-): maybeFn is F {
-  return typeof maybeFn === "function";
+  maybeFunction: unknown,
+): maybeFunction is F {
+  return typeof maybeFunction === "function";
 }
 
-export function isIsoDate2(str: string) {
-  if (str.includes("T")) {
-    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(str)) {
+export const isFunction = isFn;
+
+export function isIsoDate2(string: string) {
+  if (string.includes("T")) {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(string)) {
       return false;
     }
-  } else if (!/\d{4}-\d{2}-\d{2}/.test(str)) {
+  } else if (!/\d{4}-\d{2}-\d{2}/.test(string)) {
     return false;
   }
-  const d = new Date(str);
+  const d = new Date(string);
   return (
     d instanceof Date &&
     !Number.isNaN(d.getTime()) &&
-    d.toISOString().startsWith(str)
+    d.toISOString().startsWith(string)
   );
 }
 

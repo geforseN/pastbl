@@ -32,7 +32,7 @@ const dialogRef = ref<HTMLDialogElement>();
 
 defineExpose({
   async execute() {
-    if (!props.tag.length) {
+    if (props.tag.length === 0) {
       return;
     }
     assert.ok(dialogRef.value);

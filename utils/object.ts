@@ -13,26 +13,26 @@ export function deepFreeze<T extends Record<string | symbol, unknown>>(
 
 export function flatGroupBy<T, K extends string | number | symbol, V extends T>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: undefined,
+  getKey: (value: T, index: number, array: T[]) => K,
+  getValue?: undefined,
 ): Record<K, V>;
 
 export function flatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb: (value: T, index: number, array: T[], grouped: V) => V,
+  getKey: (value: T, index: number, array: T[]) => K,
+  getValue: (value: T, index: number, array: T[], grouped: V) => V,
 ): Record<K, V>;
 
 export function flatGroupBy<T, V, K extends string | number | symbol>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: (value: T, index: number, array: T[], grouped: V) => V,
+  getKey: (value: T, index: number, array: T[]) => K,
+  getValue?: (value: T, index: number, array: T[], grouped: V) => V,
   initialRecord: Record<K, V> = {} as Record<K, V>,
 ): Record<K, V> {
-  const getValue = valueCb ?? ((value: T) => value as unknown as V);
+  const getValue_ = getValue ?? ((value: T) => value as unknown as V);
   return array.reduce((record, value, index, array) => {
-    const key = keyCb(value, index, array);
-    record[key] = getValue(value, index, array, record[key]);
+    const key = getKey(value, index, array);
+    record[key] = getValue_(value, index, array, record[key]);
     return record;
   }, initialRecord);
 }
@@ -51,25 +51,25 @@ export function objectEntries<T extends object, K extends keyof T>(object: T) {
 
 export function groupBy<T, K extends string | number | symbol, V extends T>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: undefined,
+  keyCallback: (value: T, index: number, array: T[]) => K,
+  valueCallback?: undefined,
 ): Record<K, V[]>;
 
 export function groupBy<T, K extends string | number | symbol, V>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb: (value: T, index: number, array: T[], grouped: V[]) => V,
+  keyCallback: (value: T, index: number, array: T[]) => K,
+  valueCallback: (value: T, index: number, array: T[], grouped: V[]) => V,
 ): Record<K, V[]>;
 
 export function groupBy<T, K extends string | number | symbol, V>(
   array: T[],
-  keyCb: (value: T, index: number, array: T[]) => K,
-  valueCb?: (value: T, index: number, array: T[], grouped: V[]) => V,
+  keyCallback: (value: T, index: number, array: T[]) => K,
+  valueCallback?: (value: T, index: number, array: T[], grouped: V[]) => V,
   initialRecord: Record<K, V[]> = {} as Record<K, V[]>,
 ): Record<K, V[]> {
-  const getValue = valueCb ?? ((value: T) => value as unknown as V);
+  const getValue = valueCallback ?? ((value: T) => value as unknown as V);
   return array.reduce((record, value, index, array) => {
-    const key = keyCb(value, index, array);
+    const key = keyCallback(value, index, array);
     let recordValue = record[key];
     if (!Array.isArray(recordValue)) {
       record[key] = recordValue = [];
@@ -85,8 +85,8 @@ export function objectSorted<O extends Record<string, unknown>>(
 ): O {
   return Object.keys(object)
     .sort(compare)
-    .reduce((acc, key) => {
-      acc[key] = object[key];
-      return acc;
+    .reduce((accumulator, key) => {
+      accumulator[key] = object[key];
+      return accumulator;
     }, {} as O);
 }

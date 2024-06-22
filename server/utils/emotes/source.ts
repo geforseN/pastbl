@@ -3,7 +3,7 @@ import { emoteSources, isEmoteSource } from "~/integrations/emote-source";
 import { uniqueValues } from "~/utils/array";
 
 const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = emoteSources.reduce(
-  (acc, source) => acc + source.length,
+  (length, source) => length + source.length,
   emoteSources.length,
 );
 

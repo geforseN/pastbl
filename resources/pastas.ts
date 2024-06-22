@@ -12,7 +12,7 @@ export const pastasAPI = {
   deletePasta(pastaId: number) {
     return $fetch(`/api/v1/pastas/${pastaId}`, { method: "DELETE" });
   },
-  getPastas(cursor: string | null) {
+  getPastas(cursor: number | null) {
     return $fetch("/api/v1/pastas", {
       query: {
         cursor,

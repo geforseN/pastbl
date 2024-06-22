@@ -1,20 +1,31 @@
 import { z } from "zod";
-import { megaTrim } from "~/utils/string";
-import { isEmptyObject } from "~/utils/guard";
-import { pastaTextLength } from "~~/config/const";
+import { megaTrim } from "../../utils/string";
+import { isEmptyObject } from "../../utils/guard";
+import { pastaTextLength } from "../../config/const";
+import { pastaTagsSchema } from "../utils/pastas-tags";
 
-export const pastaIdParamSchema = z.coerce.number().safe().int().positive();
+const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
 export function getPastaIdParam(event: H3E) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
 }
 
-const pastasCursorQuerySchema = z.object({
-  cursor: pastaIdParamSchema.nullish().default(null),
-});
+const pastasCursorQuerySchema = z
+  .object({
+    cursor: z.string().nullish().default(null),
+  })
+  .transform(({ cursor }) => {
+    return {
+      cursor: cursor === "" ? null : Number(cursor),
+    };
+  });
 
 export function getPastasCursorFromQuery(event: H3E) {
-  return pastasCursorQuerySchema.parse(getQuery(event)).cursor;
+  const query = getQuery(event);
+  console.log({ query });
+  const parsed = pastasCursorQuerySchema.parse(query).cursor;
+  console.log({ parsed });
+  return parsed;
 }
 
 export const pastaTextSchema = z

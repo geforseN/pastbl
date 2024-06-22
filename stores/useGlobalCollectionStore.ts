@@ -21,8 +21,10 @@ export const useGlobalCollectionStore = defineStore("global-collection", () => {
     const missingSources = emoteSources.filter(
       (source) => state[source]?.status === "failed",
     );
-    if (missingSources.length) {
-      missingSources.forEach((source) => integrations.asLoading(source));
+    if (missingSources.length > 0) {
+      for (const source of missingSources) {
+        integrations.asLoading(source);
+      }
       const missing = await integrationsLoad.executeMany(missingSources);
       integrations.put(...missing);
     }
@@ -54,7 +56,9 @@ export const useGlobalCollectionStore = defineStore("global-collection", () => {
         }
       },
       async updateAll() {
-        emoteSources.forEach((source) => integrations.asUpdated(source));
+        for (const source of emoteSources) {
+          integrations.asUpdated(source);
+        }
         const all = await integrationsLoad.executeAll();
         const sorted = objectSorted(all);
         integrations.assign(sorted);

@@ -3,8 +3,8 @@
     <div class="join-item grow">
       <input
         id="badges-count"
-        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300"
         v-model.number="model"
+        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300"
         min="0"
         max="10"
         type="number"

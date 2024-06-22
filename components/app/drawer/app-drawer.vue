@@ -29,7 +29,7 @@
             :user="userSession.user"
             @logout="userSession.clear"
           />
-          <auth-twitch-login-link-button class="w-full" v-else />
+          <auth-twitch-login-link-button v-else class="w-full" />
         </li>
         <li>
           <app-links-emote-integrations />

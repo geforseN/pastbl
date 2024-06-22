@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-2">
-    <chat-pasta-edit :pastaId />
+    <chat-pasta-edit :pasta-id />
     <app-page-link-emotes />
     <app-page-link-main />
   </div>

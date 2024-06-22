@@ -1,6 +1,6 @@
 export function setIntersection<T>(...sets: Set<T>[]) {
   const result = new Set<T>();
-  if (!sets.length) {
+  if (sets.length === 0) {
     return result;
   }
   if (sets.length === 2) {

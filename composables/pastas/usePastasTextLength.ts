@@ -5,10 +5,14 @@ export function usePastasTextLength(pastas: Ref<OmegaPasta[]>) {
 
   return {
     min: computed(() =>
-      pastasTextLength.value.length ? Math.min(...pastasTextLength.value) : 0,
+      pastasTextLength.value.length > 0
+        ? Math.min(...pastasTextLength.value)
+        : 0,
     ),
     max: computed(() =>
-      pastasTextLength.value.length ? Math.max(...pastasTextLength.value) : 0,
+      pastasTextLength.value.length > 0
+        ? Math.max(...pastasTextLength.value)
+        : 0,
     ),
   };
 }

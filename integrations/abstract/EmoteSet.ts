@@ -1,6 +1,6 @@
 import type { IEmote } from "./Emote";
 
-export interface IEmoteSet<Emote extends IEmote> {
+export interface IEmoteSet {
   readonly name: string;
-  readonly emotes: Emote[];
+  readonly emotes: IEmote[];
 }

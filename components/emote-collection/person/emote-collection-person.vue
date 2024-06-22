@@ -29,7 +29,7 @@
       :is-collection-refreshing="isRefreshing"
       @select="collection.select"
       @unselect="collection.unselect"
-      @delete="collection.delete().then(() => emit('deleted'))"
+      @delete="collection.delete().then(() => $emit('deleted'))"
       @refresh="collection.refresh"
     />
     <dev-only>
@@ -83,7 +83,7 @@ const { login } = defineProps<{
   login: TwitchUserLogin;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   deleted: [];
 }>();
 
@@ -107,7 +107,7 @@ async function removePasta(pasta: OmegaPasta) {
   return await pastasStore.removePasta(pasta);
 }
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.makeMouseoverHandler({

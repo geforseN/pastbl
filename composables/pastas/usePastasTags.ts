@@ -5,7 +5,7 @@ export function usePastasTags(pastas: Ref<OmegaPasta[]>) {
     sortedEntriesByPopularity: computed(() => {
       const tags = allTags.value;
       const appearancesMap = countAppearances(tags);
-      return Array.from(appearancesMap).sort(
+      return [...appearancesMap].sort(
         ([, aCount], [, bCount]) => bCount - aCount,
       );
     }),

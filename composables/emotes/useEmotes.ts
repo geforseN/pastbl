@@ -13,12 +13,12 @@ export type MinimalEmoteIntegrationRecord = Record<
 >;
 
 export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
-  integrationsCb: () => Partial<T>,
+  getIntegrations: () => Partial<T>,
   options: { onCallEnd?: () => void } = {},
 ) {
   const record = ref<Partial<RecordOfEmotesMap>>({});
 
-  watch(integrationsCb, (value) => {
+  watch(getIntegrations, (value) => {
     const integrations = Object.values(
       value as Partial<MinimalEmoteIntegrationRecord>,
     );
@@ -47,11 +47,11 @@ export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
 }
 
 export function useEmotesWithInitialReady(
-  sourceToWatchCb: () => Partial<MinimalEmoteIntegrationRecord>,
+  sourceToWatchFn: () => Partial<MinimalEmoteIntegrationRecord>,
 ) {
   const isInitialized = useBool(false);
 
-  const emotes = useEmotes(sourceToWatchCb, {
+  const emotes = useEmotes(sourceToWatchFn, {
     onCallEnd: isInitialized.tryMakeTrue,
   });
 

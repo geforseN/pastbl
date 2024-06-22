@@ -1,7 +1,7 @@
-import { EmoteSource, IUserEmoteIntegration } from "~/integrations";
-import { IEmote } from "~/integrations/abstract/Emote";
-import { IEmoteIntegration } from "~/integrations/abstract/EmoteIntegration";
-import { IEmoteSet } from "~/integrations/abstract/EmoteSet";
+import type { EmoteSource } from "~/integrations";
+import type { IEmote } from "~/integrations/abstract/Emote";
+import type { IEmoteIntegration } from "~/integrations/abstract/EmoteIntegration";
+import type { IEmoteSet } from "~/integrations/abstract/EmoteSet";
 import { findErrorMessage } from "~/utils/error";
 
 function handleEmoteIntegrationError(

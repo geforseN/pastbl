@@ -1,4 +1,4 @@
-import { ITwitchGlobalEmoteResponse } from "~/integrations/Twitch";
+import type { ITwitchGlobalEmoteResponse } from "~/integrations/Twitch";
 
 type ApiTwitchGetUsersResponse = {
   data: {

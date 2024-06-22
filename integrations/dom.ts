@@ -26,7 +26,7 @@ export function findEmoteWrapper(target: HTMLImageElement) {
 
 export function getEmoteId(target: HTMLElement) {
   const { emoteId } = target.dataset;
-  assert.ok(typeof emoteId === "string" && emoteId.length);
+  assert.ok(typeof emoteId === "string" && emoteId.length > 0);
   return emoteId;
 }
 

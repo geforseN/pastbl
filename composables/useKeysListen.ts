@@ -4,18 +4,22 @@ import type {
   RouteLocationRaw,
 } from "#vue-router";
 
-type GoFn = (
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
+type NavigateTo = (
   path: RouteLocation | RouteLocationRaw,
 ) =>
   | false
   | void
   | RouteLocationRaw
   | Promise<false | void | NavigationFailure>;
+/* eslint-enable @typescript-eslint/no-invalid-void-type */
 
-export function useKeysListenWithAlt(entries: [string, (go: GoFn) => void][]) {
+export function useKeysListenWithAlt(
+  entries: [string, (go: NavigateTo) => void][],
+) {
   const localePath = useLocalePath();
 
-  const go: GoFn = (path) => navigateTo(localePath(path));
+  const navigateTo_: NavigateTo = (path) => navigateTo(localePath(path));
 
   const handlersMap = new Map(entries);
 
@@ -26,7 +30,7 @@ export function useKeysListenWithAlt(entries: [string, (go: GoFn) => void][]) {
     }
     event.preventDefault();
     const handler = handlersMap.get(key);
-    assert.ok(handler instanceof Function);
-    return handler(go);
+    assert.ok(isFunction(handler));
+    return handler(navigateTo_);
   });
 }

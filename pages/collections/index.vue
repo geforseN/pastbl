@@ -30,9 +30,12 @@ const fetchRef = ref<InstanceType<typeof EmoteCollectionPersonFetch>>();
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();
   if (params.focus === "fetch") {
-    console.info('pages/collections: "focus-fetch" query param found', {
-      focusFetch: params.focus,
-    });
+    if (import.meta.dev) {
+      // eslint-disable-next-line no-console
+      console.info('pages/collections: "focus-fetch" query param found', {
+        focusFetch: params.focus,
+      });
+    }
     fetchRef.value?.focusInput();
   }
 });

@@ -18,10 +18,10 @@ export class KeyValueStore {
 }
 
 const keyValueOpenIdbUpdates: OpenDBCallbacks<KeyValueSchema>["upgrade"] = (
-  db,
+  database,
 ) => {
-  if (!db.objectStoreNames.contains("key-value")) {
-    db.createObjectStore("key-value");
+  if (!database.objectStoreNames.contains("key-value")) {
+    database.createObjectStore("key-value");
   }
 };
 

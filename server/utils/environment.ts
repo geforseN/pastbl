@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const env = z
+export const environment = z
   .object({
     TWITCH_APP_CLIENT_SECRET: z.string(),
     TWITCH_APP_CLIENT_ID: z.string(),

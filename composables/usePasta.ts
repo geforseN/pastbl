@@ -1,11 +1,15 @@
-type UsePastaStateParam = {
+type UsePastaStateProperties = {
   tag?: Ref<string>;
   tags?: Ref<string[]>;
   text?: Ref<string>;
 };
 
-export const usePasta = (params: UsePastaStateParam = {}) => {
-  const { tag = ref(""), tags = ref([] as string[]), text = ref("") } = params;
+export const usePasta = (properties: UsePastaStateProperties = {}) => {
+  const {
+    tag = ref(""),
+    tags = ref([] as string[]),
+    text = ref(""),
+  } = properties;
 
   const { addTag, removeTag, removeAllTags } = usePastaTags(tags);
 

@@ -35,10 +35,10 @@ export function useIndexedDBKeyValue<K extends keyof MyKeyValueSchema>(
   if (import.meta.client) {
     idbValue
       .get()
-      .catch(() => undefined)
+      .catch(() => {})
       .then(async (restoredValue) => {
         withLogSync({ restoredValue, key }, `${key}:restoredValue`);
-        const isRestoredOk = typeof restoredValue !== "undefined";
+        const isRestoredOk = restoredValue !== undefined;
         if (!isRestoredOk) {
           await idbValue.set(defaultValue).catch(setErrorWithThrow);
         }

@@ -1,5 +1,7 @@
+import { isFunction } from "./guard";
+
 export function withLogSync<T>(
-  cbOrValue: T | (() => T),
+  valueOrGetter: T | (() => T),
   optionsOrKey:
     | string
     | {
@@ -7,7 +9,9 @@ export function withLogSync<T>(
         additionalMessages?: Record<string, unknown | never>;
       },
 ): T {
-  const returnValue = cbOrValue instanceof Function ? cbOrValue() : cbOrValue;
+  const returnValue = isFunction(valueOrGetter)
+    ? valueOrGetter()
+    : valueOrGetter;
   if (import.meta.dev) {
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console

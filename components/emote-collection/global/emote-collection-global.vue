@@ -45,7 +45,7 @@
 <script setup lang="ts">
 const globalCollectionStore = useGlobalCollectionStore();
 
-const onHoverHint = inject<ExtendedOnHoverHint>("onHoverHint") || raise();
+const onHoverHint = injectOnHoverHint();
 
 const throttledMouseover = useThrottleFn(
   onHoverHint.globalEmotesHandler,

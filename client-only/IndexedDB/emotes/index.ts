@@ -22,34 +22,38 @@ const openEmotesIdbUpgrade: OpenDBCallbacks<EmotesSchema>["upgrade"] = (
 };
 
 class EmotesStore {
-  constructor(private readonly db: IDBPDatabase<EmotesSchema>) {}
+  constructor(private readonly database: IDBPDatabase<EmotesSchema>) {}
 
   put(emotes: IEmote[]) {
-    return Promise.all(emotes.map((emote) => this.db.put("emotes", emote)));
+    return Promise.all(
+      emotes.map((emote) => this.database.put("emotes", emote)),
+    );
   }
 
   getWithSource(source: EmoteSource) {
     return (emoteId: string) => {
-      return this.db.get("emotes", [emoteId, source]);
+      return this.database.get("emotes", [emoteId, source]);
     };
   }
 
   deleteWithSource(source: EmoteSource) {
     return (emoteId: string) => {
-      return this.db.delete("emotes", [emoteId, source]);
+      return this.database.delete("emotes", [emoteId, source]);
     };
   }
 
   deleteManyWithSource(source: EmoteSource) {
     return async (emoteIds: string[]) => {
       await Promise.all(
-        emoteIds.map((emoteId) => this.db.delete("emotes", [emoteId, source])),
+        emoteIds.map((emoteId) =>
+          this.database.delete("emotes", [emoteId, source]),
+        ),
       );
     };
   }
 
   get emotesTransaction() {
-    return this.db.transaction("emotes");
+    return this.database.transaction("emotes");
   }
 }
 
