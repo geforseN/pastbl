@@ -1,12 +1,12 @@
 function useFindPastasLengthRange({
-  minCb,
-  maxCb,
+  getMin,
+  getMax,
 }: {
-  minCb: () => number;
-  maxCb: () => number;
+  getMin: () => number;
+  getMax: () => number;
 }) {
-  const min = computed(minCb);
-  const max = computed(maxCb);
+  const min = computed(getMin);
+  const max = computed(getMax);
 
   const range = ref<[number, number]>([min.value, max.value]);
 
@@ -36,27 +36,26 @@ function isPastaInRange(this: Ref<[number, number]>, pasta: OmegaPasta) {
 export function useFindPastasLength(
   pastas: Ref<OmegaPasta[]>,
   {
-    minCb,
-    maxCb,
+    getMax,
+    getMin,
   }: {
-    minCb: () => number;
-    maxCb: () => number;
+    getMax: () => number;
+    getMin: () => number;
   },
 ) {
-  const { range, min, max } = useFindPastasLengthRange({ minCb, maxCb });
+  const { range, min, max } = useFindPastasLengthRange({
+    getMin,
+    getMax,
+  });
   const debouncedRange = refDebounced(range, 700);
 
   const mustRespectLengthRange = ref(true);
   const throttledMustRespect = refDebounced(mustRespectLengthRange, 700);
 
+  const isInRange = isPastaInRange.bind(debouncedRange);
+
   const pastasWithLengthOccurrence = computed(() =>
-    withLogSync(
-      pastas.value.filter(
-        isPastaInRange,
-        debouncedRange satisfies ThisParameterType<typeof isPastaInRange>,
-      ),
-      "lengthAppropriatePastas",
-    ),
+    withLogSync(pastas.value.filter(isInRange), "lengthAppropriatePastas"),
   );
 
   const lengthAppropriatePastas = computed(() => {

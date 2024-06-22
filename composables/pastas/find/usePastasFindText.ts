@@ -6,8 +6,10 @@ export function useFindPastaText(pastas: Ref<OmegaPasta[]>) {
   const text = ref("");
   const debouncedText = refDebounced(text, 700);
 
+  const hasTextOccurrence = isPastaHasTextOccurrence.bind(debouncedText);
+
   const pastasWithTextOccurrence = computed(() =>
-    pastas.value.filter(isPastaHasTextOccurrence.bind(debouncedText)),
+    pastas.value.filter(hasTextOccurrence),
   );
 
   const textAppropriatePastas = computed(() => {
