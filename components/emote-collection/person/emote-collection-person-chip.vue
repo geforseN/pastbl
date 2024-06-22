@@ -20,7 +20,7 @@
             size="xs"
             class="w-fit"
             :is-collection-selected="isSelected"
-            @click="isSelected ? emit('unselect') : emit('select')"
+            @click="isSelected ? $emit('unselect') : $emit('select')"
           />
         </div>
       </div>
@@ -30,7 +30,7 @@
       <emote-collection-person-delete-button-dialog
         v-slot="dialog"
         class="right-0 top-6"
-        @delete="emit('delete')"
+        @delete="$emit('delete')"
       >
         <emote-collection-person-delete-button
           size="xs"
@@ -51,7 +51,7 @@
         class="w-full flex-nowrap justify-between"
         in-process-icon-class="absolute right-1 animate-spin rounded-full bg-inherit"
         :is-in-process="isRefreshing"
-        @click="emit('refresh')"
+        @click="$emit('refresh')"
       />
     </div>
   </div>
@@ -66,7 +66,7 @@ defineProps<{
   isRefreshing: boolean;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   refresh: [];
   delete: [];
   select: [];

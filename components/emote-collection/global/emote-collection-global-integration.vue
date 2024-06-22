@@ -30,7 +30,7 @@
               size="xs"
               class="w-fit gap-0.5"
               :is-in-process="integration.status === 'refreshing'"
-              @click="emit('update')"
+              @click="$emit('update')"
             />
             <load-button
               v-show="!hasFormedAt(integration)"
@@ -38,7 +38,7 @@
               class="w-fit gap-0.5 text-white hover:text-secondary-content"
               :class="[styles.backgroundBase, styles.borderAccent]"
               :is-in-process="integration.status === 'loading'"
-              @click="emit('update')"
+              @click="$emit('update')"
             />
           </div>
           <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
@@ -67,7 +67,7 @@ const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });
 
-const emit = defineEmits<{
+defineEmits<{
   update: [];
 }>();
 

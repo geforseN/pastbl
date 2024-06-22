@@ -21,7 +21,7 @@
           {{ $t("collections.users.ready.delete-text") }}
         </h3>
         <div class="flex gap-2">
-          <button class="btn btn-error btn-sm grow" @click="emit('delete')">
+          <button class="btn btn-error btn-sm grow" @click="$emit('delete')">
             {{ $t("delete") }}
           </button>
           <button
@@ -51,7 +51,7 @@ const cardRef = ref<HTMLDivElement>();
 const cancelButtonRef = ref<HTMLButtonElement>();
 const isRevealed = ref(false);
 
-const emit = defineEmits<{
+defineEmits<{
   delete: [];
 }>();
 
