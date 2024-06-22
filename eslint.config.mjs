@@ -66,6 +66,7 @@ export default withNuxt()
           ignore: ["reason"],
         },
       ],
+      "unicorn/no-nested-ternary": "off",
     },
   })
   .overrideRules({
