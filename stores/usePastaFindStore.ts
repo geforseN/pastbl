@@ -23,8 +23,8 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
 
   const { mustRespectLengthRange, lengthAppropriatePastas, length } =
     useFindPastasLength(sortedPastas, {
-      minCb: () => pastasStore.pastasTextLength.min,
-      maxCb: () => pastasStore.pastasTextLength.max,
+      getMax: () => pastasStore.pastasTextLength.min,
+      getMin: () => pastasStore.pastasTextLength.max,
     });
 
   const {

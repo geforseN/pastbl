@@ -138,8 +138,9 @@ onBeforeRouteLeave(async () => {
 
 const isTextSame = isPastaTextSame.bind(megaPasta);
 const isTagsSame = isPastaTagsSame.bind(megaPasta);
+
 const isPastaSame = computed(() => {
-  if (!initialPasta.value) {
+  if (initialPasta.value === undefined) {
     return false;
   }
   // @ts-expect-error initialPasta.value is not undefined
