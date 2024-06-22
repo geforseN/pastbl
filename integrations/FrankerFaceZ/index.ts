@@ -46,7 +46,7 @@ function makeOwner(profile: UserStruct) {
 }
 
 export const FrankerFaceZ = {
-  async getPersonIntegration(twitch: TwitchUser) {
+  async getPersonIntegration(twitch: PersonTwitch) {
     const [profile, room] = await Promise.all([
       api.getPersonProfile(twitch.id, twitch.login),
       api.getPersonRoom(twitch.id),

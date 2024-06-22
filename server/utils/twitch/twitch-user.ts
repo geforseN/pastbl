@@ -26,8 +26,6 @@ const twitchUserSchema = twitchApiUserSchema.transform((user) => ({
   createdAt: user.created_at,
 }));
 
-export type TwitchUser = z.infer<typeof twitchUserSchema>;
-
 export type PersonTwitch = z.infer<typeof twitchUserSchema>;
 
 const sessionUserSchema = twitchApiUserSchema.transform((user) => ({

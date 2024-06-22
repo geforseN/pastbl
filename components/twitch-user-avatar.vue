@@ -9,18 +9,20 @@
         class="rounded-full bg-twitch-accent/20"
         :width="size"
         :height="size"
-        :src="user.avatarUrl"
-        :alt="$t('avatar.alt', { nickname: user.nickname })"
+        :src="twitch.avatarUrl"
+        :alt="$t('avatar.alt', { nickname: twitch.nickname })"
       />
     </nuxt-link-locale>
   </div>
 </template>
 <script setup lang="ts">
 const props = defineProps<{
-  user: Pick<TwitchUser, "avatarUrl" | "login" | "nickname">;
+  twitch: Pick<PersonTwitch, "avatarUrl" | "login" | "nickname">;
   size: number;
   to?: string;
 }>();
 
-const to = computed(() => props.to ?? `https://twitch.tv/${props.user.login}`);
+const to = computed(
+  () => props.to ?? `https://twitch.tv/${props.twitch.login}`,
+);
 </script>

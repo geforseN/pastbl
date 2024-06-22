@@ -8,7 +8,10 @@
   >
     <div class="space-y-0.5">
       <div class="flex items-end gap-1">
-        <twitch-user-avatar :user="{ avatarUrl, login, nickname }" :size="48" />
+        <twitch-user-avatar
+          :twitch="{ avatarUrl, login, nickname }"
+          :size="48"
+        />
         <div>
           <p class="truncate text-xl font-bold" :title="nickname">
             {{ nickname }}

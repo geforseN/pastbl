@@ -7,7 +7,7 @@ import { findErrorMessage } from "~/utils/error";
 function handleEmoteIntegrationError(
   fail: unknown,
   source: EmoteSource,
-  twitch?: TwitchUser,
+  twitch?: PersonTwitch,
 ) {
   const reason = findErrorMessage(
     fail,

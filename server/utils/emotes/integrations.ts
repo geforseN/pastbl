@@ -18,16 +18,16 @@ export const personIntegrationsGetters = {
 
 export async function getPersonEmoteIntegration<S extends EmoteSource>(
   source: S,
-  account: TwitchUser,
+  twitch: PersonTwitch,
 ) {
   const getter = personIntegrationsGetters[source];
-  const integration = await getter(account);
+  const integration = await getter(twitch);
   return integration;
 }
 
 export async function getPersonEmoteIntegrations<S extends EmoteSource>(
   sources: S[],
-  twitch: TwitchUser,
+  twitch: PersonTwitch,
 ) {
   const getters = sources.map((source) => personIntegrationsGetters[source]);
   const integrations = await Promise.all(
@@ -37,7 +37,7 @@ export async function getPersonEmoteIntegrations<S extends EmoteSource>(
   return grouped;
 }
 
-export async function getPersonAllEmoteIntegrations(twitch: TwitchUser) {
+export async function getPersonAllEmoteIntegrations(twitch: PersonTwitch) {
   const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all([
     personIntegrationsGetters.BetterTTV(twitch),
     personIntegrationsGetters.FrankerFaceZ(twitch),
@@ -52,6 +52,6 @@ export async function getPersonAllEmoteIntegrations(twitch: TwitchUser) {
   };
 }
 
-export function getPersonAllEmoteIntegrations2(user: TwitchUser) {
-  return getPersonEmoteIntegrations(emoteSources, user);
+export function getPersonAllEmoteIntegrations2(twitch: PersonTwitch) {
+  return getPersonEmoteIntegrations(emoteSources, twitch);
 }

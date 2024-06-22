@@ -9,7 +9,7 @@ import {
 import { api } from "./api";
 
 export const BetterTTV = {
-  async getPersonIntegration(twitch: TwitchUser) {
+  async getPersonIntegration(twitch: PersonTwitch) {
     const bttv = await api.getUserByTwitchId(twitch.id, twitch.login);
     const sets = [
       makeChannelSet(bttv.channelEmotes),

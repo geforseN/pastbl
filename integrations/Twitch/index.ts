@@ -53,7 +53,7 @@ function makeEmote(
   };
 }
 
-function makeOwner(twitch: TwitchUser) {
+function makeOwner(twitch: PersonTwitch) {
   return {
     pageAddress: "https://twitch.tv/" + twitch.login,
     twitch: {
@@ -93,7 +93,7 @@ export function makeTwitchGlobalIntegration(response: ChatEmotesResponse) {
 const makeGlobalIntegration = defineGlobalIntegrationMaker("Twitch");
 
 export const Twitch = {
-  async getPersonIntegration(twitch: TwitchUser) {
+  async getPersonIntegration(twitch: PersonTwitch) {
     const { data } = await fetchTwitchChatEmotes(twitch.id);
     const sets = makePersonSets(data);
     const owner = makeOwner(twitch);

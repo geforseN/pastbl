@@ -13,7 +13,7 @@
           target="_blank"
           class="size-7"
           :to="integration.owner.pageAddress"
-          :user
+          :twitch
           :size="28"
         />
         <nuxt-link :to="integration.owner.pageAddress" external target="_blank">
@@ -46,7 +46,7 @@
             size="xs"
             class="w-fit gap-0.5"
             :is-in-process="integration.status === 'refreshing'"
-            @click="emit('refresh')"
+            @click="$emit('refresh')"
           />
         </div>
       </div>
@@ -64,10 +64,10 @@ import {
 
 const props = defineProps<{
   integration: SomeEmoteIntegration<Source>;
-  user: TwitchUser;
+  twitch: PersonTwitch;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   refresh: [];
 }>();
 

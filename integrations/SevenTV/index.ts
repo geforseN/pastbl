@@ -25,7 +25,7 @@ export const SevenTV = {
     const set = makeGlobalSet(apiSet);
     return makeGlobalIntegration([set]);
   },
-  async getPersonIntegration(twitch: TwitchUser) {
+  async getPersonIntegration(twitch: PersonTwitch) {
     const profile = await api.getPersonProfile(twitch.id, twitch.login);
     const apiSet = await getApiUserEmoteSet(profile);
     const set = makeChannelSet(apiSet);
