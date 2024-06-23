@@ -2,7 +2,6 @@ import {
   defineGlobalIntegrationMaker,
   definePersonIntegrationMaker,
 } from "../common";
-import type { IBetterTTV } from "./api-types";
 
 function defineSetMaker<E, T>(name: string, transformEmote: (emote: E) => T) {
   return function (emotes: E[]) {

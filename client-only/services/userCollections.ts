@@ -15,6 +15,7 @@ import {
 import { groupAsync } from "~/utils/promise";
 import { setIntersection } from "~/utils/set";
 import { store } from "~/client-only/services/emote-collection-person/emote-collection-person-store";
+import type { IPersonEmoteCollection } from "~/integrations/abstract";
 
 const MAP = {
   FROM_IDB: {
@@ -38,7 +39,7 @@ const MAP = {
         return {
           ...collection,
           integrations: flatGroupBySource(populatedIntegrations),
-        } as IUserEmoteCollection;
+        } as IPersonEmoteCollection;
       },
       getEmoteIds(collection: IndexedDBUserEmoteCollection) {
         return flatGroupBy(
@@ -58,10 +59,10 @@ const MAP = {
   FOR_IDB: {
     _integration: {
       // FIXME: move from MAP
-      getEmotes(integration: IUserEmoteIntegration) {
+      getEmotes(integration: IPersonEmoteCollection) {
         return integration.sets.flatMap((set): IEmote[] => set.emotes);
       },
-      prepare(integration: IUserEmoteIntegration) {
+      prepare(integration: IPersonEmoteCollection) {
         return {
           ...integration,
           sets: integration.sets.map((set) => {
@@ -75,7 +76,7 @@ const MAP = {
       },
     },
     collection: {
-      fullPrepare(collection: IUserEmoteCollection) {
+      fullPrepare(collection: IPersonEmoteCollection) {
         const readyIntegrations = getReadyUserIntegrations(collection);
         const idbIntegrations = readyIntegrations.map(
           MAP.FOR_IDB._integration.prepare,
@@ -218,7 +219,7 @@ function getPopulatedIntegrations(
     return {
       ...idbIntegration,
       sets,
-    } as IUserEmoteIntegration;
+    } as IPersonEmoteCollection;
   });
   return Promise.all(populatedAsPromises);
 }

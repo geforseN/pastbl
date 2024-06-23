@@ -1,18 +1,11 @@
 import type { EmoteSource, IEmote } from "~/integrations";
+import type { IEmoteIntegration } from "~/integrations/abstract";
 
 type RecordOfEmotesMap = Record<EmoteSource, EmotesMap>;
 
-export type MinimalEmoteIntegration = {
-  source: EmoteSource;
-  sets: { emotes?: IEmote[] }[];
-};
+export type IEmoteIntegrationRecord = Record<EmoteSource, IEmoteIntegration>;
 
-export type MinimalEmoteIntegrationRecord = Record<
-  EmoteSource,
-  MinimalEmoteIntegration
->;
-
-export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
+export function useEmotes<T extends IEmoteIntegrationRecord>(
   getIntegrations: () => Partial<T>,
   options: { onCallEnd?: () => void } = {},
 ) {
@@ -20,12 +13,14 @@ export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
 
   watch(getIntegrations, (value) => {
     const integrations = Object.values(
-      value as Partial<MinimalEmoteIntegrationRecord>,
+      value as Partial<IEmoteIntegrationRecord>,
     );
     const integrationsRecord = flatGroupBy(
-      integrations,
+      integrations.map(
+        (integration) => new personEmoteCollection.Integration(integration),
+      ),
       (integration) => integration.source,
-      getEmotesMapFromIntegration,
+      (integration) => integration.emotes.asMap,
     );
     record.value = integrationsRecord;
     options.onCallEnd?.();
@@ -47,7 +42,7 @@ export function useEmotes<T extends MinimalEmoteIntegrationRecord>(
 }
 
 export function useEmotesWithInitialReady(
-  sourceToWatchFn: () => Partial<MinimalEmoteIntegrationRecord>,
+  sourceToWatchFn: () => Partial<IEmoteIntegrationRecord>,
 ) {
   const isInitialized = useBool(false);
 

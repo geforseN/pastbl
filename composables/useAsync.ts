@@ -50,8 +50,8 @@ export function useMyAsyncState<
 }
 
 export function useAsyncArray<
-  Data extends [],
-  Parameters extends [] = [],
+  Data extends unknown[],
+  Parameters extends unknown[] = [],
   Shallow extends boolean = true,
 >(
   promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),

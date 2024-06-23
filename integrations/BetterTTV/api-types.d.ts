@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-export module IBetterTTV {
-  export module API {
+declare module IBetterTTV {
+  declare module API {
     type BaseEmote = {
       animated: boolean;
       code: string;

@@ -52,8 +52,6 @@
 </template>
 <!-- TODO: move to file no setup script -->
 <script lang="ts">
-const f = "collections.users.fetch.";
-
 async function loadCollection(
   getCollection: () => Promise<void>,
   options: {
@@ -112,9 +110,14 @@ async function handleCollectionLoad() {
         toast.throw("fetchCollection__emptyInput"),
       );
       const login = toLowerCase(nickname);
-      const collection = await userCollectionsStore.loadCollection(login);
-      const status = getEmoteIntegrationsStatus(collection);
-      toast.notify("success", "collectionFetched", nickname, status);
+      const collection_ = await userCollectionsStore.loadCollection(login);
+      const collection = new PersonEmoteCollection(collection_);
+      toast.notify(
+        "success",
+        "collectionFetched",
+        nickname,
+        collection.integrations.status.asEmojiString,
+      );
       if (mustSelectCollectionOnLoad.state.value) {
         userCollectionsStore.selectCollection(login);
       }

@@ -42,7 +42,7 @@ export function useUserCollection(login: TwitchUserLogin) {
 
   const emotesEntries = computed(() => {
     const integrations = collection.state.value?.integrations || {};
-    return getEmotesMapFromIntegrations(integrations);
+    return new personEmoteCollection.Integrations(integrations).emotes.asMap;
   });
 
   function __getCollection__() {

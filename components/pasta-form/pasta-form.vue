@@ -84,7 +84,7 @@
           v-for="[tag, count] of props.hintedTagsMap"
           :key="tag"
           :value="tag"
-          :label="$t('pasta.create.tags.hint', { tag, count })"
+          :label="$t('pasta.tags.hint', { tag, count })"
         />
       </template>
     </pasta-form-tags-input>

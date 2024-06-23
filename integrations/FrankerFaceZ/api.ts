@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "../UserNotFoundError";
+import { PersonIntegrationNotFoundError } from "../UserNotFoundError";
 import type { UserStruct, RoomStruct, GlobalStruct } from "./api-types";
 import { assert } from "~/utils/error";
 
@@ -9,7 +9,10 @@ export const api = {
     const response = await fetch(
       `https://api.frankerfacez.com/v1/user/id/${id}`,
     );
-    assert.response.ok(response, new UserNotFoundError("FrankerFaceZ", login));
+    assert.response.ok(
+      response,
+      new PersonIntegrationNotFoundError("FrankerFaceZ", login),
+    );
     const json = await response.json();
     return json as UserStruct;
   },

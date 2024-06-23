@@ -1,4 +1,4 @@
-import type { NotificationColor, TFn } from "~/utils/toast/common";
+import type { NotificationColor, TranslateFn } from "~/utils/toast/common";
 
 type RaiseReason_ = string | Error | undefined;
 
@@ -103,7 +103,7 @@ export class ExtendedError extends Error {
     this.tDescriptionInterpolations = tDescriptionInterpolations;
   }
 
-  withAddedLocale(t: TFn) {
+  withAddedLocale(t: TranslateFn) {
     if (!this.mustAddLocale) {
       return new ExtendedError(this.description, {
         ...this,

@@ -84,5 +84,5 @@ export function populatePasta(
       indexesOfPastaTokensToSkip: new Set<number>(),
     }),
   );
-  pastaTextContainer.innerHTML = populatedWords.join(" ");
+  pastaTextContainer.textContent = populatedWords.join(" ");
 }

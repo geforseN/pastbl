@@ -1,7 +1,8 @@
 import type { EmoteSource } from ".";
+import type { IEmoteIntegrationOwner, IEmoteSet } from "./abstract";
 
 export function defineGlobalIntegrationMaker(source: EmoteSource) {
-  return function (sets: any[]) {
+  return function <S extends IEmoteSet>(sets: S[]) {
     return {
       formedAt: Date.now(),
       sets,
@@ -12,7 +13,10 @@ export function defineGlobalIntegrationMaker(source: EmoteSource) {
 }
 
 export function definePersonIntegrationMaker(source: EmoteSource) {
-  return function (sets: any[], owner: object) {
+  return function <S extends IEmoteSet, O extends IEmoteIntegrationOwner>(
+    sets: S[],
+    owner: O,
+  ) {
     return {
       formedAt: Date.now(),
       sets,
@@ -23,4 +27,5 @@ export function definePersonIntegrationMaker(source: EmoteSource) {
   };
 }
 
+/*  */
 export function defineEmoteSetMaker() {}

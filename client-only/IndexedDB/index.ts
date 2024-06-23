@@ -11,10 +11,11 @@ import type {
   IBasicUserEmoteCollection,
 } from "~/integrations";
 import type { SettledEmoteIntegration } from "~/integrations/integrations";
+import type { IEmoteIntegration } from "~/integrations/abstract";
 
 interface GenericIndexedDBUserEmoteIntegration<
   SourceT extends EmoteSource,
-  IntegrationT extends IUserEmoteIntegration,
+  IntegrationT extends IEmoteIntegration,
   EmoteT extends IEmote,
   EmoteSetT extends IEmoteSet<SourceT, EmoteT>,
 > extends InternalGenericUserIntegration<SourceT, IntegrationT> {

@@ -1,15 +1,29 @@
-export class UserNotFoundError extends Error {
-  source: "BetterTTV" | "SevenTV" | "FrankerFaceZ";
+import type { EmoteSource } from "./emote-source";
 
+export class PersonIntegrationNotFoundError extends Error {
   constructor(
-    source: "BetterTTV" | "SevenTV" | "FrankerFaceZ",
-    login?: string,
+    private readonly source: EmoteSource,
+    private readonly login?: string,
   ) {
-    super(
-      `⚠️ ${source} does not have ${
-        login ? `user with login ${login}` : "such user"
-      }`,
-    );
-    this.source = source;
+    super();
+  }
+
+  override get message() {
+    return `⚠️ ${this.source} does not have ${
+      this.login ? `person with login ${this.login}` : "such person"
+    }`;
+  }
+
+  get code() {
+    return "PERSON_INTEGRATION_NOT_FOUND";
+  }
+
+  toJSON() {
+    return {
+      code: this.code,
+      message: this.message,
+      source: this.source,
+      login: this.login,
+    };
   }
 }

@@ -1,6 +1,5 @@
 import { assert } from "~/utils/error";
-import { UserNotFoundError } from "../UserNotFoundError";
-import type { IBetterTTV } from "./api-types";
+import { PersonIntegrationNotFoundError } from "../UserNotFoundError";
 
 export const api = {
   // LINK: https://betterttv.com/developers/api#user
@@ -8,7 +7,10 @@ export const api = {
     const response = await fetch(
       `https://api.betterttv.net/3/cached/users/twitch/${twitchId}`,
     );
-    assert.response.ok(response, new UserNotFoundError("BetterTTV", login));
+    assert.response.ok(
+      response,
+      new PersonIntegrationNotFoundError("BetterTTV", login),
+    );
     const json = await response.json();
     return json as IBetterTTV.API.User;
   },
