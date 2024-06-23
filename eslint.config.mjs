@@ -3,9 +3,9 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
 const commonVueFilesPaths = /** @type {const} */ ([
   "app.vue",
-  "./components/**/*.vue",
-  "./layouts/**/*.vue",
-  "./pages/**/*.vue",
+  "components/**/*.vue",
+  "layouts/**/*.vue",
+  "pages/**/*.vue",
 ]);
 
 export default withNuxt()
@@ -49,7 +49,10 @@ export default withNuxt()
           ],
         },
       ],
-      /* TODO: specify this rule, do not use "off" */
+      /* 
+        TODO: specify this rule, do not use "off"
+        LINK: https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v54.0.0/docs/rules/filename-case.md 
+      */
       "unicorn/filename-case": "off",
       "unicorn/no-array-callback-reference": "off",
       "unicorn/catch-error-name": [

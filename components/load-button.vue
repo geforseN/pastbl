@@ -1,18 +1,14 @@
 <template>
   <button
     class="btn btn-secondary"
-    :class="[size.btn, props.isInProcess && props.inProcessClass]"
-    :disabled="props.isInProcess"
+    :class="[styles.btn, isInProcess && inProcessClass]"
+    :disabled="isInProcess"
   >
-    {{ props.isInProcess ? $t("loading") : $t("load") }}
+    {{ isInProcess ? $t("loading") : $t("load") }}
     <icon
       name="ic:round-download"
-      :size="size.icon"
-      :class="[
-        size.iconClass,
-        props.iconClass,
-        props.isInProcess && props.inProcessIconClass,
-      ]"
+      :size="styles.icon"
+      :class="[styles.iconClass, iconClass, isInProcess && inProcessIconClass]"
     />
   </button>
 </template>
@@ -35,5 +31,5 @@ const props = withDefaults(
   },
 );
 
-const size = computed(() => sizeStyles[props.size]);
+const styles = computed(() => sizeStyles[props.size]);
 </script>

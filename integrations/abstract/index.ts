@@ -8,8 +8,10 @@ export type { IEmoteSet } from "./EmoteSet";
 export type { IEmoteIntegration } from "./EmoteIntegration";
 
 export interface IPersonEmoteCollection extends HasFormedAt {
-  integrations: Record<EmoteSource, IEmoteIntegration>;
+  integrations: Record<EmoteSource, IEmoteIntegration & { status: string }>;
   user: {
     twitch: PersonTwitch;
   };
 }
+
+export interface IEmoteIntegrationOwner {}

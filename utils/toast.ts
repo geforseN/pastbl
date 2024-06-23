@@ -12,13 +12,13 @@ import {
   type WarningNotificationName,
 } from "~/utils/toast/warning";
 
-const getters = {
+const toastsGetters = {
   failure: getFailureNotification,
   success: getSuccessNotification,
   warning: getWarningNotification,
 } as const;
 
-type NotificationStatus = keyof typeof getters;
+type NotificationStatus = keyof typeof toastsGetters;
 
 type NotificationNameOfStatus<S extends NotificationStatus> = {
   failure: FailureNotificationName;
@@ -46,8 +46,9 @@ export function useMyToast() {
       functionName: K,
       ...args: any[]
     ) {
-      const getter = getters[status];
-      const notification = getter(t, functionName, ...args);
+      const getToast = toastsGetters[status];
+      assert.ok(isFunction(getToast));
+      const notification = getToast(t, functionName, ...args);
       return toast.add(notification);
     },
     fail<K extends FailureNotificationName>(name: K, ...args: any[]) {

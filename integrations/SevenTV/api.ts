@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "../UserNotFoundError";
+import { PersonIntegrationNotFoundError } from "../UserNotFoundError";
 import { assert } from "~/utils/error";
 import type { EmoteSetWithEmotes, UserProfile } from "./api-types";
 
@@ -20,7 +20,10 @@ async function get7TVUserProfileByTwitchId(
   login?: TwitchUserLogin,
 ) {
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
-  assert.response.ok(response, new UserNotFoundError("SevenTV", login));
+  assert.response.ok(
+    response,
+    new PersonIntegrationNotFoundError("SevenTV", login),
+  );
   const json = await response.json();
   return json as UserProfile;
 }
