@@ -1,10 +1,12 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h2 class="collapse-title text-xl font-bold">{{ $t(d + "heading") }}</h2>
+    <h2 class="collapse-title text-xl font-bold">
+      {{ $t("pasta.find.date.heading") }}
+    </h2>
     <div class="collapse-content !p-2 !py-0">
       <section class="mb-2 rounded-btn border border-secondary py-2">
-        <h3 class="px-2 text-xl">{{ $t(d + "createdAt") }}</h3>
+        <h3 class="px-2 text-xl">{{ $t("pasta.find.date.createdAt") }}</h3>
         <div class="space-y-1">
           <div class="form-control px-2 pb-0">
             <label for="from-pasta-created-at" class="cursor-pointer px-0.5">
@@ -46,8 +48,5 @@
   </section>
 </template>
 <script lang="ts" setup>
-import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
-
-const d = f + "date.";
 const pastaFindStore = usePastaFindStore();
 </script>

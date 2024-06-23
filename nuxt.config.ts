@@ -1,9 +1,7 @@
-import { VaSlider, VaCounter } from "vuestic-ui";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   future: {
-    compatibilityVersion: 3,
+    compatibilityVersion: 4,
   },
   experimental: {
     viewTransition: true,
@@ -113,21 +111,11 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    "@vuestic/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
     "nuxt-icon",
     "@nuxt/eslint",
   ],
-  vuestic: {
-    css: false,
-    config: {
-      components: {
-        VaCounter,
-        VaSlider,
-      },
-    },
-  },
   vue: {
     propsDestructure: true,
   },

@@ -2,7 +2,7 @@
   <form class="rounded-box border-2 p-2" @submit.prevent="handleCollectionLoad">
     <div class="flex justify-between p-2">
       <h2 id="heading" class="text-3xl font-bold">
-        {{ $t(f + "heading") }}&nbsp;
+        {{ $t("collections.users.fetch.heading") }}&nbsp;
       </h2>
       <emote-integration-logos />
     </div>
@@ -12,18 +12,18 @@
         ref="inputRef"
         v-model="channelsSearchNickname"
         name="fetch-nickname"
-        :placeholder="$t(f + 'placeholder')"
+        :placeholder="$t('collections.users.fetch.placeholder')"
         class="input join-item input-accent grow"
         type="search"
         required
       />
       <button class="btn btn-accent join-item w-2/6">
         <span v-if="isLoadingCollection" class="flex items-center gap-2">
-          {{ $t(f + "button.text-on-load") }}
+          {{ $t("collections.users.fetch.button.text-on-load") }}
           <span class="loading loading-spinner" />
         </span>
         <template v-else>
-          {{ $t(f + "button.text") }}
+          {{ $t("collections.users.fetch.button.text") }}
         </template>
       </button>
     </div>
@@ -38,7 +38,7 @@
     />
     <div class="flex items-center justify-between p-2">
       <label for="must-select-collection-on-load">
-        {{ $t(f + "must-select-onload") }}
+        {{ $t("collections.users.fetch.must-select-onload") }}
       </label>
       <input
         id="must-select-collection-on-load"

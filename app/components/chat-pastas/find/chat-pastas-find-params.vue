@@ -1,11 +1,13 @@
 <template>
   <section class="w-full space-y-1 rounded-box border-2 p-2">
     <h2 id="heading" class="p-2 text-2xl font-bold xs:text-3xl">
-      {{ $t(f + "heading") }}
+      {{ $t("pasta.find.heading") }}
     </h2>
     <article class="form-control rounded-box border p-2">
       <label for="text-to-find" class="cursor-pointer">
-        <h3 class="p-2 text-xl font-bold">{{ $t(f + "text-to-find") }}</h3>
+        <h3 class="p-2 text-xl font-bold">
+          {{ $t("pasta.find.text-to-find") }}
+        </h3>
       </label>
       <input
         id="text-to-find"
@@ -31,9 +33,6 @@
     <chat-pastas-find-date />
   </section>
 </template>
-<script lang="ts">
-export const f = "pasta.find." as const;
-</script>
 <script lang="ts" setup>
 const pastaFindStore = usePastaFindStore();
 </script>

@@ -36,7 +36,7 @@
 </template>
 <script lang="ts">
 import { pastasService } from "~/client-only/services";
-import { pastaTagsCount } from "~/config/const";
+import { pastaTagsCount } from "~~/config/const";
 
 type MiniPasta = {
   tags?: string[];
