@@ -1,11 +1,13 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h3 class="collapse-title text-xl font-bold">{{ $t(r + "heading") }}</h3>
+    <h3 class="collapse-title text-xl font-bold">
+      {{ $t("pasta.find.range.heading") }}
+    </h3>
     <div class="collapse-content">
       <article class="mb-3 flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-length">
-          <h3>{{ $t(r + "must-respect") }}</h3>
+          <h3>{{ $t("pasta.find.range.must-respect") }}</h3>
         </label>
         <input
           id="must-respect-selected-length"
@@ -34,7 +36,7 @@
             for="pasta-to-find-min-length"
             :class="!respect && 'opacity-50'"
           >
-            {{ $t(r + "min") }}
+            {{ $t("pasta.find.range.min") }}
           </label>
           <va-counter
             id="pasta-to-find-min-length"
@@ -54,7 +56,7 @@
             for="pasta-to-find-max-length"
             :class="!respect && 'opacity-50'"
           >
-            {{ $t(r + "max") }}
+            {{ $t("pasta.find.range.max") }}
           </label>
           <va-counter
             id="pasta-to-find-max-length"
@@ -74,13 +76,11 @@
   </section>
 </template>
 <script lang="ts" setup>
-import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
-
-const r = f + ("range." as const);
-
 const range = defineModel<number[]>({ required: true });
+
 const min = defineModel<number>("min", { required: true });
 const max = defineModel<number>("max", { required: true });
+
 const respect = defineModel<boolean>("respect", { required: true });
 </script>
 <style scoped>

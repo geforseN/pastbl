@@ -1,11 +1,13 @@
 <template>
   <section class="collapse collapse-arrow border">
     <input type="checkbox" />
-    <h2 class="collapse-title text-xl font-bold">{{ $t(ta + "heading") }}</h2>
+    <h2 class="collapse-title text-xl font-bold">
+      {{ $t("pasta.find.tags.heading") }}
+    </h2>
     <div class="collapse-content space-y-1">
       <article class="flex items-center justify-between">
         <label class="cursor-pointer" for="must-respect-selected-tags">
-          <h3>{{ $t(ta + "must-respect") }}</h3>
+          <h3>{{ $t("pasta.find.tags.must-respect") }}</h3>
         </label>
         <input
           id="must-respect-selected-tags"
@@ -34,7 +36,7 @@
         </select>
         <div class="px-1">
           <span class="font-bold text-warning">{{ $t("note") }}: </span>
-          <i18n-t :keypath="`${ta}select-hint`" tag="span">
+          <i18n-t keypath="pasta.find.tags.select-hint" tag="span">
             <span class="inline-flex items-baseline gap-x-0.5">
               <kbd class="kbd kbd-sm">CTRL</kbd>
               +
@@ -47,10 +49,6 @@
   </section>
 </template>
 <script setup lang="ts">
-import { f } from "~/components/chat-pastas/find/chat-pastas-find-params.vue";
-
-const ta = f + ("tags." as const);
-
 const mustRespectSelectedTags = defineModel<boolean>(
   "mustRespectSelectedTags",
   { required: true },

@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { $fetch } from "ofetch";
 import type { TwitchApi } from "./api-types";
-import { environment } from "~/server/utils/environment";
+import { environment } from "~~/server/utils/environment";
 
 export const twitchApi = {
   fetch: createTwitchApiFetch(),

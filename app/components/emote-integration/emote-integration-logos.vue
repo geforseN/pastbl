@@ -6,7 +6,7 @@
       :key="source"
       :class="[
         index % 2 && `absolute translate-x-5`,
-        index === 3 && ' translate-y-[21px]',
+        index === 3 && 'translate-y-[21px]',
       ]"
       :source="source"
       width="16"
