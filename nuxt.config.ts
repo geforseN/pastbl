@@ -107,6 +107,7 @@ export default defineNuxtConfig({
   modules: [
     "@formkit/auto-animate/nuxt",
     "@nuxt/test-utils/module",
+    "@element-plus/nuxt",
     "@nuxt/ui",
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
