@@ -46,13 +46,6 @@
             :max="max"
             :disabled="!respect"
           />
-          <!-- 
-            buttons
-            :flat="false"
-            margins="0"
-            color="secondary"
-            class="w-28"
-          -->
         </div>
       </div>
     </div>
