@@ -3,10 +3,9 @@ import {
   defineGlobalIntegrationMaker,
   definePersonIntegrationMaker,
 } from "../common";
-import type { Emote, EmoteSetWithEmotes, UserProfile } from "./api-types";
 
 function defineEmoteMaker(type: string) {
-  return function (emote: Emote) {
+  return function (emote: ISevenTV.API.Emote) {
     const {
       data: { tags, host, listed, animated },
       id,
@@ -41,7 +40,7 @@ function defineEmoteMaker(type: string) {
 function defineEmoteSetMaker(type: string) {
   const makeEmote = defineEmoteMaker(type);
 
-  return function (set: EmoteSetWithEmotes) {
+  return function (set: ISevenTV.API.EmoteSetWithEmotes) {
     return {
       type,
       name: set.name,
@@ -61,7 +60,7 @@ export const makeChannelSet = defineEmoteSetMaker("channel");
 
 export const makePersonIntegration = definePersonIntegrationMaker("SevenTV");
 
-export function makeOwner(profile: UserProfile) {
+export function makeOwner(profile: ISevenTV.API.UserProfile) {
   return {
     id: profile.user.id,
     emoteCapacity: profile.emote_capacity,

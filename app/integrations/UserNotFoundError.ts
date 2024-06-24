@@ -2,14 +2,15 @@ import type { EmoteSource } from "./emote-source";
 
 export class PersonIntegrationNotFoundError extends Error {
   constructor(
-    private readonly source: EmoteSource,
+    private readonly integrationSource: EmoteSource,
     private readonly login?: string,
+    public override readonly cause?: Error,
   ) {
     super();
   }
 
   override get message() {
-    return `⚠️ ${this.source} does not have ${
+    return `⚠️ ${this.integrationSource} does not have ${
       this.login ? `person with login ${this.login}` : "such person"
     }`;
   }
@@ -22,7 +23,7 @@ export class PersonIntegrationNotFoundError extends Error {
     return {
       code: this.code,
       message: this.message,
-      source: this.source,
+      source: this.integrationSource,
       login: this.login,
     };
   }

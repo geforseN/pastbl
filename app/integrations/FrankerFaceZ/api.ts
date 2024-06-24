@@ -1,5 +1,4 @@
 import { PersonIntegrationNotFoundError } from "../UserNotFoundError";
-import type { UserStruct, RoomStruct, GlobalStruct } from "./api-types";
 import { assert } from "~/utils/error";
 
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
@@ -14,7 +13,7 @@ export const api = {
       new PersonIntegrationNotFoundError("FrankerFaceZ", login),
     );
     const json = await response.json();
-    return json as UserStruct;
+    return json as IFrankerFaceZ.API.UserStruct;
   },
   async getPersonRoom(twitchId: TwitchUserId) {
     const response = await fetch(
@@ -25,7 +24,7 @@ export const api = {
       "Failed to load FrankerFaceZ user emotes",
     );
     const json = await response.json();
-    return json as RoomStruct;
+    return json as IFrankerFaceZ.API.RoomStruct;
   },
   async getGlobalEmotes() {
     const response = await fetch(
@@ -33,6 +32,6 @@ export const api = {
     );
     assert.response.ok(response, "Failed to load FrankerFaceZ global emotes");
     const json = await response.json();
-    return json as GlobalStruct;
+    return json as IFrankerFaceZ.API.GlobalStruct;
   },
 };

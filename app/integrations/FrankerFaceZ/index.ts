@@ -4,21 +4,15 @@ import {
   definePersonIntegrationMaker,
 } from "../common";
 import { api } from "./api";
-import type {
-  EmoteSet,
-  UserStruct,
-  GlobalStruct,
-  Emote,
-  EmoteRelatedPerson,
-  EmoteSetsRecord,
-} from "./api-types";
 import { assert } from "~/utils/error";
 import { isLowercase } from "~/utils/string";
 import { isNotNullable } from "~/utils/guard";
 
-type MappedEmoteSet = Unwrap<Omit<EmoteSet, "id"> & { id: `${number}` }>;
+type MappedEmoteSet = Unwrap<
+  Omit<IFrankerFaceZ.API.EmoteSet, "id"> & { id: `${number}` }
+>;
 
-function makeOwner(profile: UserStruct) {
+function makeOwner(profile: IFrankerFaceZ.API.UserStruct) {
   const { user, badges } = profile;
   if (user.emote_sets.length > 0) {
     consola.warn(
@@ -62,7 +56,7 @@ export const FrankerFaceZ = {
   },
 };
 
-function makeEmoteRelatedPerson(person: EmoteRelatedPerson) {
+function makeEmoteRelatedPerson(person: IFrankerFaceZ.API.EmoteRelatedPerson) {
   const { name: login } = person;
   assert.ok(isLowercase(login));
   return {
@@ -72,7 +66,7 @@ function makeEmoteRelatedPerson(person: EmoteRelatedPerson) {
   };
 }
 
-function makeEmote<E extends Emote>(
+function makeEmote<E extends IFrankerFaceZ.API.Emote>(
   emote: E,
   additional: { type: string } & Record<string, unknown>,
 ) {
@@ -92,17 +86,20 @@ function makeEmote<E extends Emote>(
   };
 }
 
-function makeMappedEmoteSet(set: EmoteSet) {
+function makeMappedEmoteSet(set: IFrankerFaceZ.API.EmoteSet) {
   return {
     ...set,
     id: set.id.toString(),
   } as MappedEmoteSet;
 }
 
-const makeChannelEmote = (emote: Emote) =>
+const makeChannelEmote = (emote: IFrankerFaceZ.API.Emote) =>
   makeEmote(emote, { type: "channel" });
 
-export function makeChannelSets(setsRecord: EmoteSetsRecord, capacity: number) {
+export function makeChannelSets(
+  setsRecord: IFrankerFaceZ.API.EmoteSetsRecord,
+  capacity: number,
+) {
   return Object.values(setsRecord)
     .map(makeMappedEmoteSet)
     .map((set) => {
@@ -117,7 +114,8 @@ export function makeChannelSets(setsRecord: EmoteSetsRecord, capacity: number) {
     });
 }
 
-const makeGlobalEmote = (emote: Emote) => makeEmote(emote, { type: "global" });
+const makeGlobalEmote = (emote: IFrankerFaceZ.API.Emote) =>
+  makeEmote(emote, { type: "global" });
 
 function transformGlobalSet(set: MappedEmoteSet) {
   return {
@@ -129,7 +127,7 @@ function transformGlobalSet(set: MappedEmoteSet) {
   };
 }
 
-const makeSpecificEmote = (emote: Emote) =>
+const makeSpecificEmote = (emote: IFrankerFaceZ.API.Emote) =>
   makeEmote(emote, { type: "specific" });
 
 function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
@@ -148,7 +146,7 @@ function transformSpecificSet(set: MappedEmoteSet, twitchIds: number[]) {
 const makeGlobalIntegration = defineGlobalIntegrationMaker("FrankerFaceZ");
 const makePersonIntegration = definePersonIntegrationMaker("FrankerFaceZ");
 
-function transformGlobalSets(response: GlobalStruct) {
+function transformGlobalSets(response: IFrankerFaceZ.API.GlobalStruct) {
   const defaultEmoteSetsIds = new Set(response.default_sets.map(String));
   const specificEmoteSets = new Map(Object.entries(response.user_ids));
   return Object.values(response.sets)

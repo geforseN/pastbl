@@ -1,6 +1,5 @@
 import { PersonIntegrationNotFoundError } from "../UserNotFoundError";
 import { assert } from "~/utils/error";
-import type { EmoteSetWithEmotes, UserProfile } from "./api-types";
 
 // LINK: https://7tv.io/docs
 
@@ -12,7 +11,7 @@ async function get7TVSetById(setId: string) {
     Array.isArray(json?.emotes),
     new TypeError("Failed to load user emotes from SevenTV"),
   );
-  return json as EmoteSetWithEmotes;
+  return json as ISevenTV.API.EmoteSetWithEmotes;
 }
 
 async function get7TVUserProfileByTwitchId(
@@ -25,7 +24,7 @@ async function get7TVUserProfileByTwitchId(
     new PersonIntegrationNotFoundError("SevenTV", login),
   );
   const json = await response.json();
-  return json as UserProfile;
+  return json as ISevenTV.API.UserProfile;
 }
 
 async function get7TVGlobalEmotesSet() {
@@ -36,7 +35,7 @@ async function get7TVGlobalEmotesSet() {
   );
   const json = await response.json();
   assert.ok(Array.isArray(json?.emotes));
-  return json as EmoteSetWithEmotes;
+  return json as ISevenTV.API.EmoteSetWithEmotes;
 }
 
 export const api = {

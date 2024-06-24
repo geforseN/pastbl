@@ -1,6 +1,5 @@
 import assert from "node:assert";
 import { $fetch } from "ofetch";
-import type { TwitchApi } from "./api-types";
 import { environment } from "~~/server/utils/environment";
 
 export const twitchApi = {
@@ -21,12 +20,11 @@ export function createTwitchApiFetch(token?: TwitchToken) {
 }
 
 export async function fetchTwitchUser(login: TwitchUserLogin) {
-  const { data } = await twitchApi.fetch<TwitchApi["getUser"]["response"]>(
-    "/users",
-    {
-      query: { login },
-    },
-  );
+  const { data } = await twitchApi.fetch<
+    ITwitch.API.TwitchApi["getUser"]["response"]
+  >("/users", {
+    query: { login },
+  });
   assert.ok(
     data.length === 1,
     new Error("User with login=" + login + " not found"),
