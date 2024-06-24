@@ -16,21 +16,8 @@
           class="toggle toggle-primary"
         />
       </article>
-      <va-slider
-        v-model="range"
-        range
-        :disabled="!respect"
-        :min
-        :max
-        color="secondary"
-        class="w-full px-2 pt-2"
-        track-label-visible
-      >
-        <template #trackLabel="{ value }">
-          <span class="text-base-content">{{ value }}</span>
-        </template>
-      </va-slider>
-      <div class="flex justify-between p-1">
+      <el-slider v-model="range" :disabled="!respect" range :min :max />
+      <div class="flex justify-between">
         <div class="flex flex-col">
           <label
             for="pasta-to-find-min-length"
@@ -38,17 +25,11 @@
           >
             {{ $t("pasta.find.range.min") }}
           </label>
-          <va-counter
-            id="pasta-to-find-min-length"
+          <el-input-number
             v-model="range[0]"
-            :disabled="!respect"
-            :min="min"
+            :min
             :max="range[1]"
-            buttons
-            :flat="false"
-            margins="0"
-            color="secondary"
-            class="w-28"
+            :disabled="!respect"
           />
         </div>
         <div class="flex flex-col">
@@ -58,18 +39,20 @@
           >
             {{ $t("pasta.find.range.max") }}
           </label>
-          <va-counter
+          <el-input-number
             id="pasta-to-find-max-length"
             v-model="range[1]"
-            :disabled="!respect"
             :min="range[0]"
             :max="max"
+            :disabled="!respect"
+          />
+          <!-- 
             buttons
             :flat="false"
             margins="0"
             color="secondary"
             class="w-28"
-          />
+          -->
         </div>
       </div>
     </div>
@@ -84,9 +67,29 @@ const max = defineModel<number>("max", { required: true });
 const respect = defineModel<boolean>("respect", { required: true });
 </script>
 <style scoped>
-:deep(.va-slider__container)
-  *:where(.va-slider__track--selected, .va-slider__handler) {
-  background-color: theme(colors.secondary) !important;
-  border-color: theme(colors.secondary) !important;
+:deep(.el-slider__bar) {
+  background-color: theme(colors.secondary);
+}
+
+:deep(.el-slider__button) {
+  border: 4px solid theme(colors.secondary);
+}
+
+:deep(.el-input) {
+  --el-input-focus-border: theme(colors.primary.DEFAULT);
+  --el-input-focus-border-color: theme(colors.secondary);
+  --el-input-hover-border-color: theme(colors.primary.DEFAULT);
+}
+
+:deep(.el-input__wrapper:hover) {
+  --el-input-hover-border-color: theme(colors.secondary);
+}
+:deep(.el-input__wrapper.is-focus) {
+  --el-input-focus-border-color: theme(colors.secondary);
+}
+
+:deep(.el-input-number__decrease:hover),
+:deep(.el-input-number__increase:hover) {
+  color: theme(colors.secondary);
 }
 </style>
