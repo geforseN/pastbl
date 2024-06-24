@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { TwitchApi } from "./twitch-api.types";
 import { canBeTwitchUserLogin } from "./twitch-user-login";
 import { canBeTwitchUserId } from "./twitch-user-id";
 
@@ -39,7 +38,9 @@ const sessionUserSchema = twitchApiUserSchema.transform((user) => ({
 
 export type SessionUser = z.infer<typeof sessionUserSchema>;
 
-function makeTwitchUser(apiTwitchUser: TwitchApi["getUser"]["responseItem"]) {
+function makeTwitchUser(
+  apiTwitchUser: ITwitch.API.TwitchApi["getUser"]["responseItem"],
+) {
   return twitchUserSchema.parse(apiTwitchUser);
 }
 

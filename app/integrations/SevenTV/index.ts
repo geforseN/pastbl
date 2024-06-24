@@ -6,15 +6,14 @@ import {
   makeOwner,
   makePersonIntegration,
 } from "./api-transform";
-import type { EmoteSetWithEmotes, UserProfile } from "./api-types";
 
-async function getApiUserEmoteSet(profile: UserProfile) {
+async function getApiUserEmoteSet(profile: ISevenTV.API.UserProfile) {
   if (profile.emote_set.emotes !== undefined) {
-    return profile.emote_set as EmoteSetWithEmotes;
+    return profile.emote_set as ISevenTV.API.EmoteSetWithEmotes;
   }
   const set = (await api.getPersonSet(
     profile.emote_set.id,
-  )) as EmoteSetWithEmotes;
+  )) as ISevenTV.API.EmoteSetWithEmotes;
   assert.ok(set.emotes, "Failed to load person emotes");
   return set;
 }

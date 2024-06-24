@@ -22,7 +22,7 @@ export type Channel = {
 );
 
 function makeChannel(
-  apiChannel: TwitchApi["getSearchChannels"]["responseItem"],
+  apiChannel: ITwitch.API.TwitchApi["getSearchChannels"]["responseItem"],
 ) {
   return {
     id: apiChannel.id,

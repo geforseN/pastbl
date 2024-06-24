@@ -2,7 +2,6 @@ import {
   defineGlobalIntegrationMaker,
   definePersonIntegrationMaker,
 } from "../common";
-import type { ChatEmotesResponse, GlobalEmote, TwitchApi } from "./api-types";
 import { fetchTwitchChatEmotes, fetchTwitchGlobalEmotes } from "./api";
 import { groupBy } from "~/utils/object";
 import { assert } from "~/utils/error";
@@ -30,7 +29,9 @@ function getSetName(emote: {
 }
 
 function makeEmote(
-  emote: TwitchApi["getChatEmotes"]["responseItem"] | GlobalEmote,
+  emote:
+    | ITwitch.API.GetChatEmotesResponse["data"][number]
+    | ITwitch.API.GlobalEmote,
   type: "global" | "channel",
 ) {
   const isAnimated = emote.format.includes("animated");
@@ -62,7 +63,7 @@ function makeOwner(twitch: PersonTwitch) {
   };
 }
 
-function makePersonSets(emotes: TwitchApi["getChatEmotes"]["responseItem"][]) {
+function makePersonSets(emotes: ITwitch.API.GetChatEmotesResponse["data"]) {
   const groupedEmotesBySetName = groupBy(emotes, getSetName, (emote) =>
     makeEmote(emote, "channel"),
   );
@@ -77,7 +78,7 @@ function makePersonSets(emotes: TwitchApi["getChatEmotes"]["responseItem"][]) {
 
 const makePersonIntegration = definePersonIntegrationMaker("Twitch");
 
-function getGlobalEmoteSet(response: ChatEmotesResponse) {
+function getGlobalEmoteSet(response: ITwitch.API.ChatEmotesResponse) {
   return {
     name: "Global Emotes",
     source: "Twitch",
@@ -85,7 +86,9 @@ function getGlobalEmoteSet(response: ChatEmotesResponse) {
   };
 }
 
-export function makeTwitchGlobalIntegration(response: ChatEmotesResponse) {
+export function makeTwitchGlobalIntegration(
+  response: ITwitch.API.ChatEmotesResponse,
+) {
   const set = getGlobalEmoteSet(response);
   return makeGlobalIntegration([set]);
 }
