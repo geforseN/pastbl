@@ -27,9 +27,3 @@ useHead({
   title: "Main page",
 });
 </script>
-<style>
-html,
-body {
-  scrollbar-gutter: stable;
-}
-</style>

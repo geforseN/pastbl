@@ -52,7 +52,7 @@
             />
           </client-only>
           <button
-            v-if="props.pastaTags.length > 0"
+            v-if="pastaTags.length > 0"
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
@@ -66,7 +66,7 @@
     </div>
     <pasta-form-tags
       class="xs:max-w-[420px]"
-      :tags="props.pastaTags"
+      :tags="pastaTags"
       @remove-tag="(tag) => emit('removeTag', tag)"
     />
     <pasta-form-tags-input
@@ -81,7 +81,7 @@
         firefox shows label only, value used onclick
         chrome shows value and label below, value used onclick -->
         <option
-          v-for="[tag, count] of props.hintedTagsMap"
+          v-for="[tag, count] of hintedTagsMap"
           :key="tag"
           :value="tag"
           :label="$t('pasta.tags.hint', { tag, count })"
@@ -108,7 +108,7 @@ watchDebounced(
   { debounce: 200 },
 );
 
-const props = defineProps<{
+defineProps<{
   pastaTags: string[];
   hintedTagsMap: [tagValue: string, tagCount: number][];
 }>();

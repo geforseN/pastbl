@@ -7,59 +7,70 @@ export interface IEmoteIntegration extends HasSource, HasFormedAt {
   status: string;
 }
 
-type BaseEmoteIntegration<SO extends EmoteSource, ST extends string> = {
-  readonly source: SO;
-  readonly status: ST;
-};
+// ----------------------------------------------------------------
 
-type EmoteIntegrationState<SE extends object> = {
-  readonly formedAt: number;
-  readonly sets: SE[];
-};
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export declare namespace IEmoteIntegrations {
+  export type Base = IEmoteIntegration;
+  export type Ready = ReadyIntegration;
+  export type Failed = FailedIntegration;
+  export type Loading = LoadingIntegration;
+  export type Refreshing = RefreshingIntegration;
+  export type Some = SomeIntegration;
+}
 
-type EmoteIntegrationError = {
-  readonly reason?: string;
-};
+interface Integration extends HasSource {
+  status: string;
+}
 
-export type ReadyIntegration<SO extends EmoteSource> = BaseEmoteIntegration<
-  SO,
-  "ready"
-> &
-  EmoteIntegrationState<object>;
+interface _IntegrationState extends HasFormedAt {
+  sets: IEmoteSet[];
+}
 
-export type FailedIntegration<SO extends EmoteSource> = BaseEmoteIntegration<
-  SO,
-  "failed"
-> &
-  EmoteIntegrationError;
+interface StateIntegration extends Integration, _IntegrationState {}
 
-export type EmptyIntegration<SO extends EmoteSource> = BaseEmoteIntegration<
-  SO,
-  "empty"
+interface _IntegrationError {
+  reason: string;
+}
+
+interface ErrorIntegration extends Integration, _IntegrationError {}
+
+export interface ReadyIntegration extends StateIntegration {
+  status: "ready";
+}
+
+export interface EmptyIntegration extends Integration {
+  status: "empty";
+}
+
+export interface LoadingIntegration extends Integration {
+  status: "loading";
+}
+
+export interface FailedIntegration extends ErrorIntegration {
+  status: "failed";
+}
+
+export interface RefreshingIntegration extends StateIntegration {
+  status: "refreshing";
+}
+
+export type SomeIntegration =
+  | ReadyIntegration
+  | FailedIntegration
+  | LoadingIntegration
+  | RefreshingIntegration;
+
+export type SettledIntegration = Extract<
+  SomeIntegration,
+  { status: "ready" | "failed" /* | "empty" */ }
 >;
 
-export type LoadingIntegration<SO extends EmoteSource> = BaseEmoteIntegration<
-  SO,
-  "loading"
->;
-
-export type RefreshingIntegration<SO extends EmoteSource> =
-  BaseEmoteIntegration<SO, "refreshing"> & EmoteIntegrationState<object>;
-
-export type SettledEmoteIntegration<SO extends EmoteSource = EmoteSource> =
-  | ReadyIntegration<SO>
-  | FailedIntegration<SO>
-  | EmptyIntegration<SO>;
-
-export type SomeEmoteIntegration<SO extends EmoteSource = EmoteSource> =
-  | SettledEmoteIntegration<SO>
-  | LoadingIntegration<SO>
-  | RefreshingIntegration<SO>;
-
-export type SomeEmoteIntegrationsRecord = {
-  [SO in EmoteSource]: SomeEmoteIntegration<SO>;
+type IntegrationRecord<I extends Integration> = {
+  [S in EmoteSource]: I & { source: S };
 };
 
-export type SettledEmoteIntegrationsRecord = {
-  [SO in EmoteSource]: SettledEmoteIntegration<SO>;
-};
+export type SomeEmoteIntegrationsRecord = IntegrationRecord<SomeIntegration>;
+
+export type SettledEmoteIntegrationsRecord =
+  IntegrationRecord<SettledIntegration>;

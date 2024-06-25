@@ -12,12 +12,7 @@
         class="file-input file-input-primary"
         type="file"
         accept="application/json"
-        @change="
-          (event) => {
-            assert.ok(reader);
-            loadPastasFromFile(event, reader);
-          }
-        "
+        @change="onFilesInputChange"
       />
     </article>
     <button
@@ -34,6 +29,7 @@
     <app-page-link-main />
   </div>
 </template>
+<!-- TODO: move no setup script code to a separate file -->
 <script lang="ts">
 import { pastasService } from "~/client-only/services";
 import { pastaTagsCount } from "~~/config/const";
@@ -51,7 +47,7 @@ function isMiniPasta(data: unknown): data is MiniPasta {
   return (
     isObject(data) &&
     typeof data.text === "string" &&
-    (typeof data.tags === "undefined" || isStringArray(data.tags))
+    (data.tags === undefined || isStringArray(data.tags))
   );
 }
 
@@ -81,7 +77,7 @@ function makeSortedAnyPastas(pastas: MiniPasta[]): AnyPasta[] {
 
 function makeMiniPasta(pasta: OmegaPasta): MiniPasta {
   return {
-    tags: pasta.tags.length ? pasta.tags : undefined,
+    tags: pasta.tags.length > 0 ? pasta.tags : undefined,
     text: pasta.text,
   };
 }
@@ -102,13 +98,6 @@ function makeMegaPastas(pastas: AnyPasta[]) {
   }, [] as MegaPasta[]);
 }
 
-function loadPastasFromFile(event: Event, reader: FileReader) {
-  assert.ok(reader && event.target);
-  const { files } = event.target as unknown as { files: FileList };
-  assert.ok(files instanceof FileList);
-  reader.readAsText(files[0]);
-}
-
 export function savePastasToFile(pastasToSave: OmegaPasta[]) {
   const link = document.createElement("a");
   const minimalPastas = pastasToSave.map((pasta) => ({
@@ -120,16 +109,13 @@ export function savePastasToFile(pastasToSave: OmegaPasta[]) {
     new Blob([pastasString], { type: "application/json" }),
   );
   link.download = "pastas.json";
-  document.body.appendChild(link);
+  document.body.append(link);
   link.click();
-  document.body.removeChild(link);
+  link.remove();
 }
 
-function getMegaPastasOnFileLoad(event: ProgressEvent<FileReader>) {
-  assert.ok(event.target);
-  const { result: fileContent } = event.target;
+function getMegaPastasOnFileLoad(fileContent: string) {
   try {
-    assert.ok(typeof fileContent === "string");
     const pastasJson = JSON.parse(fileContent);
     assert.ok(isArray(pastasJson));
     const miniPastas = pastasJson.filter(isMiniPasta);
@@ -142,22 +128,29 @@ function getMegaPastasOnFileLoad(event: ProgressEvent<FileReader>) {
     throw error;
   }
 }
+
+async function parseFileContent(event: Event) {
+  assert.ok(event.target);
+  const { files } = event.target as unknown as { files: FileList };
+  assert.ok(files instanceof FileList);
+  const file = files[0];
+  assert.ok(file);
+  const fileContent = await file.text();
+  assert.ok(typeof fileContent === "string");
+  return fileContent;
+}
 </script>
 <script lang="ts" setup>
 const pastasStore = usePastasStore();
 
-const reader = import.meta.client ? new FileReader() : null;
-
-if (import.meta.client) {
-  assert.ok(reader);
-  reader.onload = async function (event) {
-    const megaPastas = getMegaPastasOnFileLoad(event);
-    const { fulfilled, rejected } = await groupAsync(
-      megaPastas.map((pasta) => pastasService.add(pasta)),
-    );
-    const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
-    pastasStore.pastas.push(...sorted);
-    assert.ok(!rejected.length);
-  };
+async function onFilesInputChange(event: Event) {
+  const fileContent = await parseFileContent(event);
+  const megaPastas = getMegaPastasOnFileLoad(fileContent);
+  const { fulfilled, rejected } = await groupAsync(
+    megaPastas.map((pasta) => pastasService.add(pasta)),
+  );
+  const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
+  pastasStore.pastas.push(...sorted);
+  assert.ok(rejected.length === 0);
 }
 </script>

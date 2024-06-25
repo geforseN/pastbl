@@ -8,7 +8,7 @@ import type {
   IEmoteSet,
   EmoteSource,
   InternalGenericUserIntegration,
-  IBasicUserEmoteCollection,
+  IBasicUserEmoteCollection__,
 } from "~/integrations";
 import type { SettledEmoteIntegration } from "~/integrations/integrations";
 import type { IEmoteIntegration } from "~/integrations/abstract";
@@ -56,7 +56,7 @@ export type IndexedDBUserEmoteIntegrationRecord = {
 export type IndexedDBUserEmoteIntegration =
   IndexedDBUserEmoteIntegrationRecord[keyof IndexedDBUserEmoteIntegrationRecord];
 
-export type IndexedDBUserEmoteCollection = IBasicUserEmoteCollection & {
+export type IndexedDBUserEmoteCollection = IBasicUserEmoteCollection__ & {
   integrations: Partial<IndexedDBUserEmoteIntegrationRecord>;
 };
 

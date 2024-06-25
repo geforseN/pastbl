@@ -1,6 +1,6 @@
 const parser = new DOMParser();
 
-export function createDomElement(html: string) {
-  const dom = parser.parseFromString(html, "text/html");
+export function createDomElement(string: string) {
+  const dom = parser.parseFromString(string, "text/html");
   return dom.body.firstElementChild;
 }

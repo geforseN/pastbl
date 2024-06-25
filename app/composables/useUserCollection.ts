@@ -1,10 +1,14 @@
 import { userCollectionsService } from "~/client-only/services/userCollections";
 import { personCollectionAPI } from "~/resources/person";
-import { type IUserEmoteCollection } from "~/integrations";
+import type {
+  IEmoteIntegration,
+  IPersonEmoteCollection,
+} from "~/integrations/abstract";
 
-function useCollectionState(initFn) {}
-
-function __updateIntegration__(collection, integration) {
+function __updateIntegration__(
+  collection: IPersonEmoteCollection,
+  integration: IEmoteIntegration,
+) {
   return {
     ...collection,
     integrations: {
@@ -52,8 +56,8 @@ export function useUserCollection(login: TwitchUserLogin) {
   }
 
   const integrationsLoad = useEmoteIntegrationsLoad<
-    IUserEmoteCollection["integrations"][keyof IUserEmoteCollection["integrations"]],
-    IUserEmoteCollection["integrations"]
+    IEmoteIntegration,
+    IPersonEmoteCollection["integrations"]
   >({
     load(source) {
       return personCollectionAPI.integrations.get(source, login);
@@ -78,7 +82,7 @@ export function useUserCollection(login: TwitchUserLogin) {
     isSelected: computed(() =>
       userCollectionsStore.isCollectionSelected(login),
     ),
-    refreshIntegration(integration) {
+    refreshIntegration(integration: IEmoteIntegration) {
       ensureCollectionLoaded();
       return collection.execute(0, async () => {
         const newIntegration = await integrationsLoad.execute(
@@ -88,7 +92,7 @@ export function useUserCollection(login: TwitchUserLogin) {
         const newCollection = __updateIntegration__(
           collection,
           newIntegration,
-        ) as IUserEmoteCollection;
+        ) as IPersonEmoteCollection;
         await userCollectionsService.put(newCollection);
         return newCollection;
       });
@@ -114,7 +118,10 @@ export function useUserCollection(login: TwitchUserLogin) {
       if (!collection.state.value) {
         return [];
       }
-      return getReadyUserIntegrations(collection.state.value);
+      const integrations = new personEmoteCollection.Integrations(
+        collection.state.value.integrations,
+      );
+      return integrations.ready;
     }),
   };
 }

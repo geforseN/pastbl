@@ -6,7 +6,9 @@ import {
 import { type IEmote } from "~/integrations";
 import { assert } from "~/utils/error";
 
-export type FindEmote = (token: string) => IEmote | undefined;
+export interface FindEmote {
+  (token: string): IEmote | undefined;
+}
 
 export interface CanFindEmote {
   findEmote: FindEmote;

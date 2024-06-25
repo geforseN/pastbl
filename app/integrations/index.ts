@@ -36,7 +36,7 @@ export function isReadyUserIntegration<T extends object>(
   return (integration as any).status === "ready";
 }
 
-export type IBasicUserEmoteCollection = {
+export type IBasicUserEmoteCollection__ = {
   user: {
     twitch: PersonTwitch;
   };

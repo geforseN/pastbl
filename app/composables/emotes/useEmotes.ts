@@ -47,7 +47,9 @@ export function useEmotesWithInitialReady(
   const isInitialized = useBool(false);
 
   const emotes = useEmotes(sourceToWatchFn, {
-    onCallEnd: isInitialized.tryMakeTrue,
+    onCallEnd() {
+      isInitialized.trySet(true);
+    },
   });
 
   return {

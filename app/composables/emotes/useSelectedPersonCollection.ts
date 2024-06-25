@@ -1,9 +1,9 @@
-import { type IUserEmoteCollection } from "~/integrations";
+import type { IPersonEmoteCollection } from "~/integrations/abstract";
 
 export function useSelectedPersonCollection(
   getCollection: (
     login: TwitchUserLogin,
-  ) => Promise<IUserEmoteCollection | null>,
+  ) => Promise<IPersonEmoteCollection | null>,
   selectedLogin: Ref<SelectedLogin>,
 ) {
   const asyncState = useMyAsyncState(getCollection, null, {
@@ -38,7 +38,11 @@ export function useSelectedPersonCollection(
       if (!asyncState.state.value) {
         return {};
       }
-      return getReadyUserIntegrationsRecord(asyncState.state.value);
+      const integrations = new personEmoteCollection.Integrations(
+        asyncState.state.value.integrations,
+      );
+      const readyIntegrations = integrations.ready;
+      return flatGroupBySource(readyIntegrations);
     }),
   };
 }

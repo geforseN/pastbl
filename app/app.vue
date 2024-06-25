@@ -118,4 +118,9 @@ input#pastas-work-mode:checked:hover {
   line-height: 1 !important;
   overflow-wrap: break-word;
 }
+
+html,
+body {
+  scrollbar-gutter: stable;
+}
 </style>

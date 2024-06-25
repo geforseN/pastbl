@@ -4,8 +4,9 @@ import type {
   IPersonEmoteCollection,
 } from "~/integrations/abstract";
 import type { EmoteSource } from "~/integrations/emote-source";
+import { useIndexedDBKeyValue } from "#imports";
 
-class EmoteIntegrationEmotes {
+class IntegrationEmotes {
   constructor(private readonly integration: IEmoteIntegration) {}
 
   get canBe() {
@@ -43,8 +44,8 @@ class Integration {
   emotes;
 
   constructor(private readonly integration: IEmoteIntegration) {
-    this.status = new EmoteIntegrationStatus(integration);
-    this.emotes = new EmoteIntegrationEmotes(integration);
+    this.status = new IntegrationStatus(integration);
+    this.emotes = new IntegrationEmotes(integration);
   }
 
   get sets() {
@@ -60,7 +61,7 @@ class Integration {
   }
 }
 
-class EmoteIntegrationStatus {
+class IntegrationStatus {
   constructor(private readonly integration: IEmoteIntegration) {}
 
   get asEmoji() {
@@ -68,7 +69,7 @@ class EmoteIntegrationStatus {
   }
 }
 
-class PersonEmoteCollection__IntegrationsEmotes {
+class IntegrationsEmotes {
   private readonly integrations: Integration[];
 
   constructor(integrations: IPersonEmoteCollection["integrations"]) {
@@ -96,16 +97,26 @@ class Integrations {
   constructor(
     private readonly integrations: IPersonEmoteCollection["integrations"],
   ) {
-    this.emotes = new PersonEmoteCollection__IntegrationsEmotes(integrations);
-    this._status = new PersonEmoteCollection__IntegrationsStatus(integrations);
+    this.emotes = new IntegrationsEmotes(integrations);
+    this._status = new IntegrationsStatus(integrations);
   }
 
   get status() {
     return this._status;
   }
+
+  *[Symbol.iterator]() {
+    yield* Object.values(this.integrations);
+  }
+
+  get ready() {
+    return Object.values(this.integrations).filter(
+      (integration) => integration.status === "ready",
+    );
+  }
 }
 
-class PersonEmoteCollection__IntegrationsStatus {
+class IntegrationsStatus {
   constructor(
     private readonly integrations: IPersonEmoteCollection["integrations"],
   ) {}
@@ -120,11 +131,10 @@ class PersonEmoteCollection__IntegrationsStatus {
   get asEmojiString() {
     return Object.values(this.integrations)
       .map((integration) => {
-        const emojiStatus = new EmoteIntegrationStatus(integration).asEmoji;
-        const sourceEmoji =
-          PersonEmoteCollection__IntegrationsStatus.#sourceMap.get(
-            integration.source,
-          );
+        const emojiStatus = new IntegrationStatus(integration).asEmoji;
+        const sourceEmoji = IntegrationsStatus.#sourceMap.get(
+          integration.source,
+        );
         assert.ok(sourceEmoji);
         return sourceEmoji + emojiStatus;
       })

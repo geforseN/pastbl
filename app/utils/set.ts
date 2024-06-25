@@ -4,6 +4,7 @@ export function setIntersection<T>(...sets: Set<T>[]) {
     return result;
   }
   if (sets.length === 2) {
+    // @ts-expect-error sets.length is 2
     return setIntersectionOfTwoSets(sets[0], sets[1]);
   }
   const smallestSet = sets.reduce((min, set) => {
