@@ -62,7 +62,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import { savePastasToFile } from "~/pages/pastas/index.vue";
+import { savePastasToFile } from "~~/layers/pastas/pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 
 const pastasStore = usePastasStore();
