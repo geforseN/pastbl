@@ -42,11 +42,11 @@
             @close="onHoverHint.close"
             @mouseleave="onHoverHint.close"
           />
-          <!-- <client-only>
+          <client-only>
             <app-pastas-work-mode-toggle
               class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
-          </client-only> -->
+          </client-only>
           <u-notifications>
             <template #title="{ title }">
               <span class="text-xl">{{ title }}</span>
@@ -62,18 +62,17 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import { savePastasToFile } from "~~/layers/pastas/pages/pastas/index.vue";
 import type { AppHintOnHover } from "#build/components";
 
 const pastasStore = usePastasStore();
 
 useKeysListenWithAlt([
-  ["h", (go) => go("/")],
-  ["p", (go) => go("/pastas")],
-  ["f", (go) => go("/pastas/find")],
-  ["m", (go) => go("/user/settings")],
-  ["e", (go) => go("/collections")],
-  ["s", () => savePastasToFile(pastasStore.pastasToShow)],
+  ["h", (navigateTo) => navigateTo("/")],
+  ["p", (navigateTo) => navigateTo("/pastas")],
+  ["f", (navigateTo) => navigateTo("/pastas/find")],
+  ["m", (navigateTo) => navigateTo("/user/settings")],
+  ["e", (navigateTo) => navigateTo("/collections")],
+  ["s", () => savePastasInFile(pastasStore.pastasToShow)],
 ]);
 
 if (import.meta.client && import.meta.dev) {
@@ -91,22 +90,14 @@ onMounted(() => {
 });
 </script>
 <style>
+html,
+body {
+  scrollbar-gutter: stable;
+}
+
 .emote {
   display: inline;
   margin: -5px 0;
-}
-
-input#pastas-work-mode:not(:checked) {
-  background-color: theme(colors.twitch-accent);
-  border-color: theme(colors.twitch-accent);
-}
-
-input#pastas-work-mode:not(:checked):hover {
-  background-color: theme(colors.secondary/80%);
-}
-
-input#pastas-work-mode:checked:hover {
-  background-color: theme(colors.twitch-accent/80%);
 }
 
 /* NOTE: 
@@ -117,10 +108,5 @@ input#pastas-work-mode:checked:hover {
   font-size: 10px !important;
   line-height: 1 !important;
   overflow-wrap: break-word;
-}
-
-html,
-body {
-  scrollbar-gutter: stable;
 }
 </style>
