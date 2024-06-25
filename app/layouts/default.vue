@@ -23,7 +23,7 @@
                 "
                 ref="serverPastasListRef"
                 :class="[...chatPastaListConfig.tailwind.heights]"
-                class="overflow-y-auto"
+                class="chat-pasta-list overflow-y-auto"
                 @mouseover="throttledMouseover"
               >
                 <chat-pasta
