@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { megaTrim } from "../../app/utils/string";
-import { isEmptyObject } from "../../app/utils/guard";
-import { pastaTagsSchema } from "../utils/pastas-tags";
-import { pastaTextLength } from "../../config/const";
+import { megaTrim } from "~/utils/string";
+import { isEmptyObject } from "~/utils/guard";
+import { pastaTagsSchema } from "~~/server/utils/pastas-tags";
+import { pastaTextLength } from "~~/config/const";
 
 const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
