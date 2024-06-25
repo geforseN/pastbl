@@ -2,7 +2,7 @@ import { groupBy } from "./object";
 
 export async function groupAsync<T>(values: MaybePromise<T>[]) {
   const settled = await Promise.allSettled(values);
-  return groupBy(
+  const result = groupBy(
     settled,
     (result) => result.status,
     (result) => (result.status === "fulfilled" ? result.value : result.reason),
@@ -10,6 +10,9 @@ export async function groupAsync<T>(values: MaybePromise<T>[]) {
     fulfilled: Awaited<T>[];
     rejected: unknown[];
   };
+  result.rejected ||= [];
+  result.fulfilled ||= [];
+  return result;
 }
 
 export function sleep<T>(time: number, resolveValue?: T) {

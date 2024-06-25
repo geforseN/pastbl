@@ -63,6 +63,7 @@ export function useMyToast() {
       throw reason;
     },
     failure,
+    _addToast: toast.add,
   };
 }
 

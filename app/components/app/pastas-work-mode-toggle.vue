@@ -52,3 +52,17 @@
 <script setup lang="ts">
 const userStore = useUserStore();
 </script>
+<style scoped>
+input#pastas-work-mode:not(:checked) {
+  background-color: theme(colors.twitch-accent);
+  border-color: theme(colors.twitch-accent);
+}
+
+input#pastas-work-mode:not(:checked):hover {
+  background-color: theme(colors.secondary/80%);
+}
+
+input#pastas-work-mode:checked:hover {
+  background-color: theme(colors.twitch-accent/80%);
+}
+</style>
