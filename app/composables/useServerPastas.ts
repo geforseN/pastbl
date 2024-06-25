@@ -1,5 +1,9 @@
 import type { Pasta } from "~~/database/schema";
 import { pastasAPI } from "~/resources/pastas";
+import {
+  type ServerPastasPaginationCursor,
+  ServerPastasPaginationCursor_,
+} from "~/brands";
 
 export function useServerPastas(
   containerRef: MaybeRefOrGetter<Nullish<HTMLElement>>,
@@ -7,14 +11,14 @@ export function useServerPastas(
   const list = ref<Pasta[]>([]);
 
   const canLoadMore = ref(true);
-  // TODO: use branded cursor type
-  const cursor_ = ref<number | null>(null);
+  const cursor_ = ref<ServerPastasPaginationCursor>(null);
+  const pagination = { cursor_ };
 
   const { isLoading } = useInfiniteScroll(
     containerRef,
     async () => {
       const { pastas, cursor } = await pastasAPI
-        .getPastas(cursor_.value)
+        .getPastas(pagination.cursor_.value)
         .catch((error) => {
           canLoadMore.value = false;
           assert.isError(error);
@@ -32,11 +36,11 @@ export function useServerPastas(
           createdAt: new Date(pasta.publishedAt).valueOf(),
         };
       });
-      cursor_.value = cursor;
       list.value.push(...megaPastas);
-      if (cursor_.value === null) {
+      if (cursor === null) {
         canLoadMore.value = false;
       }
+      pagination.cursor_.value = ServerPastasPaginationCursor_(cursor);
     },
     { canLoadMore: () => canLoadMore.value },
   );

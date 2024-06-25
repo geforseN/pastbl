@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { isLowercase, toLowerCase } from "~/utils/string";
 import { uniqueValues } from "~/utils/array";
-import { environment } from "../environment";
+import { environment } from "./environment";
 
 const TWITCH_LOGIN_MIN_LENGTH = 3;
 const TWITCH_LOGIN_MAX_LENGTH = 25;

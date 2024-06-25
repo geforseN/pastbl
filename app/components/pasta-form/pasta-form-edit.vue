@@ -7,7 +7,7 @@
         ref="pastaFormTextareaRef"
         v-model="text"
         class="mx-0.5"
-        @submit="emit('accept')"
+        @submit="$emit('accept')"
       />
       <div
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
@@ -19,13 +19,13 @@
           {{ $t("pasta.makeChangesIn") }}
         </span>
         <div class="flex gap-4">
-          <button class="btn btn-error" @click="emit('decline')">
+          <button class="btn btn-error" @click="$emit('decline')">
             {{ $t("decline") }}
           </button>
           <button
             :disabled="isPastaSame"
             class="btn btn-success grow"
-            @click="emit('accept')"
+            @click="$emit('accept')"
           >
             {{ $t("accept") }}
           </button>
@@ -37,7 +37,7 @@
           <button
             v-if="tags.length > 0"
             class="btn btn-error btn-sm"
-            @click="emit('removeAllTags')"
+            @click="$emit('removeAllTags')"
           >
             {{ $t("tags.remove") }}
           </button>

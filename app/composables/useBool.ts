@@ -3,14 +3,9 @@ export function useBool(initialValue: boolean) {
 
   return {
     state,
-    tryMakeTrue() {
-      if (!state.value) {
-        state.value = true;
-      }
-    },
-    tryMakeFalse() {
-      if (state.value) {
-        state.value = false;
+    trySet(value: boolean) {
+      if (state.value !== value) {
+        state.value = value;
       }
     },
   };

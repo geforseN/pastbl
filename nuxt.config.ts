@@ -31,6 +31,16 @@ export default defineNuxtConfig({
   },
   typescript: {
     strict: true,
+    tsConfig: {
+      compilerOptions: {
+        skipLibCheck: false,
+      },
+      include: ["./app/integrations/*/_api.d.ts"],
+      // extends: "./.nuxt/tsconfig.json",
+      buildOptions: {
+        verbose: true,
+      },
+    },
   },
   vite: {
     esbuild: {
@@ -55,7 +65,6 @@ export default defineNuxtConfig({
   },
   // FIXME: fix warnings in console
   imports: {
-    dirs: ["./composables", "./utils", "./stores"],
     imports: [
       {
         from: "../../node_modules/@nuxt/ui/dist/runtime/composables/useToast.mjs",

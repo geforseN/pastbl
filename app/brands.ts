@@ -12,4 +12,12 @@ export type EmoteSource = Branded<
   "EmoteSource"
 >;
 
-export type ServerPastasCursor = Branded<number, "ServerPastasCursor">;
+export type ServerPastasPaginationCursor = Branded<
+  number,
+  "ServerPastasPaginationCursor"
+> | null;
+
+export function ServerPastasPaginationCursor_(value: unknown) {
+  assert.ok(value === null || typeof value === "number");
+  return value as ServerPastasPaginationCursor;
+}

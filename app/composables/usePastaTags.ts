@@ -5,7 +5,7 @@ export function usePastaTags(tags: Ref<string[]>) {
       tags.value = withRemoved(
         tags,
         tag,
-        createNoLocaleFailureNotification("removePastaTag__noExist"),
+        createNoTranslationFailureNotification("removePastaTag__noExist"),
       );
     },
     removeAllTags() {

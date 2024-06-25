@@ -20,11 +20,12 @@ export function createTwitchApiFetch(token?: TwitchToken) {
 }
 
 export async function fetchTwitchUser(login: TwitchUserLogin) {
-  const { data } = await twitchApi.fetch<
-    ITwitch.API.TwitchApi["getUser"]["response"]
-  >("/users", {
-    query: { login },
-  });
+  const { data } = await twitchApi.fetch<ITwitch.API.GetUsersResponse>(
+    "/users",
+    {
+      query: { login },
+    },
+  );
   assert.ok(
     data.length === 1,
     new Error("User with login=" + login + " not found"),
@@ -33,7 +34,7 @@ export async function fetchTwitchUser(login: TwitchUserLogin) {
 }
 
 export function fetchTwitchChannels(string: string) {
-  return twitchApi.fetch<TwitchApi["getSearchChannels"]["response"]>(
+  return twitchApi.fetch<ITwitch.API.GetSearchChannelsResponse>(
     "/search/channels",
     {
       query: { query: string, first: 8 },
@@ -42,25 +43,17 @@ export function fetchTwitchChannels(string: string) {
 }
 
 export function fetchTwitchGlobalEmotes() {
-  return twitchApi.fetch<TwitchApi["getGlobalEmotes"]["response"]>(
-    "/chat/emotes/global",
-  );
+  return twitchApi.fetch<ITwitch.API.ChatEmotesResponse>("/chat/emotes/global");
 }
 
 export function fetchTwitchChatEmoteSet(setId: string) {
-  return twitchApi.fetch<TwitchApi["getChatEmotesSet"]["response"]>(
-    "/chat/emotes/set",
-    {
-      query: { emote_set_id: setId },
-    },
-  );
+  return twitchApi.fetch<ITwitch.API.GetEmoteSetResponse>("/chat/emotes/set", {
+    query: { emote_set_id: setId },
+  });
 }
 
 export function fetchTwitchChatEmotes(broadcasterId: string) {
-  return twitchApi.fetch<TwitchApi["getChatEmotes"]["response"]>(
-    "/chat/emotes",
-    {
-      query: { broadcaster_id: broadcasterId },
-    },
-  );
+  return twitchApi.fetch<ITwitch.API.GetChatEmotesResponse>("/chat/emotes", {
+    query: { broadcaster_id: broadcasterId },
+  });
 }

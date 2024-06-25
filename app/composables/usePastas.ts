@@ -8,7 +8,7 @@ export function usePastas<T extends OmegaPasta>(getPastas: () => Promise<T[]>) {
       return getIndex(
         _pastas.state,
         (pasta_) => pasta_.id === id,
-        createNoLocaleFailureNotification("getPasta__noEntityWithId", id),
+        createNoTranslationFailureNotification("getPasta__noEntityWithId", id),
       );
     },
     async getEntryById(id: number) {

@@ -1,4 +1,5 @@
 import { and, eq, sql } from "drizzle-orm";
+import type { ServerPastasPaginationCursor } from "~/brands";
 import { database } from "~~/database";
 import { pastas, pastasTags, type Pasta } from "~~/database/schema";
 
@@ -66,7 +67,10 @@ const getNextPagePastas = database.query.pastas
   })
   .prepare("get_next_pastas");
 
-function getPastasCursor(length: number, pastas: { id: number }[]) {
+function getPastasCursor(
+  length: number,
+  pastas: { id: number }[],
+): ServerPastasPaginationCursor {
   if (pastas.length !== length) {
     return null;
   }

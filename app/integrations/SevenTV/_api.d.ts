@@ -1,18 +1,17 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare module ISevenTV.API {
+declare namespace ISevenTV.API {
   type EmoteFileFormat = "webp" | "avif";
   type EmoteFileSize = "1x" | "2x" | "3x" | "4x";
 
-  type SetOwner = {
+  interface SetOwner {
     avatar_url: string;
     display_name: string;
     id: string;
     roles: string[];
     style: { color?: number };
     username: Lowercase<SetOwner["display_name"]>;
-  };
+  }
 
-  export type Emote = {
+  export interface Emote {
     actor_id: string | null;
     data: {
       id: string;
@@ -47,7 +46,7 @@ declare module ISevenTV.API {
     // if equal to 1, then emote is zero-width
     flags: number;
     timestamp: number;
-  };
+  }
 
   export type EmoteSet = {
     capacity: number;
@@ -69,20 +68,22 @@ declare module ISevenTV.API {
     }
   >;
 
-  type User = Unwrap<SetOwner> & {
-    biography: string;
-    connections: unknown[];
-    created_at: ReturnType<typeof Date.now>;
-    emote_sets: {
-      capacity: number;
-      flags: number;
-      id: string;
-      name: string;
-      tags: string[];
-    }[];
-  };
+  type User = Unwrap<
+    SetOwner & {
+      biography: string;
+      connections: unknown[];
+      created_at: ReturnType<typeof Date.now>;
+      emote_sets: {
+        capacity: number;
+        flags: number;
+        id: string;
+        name: string;
+        tags: string[];
+      }[];
+    }
+  >;
 
-  export type UserData = {
+  export interface UserData {
     avatar_url: string;
     biography: string;
     connections: {
@@ -117,9 +118,9 @@ declare module ISevenTV.API {
     roles: string[];
     style: { color?: number };
     username: string;
-  };
+  }
 
-  export type UserProfile = {
+  export interface UserProfile {
     display_name: string;
     emote_capacity: number;
     emote_set: EmoteSet;
@@ -129,9 +130,11 @@ declare module ISevenTV.API {
     platform: "TWITCH" | "7TV";
     user: Unwrap<User>;
     username: Lowercase<string>;
-  };
+  }
 
-  export type UserProfileWithValidEmoteSet = Omit<UserProfile, "emote_set"> & {
-    emote_set: EmoteSetWithEmotes;
-  };
+  export type UserProfileWithValidEmoteSet = Unwrap<
+    Omit<UserProfile, "emote_set"> & {
+      emote_set: EmoteSetWithEmotes;
+    }
+  >;
 }

@@ -12,7 +12,7 @@ export const USE_ASYNC_STATE_DEFAULT_OPTIONS = {
 
 export function useMyAsyncState<
   Data,
-  Parameters extends [] = [],
+  Parameters extends unknown[] = [],
   Shallow extends boolean = true,
 >(
   promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),
@@ -26,11 +26,11 @@ export function useMyAsyncState<
   const asyncState = useVueUseAsyncState(promiseOrAsyncFn, initialState, {
     ..._options,
     onError(error) {
-      isInitialized.tryMakeFalse();
+      isInitialized.trySet(false);
       _options.onError?.(error);
     },
     onSuccess(data) {
-      isInitialized.tryMakeFalse();
+      isInitialized.trySet(false);
       _options.onSuccess?.(data);
     },
   });
@@ -39,11 +39,13 @@ export function useMyAsyncState<
     ...asyncState,
     isInitializing: isInitialized.state satisfies Ref<boolean>,
     isRefreshing: computed(
-      () => !isInitialized.state.value && asyncState.isLoading.value,
+      () =>
+        (!isInitialized.state.value &&
+          asyncState.isLoading.value) satisfies boolean,
     ),
     async execute(delay = 0, ...args: Parameters) {
       const result = await asyncState.execute(delay, ...args);
-      isInitialized.tryMakeFalse();
+      isInitialized.trySet(false);
       return result;
     },
   };
@@ -73,7 +75,7 @@ export function useAsyncArray<
 
 export function useAsyncObject<
   Data extends object,
-  Parameters extends [] = [],
+  Parameters extends unknown[] = [],
   Shallow extends boolean = true,
 >(
   promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),

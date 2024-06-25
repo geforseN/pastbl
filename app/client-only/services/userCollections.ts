@@ -77,7 +77,10 @@ const MAP = {
     },
     collection: {
       fullPrepare(collection: IPersonEmoteCollection) {
-        const readyIntegrations = getReadyUserIntegrations(collection);
+        const integrations = new personEmoteCollection.Integrations(
+          collection.integrations,
+        );
+        const readyIntegrations = integrations.ready;
         const idbIntegrations = readyIntegrations.map(
           MAP.FOR_IDB._integration.prepare,
         );
@@ -135,7 +138,7 @@ const emoteIds = {
 export const userCollectionsService = {
   getAllLogins: store.getAllLogins.bind(store),
   getAll: store.getAll.bind(store),
-  async put(collection: IUserEmoteCollection) {
+  async put(collection: IPersonEmoteCollection) {
     const { collection: preparedCollection, emotes } =
       MAP.FOR_IDB.collection.fullPrepare(collection);
     // TODO: make it transactional (not a big deal)

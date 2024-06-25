@@ -21,19 +21,17 @@ export type Channel = {
     }
 );
 
-function makeChannel(
-  apiChannel: ITwitch.API.TwitchApi["getSearchChannels"]["responseItem"],
-) {
+function makeChannel(channel: ITwitch.API.SearchChannel) {
   return {
-    id: apiChannel.id,
-    login: apiChannel.broadcaster_login,
-    nickname: apiChannel.display_name,
-    thumbnailUrl: apiChannel.thumbnail_url,
-    gameName: apiChannel.game_name,
-    tags: apiChannel.tags,
-    isLive: apiChannel.is_live,
-    title: apiChannel.title,
-    startedAt: apiChannel.started_at,
+    id: channel.id,
+    login: channel.broadcaster_login,
+    nickname: channel.display_name,
+    thumbnailUrl: channel.thumbnail_url,
+    gameName: channel.game_name,
+    tags: channel.tags,
+    isLive: channel.is_live,
+    title: channel.title,
+    startedAt: channel.started_at,
     isExact: false,
   } as Channel;
 }

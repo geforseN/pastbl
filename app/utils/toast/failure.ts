@@ -93,7 +93,7 @@ export type FailureNotificationName = keyof typeof failureFns;
 
 export const getFailureNotification = makeNotificationGetter(failureFns);
 
-export function createNoLocaleFailureNotification<
+export function createNoTranslationFailureNotification<
   K extends keyof typeof noLocaleFailures,
 >(name: K, ...args: Parameters<(typeof noLocaleFailures)[K]>): ExtendedError {
   return noLocaleFailures[name](...args);

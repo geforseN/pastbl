@@ -66,4 +66,4 @@ export function useMyToast() {
   };
 }
 
-export { createNoLocaleFailureNotification } from "~/utils/toast/failure";
+export { createNoTranslationFailureNotification } from "~/utils/toast/failure";

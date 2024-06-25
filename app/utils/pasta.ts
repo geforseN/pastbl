@@ -121,7 +121,10 @@ export function makeMegaPasta2(basePasta: BasePasta) {
   const lengthStatus = getPastaLengthStatus(trimmedText);
   if (lengthStatus !== "ok") {
     return Promise.reject(
-      createNoLocaleFailureNotification("createPasta__badLength", lengthStatus),
+      createNoTranslationFailureNotification(
+        "createPasta__badLength",
+        lengthStatus,
+      ),
     );
   }
   return Promise.resolve(makeMegaPasta(trimmedText, basePasta.tags));
