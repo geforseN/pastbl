@@ -91,11 +91,12 @@ export async function parseFileContent(event: Event) {
   return fileContent;
 }
 
-export function parseMegaPastas(fileContent: string) {
+// eslint-disable-next-line require-await
+export async function parseMegaPastas(fileContent: string) {
   const pastasJson = JSON.parse(fileContent);
   assert.ok(isArray(pastasJson));
   const miniPastas = pastasJson.filter(isMiniPasta);
   const anyPastas = makeSortedAnyPastas(miniPastas);
   const megaPastas = makeMegaPastas(anyPastas);
-  return Promise.resolve(megaPastas);
+  return megaPastas;
 }

@@ -40,8 +40,7 @@ async function onFilesInputChange(event: Event) {
   const fileContent = await parseFileContent(event);
   const megaPastas = await parseMegaPastas(fileContent).catch((reason) => {
     assert.isError(reason);
-    toast.throw(reason);
-    throw reason;
+    return toast.throw(reason);
   });
   const { fulfilled, rejected } = await groupAsync(
     megaPastas.map((pasta) => pastasService.add(pasta)),
