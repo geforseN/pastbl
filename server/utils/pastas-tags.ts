@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { megaTrim } from "~/utils/string";
 import { pastaTagLength, pastaTagsCount } from "~~/config/const";
-import { transformPastaTag } from "~/utils/pasta-tag";
+import { transformPastaTag } from "~~/layers/pastas/utils/pasta-tag";
 
 const pastaTagSchema = z
   .string()
