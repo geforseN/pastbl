@@ -3,18 +3,51 @@
     class="mt-2 flex flex-col items-center justify-center gap-x-12 gap-y-4 go-brr:flex-row go-brr:items-start"
   >
     <slot />
+    <!-- TODO: add components, template is too big  -->
     <slot name="leftColumn">
       <chat-pasta-list-hints>
         <client-only>
-          <u-tabs :items="tabs" class="border border-base-content">
+          <u-tabs
+            :items="tabs"
+            class="foo !space-y-0 border border-base-content"
+          >
             <template #item="{ item }">
               <div
                 v-if="
                   item.key === 'server' &&
                   !userStore.pastasWorkMode.canHaveServerMode
                 "
+                class="foo m-0 flex min-w-[352px] flex-col flex-wrap p-2 sm:min-w-[430px]"
               >
-                __ CAN NOT HAVE SERVER PASTAS __
+                <h3 class="text-xl">
+                  <strong>
+                    {{ $t("Fulfil_the_conditions") + ": " }}
+                  </strong>
+                </h3>
+                <ul class="ml-4 list-disc">
+                  <li
+                    v-if="
+                      userStore.pastasWorkMode.canHaveServerModeStatus.includes(
+                        'not-logged-in',
+                      )
+                    "
+                  >
+                    <samp>
+                      <auth-twitch-login-link-button
+                        class="btn-xs w-full text-sm"
+                      />
+                    </samp>
+                  </li>
+                  <li
+                    v-if="
+                      userStore.pastasWorkMode.canHaveServerModeStatus.includes(
+                        'offline',
+                      )
+                    "
+                  >
+                    <samp>{{ $t("restore-internet-connection") }}</samp>
+                  </li>
+                </ul>
               </div>
               <div
                 v-if="
@@ -116,5 +149,9 @@ const throttledMouseover = useThrottleFn(
   .chat-pasta-list {
     max-height: 60dvh;
   }
+}
+
+.foo {
+  scrollbar-gutter: stable;
 }
 </style>
