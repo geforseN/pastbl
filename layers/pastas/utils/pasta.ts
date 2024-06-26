@@ -63,7 +63,7 @@ export function makeRawPasta(pasta: OmegaPasta): OmegaPasta {
   };
 }
 
-export const getPastaLengthStatus = makeLengthStatus(pastaTextLength);
+export const getPastaLengthStatus = makeLengthStatusGetter(pastaTextLength);
 
 export function getTextStatus(text: MaybeRef<string>) {
   const status = getPastaLengthStatus(toValue(text));
