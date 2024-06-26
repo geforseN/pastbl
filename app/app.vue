@@ -33,7 +33,7 @@
           <nuxt-layout>
             <nuxt-page />
           </nuxt-layout>
-          <app-hint-on-hover
+          <emote-card-on-hover
             ref="onHoverHintRef"
             v-on-click-outside="onHoverHint.close"
             :emoji="onHoverHint.emoji.value"
@@ -43,7 +43,7 @@
             @mouseleave="onHoverHint.close"
           />
           <client-only>
-            <app-pastas-work-mode-toggle
+            <pastas-work-mode-toggle
               class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
           </client-only>

@@ -4,3 +4,8 @@
     <app-page-link-main />
   </div>
 </template>
+<script setup lang="ts">
+useHead({
+  title: "Settings",
+});
+</script>

@@ -1,5 +1,5 @@
 export function useFormCollapse() {
-  const isFormCollapseOpen = useIndexedDBKeyValue(
+  const isOpen = useIndexedDBKeyValue(
     "create-pasta-form-collapse:is-open",
     false,
   );
@@ -7,20 +7,20 @@ export function useFormCollapse() {
   return {
     isOpen: computed({
       get() {
-        return isFormCollapseOpen.state.value;
+        return isOpen.state.value;
       },
       set(value) {
-        isFormCollapseOpen.state.value = value;
+        isOpen.state.value = value;
       },
     }),
     close() {
-      isFormCollapseOpen.state.value = false;
+      isOpen.state.value = false;
     },
     open() {
-      isFormCollapseOpen.state.value = true;
+      isOpen.state.value = true;
     },
     toggle() {
-      isFormCollapseOpen.state.value = !isFormCollapseOpen.state.value;
+      isOpen.state.value = !isOpen.state.value;
     },
   };
 }
