@@ -1,7 +1,8 @@
 import { fetchTwitchChannels } from "~/integrations/Twitch/api";
-import { groupBy } from "~/utils/object";
 
 function transformChannel(channel: ITwitch.API.SearchChannel) {
+  const login = channel.broadcaster_login;
+  assert.ok(isLowercase(login));
   return <ITwitch.Channel>{
     id: channel.id,
     login: channel.broadcaster_login,

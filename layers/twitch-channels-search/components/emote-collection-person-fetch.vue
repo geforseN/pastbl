@@ -50,28 +50,10 @@
     </div>
   </form>
 </template>
-<!-- TODO: move to file no setup script -->
-<script lang="ts">
-async function loadCollection(
-  getCollection: () => Promise<void>,
-  options: {
-    beforeLoad?: () => MaybePromise<void>;
-    onEnd?: () => MaybePromise<void>;
-    onError?: (error: unknown) => MaybePromise<void>;
-  } = {},
-) {
-  try {
-    const collectionPromise = getCollection();
-    await options.beforeLoad?.();
-    await collectionPromise;
-  } catch (error) {
-    await options.onError?.(error);
-  } finally {
-    await options.onEnd?.();
-  }
-}
-</script>
 <script setup lang="ts">
+import { useTwitchChannelsSearch } from "../composables/useTwitchChannelsSearch";
+import { loadCollection } from "../utils/load-collection";
+
 defineExpose({
   focusInput() {
     inputRef.value!.focus();
@@ -82,7 +64,7 @@ const channelsContainerRef = ref<HTMLDivElement>();
 
 const channelsSearchNickname = ref("");
 const channelsSearch = reactive(
-  useChannelsSearch(useDebounce(channelsSearchNickname, 500)),
+  useTwitchChannelsSearch(useDebounce(channelsSearchNickname, 500)),
 );
 
 const inputRef = ref<HTMLInputElement>();

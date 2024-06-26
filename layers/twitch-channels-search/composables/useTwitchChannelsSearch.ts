@@ -1,4 +1,4 @@
-export function useChannelsSearch(nickname: Ref<string>) {
+export function useTwitchChannelsSearch(nickname: Ref<string>) {
   const mustShow = ref(false);
   const hide = () => {
     mustShow.value = false;
@@ -10,7 +10,7 @@ export function useChannelsSearch(nickname: Ref<string>) {
   const { data: state } = useFetch("/api/v1/twitch/search/channels", {
     lazy: true,
     query: { login: nickname },
-    default(): Channel[] {
+    default(): ITwitch.Channel[] {
       return [];
     },
     onRequest() {

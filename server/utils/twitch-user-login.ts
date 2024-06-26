@@ -8,9 +8,7 @@ const TWITCH_LOGIN_MAX_LENGTH = 25;
 
 export type TwitchUserLogin = Lowercase<string>;
 
-export function canBeTwitchUserLogin(
-  string: string,
-): string is TwitchUserLogin {
+export function isTwitchUserLogin(string: string): string is TwitchUserLogin {
   return isLowercase(string);
 }
 
