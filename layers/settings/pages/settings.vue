@@ -1,7 +1,7 @@
 <template>
   <div class="w-96 space-y-2">
     <settings-form />
-    <app-page-link-main />
+    <app-link-to-main />
   </div>
 </template>
 <script setup lang="ts">

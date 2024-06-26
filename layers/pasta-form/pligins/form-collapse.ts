@@ -1,5 +1,5 @@
 export default defineNuxtPlugin(() => {
-  const formCollapse = useFormCollapse();
+  const formCollapse = usePastaFormCollapse();
   return {
     provide: {
       formCollapse: reactive(formCollapse),

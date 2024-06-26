@@ -1,3 +1,6 @@
+type ExcludeNotJoinedWithAmpersand<S extends string> =
+  S extends `${string}&${string}` ? never : S;
+
 export function handlePreferences<
   Keys extends string,
   ValidKeys extends Exclude<ExcludeNotJoinedWithAmpersand<Keys>, "none">,

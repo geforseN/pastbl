@@ -1,12 +1,12 @@
 <template>
   <div class="w-96 space-y-2">
-    <app-page-link to="emojis">
+    <app-link to="emojis">
       <template #right>👀</template>
-    </app-page-link>
-    <app-page-link to="global-emotes">
+    </app-link>
+    <app-link to="global-emotes">
       <template #right><emote-integration-logos /></template>
-    </app-page-link>
-    <app-page-link to="users-emotes">
+    </app-link>
+    <app-link to="users-emotes">
       <template #right>
         <img
           class="translate-x-2"
@@ -16,14 +16,18 @@
           width="45"
         />
       </template>
-    </app-page-link>
+    </app-link>
     <emote-collection-person-fetch ref="fetchRef" />
     <emote-collection-person-select />
-    <app-page-link-main />
+    <app-link-to-main />
   </div>
 </template>
 <script setup lang="ts">
 import type { EmoteCollectionPersonFetch } from "#build/components";
+
+useHead({
+  title: "Emotes Collections",
+});
 
 const fetchRef = ref<InstanceType<typeof EmoteCollectionPersonFetch>>();
 

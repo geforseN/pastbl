@@ -32,13 +32,13 @@
           <auth-twitch-login-link-button v-else class="w-full" />
         </li>
         <li>
-          <app-links-emote-integrations />
+          <emotes-and-emojis-button-link />
         </li>
         <li>
-          <app-links-pastas-find />
+          <pastas-find-button-link />
         </li>
         <li>
-          <settings-link />
+          <settings-button-link />
         </li>
         <div class="!mt-auto mr-auto space-y-4">
           <app-theme-select />

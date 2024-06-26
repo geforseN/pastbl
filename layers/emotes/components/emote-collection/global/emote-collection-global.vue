@@ -45,10 +45,10 @@
 <script setup lang="ts">
 const globalCollectionStore = useGlobalCollectionStore();
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.globalEmotesHandler,
+  emoteOnHover.globalEmotesHandler,
   100,
   true,
 );

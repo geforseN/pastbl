@@ -132,10 +132,10 @@ const serverPastasListRef = ref<HTMLElement>();
 
 const serverPastas = useServerPastas(serverPastasListRef);
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.allEmotesHandler,
+  emoteOnHover.allEmotesHandler,
   100,
   true,
 );

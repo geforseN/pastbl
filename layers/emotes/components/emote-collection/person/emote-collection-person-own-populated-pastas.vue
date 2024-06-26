@@ -32,10 +32,10 @@ defineEmits<{
   removePasta: [OmegaPasta];
 }>();
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const findEmoteInOpenedCollection = useThrottleFn(
-  onHoverHint.makeMouseoverHandler({
+  emoteOnHover.makeMouseoverHandler({
     findEmote(target) {
       const token = getEmoteToken(target);
       return props.findEmote(token);

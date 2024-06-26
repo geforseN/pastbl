@@ -39,10 +39,10 @@ if (!integration.value) {
   });
 }
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.globalEmotesHandler,
+  emoteOnHover.globalEmotesHandler,
   100,
   true,
 );

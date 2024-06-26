@@ -1,4 +1,4 @@
-export function useFormCollapse() {
+export function usePastaFormCollapse() {
   const isOpen = useIndexedDBKeyValue(
     "create-pasta-form-collapse:is-open",
     false,

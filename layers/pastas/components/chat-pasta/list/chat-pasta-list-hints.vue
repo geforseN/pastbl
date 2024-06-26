@@ -67,7 +67,7 @@
             </i18n-t>
           </div>
           <div v-else>
-            <app-hint-add-emotes />
+            <add-emotes-hint />
           </div>
           <div class="flex justify-between p-1">
             <add-emotes-button-link />

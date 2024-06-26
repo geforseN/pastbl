@@ -6,10 +6,10 @@
       </keep-alive>
     </client-only>
     <nav class="space-y-2">
-      <app-page-link-pastas-find />
-      <app-page-link-user-settings />
-      <app-page-link-emotes />
-      <app-page-link to="pastas">
+      <pastas-find-link />
+      <settings-link />
+      <emotes-and-emojis-link />
+      <app-link to="pastas">
         <template #right>
           <span class="relative">
             <div class="flex items-center gap-2">
@@ -18,12 +18,12 @@
             </div>
           </span>
         </template>
-      </app-page-link>
+      </app-link>
     </nav>
   </div>
 </template>
 <script setup lang="ts">
 useHead({
-  title: "Main page",
+  title: "Main Page",
 });
 </script>

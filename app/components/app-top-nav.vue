@@ -12,13 +12,13 @@
         </nuxt-link-locale>
       </li>
       <li class="hidden go-brr:block">
-        <app-links-emote-integrations />
+        <emotes-and-emojis-button-link />
       </li>
       <li class="hidden xl:block">
-        <app-links-pastas-find />
+        <pastas-find-button-link />
       </li>
       <li class="hidden xl:block">
-        <settings-link />
+        <settings-button-link />
       </li>
       <li class="!ml-auto hidden go-brr:block" />
       <li class="hidden sm:block">

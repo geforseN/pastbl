@@ -1,5 +1,4 @@
 import type { Pasta } from "~~/database/schema";
-import { pastasAPI } from "~/resources/pastas";
 import {
   type ServerPastasPaginationCursor,
   ServerPastasPaginationCursor_,

@@ -6,19 +6,20 @@ import {
 import { type IEmote } from "~/integrations";
 import { raise } from "~/utils/error";
 
-export function injectOnHoverHint() {
+export function injectEmoteOnHover() {
   return (
-    inject<ReturnType<typeof useExtendedOnHoverHint>>("onHoverHint") || raise()
+    inject<ReturnType<typeof useExtendedEmoteOnHover>>("emoteOnHover") ||
+    raise()
   );
 }
 
-export function useExtendedOnHoverHint(container: ComputedRef<HTMLElement>) {
-  const onHoverHint = useOnHoverHint(container);
+export function useExtendedEmoteOnHover(container: ComputedRef<HTMLElement>) {
+  const emoteOnHover = useEmoteOnHover(container);
   const emotesStore = useEmotesStore();
 
   return {
-    ...onHoverHint,
-    allEmotesHandler: onHoverHint.makeMouseoverHandler({
+    ...emoteOnHover,
+    allEmotesHandler: emoteOnHover.makeMouseoverHandler({
       findEmote(target) {
         const token = getEmoteToken(target);
         return emotesStore.findEmote(token);
@@ -30,7 +31,7 @@ export function useExtendedOnHoverHint(container: ComputedRef<HTMLElement>) {
         return emotes;
       },
     }),
-    globalEmotesHandler: onHoverHint.makeMouseoverHandler({
+    globalEmotesHandler: emoteOnHover.makeMouseoverHandler({
       findEmote(target) {
         const token = getEmoteToken(target);
         return emotesStore.findGlobalEmote(token);
@@ -39,7 +40,7 @@ export function useExtendedOnHoverHint(container: ComputedRef<HTMLElement>) {
   };
 }
 
-export function useOnHoverHint(container: ComputedRef<HTMLElement>) {
+export function useEmoteOnHover(container: ComputedRef<HTMLElement>) {
   const emoji = ref<Nullish<string>>();
   const emote = ref<Nullish<IEmote>>();
   const emoteModifiers = ref<Nullish<IEmote[]>>();
