@@ -19,6 +19,7 @@ defineProps<{
   mustShow: boolean;
   channels: ITwitch.Channel[];
 }>();
+
 defineEmits<{
   load: [nickname: string];
 }>();

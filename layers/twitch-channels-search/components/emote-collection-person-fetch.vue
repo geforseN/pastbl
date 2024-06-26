@@ -51,9 +51,6 @@
   </form>
 </template>
 <script setup lang="ts">
-import { useTwitchChannelsSearch } from "../composables/useTwitchChannelsSearch";
-import { loadCollection } from "../utils/load-collection";
-
 defineExpose({
   focusInput() {
     inputRef.value!.focus();
