@@ -73,8 +73,8 @@ export default defineNuxtConfig({
       tasks: true,
     },
     scheduledTasks: {
-      // At 00:00 on day-of-month 1 => every month
-      "0 0 1 * *": "get-twitch-token",
+      // At 00:00., everyday
+      "0 0 * * *": "get-twitch-token",
     },
   },
   // FIXME: fix warnings in console
