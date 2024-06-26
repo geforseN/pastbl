@@ -36,7 +36,7 @@ export function definePastaTagsEnsure(tags: Ref<string[]>) {
   };
 }
 
-export const getTagLengthStatus = makeLengthStatus(pastaTagLength);
+export const getTagLengthStatus = makeLengthStatusGetter(pastaTagLength);
 
 export const ensurePastaTag = {
   lengthIsOk(tag: MaybeRef<string>) {
