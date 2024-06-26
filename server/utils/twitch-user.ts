@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { canBeTwitchUserLogin } from "./twitch-user-login";
-import { canBeTwitchUserId } from "./twitch-user-id";
+import { isTwitchUserLogin } from "./twitch-user-login";
+import { isTwitchUserId } from "./twitch-user-id";
 import { fetchTwitchUser } from "~/integrations/Twitch/api";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users

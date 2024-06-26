@@ -1,7 +1,7 @@
 <template>
   <div
     v-auto-animate
-    class="max-h-60 overflow-y-auto rounded"
+    class="max-h-60 divide-y divide-accent/50 overflow-y-auto rounded"
     :class="mustShow && channels.length > 0 && 'border border-accent'"
   >
     <template v-if="mustShow">
@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 defineProps<{
   mustShow: boolean;
-  channels: Channel[];
+  channels: ITwitch.Channel[];
 }>();
 defineEmits<{
   load: [nickname: string];

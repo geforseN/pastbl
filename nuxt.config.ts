@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   future: {
@@ -45,6 +47,18 @@ export default defineNuxtConfig({
   vite: {
     esbuild: {
       pure: ["console.log"],
+    },
+    vue: {
+      script: {
+        globalTypeFiles: [
+          fileURLToPath(
+            new URL(
+              "layers/twitch-channels-search/types.d.ts",
+              import.meta.url,
+            ),
+          ),
+        ],
+      },
     },
   },
   site: {

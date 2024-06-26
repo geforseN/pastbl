@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2 bg-base-content/30 p-1">
+  <div class="flex items-center gap-2 bg-base-200 p-1">
     <twitch-user-avatar
       :twitch="{ avatarUrl: thumbnailUrl, login, nickname }"
       :size="24"
@@ -27,9 +27,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Channel } from "~~/server/utils/search-channels";
-
-defineProps<Channel>();
+defineProps<ITwitch.Channel>();
 
 defineEmits<{
   load: [];
