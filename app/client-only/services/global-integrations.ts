@@ -5,7 +5,7 @@ import {
   type SettledEmoteIntegrationsRecord,
   type SettledEmoteIntegration,
 } from "~/integrations/integrations";
-import { globalIntegrationsAPI as api } from "~/resources/global-integrations";
+import { globalIntegrationsAPI as api } from "~~/layers/emotes/utils/global-integrations.api";
 
 const emptyIntegrations = Object.freeze(
   flatGroupBySource(

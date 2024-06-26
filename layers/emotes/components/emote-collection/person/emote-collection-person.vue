@@ -107,10 +107,10 @@ async function removePasta(pasta: OmegaPasta) {
   return await pastasStore.removePasta(pasta);
 }
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.makeMouseoverHandler({
+  emoteOnHover.makeMouseoverHandler({
     async findEmote(target) {
       const integrationContainer = target.closest("[data-integration-source]");
       assert.ok(integrationContainer instanceof HTMLElement);

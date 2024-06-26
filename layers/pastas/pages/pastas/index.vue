@@ -1,5 +1,6 @@
 <template>
   <div class="w-96 space-y-2">
+    <!-- TODO: component -->
     <article class="form-control rounded-btn border p-2">
       <label for="load-pastas">
         <h3 class="p-1 pt-0 text-2xl font-bold">
@@ -15,6 +16,7 @@
         @change="onFilesInputChange"
       />
     </article>
+    <!-- TODO: component -->
     <button
       class="btn btn-primary btn-lg h-max flex-nowrap text-balance px-4 text-3xl"
       @click="() => savePastasInFile(pastasStore.pastasToShow)"
@@ -25,12 +27,16 @@
         <icon name="ic:file-download" size="31" />
       </div>
     </button>
-    <app-page-link-pastas-find />
-    <app-page-link-main />
+    <pastas-find-link />
+    <app-link-to-main />
   </div>
 </template>
 <script lang="ts" setup>
 import { pastasService } from "~/client-only/services";
+
+useHead({
+  title: "Pastas",
+});
 
 const pastasStore = usePastasStore();
 

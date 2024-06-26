@@ -6,12 +6,16 @@
     <chat-pastas-find-list class="w-full max-w-[414px]" />
     <div class="w-96 space-y-2">
       <chat-pastas-find-params />
-      <app-page-link-main />
+      <app-link-to-main />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 definePageMeta({
   layout: false,
+});
+
+useHead({
+  title: "Find Pastas",
 });
 </script>

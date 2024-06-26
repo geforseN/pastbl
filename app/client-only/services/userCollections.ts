@@ -5,7 +5,7 @@ import type {
   IndexedDBUserEmoteIntegrationRecord,
   IndexedDBUserEmoteSet,
 } from "~/client-only/IndexedDB";
-import { personCollectionAPI } from "~/resources/person";
+import { personCollectionAPI } from "~~/layers/emotes/utils/person-collection.api";
 import { type IEmote, isReadyUserIntegration } from "~/integrations";
 import {
   emoteSources,

@@ -46,7 +46,7 @@ class EmoteSize {
 }
 
 class EmoteIntegrationLink {
-  constructor(readonly emote: OnHoverHintEmote) {}
+  constructor(readonly emote: EmoteOnHover) {}
 
   get value() {
     assert.ok(this.canBe());
@@ -64,15 +64,15 @@ class EmoteIntegrationLink {
   }
 
   static #integrationLinkGetters = {
-    FrankerFaceZ: (emote: OnHoverHintEmote) =>
+    FrankerFaceZ: (emote: EmoteOnHover) =>
       `https://www.frankerfacez.com/emoticon/${emote.id}-${emote.token}`,
-    BetterTTV: (emote: OnHoverHintEmote) =>
+    BetterTTV: (emote: EmoteOnHover) =>
       `https://betterttv.com/emotes/${emote.id}`,
-    SevenTV: (emote: OnHoverHintEmote) => `https://7tv.app/emotes/${emote.id}`,
+    SevenTV: (emote: EmoteOnHover) => `https://7tv.app/emotes/${emote.id}`,
   } as const;
 }
 
-export class OnHoverHintEmote {
+export class EmoteOnHover {
   readonly id: string;
   readonly token: string;
   readonly url: EmoteUrl;
@@ -133,7 +133,7 @@ export class OnHoverHintEmote {
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   images = computed(() => {
-    return OnHoverHintEmote.#sizes
+    return EmoteOnHover.#sizes
       .filter((size) => this.#canHaveSize(size))
       .map((size) => this.#ofSize(size));
   });

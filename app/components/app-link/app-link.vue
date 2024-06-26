@@ -26,7 +26,7 @@ const routePageLinkRecord = {
     path: "/collections/persons",
     textKey: "collections.users.link",
   },
-  emotes: {
+  emotesAndEmojis: {
     path: "/collections",
     textKey: "emotesAndEmojis",
   },

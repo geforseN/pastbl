@@ -1,9 +1,10 @@
 <template>
-  <nuxt-link-locale
-    to="/settings#heading"
-    class="btn btn-outline flex-nowrap bg-base-100"
-  >
-    <strong>{{ $t("settings._") }}</strong>
-    ⚙️
-  </nuxt-link-locale>
+  <app-link to="user-settings">
+    <template #right>
+      <div class="flex items-center gap-2">
+        <combine-keyboard-keys first="Alt" last="M" />
+        ⚙️
+      </div>
+    </template>
+  </app-link>
 </template>

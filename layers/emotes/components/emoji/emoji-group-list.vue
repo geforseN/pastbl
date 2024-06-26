@@ -21,10 +21,10 @@ watchImmediate(locale, () => {
   );
 });
 
-const onHoverHint = injectOnHoverHint();
+const emoteOnHover = injectEmoteOnHover();
 
 const throttledMouseover = useThrottleFn(
-  onHoverHint.makeMouseoverHandler(),
+  emoteOnHover.makeMouseoverHandler(),
   100,
   true,
 );

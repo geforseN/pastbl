@@ -33,14 +33,14 @@
           <nuxt-layout>
             <nuxt-page />
           </nuxt-layout>
-          <emote-card-on-hover
+          <emote-on-hover-card
             ref="onHoverHintRef"
-            v-on-click-outside="onHoverHint.close"
-            :emoji="onHoverHint.emoji.value"
-            :emote="onHoverHint.emote.value"
-            :emote-modifiers="onHoverHint.emoteModifiers.value"
-            @close="onHoverHint.close"
-            @mouseleave="onHoverHint.close"
+            v-on-click-outside="emoteOnHover.close"
+            :emoji="emoteOnHover.emoji.value"
+            :emote="emoteOnHover.emote.value"
+            :emote-modifiers="emoteOnHover.emoteModifiers.value"
+            @close="emoteOnHover.close"
+            @mouseleave="emoteOnHover.close"
           />
           <client-only>
             <pastas-work-mode-toggle
@@ -62,7 +62,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { AppHintOnHover } from "#build/components";
+import type { EmoteOnHoverCard } from "#build/components";
 
 const pastasStore = usePastasStore();
 
@@ -79,11 +79,11 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const onHoverHintRef = ref<InstanceType<typeof AppHintOnHover>>();
-const onHoverHint = useExtendedOnHoverHint(
-  computed(() => onHoverHintRef.value?.containerRef || raise()),
+const emoteOnHoverRef = ref<InstanceType<typeof EmoteOnHoverCard>>();
+const emoteOnHover = useExtendedEmoteOnHover(
+  computed(() => emoteOnHoverRef.value?.containerRef || raise()),
 );
-provide("onHoverHint", onHoverHint);
+provide("emoteOnHover", emoteOnHover);
 
 onMounted(() => {
   document.documentElement.classList.remove("dark", "light");

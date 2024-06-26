@@ -26,7 +26,7 @@ const dataRecord = {
     alt: "Twitch logo",
     href: "https://twitch.tv",
   },
-};
+} as const;
 </script>
 <script lang="ts" setup>
 defineOptions({ inheritAttrs: false });

@@ -1,5 +1,6 @@
 import { userCollectionsService } from "~/client-only/services/userCollections";
-import { personCollectionAPI } from "~/resources/person";
+import { personCollectionAPI } from "~~/layers/emotes/utils/person-collection.api";
+
 import type {
   IEmoteIntegration,
   IPersonEmoteCollection,
