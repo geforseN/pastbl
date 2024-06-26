@@ -23,7 +23,7 @@ export function useUserCollection(login: TwitchUserLogin) {
   const userCollectionsStore = useUserCollectionsStore();
 
   const collection = useMyAsyncState(
-    async (getCollection: () => MaybePromise<IUserEmoteCollection>) => {
+    async (getCollection: () => MaybePromise<IPersonEmoteCollection>) => {
       return await getCollection();
     },
     null,

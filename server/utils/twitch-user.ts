@@ -5,8 +5,8 @@ import { fetchTwitchUser } from "~/integrations/Twitch/api";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users
 const twitchApiUserSchema = z.object({
-  id: z.string().refine(canBeTwitchUserId),
-  login: z.string().refine(canBeTwitchUserLogin),
+  id: z.string().refine(isTwitchUserId),
+  login: z.string().refine(isTwitchUserLogin),
   display_name: z.string(),
   // type: z.enum(["admin", "global_mod", "staff", ""]),
   // broadcaster_type: z.enum(["affiliate", "partner", ""]),

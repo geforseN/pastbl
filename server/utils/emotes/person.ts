@@ -1,10 +1,10 @@
-import type { IUserEmoteCollection } from "~/integrations";
+import type { IPersonEmoteCollection } from "~/integrations/abstract";
 import { flatGroupBy } from "~/utils/object";
 
 export async function getPersonEmoteCollection(login: TwitchUserLogin) {
   const twitch = await getTwitchUser(login);
   const integrations = await getPersonAllEmoteIntegrations(twitch);
-  return <IUserEmoteCollection>{
+  return <IPersonEmoteCollection>{
     user: {
       twitch,
     },

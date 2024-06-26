@@ -27,7 +27,11 @@ const loginQuerySchema = z.object({
 });
 
 export function getTwitchLoginFromQuery(event: H3E) {
-  return loginQuerySchema.parse(getQuery(event)).login;
+  const parse = loginQuerySchema.safeParse(getQuery(event));
+  if (parse.success) {
+    return parse.data.login;
+  }
+  throw createError({ statusCode: 400, message: parse.error.message });
 }
 
 const TWITCH_LOGINS_MAX_QUERY_STRING_COUNT =

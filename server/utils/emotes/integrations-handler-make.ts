@@ -1,7 +1,5 @@
 import type { EmoteSource } from "~/integrations";
-import type { IEmote } from "~/integrations/abstract/Emote";
-import type { IEmoteIntegration } from "~/integrations/abstract/EmoteIntegration";
-import type { IEmoteSet } from "~/integrations/abstract/EmoteSet";
+import type { IPersonEmoteCollection } from "~/integrations/abstract";
 import { findErrorMessage } from "~/utils/error";
 
 function handleEmoteIntegrationError(
@@ -29,9 +27,7 @@ function withReadyStatus<I extends object>(integration: I) {
 
 export function makeIntegrationGetter<
   S extends EmoteSource,
-  F extends (
-    ...args: any[]
-  ) => Promise<any | IEmoteIntegration<IEmoteSet<IEmote>>>,
+  F extends (...args: unknown[]) => Promise<IPersonEmoteCollection>,
 >(source: S, getIntegration: F) {
   return async (...args: Parameters<F>) => {
     try {
