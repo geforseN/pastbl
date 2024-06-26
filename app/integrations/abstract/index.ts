@@ -1,4 +1,3 @@
-import type { PersonTwitch } from "~~/server/utils/twitch-user";
 import type { EmoteSource } from "../emote-source";
 import type { HasFormedAt } from "./_internal";
 import type { IEmoteIntegrations } from "./EmoteIntegration";

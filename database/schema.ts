@@ -9,7 +9,10 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { defaultPastaPublicity, pastasPublicity } from "~~/server/utils/pastas";
+import {
+  defaultPastaPublicity,
+  pastasPublicity,
+} from "~~/layers/pastas/server/utils/pastas";
 import { pastaTagLength, pastaTextLength } from "~~/config/const";
 
 const TWITCH_USER_ID_LENGTH = 64;
