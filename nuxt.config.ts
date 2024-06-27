@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  debug: false,
   future: {
     compatibilityVersion: 4,
   },
@@ -24,7 +25,6 @@ export default defineNuxtConfig({
   features: {
     devLogs: true,
   },
-  debug: true,
   devtools: {
     enabled: true,
     timeline: {
@@ -71,6 +71,7 @@ export default defineNuxtConfig({
     minify: true,
     experimental: {
       tasks: true,
+      openAPI: true,
     },
     scheduledTasks: {
       // At 00:00., everyday
