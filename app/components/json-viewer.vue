@@ -14,9 +14,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-defineProps<{ data: object }>();
+defineProps<{
+  data: object;
+}>();
 </script>
-
 <style scoped>
 .json-viewer {
   display: flex;

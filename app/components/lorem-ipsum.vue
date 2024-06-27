@@ -8,5 +8,10 @@
 </template>
 
 <script lang="ts" setup>
-withDefaults(defineProps<{ count?: number }>(), { count: 10 });
+withDefaults(
+  defineProps<{
+    count?: number;
+  }>(),
+  { count: 10 },
+);
 </script>
