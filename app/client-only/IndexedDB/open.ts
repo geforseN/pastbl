@@ -6,7 +6,8 @@ export async function openIdb<T extends DBSchema>(
   version: number,
   upgrade: OpenDBCallbacks<T>["upgrade"],
 ) {
-  if (import.meta.test) {
+  if (import.meta.env.MODE === "test") {
+    // @ts-expect-error types declaration file not found, but it does not matter here
     await import("fake-indexeddb/auto");
   }
   if (import.meta.server) {
