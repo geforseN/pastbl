@@ -1,4 +1,3 @@
-import "fake-indexeddb/auto";
 import type { DBSchema } from "idb";
 import { collectionsIdb } from "~/client-only/IndexedDB/emote-collections";
 import { pastasIdb } from "~/client-only/IndexedDB/pastas";
