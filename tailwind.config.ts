@@ -1,6 +1,10 @@
 import type { Config } from "tailwindcss";
 import daisyuiThemes from "daisyui/src/theming/themes";
 import { screens } from "tailwindcss/defaultTheme";
+import daisyui from "daisyui";
+// @ts-expect-error @types/tailwindcss-debug-screens does not exist
+import debugScreens from "tailwindcss-debug-screens";
+import scrollbar from "tailwind-scrollbar";
 
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
@@ -31,11 +35,7 @@ export default {
       },
     },
   },
-  plugins: [
-    require("daisyui"),
-    require("tailwindcss-debug-screens"),
-    require("tailwind-scrollbar"),
-  ],
+  plugins: [daisyui, debugScreens, scrollbar],
   daisyui: {
     themes: [
       {

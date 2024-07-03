@@ -18,7 +18,7 @@ const loginParamSchema = z
   .max(TWITCH_LOGIN_MAX_LENGTH)
   .transform((string) => toLowerCase(string.replaceAll(/\s+/g, "")));
 
-export function getTwitchLoginRouteParam(event: H3E) {
+export function getTwitchLoginRouteParam(event: H3Event) {
   return loginParamSchema.parse(getRouterParam(event, "login"));
 }
 
@@ -26,7 +26,7 @@ const loginQuerySchema = z.object({
   login: loginParamSchema,
 });
 
-export function getTwitchLoginFromQuery(event: H3E) {
+export function getTwitchLoginFromQuery(event: H3Event) {
   const parse = loginQuerySchema.safeParse(getQuery(event));
   if (parse.success) {
     return parse.data.login;
@@ -57,6 +57,6 @@ const loginsQueryStringSchema = z
     return uniqueValues(logins);
   });
 
-export function getTwitchLoginsFromQuery(event: H3E) {
+export function getTwitchLoginsFromQuery(event: H3Event) {
   return loginsQueryStringSchema.parse(getQuery(event).nicknames);
 }

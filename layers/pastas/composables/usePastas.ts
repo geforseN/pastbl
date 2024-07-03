@@ -14,6 +14,7 @@ export function usePastas<T extends OmegaPasta>(getPastas: () => Promise<T[]>) {
     async getEntryById(id: number) {
       const index = await this.getIndexById(id);
       const pasta = _pastas.state.value[index];
+      assert.ok(pasta);
       return [index, pasta] as const;
     },
     async getById(id: number) {

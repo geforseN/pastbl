@@ -1,4 +1,4 @@
-import { pastasService } from "~/client-only/services";
+import { pastasService } from "~/client-only/services/pastas";
 
 export const usePastasStore = defineStore("pastas", () => {
   const userCollectionsStore = useUserCollectionsStore();
@@ -56,7 +56,7 @@ export const usePastasStore = defineStore("pastas", () => {
       const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
       await pastasService.moveFromListToBin(pasta);
       pastas.removeAt(index);
-      toast.notify("warning", "pastaRemoved", async () => {
+      toast.notify("warning", "pastaRemoved", async function onCancel() {
         await pastasService.moveFromBinToList(pasta);
         pastas.pushAt(index, pasta);
       });

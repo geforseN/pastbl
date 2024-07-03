@@ -20,11 +20,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
+import type { IndexedDBKeyValueStoreSchema } from "~/client-only/IndexedDB";
 
 const oncopy = defineModel<string>({ required: true });
 
 defineProps<{
-  options: Record<MyKeyValueSchema["pasta:oncopy"], string>;
+  options: Record<IndexedDBKeyValueStoreSchema["pasta:oncopy"], string>;
 }>();
 </script>

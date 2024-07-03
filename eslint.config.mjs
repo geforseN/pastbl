@@ -46,6 +46,7 @@ export default withNuxt()
             "args",
             "props",
             "dev-only",
+            "indexed-db",
           ],
         },
       ],

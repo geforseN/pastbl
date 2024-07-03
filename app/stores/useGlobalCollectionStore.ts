@@ -1,21 +1,17 @@
 import { emoteSources, type EmoteSource } from "~/integrations/emote-source";
-import { service } from "~/client-only/services/global-integrations";
-import type {
-  SettledEmoteIntegrationsRecord,
-  SettledEmoteIntegration,
-  SomeEmoteIntegration,
-} from "~/integrations/integrations";
+import { service } from "~~/layers/global-emote-integrations/utils/global-integrations";
 
 export const useGlobalCollectionStore = defineStore("global-collection", () => {
   const integrations = useGlobalIntegrations(service.getAll);
-  // TODO: useGlobalEmoteIntegrationsConvert(integrations.state)
-  // TODO: useUpdatingEmoteIntegrations(): () => { state: ShallowRef<T>}
   const checkedSources = useGlobalIntegrationsCheckedSources();
 
-  const integrationsLoad = useEmoteIntegrationsLoad<
-    SettledEmoteIntegration,
-    SettledEmoteIntegrationsRecord
-  >(service);
+  const integrationsLoad = useEmoteIntegrationsLoad(service);
+
+  const readySources = computed(() =>
+    Object.values(integrations.state).filter((integration) =>
+      integration?.isReady?.(),
+    ),
+  );
 
   watchOnce(integrations.state, async (state) => {
     const missingSources = emoteSources.filter(
