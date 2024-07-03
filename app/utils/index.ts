@@ -1,6 +1,7 @@
 import type {
   IEmoteIntegration,
   IPersonEmoteCollection,
+  TEmoteIntegrations,
 } from "~/integrations/abstract";
 import type { EmoteSource } from "~/integrations/emote-source";
 
@@ -38,7 +39,7 @@ export function fixedEncodeURIComponent(string: string) {
 }
 
 class IntegrationEmotes {
-  constructor(private readonly integration: IEmoteIntegration) {}
+  constructor(private readonly integration: TEmoteIntegrations.__Some__) {}
 
   get canBe() {
     return (

@@ -1,4 +1,4 @@
-import { createTwitchApiFetch, twitchApi } from "~/integrations/Twitch/api";
+import { twitchApi } from "~/integrations/Twitch/api";
 
 export default defineTask({
   meta: {
@@ -15,8 +15,7 @@ export default defineTask({
     console.log("Fetched twitch token");
     /* eslint-enable no-console */
     await setTwitchTokenToStorage(token);
-    const twitchApiFetch = createTwitchApiFetch(token);
-    twitchApi.fetch = twitchApiFetch;
+    twitchApi.recreateFetch(token);
     return {
       result: "Twitch token fetched successfully",
     };

@@ -1,3 +1,6 @@
+export function isStringifiedNumber(string: string): string is `${number}` {
+  return !Number.isNaN(Number(string));
+}
 export function isNotNullable<T>(value: T): value is NonNullable<T> {
   return value !== undefined && value !== null;
 }

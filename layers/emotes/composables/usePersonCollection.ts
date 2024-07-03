@@ -1,9 +1,10 @@
 import { userCollectionsService } from "~/client-only/services/userCollections";
-import { personCollectionAPI } from "~~/layers/emotes/utils/person-collection.api";
+import { API } from "~~/layers/person-emote-collections/server/utils/person-emote-collection.api";
 
 import type {
   IEmoteIntegration,
   IPersonEmoteCollection,
+  TEmoteIntegrations,
 } from "~/integrations/abstract";
 
 function __updateIntegration__(
@@ -36,7 +37,7 @@ export function usePersonCollection(login: TwitchUserLogin) {
       const collection = await userCollectionsService
         .get(login)
         .catch(async () => {
-          const collection = await personCollectionAPI.get(login);
+          const collection = await API.get(login);
           await userCollectionsService.put(collection);
           return collection;
         });
@@ -61,13 +62,13 @@ export function usePersonCollection(login: TwitchUserLogin) {
     IPersonEmoteCollection["integrations"]
   >({
     load(source) {
-      return personCollectionAPI.integrations.get(source, login);
+      return API.integrations.get(source, login);
     },
     loadAll() {
-      return personCollectionAPI.integrations.getAll(login);
+      return API.integrations.getAll(login);
     },
     loadMany(sources) {
-      return personCollectionAPI.integrations.getMany(sources, login);
+      return API.integrations.getMany(sources, login);
     },
   });
 
@@ -83,7 +84,7 @@ export function usePersonCollection(login: TwitchUserLogin) {
     isSelected: computed(() =>
       userCollectionsStore.isCollectionSelected(login),
     ),
-    refreshIntegration(integration: IEmoteIntegration) {
+    refreshIntegration(integration: TEmoteIntegrations.Person.Ready) {
       ensureCollectionLoaded();
       return collection.execute(0, async () => {
         const newIntegration = await integrationsLoad.execute(

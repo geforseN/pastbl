@@ -1,4 +1,4 @@
-import { userCollectionsService } from "~/client-only/services";
+import { userCollectionsService } from "~/client-only/services/userCollections";
 
 export const useUserCollectionsStore = defineStore("user-collections", () => {
   const loginsToSelect = useAsyncArray(userCollectionsService.getAllLogins);

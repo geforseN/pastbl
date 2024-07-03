@@ -21,12 +21,12 @@ export const pastaTagsSchema = z
       .map(transformPastaTag);
   });
 
-export async function getPastaTagFromBody(event: H3E) {
+export async function getPastaTagFromBody(event: H3Event) {
   const body = await readBody(event);
   return pastaTagSchema.parse(body.tag);
 }
 
-export async function getPastaTagsFromBody(event: H3E) {
+export async function getPastaTagsFromBody(event: H3Event) {
   const body = await readBody(event);
   return pastaTagsSchema.parse(body.tags);
 }

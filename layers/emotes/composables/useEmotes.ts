@@ -1,7 +1,7 @@
-import type { EmoteSource, IEmote } from "~/integrations";
+import type { EmoteSource } from "~/integrations";
 import type { IEmoteIntegration } from "~/integrations/abstract";
 
-type RecordOfEmotesMap = Record<EmoteSource, EmotesMap>;
+type EmotesMapRecord = Record<EmoteSource, EmotesMap>;
 
 export type IEmoteIntegrationRecord = Record<EmoteSource, IEmoteIntegration>;
 
@@ -9,7 +9,7 @@ export function useEmotes<T extends IEmoteIntegrationRecord>(
   getIntegrations: () => Partial<T>,
   options: { onCallEnd?: () => void } = {},
 ) {
-  const record = ref<Partial<RecordOfEmotesMap>>({});
+  const record = ref<Partial<EmotesMapRecord>>({});
 
   watch(getIntegrations, (value) => {
     const integrations = Object.values(

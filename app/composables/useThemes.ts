@@ -1,4 +1,4 @@
-import type { MyKeyValueSchema } from "~/client-only/IndexedDB";
+import type { IndexedDBKeyValueStoreSchema } from "~/client-only/IndexedDB";
 
 export function useThemes() {
   const { state: selected } = useIndexedDBKeyValue(
@@ -14,7 +14,10 @@ export function useThemes() {
         ["system", t("theme.$system")],
         ["dark", t("theme.$dark")],
         ["light", t("theme.$light")],
-      ] as const satisfies [MyKeyValueSchema["app:daisyui-theme"], string][],
+      ] as const satisfies [
+        IndexedDBKeyValueStoreSchema["app:daisyui-theme"],
+        string,
+      ][],
   );
 
   onMounted(() => {

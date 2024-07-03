@@ -1,4 +1,4 @@
-import type { EmoteSource, IBasicUserEmoteCollection__ } from "~/integrations";
+import type { EmoteSource } from "~/integrations";
 import { flatGroupBy } from "~/utils/object";
 
 export function flatGroupBySource<T extends { source: EmoteSource }>(
@@ -16,7 +16,7 @@ export function getEmoteSource(source: SomeEmoteSource) {
 export type SelectableLogin = TwitchUserLogin | "";
 export type SelectedLogin = SelectableLogin;
 
-export type LoginSource = SelectableLogin | IBasicUserEmoteCollection__;
+export type LoginSource = SelectableLogin /* | IBasicUserEmoteCollection__ */;
 
 export function getUserLogin(loginSource: LoginSource) {
   const login =
