@@ -1,7 +1,5 @@
-import { pastasService } from "~/client-only/services/pastas";
-
 export const usePastasStore = defineStore("pastas", () => {
-  const userCollectionsStore = useUserCollectionsStore();
+  const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
   const pastas = usePastas(pastasService.getAll);
 
@@ -14,7 +12,7 @@ export const usePastasStore = defineStore("pastas", () => {
     isPersonTagShowStrategySelected,
   } = usePastasShow(
     sortedPastas,
-    computed(() => userCollectionsStore.selectedLogin.state),
+    computed(() => personsEmoteCollections.selectedLogin.state),
   );
   const pastasTextLength = usePastasTextLength(pastas.state);
   const pastasTags = usePastasTags(pastas.state);

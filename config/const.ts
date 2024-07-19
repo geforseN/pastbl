@@ -23,3 +23,11 @@ export const nicknameLength = {
   min: 3,
   max: 32,
 };
+
+export const config = {
+  pastaTagLength,
+  pastaTagsCount,
+  pastaTextLength,
+  badgesCount,
+  nicknameLength,
+} as const;

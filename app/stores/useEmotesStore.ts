@@ -1,23 +1,23 @@
-import type { IEmote } from "~/integrations";
+import type { IEmote } from "$/emote-integrations/base/Emote";
 
 export const useEmotesStore = defineStore("emotes", () => {
-  const emotesCache = new EmotesCache();
+  const emotesCache = new EmotesCache<IEmote>();
 
   const pastasStore = usePastasStore();
-  const userCollectionsStore = useUserCollectionsStore();
-  const globalCollectionStore = useGlobalCollectionStore();
+  const personsEmoteCollections = usePersonsEmoteCollectionsStore();
+  const globalEmoteIntegrationsStore = useGlobalEmoteIntegrationsStore();
 
   const globalEmotes = useEmotes(
-    () => globalCollectionStore.integrations.checked,
+    () => globalEmoteIntegrationsStore.integrations.checked,
   );
   const userEmotes = useEmotesWithInitialReady(
-    () => userCollectionsStore.selectedCollection.readyIntegrations,
+    () => personsEmoteCollections.selectedCollection.readyIntegrations,
   );
 
   watch(
     [
-      () => userCollectionsStore.selectedCollection.state,
-      () => globalCollectionStore.checkedSources.state,
+      () => personsEmoteCollections.selectedCollection.state,
+      () => globalEmoteIntegrationsStore.checkedSources.state,
     ],
     () => {
       emotesCache.clear();
@@ -44,7 +44,7 @@ export const useEmotesStore = defineStore("emotes", () => {
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
     canUseUserEmotes: computed(
       () =>
-        userCollectionsStore.selectedLogin.isEmpty ||
+        personsEmoteCollections.selectedLogin.isEmpty ||
         userEmotes.isInitialEmotesReady.value,
     ),
   };

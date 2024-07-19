@@ -14,8 +14,7 @@
             <template #item="{ item }">
               <div
                 v-if="
-                  item.key === 'server' &&
-                  !userStore.pastasWorkMode.canHaveServerMode
+                  item.key === 'remote' && !userStore.pastasWorkMode.canBeRemote
                 "
                 class="foo m-0 flex min-w-[352px] flex-col flex-wrap p-2 sm:min-w-[430px]"
               >
@@ -27,7 +26,7 @@
                 <ul class="ml-4 list-disc">
                   <li
                     v-if="
-                      userStore.pastasWorkMode.canHaveServerModeStatus.includes(
+                      userStore.pastasWorkMode.remoteBlockStatusIncludes(
                         'not-logged-in',
                       )
                     "
@@ -40,7 +39,7 @@
                   </li>
                   <li
                     v-if="
-                      userStore.pastasWorkMode.canHaveServerModeStatus.includes(
+                      userStore.pastasWorkMode.remoteBlockStatusIncludes(
                         'offline',
                       )
                     "
@@ -51,16 +50,15 @@
               </div>
               <div
                 v-if="
-                  item.key === 'server' &&
-                  userStore.pastasWorkMode.canHaveServerMode
+                  item.key === 'remote' && userStore.pastasWorkMode.canBeRemote
                 "
                 ref="serverPastasListRef"
-                :class="[...chatPastaListConfig.tailwind.heights]"
+                :class="[...appConfig.pastaList.heights]"
                 class="chat-pasta-list overflow-y-auto"
                 @mouseover="throttledMouseover"
               >
                 <chat-pasta
-                  v-for="pasta of serverPastas.list.value"
+                  v-for="pasta of remotePastas.list.value"
                   :key="`${pasta.id}:${pasta.text}`"
                   v-bind="pasta"
                   @copy="userStore.copyPasta(pasta)"
@@ -97,7 +95,7 @@
                 </chat-pasta>
               </div>
               <chat-pasta-list
-                v-if="item.key === 'client' && pastasStore.canShowPastas"
+                v-if="item.key === 'local' && pastasStore.canShowPastas"
                 :items="pastasStore.pastasToShow"
                 @mouseover="throttledMouseover"
                 @remove-pasta="pastasStore.removePasta"
@@ -110,17 +108,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ChatPastaList } from "#build/components";
-import { chatPastaList as chatPastaListConfig } from "~~/config/css.js";
+import type { ChatPastaList } from "#components";
+
+const appConfig = useAppConfig();
 
 const tabs = [
   {
-    label: "Server",
-    key: "server",
+    label: "Remote",
+    key: "remote",
   },
   {
-    label: "Client",
-    key: "client",
+    label: "local",
+    key: "local",
   },
 ];
 
@@ -130,7 +129,7 @@ const emotesStore = useEmotesStore();
 
 const serverPastasListRef = ref<HTMLElement>();
 
-const serverPastas = useServerPastas(serverPastasListRef);
+const remotePastas = useRemotePastas(serverPastasListRef);
 
 const emoteOnHover = injectEmoteOnHover();
 

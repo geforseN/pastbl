@@ -3,7 +3,7 @@
     <div class="join-item grow">
       <input
         id="badges-count"
-        v-model.number="model"
+        v-model.number="badgesCount"
         class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300"
         min="0"
         max="10"
@@ -17,13 +17,13 @@
     </div>
     <button
       class="btn btn-square join-item border border-secondary pb-1 text-2xl font-medium focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
-      @click="model--"
+      @click="badgesCount--"
     >
       -
     </button>
     <button
       class="btn btn-square join-item border border-secondary text-2xl font-medium focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
-      @click="model++"
+      @click="badgesCount++"
     >
       +
     </button>
@@ -34,18 +34,18 @@
  LINK: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
  -->
 <script lang="ts" setup>
-import { badgesCount } from "~~/config/const";
+const appConfig = useAppConfig();
 
-const model = defineModel<number>({
+const badgesCount = defineModel<number>({
   required: true,
   set(value) {
     if (typeof value !== "number" || Number.isNaN(value)) {
-      return model.value;
+      return badgesCount.value;
     }
     const nextErrorMessage = getNextErrorMessage(value);
     errorMessage.value = nextErrorMessage;
     if (nextErrorMessage) {
-      return model.value;
+      return badgesCount.value;
     }
     return value;
   },
@@ -56,11 +56,11 @@ const errorMessage = ref("");
 const { t } = useI18n();
 
 function getNextErrorMessage(value: number) {
-  if (value > badgesCount.max) {
-    return t("settings.badges-count.input.toBig", badgesCount.max);
+  if (value > appConfig.badgesCount.max) {
+    return t("settings.badges-count.input.toBig", appConfig.badgesCount.max);
   }
-  if (value < badgesCount.min) {
-    return t("settings.badges-count.input.toSmall", badgesCount.min);
+  if (value < appConfig.badgesCount.min) {
+    return t("settings.badges-count.input.toSmall", appConfig.badgesCount.min);
   }
   return "";
 }

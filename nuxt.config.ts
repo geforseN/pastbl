@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     strict: true,
     tsConfig: {
       compilerOptions: {
-        skipLibCheck: false,
+        skipLibCheck: true || false,
       },
       include: ["./app/integrations/*/_api.d.ts"],
       // extends: "./.nuxt/tsconfig.json",
@@ -53,7 +53,7 @@ export default defineNuxtConfig({
         globalTypeFiles: [
           fileURLToPath(
             new URL(
-              "layers/twitch-channels-search/types.d.ts",
+              "layers/twitch/twitch-channels-search/types.d.ts",
               import.meta.url,
             ),
           ),
@@ -140,8 +140,13 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "nuxt-icon",
     "@nuxt/eslint",
+    // "@scalar/nuxt",
+    "nuxt-open-fetch",
   ],
   vue: {
     propsDestructure: true,
+  },
+  alias: {
+    $: fileURLToPath(new URL("layers", import.meta.url)),
   },
 });

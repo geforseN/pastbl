@@ -1,5 +1,3 @@
-import type { EmoteSource, IEmote } from "~/integrations";
-
 class EmoteUrl {
   constructor(public readonly string: string) {}
 

@@ -1,0 +1,46 @@
+fix many imports
+
+restructure ~~layers/emote-integrations (maybe add layers with EmoteSources names, ~~layers/[source]-emote-integration)
+
+try move api-test-route.spec.ts at server/api, also make it work (must ensure no route handler is created)
+
+stop use ~~/config, use nuxt.config.ts runtimeConfig and appConfig (which is const) 
+# https://nuxt.com/docs/guide/going-further/runtime-config
+# https://nuxt.com/docs/guide/directory-structure/env
+# https://www.youtube.com/watch?v=2tKOZc3Z1dk
+# https://www.youtube.com/watch?v=_FYV5WfiWvs
+# https://www.youtube.com/watch?v=DFZI2iVCrNc
+
+fix repeated auto imports 
+# https://www.youtube.com/watch?v=YLFOynY72sE
+
+
+IndexedDB:
+  1. replace emote-collections database with emotes-integrations
+  2. delete emotes db, move emotes.emotes to emotes-integrations.emotes
+  3. rename key-value.key-value to app.key-value
+
+getTwitchUser
+
+rename keys in useIndexedDBKeyValue
+
+
+
+//////////////////////////////////
+PastasSharedStore
+
+PastasSchema
+//////////////////////////////////
+
+
+
+
+refactor code with idb reference
+
+"$/
+
+236/84
+added nuxt.config.ts in layers that did not have that
+197/66
+
+https://www.youtube.com/live/YLvbza4GtiM?si=ZDTBkPiJeHLKbqqd&t=3647

@@ -25,3 +25,4 @@ logs
 
 .prettierignore
 .vscode/settings.json
+.VSCodeCounter

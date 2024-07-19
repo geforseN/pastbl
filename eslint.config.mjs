@@ -37,7 +37,7 @@ export default withNuxt()
         "error",
         {
           ignore: [
-            /Ref$/ /* variables that end with Ref are used in vue for DOM elements */,
+            /Ref$/ /* variables that end with Ref are used in Vue for DOM elements */,
             "ref",
             "params",
             /Param/,
@@ -50,11 +50,14 @@ export default withNuxt()
           ],
         },
       ],
-      /* 
-        TODO: specify this rule, do not use "off"
-        LINK: https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v54.0.0/docs/rules/filename-case.md 
-      */
-      "unicorn/filename-case": "off",
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+          ignore: [/^use/, /^-/, /^\[\w+]\\.(get|post|put|patch|delete)\.ts$'/],
+          multipleFileExtensions: false,
+        },
+      ],
       "unicorn/no-array-callback-reference": "off",
       "unicorn/catch-error-name": [
         "error",

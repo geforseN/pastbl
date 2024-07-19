@@ -4,7 +4,7 @@ import {
   type UseTimeAgoOptions,
   type UseTimeAgoUnitNamesDefault,
 } from "@vueuse/core";
-import { assert } from "./error";
+import { assert } from "./assert";
 
 const numberInRegex = /\d/;
 

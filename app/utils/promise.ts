@@ -15,6 +15,8 @@ export async function groupAsync<T>(values: MaybePromise<T>[]) {
   return result;
 }
 
+export const resolvePromises = groupAsync;
+
 export function sleep<T>(time: number, resolveValue?: T) {
   return new Promise<T>((resolve) => {
     setTimeout(resolve, time, resolveValue);
