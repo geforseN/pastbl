@@ -1,11 +1,3 @@
-import {
-  findEmoteWrapper,
-  getEmoteToken,
-  isEmoteModifier,
-} from "~/integrations/dom";
-import { type IEmote } from "~/integrations";
-import { raise } from "~/utils/error";
-
 export function injectEmoteOnHover() {
   return (
     inject<ReturnType<typeof useExtendedEmoteOnHover>>("emoteOnHover") ||

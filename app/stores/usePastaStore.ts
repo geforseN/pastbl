@@ -1,22 +1,7 @@
-function usePublishPasta(pasta: { tags: Ref<string[]>; text: Ref<string> }) {
-  const isPublicPasta = useIndexedDBKeyValue("pasta:is-public", false);
-
-  return {
-    isPublicPasta,
-    postPasta() {
-      return pastasAPI.postPasta(
-        pasta.text.value,
-        pasta.tags.value,
-        isPublicPasta.state.value,
-      );
-    },
-  };
-}
-
 export const usePastaStore = defineStore("pasta", () => {
-  const text = useIndexedDBKeyValue("pasta:text", "");
-  const tags = useIndexedDBKeyValue("pasta:tags", []);
-  const tag = useIndexedDBKeyValue("pasta:tag", "");
+  const text = useIndexedDBKeyValue("pasta-form-input:tag", "");
+  const tags = useIndexedDBKeyValue("pasta-form-input:tags", []);
+  const tag = useIndexedDBKeyValue("pasta-form-input:tag", "");
 
   const pasta = usePasta({
     text: text.state,

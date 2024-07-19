@@ -1,9 +1,10 @@
-type ExcludeNotJoinedWithAmpersand<S extends string> =
-  S extends `${string}&${string}` ? never : S;
+type ExcludeAmpersandJoined<S extends string> = S extends `${string}&${string}`
+  ? never
+  : S;
 
 export function handlePreferences<
   Keys extends string,
-  ValidKeys extends Exclude<ExcludeNotJoinedWithAmpersand<Keys>, "none">,
+  ValidKeys extends Exclude<ExcludeAmpersandJoined<Keys>, "none">,
 >(
   preferenceRef: Ref<Keys>,
   handlers: Record<ValidKeys, () => MaybePromise<void>>,

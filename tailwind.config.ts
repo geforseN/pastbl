@@ -8,7 +8,7 @@ import scrollbar from "tailwind-scrollbar";
 
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
-  content: ["./config/css.{js, ts}"],
+  content: [],
   theme: {
     screens: {
       xs: "420px",

@@ -3,12 +3,14 @@ import {
   useAsyncState as useVueUseAsyncState,
 } from "@vueuse/core";
 
+const ASYNC_STATE_DEFAULT_SHALLOW = true as const;
+
 export const USE_ASYNC_STATE_DEFAULT_OPTIONS = {
   immediate: true,
-  shallow: true,
+  shallow: ASYNC_STATE_DEFAULT_SHALLOW,
   throwError: true,
   resetOnExecute: false,
-} as const satisfies UseAsyncStateOptions<true>;
+} as const satisfies UseAsyncStateOptions<typeof ASYNC_STATE_DEFAULT_SHALLOW>;
 
 export function useMyAsyncState<
   Data,

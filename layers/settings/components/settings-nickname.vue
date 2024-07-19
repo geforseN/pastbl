@@ -7,13 +7,13 @@
       <span
         class="label-text-alt text-sm"
         :class="
-          nickname.length === nicknameLength.max &&
+          nickname.length === appConfig.nicknameLength.max &&
           'border-b border-dashed border-b-warning'
         "
       >
         {{ nickname.length }}
         {{ "/" }}
-        {{ nicknameLength.max }}
+        {{ appConfig.nicknameLength.max }}
       </span>
     </label>
     <input
@@ -22,20 +22,20 @@
       class="input input-bordered input-secondary text-lg hover:bg-base-300 focus:bg-base-300"
       spellcheck="false"
       name="nickname"
-      :maxlength="nicknameLength.max"
+      :maxlength="appConfig.nicknameLength.max"
       :placeholder="$t('settings.nickname.placeholder')"
     />
   </article>
 </template>
 <script lang="ts" setup>
-import { nicknameLength } from "~~/config/const";
+const appConfig = useAppConfig();
 
 const nickname = defineModel<string>({
   required: true,
   set(string) {
     assert.ok(typeof string === "string");
-    if (string.length > nicknameLength.max) {
-      return string.slice(0, nicknameLength.max);
+    if (string.length > appConfig.nicknameLength.max) {
+      return string.slice(0, appConfig.nicknameLength.max);
     }
     return string;
   },

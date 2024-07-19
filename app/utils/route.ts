@@ -1,5 +1,5 @@
 import { isFunction } from "./guard";
-import { assert } from "./error";
+import { assert } from "./assert";
 
 export function getRouteStringParam(key: string, transform?: undefined): string;
 export function getRouteStringParam<T>(

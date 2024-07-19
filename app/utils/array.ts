@@ -1,11 +1,3 @@
-export function countAppearances<T>(array: T[]) {
-  return array.reduce((accumulator, value) => {
-    const tagCount = accumulator.get(value) || 0;
-    accumulator.set(value, tagCount + 1);
-    return accumulator;
-  }, new Map<T, number>());
-}
-
 export function withRemoved<T>(
   array: MaybeRef<T[]>,
   refOrPredicate:

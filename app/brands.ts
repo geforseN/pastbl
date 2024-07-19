@@ -21,3 +21,5 @@ export function ServerPastasPaginationCursor_(value: unknown) {
   assert.ok(value === null || typeof value === "number");
   return value as ServerPastasPaginationCursor;
 }
+
+export type EmoteId = string;

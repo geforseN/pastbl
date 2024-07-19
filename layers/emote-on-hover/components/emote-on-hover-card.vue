@@ -108,8 +108,6 @@
 </template>
 <script setup lang="ts">
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
-import { emoteIntegrationsStyles } from "~~/layers/emotes/components/emote-collection";
-import type { IEmote } from "~/integrations";
 
 const props = defineProps<{
   emote?: Nullish<IEmote>;
@@ -127,7 +125,7 @@ defineExpose({
 
 const emote = computed(() => props.emote && EmoteOnHover.create(props.emote));
 const emoteModifiers = computed(() =>
-  props.emoteModifiers?.map((modifier) => OnHoverHintEmote.create(modifier)),
+  props.emoteModifiers?.map((modifier) => EmoteOnHover.create(modifier)),
 );
 
 const emoji = computed(() => props.emoji);

@@ -7,19 +7,20 @@
       <span
         class="label-text-alt text-sm"
         :class="
-          model === badgesCount.max && 'border-b border-dashed border-b-warning'
+          badgesCount === appConfig.badgesCount.max &&
+          'border-b border-dashed border-b-warning'
         "
       >
-        {{ model }}
+        {{ badgesCount }}
         {{ "/" }}
-        {{ badgesCount.max }}
+        {{ appConfig.badgesCount.max }}
       </span>
     </label>
-    <settings-badges-count v-model="model" />
+    <settings-badges-count v-model="badgesCount" />
   </article>
 </template>
 <script lang="ts" setup>
-import { badgesCount } from "~~/config/const";
+const appConfig = useAppConfig();
 
-const model = defineModel<number>({ required: true });
+const badgesCount = defineModel<number>({ required: true });
 </script>
