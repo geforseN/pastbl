@@ -58,9 +58,9 @@ const props = defineProps<{
 }>();
 
 defineSlots<{
-  left?: () => unknown;
-  right?: () => unknown;
-  default?: () => unknown;
+  left?: VueSlot;
+  right?: VueSlot;
+  default?: VueSlot;
 }>();
 
 const { textKey, path } = routePageLinkRecord[props.to];

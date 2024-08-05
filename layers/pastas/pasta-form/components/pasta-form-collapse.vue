@@ -102,7 +102,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ChatPastaTagAddDialog, PastaForm } from "#build/components";
+import type { ChatPastaTagAddDialog, PastaForm } from "#components";
 
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();

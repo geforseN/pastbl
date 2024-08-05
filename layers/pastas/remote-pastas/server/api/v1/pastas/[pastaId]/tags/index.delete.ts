@@ -1,4 +1,4 @@
-import { removePastaTag } from "~~/database/pastas_tags";
+import { removePastaTag } from "~~/database/pastas-tags";
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event);

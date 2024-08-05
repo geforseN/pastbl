@@ -40,19 +40,19 @@ export function mapFlatGroupBy<
 export function mapFlatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
   ketKey: (value: T, index: number, array: T[]) => K,
-  getValue: (value: T, index: number, array: T[], grouped: V) => V,
+  getValue: (value: T, index: number, array: T[]) => V,
 ): Map<K, V>;
 
 export function mapFlatGroupBy<T, V, K extends string | number | symbol>(
   array: T[],
   getKey: (value: T, index: number, array: T[]) => K,
-  getValue?: (value: T, index: number, array: T[], grouped: V) => V,
+  getValue?: (value: T, index: number, array: T[]) => V,
   initialMap: Map<K, V> = new Map(),
 ): Map<K, V> {
   const getValue_ = getValue ?? ((value: T) => value as unknown as V);
   return array.reduce((map, value, index, array) => {
     const key = getKey(value, index, array);
-    map.set(key, getValue_(value, index, array, map.get(key)));
+    map.set(key, getValue_(value, index, array));
     return map;
   }, initialMap);
 }

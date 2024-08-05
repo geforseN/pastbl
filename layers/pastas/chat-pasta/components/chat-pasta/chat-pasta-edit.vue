@@ -62,7 +62,7 @@ import type {
   ChatPastaEditAcceptChangesDialog,
   ChatPastaTagAddDialog,
   PastaFormEdit,
-} from "#build/components";
+} from "#components";
 
 const { pastaId } = defineProps<{
   pastaId: number;

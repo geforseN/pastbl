@@ -1,10 +1,5 @@
 import { z } from "zod";
-import { isLowercase, toLowerCase } from "~/utils/string";
-import { uniqueValues } from "~/utils/array";
-import { environment } from "~~/server/utils/environment";
-
-const TWITCH_LOGIN_MIN_LENGTH = 3;
-const TWITCH_LOGIN_MAX_LENGTH = 25;
+import { twitchConfig } from "$/twitch/app.config";
 
 export type TwitchUserLogin = Lowercase<string>;
 
@@ -14,8 +9,8 @@ export function isTwitchUserLogin(string: string): string is TwitchUserLogin {
 
 const loginParamSchema = z
   .string()
-  .min(TWITCH_LOGIN_MIN_LENGTH)
-  .max(TWITCH_LOGIN_MAX_LENGTH)
+  .min(twitchConfig.twitchUser.login.length.min)
+  .max(twitchConfig.twitchUser.login.length.max)
   .transform((string) => toLowerCase(string.replaceAll(/\s+/g, "")));
 
 export function getTwitchLoginRouteParam(event: H3Event) {
@@ -41,14 +36,15 @@ const TWITCH_LOGINS_QUERY_STRING_PLUS_SIGN_COUNT =
   TWITCH_LOGINS_MAX_QUERY_STRING_COUNT - 1;
 
 const TWITCH_LOGINS_QUERY_STRING_MAX_LENGTH =
-  TWITCH_LOGIN_MAX_LENGTH * TWITCH_LOGINS_MAX_QUERY_STRING_COUNT +
+  twitchConfig.twitchUser.login.length.max *
+    TWITCH_LOGINS_MAX_QUERY_STRING_COUNT +
   TWITCH_LOGINS_QUERY_STRING_PLUS_SIGN_COUNT;
 
 const loginsQueryStringSchema = z
   .string({
     required_error: "No nicknames provided in the query string",
   })
-  .min(TWITCH_LOGIN_MIN_LENGTH)
+  .min(twitchConfig.twitchUser.login.length.min)
   .max(TWITCH_LOGINS_QUERY_STRING_MAX_LENGTH)
   .transform((loginsString) => {
     const logins = loginsString

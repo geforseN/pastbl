@@ -91,7 +91,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-import type { PastaFormTextarea } from "#build/components";
+import type { PastaFormTextarea } from "#components";
 
 const userStore = useUserStore();
 

@@ -1,4 +1,4 @@
-import type { ServerPastasPaginationCursor } from "~/brands";
+import type { RemotePastasPaginationCursor } from "~/brands";
 
 export const pastasAPI = {
   postPasta(text: string, tags: string[], isPublic: boolean) {
@@ -14,7 +14,7 @@ export const pastasAPI = {
   deletePasta(pastaId: number) {
     return $fetch(`/api/v1/pastas/${pastaId}`, { method: "DELETE" });
   },
-  getPastas(cursor: ServerPastasPaginationCursor) {
+  getPastas(cursor: RemotePastasPaginationCursor) {
     return $fetch("/api/v1/pastas", {
       query: {
         cursor,

@@ -60,7 +60,7 @@ const emit = defineEmits<{
 }>();
 
 defineSlots<{
-  addTagSuggestions: () => unknown;
+  addTagSuggestions: VueSlot;
 }>();
 
 function emitTag() {

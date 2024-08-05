@@ -54,7 +54,11 @@ export default withNuxt()
         "error",
         {
           case: "kebabCase",
-          ignore: [/^use/, /^-/, /^\[\w+]\\.(get|post|put|patch|delete)\.ts$'/],
+          ignore: [
+            /^use/,
+            /^-/,
+            /^\w+\.(get|head|post|put|delete|connect|options|trace|patch)\.ts$/,
+          ],
           multipleFileExtensions: false,
         },
       ],

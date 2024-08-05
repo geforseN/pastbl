@@ -1,4 +1,4 @@
-import { isFunction } from "./guard";
+import { isFunction } from "./guards";
 import { assert } from "./assert";
 
 export function getRouteStringParam(key: string, transform?: undefined): string;

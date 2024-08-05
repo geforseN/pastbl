@@ -44,3 +44,130 @@ added nuxt.config.ts in layers that did not have that
 197/66
 
 https://www.youtube.com/live/YLvbza4GtiM?si=ZDTBkPiJeHLKbqqd&t=3647
+
+
+// function isFailedIntegration(integration: TEmoteIntegrations.__Some__) {}
+// function isReadyIntegration(integration: TEmoteIntegrations.__Some__) {}
+// function isLoadingIntegration(integration: TEmoteIntegrations.__Some__) {}
+// function isRefreshingIntegration(integration: TEmoteIntegrations.__Some__) {}
+
+function isIntegrationOfStatus<S extends TEmoteIntegrations.__Some__["status"]>(
+  integration: TEmoteIntegrations.__Some__,
+  status: S,
+): integration is Extract<TEmoteIntegrations.__Some__, { status: S }> {
+  return integration.status === status;
+}
+
+const is = isIntegrationOfStatus;
+
+const _integration_ = useGlobalEmotesIntegration(props.integration);
+const { source, styles } = _integration_;
+const integration_ = reactive(_integration_);
+
+ /* <F>{
+        source,
+        status: "failed",
+        reason: findErrorMessage(
+          reason,
+          `Failed to load ${source} Global Emote Integration`,
+        ),
+      }; */
+
+// FIXME: failed integration inference is broken
+function defineSettledIntegrationGetter<
+  F extends TEmoteIntegrations.Global.Failed,
+  R extends TEmoteIntegrations.Global.Ready,
+  S extends EmoteSource,
+>(integration: { name: S; get(): Promise<R>; fail(reason: unknown): F }) {
+  return async function () {
+    try {
+      return await integration.get();
+    } catch (reason) {
+      return integration.fail(reason);
+    }
+  };
+}
+
+
+
+types-namespaces (T${EmoteSource}) must be reworked
+
+
+fix 
+person-emotes-integration/betterttv,
+server/api, 
+server/utils
+
+
+
+
+
+
+
+layers/emote-integrations/global-emote-integrations/_/utils/integration.ts
+
+export interface IGlobalEmotesIntegration {
+  source: EmoteSource;
+
+  get(): Promise<TEmoteIntegrations.Ready>;
+
+  asFailed(reason: unknown): TEmoteIntegrations.Failed;
+}
+
+export class GlobalEmotesIntegration {
+  constructor(public readonly source: EmoteSource) {}
+
+  asFailed(reason: unknown) {
+    const source = this.source;
+    return {
+      source,
+      status: "failed",
+      reason: findErrorMessage(
+        reason,
+        `Failed to load ${source} Global Emote Integration`,
+      ),
+    };
+  }
+}
+
+
+export const config = {
+  pastaTag: {
+    length: {
+      min: 1,
+      max: 128,
+    },
+  },
+  pastaTags: {
+    count: {
+      min: 0,
+      max: 10,
+    },
+  },
+  pastaText: {
+    length: {
+      min: 1,
+      max: 1984,
+      warning: 500,
+    },
+  },
+  badges: {
+    count: {
+      min: 0,
+      max: 10,
+    },
+  },
+} as const;
+
+
+refactor global-emote-integration-of
+
+
+   const deletedCollectionEmoteIds = Object.values(collection.integrations)
+      .filter(isEmotesIntegrationReady)
+      .flatMap((integration) =>
+        (integration.sets || raise("__NEVER__")).flatMap(
+          (set) => set.emoteIds as string[],
+        ),
+      )
+      .reduce((emoteIds, emoteId) => emoteIds.add(emoteId), new Set());

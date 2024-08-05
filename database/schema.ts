@@ -12,22 +12,23 @@ import { relations } from "drizzle-orm";
 import {
   defaultPastaPublicity,
   pastasPublicity,
-} from "~~/layers/pastas/remote-pastas/server/utils/pastas";
-import { pastaTagLength, pastaTextLength } from "~~/config/const";
-
-const TWITCH_USER_ID_LENGTH = 64;
+} from "$/pastas/remote-pastas/server/utils/pastas";
+import { pastasConfig } from "$/pastas/app.config";
+import { twitchConfig } from "$/twitch/app.config";
 
 export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 
 const pastasColumns = {
   id: serial("id").primaryKey(),
-  text: varchar("text", { length: pastaTextLength.max }).notNull(),
+  text: varchar("text", {
+    length: pastasConfig.pastaText.length.max,
+  }).notNull(),
   publishedAt: timestamp("published_at", { mode: "string" })
     .notNull()
     .defaultNow(),
   lastUpdatedAt: timestamp("last_updated_at", { mode: "string" }),
   publisherTwitchId: varchar("publisher_twitch_id", {
-    length: TWITCH_USER_ID_LENGTH,
+    length: twitchConfig.twitchUser.id.length.max,
   }).notNull(),
   publicity: pastasPublicityEnum("publicity")
     .notNull()
@@ -58,7 +59,7 @@ const pastasTagsColumns = {
     .references(() => pastas.id, {
       onDelete: "cascade",
     }),
-  value: varchar("tag", { length: pastaTagLength.max }).notNull(),
+  value: varchar("tag", { length: pastasConfig.pastaTag.length.max }).notNull(),
 } as const;
 
 export const pastasTags = pgTable(

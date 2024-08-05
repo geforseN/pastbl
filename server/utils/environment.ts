@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const environmentParse = z
+const environmentSchema = z
   .object({
     TWITCH_APP_CLIENT_SECRET: z.string(),
     NUXT_OAUTH_TWITCH_CLIENT_SECRET: z.string().optional(),
@@ -21,11 +21,14 @@ const environmentParse = z
         environment.NUXT_OAUTH_TWITCH_CLIENT_ID ??
         environment.TWITCH_APP_CLIENT_ID,
     };
-  })
-  .safeParse(process.env);
+  });
+
+const environmentParse = environmentSchema.safeParse(process.env);
 
 if (!environmentParse.success && !import.meta.test) {
   throw environmentParse.error;
 }
 
-export const environment = environmentParse.data || {};
+export const environment = (environmentParse.data || {}) as z.infer<
+  typeof environmentSchema
+>;

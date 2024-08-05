@@ -34,7 +34,7 @@ import type { OmegaPasta } from "$/pastas/chat-pasta/utils/pasta";
 defineProps<OmegaPasta>();
 
 defineSlots<{
-  creatorData?: () => unknown;
+  creatorData?: VueSlot;
 }>();
 
 const emit = defineEmits<{
@@ -57,3 +57,9 @@ function handleContextMenu(event: MouseEvent) {
   emit("showTagContextMenu", event, pastaTag);
 }
 </script>
+<style>
+:deep(.chat-pasta-emote) {
+  display: inline;
+  margin: -5px 0;
+}
+</style>

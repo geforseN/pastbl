@@ -47,8 +47,8 @@ function tryEmitPopulate(element: unknown) {
 }
 
 defineSlots<{
-  beforeColon: () => unknown;
-  bottom: () => unknown;
+  beforeColon: VueSlot;
+  bottom: VueSlot;
 }>();
 </script>
 <style scoped>

@@ -92,6 +92,12 @@ export default defineNuxtConfig({
         name: "useToast",
         as: "useVuesticToast",
       },
+      {
+        from: 'vue',
+        name: "Slot",
+        type: true,
+        as: 'VueSlot'
+      }
     ],
   },
   $development: {

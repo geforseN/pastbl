@@ -1,4 +1,4 @@
-export default defineAppConfig({
+export const pastasConfig = {
   pastaTag: {
     length: { min: 1, max: 128 },
   },
@@ -18,4 +18,6 @@ export default defineAppConfig({
       },
     },
   },
-});
+} as const;
+
+export default defineAppConfig({ ...structuredClone(pastasConfig) });

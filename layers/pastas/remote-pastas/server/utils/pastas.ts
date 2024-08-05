@@ -1,8 +1,5 @@
 import { z } from "zod";
-import { megaTrim } from "~/utils/string";
-import { isEmptyObject } from "~/utils/guard";
-import { pastaTagsSchema } from "~~/layers/pastas/remote-pastas/server/utils/pastas-tags";
-import { pastaTextLength } from "~~/config/const";
+import { pastasConfig } from "~~/layers/pastas/app.config";
 
 const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
@@ -30,8 +27,8 @@ export function getPastasCursorFromQuery(event: H3Event) {
 
 export const pastaTextSchema = z
   .string()
-  .min(pastaTextLength.min)
-  .max(pastaTextLength.max)
+  .min(pastasConfig.pastaText.length.min)
+  .max(pastasConfig.pastaText.length.max)
   .transform(megaTrim);
 
 export const pastasPublicity = ["public", "private"] as const;

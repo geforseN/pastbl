@@ -1,25 +1,22 @@
-import type { IKeyValueStorage } from "$/key-value/key-value.abstract";
-import type { KeyValueSchema } from "$/key-value/key-value.schema";
-
 export class IndexedDBValue<K extends keyof KeyValueSchema> {
   constructor(
     readonly key: K,
-    private readonly storage: IKeyValueStorage,
+    private readonly repository: IKeyValueRepository,
   ) {}
 
   get() {
-    return this.storage.get(this.key);
+    return this.repository.get(this.key);
   }
 
   set(value: KeyValueSchema[K]) {
-    return this.storage.set(this.key, value);
+    return this.repository.set(this.key, value);
   }
 
-  static createWithStorage<K extends keyof KeyValueSchema>(
-    storage: IKeyValueStorage,
+  static createWithRepository<K extends keyof KeyValueSchema>(
+    repository: IKeyValueRepository,
   ) {
     return function (key: K) {
-      return new IndexedDBValue(key, storage);
+      return new IndexedDBValue(key, repository);
     };
   }
 }

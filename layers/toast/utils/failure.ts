@@ -1,12 +1,8 @@
+import { pastasConfig } from "~~/layers/pastas/app.config";
 import {
   makeNotificationGetter,
   type NotificationMakeFnsRecord,
 } from "./-common";
-import {
-  pastaTagLength,
-  pastaTagsCount,
-  pastaTextLength,
-} from "~~/config/const";
 import { ExtendedError } from "~/utils/error";
 
 export const FAILURE_COLOR = "red" as const;
@@ -16,7 +12,6 @@ const failureFns = {
     new ExtendedError(t("toast.loadCollection.fail.emptyInputMessage"), {
       title: t("toast.loadCollection.fail.title"),
     }),
-
   pastaPut__sameValues: (t) =>
     new ExtendedError(t("toast.putPasta.fail.sameValuesMessage"), {
       title: t("toast.putPasta.fail.title"),
@@ -42,7 +37,7 @@ const noLocaleFailures = {
       title: "toast.createPasta.fail.title",
       color: FAILURE_COLOR,
       mustAddLocale: true,
-      tDescriptionInterpolations: { pastaTextLength },
+      tDescriptionInterpolations: { pastaTextLength: pastasConfig.pastaText.length },
     });
   },
   getPasta__noEntityWithId(id: number) {
@@ -61,7 +56,9 @@ const noLocaleFailures = {
       title: ADD_PASTA_TAG_FAIL_TITLE,
       color: FAILURE_COLOR,
       mustAddLocale: true,
-      tDescriptionInterpolations: { pastaTagLength },
+      tDescriptionInterpolations: {
+        pastaTagLength: pastasConfig.pastaTag.length,
+      },
     });
   },
   addPastaTag__sameTag(tag: string) {
@@ -77,7 +74,7 @@ const noLocaleFailures = {
       title: ADD_PASTA_TAG_FAIL_TITLE,
       color: FAILURE_COLOR,
       mustAddLocale: true,
-      tDescriptionInterpolations: pastaTagsCount,
+      tDescriptionInterpolations: pastasConfig.pastaTags.count,
     });
   },
   removePastaTag__noExist() {

@@ -1,6 +1,5 @@
 import { z } from "zod";
-// import { isTwitchUserLogin } from "./twitch-user-login";
-// import { isTwitchUserId } from "./twitch-user-id";
+import type { TwitchApi } from "~~/layers/emote-integrations/integrations/twitch/server/utils/api-types";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users
 const twitchApiUserSchema = z.object({
@@ -38,7 +37,7 @@ const sessionUserSchema = twitchApiUserSchema.transform((user) => ({
 
 export type SessionUser = z.infer<typeof sessionUserSchema>;
 
-function makeTwitchUser(user: ITwitch.API.User) {
+function makeTwitchUser(user: TwitchApi.User) {
   return twitchUserSchema.parse(user);
 }
 
@@ -47,6 +46,6 @@ export async function getTwitchUser(login: TwitchUserLogin) {
   return makeTwitchUser(apiUser);
 }
 
-export function makeSessionUser(user: unknown) {
+export function parseSessionUser(user: unknown) {
   return sessionUserSchema.parse(user);
 }

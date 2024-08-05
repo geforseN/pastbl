@@ -1,3 +1,5 @@
+import { isFunction } from "~/utils/guards";
+
 export type LengthStatus = "empty" | "tooShort" | "tooLong" | "ok";
 export type BaseLengthOptions = { min: number; max: number };
 
@@ -13,13 +15,13 @@ export type LengthStatusChecker<S extends LengthStatus> = (
 ) => S;
 
 export function makeLengthStatusGetter<O extends Options>(
-  options: O,
+  options: MaybeGetter<O>,
 ): LengthStatusChecker<
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
   O["warning"] extends number ? LengthStatusWithWarning : LengthStatus
 > {
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
-  const { max, min, warning } = options;
+  const { max, min, warning } = isFunction(options) ? options() : options;
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
   return function (lengthLike: number | { length: number }) {
     const length =

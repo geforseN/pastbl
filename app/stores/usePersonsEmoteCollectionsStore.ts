@@ -1,18 +1,18 @@
 export const usePersonsEmoteCollectionsStore = defineStore(
-  "persons-emote-collections",
+  "persons-emotes-collections",
   () => {
     const loginsToSelect = useAsyncArray(() =>
-      personsEmoteCollectionsService.getAllLogins(),
+      personsEmotesCollectionsService.getAllLogins(),
     );
 
     const collectionsToSelect = useAsyncArray(() =>
-      personsEmoteCollectionsService.getAll(),
+      personsEmotesCollectionsService.getAllRaw(),
     );
 
     const selectedLogin = useSelectedPersonCollectionLogin();
 
     const selectedCollection = useSelectedPersonCollection(
-      (login) => personsEmoteCollectionsService.get(login),
+      (login) => personsEmotesCollectionsService.get(login),
       selectedLogin.state,
     );
 
@@ -24,7 +24,7 @@ export const usePersonsEmoteCollectionsStore = defineStore(
     }
 
     const collectionsLoad = usePersonsCollectionsLoad((login) =>
-      personsEmoteCollectionsService.load(login),
+      personsEmotesCollectionsService.load(login),
     );
 
     return {
@@ -54,7 +54,7 @@ export const usePersonsEmoteCollectionsStore = defineStore(
       },
       async deleteCollection(loginSource: LoginSource) {
         const login = getPersonLogin(loginSource);
-        await personsEmoteCollectionsService.delete(login);
+        await personsEmotesCollectionsService.delete(login);
         await refreshStates();
         selectedLogin.clearIfSameLogin(login);
       },

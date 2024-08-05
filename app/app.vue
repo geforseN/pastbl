@@ -30,6 +30,8 @@
         <div class="relative grid">
           <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
           <nuxt-loading-indicator />
+          FIX emote-on-hover-card
+          FIX emojis-groups-list group prop to emojis-group
           <nuxt-layout>
             <nuxt-page />
           </nuxt-layout>
@@ -62,7 +64,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#build/components";
+import type { EmoteOnHoverCard } from "#components";
 
 const pastasStore = usePastasStore();
 
@@ -93,11 +95,6 @@ onMounted(() => {
 html,
 body {
   scrollbar-gutter: stable;
-}
-
-.emote {
-  display: inline;
-  margin: -5px 0;
 }
 
 /* NOTE: 

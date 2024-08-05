@@ -1,4 +1,4 @@
-import { pastaTextLength } from "~~/config/const";
+import { pastasConfig } from "../../app.config";
 
 export type PastaTags = string[];
 
@@ -65,7 +65,9 @@ export function makeRawPasta(pasta: OmegaPasta): OmegaPasta {
   };
 }
 
-export const getPastaLengthStatus = makeLengthStatusGetter(pastaTextLength);
+export const getPastaLengthStatus = makeLengthStatusGetter(
+  pastasConfig.pastaText.length,
+);
 
 export function getTextStatus(text: MaybeRef<string>) {
   const status = getPastaLengthStatus(toValue(text));

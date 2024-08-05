@@ -1,10 +1,16 @@
-export default defineAppConfig({
-  badgesCount: {
-    min: 0,
-    max: 10,
+export const settingsConfig = {
+  badges: {
+    count: {
+      min: 0,
+      max: 10,
+    },
   },
-  nicknameLength: {
-    min: 3,
-    max: 32,
+  nickname: {
+    length: {
+      min: 3,
+      max: 32,
+    },
   },
-});
+} as const;
+
+export default defineAppConfig({ ...structuredClone(settingsConfig) });

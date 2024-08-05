@@ -1,5 +1,5 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import LoremIpsum from "~/components/lorem-ipsum.vue";
+import { LoremIpsum } from "#components";
 import { describe, expect, it } from "vitest";
 
 describe("LoremIpsum", () => {
