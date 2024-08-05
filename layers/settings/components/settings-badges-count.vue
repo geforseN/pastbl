@@ -56,11 +56,11 @@ const errorMessage = ref("");
 const { t } = useI18n();
 
 function getNextErrorMessage(value: number) {
-  if (value > appConfig.badgesCount.max) {
-    return t("settings.badges-count.input.toBig", appConfig.badgesCount.max);
+  if (value > appConfig.badges.count.max) {
+    return t("settings.badges-count.input.toBig", appConfig.badges.count.max);
   }
-  if (value < appConfig.badgesCount.min) {
-    return t("settings.badges-count.input.toSmall", appConfig.badgesCount.min);
+  if (value < appConfig.badges.count.min) {
+    return t("settings.badges-count.input.toSmall", appConfig.badges.count.min);
   }
   return "";
 }

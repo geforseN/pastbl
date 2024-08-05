@@ -12,14 +12,15 @@ export type EmoteSource = Branded<
   "EmoteSource"
 >;
 
-export type ServerPastasPaginationCursor = Branded<
+export type RemotePastasPaginationCursor = Branded<
   number,
-  "ServerPastasPaginationCursor"
+  "RemotePastasPaginationCursor"
 > | null;
 
-export function ServerPastasPaginationCursor_(value: unknown) {
+export function assertIsRemotePastasPaginationCursor(
+  value: unknown,
+): asserts value is RemotePastasPaginationCursor {
   assert.ok(value === null || typeof value === "number");
-  return value as ServerPastasPaginationCursor;
 }
 
 export type EmoteId = string;

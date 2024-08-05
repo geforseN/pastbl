@@ -1,7 +1,7 @@
-export class EmotesSources<T extends string> {
+export class EmoteSources<T extends string> {
   readonly #set: Set<T> = new Set();
 
-  constructor(public readonly values: T[]) {
+  constructor(private readonly values: T[]) {
     this.#set = new Set(values);
   }
 
@@ -13,7 +13,7 @@ export class EmotesSources<T extends string> {
     yield* this.values;
   }
 
-  has(value: string): value is T {
+  has(value: unknown): value is T {
     return this.#set.has(value as T);
   }
 
@@ -66,18 +66,12 @@ export class EmotesSources<T extends string> {
 
   flatGroupBy<K extends string | number | symbol, V>(
     getKey: (value: T, index: number, array: T[]) => K,
-    getValue: (value: T, index: number, array: T[], grouped: V) => V,
+    getValue: (value: T, index: number, array: T[]) => V,
   ) {
     return flatGroupBy(this.values, getKey, getValue);
   }
+  
+  flatGroupBySource<V>(getValue: (value: T, index: number, array: T[]) => V) {
+    return flatGroupBy(this.values, (source) => source, getValue);
+  }
 }
-
-const emoteSources = [
-  "BetterTTV" as const,
-  "FrankerFaceZ" as const,
-  "SevenTV" as const,
-  "Twitch" as const,
-];
-export type EmoteSource = (typeof emoteSources)[number];
-
-export const allEmoteSources = new EmotesSources(emoteSources);

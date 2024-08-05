@@ -1,7 +1,8 @@
 import type { Pasta } from "~~/database/schema";
 import {
-  type ServerPastasPaginationCursor,
-  ServerPastasPaginationCursor_,
+  type RemotePastasPaginationCursor,
+  RemotePastasPaginationCursor_,
+  assertIsRemotePastasPaginationCursor,
 } from "~/brands";
 
 export function useRemotePastas(
@@ -10,7 +11,7 @@ export function useRemotePastas(
   const list = ref<Pasta[]>([]);
 
   const canLoadMore = ref(true);
-  const cursor_ = ref<ServerPastasPaginationCursor>(null);
+  const cursor_ = ref<RemotePastasPaginationCursor>(null);
   const pagination = { cursor_ };
 
   const { isLoading } = useInfiniteScroll(
@@ -24,6 +25,7 @@ export function useRemotePastas(
           console.error(error);
           throw error;
         });
+      assertIsRemotePastasPaginationCursor(cursor);
       const megaPastas = pastas.map((pasta) => {
         const megaPasta = createMegaPasta(
           pasta.text,
@@ -39,7 +41,7 @@ export function useRemotePastas(
       if (cursor === null) {
         canLoadMore.value = false;
       }
-      pagination.cursor_.value = ServerPastasPaginationCursor_(cursor);
+      pagination.cursor_.value = cursor;
     },
     { canLoadMore: () => canLoadMore.value },
   );

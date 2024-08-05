@@ -1,14 +1,12 @@
-import type { IEmote } from "$/emote-integrations/base/Emote";
-
 export const useEmotesStore = defineStore("emotes", () => {
   const emotesCache = new EmotesCache<IEmote>();
 
   const pastasStore = usePastasStore();
   const personsEmoteCollections = usePersonsEmoteCollectionsStore();
-  const globalEmoteIntegrationsStore = useGlobalEmoteIntegrationsStore();
+  const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
   const globalEmotes = useEmotes(
-    () => globalEmoteIntegrationsStore.integrations.checked,
+    () => globalEmotesIntegrationsStore.integrations.checked,
   );
   const userEmotes = useEmotesWithInitialReady(
     () => personsEmoteCollections.selectedCollection.readyIntegrations,
@@ -17,7 +15,7 @@ export const useEmotesStore = defineStore("emotes", () => {
   watch(
     [
       () => personsEmoteCollections.selectedCollection.state,
-      () => globalEmoteIntegrationsStore.checkedSources.state,
+      () => globalEmotesIntegrationsStore.checkedSources.state,
     ],
     () => {
       emotesCache.clear();
@@ -44,8 +42,8 @@ export const useEmotesStore = defineStore("emotes", () => {
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
     canUseUserEmotes: computed(
       () =>
-        personsEmoteCollections.selectedLogin.isEmpty ||
-        userEmotes.isInitialEmotesReady.value,
+        (personsEmoteCollections.selectedLogin.isEmpty ||
+          userEmotes.isInitialEmotesReady.value) satisfies boolean,
     ),
   };
 });

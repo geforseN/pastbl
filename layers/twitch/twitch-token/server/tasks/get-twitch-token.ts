@@ -1,3 +1,5 @@
+import { recreateTwitchFetch } from "~~/layers/twitch/twitch-fetch/server/utils/twitch-fetch";
+
 export default defineTask({
   meta: {
     description: "Fetch Twitch token",

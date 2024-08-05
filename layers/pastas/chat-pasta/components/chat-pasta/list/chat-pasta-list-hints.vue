@@ -86,16 +86,18 @@
 </template>
 <script setup lang="ts">
 defineSlots<{
-  default: () => void;
+  default: VueSlot;
 }>();
 
 const pastasStore = usePastasStore();
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
-const selectedCollection = computed(
-  () => personsEmoteCollections.selectedCollection.state,
+const selectedCollection = computed(() =>
+  withLogSync(personsEmoteCollections.selectedCollection.state, "asd"),
 );
-const selectedLogin = computed(() => personsEmoteCollections.selectedLogin.state);
+const selectedLogin = computed(
+  () => personsEmoteCollections.selectedLogin.state,
+);
 
 const isEmotesLoaded = computedAsync(
   () =>

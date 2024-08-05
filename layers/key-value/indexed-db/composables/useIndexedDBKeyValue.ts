@@ -1,8 +1,6 @@
 import type { WatchDebouncedOptions } from "@vueuse/core";
-import type { KeyValueSchema } from "$/key-value/key-value.schema";
-import { keyValueStorage } from "../utils";
 
-const makeIdbValue = IndexedDBValue.createWithStorage(keyValueStorage);
+const makeIndexedDBValue = IndexedDBValue.createWithRepository(keyValueRepository);
 
 export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
   key: K,
@@ -11,7 +9,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
     onRestored?: (value: KeyValueSchema[K]) => void;
   } = {},
 ) {
-  const idbValue = makeIdbValue(key);
+  const idbValue = makeIndexedDBValue(key);
   const isLoading = ref(true);
   const isRestored = ref(false);
   const state = ref(defaultValue) as Ref<KeyValueSchema[K]>;

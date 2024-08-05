@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import { and, eq, sql } from "drizzle-orm";
-import type { ServerPastasPaginationCursor } from "~/brands";
 import { database } from "~~/database";
 import { pastas, pastasTags, type Pasta } from "~~/database/schema";
 
@@ -14,6 +14,7 @@ export function createPasta(
       .insert(pastas)
       .values({ text, publisherTwitchId, publicity })
       .returning();
+    assert.ok(pasta);
     if (tags.length > 0) {
       const pastaId = pasta.id;
       await transaction
@@ -67,24 +68,20 @@ const getNextPagePastas = database.query.pastas
   })
   .prepare("get_next_pastas");
 
-function getPastasCursor(
-  length: number,
-  pastas: { id: number }[],
-): ServerPastasPaginationCursor {
+function getPastasCursor(length: number, pastas: { id: number }[]) {
   if (pastas.length !== length) {
     return null;
   }
-  return pastas[length - 1].id;
+  const pasta = pastas[length - 1];
+  assert.ok(pasta);
+  return pasta.id;
 }
 
-const getFirstPastasCursor = getPastasCursor.bind(
-  null,
-  CURSOR_FIRST_PAGE_PASTAS_COUNT,
-);
-const getNextPastasCursor = getPastasCursor.bind(
-  null,
-  CURSOR_NEXT_PAGES_PASTAS_COUNT,
-);
+const getFirstPastasCursor = (pastas: { id: number }[]) =>
+  getPastasCursor(CURSOR_FIRST_PAGE_PASTAS_COUNT, pastas);
+
+const getNextPastasCursor = (pastas: { id: number }[]) =>
+  getPastasCursor(CURSOR_NEXT_PAGES_PASTAS_COUNT, pastas);
 
 // LINK: https://orm.drizzle.team/learn/guides/cursor-based-pagination
 

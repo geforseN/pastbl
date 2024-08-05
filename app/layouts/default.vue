@@ -53,7 +53,7 @@
                   item.key === 'remote' && userStore.pastasWorkMode.canBeRemote
                 "
                 ref="serverPastasListRef"
-                :class="[...appConfig.pastaList.heights]"
+                :class="[appConfig.pastaList.heights.base, appConfig.pastaList.heights.goBrr]"
                 class="chat-pasta-list overflow-y-auto"
                 @mouseover="throttledMouseover"
               >

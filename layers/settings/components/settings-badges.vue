@@ -7,13 +7,13 @@
       <span
         class="label-text-alt text-sm"
         :class="
-          badgesCount === appConfig.badgesCount.max &&
+          badgesCount === appConfig.badges.count.max &&
           'border-b border-dashed border-b-warning'
         "
       >
         {{ badgesCount }}
         {{ "/" }}
-        {{ appConfig.badgesCount.max }}
+        {{ appConfig.badges.count.max }}
       </span>
     </label>
     <settings-badges-count v-model="badgesCount" />

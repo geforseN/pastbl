@@ -1,8 +1,10 @@
 export default defineNuxtConfig({
   extends: [
-    "./base",
-    "./emote-sources",
-    "./global-emote-integrations",
-    "./persons-emote-collections",
+    "_",
+    "emote-sources",
+    "global-emotes-integrations",
+    "indexed-db",
+    "integrations",
+    "persons-emotes-collections",
   ],
 });

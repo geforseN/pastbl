@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { allEmoteSources } from "$/emote-integrations/emote-sources/utils/emote-sources";
-import { uniqueValues } from "~/utils/array";
+import { allEmoteSources } from "$/emote-integrations/emote-sources/utils/external";
 
 const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = allEmoteSources.reduce(
   (length, source) => length + source.length,

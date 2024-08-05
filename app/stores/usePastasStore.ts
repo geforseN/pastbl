@@ -1,7 +1,7 @@
 export const usePastasStore = defineStore("pastas", () => {
   const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
-  const pastas = usePastas(pastasService.getAll);
+  const pastas = usePastas(async () => await pastasService.getAll());
 
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
   const {

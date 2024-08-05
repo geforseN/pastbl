@@ -1,8 +1,8 @@
 export default defineNuxtConfig({
   extends: [
-    "./twitch-channels-search",
-    "./twitch-fetch",
-    "./twitch-token",
-    "./twitch-user",
+    "twitch-channels",
+    "twitch-fetch",
+    "twitch-token",
+    "twitch-user",
   ],
 });

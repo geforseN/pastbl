@@ -5,6 +5,7 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
   const pastasToShowOnPage = computed(() => {
     const [smallestPastaList, ...othersPastaLists] =
       sortedByLengthPastaLists.value;
+    assert.ok(isArray(smallestPastaList));
     return smallestPastaList.value.filter((pasta) =>
       othersPastaLists.every((pastaList) =>
         pastaList.value.some((pasta_) => pasta_.id === pasta.id),

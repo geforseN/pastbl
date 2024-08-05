@@ -1,4 +1,4 @@
-import { isStringifiedNumber } from "~/utils/guard";
+import { twitchConfig } from "$/twitch/app.config";
 
 export async function requireUserTwitchIdFromSession(event: H3Event) {
   const userSession = await requireUserSession(event);
@@ -8,5 +8,8 @@ export async function requireUserTwitchIdFromSession(event: H3Event) {
 export type TwitchUserId = `${number}`;
 
 export function isTwitchUserId(string: string): string is TwitchUserId {
-  return isStringifiedNumber(string);
+  return (
+    isStringifiedNumber(string) &&
+    string.length <= twitchConfig.twitchUser.id.length.max
+  );
 }

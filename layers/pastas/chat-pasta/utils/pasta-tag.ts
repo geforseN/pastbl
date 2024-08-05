@@ -1,5 +1,5 @@
-import { pastaTagLength } from "~~/config/const";
 import { makeLengthStatusGetter } from "~/utils/length-status";
+import { pastasConfig } from "../../app.config";
 
 export function isPastaMentionTagLike(tag: string) {
   return tag.startsWith("@");
@@ -36,7 +36,9 @@ export function definePastaTagsEnsure(tags: Ref<string[]>) {
   };
 }
 
-export const getTagLengthStatus = makeLengthStatusGetter(pastaTagLength);
+export const getTagLengthStatus = makeLengthStatusGetter(
+  pastasConfig.pastaTag.length,
+);
 
 export const ensurePastaTag = {
   lengthIsOk(tag: MaybeRef<string>) {

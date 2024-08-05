@@ -1,4 +1,4 @@
-import { isFunction } from "./guard";
+import { isFunction } from "./guards";
 
 export function withLogSync<T>(
   valueOrGetter: T | (() => T),

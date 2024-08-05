@@ -17,4 +17,10 @@ export type Concrete<Type> = {
 export type CreateMutable<Type> = {
   -readonly [Property in keyof Type]: Type[Property];
 };
- 
+
+export type Tuple<
+  O extends { length: number; of: unknown },
+  Accumulator extends O["of"][] = [],
+> = O["length"] extends Accumulator["length"]
+  ? Readonly<Accumulator>
+  : Tuple<O, [...Accumulator, O["of"]]>;

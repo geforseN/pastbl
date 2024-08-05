@@ -1,6 +1,6 @@
 export default oauth.twitchEventHandler({
   async onSuccess(event, { user: twitchApiUser, tokens: _tokens }) {
-    const user = makeSessionUser(twitchApiUser);
+    const user = parseSessionUser(twitchApiUser);
     await setUserSession(event, { user });
     return sendRedirect(event, "/");
   },

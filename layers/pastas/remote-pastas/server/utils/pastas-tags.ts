@@ -1,23 +1,22 @@
 import { z } from "zod";
-import { megaTrim } from "~/utils/string";
-import { pastaTagLength, pastaTagsCount } from "~~/config/const";
 import { transformPastaTag } from "$/pastas/chat-pasta/utils/pasta-tag";
+import { pastasConfig } from "~~/layers/pastas/app.config";
 
 const pastaTagSchema = z
   .string()
-  .min(pastaTagLength.min)
-  .max(pastaTagLength.max)
+  .min(pastasConfig.pastaTag.length.min)
+  .max(pastasConfig.pastaTag.length.max)
   .refine((tag) => !tag.includes(","));
 
 export const pastaTagsSchema = z
   .array(pastaTagSchema)
-  .min(pastaTagsCount.min)
-  .max(pastaTagsCount.max)
+  .min(pastasConfig.pastaTags.count.min)
+  .max(pastasConfig.pastaTags.count.max)
   .transform((tags) => {
     return tags
       .filter((tag) => pastaTagSchema.safeParse(tag).success)
       .map(megaTrim)
-      .filter((tag) => tag.length >= pastaTagLength.min)
+      .filter((tag) => tag.length >= pastasConfig.pastaTag.length.min)
       .map(transformPastaTag);
   });
 

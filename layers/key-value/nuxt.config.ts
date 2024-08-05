@@ -1,3 +1,3 @@
 export default defineNuxtConfig({
-  extends: "./indexed-db",
+  extends: "indexed-db",
 });
