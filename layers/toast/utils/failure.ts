@@ -1,4 +1,4 @@
-import { pastasConfig } from "~~/layers/pastas/app.config";
+import { pastasConfig } from "$/pastas/app.config";
 import {
   makeNotificationGetter,
   type NotificationMakeFnsRecord,

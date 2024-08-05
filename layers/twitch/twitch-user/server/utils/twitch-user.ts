@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { TwitchApi } from "~~/layers/emote-integrations/integrations/twitch/server/utils/api-types";
+import type { TwitchApi } from "$/emote-integrations/integrations/twitch/server/utils/api-types";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users
 const twitchApiUserSchema = z.object({

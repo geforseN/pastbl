@@ -1,4 +1,4 @@
-import type { TFrankerFaceZ } from "~~/layers/emote-integrations/integrations/frankerfacez/server/utils/types";
+import type { TFrankerFaceZ } from "$/emote-integrations/integrations/frankerfacez/server/utils/types";
 
 export class PersonFrankerFaceZEmoteIntegration {
   get source() {

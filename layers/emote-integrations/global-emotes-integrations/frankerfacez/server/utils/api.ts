@@ -1,4 +1,4 @@
-import type { FrankerFaceZApi } from "~~/layers/emote-integrations/integrations/frankerfacez/server/utils/api-types";
+import type { FrankerFaceZApi } from "$/emote-integrations/integrations/frankerfacez/server/utils/api-types";
 
 export async function getFrankerFaceZGlobalEmotes() {
   const response = await fetch(

@@ -1,6 +1,6 @@
 import consola from "consola";
-import type { FrankerFaceZApi } from "~~/layers/emote-integrations/integrations/frankerfacez/server/utils/api-types";
-import type { TFrankerFaceZ } from "~~/layers/emote-integrations/integrations/frankerfacez/server/utils/types";
+import type { FrankerFaceZApi } from "$/emote-integrations/integrations/frankerfacez/server/utils/api-types";
+import type { TFrankerFaceZ } from "$/emote-integrations/integrations/frankerfacez/server/utils/types";
 
 export function makeFrankerFaceZEmoteIntegrationOwner(
   profile: FrankerFaceZApi.UserStruct,

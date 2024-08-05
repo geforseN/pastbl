@@ -1,4 +1,4 @@
-import type { TTwitch } from "~~/layers/emote-integrations/integrations/twitch/server/utils/types";
+import type { TTwitch } from "$/emote-integrations/integrations/twitch/server/utils/types";
 
 export class PersonTwitchEmoteIntegration {
   get source() {

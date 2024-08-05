@@ -1,4 +1,4 @@
-import { recreateTwitchFetch } from "~~/layers/twitch/twitch-fetch/server/utils/twitch-fetch";
+import { recreateTwitchFetch } from "$/twitch/twitch-fetch/server/utils/twitch-fetch";
 
 export default defineTask({
   meta: {

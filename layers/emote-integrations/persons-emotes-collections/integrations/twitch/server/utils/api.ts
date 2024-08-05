@@ -1,4 +1,4 @@
-import type { TwitchApi } from "~~/layers/emote-integrations/integrations/twitch/server/utils/api-types";
+import type { TwitchApi } from "$/emote-integrations/integrations/twitch/server/utils/api-types";
 
 export function fetchTwitchChatEmoteSet(setId: string) {
   return fetchTwitchApi<TwitchApi.GetEmoteSetResponse>("/chat/emotes/set", {

@@ -1,7 +1,6 @@
-import { consola } from "consola";
 import type { SevenTVApi } from "./api-types";
 
-export function defineSevenTVEmoteMaker(type: string) {
+export function defineSevenTVEmoteMaker<T extends string>(type: T) {
   return function (emote: SevenTVApi.Emote) {
     const {
       data: { tags, host, listed, animated },
