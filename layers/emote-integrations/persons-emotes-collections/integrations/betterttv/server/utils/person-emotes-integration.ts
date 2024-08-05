@@ -1,4 +1,4 @@
-import type { TBetterTTV } from "~~/layers/emote-integrations/integrations/betterttv/server/utils/types-namespace";
+import type { TBetterTTV } from "$/emote-integrations/integrations/betterttv/server/utils/types-namespace";
 
 export class PersonBetterTTVEmoteIntegration {
   get source() {

@@ -1,4 +1,4 @@
-import type { FrankerFaceZApi } from "~~/layers/emote-integrations/integrations/frankerfacez/server/utils/api-types";
+import type { FrankerFaceZApi } from "$/emote-integrations/integrations/frankerfacez/server/utils/api-types";
 
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 

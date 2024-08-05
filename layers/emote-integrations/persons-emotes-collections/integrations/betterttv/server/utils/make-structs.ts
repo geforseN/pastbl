@@ -1,5 +1,5 @@
-import type { BetterTTVApi } from "~~/layers/emote-integrations/integrations/betterttv/server/utils/api-types";
-import type { TBetterTTV } from "~~/layers/emote-integrations/integrations/betterttv/server/utils/types-namespace";
+import type { BetterTTVApi } from "$/emote-integrations/integrations/betterttv/server/utils/api-types";
+import type { TBetterTTV } from "$/emote-integrations/integrations/betterttv/server/utils/types-namespace";
 
 export const makePersonBetterTTVEmoteIntegration =
   definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>("BetterTTV");

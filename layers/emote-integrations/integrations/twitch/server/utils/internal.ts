@@ -1,5 +1,5 @@
 import type { TTwitch } from "./types";
-import type { TwitchApi } from "~~/layers/emote-integrations/integrations/twitch/server/utils/api-types";
+import type { TwitchApi } from "$/emote-integrations/integrations/twitch/server/utils/api-types";
 
 export function getTwitchEmoteSetName(emote: {
   emote_type: "bitstier" | "follower" | "subscriptions";

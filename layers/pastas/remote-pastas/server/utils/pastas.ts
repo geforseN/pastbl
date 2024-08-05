@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { pastasConfig } from "~~/layers/pastas/app.config";
+import { pastasConfig } from "$/pastas/app.config";
 
 const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 

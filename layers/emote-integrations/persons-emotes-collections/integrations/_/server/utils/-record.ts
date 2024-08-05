@@ -1,7 +1,7 @@
-import { PersonBetterTTVEmoteIntegration } from "~~/layers/emote-integrations/persons-emotes-collections/integrations/betterttv/server/utils/person-emotes-integration";
-import { PersonFrankerFaceZEmoteIntegration } from "~~/layers/emote-integrations/persons-emotes-collections/integrations/frankerfacez/server/utils/person-emotes-integration";
-import { PersonSevenTVEmoteIntegration } from "~~/layers/emote-integrations/persons-emotes-collections/integrations/seventv/server/utils/person-emotes-integration";
-import { PersonTwitchEmoteIntegration } from "~~/layers/emote-integrations/persons-emotes-collections/integrations/twitch/server/utils/person-emotes-integration";
+import { PersonBetterTTVEmoteIntegration } from "$/emote-integrations/persons-emotes-collections/integrations/betterttv/server/utils/person-emotes-integration";
+import { PersonFrankerFaceZEmoteIntegration } from "$/emote-integrations/persons-emotes-collections/integrations/frankerfacez/server/utils/person-emotes-integration";
+import { PersonSevenTVEmoteIntegration } from "$/emote-integrations/persons-emotes-collections/integrations/seventv/server/utils/person-emotes-integration";
+import { PersonTwitchEmoteIntegration } from "$/emote-integrations/persons-emotes-collections/integrations/twitch/server/utils/person-emotes-integration";
 
 export const personEmoteIntegrations = {
   BetterTTV: new PersonBetterTTVEmoteIntegration(),

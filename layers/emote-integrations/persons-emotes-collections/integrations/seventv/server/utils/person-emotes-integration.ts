@@ -1,4 +1,4 @@
-import type { TSevenTV } from "~~/layers/emote-integrations/integrations/seventv/server/utils/types";
+import type { TSevenTV } from "$/emote-integrations/integrations/seventv/server/utils/types";
 
 export class PersonSevenTVEmoteIntegration {
   get source() {

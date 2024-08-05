@@ -1,7 +1,7 @@
-import type { SevenTVApi } from "~~/layers/emote-integrations/integrations/seventv/server/utils/api-types";
-import type { TSevenTV } from "~~/layers/emote-integrations/integrations/seventv/server/utils/types";
+import type { SevenTVApi } from "$/emote-integrations/integrations/seventv/server/utils/api-types";
+import type { TSevenTV } from "$/emote-integrations/integrations/seventv/server/utils/types";
 
-export function defineSevenTVEmoteSetMaker(type: string) {
+export function defineSevenTVEmoteSetMaker<T extends string>(type: T) {
   const makeEmote = defineSevenTVEmoteMaker(type);
 
   return function (set: SevenTVApi.SetWithEmotes) {

@@ -1,4 +1,4 @@
-import type { SevenTVApi } from "~~/layers/emote-integrations/integrations/seventv/server/utils/api-types";
+import type { SevenTVApi } from "$/emote-integrations/integrations/seventv/server/utils/api-types";
 
 // LINK: https://7tv.io/docs
 

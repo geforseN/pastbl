@@ -1,4 +1,4 @@
-import type { BetterTTVApi } from "~~/layers/emote-integrations/integrations/betterttv/server/utils/api-types";
+import type { BetterTTVApi } from "$/emote-integrations/integrations/betterttv/server/utils/api-types";
 
 // LINK: https://betterttv.com/developers/api#user
 export async function fetchBetterTTVUser(
