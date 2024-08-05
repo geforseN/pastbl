@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "../../../../_/utils/__types__some_to_server_some_to_client";
+import type { TEmoteIntegrations } from "$/emote-integrations";
 
 export interface __Emote extends IEmote {
   source: "SevenTV";

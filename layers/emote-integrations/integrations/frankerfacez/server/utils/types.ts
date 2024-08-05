@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "../../../../_/utils/__types__some_to_server_some_to_client";
+import type { TEmoteIntegrations } from "$/emote-integrations";
 
 type _EmoteType = "global" | "specific" | "channel";
 

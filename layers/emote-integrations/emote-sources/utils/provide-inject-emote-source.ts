@@ -1,6 +1,6 @@
-import type { TEmoteIntegrations } from "../../_/utils/__types__some_to_server_some_to_client";
+import type { TEmoteIntegrations } from "$/emote-integrations";
 
-const sourceSymbol = Symbol('source')
+const sourceSymbol = Symbol("source");
 
 export function injectEmoteSource() {
   const source = inject(sourceSymbol);
