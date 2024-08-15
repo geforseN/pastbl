@@ -1,5 +1,6 @@
 import withNuxt from "./.nuxt/eslint.config.mjs";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import vitest from "eslint-plugin-vitest";
 
 const commonVueFilesPaths = /** @type {const} */ ([
   "app/app.vue",
@@ -10,6 +11,25 @@ const commonVueFilesPaths = /** @type {const} */ ([
   "layers/**/layouts/**/*.vue",
   "layers/**/pages/**/*.vue",
 ]);
+
+const specFilesExtensions = /** @type {const} */ (["ts", "js"]);
+const specDirectoriesNames = /** @type {const} */ ([
+  "utils",
+  "components",
+  "composables",
+]);
+
+/** @param {string} base  */
+function makeSpecPath(base) {
+  if (!base.endsWith("/")) {
+    base = base + "/";
+  }
+  return specFilesExtensions.flatMap((fileExtension) =>
+    specDirectoriesNames.flatMap(
+      (directoryName) => base + directoryName + "**/*.spec." + fileExtension,
+    ),
+  );
+}
 
 export default withNuxt()
   .overrideRules({
@@ -78,4 +98,13 @@ export default withNuxt()
   .overrideRules({
     files: commonVueFilesPaths,
     "unicorn/prefer-top-level-await": "off",
+  })
+  .append({
+    files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
+    plugins: {
+      vitest,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
   });
