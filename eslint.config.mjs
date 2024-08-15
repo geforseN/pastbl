@@ -2,10 +2,13 @@ import withNuxt from "./.nuxt/eslint.config.mjs";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
 const commonVueFilesPaths = /** @type {const} */ ([
-  "app.vue",
-  "components/**/*.vue",
-  "layouts/**/*.vue",
-  "pages/**/*.vue",
+  "app/app.vue",
+  "app/components/**/*.vue",
+  "app/layouts/**/*.vue",
+  "app/pages/**/*.vue",
+  "layers/**/component/**/*.vue",
+  "layers/**/layouts/**/*.vue",
+  "layers/**/pages/**/*.vue",
 ]);
 
 export default withNuxt()
