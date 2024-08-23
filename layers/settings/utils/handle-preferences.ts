@@ -7,7 +7,7 @@ export function handlePreferences<
   ValidKeys extends Exclude<ExcludeAmpersandJoined<Keys>, "none">,
 >(
   preferenceRef: Ref<Keys>,
-  handlers: Record<ValidKeys, () => MaybePromise<void>>,
+  handlers: { [K in ValidKeys]: () => MaybePromise<void> },
 ) {
   const preference = preferenceRef.value;
   if (preference === "none") {

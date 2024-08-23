@@ -19,7 +19,7 @@ export const useEmotesStore = defineStore("emotes", () => {
     ],
     () => {
       emotesCache.clear();
-      pastasStore.triggerRerender();
+      pastasStore.cancelPastasShowForOneTick();
     },
   );
 

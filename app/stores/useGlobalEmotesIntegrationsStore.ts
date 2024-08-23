@@ -10,10 +10,12 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
       globalEmotesIntegrationsService,
     );
 
+    const integrationsValues = computed(() =>
+      Object.values(integrationsState.state),
+    );
+
     const readySources = computed(() =>
-      Object.values(integrationsState.state).filter((integration) =>
-        integration?.isReady?.(),
-      ),
+      integrationsValues.value.filter(isEmotesIntegrationReady),
     );
 
     watchOnce(integrationsState.state, async (state) => {
@@ -74,7 +76,7 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
           integrationsState.asRefreshing(emoteSource);
           const refreshed = await integrationsLoad.execute(emoteSource);
           if (old.status === "ready" && refreshed.status === "failed") {
-            // useMyToast: can not refresh integration, fail on server
+            // TOAST: can not refresh integration, fail on server
             integrationsState.put(old);
             return await globalEmotesIntegrationsService.__put(old);
           }

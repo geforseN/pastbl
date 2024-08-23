@@ -1,10 +1,14 @@
-import { pastasConfig } from "../../app.config";
+import { pastasConfig } from "$/pastas/app.config";
 
-export type PastaTags = string[];
+export type PastaText = string;
+
+export type PastaTag = string;
+
+export type PastaTags = PastaTag[];
 
 export type BasePasta = {
-  text: string;
-  tags: string[];
+  text: PastaText;
+  tags: PastaTags;
 };
 
 export type MegaPasta = BasePasta & {
@@ -34,7 +38,7 @@ export function refreshPasta(
     text,
     length: pasta_.length,
     tags: [...toRaw(pasta_.tags)],
-    validTokens: makeValidTokensFromPastaText(text),
+    validTokens: makeValidPastaTokens(text),
     updatedAt: Date.now(),
   };
   return pasta;
@@ -65,12 +69,12 @@ export function makeRawPasta(pasta: OmegaPasta): OmegaPasta {
   };
 }
 
-export const getPastaLengthStatus = makeLengthStatusGetter(
+const _getPastaTextLengthStatus = makeLengthStatusGetter(
   pastasConfig.pastaText.length,
 );
 
 export function getTextStatus(text: MaybeRef<string>) {
-  const status = getPastaLengthStatus(toValue(text));
+  const status = _getPastaTextLengthStatus(toValue(text));
   if (status === "warning") {
     return "warning";
   }
@@ -80,7 +84,7 @@ export function getTextStatus(text: MaybeRef<string>) {
   return "error";
 }
 
-export function makeValidTokensFromPastaText(text: string) {
+export function makeValidPastaTokens(text: string) {
   return uniqueValues(text.split(" ")).filter(isValidToken);
 }
 
@@ -92,7 +96,7 @@ export function createMegaPasta(text: string, tags: string[] = []): MegaPasta {
     createdAt: Date.now(),
     updatedAt: undefined,
     lastCopiedAt: undefined,
-    validTokens: makeValidTokensFromPastaText(text),
+    validTokens: makeValidPastaTokens(text),
   };
 }
 
@@ -120,16 +124,11 @@ export function makeMegaPasta(text: string, tags: string[] = []): MegaPasta {
   return createMegaPasta(text, [...tags]);
 }
 
-export function makeMegaPasta2(basePasta: BasePasta) {
+export async function makeMegaPasta2(basePasta: BasePasta) {
   const trimmedText = megaTrim(basePasta.text);
-  const lengthStatus = getPastaLengthStatus(trimmedText);
-  if (lengthStatus !== "ok") {
-    return Promise.reject(
-      createNoTranslationFailureNotification(
-        "createPasta__badLength",
-        lengthStatus,
-      ),
-    );
+  const lengthStatus = _getPastaTextLengthStatus(trimmedText);
+  if (lengthStatus !== "ok" && lengthStatus !== "warning") {
+    throw new BadPastaTextLengthError(lengthStatus);
   }
-  return Promise.resolve(makeMegaPasta(trimmedText, basePasta.tags));
+  return makeMegaPasta(trimmedText, basePasta.tags);
 }

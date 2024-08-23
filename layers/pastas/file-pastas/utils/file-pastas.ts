@@ -1,13 +1,13 @@
-type MiniPasta = {
+type MiniFilePasta = {
   tags?: string[];
   text: string;
 };
 
-type MinimalPasta = MiniPasta & { createdAt: string };
+type MinimalFilePasta = MiniFilePasta & { createdAt: string };
 
-type AnyPasta = MiniPasta | MinimalPasta;
+type FilePasta = MiniFilePasta | MinimalFilePasta;
 
-function isMiniPasta(data: unknown): data is MiniPasta {
+function isMiniPasta(data: unknown): data is MiniFilePasta {
   return (
     isObject(data) &&
     typeof data.text === "string" &&
@@ -15,7 +15,7 @@ function isMiniPasta(data: unknown): data is MiniPasta {
   );
 }
 
-function isMinimalPasta(pasta: MiniPasta): pasta is MinimalPasta {
+function isMinimalPasta(pasta: MiniFilePasta): pasta is MinimalFilePasta {
   const pasta_ = pasta as unknown as { createdAt?: unknown };
   return (
     Object.hasOwn(pasta_, "createdAt") &&
@@ -24,12 +24,12 @@ function isMinimalPasta(pasta: MiniPasta): pasta is MinimalPasta {
   );
 }
 
-function makeSortedAnyPastas(pastas: MiniPasta[]): AnyPasta[] {
+function makeSortedAnyPastas(pastas: MiniFilePasta[]): FilePasta[] {
   const { hasCreatedAt, noCreatedAt } = groupBy(pastas, (pasta) =>
     isMinimalPasta(pasta) ? "hasCreatedAt" : "noCreatedAt",
   ) as {
-    hasCreatedAt: MinimalPasta[];
-    noCreatedAt: MiniPasta[];
+    hasCreatedAt: MinimalFilePasta[];
+    noCreatedAt: MiniFilePasta[];
   };
   return [
     ...hasCreatedAt.toSorted(
@@ -39,14 +39,14 @@ function makeSortedAnyPastas(pastas: MiniPasta[]): AnyPasta[] {
   ];
 }
 
-function makeMiniPasta(pasta: OmegaPasta): MiniPasta {
+function makeMiniPasta(pasta: OmegaPasta): MiniFilePasta {
   return {
     tags: pasta.tags.length > 0 ? pasta.tags : undefined,
     text: pasta.text,
   };
 }
 
-function makeMegaPastas(pastas: AnyPasta[]) {
+function makeMegaPastas(pastas: FilePasta[]) {
   const appConfig = useAppConfig();
 
   return pastas.reduce((pastas, pasta) => {

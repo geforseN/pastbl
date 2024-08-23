@@ -1,7 +1,5 @@
-import { describe, expect, it, test } from "vitest";
-
 describe("object utils", () => {
-  test("isEmptyObject util", () => {
+  suite("isEmptyObject util", () => {
     it("must be defined", () => {
       expect(isEmptyObject).toBeDefined();
     }); 

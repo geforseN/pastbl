@@ -1,7 +1,22 @@
+import type { Primitive, Scalars } from "zod";
+
 // https://egghead.io/blog/using-branded-types-in-typescript
 declare const __brand: unique symbol;
-type Brand<B> = { [__brand]: B };
-type Branded<T, B> = T & Brand<B>;
+type Brand<N> = { [__brand]: N };
+type Branded<T extends { valueOf: () => unknown }, N extends string> = T &
+  Brand<N>;
+
+type UnbrandNonNullablePrimitive<T extends NonNullable<Primitive>> = ReturnType<
+  Omit<T, typeof __brand>["valueOf"]
+>;
+
+export type Unbranded<B extends Scalars> = B extends (infer T)[]
+  ? T extends NonNullable<Primitive>
+    ? UnbrandNonNullablePrimitive<T>[]
+    : never
+  : B extends NonNullable<Primitive>
+    ? UnbrandNonNullablePrimitive<B>
+    : never;
 
 export type PastaTag = Branded<string, "PastaTag">;
 export type PastaTags = Branded<string[], "PastaTags">;

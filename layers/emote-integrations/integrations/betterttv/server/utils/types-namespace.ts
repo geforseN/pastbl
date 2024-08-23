@@ -9,8 +9,8 @@ interface __Emote extends IEmote {
   token: string;
   source: "BetterTTV";
   url: `https://cdn.betterttv.net/emote/${string}/1x.webp`;
-  width: number | undefined;
-  height: number | undefined;
+  width: number;
+  height: number;
   isModifier: boolean;
   // isListed: boolean;
   // isWrapper: boolean;

@@ -20,7 +20,7 @@ export async function fetchSevenTVUser(
   const response = await fetch(`https://7tv.io/v3/users/twitch/${twitchId}`);
   assert.response.ok(
     response,
-    new PersonEmoteIntegrationNotFoundError("SevenTV", login),
+    new PersonEmotesIntegrationNotFoundError("SevenTV", login),
   );
   const json = await response.json();
   return json as SevenTVApi.UserProfile;

@@ -1,4 +1,4 @@
-export class PersonEmoteIntegrationNotFoundError extends Error {
+export class PersonEmotesIntegrationNotFoundError extends Error {
   constructor(
     private readonly integrationSource: EmoteSource,
     private readonly login?: string,

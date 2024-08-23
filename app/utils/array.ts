@@ -3,14 +3,14 @@ export function withRemoved<T>(
   refOrPredicate:
     | MaybeRef<T>
     | ((value: T, index: number, array: T[]) => boolean),
-  messageOrError?: string | Error,
+  raiseReason?: RaiseReason,
 ) {
   const values = toValue(array);
   const index =
     refOrPredicate instanceof Function
       ? values.findIndex(refOrPredicate)
       : values.indexOf(toValue(refOrPredicate));
-  assert.ok(index >= 0, messageOrError);
+  assert.ok(index >= 0, raiseReason);
   return values.toSpliced(index, 1);
 }
 
@@ -37,10 +37,10 @@ export function sum<T>(
 export function getIndex<T>(
   array: MaybeRef<T[]>,
   predicate: (value: T, index: number, array: T[]) => boolean,
-  messageOrError = new Error("Invalid index"),
+  raiseReason: RaiseReason = new Error("Invalid index"),
 ) {
   const index = toValue(array).findIndex(predicate);
-  assert.ok(index >= 0, messageOrError);
+  assert.ok(index >= 0, raiseReason);
   return index;
 }
 

@@ -10,7 +10,7 @@ export async function fetchBetterTTVUser(
   );
   assert.response.ok(
     response,
-    new PersonEmoteIntegrationNotFoundError("BetterTTV", login),
+    new PersonEmotesIntegrationNotFoundError("BetterTTV", login),
   );
   const json = await response.json();
   return json as BetterTTVApi.User;

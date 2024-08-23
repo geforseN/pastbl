@@ -18,7 +18,7 @@
         <chat-pasta
           :key="`${pasta.id}:${pasta.text}`"
           v-bind="pasta"
-          @copy="userStore.copyPasta(pasta)"
+          @copy="pastasStore.copyPasta(pasta)"
           @edit="navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))"
           @remove="$emit('removePasta', pasta)"
           @populate="
@@ -48,6 +48,7 @@
 import type { CanFindEmote } from "$/pastas/chat-pasta/utils/pasta-dom";
 
 const userStore = useUserStore();
+const pastasStore = usePastasStore();
 
 const props = defineProps<Partial<CanFindEmote>>();
 

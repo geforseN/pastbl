@@ -1,4 +1,4 @@
-import { expectTypeOf, test } from "vitest";
+import { expectTypeOf } from "vitest";
 import {
   makeLengthStatusGetter,
   type LengthStatus,

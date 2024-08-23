@@ -79,7 +79,7 @@
           async () => {
             // TODO: add loading state
             await pastaStore.postPasta();
-            useNuxtToast().add({ title: 'Pasta posted!' });
+            useActionToasts().add((i18n) => ({ title: 'Pasta posted!' }));
             pastaStore.pasta.reset();
           }
         "

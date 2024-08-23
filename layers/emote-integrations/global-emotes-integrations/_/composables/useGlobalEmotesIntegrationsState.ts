@@ -1,5 +1,5 @@
 export function useGlobalEmotesIntegrationsState(
-  getIntegrations: () => Promise<SettledEmoteIntegrationsRecord>,
+  getIntegrations: () => Promise<SettledEmoteIntegraHtionsRecord>,
 ) {
   const integrations_ =
     useAsyncObject<SomeEmoteIntegrationsRecord>(getIntegrations);
