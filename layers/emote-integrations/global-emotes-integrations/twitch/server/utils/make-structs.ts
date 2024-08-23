@@ -4,7 +4,8 @@ import type { TwitchApi } from "$/emote-integrations/integrations/twitch/server/
 export function getTwitchGlobalEmoteSet(response: TwitchApi.ChatEmotesResponse) {
   return {
     name: "Global Emotes",
-    source: "Twitch",
+    type: "global" as const,
+    source: "Twitch" as const,
     emotes: response.data.map((emote) => makeTwitchEmote(emote, "global")),
   };
 }

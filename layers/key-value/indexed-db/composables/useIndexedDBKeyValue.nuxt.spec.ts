@@ -1,5 +1,4 @@
 import { useIndexedDBKeyValue } from "./useIndexedDBKeyValue";
-import { describe, expect, it } from "vitest";
 
 describe("useIndexedDBKeyValue", () => {
   it("should be defined", () => {

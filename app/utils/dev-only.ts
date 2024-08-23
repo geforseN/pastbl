@@ -1,7 +1,7 @@
 import { isFunction } from "./guards";
 
 export function withLogSync<T>(
-  valueOrGetter: T | (() => T),
+  valueOrGetter: MaybeGetter<T>,
   optionsOrKey:
     | string
     | {

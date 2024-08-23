@@ -1,18 +1,26 @@
-export async function loadCollection(
-  getCollection: () => Promise<void>,
+export function usePersonEmotesCollectionLoad(
+  nicknameInput: Ref<string>,
   options: {
-    beforeLoad?: () => MaybePromise<void>;
-    onEnd?: () => MaybePromise<void>;
-    onError?: (error: unknown) => MaybePromise<void>;
-  } = {},
+    mustSelectCollectionAfterLoad: MaybeRef<boolean>;
+    mustClearNicknameInputBeforeLoad: MaybeRef<boolean>;
+  },
 ) {
-  try {
-    const collectionPromise = getCollection();
-    await options.beforeLoad?.();
-    await collectionPromise;
-  } catch (error) {
-    await options.onError?.(error);
-  } finally {
-    await options.onEnd?.();
-  }
+  const toast = usePersonEmotesCollectionLoadToasts();
+  const personsEmotesCollectionsStore = usePersonsEmoteCollectionsStore();
+
+  return useAsyncObject(async () => {
+    const nickname = nicknameInput.value;
+    assert.ok(nickname.length, () => toast.panic("emptyInput"));
+    const login /* WATCHOUT */ = toLowerCase(nickname);
+    const collection =
+      await personsEmotesCollectionsStore.loadCollection(login);
+    toast.success(
+      nickname,
+      getEmotesIntegrationsStatusAsEmojisString(collection.integrations),
+    );
+    if (toValue(options.mustSelectCollectionAfterLoad)) {
+      personsEmotesCollectionsStore.selectCollection(login);
+    }
+    return collection;
+  });
 }

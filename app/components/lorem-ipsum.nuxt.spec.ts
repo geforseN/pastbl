@@ -1,6 +1,5 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { LoremIpsum } from "#components";
-import { describe, expect, it } from "vitest";
 
 describe("LoremIpsum", () => {
   it("has correct numbers inside text", async () => {

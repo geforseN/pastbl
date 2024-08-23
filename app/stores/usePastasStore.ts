@@ -3,6 +3,11 @@ export const usePastasStore = defineStore("pastas", () => {
 
   const pastas = usePastas(async () => await pastasService.getAll());
 
+  const createPasta = usePastaCreate(pastas);
+  const removePasta = usePastaRemove(pastas);
+  const copyPasta = usePastaCopy(pastas);
+  const putPasta = usePastaPut(pastas);
+
   const { selectedSortStrategy, sortedPastas } = usePastasSort(pastas.state);
   const {
     selectedShowStrategy,
@@ -25,14 +30,13 @@ export const usePastasStore = defineStore("pastas", () => {
     return true;
   }, false);
 
-  const toast = useMyToast();
-
   return {
     canShowPastas,
-    async triggerRerender() {
+    async cancelPastasShowForOneTick() {
+      const pastValue = canShowPastas.value;
       canShowPastas.value = false;
       await nextTick();
-      canShowPastas.value = true;
+      canShowPastas.value = pastValue;
     },
     pastasTextLength,
     pastasToShow,
@@ -44,37 +48,9 @@ export const usePastasStore = defineStore("pastas", () => {
     pastas,
     sortedPastas,
     pastasTags,
-    async createPasta(basePasta: BasePasta) {
-      const megaPasta = await makeMegaPasta2(basePasta).catch(toast.throw);
-      const megaPastaWithId = await pastasService.add(megaPasta);
-      pastas.push(megaPastaWithId);
-      toast.notify("success", "pastaCreated");
-    },
-    async removePasta(pasta: OmegaPasta) {
-      const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
-      await pastasService.moveFromListToBin(pasta);
-      pastas.removeAt(index);
-      toast.notify("warning", "pastaRemoved", async function onCancel() {
-        await pastasService.moveFromBinToList(pasta);
-        pastas.pushAt(index, pasta);
-      });
-    },
-    async patchPastaLastCopied(pasta: OmegaPasta) {
-      const index = await pastas.getIndexById(pasta.id).catch(toast.throw);
-      const newPasta = await pastasService.patchLastCopied(toRaw(pasta));
-      pastas.mutateAt(index, newPasta);
-    },
-    async putPasta(pasta: OmegaPasta) {
-      const [index, oldPasta] = await pastas
-        .getEntryById(pasta.id)
-        .catch(toast.throw);
-      assert.ok(
-        !isPastasSame(oldPasta, pasta),
-        toast.fail("pastaPut__sameValues"),
-      );
-      await pastasService.put(pasta);
-      pastas.mutateAt(index, pasta);
-      toast.notify("success", "pastaPut");
-    },
+    createPasta,
+    removePasta,
+    copyPasta,
+    putPasta,
   };
 });

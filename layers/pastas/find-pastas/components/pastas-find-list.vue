@@ -42,7 +42,7 @@
       v-if="selectedPasta"
       :key="selectedPasta.id"
       v-bind="selectedPasta"
-      @copy="userStore.copyPasta(selectedPasta)"
+      @copy="pastasStore.copyPasta(selectedPasta)"
       @delete="pastasStore.removePasta(selectedPasta)"
       @mouseover="throttledMouseover"
       @populate="

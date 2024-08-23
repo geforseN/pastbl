@@ -1,5 +1,38 @@
 import { fileURLToPath } from "node:url";
 
+const modules = [
+  // "@formkit/auto-animate/nuxt",
+  "@nuxt/test-utils/module",
+  "@element-plus/nuxt",
+  "@nuxt/ui",
+  "@nuxtjs/i18n",
+  "@nuxtjs/tailwindcss",
+  "@pinia/nuxt",
+  "@vueuse/nuxt",
+  "nuxt-auth-utils",
+  "nuxt-icon",
+  "@nuxt/eslint",
+  "@scalar/nuxt",
+  // "nuxt-open-fetch",
+];
+
+// NOTE:
+// Nuxt UI will automatically install the @nuxt/icon, @nuxtjs/tailwindcss and @nuxtjs/color-mode modules for you.
+// You should remove them from your modules and dependencies if you've previously installed them.
+// LINK: https://ui.nuxt.com/getting-started/installation#modules
+if (modules.includes("@nuxt/ui")) {
+  const moduleIndexes = [
+    "@nuxt/icon",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+  ]
+    .map((moduleName) => modules.indexOf(moduleName))
+    .filter((index) => index !== -1);
+  for (const moduleIndex of moduleIndexes) {
+    modules.splice(moduleIndex, 1);
+  }
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   debug: false,
@@ -31,34 +64,9 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  typescript: {
-    strict: true,
-    tsConfig: {
-      compilerOptions: {
-        skipLibCheck: true || false,
-      },
-      include: ["./app/integrations/*/_api.d.ts"],
-      // extends: "./.nuxt/tsconfig.json",
-      buildOptions: {
-        verbose: true,
-      },
-    },
-  },
   vite: {
     esbuild: {
       pure: ["console.log"],
-    },
-    vue: {
-      script: {
-        globalTypeFiles: [
-          fileURLToPath(
-            new URL(
-              "layers/twitch/twitch-channels-search/types.d.ts",
-              import.meta.url,
-            ),
-          ),
-        ],
-      },
     },
   },
   site: {
@@ -80,24 +88,27 @@ export default defineNuxtConfig({
   },
   // FIXME: fix warnings in console
   imports: {
+    presets: [],
     imports: [
       {
-        from: "../../node_modules/@nuxt/ui/dist/runtime/composables/useToast.mjs",
+        from: "#ui/composables/useToast",
         name: "useToast",
         as: "useNuxtToast",
-        priority: 3,
       },
       {
-        from: "../../node_modules/@vuestic/nuxt/dist/runtime/composables",
+        from: "#ui/composables/useToast",
         name: "useToast",
-        as: "useVuesticToast",
+        disabled: true,
       },
       {
-        from: 'vue',
+        from: "vue",
         name: "Slot",
         type: true,
-        as: 'VueSlot'
-      }
+        as: "VueSlot",
+      },
+      { from: "vitest", name: "assert", disabled: true },
+      // { from: "@formkit/auto-animate", name: "autoAnimate", disabled: true, priority: 10 },
+      // { from: "@formkit/auto-animate", name: "vAutoAnimate" },
     ],
   },
   $development: {
@@ -134,21 +145,7 @@ export default defineNuxtConfig({
       },
     ],
   },
-  modules: [
-    "@formkit/auto-animate/nuxt",
-    "@nuxt/test-utils/module",
-    "@element-plus/nuxt",
-    "@nuxt/ui",
-    "@nuxtjs/i18n",
-    "@nuxtjs/tailwindcss",
-    "@pinia/nuxt",
-    "@vueuse/nuxt",
-    "nuxt-auth-utils",
-    "nuxt-icon",
-    "@nuxt/eslint",
-    // "@scalar/nuxt",
-    "nuxt-open-fetch",
-  ],
+  modules: console.log({ modules }) || modules,
   vue: {
     propsDestructure: true,
   },

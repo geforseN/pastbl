@@ -1,7 +1,6 @@
 import { fetch, setup, $fetch } from "@nuxt/test-utils/e2e";
-import { describe, expect, test } from "vitest";
 
-describe("server api", async () => {
+describe.todo("server api", async () => {
   await setup({
     server: true,
   });

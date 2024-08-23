@@ -16,6 +16,8 @@ export type IEmote = HasSource & {
   isListed: boolean;
   isModifier: boolean;
   isWrapper: boolean;
+  width: number;
+  height: number;
 };
 
 export type IEmoteSet<E extends IEmote = IEmote> = Readonly<{

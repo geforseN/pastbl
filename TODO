@@ -1,173 +1,57 @@
-fix many imports
+GlobalEmotesIntegrations: return settled, not only ready (should add base global emote integration class and use it inside concrete emote integrations as composed object )
 
-restructure ~~layers/emote-integrations (maybe add layers with EmoteSources names, ~~layers/[source]-emote-integration)
+WATCHOUT for login
+TEST: add test
+TOAST: add toast
 
-try move api-test-route.spec.ts at server/api, also make it work (must ensure no route handler is created)
-
-stop use ~~/config, use nuxt.config.ts runtimeConfig and appConfig (which is const) 
-# https://nuxt.com/docs/guide/going-further/runtime-config
-# https://nuxt.com/docs/guide/directory-structure/env
-# https://www.youtube.com/watch?v=2tKOZc3Z1dk
-# https://www.youtube.com/watch?v=_FYV5WfiWvs
-# https://www.youtube.com/watch?v=DFZI2iVCrNc
-
-fix repeated auto imports 
-# https://www.youtube.com/watch?v=YLFOynY72sE
+TODO: WebShare API: https://www.youtube.com/watch?v=lt77LscZcn0
 
 
-IndexedDB:
-  1. replace emote-collections database with emotes-integrations
-  2. delete emotes db, move emotes.emotes to emotes-integrations.emotes
-  3. rename key-value.key-value to app.key-value
+// const pastaRemoveToast = {
+//   info: {
+//     movedInBin(this.i18n.t, onCancel: () => MaybePromise<void>) {
+//       return {
+//         timeout: 7000,
+//         title: this.i18n.t("toast.removePasta.success.title"),
+//         description: this.i18n.t("toast.removePasta.success.message"),
+//         actions: [
+//           {
+//             color: "green",
+//             label: this.i18n.t("toast.removePasta.success.undoLabel"),
+//             block: true,
+//             size: "md",
+//             click: onCancel,
+//           },
+//         ],
+//       };
+//     },
+//   },
+// };
 
-getTwitchUser
-
-rename keys in useIndexedDBKeyValue
-
-
-
-//////////////////////////////////
-PastasSharedStore
-
-PastasSchema
-//////////////////////////////////
-
-
-
-
-refactor code with idb reference
-
-"$/
-
-236/84
-added nuxt.config.ts in layers that did not have that
-197/66
-
-https://www.youtube.com/live/YLvbza4GtiM?si=ZDTBkPiJeHLKbqqd&t=3647
-
-
-// function isFailedIntegration(integration: TEmoteIntegrations.__Some__) {}
-// function isReadyIntegration(integration: TEmoteIntegrations.__Some__) {}
-// function isLoadingIntegration(integration: TEmoteIntegrations.__Some__) {}
-// function isRefreshingIntegration(integration: TEmoteIntegrations.__Some__) {}
-
-function isIntegrationOfStatus<S extends TEmoteIntegrations.__Some__["status"]>(
-  integration: TEmoteIntegrations.__Some__,
-  status: S,
-): integration is Extract<TEmoteIntegrations.__Some__, { status: S }> {
-  return integration.status === status;
-}
-
-const is = isIntegrationOfStatus;
-
-const _integration_ = useGlobalEmotesIntegration(props.integration);
-const { source, styles } = _integration_;
-const integration_ = reactive(_integration_);
-
- /* <F>{
-        source,
-        status: "failed",
-        reason: findErrorMessage(
-          reason,
-          `Failed to load ${source} Global Emote Integration`,
-        ),
-      }; */
-
-// FIXME: failed integration inference is broken
-function defineSettledIntegrationGetter<
-  F extends TEmoteIntegrations.Global.Failed,
-  R extends TEmoteIntegrations.Global.Ready,
-  S extends EmoteSource,
->(integration: { name: S; get(): Promise<R>; fail(reason: unknown): F }) {
-  return async function () {
-    try {
-      return await integration.get();
-    } catch (reason) {
-      return integration.fail(reason);
-    }
-  };
-}
-
-
-
-types-namespaces (T${EmoteSource}) must be reworked
-
-
-fix 
-person-emotes-integration/betterttv,
-server/api, 
-server/utils
-
-
-
-
-
-
-
-layers/emote-integrations/global-emote-integrations/_/utils/integration.ts
-
-export interface IGlobalEmotesIntegration {
-  source: EmoteSource;
-
-  get(): Promise<TEmoteIntegrations.Ready>;
-
-  asFailed(reason: unknown): TEmoteIntegrations.Failed;
-}
-
-export class GlobalEmotesIntegration {
-  constructor(public readonly source: EmoteSource) {}
-
-  asFailed(reason: unknown) {
-    const source = this.source;
-    return {
-      source,
-      status: "failed",
-      reason: findErrorMessage(
-        reason,
-        `Failed to load ${source} Global Emote Integration`,
-      ),
-    };
-  }
-}
-
-
-export const config = {
-  pastaTag: {
-    length: {
-      min: 1,
-      max: 128,
-    },
-  },
-  pastaTags: {
-    count: {
-      min: 0,
-      max: 10,
-    },
-  },
-  pastaText: {
-    length: {
-      min: 1,
-      max: 1984,
-      warning: 500,
-    },
-  },
-  badges: {
-    count: {
-      min: 0,
-      max: 10,
-    },
-  },
-} as const;
-
-
-refactor global-emote-integration-of
-
-
-   const deletedCollectionEmoteIds = Object.values(collection.integrations)
-      .filter(isEmotesIntegrationReady)
-      .flatMap((integration) =>
-        (integration.sets || raise("__NEVER__")).flatMap(
-          (set) => set.emoteIds as string[],
-        ),
-      )
-      .reduce((emoteIds, emoteId) => emoteIds.add(emoteId), new Set());
+// function usePastaRemoveToast() {
+//   const toast = useMyToast();
+//   return {
+//     info<K extends keyof (typeof pastaRemoveToast)["info"]>(
+//       name: K,
+//       ...args: OmitFirst<Parameters<(typeof pastaRemoveToast)["info"][K]>>
+//     ) {
+//       const createTranslatableWarningToast = pastaRemoveToast.info[name];
+//       const warningToast = createTranslatableWarningToast(
+//         toast.this.i18n.t,
+//         ...args,
+//       );
+//       return { color: "blue", ...warningToast };
+//     },
+//     failureWithPanic(reason: unknown): never {
+//       if (
+//         isError(reason) &&
+//         "toTranslatedToast" in reason &&
+//         typeof reason.toTranslatedToast === "function"
+//       ) {
+//         reason.tranlationPath;
+//         toast.add(reason.toTranslatedToast(toast.this.i18n.t));
+//       }
+//       throw reason;
+//     },
+//   };
+// }

@@ -5,7 +5,7 @@ export function usePastaTags(tags: Ref<string[]>) {
       tags.value = withRemoved(
         tags,
         tag,
-        createNoTranslationFailureNotification("removePastaTag__noExist"),
+        () => new NonExistingPastaTagError(),
       );
     },
     removeAllTags() {
@@ -14,7 +14,7 @@ export function usePastaTags(tags: Ref<string[]>) {
     addTag(tag: string) {
       ensurePastaTags.canHaveMore();
       const trimmed = megaTrim(tag);
-      ensurePastaTag.lengthIsOk(trimmed);
+      ensurePastaTagLengthIsOk(trimmed);
       ensurePastaTags.hasNoSameTag(trimmed);
       const final = transformPastaTag(tag);
       tags.value.push(final);

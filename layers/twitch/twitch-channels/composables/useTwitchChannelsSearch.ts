@@ -7,7 +7,7 @@ export function useTwitchChannelsSearch(nickname: Ref<string>) {
     mustShow.value = true;
   };
 
-  const toast = useMyToast();
+  const toast = useActionToasts();
 
   const { data: state } = useFetch("/api/v1/twitch/channels", {
     lazy: true,
@@ -23,7 +23,7 @@ export function useTwitchChannelsSearch(nickname: Ref<string>) {
     onResponse: show,
     onResponseError({ response }) {
       const message = JSON.parse(response._data.message)[0].message;
-      return toast.throw(new Error(message));
+      return toast.panic(new Error(message));
     },
   });
 

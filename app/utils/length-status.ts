@@ -2,6 +2,7 @@ import { isFunction } from "~/utils/guards";
 
 export type LengthStatus = "empty" | "tooShort" | "tooLong" | "ok";
 export type BaseLengthOptions = { min: number; max: number };
+export type BadLengthStatus = Exclude<LengthStatus, 'ok'>
 
 export type LengthStatusWithWarning = LengthStatus | "warning";
 export type BaseLengthOptionsWithWarning = BaseLengthOptions & {

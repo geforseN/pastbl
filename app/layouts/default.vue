@@ -61,7 +61,7 @@
                   v-for="pasta of remotePastas.list.value"
                   :key="`${pasta.id}:${pasta.text}`"
                   v-bind="pasta"
-                  @copy="userStore.copyPasta(pasta)"
+                  @copy="pastasStore.copyPasta(pasta)"
                   @edit="
                     navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))
                   "
@@ -74,7 +74,7 @@
                     (pastaTextContainer) => {
                       populatePasta(
                         pastaTextContainer,
-                        makeValidTokensFromPastaText(pasta.text),
+                        makeValidPastaTokens(pasta.text),
                         emotesStore.findEmote,
                       );
                     }

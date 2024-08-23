@@ -1,7 +1,6 @@
 import type { Pasta } from "~~/database/schema";
 import {
   type RemotePastasPaginationCursor,
-  RemotePastasPaginationCursor_,
   assertIsRemotePastasPaginationCursor,
 } from "~/brands";
 

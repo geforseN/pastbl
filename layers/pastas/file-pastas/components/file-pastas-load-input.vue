@@ -18,25 +18,21 @@
 <script setup lang="ts">
 const pastasStore = usePastasStore();
 
-const toast = useMyToast();
+const toast = useLoadPastasFromFileToast();
 
 async function onFilesInputChange(event: Event) {
-  const fileContent = await parseFileContent(event);
-  const megaPastas = await parseMegaPastas(fileContent).catch((reason) => {
-    assert.isError(reason);
-    return toast.throw(reason);
-  });
+  const fileContent = await parseFileContent(event).catch((error) =>
+    toast.panic("incorrectFileContent", error),
+  );
+  const megaPastas = await parseMegaPastas(fileContent).catch(toast.panic);
   const { fulfilled, rejected } = await groupAsync(
     megaPastas.map((pasta) => pastasService.add(pasta)),
   );
   const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
   pastasStore.pastas.push(...sorted);
-  // TODO: add toast.notify('success','pastasLoaded');
-  toast._addToast({ title: "OK" });
-  assert.ok(
-    rejected.length === 0 /* () => { 
-      // TODO: add toast.notify('error','somePastasLoadFailed', rejected);
-  } */,
-  );
+  toast.success();
+  if (rejected.length > 0) {
+    toast.warning("foundRejected", rejected.length);
+  }
 }
 </script>

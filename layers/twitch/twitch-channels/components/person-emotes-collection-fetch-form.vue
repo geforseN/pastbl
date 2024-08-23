@@ -1,5 +1,8 @@
 <template>
-  <form class="rounded-box border-2 p-2" @submit.prevent="handleCollectionLoad">
+  <form
+    class="rounded-box border-2 p-2"
+    @submit.prevent="personEmotesCollectionLoad.execute"
+  >
     <div class="flex justify-between p-2">
       <h2 id="heading" class="text-3xl font-bold">
         {{ $t("collections.users.fetch.heading") }}&nbsp;
@@ -18,7 +21,10 @@
         required
       />
       <button class="btn btn-accent join-item w-2/6">
-        <span v-if="isLoadingCollection" class="flex items-center gap-2">
+        <span
+          v-if="personEmotesCollectionLoad.isLoading"
+          class="flex items-center gap-2"
+        >
           {{ $t("collections.users.fetch.button.text-on-load") }}
           <span class="loading loading-spinner" />
         </span>
@@ -42,7 +48,7 @@
       </label>
       <input
         id="must-select-collection-on-load"
-        v-model="mustSelectCollectionOnLoad.state.value"
+        v-model="mustSelectCollectionOnLoad.state"
         type="checkbox"
         class="toggle toggle-accent"
         name="must-select-collection-on-load"
@@ -71,46 +77,19 @@ onClickOutside(channelsContainerRef, channelsSearch.hide, {
   ignore: [inputRef],
 });
 
-const mustSelectCollectionOnLoad = useIndexedDBKeyValue(
-  "fetch-person-emotes-collection:must-select-onload",
-  true,
+const mustSelectCollectionOnLoad = reactive(
+  useIndexedDBKeyValue(
+    "fetch-person-emotes-collection:must-select-onload",
+    true,
+  ),
 );
-const isLoadingCollection = ref(false);
-const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
-const toast = useMyToast();
-
-async function handleCollectionLoad() {
-  const nickname = channelsSearchNickname.value;
-  isLoadingCollection.value = true;
-  await loadCollection(
-    async () => {
-      assert.ok(nickname.length, () =>
-        toast.throw("fetchCollection__emptyInput"),
-      );
-      const login = toLowerCase(nickname);
-      const collection = await personsEmoteCollections.loadCollection(login);
-      toast.notify(
-        "success",
-        "collectionFetched",
-        nickname,
-        getEmotesIntegrationsStatusAsEmojisString(collection.integrations),
-      );
-      if (mustSelectCollectionOnLoad.state.value) {
-        personsEmoteCollections.selectCollection(login);
-      }
-    },
-    {
-      beforeLoad() {
-        channelsSearchNickname.value = "";
-      },
-      onError: toast.throw,
-      onEnd() {
-        isLoadingCollection.value = false;
-      },
-    },
-  );
-}
+const personEmotesCollectionLoad = reactive(
+  usePersonEmotesCollectionLoad(channelsSearchNickname, {
+    mustClearNicknameInputBeforeLoad: true,
+    mustSelectCollectionAfterLoad: mustSelectCollectionOnLoad.state,
+  }),
+);
 </script>
 <style scoped>
 h2 {

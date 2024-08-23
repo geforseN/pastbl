@@ -30,7 +30,7 @@ function getEmotesIntegrationSourceAsEmoji(
 }
 
 export function getEmotesIntegrationsStatusAsEmojisString(
-  integrations: TEmoteIntegrations.Settled[],
+  integrations: TEmoteIntegrations.SettledRecord,
 ) {
   return Object.values(integrations)
     .map((integration) => {

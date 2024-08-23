@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const environmentSchema = z
   .object({
+    MUST_BE_SERIALIZED: z.coerce.boolean(),
     TWITCH_APP_CLIENT_SECRET: z.string(),
     NUXT_OAUTH_TWITCH_CLIENT_SECRET: z.string().optional(),
     TWITCH_APP_CLIENT_ID: z.string(),
@@ -25,7 +26,7 @@ const environmentSchema = z
 
 const environmentParse = environmentSchema.safeParse(process.env);
 
-if (!environmentParse.success && !import.meta.test) {
+if (!environmentParse.success && !import.meta.test && process.env.VITEST !== 'true') {
   throw environmentParse.error;
 }
 

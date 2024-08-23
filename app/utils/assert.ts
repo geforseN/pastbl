@@ -1,6 +1,6 @@
 import { raise, type RaiseReason_ } from "./raise";
 
-type RaiseReason = RaiseReason_ | (() => RaiseReason_);
+export type RaiseReason = MaybeGetter<RaiseReason_>;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function assertIsError<EC extends new (...args: any[]) => Error>(
@@ -14,19 +14,19 @@ function assertIsError<EC extends new (...args: any[]) => Error>(
 
 function assertOk(value: unknown, reason?: RaiseReason): asserts value {
   if (!value) {
-    const maybeErrorLike = typeof reason === "function" ? reason() : reason;
+    const maybeErrorLike = isFunction(reason) ? reason() : reason;
     raise(maybeErrorLike);
   }
 }
 
 function assertResponseOk(
   response: Response,
-  messageOrError: string | Error = new Error(
+  raiseReason: RaiseReason_ = new Error(
     `HTTP error, status = ${response.status} error: ${response.text()}`,
   ),
 ) {
   if (!response.ok) {
-    raise(messageOrError);
+    raise(raiseReason);
   }
 }
 
@@ -45,10 +45,3 @@ export const assert: {
   },
   fail: raise,
 };
-
-export function withOkAssert<V>(reason: string) {
-  return function (value: V) {
-    assertOk(value, reason);
-    return value;
-  };
-}

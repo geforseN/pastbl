@@ -1,5 +1,5 @@
 import { makeLengthStatusGetter } from "~/utils/length-status";
-import { pastasConfig } from "../../app.config";
+import { pastasConfig } from "$/pastas/app.config";
 
 export function isPastaMentionTagLike(tag: string) {
   return tag.startsWith("@");
@@ -17,20 +17,18 @@ export function parseLoginFromPastaMentionTag(mentionTag: string) {
 }
 
 export function definePastaTagsEnsure(tags: Ref<string[]>) {
-  const appConfig = useAppConfig();
-
   return {
     canHaveMore() {
       assert.ok(
-        toValue(tags).length < appConfig.pastaTags.count.max,
-        createNoTranslationFailureNotification("addPastaTag__toManyTags"),
+        toValue(tags).length < pastasConfig.pastaTags.count.max,
+        () => new ToManyPastaTagsError(),
       );
     },
     hasNoSameTag(tag: MaybeRef<string>) {
       const tag_ = toValue(tag);
       assert.ok(
         !toValue(tags).includes(tag_),
-        createNoTranslationFailureNotification("addPastaTag__sameTag", tag_),
+        () => new SamePastaTagError(tag_),
       );
     },
   };
@@ -40,12 +38,9 @@ export const getTagLengthStatus = makeLengthStatusGetter(
   pastasConfig.pastaTag.length,
 );
 
-export const ensurePastaTag = {
-  lengthIsOk(tag: MaybeRef<string>) {
-    const status = getTagLengthStatus(toValue(tag));
-    assert.ok(
-      status === "ok",
-      createNoTranslationFailureNotification("addPastaTag__badLength", status),
-    );
-  },
-};
+export function ensurePastaTagLengthIsOk(tag: MaybeRef<string>) {
+  const lengthStatus = getTagLengthStatus(toValue(tag));
+  if (lengthStatus !== "ok") {
+    throw new BadPastaTagLengthError(lengthStatus);
+  }
+}

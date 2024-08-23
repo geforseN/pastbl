@@ -2,13 +2,39 @@ async function playClickSound() {
   await new Audio("/sounds/click.wav").play();
 }
 
-export const useUserStore = defineStore("user", () => {
+function useUserPreferences() {
+  const copyPastaToasts = useCopyPastaToasts();
+  const copyTextToasts = useCopyTextToasts();
+
+  const userStore = useUserStore();
+
+  const onPastaCopy = computed(() => userStore.user.pasta.oncopy.state);
+
+  return {
+    onPastaTextCopy: () =>
+      handlePreferences(onPastaCopy, {
+        alert() {
+          copyPastaToasts.success();
+        },
+        sound: playClickSound,
+      }),
+    onTextCopy: () =>
+      handlePreferences(onPastaCopy, {
+        alert() {
+          copyTextToasts.success();
+        },
+        sound: playClickSound,
+      }),
+  };
+}
+
+export const useUserStore = /* useSettingsStore */ defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
     debounce: 1000,
   });
   const badgesCount = useIndexedDBKeyValue("badges:count", 1);
-  const pastaOncopy = useIndexedDBKeyValue("pasta:oncopy", "alert");
+  const onPastaCopy = useIndexedDBKeyValue("pasta:oncopy", "alert");
 
   const debouncedNicknameColor = refDebounced(nicknameColor.state, 200);
 
@@ -31,7 +57,7 @@ export const useUserStore = defineStore("user", () => {
       count: badgesCount,
     },
     pasta: {
-      oncopy: pastaOncopy,
+      oncopy: onPastaCopy,
     },
     debounced: {
       nickname: {
@@ -40,54 +66,30 @@ export const useUserStore = defineStore("user", () => {
     },
   };
 
-  const toast = useMyToast();
-
   const pastasWorkMode = usePastasWorkMode("local", {
     isLoggedIn: userSession.loggedIn,
     isOnline: readonly(useOnline()),
   });
 
-  const preferences = {
-    onPastaTextCopy() {
-      return handlePreferences(pastaOncopy.state, {
-        alert() {
-          toast.notify("success", "pastaCopied");
-        },
-        sound: playClickSound,
-      });
-    },
-    onTextCopy() {
-      return handlePreferences(pastaOncopy.state, {
-        alert() {
-          toast.notify("success", "textCopied");
-        },
-        sound: playClickSound,
-      });
-    },
-  };
+  const copyTextToasts = useCopyTextToasts();
+  const userPreferences = useUserPreferences();
 
-  const pastasStore = usePastasStore();
-
-  const copyText = useCopyText({
+  const copyText = useTextCopy({
     onFail() {
-      toast.notify("failure", "copyText__genericFail");
+      copyTextToasts.failure("default");
     },
   });
 
   return {
-    pastasWorkMode,
-    preferences,
     user,
-    async copyPasta(pasta: OmegaPasta) {
-      await copyText(pasta.text, {
-        async onSuccess() {
-          preferences.onPastaTextCopy();
-          await pastasStore.patchPastaLastCopied(pasta);
-        },
+    userPreferences,
+    userSession,
+    pastasWorkMode,
+    async copyText(text: string, options?: UseTextCopyOptions) {
+      return await copyText(text, {
+        ...options,
+        onSuccess: options?.onSuccess ?? userPreferences.onTextCopy,
       });
-    },
-    async copyText(text: string) {
-      await copyText(text, { onSuccess: preferences.onTextCopy });
     },
   };
 });

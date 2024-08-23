@@ -9,7 +9,7 @@ export async function fetchFrankerFaceZUser(
   const response = await fetch(`https://api.frankerfacez.com/v1/user/id/${id}`);
   assert.response.ok(
     response,
-    new PersonEmoteIntegrationNotFoundError("FrankerFaceZ", login),
+    new PersonEmotesIntegrationNotFoundError("FrankerFaceZ", login),
   );
   const json = await response.json();
   return json as FrankerFaceZApi.UserStruct;

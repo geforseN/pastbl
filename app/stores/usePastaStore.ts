@@ -1,3 +1,18 @@
+function usePastaAddTag(
+  pasta: ReturnType<typeof usePasta>,
+  tagInput: Ref<string>,
+) {
+  const __toast__ = usePastaTagAddToasts();
+  return function (newTag: string) {
+    try {
+      pasta.addTag(newTag);
+      tagInput.value = "";
+    } catch (error) {
+      __toast__.panic(error);
+    }
+  };
+}
+
 export const usePastaStore = defineStore("pasta", () => {
   const text = useIndexedDBKeyValue("pasta-form-input:tag", "");
   const tags = useIndexedDBKeyValue("pasta-form-input:tags", []);
@@ -8,7 +23,8 @@ export const usePastaStore = defineStore("pasta", () => {
     tag: tag.state,
     tags: tags.state,
   });
-  const toast = useMyToast();
+
+  const addTag = usePastaAddTag(pasta, tag.state);
 
   const debouncedPastaText = refDebounced(pasta.text, 200);
   const publishPasta = usePublishPasta(pasta);
@@ -18,14 +34,7 @@ export const usePastaStore = defineStore("pasta", () => {
     postPasta: publishPasta.postPasta,
     pasta,
     pastaTrimmedText: computed(() => megaTrim(debouncedPastaText.value)),
-    addTag(newTag: string) {
-      try {
-        pasta.addTag(newTag);
-        tag.state.value = "";
-      } catch (error) {
-        toast.throw(error);
-      }
-    },
+    addTag,
     text,
     addInputTag() {
       return this.addTag(pasta.tag.value);

@@ -16,13 +16,13 @@
           class="twitch-text p-0 text-[13px]/[18px]"
           @mouseover="throttledMouseover"
         >
-          {{ props.text }}
+          {{ text }}
         </span>
       </span>
     </span>
     <button
       class="btn btn-accent btn-md -ml-px w-[342px] rounded-t-none text-lg"
-      @click="() => userStore.copyText(props.text)"
+      @click="userStore.copyText(text)"
     >
       {{ $t("text.copy") }}
     </button>
@@ -44,7 +44,7 @@ async function repopulateText() {
   if (!canContinue) {
     return;
   }
-  const validTokens = makeValidTokensFromPastaText(props.text);
+  const validTokens = makeValidPastaTokens(props.text);
   populatePasta(
     pastaTextContainerRef.value,
     validTokens,
