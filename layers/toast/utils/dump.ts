@@ -6,6 +6,17 @@ export function isNotificationHasId<T extends Partial<Notification>>(
   return typeof notification.id === "string";
 }
 
+function withContext(
+  this: { id: string; type: string; makeNotification(): Partial<Notification> },
+  context: ActionToastsThis,
+) {
+  return {
+    id: this.id,
+    type: this.type,
+    makeNotification: this.makeNotification.bind(context),
+  };
+}
+
 const ACTION_TOASTS_NOTIFICATION_TYPE_COLORS = {
   info: "blue",
   failure: "red",
@@ -106,6 +117,7 @@ function makeSuccessActionHandler<
         id,
       };
     },
+    withContext,
   };
 }
 
@@ -132,6 +144,7 @@ function makePanicActionHandler<
         id: id + "::" + methodName,
       };
     },
+    withContext,
   };
 }
 
@@ -168,6 +181,7 @@ function makeActionHandlerOf<
           id: id + "::" + methodName,
         };
       },
+      withContext,
     };
   };
 }
