@@ -1,0 +1,16 @@
+{
+  "actions": {
+    "pastas": {
+      "load-from-file": {
+        "incorrect-input": {
+          "title": "Load pastas from file fail",
+          "description": "Incorrect file content"
+        },
+        "found-rejected": {
+          "title": "Load pastas from file warning",
+          "description": "Found {count} rejected pastas"
+        }
+      }
+    }
+  }
+}

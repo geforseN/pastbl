@@ -1,0 +1,16 @@
+{
+  "actions": {
+    "pastas": {
+      "load-from-file": {
+        "incorrect-input": {
+          "title": "Ошибка загрузки паст из файла",
+          "description": "Неверное содержимое файла"
+        },
+        "found-rejected": {
+          "title": "Предупреждение о загрузке паст из файла",
+          "description": "Количество отклонённых паст: {count}"
+        }
+      }
+    }
+  }
+}

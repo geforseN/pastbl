@@ -4,14 +4,26 @@ export const loadPastasFromFileToasts = createActionToasts(
     failures: {
       incorrectFileContent(this: ActionToastsThis) {
         return {
-          title: "TODO",
-          description: "TODO from error",
+          title: this.i18n.t(
+            "actions.pastas.load-from-file.incorrect-input.title",
+          ),
+          description: this.i18n.t(
+            "actions.pastas.load-from-file.incorrect-input.description",
+          ),
         };
       },
     },
     warnings: {
       foundRejected(this: ActionToastsThis, rejectedPastasCount: number) {
-        return {};
+        return {
+          title: this.i18n.t(
+            "actions.pastas.load-from-file.found-rejected.title",
+          ),
+          description: this.i18n.t(
+            "actions.pastas.load-from-file.found-rejected.description",
+            { count: rejectedPastasCount },
+          ),
+        };
       },
     },
   },
