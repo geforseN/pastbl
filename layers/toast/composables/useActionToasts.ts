@@ -34,12 +34,8 @@ export function useActionToasts<
     return { add };
   }
 
-  const methods = actionToasts.methods.map(
-    (method) =>
-      console.log({ method }) || {
-        ...method,
-        makeNotification: method.makeNotification.bind(context),
-      },
+  const methods = actionToasts.methods.map((method) =>
+    method.withContext(context),
   );
 
   const methodsObject = Object.fromEntries(
