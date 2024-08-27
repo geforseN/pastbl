@@ -22,9 +22,12 @@
     "lint:fix": "eslint . --fix",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
-    "lintfix": "prettier --write --list-different . && lint:js --fix"
+    "lintfix": "prettier --write --list-different . && lint:js --fix",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@element-plus/nuxt": "^1.0.10",
     "@iconify-json/carbon": "^1.1.37",
     "@iconify-json/ic": "^1.1.18",
