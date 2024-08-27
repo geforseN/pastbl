@@ -9,17 +9,10 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div class="join w-full">
-      <input
-        id="fetch-nickname"
-        ref="inputRef"
-        v-model="channelsSearchNickname"
-        name="fetch-nickname"
-        :placeholder="$t('collections.users.fetch.placeholder')"
-        class="input join-item input-accent grow"
-        type="search"
-        required
-      />
+    <person-emotes-collection-fetch-input-group
+      ref="inputGroupRef"
+      v-model:nickname="twitchChannelsSearchNickname"
+    >
       <button class="btn btn-accent join-item w-2/6">
         <span
           v-if="personEmotesCollectionLoad.isLoading"
@@ -32,50 +25,45 @@
           {{ $t("collections.users.fetch.button.text") }}
         </template>
       </button>
-    </div>
+    </person-emotes-collection-fetch-input-group>
     <twitch-channels-search
-      :must-show="channelsSearch.mustShow"
-      :channels="channelsSearch.state"
+      ref="twitchChannelsSearchRef"
+      :must-show="twitchChannelsSearch.mustShow"
+      :channels="twitchChannelsSearch.state"
       @load="
         (nickname) => {
-          channelsSearchNickname = nickname;
+          twitchChannelsSearchNickname = nickname;
         }
       "
     />
-    <div class="flex items-center justify-between p-2">
-      <label for="must-select-collection-on-load">
-        {{ $t("collections.users.fetch.must-select-onload") }}
-      </label>
-      <input
-        id="must-select-collection-on-load"
-        v-model="mustSelectCollectionOnLoad.state"
-        type="checkbox"
-        class="toggle toggle-accent"
-        name="must-select-collection-on-load"
-      />
-    </div>
+    <person-emotes-collection-must-select-on-load
+      v-model="mustSelectCollectionOnLoad.state"
+    />
   </form>
 </template>
 <script setup lang="ts">
+import type {
+  TwitchChannelsSearch,
+  PersonEmotesCollectionFetchInputGroup,
+} from "#components";
+
 defineExpose({
   focusInput() {
     inputRef.value!.focus();
   },
 });
 
-const channelsContainerRef = ref<HTMLDivElement>();
+const twitchChannelsSearchNickname = ref("");
 
-const channelsSearchNickname = ref("");
-const channelsSearch = reactive(
-  useTwitchChannelsSearch(useDebounce(channelsSearchNickname, 500)),
+const twitchChannelsSearchRef =
+  ref<InstanceType<typeof TwitchChannelsSearch>>();
+const twitchChannelsSearchContainer = computed(
+  () => twitchChannelsSearchRef.value?.containerRef || raise(),
 );
 
-const inputRef = ref<HTMLInputElement>();
-
-whenever(useFocus(inputRef).focused, channelsSearch.show);
-onClickOutside(channelsContainerRef, channelsSearch.hide, {
-  ignore: [inputRef],
-});
+const inputGroupRef =
+  ref<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>();
+const inputRef = computed(() => inputGroupRef.value?.inputRef || raise());
 
 const mustSelectCollectionOnLoad = reactive(
   useIndexedDBKeyValue(
@@ -84,12 +72,23 @@ const mustSelectCollectionOnLoad = reactive(
   ),
 );
 
+const twitchChannelsSearch = reactive(
+  useTwitchChannelsSearch(useDebounce(twitchChannelsSearchNickname, 500)),
+);
+
 const personEmotesCollectionLoad = reactive(
-  usePersonEmotesCollectionLoad(channelsSearchNickname, {
+  usePersonEmotesCollectionLoad(twitchChannelsSearchNickname, {
     mustClearNicknameInputBeforeLoad: true,
     mustSelectCollectionAfterLoad: mustSelectCollectionOnLoad.state,
   }),
 );
+
+onMounted(() => {
+  whenever(useFocus(inputRef).focused, twitchChannelsSearch.show);
+  onClickOutside(twitchChannelsSearchContainer, twitchChannelsSearch.hide, {
+    ignore: [inputRef],
+  });
+});
 </script>
 <style scoped>
 h2 {
