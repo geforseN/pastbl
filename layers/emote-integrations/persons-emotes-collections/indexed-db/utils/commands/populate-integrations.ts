@@ -1,4 +1,4 @@
-import type { PersonsEmotesIndexedDBStore } from "#imports";
+import type { PersonsEmotesIndexedDBStore } from "$/emote-integrations/persons-emotes-collections/emotes/utils/indexed-db-store";
 import type { TPersonEmoteCollection } from "../../../_/utils/types";
 
 type __IS__ = TPersonEmoteCollection.SettledIndexedDB["integrations"];
