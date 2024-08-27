@@ -15,6 +15,7 @@ export async function runTwitchTokenTask() {
 }
 export default defineTask({
   meta: {
+    name: "get-twitch-token",
     description: "Fetch Twitch token",
   },
   async run() {
