@@ -1,9 +1,7 @@
 import type { TPersonEmoteCollection } from "../../_/utils/types";
-import type {
-  PersonsEmotesCollectionsIndexedDBTransactions,
-  PersonsEmoteCollectionsIndexedDBStore,
-  PersonsEmotesIndexedDBStore,
-} from "#imports";
+import type { PersonsEmotesIndexedDBStore } from "$/emote-integrations/persons-emotes-collections/emotes/utils/indexed-db-store";
+import type { PersonsEmotesCollectionsIndexedDBTransactions } from "$/emote-integrations/persons-emotes-collections/indexed-db/utils/transactions-store.ts";
+import type { PersonsEmoteCollectionsIndexedDBStore } from "$/emote-integrations/persons-emotes-collections/indexed-db/utils/store.ts";
 
 export class PersonsEmoteCollectionsIndexedDBRepository
   implements
