@@ -1,41 +1,9 @@
 import { fileURLToPath } from "node:url";
 
-const modules = [
-  // "@formkit/auto-animate/nuxt",
-  "@nuxt/test-utils/module",
-  "@element-plus/nuxt",
-  "@nuxt/ui",
-  "@nuxtjs/i18n",
-  "@nuxtjs/tailwindcss",
-  "@pinia/nuxt",
-  "@vueuse/nuxt",
-  "nuxt-auth-utils",
-  "nuxt-icon",
-  "@nuxt/eslint",
-  "@scalar/nuxt",
-  // "nuxt-open-fetch",
-];
-
-// NOTE:
-// Nuxt UI will automatically install the @nuxt/icon, @nuxtjs/tailwindcss and @nuxtjs/color-mode modules for you.
-// You should remove them from your modules and dependencies if you've previously installed them.
-// LINK: https://ui.nuxt.com/getting-started/installation#modules
-if (modules.includes("@nuxt/ui")) {
-  const moduleIndexes = [
-    "@nuxt/icon",
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/color-mode",
-  ]
-    .map((moduleName) => modules.indexOf(moduleName))
-    .filter((index) => index !== -1);
-  for (const moduleIndex of moduleIndexes) {
-    modules.splice(moduleIndex, 1);
-  }
-}
-
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  debug: false,
+  logLevel: "verbose",
+  debug: true,
   future: {
     compatibilityVersion: 4,
   },
@@ -43,37 +11,32 @@ export default defineNuxtConfig({
     viewTransition: true,
     typedPages: true,
   },
-  $production: {
-    modules: ["@nuxtjs/seo"],
-    site: {
-      defaultLocale: "en",
-    },
-    sitemap: {
-      sources: ["/api/__sitemap__/sanity", "/api/__sitemap__/urls"],
-    },
-    ogImage: {
-      enabled: false,
-    },
-  },
   features: {
     devLogs: true,
   },
+  alias: {
+    $: fileURLToPath(new URL("layers", import.meta.url)),
+  },
   devtools: {
     enabled: true,
+    telemetry: true,
     timeline: {
       enabled: true,
     },
   },
-  vite: {
-    esbuild: {
-      pure: ["console.log"],
-    },
-  },
-  site: {
-    url: "https://pastbl.vercel.app",
-    title: "Pastas Are Here",
-    description: "Do Something With Pastas",
-  },
+  modules: defineModules([
+    "@element-plus/nuxt",
+    "@formkit/auto-animate/nuxt",
+    "@nuxt/eslint",
+    "@nuxt/test-utils/module",
+    "@nuxt/ui",
+    "@nuxtjs/i18n",
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
+    "@vue-macros/nuxt",
+    "@vueuse/nuxt",
+    "nuxt-auth-utils",
+  ]),
   nitro: {
     compressPublicAssets: true,
     minify: true,
@@ -82,11 +45,9 @@ export default defineNuxtConfig({
       openAPI: true,
     },
     scheduledTasks: {
-      // At 00:00., everyday
-      "0 0 * * *": "get-twitch-token",
+      "0 0 * * *" /* At 00:00., everyday */: "get-twitch-token",
     },
   },
-  // FIXME: fix warnings in console
   imports: {
     presets: [],
     imports: [
@@ -96,25 +57,24 @@ export default defineNuxtConfig({
         as: "useNuxtToast",
       },
       {
-        from: "#ui/composables/useToast",
-        name: "useToast",
-        disabled: true,
-      },
-      {
         from: "vue",
         name: "Slot",
         type: true,
         as: "VueSlot",
       },
-      { from: "vitest", name: "assert", disabled: true },
-      // { from: "@formkit/auto-animate", name: "autoAnimate", disabled: true, priority: 10 },
-      // { from: "@formkit/auto-animate", name: "vAutoAnimate" },
     ],
   },
   $development: {
     app: {
       head: {
         titleTemplate: "pastbl - dev - %s",
+      },
+    },
+  },
+  $production: {
+    vite: {
+      esbuild: {
+        pure: ["console.log"],
       },
     },
   },
@@ -145,11 +105,43 @@ export default defineNuxtConfig({
       },
     ],
   },
-  modules: console.log({ modules }) || modules,
+  tailwindcss: {
+    viewer: false,
+  },
   vue: {
     propsDestructure: true,
   },
-  alias: {
-    $: fileURLToPath(new URL("layers", import.meta.url)),
+  ignoreOptions: {
+    ignorecase: false,
+    allowRelativePaths: false,
+  },
+  macros: {
+    templateRef: {
+      alias: ["templateRef", "useTemplateRef"],
+    },
+    scriptLang: {
+      defaultLang: "ts",
+    },
   },
 });
+
+function defineModules(modules: string[]) {
+  modules = [...modules];
+  if (modules.includes("@nuxt/ui")) {
+    // NOTE:
+    // Nuxt UI will automatically install the @nuxt/icon, @nuxtjs/tailwindcss and @nuxtjs/color-mode modules for you.
+    // You should remove them from your modules and dependencies if you've previously installed them.
+    // LINK: https://ui.nuxt.com/getting-started/installation#modules
+    const moduleIndexes = [
+      "@nuxt/icon",
+      "@nuxtjs/tailwindcss",
+      "@nuxtjs/color-mode",
+    ]
+      .map((moduleName) => modules.indexOf(moduleName))
+      .filter((index) => index !== -1);
+    for (const moduleIndex of moduleIndexes) {
+      modules.splice(moduleIndex, 1);
+    }
+  }
+  return modules;
+}
