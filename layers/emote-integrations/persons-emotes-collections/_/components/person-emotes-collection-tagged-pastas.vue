@@ -12,7 +12,7 @@
       <chat-pasta-tag :tag="`@${login}`" class="w-fit" />
     </i18n-t>
     <div @mouseover="findEmoteForHoverHint">
-      <chat-pasta-list
+      <local-pastas-list
         v-if="pastas?.length && canShowPastas"
         data-compact
         class="pasta-list max-h-[46dvh]"
