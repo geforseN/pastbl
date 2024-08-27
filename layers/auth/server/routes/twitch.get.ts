@@ -1,4 +1,4 @@
-export default oauth.twitchEventHandler({
+export default oauthTwitchEventHandler({
   async onSuccess(event, { user: twitchApiUser, tokens: _tokens }) {
     const user = parseSessionUser(twitchApiUser);
     await setUserSession(event, { user });
