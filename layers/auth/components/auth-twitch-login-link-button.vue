@@ -1,6 +1,6 @@
 <template>
   <a
-    href="/api/v1/auth/twitch"
+    href="/auth/twitch"
     class="group btn btn-ghost w-fit flex-nowrap bg-twitch-accent text-base-300 xs:w-auto"
   >
     <span
