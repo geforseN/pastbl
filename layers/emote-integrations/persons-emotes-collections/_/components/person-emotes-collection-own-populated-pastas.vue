@@ -4,7 +4,7 @@
       {{ $t("pastas.withPersonEmotes", { login }) }}
     </h2>
     <div v-if="pastas.length > 0" @mouseover="findEmoteInOpenedCollection">
-      <chat-pasta-list
+      <local-pastas-list
         v-if="canShowPastas"
         data-compact
         class="pasta-list h-[16dvh]"

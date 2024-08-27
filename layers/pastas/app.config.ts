@@ -9,14 +9,7 @@ export const pastasConfig = {
     length: { min: 1, warning: 500, max: 1984 },
   },
   pastaList: {
-    heights: {
-      base: "h-[50dvh]",
-      goBrr: "go-brr:h-[80dvh]",
-      *[Symbol.iterator]() {
-        yield this.base;
-        yield this.goBrr;
-      },
-    },
+    heights: ["h-[50dvh] go-brr:h-[80dvh]"],
   },
 } as const;
 

@@ -3,103 +3,30 @@
     class="mt-2 flex flex-col items-center justify-center gap-x-12 gap-y-4 go-brr:flex-row go-brr:items-start"
   >
     <slot />
-    <!-- TODO: add components, template is too big  -->
     <slot name="leftColumn">
       <chat-pasta-list-hints>
         <client-only>
           <u-tabs
             :items="tabs"
-            class="foo !space-y-0 border border-base-content"
+            class="scrollbar-gutter-stable !space-y-0 border border-base-content"
           >
-            <template #item="{ item }">
-              <div
-                v-if="
-                  item.key === 'remote' && !userStore.pastasWorkMode.canBeRemote
-                "
-                class="foo m-0 flex min-w-[352px] flex-col flex-wrap p-2 sm:min-w-[430px]"
-              >
-                <h3 class="text-xl">
-                  <strong>
-                    {{ $t("Fulfil_the_conditions") + ": " }}
-                  </strong>
-                </h3>
-                <ul class="ml-4 list-disc">
-                  <li
-                    v-if="
-                      userStore.pastasWorkMode.remoteBlockStatusIncludes(
-                        'not-logged-in',
-                      )
-                    "
-                  >
-                    <samp>
-                      <auth-twitch-login-link-button
-                        class="btn-xs w-full text-sm"
-                      />
-                    </samp>
-                  </li>
-                  <li
-                    v-if="
-                      userStore.pastasWorkMode.remoteBlockStatusIncludes(
-                        'offline',
-                      )
-                    "
-                  >
-                    <samp>{{ $t("restore-internet-connection") }}</samp>
-                  </li>
-                </ul>
-              </div>
-              <div
-                v-if="
-                  item.key === 'remote' && userStore.pastasWorkMode.canBeRemote
-                "
-                ref="serverPastasListRef"
-                :class="[appConfig.pastaList.heights.base, appConfig.pastaList.heights.goBrr]"
-                class="chat-pasta-list overflow-y-auto"
-                @mouseover="throttledMouseover"
-              >
-                <chat-pasta
-                  v-for="pasta of remotePastas.list.value"
-                  :key="`${pasta.id}:${pasta.text}`"
-                  v-bind="pasta"
-                  @copy="pastasStore.copyPasta(pasta)"
-                  @edit="
-                    navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))
-                  "
-                  @remove="
-                    () => {
-                      /* TODO: move to file chat-pasta-server-list */
-                    }
-                  "
-                  @populate="
-                    (pastaTextContainer) => {
-                      populatePasta(
-                        pastaTextContainer,
-                        makeValidPastaTokens(pasta.text),
-                        emotesStore.findEmote,
-                      );
-                    }
-                  "
-                  @show-tag-context-menu="
-                    (event, tag) => {
-                      console.log(event, tag);
-                    }
-                  "
-                >
-                  <template #creatorData>
-                    <chat-pasta-creator-data
-                      :badges-count="userStore.user.badges.count.state"
-                      :nickname="userStore.user.nickname_"
-                      :nickname-color="userStore.user.debounced.nickname.color"
-                    />
-                  </template>
-                </chat-pasta>
-              </div>
-              <chat-pasta-list
-                v-if="item.key === 'local' && pastasStore.canShowPastas"
-                :items="pastasStore.pastasToShow"
-                @mouseover="throttledMouseover"
-                @remove-pasta="pastasStore.removePasta"
-              />
+            <template #item="{ item: selectedTab }">
+              <selected-tab-only :selected-tab for="remote">
+                <remote-pastas-list
+                  v-if="userStore.pastasWorkMode.canBeRemote"
+                  :selected-tab
+                  :mouseover="throttledMouseover"
+                />
+                <remote-pastas-unavailable-hint v-else />
+              </selected-tab-only>
+              <selected-tab-only :selected-tab for="local">
+                <local-pastas-list
+                  v-if="pastasStore.canShowPastas"
+                  :items="pastasStore.pastasToShow"
+                  @mouseover="throttledMouseover"
+                  @remove-pasta="pastasStore.removePasta"
+                />
+              </selected-tab-only>
             </template>
           </u-tabs>
         </client-only>
@@ -108,28 +35,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ChatPastaList } from "#components";
-
-const appConfig = useAppConfig();
+import type { LocalPastasList } from "#components";
 
 const tabs = [
+  {
+    label: "Local",
+    key: "local",
+  },
   {
     label: "Remote",
     key: "remote",
   },
-  {
-    label: "local",
-    key: "local",
-  },
 ];
 
-const pastasStore = usePastasStore();
 const userStore = useUserStore();
-const emotesStore = useEmotesStore();
-
-const serverPastasListRef = ref<HTMLElement>();
-
-const remotePastas = useRemotePastas(serverPastasListRef);
+const pastasStore = usePastasStore();
 
 const emoteOnHover = injectEmoteOnHover();
 
@@ -150,7 +70,7 @@ const throttledMouseover = useThrottleFn(
   }
 }
 
-.foo {
+.scrollbar-gutter-stable {
   scrollbar-gutter: stable;
 }
 </style>
