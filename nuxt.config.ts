@@ -87,6 +87,10 @@ export default defineNuxtConfig({
     },
     viewTransition: true,
   },
+  sourcemap: {
+    server: false,
+    client: false,
+  },
   i18n: {
     lazy: true,
     langDir: "lang",

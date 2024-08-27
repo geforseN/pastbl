@@ -47,61 +47,6 @@ type IPersonEmoteCollectionIntegrationsRecord = {
   Twitch: any /* TTwitch.Person.Integration */;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export declare namespace TEmoteIntegrations {
-  export type Base = Global.Ready | Person.Ready;
-  export type Ready = Global.Ready | Person.Ready;
-  export type Failed = Global.Failed | Person.Failed;
-  export type Settled = Global.Settled | Person.Settled;
-  export type SettledRecord = Global.SettledRecord | Person.SettledRecord;
-
-  export type __Some__ = SomeIntegration__MoveThis;
-
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  export namespace Global {
-    export type Base = IEmoteIntegration;
-    export type Ready = Omit<ReadyIntegration, "owner">;
-    export type Failed = FailedIntegration;
-    export type Settled = SettledIntegration;
-    export type SettledRecord = SettledEmoteIntegrationsRecord;
-
-    export type SettledOfSource<S extends EmoteSource> =
-      SettledEmoteIntegrationsRecord[S];
-
-    export type Of<S extends EmoteSource> = SettledOfSource<S>;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  export namespace Person {
-    export type Base = IEmoteIntegration;
-    export type Ready = ReadyIntegration;
-    export type Failed = FailedIntegration;
-    export type Settled = SettledIntegration;
-    export type SettledRecord = SettledEmoteIntegrationsRecord;
-
-    type _MakeIndexedDBPersonEmoteIntegration<I extends Person.Settled> =
-      I extends Person.Ready
-        ? I & {
-            sets: Array<
-              Omit<I["sets"][number], "emotes"> & {
-                emotesIds: string[];
-              }
-            >;
-          }
-        : I extends Person.Failed
-          ? I
-          : never;
-
-    export type IndexedDBRecord = {
-      [S in EmoteSource]: _MakeIndexedDBPersonEmoteIntegration<
-        IPersonEmoteCollectionIntegrationsRecord[S]
-      >;
-    };
-
-    export type IndexedDB = IndexedDBRecord[keyof IndexedDBRecord];
-  }
-}
-
 interface Integration extends HasSource {
   status: string;
 }
@@ -159,3 +104,58 @@ type IntegrationRecord<I extends Integration> = {
 
 export type SettledEmoteIntegrationsRecord =
   IntegrationRecord<SettledIntegration>;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export declare namespace TEmoteIntegrations {
+  export type Base = Global.Ready | Person.Ready;
+  export type Ready = Global.Ready | Person.Ready;
+  export type Failed = Global.Failed | Person.Failed;
+  export type Settled = Global.Settled | Person.Settled;
+  export type SettledRecord = Global.SettledRecord | Person.SettledRecord;
+
+  export type __Some__ = SomeIntegration__MoveThis;
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  export namespace Global {
+    export type Base = IEmoteIntegration;
+    export type Ready = Omit<ReadyIntegration, "owner">;
+    export type Failed = FailedIntegration;
+    export type Settled = SettledIntegration;
+    export type SettledRecord = SettledEmoteIntegrationsRecord;
+
+    export type SettledOfSource<S extends EmoteSource> =
+      SettledEmoteIntegrationsRecord[S];
+
+    export type Of<S extends EmoteSource> = SettledOfSource<S>;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  export namespace Person {
+    export type Base = IEmoteIntegration;
+    export type Ready = ReadyIntegration;
+    export type Failed = FailedIntegration;
+    export type Settled = SettledIntegration;
+    export type SettledRecord = SettledEmoteIntegrationsRecord;
+
+    type _MakeIndexedDBPersonEmoteIntegration<I extends Person.Settled> =
+      I extends Person.Ready
+        ? I & {
+            sets: Array<
+              Omit<I["sets"][number], "emotes"> & {
+                emotesIds: string[];
+              }
+            >;
+          }
+        : I extends Person.Failed
+          ? I
+          : never;
+
+    export type IndexedDBRecord = {
+      [S in EmoteSource]: _MakeIndexedDBPersonEmoteIntegration<
+        IPersonEmoteCollectionIntegrationsRecord[S]
+      >;
+    };
+
+    export type IndexedDB = IndexedDBRecord[keyof IndexedDBRecord];
+  }
+}
