@@ -30,13 +30,11 @@
         <div class="relative grid">
           <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
           <nuxt-loading-indicator />
-          FIX emote-on-hover-card
-          FIX emojis-groups-list group prop to emojis-group
           <nuxt-layout>
             <nuxt-page />
           </nuxt-layout>
           <emote-on-hover-card
-            ref="onHoverHintRef"
+            ref="emoteOnHoverCardRef"
             v-on-click-outside="emoteOnHover.close"
             :emoji="emoteOnHover.emoji.value"
             :emote="emoteOnHover.emote.value"
@@ -81,9 +79,9 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverRef = ref<InstanceType<typeof EmoteOnHoverCard>>();
+const emoteOnHoverCardRef = ref<InstanceType<typeof EmoteOnHoverCard>>();
 const emoteOnHover = useExtendedEmoteOnHover(
-  computed(() => emoteOnHoverRef.value?.containerRef || raise()),
+  computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
 provide("emoteOnHover", emoteOnHover);
 
