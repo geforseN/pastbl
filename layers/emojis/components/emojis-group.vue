@@ -26,20 +26,7 @@
 const isOpen = ref(false);
 
 defineProps<{
-  title: string;
-  group: {
-    name: string;
-    slug: string;
-    emojis: {
-      emoji: string;
-      skin_tone_support: boolean;
-      skin_tone_support_unicode_version: string;
-      name: string;
-      slug: string;
-      unicode_version: string;
-      emoji_version: string;
-    }[];
-  };
+  group: (typeof import("unicode-emoji-json/data-by-group.json"))[number];
 }>();
 </script>
 <style scoped>
