@@ -1,57 +1,10 @@
-GlobalEmotesIntegrations: return settled, not only ready (should add base global emote integration class and use it inside concrete emote integrations as composed object )
+global-emotes-integrations: 
+ - in global-emotes-integration.ts return settled, not only ready (so also add failed state) 
+   - should add base global emote integration class and use it inside concrete emote integrations as composed object
 
-WATCHOUT for login
-TEST: add test
-TOAST: add toast
+TODO: use WebShare API for published pasta (https://www.youtube.com/watch?v=lt77LscZcn0)
 
-TODO: WebShare API: https://www.youtube.com/watch?v=lt77LscZcn0
-
-
-// const pastaRemoveToast = {
-//   info: {
-//     movedInBin(this.i18n.t, onCancel: () => MaybePromise<void>) {
-//       return {
-//         timeout: 7000,
-//         title: this.i18n.t("toast.removePasta.success.title"),
-//         description: this.i18n.t("toast.removePasta.success.message"),
-//         actions: [
-//           {
-//             color: "green",
-//             label: this.i18n.t("toast.removePasta.success.undoLabel"),
-//             block: true,
-//             size: "md",
-//             click: onCancel,
-//           },
-//         ],
-//       };
-//     },
-//   },
-// };
-
-// function usePastaRemoveToast() {
-//   const toast = useMyToast();
-//   return {
-//     info<K extends keyof (typeof pastaRemoveToast)["info"]>(
-//       name: K,
-//       ...args: OmitFirst<Parameters<(typeof pastaRemoveToast)["info"][K]>>
-//     ) {
-//       const createTranslatableWarningToast = pastaRemoveToast.info[name];
-//       const warningToast = createTranslatableWarningToast(
-//         toast.this.i18n.t,
-//         ...args,
-//       );
-//       return { color: "blue", ...warningToast };
-//     },
-//     failureWithPanic(reason: unknown): never {
-//       if (
-//         isError(reason) &&
-//         "toTranslatedToast" in reason &&
-//         typeof reason.toTranslatedToast === "function"
-//       ) {
-//         reason.tranlationPath;
-//         toast.add(reason.toTranslatedToast(toast.this.i18n.t));
-//       }
-//       throw reason;
-//     },
-//   };
-// }
+TODO: optimize
+  - icon for carbon, ic + solar (hamburger icon) + material symbols
+  - tailwindcss
+  - nuxt/ui
