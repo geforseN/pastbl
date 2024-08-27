@@ -12,7 +12,7 @@ export function usePersonEmotesCollectionLoad(
     async () => {
       const nickname = nicknameInput.value;
       assert.ok(nickname.length, () => toast.panic("emptyInput"));
-      const login /* WATCHOUT */ = toLowerCase(nickname);
+      const login = toLowerCase(nickname);
       const collection =
         await personsEmotesCollectionsStore.loadCollection(login);
       toast.success(
