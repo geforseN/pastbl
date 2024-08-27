@@ -1,8 +1,5 @@
 export default defineNitroPlugin((nitroApp) => {
   /* eslint-disable no-console */
-  nitroApp.hooks.hook("dev:ssr-logs", ({ logs, path }) => {
-    console.log(`ssr logs ${path}`, { logs });
-  });
   nitroApp.hooks.hook("error", (error, { event }) => {
     console.error(`${event?.path} Application error:`, error);
   });
