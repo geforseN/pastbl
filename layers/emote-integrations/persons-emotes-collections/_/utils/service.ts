@@ -22,10 +22,16 @@ export class PersonsEmotesCollectionsService<
   }
 
   async getAllRaw() {
+    if (import.meta.server) {
+      return [];
+    }
     return await this.repository.getAllRaw();
   }
 
   async getAllLogins() {
+    if (import.meta.server) {
+      return [];
+    }
     return await this.repository.getAllLogins();
   }
 
