@@ -1,32 +1,32 @@
+function findFailedEmoteIntegrationsSources(
+  integrations: SettledEmoteIntegrationsRecord,
+) {
+  return allEmoteSources.filter(
+    (source) => integrations[source]?.status === "failed",
+  );
+}
+
 export const useGlobalEmotesIntegrationsStore = defineStore(
   "global-emotes-integrations",
   () => {
     const integrationsState = useGlobalEmotesIntegrationsState(
       async () => await globalEmotesIntegrationsService.getAll(),
     );
+    const integrations = computed(() => integrationsState.state.value);
+
     const checkedSources = useGlobalEmotesIntegrationsCheckedSources();
 
     const integrationsLoad = useEmoteIntegrationsLoad(
       globalEmotesIntegrationsService,
     );
 
-    const integrationsValues = computed(() =>
-      Object.values(integrationsState.state),
-    );
-
-    const readySources = computed(() =>
-      integrationsValues.value.filter(isEmotesIntegrationReady),
-    );
-
-    watchOnce(integrationsState.state, async (state) => {
-      const missingSources = allEmoteSources.filter(
-        (source) => state[source]?.status === "failed",
-      );
-      if (missingSources.length > 0) {
-        for (const source of missingSources) {
+    watchOnce(integrations, async (integrations) => {
+      const failedSources = findFailedEmoteIntegrationsSources(integrations);
+      if (failedSources.length > 0) {
+        for (const source of failedSources) {
           integrationsState.asLoading(source);
         }
-        const missing = await integrationsLoad.executeMany(missingSources);
+        const missing = await integrationsLoad.executeMany(failedSources);
         integrationsState.put(...missing);
       }
     });
