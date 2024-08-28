@@ -10,24 +10,24 @@
     </header>
     <main>
       <div class="space-y-1.5">
-        <ready-integration-only :="integration" #="{ integration }">
+        <ready-emote-integration-only :="integration" #="{ integration }">
           <ul class="space-y-1.5">
             <li v-for="set of integration.sets" :key="set.name">
               <emote-integration-collapsed-set :set :styles />
             </li>
           </ul>
-        </ready-integration-only>
+        </ready-emote-integration-only>
         <div :class="styles.borderAccent" class="rounded-box border-2 p-2">
           <div class="flex justify-between">
-            <state-integration-only :="integration" #="{ integration }">
+            <state-emote-integration-only :="integration" #="{ integration }">
               <emote-collection-formed-at :time="integration.formedAt" />
-            </state-integration-only>
-            <failed-integration-only :="integration" #="{ integration }">
+            </state-emote-integration-only>
+            <failed-emote-integration-only :="integration" #="{ integration }">
               <span class="italic">
                 {{ integration.reason }}
               </span>
-            </failed-integration-only>
-            <state-integration-only
+            </failed-emote-integration-only>
+            <state-emote-integration-only
               :="integration"
               #="{ integration, isRefreshing }"
             >
@@ -37,8 +37,8 @@
                 :is-in-process="isRefreshing(integration)"
                 @click="$emit('update' /* refresh */)"
               />
-            </state-integration-only>
-            <no-state-integration-only
+            </state-emote-integration-only>
+            <no-state-emote-integration-only
               :="integration"
               #="{ integration, isLoading }"
             >
@@ -49,7 +49,7 @@
                 :is-in-process="isLoading(integration)"
                 @click="$emit('update' /* load */)"
               />
-            </no-state-integration-only>
+            </no-state-emote-integration-only>
           </div>
           <div class="my-1 h-0 w-full border-t" :class="styles.borderAccent">
             &nbsp;
