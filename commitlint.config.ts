@@ -7,6 +7,7 @@ export default {
     "type-enum": [
       RuleConfigSeverity.Error,
       "always",
+      // LINK: https://github.com/pvdlg/conventional-changelog-metahub?tab=readme-ov-file#commit-types
       [
         "build",
         "chore",

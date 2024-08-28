@@ -127,6 +127,9 @@ export default defineNuxtConfig({
       defaultLang: "ts",
     },
   },
+  ui: {
+    icons: process.env.NODE_ENV === "production" ? "all" : undefined,
+  },
 });
 
 function defineModules(modules: string[]) {
