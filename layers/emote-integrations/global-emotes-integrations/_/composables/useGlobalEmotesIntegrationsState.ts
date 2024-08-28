@@ -12,7 +12,7 @@ export function useGlobalEmotesIntegrationsState(
       yield* this.values;
     },
     get values() {
-      return Object.values(integrations_.state.value);
+      return Object.values(integrations_.state.value || {});
     },
     assign(integrations: SettledEmoteIntegrationsRecord) {
       integrations_.state.value = integrations;
