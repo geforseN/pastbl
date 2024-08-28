@@ -1,13 +1,15 @@
+import type { TEmoteIntegrations } from "~~/layers/emote-integrations";
+
 export function useGlobalEmotesIntegrationsState(
-  getIntegrations: () => Promise<SettledEmoteIntegraHtionsRecord>,
+  getIntegrations: () => Promise<TEmoteIntegrations.Global.SettledRecord>,
 ) {
   const integrations_ =
-    useAsyncObject<SomeEmoteIntegrationsRecord>(getIntegrations);
+    useAsyncObject<TEmoteIntegrations.Global.SettledRecord>(getIntegrations);
 
   return {
     ...integrations_,
     *[Symbol.iterator]() {
-      yield* integrations_.state.value;
+      yield* this.values;
     },
     get values() {
       return Object.values(integrations_.state.value);
@@ -21,7 +23,7 @@ export function useGlobalEmotesIntegrationsState(
     get(source: EmoteSource) {
       return this.find(source) || raise();
     },
-    put(...integrations: SettledEmoteIntegration[]) {
+    put(...integrations: TEmoteIntegrations.Global.Settled[]) {
       integrations_.state.value = objectSorted({
         ...integrations_.state.value,
         ...flatGroupBySource(integrations),
@@ -29,7 +31,7 @@ export function useGlobalEmotesIntegrationsState(
     },
     set<S extends EmoteSource>(
       source: S,
-      integration: SomeEmoteIntegrationsRecord[S],
+      integration: TEmoteIntegrations.Global.Of<S>,
     ) {
       integrations_.state.value = {
         ...integrations_.state.value,

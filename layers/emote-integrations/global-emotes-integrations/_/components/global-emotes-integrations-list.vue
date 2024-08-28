@@ -8,19 +8,19 @@
     </div>
     <div class="space-y-2" @mouseover="throttledMouseover">
       <update-all-global-emotee-integrations-button
-        @click="globalEmotesIntegrationsStore.integrations.updateAll"
+        @click="globalEmotesIntegrationsStore.updateAllIntegrations"
       />
       <dev-only>
         <emote-integrations-emotes-search />
       </dev-only>
       <global-emotes-integration
-        v-for="integration of globalEmotesIntegrationsStore.integrations"
+        v-for="integration of globalEmotesIntegrationsStore.integrationsState"
         :key="integration.source"
         v-model:checkedSources="
           globalEmotesIntegrationsStore.checkedSources.state
         "
         :integration
-        @update="globalEmotesIntegrationsStore.integrations.update(integration)"
+        @update="globalEmotesIntegrationsStore.updateIntegration(integration)"
       >
         <template #headingMiddle>
           <span class="ml-1 mr-auto">

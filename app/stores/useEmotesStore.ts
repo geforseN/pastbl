@@ -6,7 +6,7 @@ export const useEmotesStore = defineStore("emotes", () => {
   const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
   const globalEmotes = useEmotes(
-    () => globalEmotesIntegrationsStore.integrations.checked,
+    () => globalEmotesIntegrationsStore.checkedIntegrations,
   );
   const userEmotes = useEmotesWithInitialReady(
     () => personsEmoteCollections.selectedCollection.readyIntegrations,
