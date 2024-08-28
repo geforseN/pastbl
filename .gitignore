@@ -30,3 +30,5 @@ logs
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+/app/auto-imports.d.ts

@@ -1,9 +1,6 @@
 // LINK: https://nuxt.com/docs/guide/concepts/typescript
 {
   "extends": ["./.nuxt/tsconfig.json"],
-  "compilerOptions": {
-    "types": ["vitest/globals"]
-  },
   "vueCompilerOptions": {
     "plugins": ["unplugin-vue-macros/volar", "@vue-macros/volar/template-ref"],
     "vueMacros": {

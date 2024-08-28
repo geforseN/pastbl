@@ -11,7 +11,6 @@ export default defineVitestConfig({
     }),
   ],
   test: {
-    globals: true,
     environmentOptions: {
       nuxt: {
         mock: {
