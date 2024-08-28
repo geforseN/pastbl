@@ -7,7 +7,7 @@
       <emote-integration-logos />
     </div>
     <div class="space-y-2" @mouseover="throttledMouseover">
-      <update-all-global-emotee-integrations-button
+      <update-all-global-emotes-integrations-button
         @click="globalEmotesIntegrationsStore.updateAllIntegrations"
       />
       <dev-only>
