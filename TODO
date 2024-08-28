@@ -1,24 +1,24 @@
-fix: 
- - make tests work 
-   - install playwright
-   - remove dead tests
-   - remove .skip and .todo
+fix:
+  - make tests work
+    - install playwright
+    - remove dead tests
+    - remove .skip and .todo
 
-feat: 
- - add autocomplete in pasta-form textarea (suggest emotes tokens)
- - add refresh for emotes-integrations (global and persons) when
-   - when Date.now() - updatedAt > USER_SETTINGS.emotesUpdateInterval
- - use WebShare API for published pasta (https://www.youtube.com/watch?v=lt77LscZcn0)
+feat:
+  - add autocomplete in pasta-form textarea (suggest emotes tokens)
+  - add refresh for emotes-integrations (global and persons) when
+    - when Date.now() - updatedAt > USER_SETTINGS.emotesUpdateInterval
+  - use WebShare API for published pasta (https://www.youtube.com/watch?v=lt77LscZcn0)
 
-refactor(global-emotes-integrations): 
- - in global-emotes-integration.ts return settled, not only ready (so also add failed state) 
-   - should add base global emote integration class and use it inside concrete emote integrations as composed object
+refactor(global-emotes-integrations):
+  - in global-emotes-integration.ts return settled, not only ready (so also add failed state)
+    - should add base global emote integration class and use it inside concrete emote integrations as composed object
 
 docs:
- - refactor README
+  - refactor README
 
-perf: optimize dev & build scripts
-  - icon for carbon, ic + solar (hamburger icon) + material symbols
-  - tailwindcss
-  - nuxt/ui
-
+perf:
+  - optimize dev & build scripts
+    - icon for carbon, ic + solar (hamburger icon) + material symbols
+    - tailwindcss
+    - nuxt/ui
