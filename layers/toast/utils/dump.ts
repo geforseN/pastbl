@@ -101,7 +101,6 @@ function makeSuccessActionHandler<
   AN extends string,
   RM extends (...args: unknown[]) => Partial<Notification>,
 >(actionName: AN, rawMaker: RM) {
-  ///////////////////////////////////////////////// const makeNotification = makers as NonNullable<A["success"]>;
   const id = (actionName + "::success") as `${AN}::success`;
   return {
     id,
