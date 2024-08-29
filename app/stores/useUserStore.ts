@@ -1,3 +1,50 @@
+import type { TEmoteIntegrations } from "~~/layers/emote-integrations";
+
+function useEmotesIntegrationsRefreshInterval() {
+  const emotesIntegrationsRefreshInterval = useIndexedDBKeyValue(
+    "emotes-integrations:refresh-interval",
+    "30m",
+  );
+
+  const emotesIntegrationsRefreshMyTimeStringInterval = computed(
+    /* TODO: ensure value is MyTimeString, add guard fn  */
+    {
+      get() {
+        return emotesIntegrationsRefreshInterval.state.value;
+      },
+      set(value) {
+        emotesIntegrationsRefreshInterval.state.value = value;
+      },
+    },
+  );
+
+  const emotesIntegrationsRefreshMillisecondsInterval = computed(() =>
+    formatMyTimeStringToMilliseconds(
+      emotesIntegrationsRefreshMyTimeStringInterval.value,
+    ),
+  );
+
+  const emotesIntegrations = {
+    refreshInterval: {
+      myTimeString: emotesIntegrationsRefreshMyTimeStringInterval,
+      milliseconds: emotesIntegrationsRefreshMillisecondsInterval,
+    },
+    expirationTime: {
+      milliseconds: computed(
+        () => Date.now() - emotesIntegrationsRefreshMillisecondsInterval.value,
+      ),
+    },
+    isEmotesIntegrationExpired(integration: TEmoteIntegrations.Ready) {
+      return (
+        integration.formedAt <
+        emotesIntegrations.expirationTime.milliseconds.value
+      );
+    },
+  };
+
+  return emotesIntegrations;
+}
+
 async function playClickSound() {
   await new Audio("/sounds/click.wav").play();
 }
@@ -28,7 +75,8 @@ function useUserPreferences() {
   };
 }
 
-export const useUserStore = /* useSettingsStore */ defineStore("user", () => {
+/* useUserSettingsStore */
+export const useUserStore = defineStore("user", () => {
   const nicknameColor = useIndexedDBKeyValue("nickname:color", "#000000");
   const nicknameText = useIndexedDBKeyValue("nickname:value", "Kappa", {
     debounce: 1000,
@@ -80,7 +128,11 @@ export const useUserStore = /* useSettingsStore */ defineStore("user", () => {
     },
   });
 
+  const emotesIntegrationsRefreshInterval =
+    useEmotesIntegrationsRefreshInterval();
+
   return {
+    emotesIntegrationsRefreshInterval,
     user,
     userPreferences,
     userSession,
