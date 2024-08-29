@@ -1,0 +1,31 @@
+{
+  "settings": {
+    "_": "Settings",
+    "change": "Change settings",
+    "nickname": {
+      "_": "Nickname",
+      "placeholder": "Kappa",
+      "color": "Nickname color"
+    },
+    "badges-count": {
+      "_": "Badges count",
+      "input": {
+        "toSmall": "Badges count can not be less than {n}!",
+        "toBig": "Badges count can not be more than {n}!"
+      }
+    },
+    "on-pasta-copied": {
+      "_": "When pasta copied",
+      "options": {
+        "none": "None",
+        "alert": "Show alert",
+        "sound": "Play sound",
+        "alert&sound": "Show alert & play sound"
+      }
+    },
+    "refresh-emotes": {
+      "title": "Refresh emotes",
+      "description": "Refresh emotes if they were loaded more than {0} ago"
+    }
+  }
+}
