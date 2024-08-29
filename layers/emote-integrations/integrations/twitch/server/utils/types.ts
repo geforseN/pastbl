@@ -36,6 +36,13 @@ export namespace TTwitch {
       sets: Set[];
       source: "Twitch";
     }
+
+    export interface FailedIntegration
+      extends TEmoteIntegrations.Global.Failed {
+        source: "Twitch";
+      }
+
+    export type SettledIntegration = ReadyIntegration | FailedIntegration; 
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
