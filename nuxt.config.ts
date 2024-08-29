@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { i18n } from "./app/i18n.config";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -92,22 +93,10 @@ export default defineNuxtConfig({
     client: false,
   },
   i18n: {
+    ...i18n,
     lazy: true,
-    langDir: "lang",
     defaultLocale: "en",
     strategy: "prefix",
-    locales: [
-      {
-        code: "en",
-        name: "English",
-        file: "en.json",
-      },
-      {
-        code: "ru",
-        name: "Русский",
-        file: "ru.json",
-      },
-    ],
   },
   tailwindcss: {
     viewer: false,
