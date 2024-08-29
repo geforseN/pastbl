@@ -1,4 +1,21 @@
 {
+  "myTimeString": {
+    "m": {
+      "15": "15 minutes",
+      "30": "30 minutes",
+      "45": "45 minutes"
+    },
+    "h": {
+      "1": "1 hour",
+      "6": "6 hours",
+      "12": "12 hours"
+    },
+    "d": {
+      "1": "1 day",
+      "3": "3 days",
+      "7": "7 days"
+    }
+  },
   "Fulfil_the_conditions": "Fulfil the conditions",
   "emote": {
     "find": "Find emote",
@@ -175,31 +192,6 @@
     "placeholder": "Add tag (optional)"
   },
   "chat-pasta-list-hint-on-empty": "No pastas were added yet!",
-  "settings": {
-    "_": "Settings",
-    "change": "Change settings",
-    "nickname": {
-      "_": "Nickname",
-      "placeholder": "Kappa",
-      "color": "Nickname color"
-    },
-    "badges-count": {
-      "_": "Badges count",
-      "input": {
-        "toSmall": "Badges count can not be less than {n}!",
-        "toBig": "Badges count can not be more than {n}!"
-      }
-    },
-    "on-pasta-copied": {
-      "_": "When pasta copied",
-      "options": {
-        "none": "None",
-        "alert": "Show alert",
-        "sound": "Play sound",
-        "alert&sound": "Show alert & play sound"
-      }
-    }
-  },
   "emojis": {
     "_": "Emojis",
     "_headings": {
