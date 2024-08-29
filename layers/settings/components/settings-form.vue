@@ -15,12 +15,22 @@
         'alert&sound': $t('settings.on-pasta-copied.options.alert&sound'),
       }"
     />
-    <dev-only>
-      <div>
-        <!-- Update emotes -->
-        <label>Обновление эмоутов</label>
-      </div>
-    </dev-only>
+    <settings-emotes-refresh
+      v-model="
+        userStore.emotesIntegrationsRefreshInterval.refreshInterval.myTimeString
+      "
+      :options="{
+        '15m': $t('myTimeString.m.15'),
+        '30m': $t('myTimeString.m.30'),
+        '45m': $t('myTimeString.m.45'),
+        '1h': $t('myTimeString.h.1'),
+        '6h': $t('myTimeString.h.6'),
+        '12h': $t('myTimeString.h.12'),
+        '1d': $t('myTimeString.d.1'),
+        '3d': $t('myTimeString.d.3'),
+        '7d': $t('myTimeString.d.7'),
+      }"
+    />
   </section>
 </template>
 <script setup lang="ts">

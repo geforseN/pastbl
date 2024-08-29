@@ -15,4 +15,5 @@ export type KeyValueSchema = {
   "pasta-list:show-strategy": PastaShowStrategy;
   "global-emotes-integrations:checked-sources": EmoteSource[];
   "fetch-person-emotes-collection:must-select-onload": boolean;
+  "emotes-integrations:refresh-interval": MyTimeString;
 };
