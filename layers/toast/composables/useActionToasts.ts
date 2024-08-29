@@ -1,10 +1,5 @@
 import type { ActionToastsThis, Notification } from "../utils/types";
 
-// use[A-Z][a-zA-Z]*Toast
-// createNoTranslationFailureNotification
-// addPastaTag__;
-
-// TODO guard for is firstArgument keyof actionToasts['failures'] (isFailureToastName)
 export function useActionToasts<
   T extends ReturnType<typeof createActionToasts>,
 >(
@@ -12,14 +7,9 @@ export function useActionToasts<
   options: {
     i18n?: ReturnType<typeof useI18n>;
     toast?: { add(notification: Partial<Notification>): void };
-    state?: Ref<Notification[]>;
   } = {},
 ) {
-  const {
-    i18n = useI18n(),
-    state = useState("notifications", () => []),
-    toast = useNuxtToast(),
-  } = options;
+  const { i18n = useI18n(), toast = useNuxtToast() } = options;
 
   const context = reactive({ i18n: computed(() => i18n) });
 
