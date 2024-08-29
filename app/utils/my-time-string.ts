@@ -2,9 +2,9 @@ export type MyTimeStringFormat = "m" | "h" | "d";
 export type MyTimeString = `${number}${MyTimeStringFormat}`;
 
 const myTimeStringFormatMultipliers: Record<MyTimeStringFormat, number> = {
-  m: 1000,
-  h: 60 * 1000,
-  d: 24 * 60 * 1000,
+  m: 1000 * 60,
+  h: 1000 * 60 * 60,
+  d: 1000 * 60 * 60 * 24,
 };
 
 function getMyTimeStringFormatMultiplier(
