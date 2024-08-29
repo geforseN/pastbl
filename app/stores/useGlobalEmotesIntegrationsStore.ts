@@ -1,9 +1,51 @@
+import type { TEmoteIntegrations } from "$/emote-integrations";
+
 function findFailedEmoteIntegrationsSources(
   integrations: SettledEmoteIntegrationsRecord,
 ) {
   return allEmoteSources.filter(
     (source) => integrations[source]?.status === "failed",
   );
+}
+
+function useOutdatedGlobalEmotesIntegrations(
+  allIntegrations: Ref<TEmoteIntegrations.Global.SettledRecord>,
+  refreshMany: (
+    integrations: TEmoteIntegrations.Ready[],
+  ) => Promise<TEmoteIntegrations.Global.Settled[]>,
+) {
+  const userStore = useUserStore();
+
+  const outdatedIntegrations = computed(() =>
+    Object.values(allIntegrations.value)
+      .filter(isEmotesIntegrationReady)
+      .filter((integration) =>
+        userStore.emotesIntegrationsRefreshInterval.isEmotesIntegrationExpired(
+          integration,
+        ),
+      ),
+  );
+
+  let isRefreshingOutdatedIntegrations = false;
+  return watch(outdatedIntegrations, async (outdatedIntegrations) => {
+    if (isRefreshingOutdatedIntegrations) {
+      return console.debug(
+        "Already refreshing outdated global emote integrations, this refresh is skipped",
+      );
+    }
+    if (outdatedIntegrations.length === 0) {
+      return console.debug("No outdated global emote integrations");
+    }
+    isRefreshingOutdatedIntegrations = true;
+    console.debug("Refreshing outdated global emote integrations", {
+      outdatedIntegrations,
+    });
+    const refreshed = await refreshMany(outdatedIntegrations);
+    console.debug("Refreshed outdated global emote integrations", {
+      refreshed,
+    });
+    isRefreshingOutdatedIntegrations = false;
+  });
 }
 
 export const useGlobalEmotesIntegrationsStore = defineStore(
@@ -30,6 +72,24 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
         integrationsState.put(...missing);
       }
     });
+
+    useOutdatedGlobalEmotesIntegrations(
+      integrations,
+      async function refreshMany(integrations: TEmoteIntegrations.Ready[]) {
+        for (const integration of integrations) {
+          integrationsState.asRefreshing(integration.source);
+        }
+        const sources = integrations.map((integration) => integration.source);
+        const refreshed = await integrationsLoad.executeMany(sources);
+        const readyRefreshed = refreshed.filter(isEmotesIntegrationReady);
+        for (const integration of readyRefreshed) {
+          if (isEmotesIntegrationReady(integration)) {
+            integrationsState.put(integration);
+          }
+        }
+        return refreshed;
+      },
+    );
 
     return {
       checkedSources,
