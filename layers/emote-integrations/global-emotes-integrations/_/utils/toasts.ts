@@ -1,11 +1,16 @@
 const globalEmotesRefreshToasts = createActionToasts("refresh-global-emotes", {
-  success(this: ActionToastsThis, integrationsCount: number) {
+  success(
+    this: ActionToastsThis,
+    integrationsCount: number,
+    integrationsAsEmojis: string,
+  ) {
+    const description = this.i18n.t(
+      "actions-toasts.refresh-global-emotes.description",
+      { count: integrationsCount },
+    );
     return {
       title: this.i18n.t("actions-toasts.refresh-global-emotes.title"),
-      description: this.i18n.t(
-        "actions-toasts.refresh-global-emotes.description",
-        { count: integrationsCount },
-      ),
+      description: `${description} (${integrationsAsEmojis})`,
     };
   },
 });
