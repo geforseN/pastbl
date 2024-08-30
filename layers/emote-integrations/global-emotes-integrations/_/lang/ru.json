@@ -1,0 +1,8 @@
+{
+  "actions-toasts": {
+    "refresh-global-emotes": {
+      "title": "Обновление глобальных эмоций",
+      "description": "Количество обновленных интеграций: {count}"
+    }
+  }
+}
