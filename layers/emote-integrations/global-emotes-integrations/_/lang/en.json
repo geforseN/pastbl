@@ -8,7 +8,7 @@
   "actions-toasts": {
     "refresh-global-emotes": {
       "title": "Global emotes refresh",
-      "description": "Refreshed 1 integration | {count} integrations"
+      "description": "Refreshed 1 integration | Refreshed {count} integrations"
     }
   }
 }
