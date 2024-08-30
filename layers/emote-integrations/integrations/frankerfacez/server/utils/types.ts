@@ -60,6 +60,10 @@ export namespace TFrankerFaceZ {
       sets: GlobalEmoteSet[];
       source: "FrankerFaceZ";
     }
+
+    export interface FailedIntegration extends TEmoteIntegrations.Global.Failed {
+      source: "FrankerFaceZ";
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace

@@ -1,8 +1,16 @@
 export const globalEmotesIntegrations = {
-  BetterTTV: new BetterTTVGlobalEmotesIntegration(),
-  FrankerFaceZ: new FrankerFaceZGlobalEmotesIntegration(),
-  SevenTV: new SevenTVGlobalEmotesIntegration(),
-  Twitch: new TwitchGlobalEmotesIntegration(),
+  BetterTTV: new BetterTTVGlobalEmotesIntegration(
+    new GlobalEmotesIntegrationWithFailControl("BetterTTV"),
+  ),
+  FrankerFaceZ: new FrankerFaceZGlobalEmotesIntegration(
+    new GlobalEmotesIntegrationWithFailControl("FrankerFaceZ"),
+  ),
+  SevenTV: new SevenTVGlobalEmotesIntegration(
+    new GlobalEmotesIntegrationWithFailControl("SevenTV"),
+  ),
+  Twitch: new TwitchGlobalEmotesIntegration(
+    new GlobalEmotesIntegrationWithFailControl("Twitch"),
+  ),
   of<T extends EmoteSource>(source: T) {
     return this[source] || raise();
   },
