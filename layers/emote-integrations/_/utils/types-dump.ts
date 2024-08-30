@@ -53,7 +53,6 @@ interface Integration extends HasSource {
 
 interface _IntegrationState extends HasFormedAt, HasSource {
   sets: IEmoteSet[];
-  owner: IEmoteIntegrationOwner;
 }
 
 interface StateIntegration extends Integration, _IntegrationState {}
@@ -118,7 +117,7 @@ export declare namespace TEmoteIntegrations {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   export namespace Global {
     export type Base = IEmoteIntegration;
-    export type Ready = Omit<ReadyIntegration, "owner">;
+    export type Ready = ReadyIntegration;
     export type Failed = FailedIntegration;
     export type Settled = SettledIntegration;
     export type SettledRecord = SettledEmoteIntegrationsRecord;
@@ -132,7 +131,7 @@ export declare namespace TEmoteIntegrations {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   export namespace Person {
     export type Base = IEmoteIntegration;
-    export type Ready = ReadyIntegration;
+    export type Ready = ReadyIntegration & { owner: IEmoteIntegrationOwner };
     export type Failed = FailedIntegration;
     export type Settled = SettledIntegration;
     export type SettledRecord = SettledEmoteIntegrationsRecord;

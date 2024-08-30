@@ -33,6 +33,11 @@ export namespace TSevenTV {
       sets: Set[];
       source: "SevenTV";
     }
+
+    export interface FailedIntegration
+      extends TEmoteIntegrations.Global.Failed {
+      source: "SevenTV";
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace

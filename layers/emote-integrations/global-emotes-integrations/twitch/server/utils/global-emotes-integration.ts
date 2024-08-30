@@ -1,25 +1,23 @@
 import type { TTwitch } from "$/emote-integrations/integrations/twitch/server/utils/types";
+import type { GlobalEmotesIntegrationWithFailControl } from "$/emote-integrations/global-emotes-integrations/_/server/utils/make-integration";
 
 export class TwitchGlobalEmotesIntegration {
+  constructor(
+    private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,
+  ) {}
+
   get source() {
     return "Twitch" as const;
   }
 
-  async get(): Promise<TTwitch.Global.SettledIntegration> {
-    try {
+  async get() {
+    return await this.withFailControl.handle<
+      TTwitch.Global.ReadyIntegration,
+      TTwitch.Global.FailedIntegration
+    >(async () => {
       const response = await fetchTwitchGlobalEmotes();
       const set = getTwitchGlobalEmoteSet(response);
       return makeTwitchGlobalIntegration([set]);
-    } catch (error) {
-      return {
-        status: "failed",
-        source: this.source,
-        code: "GLOBAL_EMOTES_FETCH_FAILED",
-        reason: findErrorMessage(
-          error,
-          `Failed to load ${this.source} Global Emote Integration`,
-        ),
-      };
-    }
+    });
   }
 }

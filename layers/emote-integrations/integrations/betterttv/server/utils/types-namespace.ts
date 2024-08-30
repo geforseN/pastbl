@@ -47,6 +47,11 @@ export namespace TBetterTTV {
     export interface ReadyIntegration extends TEmoteIntegrations.Global.Ready {
       sets: Set[];
     }
+
+    export interface FailedIntegration
+      extends TEmoteIntegrations.Global.Failed {
+      source: "BetterTTV";
+    }
   }
 
   export namespace Person {
