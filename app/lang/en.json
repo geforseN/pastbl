@@ -209,10 +209,6 @@
   "emotesAndEmojis": "Emotes and emojis",
   "collections": {
     "emotes": "1 emote | {count} emotes",
-    "global": {
-      "link": "Global emotes",
-      "update-all-emotes": "Update all global emotes"
-    },
     "users": {
       "link": "User emotes",
       "selected": "Selected emote collection",

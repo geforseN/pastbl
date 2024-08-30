@@ -1,4 +1,10 @@
 {
+  "collections": {
+    "global": {
+      "link": "Global emotes",
+      "update-all-emotes": "Update all global emotes"
+    }
+  },
   "actions-toasts": {
     "refresh-global-emotes": {
       "title": "Global emotes refresh",
