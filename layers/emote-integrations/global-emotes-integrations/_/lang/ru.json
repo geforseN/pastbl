@@ -1,4 +1,10 @@
 {
+  "collections": {
+    "global": {
+      "link": "Глобальные эмоуты",
+      "update-all-emotes": "Обновить все глобальные эмоуты"
+    }
+  },
   "actions-toasts": {
     "refresh-global-emotes": {
       "title": "Обновление глобальных эмоций",
