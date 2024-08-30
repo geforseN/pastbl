@@ -34,7 +34,10 @@ export function useOutdatedGlobalEmotesIntegrations(
     const refreshed = await refreshMany(outdatedIntegrations).finally(() => {
       isRefreshingOutdatedIntegrations = false;
     });
-    toast.success(refreshed.length);
+    toast.success(
+      refreshed.length,
+      refreshed.map((integration) => emoteSourcesAsEmojis.get(integration.source)).join(" "),
+    );
     console.debug("Refreshed outdated global emote integrations", {
       refreshed,
     });

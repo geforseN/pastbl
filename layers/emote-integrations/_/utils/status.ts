@@ -16,7 +16,7 @@ function getEmotesIntegrationStatusAsEmoji(
   }
 }
 
-const emoteSourcesAsEmojis = new Map<EmoteSource, string>([
+export const emoteSourcesAsEmojis = new Map<EmoteSource, string>([
   ["FrankerFaceZ", "🐶"],
   ["BetterTTV", "🅱️"],
   ["SevenTV", "7️⃣"],
