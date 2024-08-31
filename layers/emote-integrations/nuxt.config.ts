@@ -1,10 +1,33 @@
+import url from "node:url";
+import path from "node:path";
+import { findNuxtLayers } from "../../server/utils/nuxt-config";
+
+const currentDirectoryPath = path.dirname(url.fileURLToPath(import.meta.url));
+const currentDirectoryLayersPath = path.join(currentDirectoryPath, "layers");
+
 export default defineNuxtConfig({
-  extends: [
-    "_",
-    "emote-sources",
-    "global-emotes-integrations",
-    "indexed-db",
-    "integrations",
-    "persons-emotes-collections",
+  alias: {
+    "$global-emotes-integrations": path.join(
+      currentDirectoryLayersPath,
+      "global-emotes-integrations",
+    ),
+    "$persons-emotes-collections": path.join(
+      currentDirectoryLayersPath,
+      "persons-emotes-collections",
+    ),
+  },
+  components: [
+    {
+      path: path.join(currentDirectoryPath, "components"),
+    },
+    {
+      path: path.join(
+        currentDirectoryPath,
+        "components",
+        "conditional-emote-integration",
+      ),
+      pathPrefix: false,
+    },
   ],
+  extends: findNuxtLayers(currentDirectoryLayersPath),
 });
