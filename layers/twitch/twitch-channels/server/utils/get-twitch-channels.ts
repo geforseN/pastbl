@@ -1,4 +1,4 @@
-import type { TwitchApi } from "$/emote-integrations/integrations/twitch/server/utils/api-types";
+import type { TwitchApi } from "#integrations_twitch/api-types";
 
 function transformChannel(channel: TwitchApi.SearchChannel) {
   const login = channel.broadcaster_login;
