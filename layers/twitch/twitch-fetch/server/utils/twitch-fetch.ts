@@ -1,4 +1,4 @@
-import { $fetch } from "ofetch";
+import { $fetch, type FetchOptions, type FetchRequest } from "ofetch";
 import { environment } from "~~/server/utils/environment";
 
 let twitchFetch = createTwitchApiFetch();
@@ -23,9 +23,6 @@ export function recreateTwitchFetch(token: TwitchToken) {
 export function fetchTwitchApi<
   T = any,
   R extends "blob" | "text" | "arrayBuffer" | "stream" | "json" = "json",
->(
-  request: Parameters<typeof twitchFetch>[0],
-  options?: Parameters<typeof twitchFetch>[1],
-) {
+>(request: FetchRequest, options?: FetchOptions<R>) {
   return twitchFetch<T, R>(request, options);
 }
