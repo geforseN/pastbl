@@ -21,7 +21,7 @@
     <i18n-t
       keypath="settings.refresh-emotes.description"
       tag="span"
-      class="label-text-alt"
+      class="label-text-alt mt-1 px-1"
     >
       {{ getI18nTime($t, selectedTime) }}
     </i18n-t>

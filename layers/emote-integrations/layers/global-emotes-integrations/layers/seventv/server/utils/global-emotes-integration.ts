@@ -1,4 +1,3 @@
-import type { TSevenTV } from "#t_seventv";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class SevenTVGlobalEmotesIntegration {

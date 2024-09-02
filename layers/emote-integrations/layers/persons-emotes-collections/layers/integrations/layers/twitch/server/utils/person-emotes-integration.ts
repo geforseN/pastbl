@@ -1,5 +1,4 @@
 import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
-import type { TTwitch } from "$/emote-integrations/layers/integrations/twitch/server/utils/types";
 
 export class PersonTwitchEmoteIntegration {
   constructor(

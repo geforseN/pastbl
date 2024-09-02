@@ -1,6 +1,3 @@
-import type { TTwitch } from "#t_twitch";
-import type { TwitchApi } from "#integrations_twitch/api-types";
-
 export function makeTwitchOwner(
   twitch: PersonTwitch,
 ): TTwitch.Person.IntegrationOwner {

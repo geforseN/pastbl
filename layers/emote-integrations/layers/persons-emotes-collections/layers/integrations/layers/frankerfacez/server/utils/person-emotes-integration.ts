@@ -1,4 +1,3 @@
-import type { TFrankerFaceZ } from "#t_frankerfacez";
 import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
 
 export class PersonFrankerFaceZEmoteIntegration {

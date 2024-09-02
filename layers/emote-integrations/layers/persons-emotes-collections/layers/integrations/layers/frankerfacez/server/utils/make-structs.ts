@@ -1,6 +1,4 @@
 import consola from "consola";
-import type { FrankerFaceZApi } from "#integrations_frankerfacez/api-types";
-import type { TFrankerFaceZ } from "#t_frankerfacez";
 
 export function makeFrankerFaceZEmoteIntegrationOwner(
   profile: FrankerFaceZApi.UserStruct,

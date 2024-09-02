@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { TwitchApi } from "#integrations_twitch/api-types";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users
 const twitchApiUserSchema = z.object({
