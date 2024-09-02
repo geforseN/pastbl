@@ -1,11 +1,8 @@
-const pastasSortOptions = [
-  "newest-first",
-  "oldest-first",
-  "last-updated",
-  "last-copied",
-] as const;
-
-export type PastaSortStrategy = (typeof pastasSortOptions)[number];
+export type PastaSortStrategy =
+  | "newest-first"
+  | "oldest-first"
+  | "last-updated"
+  | "last-copied";
 
 export function usePastasSort(allPastas: Ref<OmegaPasta[]>) {
   const selectedSortStrategy = useIndexedDBKeyValue(

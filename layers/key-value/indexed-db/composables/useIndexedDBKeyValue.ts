@@ -41,7 +41,6 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
       .finally(() => {
         isLoading.value = false;
       });
-    IndexedDBValue;
 
     watchDebounced(
       state,

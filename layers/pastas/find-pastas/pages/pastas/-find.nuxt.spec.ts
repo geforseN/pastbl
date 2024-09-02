@@ -5,7 +5,7 @@ describe.skip("pages/pastas/find", async () => {
 
   it("should render", async () => {
     const page = await createPage("/pastas/find");
-    const heading = await page.getByRole("heading").innerText();
-    expect(heading.length).toBeGreaterThan(0);
+    const heading = await page.getByRole("heading").textContent();
+    expect(heading?.length).toBeGreaterThan(0);
   });
 });
