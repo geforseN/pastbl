@@ -1,5 +1,4 @@
 import { z } from "zod";
-// FIXME import { allEmoteSources } from "$/emote-integrations/emote-sources/utils/external";
 
 const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = allEmoteSources.reduce(
   (length, source) => length + source.length,
