@@ -61,7 +61,8 @@ export namespace TFrankerFaceZ {
       source: "FrankerFaceZ";
     }
 
-    export interface FailedIntegration extends TEmoteIntegrations.Global.Failed {
+    export interface FailedIntegration
+      extends TEmoteIntegrations.Global.Failed {
       source: "FrankerFaceZ";
     }
   }

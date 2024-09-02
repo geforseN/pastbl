@@ -1,4 +1,4 @@
-export type UsePastasStateInstance = ReturnType<typeof usePastas>
+export type UsePastasStateInstance = ReturnType<typeof usePastas>;
 
 export function usePastas<T extends OmegaPasta>(getPastas: () => Promise<T[]>) {
   const _pastas = useAsyncArray(getPastas);

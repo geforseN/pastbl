@@ -1,8 +1,5 @@
 export function usePastaFormCollapse() {
-  const isOpen = useIndexedDBKeyValue(
-    "pasta-form:is-open",
-    false,
-  );
+  const isOpen = useIndexedDBKeyValue("pasta-form:is-open", false);
 
   return {
     isOpen: computed({

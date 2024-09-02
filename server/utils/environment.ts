@@ -26,7 +26,11 @@ const environmentSchema = z
 
 const environmentParse = environmentSchema.safeParse(process.env);
 
-if (!environmentParse.success && !import.meta.test && process.env.VITEST !== 'true') {
+if (
+  !environmentParse.success &&
+  !import.meta.test &&
+  process.env.VITEST !== "true"
+) {
   throw environmentParse.error;
 }
 

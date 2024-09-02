@@ -36,7 +36,9 @@ export function useOutdatedGlobalEmotesIntegrations(
     });
     toast.success(
       refreshed.length,
-      refreshed.map((integration) => emoteSourcesAsEmojis.get(integration.source)).join(" "),
+      refreshed
+        .map((integration) => emoteSourcesAsEmojis.get(integration.source))
+        .join(" "),
     );
     console.debug("Refreshed outdated global emote integrations", {
       refreshed,

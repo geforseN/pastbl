@@ -81,7 +81,9 @@ export function useAsyncObject<
   Shallow extends boolean = true,
 >(
   promiseOrAsyncFn: Promise<Data> | ((...args: Parameters) => Promise<Data>),
-  options: UseAsyncStateOptions<Shallow, Data> & { onSettled?: () => void } = {},
+  options: UseAsyncStateOptions<Shallow, Data> & {
+    onSettled?: () => void;
+  } = {},
 ) {
   const _options = { ...USE_ASYNC_STATE_DEFAULT_OPTIONS, ...options };
   const asyncState = useVueUseAsyncState(

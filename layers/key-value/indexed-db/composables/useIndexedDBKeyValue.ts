@@ -1,6 +1,7 @@
 import type { WatchDebouncedOptions } from "@vueuse/core";
 
-const makeIndexedDBValue = IndexedDBValue.createWithRepository(keyValueRepository);
+const makeIndexedDBValue =
+  IndexedDBValue.createWithRepository(keyValueRepository);
 
 export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
   key: K,
