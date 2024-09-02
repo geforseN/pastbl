@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
+
 
 export interface __Emote extends IEmote {
   source: "SevenTV";

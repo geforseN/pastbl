@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
+
 
 export function useGlobalEmotesIntegrationsState(
   getIntegrations: () => Promise<TEmoteIntegrations.Global.SettledRecord>,

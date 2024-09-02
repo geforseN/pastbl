@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
+
 
 type EmotesMapRecord = Record<EmoteSource, EmotesMap<IEmote>>;
 
