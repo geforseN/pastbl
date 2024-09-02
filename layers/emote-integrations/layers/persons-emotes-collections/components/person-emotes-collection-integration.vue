@@ -34,10 +34,10 @@
           :class="styles.borderAccent"
           class="flex justify-between rounded-box border-2 p-1 px-2"
         >
-          <ready-emote-integration-only :=integration #="{ integration }">
+          <ready-emote-integration-only :="integration" #="{ integration }">
             <emote-collection-formed-at :time="integration.formedAt" />
           </ready-emote-integration-only>
-          <failed-emote-integration-only :=integration #="{ integration }">
+          <failed-emote-integration-only :="integration" #="{ integration }">
             <div>{{ integration.reason }}</div>
           </failed-emote-integration-only>
           <refresh-button

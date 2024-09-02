@@ -7,4 +7,3 @@ const emoteIntegrationsIndexedDBPromise =
 export const withEmoteIntegrationsIndexedDB = withIndexedDBDatabase(
   emoteIntegrationsIndexedDBPromise,
 );
-

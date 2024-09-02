@@ -2,7 +2,7 @@ describe("object utils", () => {
   suite("isEmptyObject util", () => {
     it("must be defined", () => {
       expect(isEmptyObject).toBeDefined();
-    }); 
+    });
 
     it("returns true on empty object", () => {
       expect(isEmptyObject({})).toBe(true);

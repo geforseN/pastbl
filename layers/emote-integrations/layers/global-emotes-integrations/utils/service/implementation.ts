@@ -13,7 +13,7 @@ export class GlobalEmotesIntegrationService {
   }
 
   async load<S extends EmoteSource>(source: S) {
-    const { integration } = await this.api.get(source); 
+    const { integration } = await this.api.get(source);
     await this.repository.put(integration);
     return integration;
   }

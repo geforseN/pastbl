@@ -38,7 +38,9 @@ function isSevenTVApiSetWithEmotes(
   return (set as SevenTVApi.SetWithEmotes).emotes !== undefined;
 }
 
-export async function getSevenTVApiUserEmoteSet(profile: SevenTVApi.UserProfile) {
+export async function getSevenTVApiUserEmoteSet(
+  profile: SevenTVApi.UserProfile,
+) {
   if (isSevenTVApiSetWithEmotes(profile.emote_set)) {
     return profile.emote_set;
   }

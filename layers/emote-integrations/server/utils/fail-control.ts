@@ -1,7 +1,9 @@
 export abstract class EmotesIntegrationWithFailControl {
   abstract source: EmoteSource;
 
-  abstract makeFailedIntegration<F extends FailedIntegration>(error: unknown): F;
+  abstract makeFailedIntegration<F extends FailedIntegration>(
+    error: unknown,
+  ): F;
 
   async handle<R extends ReadyIntegration, F extends FailedIntegration>(
     fn: () => Promise<R>,

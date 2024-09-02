@@ -1,7 +1,7 @@
 import type { TEmoteIntegrations } from "$/emote-integrations";
 export {
   isEmotesIntegrationReady,
-  isEmotesIntegrationFailed
+  isEmotesIntegrationFailed,
 } from "$/emote-integrations/server/utils/guards";
 
 export function isEmotesIntegrationRefreshing(

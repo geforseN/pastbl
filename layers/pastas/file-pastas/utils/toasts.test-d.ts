@@ -1,5 +1,5 @@
 describe("file-pastas toasts", () => {
-  test.todo('types', () => {
+  test.todo("types", () => {
     const toast = useLoadPastasFromFileToast();
     const reason = new Error("Error");
     const unknown: unknown = 1;
@@ -9,5 +9,5 @@ describe("file-pastas toasts", () => {
       toast.panic(reason);
       toast.panic(unknown);
     });
-  })
+  });
 });

@@ -9,7 +9,7 @@ export const personEmoteIntegrations = {
     new PersonEmotesIntegrationWithFailControl("BetterTTV"),
   ),
   FrankerFaceZ: new PersonFrankerFaceZEmoteIntegration(
-    new PersonEmotesIntegrationWithFailControl("FrankerFaceZ"), 
+    new PersonEmotesIntegrationWithFailControl("FrankerFaceZ"),
   ),
   SevenTV: new PersonSevenTVEmoteIntegration(
     new PersonEmotesIntegrationWithFailControl("SevenTV"),

@@ -38,7 +38,7 @@ export function useActionToasts<
     ),
   );
 
-  console.log({ methodsObject, actionName: actionToasts.action.name });
+  console.debug({ methodsObject, actionName: actionToasts.action.name });
 
   return {
     ...methodsObject,

@@ -5,7 +5,9 @@ export async function getPersonEmoteIntegrations<S extends EmoteSource>(
   personTwitch: PersonTwitch,
 ) {
   const integrations = await Promise.all(
-    sources.map((source) => personEmoteIntegrations.of(source).get(personTwitch)),
+    sources.map((source) =>
+      personEmoteIntegrations.of(source).get(personTwitch),
+    ),
   );
   const grouped = flatGroupBySource(integrations);
   return grouped;

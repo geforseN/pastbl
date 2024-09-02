@@ -1,14 +1,16 @@
 import path from "node:path";
 import fs, { type PathLike } from "node:fs";
 
-function getAbsoluteDirectoriesNames(dirPath: PathLike) {
-  dirPath = dirPath.toString();
-  const files = fs.readdirSync(dirPath);
-  const dirNames = files.filter((file) =>
-    fs.statSync(path.join(dirPath, file)).isDirectory(),
+function getAbsoluteDirectoriesNames(directoryPath: PathLike) {
+  directoryPath = directoryPath.toString();
+  const files = fs.readdirSync(directoryPath);
+  const directoryNames = files.filter((file) =>
+    fs.statSync(path.join(directoryPath, file)).isDirectory(),
   );
-  const dirPaths = dirNames.map((dirName) => path.join(dirPath, dirName));
-  return dirPaths;
+  const directoryPaths = directoryNames.map((directoryName) =>
+    path.join(directoryPath, directoryName),
+  );
+  return directoryPaths;
 }
 
 const nuxtConfigExtensions = new Set([
@@ -20,10 +22,10 @@ const nuxtConfigExtensions = new Set([
   ".cts",
 ]);
 
-function dirHasNuxtConfigFile(dirPath: string) {
-  const contents = fs.readdirSync(dirPath);
+function directoryHasNuxtConfigFileHasNuxtConfigFile(directoryPath: string) {
+  const contents = fs.readdirSync(directoryPath);
   const nuxtConfigFile = contents.find((content) => {
-    const contentPath = path.join(dirPath, content);
+    const contentPath = path.join(directoryPath, content);
     const isFile = fs.statSync(contentPath).isFile();
     if (!isFile) {
       return false;
@@ -37,7 +39,5 @@ function dirHasNuxtConfigFile(dirPath: string) {
 }
 
 export function findNuxtLayers(path: PathLike) {
-  const f = getAbsoluteDirectoriesNames(path).filter(dirHasNuxtConfigFile);
-  console.log({ f });
-  return f;
+  return getAbsoluteDirectoriesNames(path).filter(directoryHasNuxtConfigFileHasNuxtConfigFile);
 }

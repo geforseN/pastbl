@@ -17,7 +17,7 @@ function getMyTimeStringFormatMultiplier(
 }
 
 export function formatMyTimeStringToMilliseconds(myTimeString: MyTimeString) {
-  const int = parseInt(myTimeString, 10);
+  const int = Number.parseInt(myTimeString, 10);
   assert.ok(Number.isInteger(int));
   const format = myTimeString.at(-1);
   const multiplier = getMyTimeStringFormatMultiplier(format);

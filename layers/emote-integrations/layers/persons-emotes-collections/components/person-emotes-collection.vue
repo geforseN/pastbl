@@ -108,9 +108,13 @@ const emoteOnHover = injectEmoteOnHover();
 const throttledMouseover = useThrottleFn(
   emoteOnHover.makeMouseoverHandler({
     async findEmote(target) {
-      const { integrationSource } = EmoteIntegrationContainer.fromClosestOf(target);
+      const { integrationSource } =
+        EmoteIntegrationContainer.fromClosestOf(target);
       const { emoteId } = EmoteContainer.from(target);
-      const emote = await emotesService.__getEmote__(integrationSource, emoteId);
+      const emote = await emotesService.__getEmote__(
+        integrationSource,
+        emoteId,
+      );
       return emote;
     },
   }),

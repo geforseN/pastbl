@@ -1,5 +1,7 @@
 export const makePersonBetterTTVEmoteIntegration =
-  definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>("BetterTTV");
+  definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>(
+    "BetterTTV",
+  );
 
 export function makeBetterTTVEmoteIntegrationOwner(
   bttv: BetterTTVApi.User,

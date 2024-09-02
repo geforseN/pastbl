@@ -1,7 +1,7 @@
 export function useGlobalEmotesIntegrationsCheckedSources() {
   const checkedSources = useIndexedDBKeyValue(
     "global-emotes-integrations:checked-sources",
-     [...allEmoteSources],
+    [...allEmoteSources],
   );
 
   return {

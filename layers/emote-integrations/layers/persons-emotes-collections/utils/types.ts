@@ -7,11 +7,10 @@ export interface IPersonEmoteCollection extends HasFormedAt {
   };
 }
 
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace TPersonEmoteCollection {
   export type Default = IPersonEmoteCollection;
-  
+
   export interface Minimal {
     person: {
       twitch: {
@@ -19,7 +18,7 @@ export namespace TPersonEmoteCollection {
       };
     };
   }
-  
+
   type MakeIndexedDBPersonEmoteIntegration<
     I extends TEmoteIntegrations.Person.Settled,
   > = I extends TEmoteIntegrations.Person.Ready
