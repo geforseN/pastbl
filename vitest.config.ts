@@ -8,6 +8,7 @@ export default defineVitestConfig({
     AutoImport({
       imports: ["vitest"],
       dts: true,
+      ignore: ['assert']
     }),
   ],
   test: {
