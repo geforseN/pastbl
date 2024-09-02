@@ -57,10 +57,7 @@
     </main>
   </div>
 </template>
-<script lang="ts" setup generic="EmoteSetT extends IEmoteSetT">
-import type { EmoteIntegrationStyle } from "~/components/emote-collection";
-import type { IEmoteSetT } from "~/integrations";
-
+<script lang="ts" setup generic="EmoteSetT extends IEmoteSet">
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
 
