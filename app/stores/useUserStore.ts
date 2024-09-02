@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "~~/layers/emote-integrations";
-
 function useEmotesIntegrationsRefreshInterval() {
   const emotesIntegrationsRefreshInterval = useIndexedDBKeyValue(
     "emotes-integrations:refresh-interval",

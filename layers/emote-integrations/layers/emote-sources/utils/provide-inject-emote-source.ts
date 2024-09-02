@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 const sourceSymbol = Symbol("source");
 
 export function injectEmoteSource() {

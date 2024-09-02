@@ -1,6 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations/";
-import type { TPersonEmoteCollection } from "$persons-emotes-collections";
-
 export class PersonIndexedDBEmoteCollectionDepopulation {
   constructor(private readonly collection: TPersonEmoteCollection.Default) {}
 

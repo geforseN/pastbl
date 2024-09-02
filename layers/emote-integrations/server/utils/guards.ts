@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 export function isEmotesIntegrationReady(
   integration: TEmoteIntegrations.Global.Settled,
 ): integration is TEmoteIntegrations.Global.Ready;

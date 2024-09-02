@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 type _EmoteType = "global" | "specific" | "channel";
 
 interface __Emote<T extends _EmoteType> extends IEmote {

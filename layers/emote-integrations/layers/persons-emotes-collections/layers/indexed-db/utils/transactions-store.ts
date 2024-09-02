@@ -1,5 +1,3 @@
-import type { TPersonEmoteCollection } from "$persons-emotes-collections";
-
 export class PersonsEmotesCollectionsIndexedDBTransactions {
   constructor(private readonly withDatabase: WithEmoteIntegrationsIndexedDB) {}
 

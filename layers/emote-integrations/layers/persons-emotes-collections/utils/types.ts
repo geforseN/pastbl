@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 export interface IPersonEmoteCollection extends HasFormedAt {
   integrations: TEmoteIntegrations.Person.SettledRecord;
   person: {

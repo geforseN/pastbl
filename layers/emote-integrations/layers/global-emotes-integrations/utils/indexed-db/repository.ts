@@ -1,4 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
 import type { GlobalEmotesIntegrationsIndexedDBStore } from "./store";
 
 export class GlobalEmotesIntegrationsIndexedDBRepository {

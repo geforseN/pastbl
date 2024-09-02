@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 export class GlobalEmotesIntegrationsAPI {
   constructor(private readonly fetch: typeof $fetch) {}
 
