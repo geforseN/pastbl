@@ -29,5 +29,14 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  imports: {
+    imports: [
+      {
+        from: path.join(currentDirectoryPath, "utils", "types-dump"),
+        name: "TEmoteIntegrations",
+        type: true,
+      },
+    ],
+  },
   extends: findNuxtLayers(currentDirectoryLayersPath),
 });
