@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 export type EmoteToken = string;
 
 export function getEmotesMapInReadyEmotesIntegration(

@@ -1,4 +1,3 @@
-import type { TPersonEmoteCollection } from "$persons-emotes-collections";
 import type { PersonsEmotesIndexedDBStore } from "$persons-emotes-collections/layers/emotes/utils/indexed-db-store";
 import type { PersonsEmotesCollectionsIndexedDBTransactions } from "$persons-emotes-collections/layers/indexed-db/utils/transactions-store";
 import type { PersonsEmoteCollectionsIndexedDBStore } from "$persons-emotes-collections/layers/indexed-db/utils/store";

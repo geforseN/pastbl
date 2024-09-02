@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 function findFailedEmoteIntegrationsSources(
   integrations: SettledEmoteIntegrationsRecord,
 ) {

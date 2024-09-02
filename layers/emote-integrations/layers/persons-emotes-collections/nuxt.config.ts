@@ -7,4 +7,13 @@ const currentDirectoryLayersPath = path.join(currentDirectoryPath, "layers");
 
 export default defineNuxtConfig({
   extends: findNuxtLayers(currentDirectoryLayersPath),
+  imports: {
+    imports: [
+      {
+        from: path.join(currentDirectoryPath, "utils", "types"),
+        name: `TPersonEmoteCollection`,
+        type: true,
+      },
+    ],
+  },
 });

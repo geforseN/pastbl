@@ -1,5 +1,4 @@
 import consola from "consola";
-import type { TEmoteIntegrations } from "$/emote-integrations";
 
 function __updateIntegration__(
   collection: IPersonEmoteCollection,

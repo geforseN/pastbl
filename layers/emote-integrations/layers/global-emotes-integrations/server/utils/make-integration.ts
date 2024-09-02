@@ -1,4 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
 import { EmotesIntegrationWithFailControl } from "$/emote-integrations/server/utils/fail-control";
 
 export function defineGlobalIntegrationMaker<

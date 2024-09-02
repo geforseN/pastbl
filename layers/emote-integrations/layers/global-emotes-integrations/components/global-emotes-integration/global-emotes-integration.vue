@@ -61,8 +61,6 @@
   </article>
 </template>
 <script setup lang="ts" generic="Source extends EmoteSource">
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });

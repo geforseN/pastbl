@@ -105,7 +105,7 @@ export type SettledEmoteIntegrationsRecord =
   IntegrationRecord<SettledIntegration>;
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
-export declare namespace TEmoteIntegrations {
+export namespace TEmoteIntegrations {
   export type Base = Global.Ready | Person.Ready;
   export type Ready = Global.Ready | Person.Ready;
   export type Failed = Global.Failed | Person.Failed;

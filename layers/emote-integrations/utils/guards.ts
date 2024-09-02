@@ -1,4 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
 export {
   isEmotesIntegrationReady,
   isEmotesIntegrationFailed,
