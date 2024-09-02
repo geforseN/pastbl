@@ -1,6 +1,3 @@
-import type { TFrankerFaceZ } from "./types";
-import type { FrankerFaceZApi } from "./api-types";
-
 export type FrankerFaceZMappedEmoteSet = Unwrap<
   Omit<FrankerFaceZApi.EmoteSet, "id"> & { id: `${number}` }
 >;
@@ -41,9 +38,13 @@ export function makeFrankerFaceZEmote<TT extends TFrankerFaceZ.Emote>(
     height: emote.height,
     source: "FrankerFaceZ",
     owner:
-      emote.owner === null ? undefined: makeFrankerFaceZEmoteRelatedPerson(emote.owner),
+      emote.owner === null
+        ? undefined
+        : makeFrankerFaceZEmoteRelatedPerson(emote.owner),
     artist:
-      emote.artist === null ? undefined: makeFrankerFaceZEmoteRelatedPerson(emote.artist),
+      emote.artist === null
+        ? undefined
+        : makeFrankerFaceZEmoteRelatedPerson(emote.artist),
     type,
   };
 }

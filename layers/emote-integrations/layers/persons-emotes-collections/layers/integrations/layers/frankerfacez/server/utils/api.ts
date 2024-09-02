@@ -1,5 +1,3 @@
-import type { FrankerFaceZApi } from "#integrations_frankerfacez/api-types";
-
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
 export async function fetchFrankerFaceZUser(

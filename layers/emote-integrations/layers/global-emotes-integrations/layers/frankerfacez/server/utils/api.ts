@@ -1,5 +1,3 @@
-import type { FrankerFaceZApi } from "#integrations_frankerfacez/api-types";
-
 export async function getFrankerFaceZGlobalEmotes() {
   const response = await fetch(
     "https://api.frankerfacez.com/v1/set/global/ids",

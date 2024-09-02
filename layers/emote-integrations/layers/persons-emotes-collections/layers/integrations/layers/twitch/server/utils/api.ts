@@ -1,5 +1,3 @@
-import type { TwitchApi } from "#integrations_twitch/api-types";
-
 export function fetchTwitchChatEmoteSet(setId: string) {
   return fetchTwitchApi<TwitchApi.GetEmoteSetResponse>("/chat/emotes/set", {
     query: { emote_set_id: setId },

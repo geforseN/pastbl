@@ -1,4 +1,3 @@
-import type { TBetterTTV } from "#t_betterttv";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 import consola from "consola";
 

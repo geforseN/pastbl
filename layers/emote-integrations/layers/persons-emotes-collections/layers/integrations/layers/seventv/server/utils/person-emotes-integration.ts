@@ -1,4 +1,3 @@
-import type { TSevenTV } from "#t_seventv";
 import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
 
 export class PersonSevenTVEmoteIntegration {
