@@ -12,4 +12,14 @@
       }
     }
   },
+  "exclude": [
+    "tests/**/*.spec.ts",
+    "tests-examples/**/*.test.ts",
+    "app/**/*.spec.ts",
+    "layers/**/*.spec.ts",
+    "layers/**/*.spec.ts",
+    "layers/**/components/*.nuxt.spec.ts",
+    "layers/**/*.test-d.ts",
+    "server/**/*.spec.ts",
+  ]
 }
