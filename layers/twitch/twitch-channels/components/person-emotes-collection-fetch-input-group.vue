@@ -1,10 +1,10 @@
 <template>
   <div class="join w-full">
     <input
-      data-testid="person-emotes-collection-fetch-input"
       id="fetch-nickname"
       ref="inputRef"
       v-model="nickname"
+      data-testid="person-emotes-collection-fetch-input"
       name="fetch-nickname"
       :placeholder="$t('collections.users.fetch.placeholder')"
       class="input join-item input-accent grow"
