@@ -10,7 +10,6 @@ feat:
       - add refresh for persons emotes collections
   - use WebShare API for published pasta (https://www.youtube.com/watch?v=lt77LscZcn0)
   - add chrome & firefox extensions
-  - add TEmoteIntegrations and TPersonEmoteCollection auto-imports (see emote-integrations/add-type-namespaces-autoimport branch)
   - return vueMacros eslint config back ('globals' key is not allowed flat in config)
 
 docs:
