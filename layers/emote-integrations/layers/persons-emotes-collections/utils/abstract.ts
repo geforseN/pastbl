@@ -1,5 +1,3 @@
-import type { TPersonEmoteCollection } from "./types";
-
 export interface IPersonsEmoteCollectionsRepository<
   C extends TPersonEmoteCollection.Minimal,
 > {

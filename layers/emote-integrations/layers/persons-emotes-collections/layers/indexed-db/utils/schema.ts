@@ -1,5 +1,4 @@
 import type { DBSchema } from "idb";
-import type { TPersonEmoteCollection } from "$persons-emotes-collections";
 
 export interface PersonsEmoteCollectionsIndexedDBSchema
   extends DBSchema,

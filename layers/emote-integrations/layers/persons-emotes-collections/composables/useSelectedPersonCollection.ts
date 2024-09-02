@@ -1,5 +1,3 @@
-import type { TPersonEmoteCollection } from "../utils/types";
-
 export function useSelectedPersonCollection(
   getCollection: (
     login: TwitchUserLogin,
