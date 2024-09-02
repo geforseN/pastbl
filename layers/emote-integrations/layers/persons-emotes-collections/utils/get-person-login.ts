@@ -1,5 +1,3 @@
-import type { TPersonEmoteCollection } from "./types";
-
 export type SelectableLogin = TwitchUserLogin | "";
 export type SelectedLogin = SelectableLogin;
 
