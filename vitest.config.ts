@@ -1,5 +1,5 @@
 import { defineVitestConfig } from "@nuxt/test-utils/config";
-import tsconfigPaths from 'vite-tsconfig-paths'
+import tsconfigPaths from "vite-tsconfig-paths";
 import AutoImport from "unplugin-auto-import/vite";
 
 export default defineVitestConfig({
@@ -8,7 +8,7 @@ export default defineVitestConfig({
     AutoImport({
       imports: ["vitest"],
       dts: true,
-      ignore: ['assert']
+      ignore: ["assert"],
     }),
   ],
   test: {

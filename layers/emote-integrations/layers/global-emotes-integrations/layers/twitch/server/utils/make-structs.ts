@@ -1,4 +1,6 @@
-export function getTwitchGlobalEmoteSet(response: TwitchApi.ChatEmotesResponse) {
+export function getTwitchGlobalEmoteSet(
+  response: TwitchApi.ChatEmotesResponse,
+) {
   return {
     name: "Global Emotes",
     type: "global" as const,

@@ -2,11 +2,7 @@ export function usePastaTags(tags: Ref<string[]>) {
   const ensurePastaTags = definePastaTagsEnsure(tags);
   return {
     removeTag(tag: string) {
-      tags.value = withRemoved(
-        tags,
-        tag,
-        () => new NonExistingPastaTagError(),
-      );
+      tags.value = withRemoved(tags, tag, () => new NonExistingPastaTagError());
     },
     removeAllTags() {
       tags.value = [];

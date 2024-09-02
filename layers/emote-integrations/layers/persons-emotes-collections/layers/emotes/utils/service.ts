@@ -5,7 +5,3 @@ export class EmotesService_____ {
     return this.repository.get(source, emoteId);
   }
 }
-
-
-
-

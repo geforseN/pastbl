@@ -122,9 +122,7 @@ const emit = defineEmits<{
 }>();
 
 const mainEmit = () =>
-  userStore.pastasWorkMode.isLocal
-    ? emit("createPasta")
-    : emit("publishPasta");
+  userStore.pastasWorkMode.isLocal ? emit("createPasta") : emit("publishPasta");
 
 const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
 

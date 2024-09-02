@@ -1,6 +1,5 @@
-
 interface IMinimalEmote {
-  token: string
+  token: string;
 }
 
 export type EmotesMap<E extends IMinimalEmote> = Map<E["token"], E>;

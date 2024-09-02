@@ -34,7 +34,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { TPersonEmoteCollection } from '$persons-emotes-collections';
+import type { TPersonEmoteCollection } from "$persons-emotes-collections";
 
 defineProps<{
   collections: TPersonEmoteCollection.Default[];

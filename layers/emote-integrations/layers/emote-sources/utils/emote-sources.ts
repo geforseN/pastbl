@@ -70,7 +70,7 @@ export class EmoteSources<T extends string> {
   ) {
     return flatGroupBy(this.values, getKey, getValue);
   }
-  
+
   flatGroupBySource<V>(getValue: (value: T, index: number, array: T[]) => V) {
     return flatGroupBy(this.values, (source) => source, getValue);
   }
