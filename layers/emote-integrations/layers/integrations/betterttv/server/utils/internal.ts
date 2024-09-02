@@ -1,6 +1,3 @@
-import type { BetterTTVApi } from "./api-types";
-import type { TBetterTTV } from "./types";
-
 const source = "BetterTTV" as const;
 
 export function defineBetterTTVSetMaker<E, T, ET extends TBetterTTV.EmoteType>(

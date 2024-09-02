@@ -1,4 +1,3 @@
-import type { TTwitch } from "#t_twitch";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class TwitchGlobalEmotesIntegration {

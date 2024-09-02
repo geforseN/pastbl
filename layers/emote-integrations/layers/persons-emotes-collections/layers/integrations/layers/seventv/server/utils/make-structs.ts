@@ -1,6 +1,3 @@
-import type { SevenTVApi } from "#integrations_seventv/api-types";
-import type { TSevenTV } from "#t_seventv";
-
 export function defineSevenTVEmoteSetMaker<T extends string>(type: T) {
   const makeEmote = defineSevenTVEmoteMaker(type);
 

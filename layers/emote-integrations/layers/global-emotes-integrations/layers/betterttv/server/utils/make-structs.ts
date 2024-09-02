@@ -1,6 +1,3 @@
-import type { BetterTTVApi } from "#integrations_betterttv/api-types";
-import type { TBetterTTV } from "#t_betterttv";
-
 function makeBetterTTVGlobalEmote(
   emote: BetterTTVApi.GlobalEmote,
 ): TBetterTTV.Global.Emote {

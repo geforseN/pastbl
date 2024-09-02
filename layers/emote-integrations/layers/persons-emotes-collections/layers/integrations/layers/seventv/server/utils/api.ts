@@ -1,5 +1,3 @@
-import type { SevenTVApi } from "#integrations_seventv/api-types";
-
 // LINK: https://7tv.io/docs
 
 export async function fetchSevenTVUserSet(setId: string) {

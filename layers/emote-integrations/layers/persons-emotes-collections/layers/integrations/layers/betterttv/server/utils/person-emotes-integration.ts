@@ -1,4 +1,3 @@
-import type { TBetterTTV } from "#t_betterttv";
 import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
 
 export class PersonBetterTTVEmoteIntegration {
