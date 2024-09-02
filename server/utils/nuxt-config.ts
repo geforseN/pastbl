@@ -37,7 +37,5 @@ function dirHasNuxtConfigFile(dirPath: string) {
 }
 
 export function findNuxtLayers(path: PathLike) {
-  const f = getAbsoluteDirectoriesNames(path).filter(dirHasNuxtConfigFile);
-  console.log({ f });
-  return f;
+  return getAbsoluteDirectoriesNames(path).filter(dirHasNuxtConfigFile);
 }
