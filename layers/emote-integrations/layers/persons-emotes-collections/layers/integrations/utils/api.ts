@@ -1,5 +1,3 @@
-
-
 export class PersonsEmoteIntegrationsApi {
   constructor(private readonly fetch: typeof $fetch) {}
 

@@ -1,5 +1,3 @@
-
-
 type EmotesMapRecord = Record<EmoteSource, EmotesMap<IEmote>>;
 
 export type IEmoteIntegrationRecord = Record<

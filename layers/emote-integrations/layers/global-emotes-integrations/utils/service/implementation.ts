@@ -1,7 +1,6 @@
 import type { GlobalEmotesIntegrationsIndexedDBRepository } from "../indexed-db/repository";
 import type { GlobalEmotesIntegrationsAPI } from "../api";
 
-
 export class GlobalEmotesIntegrationService {
   constructor(
     private readonly repository: GlobalEmotesIntegrationsIndexedDBRepository,

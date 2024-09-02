@@ -1,4 +1,3 @@
-
 import { EmotesIntegrationWithFailControl } from "$/emote-integrations/server/utils/fail-control";
 
 export function defineGlobalIntegrationMaker<

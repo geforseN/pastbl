@@ -1,5 +1,3 @@
-
-
 export interface __Emote extends IEmote {
   source: "SevenTV";
   type: "global" | "channel";

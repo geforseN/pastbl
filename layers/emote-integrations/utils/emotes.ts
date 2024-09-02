@@ -1,5 +1,3 @@
-
-
 export type EmoteToken = string;
 
 export function getEmotesMapInReadyEmotesIntegration(

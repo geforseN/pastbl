@@ -1,4 +1,3 @@
-
 import type { GlobalEmotesIntegrationsIndexedDBStore } from "./store";
 
 export class GlobalEmotesIntegrationsIndexedDBRepository {

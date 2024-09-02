@@ -1,6 +1,5 @@
 import consola from "consola";
 
-
 function __updateIntegration__(
   collection: IPersonEmoteCollection,
   integration: IEmoteIntegration,
