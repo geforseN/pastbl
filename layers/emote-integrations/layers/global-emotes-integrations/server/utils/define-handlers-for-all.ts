@@ -8,7 +8,9 @@ export function defineGlobalEmotesIntegrationsEventHandlers(path: string) {
       defineEventHandler(async () => {
         const LOG_STR = "GET " + path + "/" + globalEmotesIntegration.source;
         consola.debug(LOG_STR);
-        let integration: Awaited<ReturnType<typeof globalEmotesIntegration.get>>;
+        let integration: Awaited<
+          ReturnType<typeof globalEmotesIntegration.get>
+        >;
         try {
           integration = await globalEmotesIntegration.get();
           assert.ok(integration);

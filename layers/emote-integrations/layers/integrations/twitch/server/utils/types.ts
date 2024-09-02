@@ -39,10 +39,10 @@ export namespace TTwitch {
 
     export interface FailedIntegration
       extends TEmoteIntegrations.Global.Failed {
-        source: "Twitch";
-      }
+      source: "Twitch";
+    }
 
-    export type SettledIntegration = ReadyIntegration | FailedIntegration; 
+    export type SettledIntegration = ReadyIntegration | FailedIntegration;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace

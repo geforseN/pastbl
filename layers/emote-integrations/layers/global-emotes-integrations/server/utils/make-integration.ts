@@ -19,7 +19,9 @@ export class GlobalEmotesIntegrationWithFailControl extends EmotesIntegrationWit
     super();
   }
 
-  override makeFailedIntegration<F extends FailedIntegration>(error: unknown): F {
+  override makeFailedIntegration<F extends FailedIntegration>(
+    error: unknown,
+  ): F {
     return <F>{
       status: "failed",
       source: this.source,

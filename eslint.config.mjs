@@ -1,7 +1,6 @@
 import withNuxt from "./.nuxt/eslint.config.mjs";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
-import vueMacros from "@vue-macros/eslint-config";
 
 const commonVueFilesPaths = /** @type {const} */ ([
   "app/app.vue",
@@ -108,5 +107,4 @@ export default withNuxt()
     rules: {
       ...vitest.configs.recommended.rules,
     },
-  })
-  .append(vueMacros);
+  });

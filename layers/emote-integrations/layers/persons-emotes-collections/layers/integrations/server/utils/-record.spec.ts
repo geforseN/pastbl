@@ -14,7 +14,7 @@ describe("Person Emote Integrations", () => {
         expect(personEmoteIntegration[Symbol.asyncIterator]).toBeDefined();
       });
 
-      it("it returns objects with 'status' property", async () => {
+      it("returns objects with 'status' property", async () => {
         for await (const integration of personEmoteIntegration) {
           expect(integration).toHaveProperty("status");
         }

@@ -3,8 +3,6 @@ import { i18n } from "./app/i18n.config";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  logLevel: "verbose",
-  debug: true,
   future: {
     compatibilityVersion: 4,
   },

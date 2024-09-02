@@ -3,7 +3,7 @@ import type { SessionUser } from "./layers/twitch/twitch-user/server/utils/twitc
 declare module "#auth-utils" {
   interface User extends SessionUser {}
 
-  interface UserSession {}
+  interface UserSession extends Record<string, never> {}
 }
 
 export {};

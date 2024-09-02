@@ -34,9 +34,7 @@
           </samp>
         </li>
         <li
-          v-if="
-            userStore.pastasWorkMode.remoteBlockStatusIncludes('offline')
-          "
+          v-if="userStore.pastasWorkMode.remoteBlockStatusIncludes('offline')"
         >
           <samp>{{ $t("restore-internet-connection") }}</samp>
         </li>

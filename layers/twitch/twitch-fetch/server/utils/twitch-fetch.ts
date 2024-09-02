@@ -21,7 +21,7 @@ export function recreateTwitchFetch(token: TwitchToken) {
 }
 
 export function fetchTwitchApi<
-  T = any,
+  T,
   R extends "blob" | "text" | "arrayBuffer" | "stream" | "json" = "json",
 >(request: FetchRequest, options?: FetchOptions<R>) {
   return twitchFetch<T, R>(request, options);
