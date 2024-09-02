@@ -1,4 +1,4 @@
-import { fetch, setup, $fetch } from "@nuxt/test-utils/e2e";
+import { setup, $fetch } from "@nuxt/test-utils/e2e";
 
 describe.todo("server api", async () => {
   await setup({

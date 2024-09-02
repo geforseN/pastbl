@@ -3,7 +3,6 @@ export async function openEmoteIntegrationsIndexedDBDatabase() {
     name: "emote-integrations",
     version: 3,
     upgrade(database, oldVersion) {
-      console.log(oldVersion);
       if (oldVersion < 1) {
         database.createObjectStore("persons-emotes", {
           keyPath: ["source", "id"],
