@@ -57,7 +57,7 @@
     "husky": "^9.1.5",
     "jest-image-snapshot": "^6.4.0",
     "lint-staged": "^15.2.9",
-    "nitro-test-utils": "^0.7.0",
+    "nitro-test-utils": "^0.8.0",
     "nuxt": "^3.13.0",
     "nuxt-auth-utils": "^0.3.4",
     "nuxt-icon": "^0.6.10",
