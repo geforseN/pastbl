@@ -1,4 +1,4 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
+
 
 export class PersonsEmoteIntegrationsApi {
   constructor(private readonly fetch: typeof $fetch) {}

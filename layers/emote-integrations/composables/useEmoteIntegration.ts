@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 export function useEmoteIntegration(
   integration: MaybeRefOrGetter<TEmoteIntegrations.__Some__>,
 ) {

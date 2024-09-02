@@ -1,5 +1,3 @@
-import type { TEmoteIntegrations } from "~~/layers/emote-integrations";
-
 export function useOutdatedGlobalEmotesIntegrations(
   allIntegrations: Ref<TEmoteIntegrations.Global.SettledRecord>,
   refreshMany: (
