@@ -1,5 +1,3 @@
-
-
 export function useGlobalEmotesIntegrationsState(
   getIntegrations: () => Promise<TEmoteIntegrations.Global.SettledRecord>,
 ) {

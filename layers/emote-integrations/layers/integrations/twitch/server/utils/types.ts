@@ -1,5 +1,3 @@
-
-
 type _EmoteType = "global" | "channel";
 
 interface __Emote extends IEmote {

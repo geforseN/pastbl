@@ -1,5 +1,3 @@
-
-
 export class GlobalEmotesIntegrationsAPI {
   constructor(private readonly fetch: typeof $fetch) {}
 

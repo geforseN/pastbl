@@ -1,5 +1,3 @@
-
-
 const sourceSymbol = Symbol("source");
 
 export function injectEmoteSource() {
