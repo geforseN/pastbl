@@ -1,6 +1,4 @@
 import consola from "consola";
-import type { TFrankerFaceZ } from "#t_frankerfacez";
-import type { FrankerFaceZApi } from "#integrations_frankerfacez/api-types";
 
 export const makeFrankerFaceZGlobalIntegration =
   defineGlobalIntegrationMaker<TFrankerFaceZ.Global.ReadyIntegration>(

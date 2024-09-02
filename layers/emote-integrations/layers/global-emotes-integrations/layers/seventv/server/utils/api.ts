@@ -1,5 +1,3 @@
-import type { SevenTVApi } from "#integrations_seventv/api-types";
-
 export async function fetchSevenTVGlobalEmotesSet() {
   const response = await fetch("https://7tv.io/v3/emote-sets/global");
   assert.response.ok(

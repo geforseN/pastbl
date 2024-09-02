@@ -1,4 +1,3 @@
-import type { TFrankerFaceZ } from "#t_frankerfacez";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class FrankerFaceZGlobalEmotesIntegration {

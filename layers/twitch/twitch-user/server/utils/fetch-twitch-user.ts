@@ -1,5 +1,3 @@
-import type { TwitchApi } from "#integrations_twitch/api-types";
-
 export async function fetchTwitchUser(login: TwitchUserLogin) {
   const { data } = await fetchTwitchApi<TwitchApi.GetUsersResponse>("/users", {
     query: { login },

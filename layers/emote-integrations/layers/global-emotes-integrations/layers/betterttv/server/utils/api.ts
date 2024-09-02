@@ -1,5 +1,3 @@
-import type { BetterTTVApi } from "#integrations_betterttv/api-types";
-
 // LINK: https://betterttv.com/developers/api#global-emotes
 export async function fetchBetterTTVGlobalEmotes() {
   const response = await fetch(
