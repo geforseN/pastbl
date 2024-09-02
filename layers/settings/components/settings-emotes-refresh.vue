@@ -36,7 +36,7 @@ defineProps<{
 
 function getI18nTime(t: VueI18n["t"], time: MyTimeString) {
   const format = time.at(-1);
-  const int = parseInt(time, 10);
+  const int = Number.parseInt(time, 10);
   assert.ok(Number.isInteger(int));
   return t(`myTimeString.${format}.${int}`);
 }
