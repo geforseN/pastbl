@@ -19,13 +19,13 @@
 <script setup lang="ts">
 import type { CanFindEmote } from "$/pastas/chat-pasta/utils/pasta-dom";
 
-const props = defineProps<
-  CanFindEmote & {
-    canShowPastas: boolean;
-    login: TwitchUserLogin;
-    pastas: OmegaPasta[];
-  }
->();
+type Props = CanFindEmote & {
+  canShowPastas: boolean;
+  login: TwitchUserLogin;
+  pastas: OmegaPasta[];
+};
+
+const props = defineProps<Props>();
 
 defineEmits<{
   removePasta: [OmegaPasta];
