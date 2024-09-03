@@ -1,7 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { LoremIpsum } from "#components";
 
-describe("LoremIpsum", () => {
+describe("<lorem-ipsum />", () => {
   it("has correct numbers inside text", async () => {
     const component = await mountSuspended(LoremIpsum, {
       props: {
