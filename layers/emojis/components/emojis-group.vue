@@ -25,9 +25,12 @@
 <script setup lang="ts">
 const isOpen = ref(false);
 
+type EmojisGroup =
+  (typeof import("unicode-emoji-json/data-by-group.json"))[number];
+
 defineProps<{
   title: string;
-  group: (typeof import("unicode-emoji-json/data-by-group.json"))[number];
+  group: EmojisGroup;
 }>();
 </script>
 <style scoped>
