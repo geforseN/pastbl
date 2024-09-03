@@ -23,8 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-const isOpen = ref(false);
-
 type EmojisGroup =
   (typeof import("unicode-emoji-json/data-by-group.json"))[number];
 
@@ -32,6 +30,8 @@ defineProps<{
   title: string;
   group: EmojisGroup;
 }>();
+
+const isOpen = ref(false);
 </script>
 <style scoped>
 .collapse-title,
