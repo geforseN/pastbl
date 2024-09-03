@@ -1,7 +1,7 @@
-import screens from "#tailwind-config/theme/screens";
+// import screens from "#tailwind-config/theme/screens";
 
 export default defineNuxtPlugin(() => {
-  const isScreenDidBrr = useMediaQuery(`(min-width: ${screens["go-brr"]})`);
+  const isScreenDidBrr = useMediaQuery(`(min-width: 890px)`);
   return {
     provide: {
       screen: reactive({

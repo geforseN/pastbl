@@ -1,6 +1,6 @@
 <template>
   <chat-pasta-list-hints>
-    <client-only>
+    <!-- <client-only>
       <u-tabs
         :items="tabs"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
@@ -27,7 +27,7 @@
           </selected-tab-only>
         </template>
       </u-tabs>
-    </client-only>
+    </client-only> -->
   </chat-pasta-list-hints>
 </template>
 <script setup lang="ts">

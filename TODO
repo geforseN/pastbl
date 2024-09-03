@@ -3,6 +3,7 @@ fix:
     - install playwright
     - remove dead tests
     - remove .skip and .todo
+  - find pastas page not opening
 
 feat:
   - add autocomplete in pasta-form textarea (suggest emotes tokens)
