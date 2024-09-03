@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    "@vue-macros/nuxt",
+    !import.meta.test && "@vue-macros/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
   ]),
@@ -114,14 +114,11 @@ export default defineNuxtConfig({
       defaultLang: "ts",
     },
   },
-  ui: {
-    icons: process.env.NODE_ENV === "production" ? "all" : undefined,
-  },
 });
 
-function defineModules(modules: string[]) {
-  modules = [...modules];
-  if (modules.includes("@nuxt/ui")) {
+function defineModules(modules: (string | undefined | boolean)[]) {
+  const modules_ = modules.filter((string) => typeof string === "string");
+  if (modules_.includes("@nuxt/ui")) {
     // NOTE:
     // Nuxt UI will automatically install the @nuxt/icon, @nuxtjs/tailwindcss and @nuxtjs/color-mode modules for you.
     // You should remove them from your modules and dependencies if you've previously installed them.
@@ -131,11 +128,11 @@ function defineModules(modules: string[]) {
       "@nuxtjs/tailwindcss",
       "@nuxtjs/color-mode",
     ]
-      .map((moduleName) => modules.indexOf(moduleName))
+      .map((moduleName) => modules_.indexOf(moduleName))
       .filter((index) => index !== -1);
     for (const moduleIndex of moduleIndexes) {
-      modules.splice(moduleIndex, 1);
+      modules_.splice(moduleIndex, 1);
     }
   }
-  return modules;
+  return modules_;
 }
