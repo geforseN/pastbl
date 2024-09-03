@@ -5,10 +5,17 @@ export type { VueI18n } from "vue-i18n";
 
 export type ActionToastsThis = { i18n: VueI18n };
 
-export type Notification = Parameters<
-  ReturnType<typeof useNuxtToast>["add"]
->[0];
-
+export type Notification = {
+  id: string;
+  title?: string;
+  description?: string;
+  icon?: string;
+  timeout?: number;
+  click?: (...args: any[]) => void;
+  callback?: (...args: any[]) => void;
+  color?: string;
+  ui?: any;
+};
 export type PartialIdentifiableNotification<
   T extends Notification = Notification,
 > = Partial<T> & {

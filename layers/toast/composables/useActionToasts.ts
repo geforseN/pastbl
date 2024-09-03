@@ -9,7 +9,14 @@ export function useActionToasts<
     toast?: { add(notification: Partial<Notification>): void };
   } = {},
 ) {
-  const { i18n = useI18n(), toast = useNuxtToast() } = options;
+  const {
+    i18n = useI18n(),
+    toast = {
+      add(notification) {
+        return notification;
+      },
+    },
+  } = options;
 
   const context = reactive({ i18n: computed(() => i18n) });
 

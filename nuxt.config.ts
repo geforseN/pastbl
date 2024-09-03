@@ -24,18 +24,24 @@ export default defineNuxtConfig({
     },
   },
   modules: defineModules([
+    !process.env.TEST && "@vue-macros/nuxt",
     "@element-plus/nuxt",
     "@formkit/auto-animate/nuxt",
     "@nuxt/eslint",
+    "@nuxt/icon",
     "@nuxt/test-utils/module",
-    "@nuxt/ui",
     "@nuxtjs/i18n",
-    "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    !process.env.TEST && "@vue-macros/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
   ]),
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  css: ["~/assets/css/tailwind.css"],
   nitro: {
     compressPublicAssets: true,
     minify: true,
@@ -50,11 +56,11 @@ export default defineNuxtConfig({
   imports: {
     presets: [],
     imports: [
-      {
-        from: "#ui/composables/useToast",
-        name: "useToast",
-        as: "useNuxtToast",
-      },
+      // {
+      //   from: "#ui/composables/useToast",
+      //   name: "useToast",
+      //   as: "useNuxtToast",
+      // },
       {
         from: "vue",
         name: "Slot",
@@ -98,6 +104,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     viewer: false,
+    exposeConfig: true,
   },
   vue: {
     propsDestructure: true,
@@ -114,6 +121,17 @@ export default defineNuxtConfig({
       defaultLang: "ts",
     },
   },
+  // hooks: {
+  //   "tailwindcss:config"(tailwindConfig) {
+  //     tailwindConfig.theme.colors.blue = "#fff";
+  //   },
+  //   "tailwindcss:resolvedConfig"(resolvedConfig) {
+  //     console.log(
+  //       "This is the resulting config",
+  //       JSON.stringify(resolvedConfig),
+  //     );
+  //   },
+  // },
 });
 
 function defineModules(modules: (string | undefined | boolean)[]) {
