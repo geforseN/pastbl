@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    !import.meta.test && "@vue-macros/nuxt",
+    !process.env.TEST && "@vue-macros/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
   ]),
