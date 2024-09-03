@@ -4,7 +4,7 @@ import AutoImport from "unplugin-auto-import/vite";
 
 export default defineVitestConfig({
   plugins: [
-    tsconfigPaths(),
+    tsconfigPaths({ root: ".nuxt" }),
     AutoImport({
       imports: ["vitest"],
       dts: true,
