@@ -1,37 +1,31 @@
 <template>
   <chat-pasta-list-hints>
     <client-only>
-      <u-tabs
-        :items="tabs"
+      <el-tabs
+        v-model="tab"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
       >
-        <template #default="{ item }">
-          <span class="truncate">{{ $t(item.key) }}</span>
-        </template>
-        <template #item="{ item: selectedTab }">
-          <selected-tab-only :selected-tab for="remote">
-            <remote-pastas-list
-              v-if="userStore.pastasWorkMode.canBeRemote"
-              :selected-tab
-              :mouseover="throttledMouseover"
-            />
-            <remote-pastas-unavailable-hint v-else />
-          </selected-tab-only>
-          <selected-tab-only :selected-tab for="local">
-            <local-pastas-list
-              v-if="pastasStore.canShowPastas"
-              :items="pastasStore.pastasToShow"
-              @mouseover="throttledMouseover"
-              @remove-pasta="pastasStore.removePasta"
-            />
-          </selected-tab-only>
-        </template>
-      </u-tabs>
+        <el-tab-pane :label="$t('local')" name="local">
+          <local-pastas-list
+            v-if="pastasStore.canShowPastas"
+            :items="pastasStore.pastasToShow"
+            @mouseover="throttledMouseover"
+            @remove-pasta="pastasStore.removePasta"
+          />
+        </el-tab-pane>
+        <el-tab-pane :label="$t('remote')" name="remote">
+          <remote-pastas-list
+            v-if="userStore.pastasWorkMode.canBeRemote"
+            :mouseover="throttledMouseover"
+          />
+          <remote-pastas-unavailable-hint v-else />
+        </el-tab-pane>
+      </el-tabs>
     </client-only>
   </chat-pasta-list-hints>
 </template>
 <script setup lang="ts">
-const tabs = [{ key: "local" }, { key: "remote" }];
+const tab = ref("local");
 
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
@@ -44,3 +38,25 @@ const throttledMouseover = useThrottleFn(
   true,
 );
 </script>
+<style scoped>
+:deep(.el-tabs__nav) {
+  width: 100%;
+}
+
+:deep(.el-tabs__item) {
+  width: 50%;
+  color: theme(colors.base-content);
+}
+
+:deep(.el-tabs__item.is-active) {
+  color: theme(colors.secondary);
+}
+
+:deep(.el-tabs__item:hover:not(.is-active)) {
+    color: theme(colors.info);
+}
+
+:deep(.el-tabs__active-bar) {
+  background-color: theme(colors.secondary);
+}
+</style>

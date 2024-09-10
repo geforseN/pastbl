@@ -8,7 +8,15 @@ import scrollbar from "tailwind-scrollbar";
 
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
-  content: [],
+  content: [
+    "app/components/**/*.{js,vue,ts}",
+    "app/layouts/*.vue",
+    "app/pages/index.vue",
+    "app/app.vue",
+    "layers/**/*.vue",
+    "layers/**/components/**/*.{js,vue,ts}",
+    "layers/**/pages/**/*.vue",
+  ],
   theme: {
     screens: {
       xs: "420px",

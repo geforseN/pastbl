@@ -102,15 +102,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ChatPastaTagAddDialog, PastaForm } from "#components";
+// import type { ChatPastaTagAddDialog, PastaForm } from "#components";
 
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 const userStore = useUserStore();
 
-const addTagDialogRef = ref<InstanceType<typeof ChatPastaTagAddDialog>>();
-const pastaFormRef = ref<InstanceType<typeof PastaForm>>();
+const addTagDialogRef = ref<InstanceType<any>>();
+const pastaFormRef = ref<InstanceType<any>>();
 
 async function focusOnTextarea() {
   // NOTE: without sleep will be ugly layout shift when collapse become opened
