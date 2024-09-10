@@ -102,15 +102,17 @@ function makeSuccessActionHandler<
   RM extends (...args: unknown[]) => Partial<Notification>,
 >(actionName: AN, rawMaker: RM) {
   const id = (actionName + "::success") as `${AN}::success`;
+  const type = "success" as const;
   return {
     id,
-    type: "success" as const,
+    type,
     makeNotification: function (
       this: ActionToastsThis,
       ...args: Parameters<RM>
     ) {
       const notification = rawMaker.call(this, ...args);
       return {
+        type,
         color: ACTION_TOASTS_NOTIFICATION_TYPE_COLORS.success,
         ...notification,
         id,
@@ -126,9 +128,10 @@ function makePanicActionHandler<
 >(actionName: AN, rawMakers: RMS) {
   const id = (actionName + "::panic") as `${AN}::panic`;
   const color = ACTION_TOASTS_NOTIFICATION_TYPE_COLORS["panic"];
+  const type = "panic" as const;
   return {
     id,
-    type: "panic" as const,
+    type,
     makeNotification<K extends string & keyof RMS>(
       this: ActionToastsThis,
       methodName: K,
@@ -139,6 +142,7 @@ function makePanicActionHandler<
       const notification = makeNotification_.call(this, ...args);
       return {
         color,
+        type,
         ...notification,
         id: id + "::" + methodName,
       };
@@ -176,6 +180,7 @@ function makeActionHandlerOf<
         const notification = makeNotification_.call(this, ...args);
         return {
           color,
+          type: mappedType,
           ...notification,
           id: id + "::" + methodName,
         };
