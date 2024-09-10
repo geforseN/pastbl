@@ -1,4 +1,5 @@
 import type { ActionToastsThis, Notification } from "../utils/types";
+import { ElNotification } from "element-plus";
 
 export function useActionToasts<
   T extends ReturnType<typeof createActionToasts>,
@@ -9,7 +10,19 @@ export function useActionToasts<
     toast?: { add(notification: Partial<Notification>): void };
   } = {},
 ) {
-  const { i18n = useI18n(), toast = useNuxtToast() } = options;
+  const {
+    i18n = useI18n(),
+    toast = {
+      add(notification) {
+        return ElNotification({
+          ...notification,
+          progressBar: true,
+          message: notification.description,
+          duration: notification.timeout,
+        });
+      },
+    },
+  } = options;
 
   const context = reactive({ i18n: computed(() => i18n) });
 
@@ -33,7 +46,7 @@ export function useActionToasts<
       (method) =>
         [
           method.type,
-          (...args) => toast.add(reactive(method.makeNotification(...args))),
+          (...args) => toast.add(method.makeNotification(...args)),
         ] as const,
     ),
   );

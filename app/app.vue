@@ -47,14 +47,6 @@
               class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
           </client-only>
-          <u-notifications>
-            <template #title="{ title }">
-              <span class="text-xl">{{ title }}</span>
-            </template>
-            <template #description="{ description }">
-              <span class="font-bold">{{ description }}</span>
-            </template>
-          </u-notifications>
         </div>
       </app-drawer>
     </Body>
@@ -62,7 +54,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#components";
+// import type { EmoteOnHoverCard } from "#components";
 
 const pastasStore = usePastasStore();
 
@@ -79,7 +71,7 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef = ref<InstanceType<typeof EmoteOnHoverCard>>();
+const emoteOnHoverCardRef = ref<InstanceType<any>>();
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );

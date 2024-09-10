@@ -91,7 +91,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-import type { PastaFormTextarea } from "#components";
+// import type { PastaFormTextarea } from "#components";
 
 const userStore = useUserStore();
 
@@ -124,7 +124,7 @@ const emit = defineEmits<{
 const mainEmit = () =>
   userStore.pastasWorkMode.isLocal ? emit("createPasta") : emit("publishPasta");
 
-const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
+const pastaFormTextareaRef = ref<InstanceType<any>>();
 
 defineExpose({
   pastaFormTextareaRef,

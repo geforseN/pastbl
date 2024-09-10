@@ -4,10 +4,10 @@
   </template>
 </template>
 <script setup lang="ts">
-import type { TabItem } from "#ui/types/tabs";
+// import type { TabItem } from "#ui/types/tabs";
 
 defineProps<{
-  selectedTab: TabItem;
+  selectedTab: { key: string };
   for: string;
 }>();
 </script>
