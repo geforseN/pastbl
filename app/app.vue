@@ -47,14 +47,6 @@
               class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
             />
           </client-only>
-          <u-notifications>
-            <template #title="{ title }">
-              <span class="text-xl">{{ title }}</span>
-            </template>
-            <template #description="{ description }">
-              <span class="font-bold">{{ description }}</span>
-            </template>
-          </u-notifications>
         </div>
       </app-drawer>
     </Body>
