@@ -56,11 +56,6 @@ export default defineNuxtConfig({
   imports: {
     presets: [],
     imports: [
-      // {
-      //   from: "#ui/composables/useToast",
-      //   name: "useToast",
-      //   as: "useNuxtToast",
-      // },
       {
         from: "vue",
         name: "Slot",
