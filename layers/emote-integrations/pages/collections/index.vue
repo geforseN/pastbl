@@ -23,13 +23,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { PersonEmotesCollectionFetchForm } from "#components";
+// import type { PersonEmotesCollectionFetchForm } from "#components";
 
 useHead({
   title: "Emotes Collections",
 });
 
-const fetchRef = ref<InstanceType<typeof PersonEmotesCollectionFetchForm>>();
+const fetchRef = ref<InstanceType<any>>();
 
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();

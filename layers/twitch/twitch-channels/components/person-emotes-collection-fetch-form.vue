@@ -42,10 +42,10 @@
   </form>
 </template>
 <script setup lang="ts">
-import type {
-  TwitchChannelsSearch,
-  PersonEmotesCollectionFetchInputGroup,
-} from "#components";
+// import type {
+//   TwitchChannelsSearch,
+//   PersonEmotesCollectionFetchInputGroup,
+// } from "#components";
 
 defineExpose({
   focusInput() {
@@ -56,13 +56,13 @@ defineExpose({
 const twitchChannelsSearchNickname = ref("");
 
 const twitchChannelsSearchRef =
-  ref<InstanceType<typeof TwitchChannelsSearch>>();
+  ref<InstanceType<any>>();
 const twitchChannelsSearchContainer = computed(
   () => twitchChannelsSearchRef.value?.containerRef || raise(),
 );
 
 const inputGroupRef =
-  ref<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>();
+  ref<InstanceType<any>>();
 const inputRef = computed(() => inputGroupRef.value?.inputRef || raise());
 
 const mustSelectCollectionOnLoad = reactive(
