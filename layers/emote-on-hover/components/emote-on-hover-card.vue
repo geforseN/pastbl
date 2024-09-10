@@ -2,7 +2,7 @@
   <div ref="containerRef" class="absolute z-50 flex items-end">
     <div
       v-if="emote"
-      class="flex max-w-96 flex-col items-center gap-1 rounded-lg border p-2 text-white"
+      class="flex max-w-96 flex-col items-center gap-1 rounded-lg border bg-base-100/95 p-2 text-white"
       :class="[
         emoteModifiers?.length && 'rounded-br-none',
         styles!.backgroundBase,
@@ -29,7 +29,7 @@
           v-if="emote.integrationLink.canBe()"
           external
           target="_blank"
-          class="link line-clamp-3 inline break-all text-xl font-bold"
+          class="link line-clamp-3 inline break-all text-xl font-bold text-base-content"
           :href="emote.integrationLink.value"
         >
           {{ emote.token }}
@@ -38,7 +38,7 @@
           {{ emote.token }}
         </span>
         <span>&nbsp;{{ "-" }}&nbsp;</span>
-        <span class="inline-flex items-baseline">
+        <span class="inline-flex items-baseline text-base-content">
           <emote-integration-logo
             :source="emote.source"
             width="20"
