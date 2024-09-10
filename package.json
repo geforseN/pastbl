@@ -3,7 +3,6 @@
   "license": "MIT",
   "private": true,
   "type": "module",
-  "packageManager": "npm@10.8.3",
   "repository": {
     "url": "https://github.com/geforsen/pastbl"
   },
