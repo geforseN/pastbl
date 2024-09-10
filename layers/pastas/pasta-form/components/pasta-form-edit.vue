@@ -65,7 +65,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { PastaFormTextarea } from "#components";
+// import type { PastaFormTextarea } from "#components";
 
 const text = defineModel<string>("text", { required: true });
 const tag = defineModel<string>("tag", { required: true });
@@ -76,7 +76,7 @@ defineProps<{
   isPastaSame: boolean;
 }>();
 
-const pastaFormTextareaRef = ref<InstanceType<typeof PastaFormTextarea>>();
+const pastaFormTextareaRef = ref<InstanceType<any>>();
 
 defineEmits<{
   decline: [];
