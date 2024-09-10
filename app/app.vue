@@ -62,7 +62,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#components";
+// import type { EmoteOnHoverCard } from "#components";
 
 const pastasStore = usePastasStore();
 
@@ -79,7 +79,7 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef = ref<InstanceType<typeof EmoteOnHoverCard>>();
+const emoteOnHoverCardRef = ref<InstanceType<any>>();
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
