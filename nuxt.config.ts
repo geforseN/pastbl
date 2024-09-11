@@ -23,7 +23,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: defineModules([
+  modules: [
     !process.env.TEST && "@vue-macros/nuxt",
     "@element-plus/nuxt",
     "@formkit/auto-animate/nuxt",
@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
-  ]),
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -97,10 +97,6 @@ export default defineNuxtConfig({
     defaultLocale: "en",
     strategy: "prefix",
   },
-  tailwindcss: {
-    viewer: false,
-    exposeConfig: true,
-  },
   vue: {
     propsDestructure: true,
   },
@@ -109,43 +105,8 @@ export default defineNuxtConfig({
     allowRelativePaths: false,
   },
   macros: {
-    templateRef: {
-      alias: ["templateRef", "useTemplateRef"],
-    },
     scriptLang: {
       defaultLang: "ts",
     },
   },
-  // hooks: {
-  //   "tailwindcss:config"(tailwindConfig) {
-  //     tailwindConfig.theme.colors.blue = "#fff";
-  //   },
-  //   "tailwindcss:resolvedConfig"(resolvedConfig) {
-  //     console.log(
-  //       "This is the resulting config",
-  //       JSON.stringify(resolvedConfig),
-  //     );
-  //   },
-  // },
 });
-
-function defineModules(modules: (string | undefined | boolean)[]) {
-  const modules_ = modules.filter((string) => typeof string === "string");
-  if (modules_.includes("@nuxt/ui")) {
-    // NOTE:
-    // Nuxt UI will automatically install the @nuxt/icon, @nuxtjs/tailwindcss and @nuxtjs/color-mode modules for you.
-    // You should remove them from your modules and dependencies if you've previously installed them.
-    // LINK: https://ui.nuxt.com/getting-started/installation#modules
-    const moduleIndexes = [
-      "@nuxt/icon",
-      "@nuxtjs/tailwindcss",
-      "@nuxtjs/color-mode",
-    ]
-      .map((moduleName) => modules_.indexOf(moduleName))
-      .filter((index) => index !== -1);
-    for (const moduleIndex of moduleIndexes) {
-      modules_.splice(moduleIndex, 1);
-    }
-  }
-  return modules_;
-}

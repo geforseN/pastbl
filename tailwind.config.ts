@@ -6,6 +6,8 @@ import daisyui from "daisyui";
 import debugScreens from "tailwindcss-debug-screens";
 import scrollbar from "tailwind-scrollbar";
 
+export const goBrrScreenSize = "890px" as const;
+
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
   content: [
@@ -22,7 +24,7 @@ export default {
       xs: "420px",
       sm: screens.sm,
       md: screens.md,
-      "go-brr": "890px",
+      "go-brr": goBrrScreenSize,
       lg: screens.lg,
       xl: screens.xl,
       "2xl": screens["2xl"],
