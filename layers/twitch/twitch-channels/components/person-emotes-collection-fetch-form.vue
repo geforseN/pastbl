@@ -10,7 +10,7 @@
       <emote-integration-logos />
     </div>
     <person-emotes-collection-fetch-input-group
-      ref="inputGroupRef"
+      ref="inputGroup"
       v-model:nickname="twitchChannelsSearchNickname"
     >
       <button class="btn btn-accent join-item w-2/6">
@@ -27,7 +27,7 @@
       </button>
     </person-emotes-collection-fetch-input-group>
     <twitch-channels-search
-      ref="twitchChannelsSearchRef"
+      ref="twitchChannelsSearch"
       :must-show="twitchChannelsSearch.mustShow"
       :channels="twitchChannelsSearch.state"
       @load="
@@ -42,10 +42,10 @@
   </form>
 </template>
 <script setup lang="ts">
-// import type {
-//   TwitchChannelsSearch,
-//   PersonEmotesCollectionFetchInputGroup,
-// } from "#components";
+import type {
+  TwitchChannelsSearch,
+  PersonEmotesCollectionFetchInputGroup,
+} from "#components";
 
 defineExpose({
   focusInput() {
@@ -55,14 +55,17 @@ defineExpose({
 
 const twitchChannelsSearchNickname = ref("");
 
-const twitchChannelsSearchRef =
-  ref<InstanceType<any>>();
+const twitchChannelsSearchRef = useTemplateRef<
+  InstanceType<typeof TwitchChannelsSearch>
+>("twitchChannelsSearch");
 const twitchChannelsSearchContainer = computed(
   () => twitchChannelsSearchRef.value?.containerRef || raise(),
 );
 
 const inputGroupRef =
-  ref<InstanceType<any>>();
+  useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>(
+    "inputGroup",
+  );
 const inputRef = computed(() => inputGroupRef.value?.inputRef || raise());
 
 const mustSelectCollectionOnLoad = reactive(
