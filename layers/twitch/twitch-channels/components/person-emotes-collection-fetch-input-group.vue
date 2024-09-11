@@ -2,7 +2,7 @@
   <div class="join w-full">
     <input
       id="fetch-nickname"
-      ref="inputRef"
+      ref="input"
       v-model="nickname"
       data-testid="person-emotes-collection-fetch-input"
       name="fetch-nickname"
@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const inputRef = ref<HTMLInputElement>();
+const inputRef = useTemplateRef("input");
 
 const nickname = defineModel<string>("nickname", { required: true });
 

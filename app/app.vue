@@ -34,7 +34,7 @@
             <nuxt-page />
           </nuxt-layout>
           <emote-on-hover-card
-            ref="emoteOnHoverCardRef"
+            ref="emoteOnHoverCard"
             v-on-click-outside="emoteOnHover.close"
             :emoji="emoteOnHover.emoji.value"
             :emote="emoteOnHover.emote.value"
@@ -54,7 +54,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-// import type { EmoteOnHoverCard } from "#components";
+import type { EmoteOnHoverCard } from "#components";
 
 const pastasStore = usePastasStore();
 
@@ -71,7 +71,8 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef = ref<InstanceType<any>>();
+const emoteOnHoverCardRef =
+  useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );

@@ -69,9 +69,7 @@ const respect = defineModel<boolean>("respect", { required: true });
 }
 
 :deep(.el-input) {
-  --el-input-focus-border: theme(colors.primary.DEFAULT);
   --el-input-focus-border-color: theme(colors.secondary);
-  --el-input-hover-border-color: theme(colors.primary.DEFAULT);
 }
 
 :deep(.el-input__wrapper:hover) {
