@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import daisyuiThemes from "daisyui/src/theming/themes";
-import { screens } from "tailwindcss/defaultTheme";
+import defaultTheme from "tailwindcss/defaultTheme";
 import daisyui from "daisyui";
 // @ts-expect-error @types/tailwindcss-debug-screens does not exist
 import debugScreens from "tailwindcss-debug-screens";
@@ -22,12 +22,12 @@ export default {
   theme: {
     screens: {
       xs: "420px",
-      sm: screens.sm,
-      md: screens.md,
+      sm: defaultTheme.screens.sm,
+      md: defaultTheme.screens.md,
       "go-brr": goBrrScreenSize,
-      lg: screens.lg,
-      xl: screens.xl,
-      "2xl": screens["2xl"],
+      lg: defaultTheme.screens.lg,
+      xl: defaultTheme.screens.xl,
+      "2xl": defaultTheme.screens["2xl"],
     },
     extend: {
       spacing: {
