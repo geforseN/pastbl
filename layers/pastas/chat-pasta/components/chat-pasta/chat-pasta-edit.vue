@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-2">
     <pasta-form-edit
-      ref="pastaFormEditRef"
+      ref="pastaFormEdit"
       v-model:tag="tag"
       v-model:text="megaPasta.text"
       v-model:tags="megaPasta.tags"
@@ -32,13 +32,13 @@
     </client-only>
     <teleport to="body">
       <chat-pasta-accept-changes-dialog
-        ref="acceptChangesDialogRef"
+        ref="acceptChangesDialog"
         :tags="megaPasta.tags"
         :text="megaPasta.text"
         :on-success="refreshPastaState"
       />
       <chat-pasta-tag-add-dialog
-        ref="addTagDialogRef"
+        ref="addTagDialog"
         :tag="tag"
         :on-success="
           async () => {
@@ -58,11 +58,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-// import type {
-//   ChatPastaEditAcceptChangesDialog,
-//   ChatPastaTagAddDialog,
-//   PastaFormEdit,
-// } from "#components";
+import type {
+  ChatPastaEditAcceptChangesDialog,
+  ChatPastaTagAddDialog,
+  PastaFormEdit,
+} from "#components";
 
 const { pastaId } = defineProps<{
   pastaId: number;
@@ -70,10 +70,13 @@ const { pastaId } = defineProps<{
 
 const localePath = useLocalePath();
 
-const pastaFormEditRef = ref<InstanceType<any>>();
-const addTagDialogRef = ref<InstanceType<any>>();
-const acceptChangesDialogRef =
-  ref<InstanceType<any>>();
+const pastaFormEditRef =
+  useTemplateRef<InstanceType<typeof PastaFormEdit>>("pastaFormEdit");
+const addTagDialogRef =
+  useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
+const acceptChangesDialogRef = useTemplateRef<
+  InstanceType<typeof ChatPastaEditAcceptChangesDialog>
+>("acceptChangesDialog");
 
 const mustIgnoreRouteLeaveGuard = ref(false);
 
