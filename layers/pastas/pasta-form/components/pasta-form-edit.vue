@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
-        ref="pastaFormTextareaRef"
+        ref="pastaFormTextarea"
         v-model="text"
         class="mx-0.5"
         @submit="$emit('accept')"
@@ -65,7 +65,7 @@
   </div>
 </template>
 <script setup lang="ts">
-// import type { PastaFormTextarea } from "#components";
+import type { PastaFormTextarea } from "#build/components";
 
 const text = defineModel<string>("text", { required: true });
 const tag = defineModel<string>("tag", { required: true });
@@ -76,7 +76,8 @@ defineProps<{
   isPastaSame: boolean;
 }>();
 
-const pastaFormTextareaRef = ref<InstanceType<any>>();
+const pastaFormTextareaRef =
+  useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
 
 defineEmits<{
   decline: [];

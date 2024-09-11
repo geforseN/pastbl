@@ -10,7 +10,7 @@
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
-        ref="pastaFormTextareaRef"
+        ref="pastaFormTextarea"
         v-model="pastaTextModel"
         :model-status="pastaStatus"
         class="mx-0.5"
@@ -27,7 +27,6 @@
         class="flex flex-row-reverse items-center justify-between gap-1 xl:w-full xl:flex-col"
       >
         <button
-          ref="createPastaButton"
           class="btn btn-primary h-max text-lg focus:outline-double focus:outline-4 focus:outline-offset-1 xl:w-full"
           @click="mainEmit"
         >
@@ -91,7 +90,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-// import type { PastaFormTextarea } from "#components";
+import type { PastaFormTextarea } from "#build/components";
 
 const userStore = useUserStore();
 
@@ -124,7 +123,8 @@ const emit = defineEmits<{
 const mainEmit = () =>
   userStore.pastasWorkMode.isLocal ? emit("createPasta") : emit("publishPasta");
 
-const pastaFormTextareaRef = ref<InstanceType<any>>();
+const pastaFormTextareaRef =
+  useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
 
 defineExpose({
   pastaFormTextareaRef,

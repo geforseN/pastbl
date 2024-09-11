@@ -58,7 +58,7 @@
       "
     >
       <pasta-form
-        ref="pastaFormRef"
+        ref="pastaForm"
         v-model:tag="pastaStore.pasta.tag"
         v-model:text="pastaStore.pasta.text"
         v-model:is-public="pastaStore.publishPasta.isPublicPasta.state"
@@ -94,7 +94,7 @@
     </div>
     <teleport to="body">
       <chat-pasta-tag-add-dialog
-        ref="addTagDialogRef"
+        ref="addTagDialog"
         :tag="pastaStore.pasta.tag"
         :on-success="pastaStore.addInputTag"
       />
@@ -102,15 +102,17 @@
   </div>
 </template>
 <script setup lang="ts">
-// import type { ChatPastaTagAddDialog, PastaForm } from "#components";
+import type { ChatPastaTagAddDialog, PastaForm } from '#build/components';
 
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 const userStore = useUserStore();
 
-const addTagDialogRef = ref<InstanceType<any>>();
-const pastaFormRef = ref<InstanceType<any>>();
+const addTagDialogRef =
+  useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
+const pastaFormRef =
+  useTemplateRef<InstanceType<typeof PastaForm>>("pastaForm");
 
 async function focusOnTextarea() {
   // NOTE: without sleep will be ugly layout shift when collapse become opened

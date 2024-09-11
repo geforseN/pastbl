@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="remotePastasListRef"
+    ref="remotePastasList"
     :class="appConfig.pastaList.heights"
     class="chat-pasta-list overflow-y-auto"
     @mouseover="mouseover"
@@ -52,6 +52,6 @@ const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
 
-const remotePastasListRef = ref<HTMLElement>();
+const remotePastasListRef = useTemplateRef("remotePastasList");
 const remotePastas = useRemotePastas(remotePastasListRef);
 </script>

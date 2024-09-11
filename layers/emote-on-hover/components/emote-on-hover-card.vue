@@ -1,5 +1,5 @@
 <template>
-  <div ref="containerRef" class="absolute z-50 flex items-end">
+  <div ref="container" class="absolute z-50 flex items-end">
     <div
       v-if="emote"
       class="flex max-w-96 flex-col items-center gap-1 rounded-lg border bg-base-100/95 p-2 text-white"
@@ -117,7 +117,7 @@ const props = defineProps<{
 defineEmits<{
   close: [];
 }>();
-const containerRef = ref<HTMLDivElement>();
+const containerRef = useTemplateRef('container');
 
 defineExpose({
   containerRef,

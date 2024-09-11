@@ -17,26 +17,27 @@
         />
       </template>
     </app-link>
-    <person-emotes-collection-fetch-form ref="fetchRef" />
+    <person-emotes-collection-fetch-form ref="fetch" />
     <persons-emotes-collections-select />
     <app-link-to-main />
   </div>
 </template>
 <script setup lang="ts">
-// import type { PersonEmotesCollectionFetchForm } from "#components";
+import type { PersonEmotesCollectionFetchForm } from "#build/components";
 
 useHead({
   title: "Emotes Collections",
 });
 
-const fetchRef = ref<InstanceType<any>>();
+const fetchRef =
+  useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchForm>>("fetch");
 
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();
   if (params.focus === "fetch") {
     if (import.meta.dev) {
       // eslint-disable-next-line no-console
-      console.info('pages/collections: "focus-fetch" query param found', {
+      console.debug('pages/collections: "focus-fetch" query param found', {
         focusFetch: params.focus,
       });
     }

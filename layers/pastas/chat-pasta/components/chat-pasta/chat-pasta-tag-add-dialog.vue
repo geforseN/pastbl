@@ -1,5 +1,5 @@
 <template>
-  <dialog ref="dialogRef" class="modal">
+  <dialog ref="dialog" class="modal">
     <div class="modal-box">
       <h3 class="text-lg font-bold">
         {{ $t("modal.chatPastaTagAdd.heading") }}
@@ -28,7 +28,7 @@ const props = defineProps<{
 }>();
 
 const mustAddTag = ref<boolean | null>(null);
-const dialogRef = ref<HTMLDialogElement>();
+const dialogRef = useTemplateRef("dialog");
 
 defineExpose({
   async execute() {
