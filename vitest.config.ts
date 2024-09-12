@@ -1,10 +1,12 @@
-import { defineVitestConfig } from "@nuxt/test-utils/config";
+import { defineConfig } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
 import AutoImport from "unplugin-auto-import/vite";
+import vue from "@vitejs/plugin-vue";
 
-export default defineVitestConfig({
+export default defineConfig({
   plugins: [
-    tsconfigPaths({ root: ".nuxt" }),
+    vue(),
+    tsconfigPaths(),
     AutoImport({
       imports: ["vitest"],
       dts: true,
@@ -12,13 +14,6 @@ export default defineVitestConfig({
     }),
   ],
   test: {
-    environmentOptions: {
-      nuxt: {
-        mock: {
-          intersectionObserver: true,
-          indexedDb: true,
-        },
-      },
-    },
+    environment: "happy-dom",
   },
 });
