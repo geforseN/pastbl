@@ -45,7 +45,7 @@
 import type {
   TwitchChannelsSearch,
   PersonEmotesCollectionFetchInputGroup,
-} from "#components";
+} from "#build/components";
 
 defineExpose({
   focusInput() {

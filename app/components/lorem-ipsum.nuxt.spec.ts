@@ -1,5 +1,5 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { LoremIpsum } from "#components";
+import { LoremIpsum } from "#build/components";
 
 describe("<lorem-ipsum />", () => {
   it("has correct numbers inside text", async () => {

@@ -54,7 +54,7 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#components";
+import type { EmoteOnHoverCard } from "#build/components";
 
 const pastasStore = usePastasStore();
 
