@@ -1,42 +1,27 @@
 <template>
   <div class="flex flex-col items-center gap-2">
-    <div class="join">
-      <button
-        class="btn btn-secondary join-item"
-        @click="
-          () => {
-            if (selectedPastaNumber > 1) {
-              selectedPastaNumber--;
-            } else {
-              selectedPastaNumber = pastas.length;
-            }
+    <found-pastas-list-navigation-bar
+      v-model:selected-number="selectedPastaNumber"
+      :pastas-count="pastas.length"
+      @forward="
+        () => {
+          if (selectedPastaNumber > 1) {
+            selectedPastaNumber--;
+          } else {
+            selectedPastaNumber = pastas.length;
           }
-        "
-      >
-        &lt;&lt;
-      </button>
-      <input
-        id="current-pasta-number"
-        :value="`${selectedPastaNumber} / ${pastas.length}`"
-        class="input join-item input-secondary"
-        readonly
-        name="current-pasta-number"
-      />
-      <button
-        class="btn btn-secondary join-item"
-        @click="
-          () => {
-            if (selectedPastaNumber < pastas.length) {
-              selectedPastaNumber++;
-            } else {
-              selectedPastaNumber = 1;
-            }
+        }
+      "
+      @back="
+        () => {
+          if (selectedPastaNumber < pastas.length) {
+            selectedPastaNumber++;
+          } else {
+            selectedPastaNumber = 1;
           }
-        "
-      >
-        &gt;&gt;
-      </button>
-    </div>
+        }
+      "
+    />
     <!-- NOTE: chat-pasta :key is important, without it component populate emit will be called once -->
     <chat-pasta
       v-if="selectedPasta"
@@ -62,6 +47,7 @@
         />
       </template>
     </chat-pasta>
+    <span v-else> {{ $t("pasta.notFound") }} </span>
   </div>
 </template>
 <script lang="ts" setup>
@@ -79,8 +65,8 @@ const selectedPasta = computed(() => pastas.value[selectedPastaIndex.value]);
 
 watch(
   () => pastas.value.length,
-  () => {
-    selectedPastaNumber.value = 1;
+  (length) => {
+    selectedPastaNumber.value = length > 0 ? 1 : 0;
   },
 );
 
