@@ -1,4 +1,4 @@
-import { ChatPastaCreatorData, ChatPasta } from "#components";
+import { ChatPastaCreatorData, ChatPasta } from "#build/components";
 import { renderSuspended } from "@nuxt/test-utils/runtime";
 import "jest-image-snapshot";
 
