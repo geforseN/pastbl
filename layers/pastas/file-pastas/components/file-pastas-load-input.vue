@@ -30,7 +30,7 @@ async function onFilesInputChange(event: Event) {
   );
   const sorted = fulfilled.toSorted((a, b) => a.id - b.id);
   pastasStore.pastas.push(...sorted);
-  toast.success();
+  toast.success(fulfilled.length);
   if (rejected.length > 0) {
     toast.warning("foundRejected", rejected.length);
   }

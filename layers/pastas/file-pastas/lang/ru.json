@@ -2,6 +2,10 @@
   "actions": {
     "pastas": {
       "load-from-file": {
+        "success": {
+          "title": "Пасты из файла загружены успешно",
+          "description": "Количество принятых паст: {count}"
+        },
         "incorrect-input": {
           "title": "Ошибка загрузки паст из файла",
           "description": "Неверное содержимое файла"

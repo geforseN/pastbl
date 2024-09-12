@@ -1,6 +1,15 @@
 export const loadPastasFromFileToasts = createActionToasts(
   "load-pastas-from-file",
   {
+    success(fulfilledPastasLength: number) {
+      return {
+        title: this.i18n.t("actions.pastas.load-from-file.success.title"),
+        description: this.i18n.t(
+          "actions.pastas.load-from-file.success.description",
+          { count: fulfilledPastasLength },
+        ),
+      };
+    },
     failures: {
       incorrectFileContent(this: ActionToastsThis) {
         return {
