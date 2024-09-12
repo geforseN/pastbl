@@ -28,8 +28,8 @@
     </person-emotes-collection-fetch-input-group>
     <twitch-channels-search
       ref="twitchChannelsSearch"
-      :must-show="twitchChannelsSearch.mustShow"
-      :channels="twitchChannelsSearch.state"
+      :must-show="twitchChannels.mustShow"
+      :channels="twitchChannels.state"
       @load="
         (nickname) => {
           twitchChannelsSearchNickname = nickname;
@@ -75,7 +75,7 @@ const mustSelectCollectionOnLoad = reactive(
   ),
 );
 
-const twitchChannelsSearch = reactive(
+const twitchChannels = reactive(
   useTwitchChannelsSearch(useDebounce(twitchChannelsSearchNickname, 500)),
 );
 
@@ -87,8 +87,8 @@ const personEmotesCollectionLoad = reactive(
 );
 
 onMounted(() => {
-  whenever(useFocus(inputRef).focused, twitchChannelsSearch.show);
-  onClickOutside(twitchChannelsSearchContainer, twitchChannelsSearch.hide, {
+  whenever(useFocus(inputRef).focused, twitchChannels.show);
+  onClickOutside(twitchChannelsSearchContainer, twitchChannels.hide, {
     ignore: [inputRef],
   });
 });
