@@ -2,13 +2,17 @@
   "actions": {
     "pastas": {
       "load-from-file": {
+        "success": {
+          "title": "Load pastas from file success",
+          "description": "Successfully loaded 1 pasta | Successfully loaded {count} pastas"
+        },
         "incorrect-input": {
           "title": "Load pastas from file fail",
           "description": "Incorrect file content"
         },
         "found-rejected": {
           "title": "Load pastas from file warning",
-          "description": "Found {count} rejected pastas"
+          "description": "Found 1 rejected pasta | Found {count} rejected pastas"
         }
       }
     }
