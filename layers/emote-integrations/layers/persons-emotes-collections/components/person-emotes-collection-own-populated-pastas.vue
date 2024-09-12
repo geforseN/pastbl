@@ -17,7 +17,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { CanFindEmote } from "$/pastas/chat-pasta/utils/pasta-dom";
+import type { CanFindEmote } from "$/pastas/layers/chat-pasta/utils/pasta-dom";
 
 type Props = CanFindEmote & {
   canShowPastas: boolean;

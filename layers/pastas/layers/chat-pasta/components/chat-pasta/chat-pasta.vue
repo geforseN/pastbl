@@ -29,7 +29,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { OmegaPasta } from "$/pastas/chat-pasta/utils/pasta";
+import type { OmegaPasta } from "~~/layers/pastas/layers/chat-pasta/utils/pasta";
 
 defineProps<OmegaPasta>();
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { transformPastaTag } from "$/pastas/chat-pasta/utils/pasta-tag";
+import { transformPastaTag } from "~~/layers/pastas/layers/chat-pasta/utils/pasta-tag";
 import { pastasConfig } from "$/pastas/app.config";
 
 const pastaTagSchema = z

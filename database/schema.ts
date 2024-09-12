@@ -12,7 +12,7 @@ import { relations } from "drizzle-orm";
 import {
   defaultPastaPublicity,
   pastasPublicity,
-} from "$/pastas/remote-pastas/server/utils/pastas";
+} from "$/pastas/layers/remote-pastas/server/utils/pastas";
 import { pastasConfig } from "$/pastas/app.config";
 import { twitchConfig } from "$/twitch/app.config";
 
