@@ -94,7 +94,7 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
     "@pinia/nuxt": "^0.5.4",
-    "@vue-macros/volar": "^0.29.1",
+    "@vue-macros/volar": "^0.30.0",
     "@vueuse/components": "^11.0.3",
     "@vueuse/integrations": "^11.0.3",
     "consola": "^3.2.3",
