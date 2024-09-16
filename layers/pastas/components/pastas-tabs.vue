@@ -3,21 +3,18 @@
     <client-only>
       <el-tabs
         v-model="tab"
+        v-on-mouseover="useThrottleFn(emoteOnHover.allEmotesHandler, 100, true)"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
       >
         <el-tab-pane :label="$t('local')" name="local">
           <local-pastas-list
             v-if="pastasStore.canShowPastas"
             :items="pastasStore.pastasToShow"
-            @mouseover="throttledMouseover"
             @remove-pasta="pastasStore.removePasta"
           />
         </el-tab-pane>
         <el-tab-pane :label="$t('remote')" name="remote">
-          <remote-pastas-list
-            v-if="userStore.pastasWorkMode.canBeRemote"
-            :mouseover="throttledMouseover"
-          />
+          <remote-pastas-list v-if="userStore.pastasWorkMode.canBeRemote" />
           <remote-pastas-unavailable-hint v-else />
         </el-tab-pane>
       </el-tabs>
@@ -25,18 +22,12 @@
   </chat-pasta-list-hints>
 </template>
 <script setup lang="ts">
-const tab = ref("local");
+const tab = ref<"local" | "remote">("local");
 
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
 const emoteOnHover = injectEmoteOnHover();
-
-const throttledMouseover = useThrottleFn(
-  emoteOnHover.allEmotesHandler,
-  100,
-  true,
-);
 </script>
 <style scoped>
 :deep(.el-tabs__nav) {
@@ -53,7 +44,7 @@ const throttledMouseover = useThrottleFn(
 }
 
 :deep(.el-tabs__item:hover:not(.is-active)) {
-    color: theme(colors.info);
+  color: theme(colors.info);
 }
 
 :deep(.el-tabs__active-bar) {

@@ -6,7 +6,12 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div class="space-y-2" @mouseover="throttledMouseover">
+    <div
+      v-on-mouseover="
+        useThrottleFn(emoteOnHover.globalEmotesHandler, 100, true)
+      "
+      class="space-y-2"
+    >
       <update-all-global-emotes-integrations-button
         @click="globalEmotesIntegrationsStore.updateAllIntegrations"
       />
@@ -16,7 +21,7 @@
       <global-emotes-integration
         v-for="integration of globalEmotesIntegrationsStore.integrationsState"
         :key="integration.source"
-        v-model:checkedSources="
+        v-model:checked-sources="
           globalEmotesIntegrationsStore.checkedSources.state
         "
         :integration
@@ -36,13 +41,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const emoteOnHover = injectEmoteOnHover();
-
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
-const throttledMouseover = useThrottleFn(
-  emoteOnHover.globalEmotesHandler,
-  100,
-  true,
-);
+const emoteOnHover = injectEmoteOnHover();
 </script>
