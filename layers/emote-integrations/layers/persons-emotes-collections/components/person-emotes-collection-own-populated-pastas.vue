@@ -17,9 +17,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { CanFindEmote } from "$/pastas/layers/chat-pasta/utils/pasta-dom";
-
-type Props = CanFindEmote & {
+type Props = {
+  findEmote: (token: string) => IEmote | undefined;
   canShowPastas: boolean;
   login: TwitchUserLogin;
   pastas: OmegaPasta[];

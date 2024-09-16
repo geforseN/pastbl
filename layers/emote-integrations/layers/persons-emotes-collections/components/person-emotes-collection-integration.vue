@@ -1,6 +1,6 @@
 <template>
   <article
-    class="rounded-btn border-2 p-2 text-white"
+    class="rounded-btn border-2 p-2"
     :class="[styles.backgroundBase, styles.borderAccent]"
     :data-integration-source="source"
   >
