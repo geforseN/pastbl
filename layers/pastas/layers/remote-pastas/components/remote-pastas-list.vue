@@ -3,7 +3,6 @@
     ref="remotePastasList"
     :class="appConfig.pastaList.heights"
     class="chat-pasta-list overflow-y-auto"
-    @mouseover="mouseover"
   >
     <chat-pasta
       v-for="pasta of remotePastas.list.value"
@@ -42,10 +41,6 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{
-  mouseover: (payload: MouseEvent) => void;
-}>();
-
 const appConfig = useAppConfig();
 
 const userStore = useUserStore();

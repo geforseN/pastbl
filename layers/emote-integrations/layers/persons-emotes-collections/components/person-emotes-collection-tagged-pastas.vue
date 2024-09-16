@@ -11,7 +11,9 @@
     >
       <chat-pasta-tag :tag="`@${login}`" class="w-fit" />
     </i18n-t>
-    <div @mouseover="findEmoteForHoverHint">
+    <div
+      v-on-mouseover="useThrottleFn(emoteOnHover.allEmotesHandler, 100, true)"
+    >
       <local-pastas-list
         v-if="pastas?.length && canShowPastas"
         data-compact
@@ -34,10 +36,4 @@ defineEmits<{
 }>();
 
 const emoteOnHover = injectEmoteOnHover();
-
-const findEmoteForHoverHint = useThrottleFn(
-  emoteOnHover.allEmotesHandler,
-  100,
-  true,
-);
 </script>

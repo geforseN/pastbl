@@ -1,7 +1,9 @@
 <template>
   <div
+    v-on-mouseover="
+      useThrottleFn(emoteOnHover.makeMouseoverHandler(), 100, true)
+    "
     class="space-y-1.5 rounded-btn border-2 p-2"
-    @mouseover="throttledMouseover"
   >
     <emojis-group
       v-for="[title, group] of emojisGroupsEntries"
@@ -23,10 +25,4 @@ const emojisGroupsEntries = computed(() =>
 );
 
 const emoteOnHover = injectEmoteOnHover();
-
-const throttledMouseover = useThrottleFn(
-  emoteOnHover.makeMouseoverHandler(),
-  100,
-  true,
-);
 </script>
