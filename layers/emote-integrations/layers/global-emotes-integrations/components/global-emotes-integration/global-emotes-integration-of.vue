@@ -1,7 +1,7 @@
 <template>
   <global-emotes-integration
     v-if="integration"
-    v-model:checkedSources="globalEmotesIntegrationsStore.checkedSources.state"
+    v-model:checked-sources="globalEmotesIntegrationsStore.checkedSources.state"
     :integration
     @mouseover="throttledMouseover"
     @refresh="
