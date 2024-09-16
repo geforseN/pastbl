@@ -13,7 +13,4 @@ export default defineConfig({
       ignore: ["assert"],
     }),
   ],
-  test: {
-    environment: "happy-dom",
-  },
 });
