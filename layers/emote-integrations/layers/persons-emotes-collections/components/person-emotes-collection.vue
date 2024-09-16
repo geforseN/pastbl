@@ -111,9 +111,8 @@ const throttledMouseover = useThrottleFn(
       const { integrationSource } =
         EmoteIntegrationContainer.fromClosestOf(target);
       const { emoteId } = EmoteContainer.from(target);
-      const emote = await emotesService.__getEmote__(
-        integrationSource,
-        emoteId,
+      const emote = await withEmoteIntegrationsIndexedDB((database) =>
+        database.get("persons-emotes", [integrationSource, emoteId]),
       );
       return emote;
     },
