@@ -19,7 +19,7 @@
     "test": "vitest",
     "test:nuxt": "vitest --config vitest.nuxt.config.ts",
     "test:vue": "vitest --config vitest.vue.config.ts",
-    "test:nitro": "vitest --config vitest.nitro.config.ts",
+    "test:node": "vitest --config vitest.node.config.ts",
     "test:playwright": "playwright test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
