@@ -1,5 +1,6 @@
 import path from "node:path";
 import fs, { type PathLike } from "node:fs";
+import url from "node:url";
 
 function getAbsoluteDirectoriesNames(directoryPath: PathLike) {
   directoryPath = directoryPath.toString();
@@ -42,4 +43,12 @@ export function findNuxtLayers(path: PathLike) {
   return getAbsoluteDirectoriesNames(path).filter(
     directoryHasNuxtConfigFileHasNuxtConfigFile,
   );
+}
+
+export function __dirname__(importMetaUrl: string) {
+  return path.dirname(url.fileURLToPath(importMetaUrl));
+}
+
+export function __layersDirname__(importMetaUrl: string) {
+  return path.join(__dirname__(importMetaUrl), "layers");
 }

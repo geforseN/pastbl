@@ -1,42 +1,37 @@
-import url from "node:url";
 import path from "node:path";
-import { findNuxtLayers } from "../../server/utils/nuxt-config";
+import { findNuxtLayers, __dirname__ } from "../../server/utils/nuxt-config";
 
-const currentDirectoryPath = path.dirname(url.fileURLToPath(import.meta.url));
-const currentDirectoryLayersPath = path.join(currentDirectoryPath, "layers");
+const dirname = __dirname__(import.meta.url);
+const layersDirname = path.join(dirname, "layers");
 
 export default defineNuxtConfig({
   alias: {
     "$global-emotes-integrations": path.join(
-      currentDirectoryLayersPath,
+      layersDirname,
       "global-emotes-integrations",
     ),
     "$persons-emotes-collections": path.join(
-      currentDirectoryLayersPath,
+      layersDirname,
       "persons-emotes-collections",
     ),
   },
   components: [
     {
-      path: path.join(currentDirectoryPath, "components"),
+      path: path.join(dirname, "components"),
     },
     {
-      path: path.join(
-        currentDirectoryPath,
-        "components",
-        "conditional-emote-integration",
-      ),
+      path: path.join(dirname, "components", "conditional-emote-integration"),
       pathPrefix: false,
     },
   ],
   imports: {
     imports: [
       {
-        from: path.join(currentDirectoryPath, "utils", "types-dump"),
+        from: path.join(dirname, "utils", "types-dump"),
         name: "TEmoteIntegrations",
         type: true,
       },
     ],
   },
-  extends: findNuxtLayers(currentDirectoryLayersPath),
+  extends: findNuxtLayers(layersDirname),
 });

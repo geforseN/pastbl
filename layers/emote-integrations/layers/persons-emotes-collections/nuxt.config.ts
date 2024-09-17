@@ -1,16 +1,18 @@
 import path from "node:path";
-import url from "node:url";
-import { findNuxtLayers } from "../../../../server/utils/nuxt-config";
+import {
+  findNuxtLayers,
+  __dirname__,
+} from "../../../../server/utils/nuxt-config";
 
-const currentDirectoryPath = path.dirname(url.fileURLToPath(import.meta.url));
-const currentDirectoryLayersPath = path.join(currentDirectoryPath, "layers");
+const dirname = __dirname__(import.meta.url);
+const layersDirname = path.join(dirname, "layers");
 
 export default defineNuxtConfig({
-  extends: findNuxtLayers(currentDirectoryLayersPath),
+  extends: findNuxtLayers(layersDirname),
   imports: {
     imports: [
       {
-        from: path.join(currentDirectoryPath, "utils", "types"),
+        from: path.join(dirname, "utils", "types"),
         name: `TPersonEmoteCollection`,
         type: true,
       },
