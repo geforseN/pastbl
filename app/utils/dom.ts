@@ -1,4 +1,7 @@
-const parser = import.meta.client ? new DOMParser() : null;
+const parser =
+  import.meta.client && typeof DOMParser !== "undefined"
+    ? new DOMParser()
+    : null;
 
 export function createDomElement(string: string) {
   const dom = parser!.parseFromString(string, "text/html");
