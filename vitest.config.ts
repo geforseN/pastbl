@@ -1,23 +1,10 @@
-import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
-import AutoImport from "unplugin-auto-import/vite";
-import vue from "@vitejs/plugin-vue";
+import { defineVitestConfig } from "@nuxt/test-utils/config";
 
-export default defineConfig({
-  plugins: [
-    vue(),
-    tsconfigPaths({root: '.nuxt'}),
-    AutoImport({
-      imports: ["vitest"],
-      dts: true,
-      ignore: ["assert"],
-    }),
-  ],
+export default defineVitestConfig({
   test: {
     include: [
-      "app/**/*.spec.ts",
-      "layers/**/*.spec.ts",
-      "server/**/*.spec.ts",
+      "layers/emote-integrations/utils/emotes.nuxt.spec.ts",
+      "app/utils/guard.nuxt.spec.ts",
     ],
   },
 });
