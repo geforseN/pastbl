@@ -32,9 +32,6 @@ importers:
       emojilib:
         specifier: ^3.0.12
         version: 3.0.12
-      happy-dom:
-        specifier: ^15.7.3
-        version: 15.7.3
       idb:
         specifier: ^8.0.0
         version: 8.0.0
@@ -168,6 +165,9 @@ importers:
       fake-indexeddb:
         specifier: ^6.0.0
         version: 6.0.0
+      happy-dom:
+        specifier: ^15.7.3
+        version: 15.7.3
       husky:
         specifier: ^9.1.5
         version: 9.1.5
