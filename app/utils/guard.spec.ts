@@ -1,3 +1,5 @@
+import { isEmptyObject } from "./guards";
+
 describe("object utils", () => {
   suite("isEmptyObject util", () => {
     it("must be defined", () => {
