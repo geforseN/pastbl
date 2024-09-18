@@ -6,12 +6,7 @@
       </h2>
       <emote-integration-logos />
     </div>
-    <div
-      v-on-mouseover="
-        useThrottleFn(emoteOnHover.globalEmotesHandler, 100, true)
-      "
-      class="space-y-2"
-    >
+    <div v-on-mouseover="showEmoteCard" class="space-y-2">
       <update-all-global-emotes-integrations-button
         @click="globalEmotesIntegrationsStore.updateAllIntegrations"
       />
@@ -44,4 +39,7 @@
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
 const emoteOnHover = injectEmoteOnHover();
+
+const showEmoteCard = () =>
+  useThrottleFn(emoteOnHover.globalEmotesHandler, 100, true);
 </script>
