@@ -16,9 +16,21 @@ describe("/api/v1", () => {
     await setup({
       host: "http://127.0.0.1:3000",
     });
-    it("", async () => {
+    it("__query string", async () => {
       const html = await $fetch(
         "/api/v1/global-emotes-integrations?sources=Twitch",
+      );
+      expect(html).toBe("Hello World!");
+    });
+    it("__/all", async () => {
+      const html = await $fetch(
+        "/api/v1/global-emotes-integrations/all",
+      );
+      expect(html).toBe("Hello World!");
+    });
+    it("__param", async () => {
+      const html = await $fetch(
+        "/api/v1/global-emotes-integrations/Twitch",
       );
       expect(html).toBe("Hello World!");
     });
