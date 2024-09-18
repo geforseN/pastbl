@@ -1,13 +1,12 @@
-import baseConfig from "./vitest.__base__.config";
-import { mergeConfig } from "vitest/config";
+import { defineConfig, defaultExclude } from "vitest/config";
+import vue from "@vitejs/plugin-vue";
 
-export default mergeConfig(baseConfig, {
+const endToEndTestsGlobs = ["tests-examples", "tests", "**/*.e2e.spec.ts"];
+
+export default defineConfig({
+  plugins: [vue()],
   test: {
-    include: [
-      "**/*.vue.spec.ts",
-    ],
-    // exclude: [
-    //   "**/*.spec.ts",
-    // ]
+    exclude: [...defaultExclude, ...endToEndTestsGlobs],
+    environment: "happy-dom",
   },
-} satisfies import("vitest/config").UserConfig);
+});
