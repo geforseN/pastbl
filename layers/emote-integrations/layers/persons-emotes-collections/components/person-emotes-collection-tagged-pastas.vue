@@ -11,9 +11,7 @@
     >
       <chat-pasta-tag :tag="`@${login}`" class="w-fit" />
     </i18n-t>
-    <div
-      v-on-mouseover="useThrottleFn(emoteOnHover.allEmotesHandler, 100, true)"
-    >
+    <div v-on-mouseover="showEmoteCard">
       <local-pastas-list
         v-if="pastas?.length && canShowPastas"
         data-compact
@@ -36,4 +34,7 @@ defineEmits<{
 }>();
 
 const emoteOnHover = injectEmoteOnHover();
+
+const showEmoteCard = () =>
+  useThrottleFn(emoteOnHover.allEmotesHandler, 100, true);
 </script>
