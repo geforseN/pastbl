@@ -1,10 +1,9 @@
-import { mergeConfig, type UserConfig } from "vitest/config";
-import baseConfig from "./vitest.__base__.config";
+import { defineConfig, } from "vitest/config";
+import { nodejsTestsGlobs } from "./test-common";
 
-export default mergeConfig(baseConfig, {
+export default defineConfig({
   test: {
-    include: [
-      "{server,layers,app}/**/*.node.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}",
-    ],
+    environment: "node",
+    include: nodejsTestsGlobs,
   },
-} satisfies UserConfig);
+});

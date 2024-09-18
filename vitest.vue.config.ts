@@ -1,12 +1,11 @@
-import { defineConfig, defaultExclude } from "vitest/config";
+import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
-
-const endToEndTestsGlobs = ["tests-examples", "tests", "**/*.e2e.spec.ts"];
+import { vueTests } from "./test-common";
 
 export default defineConfig({
   plugins: [vue()],
   test: {
-    exclude: [...defaultExclude, ...endToEndTestsGlobs],
+    include: vueTests,
     environment: "happy-dom",
   },
 });
