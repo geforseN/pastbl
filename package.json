@@ -32,7 +32,6 @@
     "@iconify-json/ic": "^1.2.0",
     "@iconify-json/mdi": "^1.2.0",
     "@iconify-json/solar": "^1.2.0",
-    "@intlify/unplugin-vue-i18n": "^5.0.0",
     "@nuxt/devtools": "^1.4.2",
     "@nuxt/eslint": "^0.5.7",
     "@nuxt/icon": "^1.5.1",
