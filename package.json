@@ -46,6 +46,7 @@
     "@playwright/test": "^1.47.1",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.5.5",
+    "@vitejs/plugin-vue": "^5.1.4",
     "@vue-macros/eslint-config": "^0.7.0",
     "@vue-macros/nuxt": "^1.12.2",
     "@vue/test-utils": "^2.4.6",
