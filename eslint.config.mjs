@@ -68,6 +68,7 @@ export default withNuxt()
             /[Pp]arams?/,
             /[Ff]n/,
             /[Pp]rops/,
+            'e2e'
           ],
         },
       ],
