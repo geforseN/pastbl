@@ -3,7 +3,7 @@
     <client-only>
       <el-tabs
         v-model="tab"
-        v-on-mouseover="useThrottleFn(emoteOnHover.allEmotesHandler, 100, true)"
+        v-on-mouseover="showEmoteCard"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
       >
         <el-tab-pane :label="$t('local')" name="local">
@@ -28,6 +28,9 @@ const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
 const emoteOnHover = injectEmoteOnHover();
+
+const showEmoteCard = () =>
+  useThrottleFn(emoteOnHover.allEmotesHandler, 100, true);
 </script>
 <style scoped>
 :deep(.el-tabs__nav) {
