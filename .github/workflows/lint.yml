@@ -1,19 +1,33 @@
 name: Lint
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  push: null
+  pull_request: null
+
+permissions: {}
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Lint
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
     steps:
-      - name: Check out Git repository
+      - name: Checkout Git repository
         uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,8 +38,27 @@ jobs:
       - name: Install Node.js dependencies
         run: pnpm install
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v2.3.0
+      - name: Super-Linter
+        uses: super-linter/super-linter@v7.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FIX_VUE_PRETTIER: true
+          FIX_TYPESCRIPT_ES: true
+          FIX_TYPESCRIPT_PRETTIER: true
+          FIX_JAVASCRIPT_ES: true
+          FIX_JAVASCRIPT_PRETTIER: true
+          FIX_CSS: true
+
+      - name: Commit and push linting fixes
+        # Run only on:
+        # - Pull requests
+        # - Not on the default branch
+        if: >
+          github.event_name == 'pull_request' &&
+          github.ref_name != github.event.repository.default_branch
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          eslint: true
-          prettier: true
+          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
+          commit_message: "chore: fix linting issues"
+          commit_user_name: super-linter
+          commit_user_email: super-linter@super-linter.dev
