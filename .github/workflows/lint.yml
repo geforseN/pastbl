@@ -1,10 +1,13 @@
 name: Lint
 
 on:
-  push: null
-  pull_request: null
+  push: 
+    branches-ignore: [main, master]
+  pull_request: 
+    branches: [main, master]
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   run-linters:
@@ -12,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       packages: read
       statuses: write
 
@@ -38,16 +41,13 @@ jobs:
       - name: Install Node.js dependencies
         run: pnpm install
 
+      - name: Load super-linter configuration
+        run: grep -v '^#' .github/super-linter.env >> "$GITHUB_ENV"
+      
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FIX_VUE_PRETTIER: true
-          FIX_TYPESCRIPT_ES: true
-          FIX_TYPESCRIPT_PRETTIER: true
-          FIX_JAVASCRIPT_ES: true
-          FIX_JAVASCRIPT_PRETTIER: true
-          FIX_CSS: true
 
       - name: Commit and push linting fixes
         # Run only on:
