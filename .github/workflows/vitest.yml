@@ -15,7 +15,7 @@ jobs:
       MODE: test
 
     steps:
-      - name: Checkout
+      - name: Checkout Git repository
         uses: actions/checkout@v4
 
       - name: Install pnpm
@@ -45,5 +45,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run Nuxt and Nitro tests
+        run: pnpm test:nuxt+
+
+      - name: Run Node tests 
+        run: pnpm test:node
+

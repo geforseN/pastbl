@@ -26,12 +26,8 @@ const environmentSchema = z
 
 const environmentParse = environmentSchema.safeParse(process.env);
 
-if (
-  !environmentParse.success &&
-  !import.meta.test &&
-  process.env.VITEST !== "true"
-) {
-  throw environmentParse.error;
+if (!environmentParse.success) {
+  console.error(environmentParse.error);
 }
 
 export const environment = (environmentParse.data || {}) as z.infer<
