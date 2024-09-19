@@ -38,6 +38,7 @@ function makeSpecPath(base) {
 
 export default withNuxt()
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
+  .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .overrideRules({
     "vue/html-self-closing": [
       "error",
