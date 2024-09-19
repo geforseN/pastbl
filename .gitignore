@@ -33,3 +33,5 @@ logs
 
 /app/auto-imports.d.ts
 auto-imports.d.ts
+
+!.prettierignore
