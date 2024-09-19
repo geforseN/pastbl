@@ -1,6 +1,11 @@
+import { includeIgnoreFile } from "@eslint/compat";
 import withNuxt from "./.nuxt/eslint.config.mjs";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const commonVueFilesPaths = /** @type {const} */ ([
   "app/app.vue",
@@ -32,6 +37,7 @@ function makeSpecPath(base) {
 }
 
 export default withNuxt()
+  .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .overrideRules({
     "vue/html-self-closing": [
       "error",
@@ -68,7 +74,7 @@ export default withNuxt()
             /[Pp]arams?/,
             /[Ff]n/,
             /[Pp]rops/,
-            'e2e'
+            "e2e",
           ],
         },
       ],
