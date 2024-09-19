@@ -17,10 +17,11 @@
     "postinstall": "nuxt prepare",
     "analyze": "nuxi analyze",
     "test:vue": "vitest --config vitest.vue.config.ts",
-    "test:nuxt": "vitest --config vitest.nuxt.config.ts",
+    "test:nuxt": "vitest --config vitest.nuxt.config.ts --exclude server",
+    "test:nuxt+": "scripts/vitest-nuxt-with-nitro.sh",
     "test:node": "vitest --config vitest.node.config.ts",
     "test:e2e": "playwright test",
-    "test:e2e-ui": "playwright test --ui",
+    "test:e2e:ui": "playwright test --ui",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
@@ -118,6 +119,7 @@
     "unicode-emoji-json": "^0.6.0",
     "vue": "^3.5.6",
     "vue-virtual-scroller": "2.0.0-beta.8",
+    "wait-on": "^8.0.1",
     "web-vitals": "^4.2.3",
     "zod": "^3.23.8"
   }
