@@ -3,6 +3,7 @@ import { i18n } from "./app/i18n.config";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: "2024-09-19",
   future: {
     compatibilityVersion: 4,
   },
@@ -24,7 +25,7 @@ export default defineNuxtConfig({
     },
   },
   debug: true,
-  logLevel: 'verbose',
+  logLevel: "verbose",
   extensions: ["ts", "vue"],
   modules: [
     "@nuxtjs/i18n",
