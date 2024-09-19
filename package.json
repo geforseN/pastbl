@@ -23,9 +23,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
-    "lintfix": "prettier --write --list-different --ignore-path",
+    "lintfix": "prettier --write --list-different --ignore-path && eslint --fix",
     "commitlint": "commitlint --edit"
   },
   "devDependencies": {
