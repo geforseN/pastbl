@@ -24,8 +24,6 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  debug: true,
-  logLevel: "verbose",
   extensions: ["ts", "vue"],
   modules: [
     "@nuxtjs/i18n",
