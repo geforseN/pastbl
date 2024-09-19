@@ -15,7 +15,7 @@ jobs:
       MODE: test
 
     steps:
-      - name: Checkout
+      - name: Checkout Git repository
         uses: actions/checkout@v4
 
       - name: Install pnpm
