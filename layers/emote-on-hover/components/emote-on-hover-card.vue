@@ -117,7 +117,7 @@ const props = defineProps<{
 defineEmits<{
   close: [];
 }>();
-const containerRef = useTemplateRef('container');
+const containerRef = useTemplateRef("container");
 
 defineExpose({
   containerRef,

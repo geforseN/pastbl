@@ -91,7 +91,7 @@ export async function parseFileContent(event: Event) {
   return fileContent;
 }
 
-// eslint-disable-next-line require-await
+ 
 export async function parseMegaPastas(fileContent: string) {
   const pastasJson = JSON.parse(fileContent);
   assert.ok(isArray(pastasJson));

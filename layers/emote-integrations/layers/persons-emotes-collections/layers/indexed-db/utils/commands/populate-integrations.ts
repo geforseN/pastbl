@@ -15,7 +15,7 @@ export class PersonIndexedDBEmoteCollectionIntegrationsRepopulate {
     return {
       ...integration,
       sets: await Promise.all(
-        integration.sets!!!!.map(async ({ emotesIds, ...set }) => ({
+        integration.sets!.map(async ({ emotesIds, ...set }) => ({
           ...set,
           emotes: await Promise.all(
             (emotesIds as string[]).map((emoteId) =>
