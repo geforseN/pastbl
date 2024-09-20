@@ -13,4 +13,4 @@ pnpm-lock.yaml
 playwright-report
 test-results
 # must ignore .guthub for autofix.ci action 
-.guthub
+.github
