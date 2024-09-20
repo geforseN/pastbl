@@ -5,7 +5,7 @@ export function usePastas<T extends OmegaPasta>(getPastas: () => Promise<T[]>) {
 
   return {
     ..._pastas,
-     
+
     async getIndexById(id: number) {
       return getIndex(
         _pastas.state,
