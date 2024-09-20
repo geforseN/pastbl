@@ -91,7 +91,6 @@ export async function parseFileContent(event: Event) {
   return fileContent;
 }
 
- 
 export async function parseMegaPastas(fileContent: string) {
   const pastasJson = JSON.parse(fileContent);
   assert.ok(isArray(pastasJson));
