@@ -12,21 +12,19 @@ permissions:
 jobs:
   run-linters:
     name: Lint
+    
     runs-on: ubuntu-latest
-
+    
     permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      packages: read
-      statuses: write
-
+    
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
         with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
-
+          ref: ${{ github.head_ref }}
+          
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -36,29 +34,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: pnpm
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: pnpm install
 
-      - name: Load super-linter configuration
-        run: grep -v '^#' .github/super-linter.env >> "$GITHUB_ENV"
-      
-      - name: Super-Linter
-        uses: super-linter/super-linter@v7.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Lintfix
+        run: pnpm lintfix 
 
-      - name: Commit and push linting fixes
+      - name: Commit and push linted
         # Run only on:
         # - Pull requests
         # - Not on the default branch
         if: >
           github.event_name == 'pull_request' &&
           github.ref_name != github.event.repository.default_branch
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
-          commit_message: "chore: fix linting issues"
-          commit_user_name: super-linter
-          commit_user_email: super-linter@super-linter.dev
+          commit_message: "chore: lint"
+            
