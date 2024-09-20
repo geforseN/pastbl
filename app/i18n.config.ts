@@ -1,5 +1,5 @@
 export const i18n = {
-  langDir: 'locales',
+  langDir: "locales",
   locales: [
     {
       code: "en" as const,
