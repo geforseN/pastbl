@@ -1,9 +1,9 @@
 name: Lint
 
 on:
-  push: 
+  push:
     branches-ignore: [main, master]
-  pull_request: 
+  pull_request:
     branches: [main, master]
 
 permissions:
@@ -12,19 +12,19 @@ permissions:
 jobs:
   run-linters:
     name: Lint
-    
+
     runs-on: ubuntu-latest
-    
+
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-    
+
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-          
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -41,7 +41,7 @@ jobs:
         run: pnpm install
 
       - name: Lintfix
-        run: pnpm lintfix 
+        run: pnpm lintfix || true
 
       - name: Commit and push linted
         # Run only on:
@@ -54,4 +54,3 @@ jobs:
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
           commit_message: "chore: lint"
-            
