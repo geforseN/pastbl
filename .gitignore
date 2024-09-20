@@ -35,6 +35,7 @@ logs
 auto-imports.d.ts
 
 !.prettierignore
+!.editorconfig
 
 # Super-linter outputs
 super-linter-output
