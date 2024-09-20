@@ -1,9 +1,12 @@
-name: Lint
+name: autofix.ci
 
 on:
   pull_request:
   push:
     branches: [main, master]
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -14,9 +17,6 @@ jobs:
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -36,7 +36,4 @@ jobs:
       - name: Lintfix
         run: pnpm lintfix || true
 
-      - name: Commit and push linted
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: lint"
+      - uses: autofix-ci/action@8bc06253bec489732e5f9c52884c7cace15c0160
