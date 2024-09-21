@@ -1,4 +1,4 @@
-export type Emote = GlobalEmote;
+export type Emote = TTwitch.GlobalEmote;
 
 export interface Set extends IEmoteSet<Emote> {
   emotes: Emote[];
