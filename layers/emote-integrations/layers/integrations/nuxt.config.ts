@@ -32,7 +32,8 @@ export default defineNuxtConfig({
       })),
       ...allEmoteSources_.map((source) => ({
         from: `#integrations_${toLowerCase(source)}`,
-        name: `${source}Api`,
+        name: `*`,
+        as: `${source}Api`,
         type: true,
       })),
     ],

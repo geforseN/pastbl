@@ -20,5 +20,5 @@ export interface ChannelEmote extends __Emote {
   type: "channel";
 }
 
-export * as Person from "./types.person";
-export * as Global from "./types.global";
+export type * as Global from "./types.global";
+export type * as Person from "./types.person";

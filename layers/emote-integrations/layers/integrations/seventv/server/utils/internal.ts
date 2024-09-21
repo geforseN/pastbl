@@ -1,5 +1,3 @@
-import type { SevenTVApi } from "./api-types";
-
 export function defineSevenTVEmoteMaker<T extends string>(type: T) {
   return function (emote: SevenTVApi.Emote) {
     const {
