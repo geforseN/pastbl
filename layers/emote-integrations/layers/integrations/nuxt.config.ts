@@ -24,36 +24,17 @@ export default defineNuxtConfig({
   extends: allLowercaseEmoteSources,
   imports: {
     imports: [
-      ...allEmoteSources_
-        .filter((source) => source !== "BetterTTV" && source !== 'FrankerFaceZ' && source !== 'SevenTV')
-        .map((source) => ({
-          from: `#t_${toLowerCase(source)}`,
-          name: `T${source}`,
-          type: true,
-        })),
+      ...allEmoteSources_.map((source) => ({
+        from: `#t_${toLowerCase(source)}`,
+        name: `*`,
+        as: `T${source}`,
+        type: true,
+      })),
       ...allEmoteSources_.map((source) => ({
         from: `#integrations_${toLowerCase(source)}`,
         name: `${source}Api`,
         type: true,
       })),
-      {
-        from: "#t_betterttv",
-        name: "*",
-        as: "TBetterTTV",
-        type: true,
-      },
-      {
-        from: "#t_frankerfacez",
-        name: "*",
-        as: "TFrankerFaceZ",
-        type: true,
-      },
-      {
-        from: "#t_seventv",
-        name: "*",
-        as: "TSevenTV",
-        type: true,
-      },
     ],
   },
 });
