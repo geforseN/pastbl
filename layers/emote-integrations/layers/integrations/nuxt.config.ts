@@ -15,27 +15,14 @@ export default defineNuxtConfig({
       (source) => `#t_${source}`,
       (source) => path.join(dirname, `${source}/shared/types`),
     ),
-    ...flatGroupBy(
-      allLowercaseEmoteSources,
-      (source) => `#integrations_${source}`,
-      (source) => path.join(dirname, `${source}/shared/api-types`),
-    ),
   },
   extends: allLowercaseEmoteSources,
   imports: {
-    imports: [
-      ...allEmoteSources_.map((source) => ({
-        from: `#t_${toLowerCase(source)}`,
-        name: `*`,
-        as: `T${source}`,
-        type: true,
-      })),
-      ...allEmoteSources_.map((source) => ({
-        from: `#integrations_${toLowerCase(source)}`,
-        name: `*`,
-        as: `${source}Api`,
-        type: true,
-      })),
-    ],
+    imports: allEmoteSources_.map((source) => ({
+      from: `#t_${toLowerCase(source)}`,
+      name: `*`,
+      as: `T${source}`,
+      type: true,
+    })),
   },
 });
