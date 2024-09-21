@@ -113,7 +113,7 @@ importers:
         version: 3.14.2(@playwright/test@1.47.2)(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@15.7.4)(jsdom@25.0.0)(magicast@0.3.5)(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.22.4)(vite@5.4.7(@types/node@22.5.5)(terser@5.33.0))(vitest@2.1.1(@types/node@22.5.5)(happy-dom@15.7.4)(jsdom@25.0.0)(terser@5.33.0))(vue-router@4.4.5(vue@3.5.7(typescript@5.6.2)))(vue@3.5.7(typescript@5.6.2))
       '@nuxtjs/i18n':
         specifier: ^8.5.4
-        version: 8.5.4(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.7(typescript@5.6.2))
+        version: 8.5.5(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.7(typescript@5.6.2))
       '@pinia/testing':
         specifier: ^0.1.5
         version: 0.1.5(pinia@2.2.2(typescript@5.6.2)(vue@3.5.7(typescript@5.6.2)))(vue@3.5.7(typescript@5.6.2))
@@ -1543,8 +1543,8 @@ packages:
     peerDependencies:
       vue: ^3.3.4
 
-  '@nuxtjs/i18n@8.5.4':
-    resolution: {integrity: sha512-8onnhHHUhKwZm7CKMDNGmLCJMt7Af0Y4VaYJ/hEvKT9O9sd1MKvGMQKNefBeSOggllRU2iOgcqCsb5qozPVP5A==}
+  '@nuxtjs/i18n@8.5.5':
+    resolution: {integrity: sha512-HVXRy61VBACIwmap1WxuhT9nNf6liU9L9LQSB6D7LDJ+8w57Cc6qWHRJ7dNI9sI/IQ2FQWk7PkTWriybAd3MlQ==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
   '@one-ini/wasm@0.1.1':
@@ -7629,7 +7629,7 @@ snapshots:
       - vue-tsc
       - webpack-sources
 
-  '@nuxtjs/i18n@8.5.4(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.7(typescript@5.6.2))':
+  '@nuxtjs/i18n@8.5.5(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.7(typescript@5.6.2))':
     dependencies:
       '@intlify/h3': 0.5.0
       '@intlify/shared': 9.14.0
