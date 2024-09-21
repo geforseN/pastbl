@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   imports: {
     imports: [
       ...allEmoteSources_
-        .filter((source) => source !== "BetterTTV" && source !== 'FrankerFaceZ')
+        .filter((source) => source !== "BetterTTV" && source !== 'FrankerFaceZ' && source !== 'SevenTV')
         .map((source) => ({
           from: `#t_${toLowerCase(source)}`,
           name: `T${source}`,
@@ -46,6 +46,12 @@ export default defineNuxtConfig({
         from: "#t_frankerfacez",
         name: "*",
         as: "TFrankerFaceZ",
+        type: true,
+      },
+      {
+        from: "#t_seventv",
+        name: "*",
+        as: "TSevenTV",
         type: true,
       },
     ],
