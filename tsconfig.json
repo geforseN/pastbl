@@ -14,7 +14,6 @@
   },
   "exclude": [
     "tests/**/*.spec.ts",
-    "tests-examples/**/*.test.ts",
     "app/**/*.spec.ts",
     "layers/**/*.spec.ts",
     "layers/**/*.spec.ts",

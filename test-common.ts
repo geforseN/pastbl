@@ -1,5 +1,4 @@
 export const endToEndTestsGlobs = [
-  "tests-examples/**/*.spec.ts",
   "tests/**/*.spec.ts",
   "{layers,app}/**/*.e2e.spec.ts",
 ];
