@@ -36,7 +36,7 @@ const sessionUserSchema = twitchApiUserSchema.transform((user) => ({
 
 export type SessionUser = z.infer<typeof sessionUserSchema>;
 
-function makeTwitchUser(user: TwitchApi.User) {
+function makeTwitchUser(user: TTwitch.Api.User) {
   return twitchUserSchema.parse(user);
 }
 

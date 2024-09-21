@@ -13,12 +13,12 @@ export default defineNuxtConfig({
     ...flatGroupBy(
       allLowercaseEmoteSources,
       (source) => `#t_${source}`,
-      (source) => path.join(dirname, `${source}/server/utils/types`),
+      (source) => path.join(dirname, `${source}/shared/types`),
     ),
     ...flatGroupBy(
       allLowercaseEmoteSources,
       (source) => `#integrations_${source}`,
-      (source) => path.join(dirname, `${source}/server/utils`),
+      (source) => path.join(dirname, `${source}/shared/api-types`),
     ),
   },
   extends: allLowercaseEmoteSources,

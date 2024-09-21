@@ -1,7 +1,7 @@
 export function defineSevenTVEmoteSetMaker<T extends string>(type: T) {
   const makeEmote = defineSevenTVEmoteMaker(type);
 
-  return function (set: SevenTVApi.SetWithEmotes) {
+  return function (set: TSevenTV.Api.SetWithEmotes) {
     return {
       type,
       name: set.name,
@@ -21,7 +21,7 @@ export const makePersonSevenTVEmoteIntegration =
   );
 
 export function makeSevenTVEmoteIntegrationOwner(
-  profile: SevenTVApi.UserProfile,
+  profile: TSevenTV.Api.UserProfile,
 ) {
   return {
     id: profile.user.id,
@@ -32,16 +32,16 @@ export function makeSevenTVEmoteIntegrationOwner(
   };
 }
 
-function isSevenTVApiSetWithEmotes(
-  set: SevenTVApi.SetWithEmotes | SevenTVApi.Set,
-): set is SevenTVApi.SetWithEmotes {
-  return (set as SevenTVApi.SetWithEmotes).emotes !== undefined;
+function isTSevenTV.ApiSetWithEmotes(
+  set: TSevenTV.Api.SetWithEmotes | TSevenTV.Api.Set,
+): set is TSevenTV.Api.SetWithEmotes {
+  return (set as TSevenTV.Api.SetWithEmotes).emotes !== undefined;
 }
 
-export async function getSevenTVApiUserEmoteSet(
-  profile: SevenTVApi.UserProfile,
+export async function getTSevenTV.ApiUserEmoteSet(
+  profile: TSevenTV.Api.UserProfile,
 ) {
-  if (isSevenTVApiSetWithEmotes(profile.emote_set)) {
+  if (isTSevenTV.ApiSetWithEmotes(profile.emote_set)) {
     return profile.emote_set;
   }
   const set = await fetchSevenTVUserSet(profile.emote_set.id);

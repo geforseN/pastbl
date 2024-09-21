@@ -6,5 +6,5 @@ export async function fetchSevenTVGlobalEmotesSet() {
   );
   const json = await response.json();
   assert.ok(isArray(json?.emotes));
-  return json as SevenTVApi.SetWithEmotes;
+  return json as TSevenTV.Api.SetWithEmotes;
 }
