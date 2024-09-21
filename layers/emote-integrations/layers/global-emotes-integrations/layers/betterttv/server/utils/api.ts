@@ -5,5 +5,5 @@ export async function fetchBetterTTVGlobalEmotes() {
   );
   assert.response.ok(response, "Failed to load BetterTTV global emotes");
   const json = await response.json();
-  return json as BetterTTVApi.GlobalEmote[];
+  return json as TBetterTTV.Api.GlobalEmote[];
 }

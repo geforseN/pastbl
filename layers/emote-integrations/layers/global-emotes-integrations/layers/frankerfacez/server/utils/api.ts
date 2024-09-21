@@ -4,5 +4,5 @@ export async function getFrankerFaceZGlobalEmotes() {
   );
   assert.response.ok(response, "Failed to load FrankerFaceZ global emotes");
   const json = await response.json();
-  return json as FrankerFaceZApi.GlobalStruct;
+  return json as TFrankerFaceZ.Api.GlobalStruct;
 }

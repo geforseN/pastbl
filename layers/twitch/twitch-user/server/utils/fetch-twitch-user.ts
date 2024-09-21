@@ -1,5 +1,5 @@
 export async function fetchTwitchUser(login: TwitchUserLogin) {
-  const { data } = await fetchTwitchApi<TwitchApi.GetUsersResponse>("/users", {
+  const { data } = await fetchTwitchApi<TTwitch.Api.GetUsersResponse>("/users", {
     query: { login },
   });
   assert.ok(

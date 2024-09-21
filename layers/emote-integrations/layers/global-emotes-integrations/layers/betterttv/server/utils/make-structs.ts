@@ -1,5 +1,5 @@
 function makeBetterTTVGlobalEmote(
-  emote: BetterTTVApi.GlobalEmote,
+  emote: TBetterTTV.Api.GlobalEmote,
 ): TBetterTTV.Global.Emote {
   return makeBetterTTVEmote(emote, {
     type: "global",

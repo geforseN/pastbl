@@ -21,7 +21,7 @@ export function getTwitchEmoteSetName(emote: {
 }
 
 export function makeTwitchEmote<T extends TTwitch.EmoteType>(
-  emote: TwitchApi.ChatEmote | TwitchApi.GlobalEmote,
+  emote: TTwitch.Api.ChatEmote | TTwitch.Api.GlobalEmote,
   type: T,
 ) {
   const isAnimated = emote.format.includes("animated");

@@ -4,7 +4,7 @@ export const makePersonBetterTTVEmoteIntegration =
   );
 
 export function makeBetterTTVEmoteIntegrationOwner(
-  bttv: BetterTTVApi.User,
+  bttv: TBetterTTV.Api.User,
   twitch: PersonTwitch,
 ): TBetterTTV.Person.IntegrationOwner {
   return {
@@ -16,7 +16,7 @@ export function makeBetterTTVEmoteIntegrationOwner(
 }
 
 function makeBetterTTVChannelEmote(
-  emote: BetterTTVApi.ChannelEmote,
+  emote: TBetterTTV.Api.ChannelEmote,
 ): TBetterTTV.Person.ChannelEmote {
   return makeBetterTTVEmote(emote, {
     type: "channel",
@@ -33,7 +33,7 @@ export const makeBetterTTVChannelSet = defineBetterTTVSetMaker(
 );
 
 function makeBetterTTVSharedEmote(
-  emote: BetterTTVApi.SharedEmote,
+  emote: TBetterTTV.Api.SharedEmote,
 ): TBetterTTV.Person.SharedEmote {
   return makeBetterTTVEmote(emote, {
     type: "shared",

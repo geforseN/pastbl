@@ -1,3 +1,3 @@
 export function fetchTwitchGlobalEmotes() {
-  return fetchTwitchApi<TwitchApi.ChatEmotesResponse>("/chat/emotes/global");
+  return fetchTwitchApi<TTwitch.Api.ChatEmotesResponse>("/chat/emotes/global");
 }

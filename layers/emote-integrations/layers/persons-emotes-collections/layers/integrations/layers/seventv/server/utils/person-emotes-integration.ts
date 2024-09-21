@@ -15,7 +15,7 @@ export class PersonSevenTVEmoteIntegration {
       TSevenTV.Person.FailedIntegration
     >(async () => {
       const apiUser = await fetchSevenTVUser(twitch.id, twitch.login);
-      const apiSet = await getSevenTVApiUserEmoteSet(apiUser);
+      const apiSet = await getTSevenTV.ApiUserEmoteSet(apiUser);
       const set = makeSevenTVChannelSet(apiSet);
       const owner = makeSevenTVEmoteIntegrationOwner(apiUser);
       return makePersonSevenTVEmoteIntegration([set], owner);

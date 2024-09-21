@@ -1,5 +1,5 @@
 export function defineSevenTVEmoteMaker<T extends string>(type: T) {
-  return function (emote: SevenTVApi.Emote) {
+  return function (emote: TSevenTV.Api.Emote) {
     const {
       data: { tags, host, listed, animated },
       id,

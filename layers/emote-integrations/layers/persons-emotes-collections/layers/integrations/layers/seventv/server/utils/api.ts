@@ -8,7 +8,7 @@ export async function fetchSevenTVUserSet(setId: string) {
     isArray(json?.emotes),
     new TypeError("Failed to load user emotes from SevenTV"),
   );
-  return json as SevenTVApi.SetWithEmotes;
+  return json as TSevenTV.Api.SetWithEmotes;
 }
 
 export async function fetchSevenTVUser(
@@ -21,5 +21,5 @@ export async function fetchSevenTVUser(
     new PersonEmotesIntegrationNotFoundError("SevenTV", login),
   );
   const json = await response.json();
-  return json as SevenTVApi.UserProfile;
+  return json as TSevenTV.Api.UserProfile;
 }
