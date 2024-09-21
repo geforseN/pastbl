@@ -20,5 +20,5 @@ export interface GlobalEmote extends __Emote {
   type: "global";
 }
 
-export type * as Global from './types.global'
-export type * as Person from './types.person' 
+export type * as Global from "./types.global";
+export type * as Person from "./types.person";

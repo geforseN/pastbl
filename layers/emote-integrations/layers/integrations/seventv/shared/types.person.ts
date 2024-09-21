@@ -1,16 +1,8 @@
-export interface SharedSet extends IEmoteSet {
-  emotes: SharedEmote[];
-}
-
-export type ChannelEmote = TBetterTTV.ChannelEmote;
-
-export type SharedEmote = TBetterTTV.SharedEmote;
-
 export interface ChannelSet extends IEmoteSet {
-  emotes: ChannelEmote[];
+  emotes: TSevenTV.ChannelEmote[];
 }
 
-export type Set = SharedSet | ChannelSet;
+export type Set = ChannelSet;
 
 export interface IntegrationOwner extends IEmoteIntegrationOwner {
   avatarUrl: string;
@@ -22,10 +14,10 @@ export interface IntegrationOwner extends IEmoteIntegrationOwner {
 export interface ReadyIntegration extends TEmoteIntegrations.Person.Ready {
   sets: Set[];
   owner: IntegrationOwner;
-  source: "BetterTTV";
+  source: "SevenTV";
 }
 
-export type FailedIntegration = TEmoteIntegrations.Person.Failed
+export type FailedIntegration = TEmoteIntegrations.Person.Failed;
 
 export type Integration = ReadyIntegration | FailedIntegration;
 export type SettledIntegration = ReadyIntegration | FailedIntegration;
