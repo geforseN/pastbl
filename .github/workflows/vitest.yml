@@ -21,13 +21,14 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with: 
-          run_install: true
+          run_install: |
+            - recursive: true
+            - args: [--global, unbuild]
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Get pnpm store directory
         shell: bash
