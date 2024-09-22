@@ -98,7 +98,7 @@
   },
   "pnpm": {
     "overrides": {
-      "unimport": "github:geforseN/unimport#feat/add-star-type-import"
+      "unimport": "github:geforseN/unimport#feat/add-star-type-import2"
     }
   },
   "dependencies": {
@@ -120,7 +120,7 @@
     "postgres": "^3.4.4",
     "std-env": "^3.7.0",
     "unicode-emoji-json": "^0.6.0",
-    "unimport": "github:geforseN/unimport#feat/add-star-type-import",
+    "unimport": "github:geforseN/unimport#feat/add-star-type-import2",
     "vue": "^3.5.7",
     "vue-virtual-scroller": "2.0.0-beta.8",
     "wait-on": "^8.0.1",
