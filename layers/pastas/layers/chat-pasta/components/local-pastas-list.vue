@@ -44,7 +44,7 @@
     </template>
   </dynamic-scroller>
 </template>
-<script setup lang="ts">
+<script setup>
 import type { CanFindEmote } from "~~/layers/pastas/layers/chat-pasta/utils/pasta-dom";
 
 const userStore = useUserStore();

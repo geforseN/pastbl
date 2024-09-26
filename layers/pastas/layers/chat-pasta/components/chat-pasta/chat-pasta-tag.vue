@@ -6,7 +6,7 @@
     {{ tag }}
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps<{
   tag: string;
 }>();

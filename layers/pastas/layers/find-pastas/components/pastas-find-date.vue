@@ -47,6 +47,6 @@
     </div>
   </section>
 </template>
-<script lang="ts" setup>
+<script setup>
 const pastaFindStore = usePastaFindStore();
 </script>

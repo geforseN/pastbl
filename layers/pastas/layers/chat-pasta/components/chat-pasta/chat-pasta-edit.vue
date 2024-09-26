@@ -57,7 +57,7 @@
     </teleport>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import type {
   ChatPastaEditAcceptChangesDialog,
   ChatPastaTagAddDialog,

@@ -64,7 +64,7 @@
     />
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import type { PastaFormTextarea } from "#build/components";
 
 const text = defineModel<string>("text", { required: true });

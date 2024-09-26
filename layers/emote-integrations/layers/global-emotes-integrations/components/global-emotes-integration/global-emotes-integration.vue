@@ -60,7 +60,7 @@
     </main>
   </article>
 </template>
-<script setup lang="ts" generic="Source extends EmoteSource">
+<script setup generic="Source extends EmoteSource">
 const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });

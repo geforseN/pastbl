@@ -27,7 +27,7 @@
     </i18n-t>
   </article>
 </template>
-<script setup lang="ts">
+<script setup>
 const selectedTime = defineModel<MyTimeString>({ required: true });
 
 defineProps<{

@@ -19,7 +19,7 @@
     </select>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 const oncopy = defineModel<string>({ required: true });
 
 defineProps<{

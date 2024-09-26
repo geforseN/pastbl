@@ -16,7 +16,7 @@
     </template>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 const containerRef = useTemplateRef("container");
 
 defineProps<{

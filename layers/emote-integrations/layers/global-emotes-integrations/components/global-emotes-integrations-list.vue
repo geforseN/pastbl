@@ -35,7 +35,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
 const emoteOnHover = injectEmoteOnHover();

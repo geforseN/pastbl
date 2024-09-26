@@ -106,7 +106,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 
 const props = defineProps<{

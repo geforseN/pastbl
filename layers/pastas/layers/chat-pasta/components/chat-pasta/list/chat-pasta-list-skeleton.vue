@@ -6,6 +6,6 @@
     {{ $t("pastas.loading") }}
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 const appConfig = useAppConfig();
 </script>

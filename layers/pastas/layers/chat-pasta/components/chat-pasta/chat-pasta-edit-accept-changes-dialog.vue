@@ -24,7 +24,7 @@
     </div>
   </dialog>
 </template>
-<script lang="ts" setup>
+<script setup>
 const mustAcceptChanges = ref<boolean | null>(null);
 const dialogRef = useTemplateRef("dialog");
 

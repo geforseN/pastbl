@@ -5,7 +5,7 @@
     <kbd class="kbd pt-1">{{ last }}</kbd>
   </span>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps<{
   first: string;
   last: string;

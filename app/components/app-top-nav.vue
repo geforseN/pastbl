@@ -43,7 +43,7 @@
     </ul>
   </nav>
 </template>
-<script setup lang="ts">
+<script setup>
 const userSession = reactive(useUserSession());
 </script>
 <style scoped>

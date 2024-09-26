@@ -6,7 +6,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 useHead({
   title: "Pastas",
 });

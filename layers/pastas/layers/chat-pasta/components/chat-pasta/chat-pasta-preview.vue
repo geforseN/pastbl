@@ -28,7 +28,7 @@
     </button>
   </article>
 </template>
-<script lang="ts" setup>
+<script setup>
 const pastaTextContainerRef = ref();
 
 const userStore = useUserStore();

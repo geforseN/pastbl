@@ -6,8 +6,7 @@
     repudiandae beatae inventore nemo facere fuga?
   </div>
 </template>
-
-<script lang="ts" setup>
+<script setup>
 withDefaults(
   defineProps<{
     count?: number;

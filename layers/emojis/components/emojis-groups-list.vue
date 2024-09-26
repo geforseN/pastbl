@@ -11,7 +11,7 @@
     />
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
 
 const { t } = useI18n();
