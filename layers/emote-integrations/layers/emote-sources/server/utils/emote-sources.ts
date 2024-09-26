@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { uniqueValues } from "~/utils/array";
 
 const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = allEmoteSources.reduce(
   (length, source) => length + source.length,
