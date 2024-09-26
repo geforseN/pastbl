@@ -1,5 +1,3 @@
-import type { BetterTTVApi } from "#integrations_betterttv/api-types";
-
 // LINK: https://betterttv.com/developers/api#user
 export async function fetchBetterTTVUser(
   twitchId: TwitchUserId,
@@ -13,5 +11,5 @@ export async function fetchBetterTTVUser(
     new PersonEmotesIntegrationNotFoundError("BetterTTV", login),
   );
   const json = await response.json();
-  return json as BetterTTVApi.User;
+  return json as TBetterTTV.Api.User;
 }

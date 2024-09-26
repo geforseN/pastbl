@@ -10,7 +10,7 @@ export async function fetchFrankerFaceZUser(
     new PersonEmotesIntegrationNotFoundError("FrankerFaceZ", login),
   );
   const json = await response.json();
-  return json as FrankerFaceZApi.UserStruct;
+  return json as TFrankerFaceZ.Api.UserStruct;
 }
 
 export async function fetchFrankerFaceZRoom(twitchId: TwitchUserId) {
@@ -22,5 +22,5 @@ export async function fetchFrankerFaceZRoom(twitchId: TwitchUserId) {
     "Failed to load FrankerFaceZ user emotes",
   );
   const json = await response.json();
-  return json as FrankerFaceZApi.RoomStruct;
+  return json as TFrankerFaceZ.Api.RoomStruct;
 }

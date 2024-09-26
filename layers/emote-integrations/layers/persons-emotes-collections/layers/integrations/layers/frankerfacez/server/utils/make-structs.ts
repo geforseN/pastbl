@@ -1,7 +1,7 @@
 import consola from "consola";
 
 export function makeFrankerFaceZEmoteIntegrationOwner(
-  profile: FrankerFaceZApi.UserStruct,
+  profile: TFrankerFaceZ.Api.UserStruct,
 ): TFrankerFaceZ.Person.IntegrationOwner {
   const { user, badges } = profile;
   if (user.emote_sets.length > 0) {
@@ -30,12 +30,12 @@ export function makeFrankerFaceZEmoteIntegrationOwner(
   };
 }
 
-function makeFrankerFaceZChannelEmote(emote: FrankerFaceZApi.Emote) {
+function makeFrankerFaceZChannelEmote(emote: TFrankerFaceZ.Api.Emote) {
   return makeFrankerFaceZEmote<TFrankerFaceZ.ChannelEmote>(emote, "channel");
 }
 
 export function makeFrankerFaceZChannelSets(
-  setsRecord: FrankerFaceZApi.EmoteSetsRecord,
+  setsRecord: TFrankerFaceZ.Api.EmoteSetsRecord,
   capacity: number,
 ): TFrankerFaceZ.ChannelEmoteSet[] {
   return Object.values(setsRecord)
