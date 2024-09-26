@@ -26,7 +26,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import type { ITwitchChannel } from "$/twitch/twitch-channels/utils/types";
 
 defineProps<ITwitchChannel>();

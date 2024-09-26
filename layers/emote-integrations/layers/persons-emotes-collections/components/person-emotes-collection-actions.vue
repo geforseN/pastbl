@@ -38,7 +38,7 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 defineProps<{
   isCollectionSelected: boolean;
   isCollectionRefreshing: boolean;

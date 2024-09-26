@@ -41,7 +41,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 defineEmits<{
   remove: [];
   edit: [];

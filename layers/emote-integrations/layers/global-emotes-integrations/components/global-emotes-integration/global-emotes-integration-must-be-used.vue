@@ -11,7 +11,7 @@
     />
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 const checkedSources = defineModel<EmoteSource[]>();
 
 const source = injectEmoteSource();

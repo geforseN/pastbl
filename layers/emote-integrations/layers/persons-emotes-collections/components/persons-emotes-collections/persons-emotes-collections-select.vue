@@ -20,6 +20,6 @@
     <person-emotes-collection-selected />
   </section>
 </template>
-<script setup lang="ts">
+<script setup>
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 </script>

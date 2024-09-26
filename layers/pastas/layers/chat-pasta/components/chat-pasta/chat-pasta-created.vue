@@ -19,7 +19,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 const props = defineProps<{
   date: Date | number | string;
 }>();

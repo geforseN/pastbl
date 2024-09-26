@@ -24,7 +24,7 @@
     </ul>
   </menu>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps<{
   login: TwitchUserLogin;
 }>();

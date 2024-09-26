@@ -23,7 +23,7 @@
     </select>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 const locales = reactive(useLocales());
 
 const id = useId();

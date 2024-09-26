@@ -48,7 +48,7 @@
     </div>
   </section>
 </template>
-<script setup lang="ts">
+<script setup>
 const mustRespectSelectedTags = defineModel<boolean>(
   "mustRespectSelectedTags",
   { required: true },

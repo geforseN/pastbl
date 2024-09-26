@@ -51,7 +51,7 @@
     </div>
   </section>
 </template>
-<script lang="ts" setup>
+<script setup>
 const range = defineModel<number[]>({ required: true });
 
 const min = defineModel<number>("min", { required: true });

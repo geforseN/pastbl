@@ -9,7 +9,7 @@
     </person-emotes-collection-link>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps<{
   twitch: PersonTwitch;
 }>();

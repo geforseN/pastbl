@@ -51,7 +51,7 @@
     </main>
   </article>
 </template>
-<script setup lang="ts" generic="Source extends EmoteSource">
+<script setup generic="Source extends EmoteSource">
 const props = defineProps<{
   integration: any; //SomeEmoteIntegration<Source>;
   twitch: PersonTwitch;

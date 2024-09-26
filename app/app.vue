@@ -52,7 +52,7 @@
     </Body>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
 

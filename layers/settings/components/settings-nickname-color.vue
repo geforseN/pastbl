@@ -15,6 +15,6 @@
     />
   </article>
 </template>
-<script lang="ts" setup>
-const nicknameColor = defineModel<string>({ required: true });
+<script setup>
+const nicknameColor = defineModel < string > { required: true };
 </script>

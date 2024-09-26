@@ -101,7 +101,7 @@
     </teleport>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import type { ChatPastaTagAddDialog, PastaForm } from "#build/components";
 
 const pastasStore = usePastasStore();

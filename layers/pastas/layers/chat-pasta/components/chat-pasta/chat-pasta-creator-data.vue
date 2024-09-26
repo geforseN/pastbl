@@ -17,7 +17,7 @@
     </span>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 defineProps<{
   nickname: string;
   nicknameColor: string;

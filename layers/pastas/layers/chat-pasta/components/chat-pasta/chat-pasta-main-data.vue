@@ -25,7 +25,7 @@
     <slot name="bottom" />
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps<{
   text: string;
   tags: string[];

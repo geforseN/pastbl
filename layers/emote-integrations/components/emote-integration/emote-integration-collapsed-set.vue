@@ -57,7 +57,7 @@
     </main>
   </div>
 </template>
-<script lang="ts" setup generic="EmoteSetT extends IEmoteSet">
+<script setup generic="EmoteSetT extends IEmoteSet">
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
 

@@ -13,8 +13,8 @@
     />
   </div>
 </template>
-<script lang="ts" setup>
-const isPublic = defineModel<boolean>({ required: true });
+<script setup>
+const isPublic = defineModel < boolean > { required: true };
 
 const id = useId();
 </script>

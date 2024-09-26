@@ -4,7 +4,7 @@
     :integration="$props as TEmoteIntegrations.Failed"
   />
 </template>
-<script setup lang="ts">
+<script setup>
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
 defineProps<TEmoteIntegrations.__Some__>();

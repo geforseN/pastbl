@@ -50,7 +50,7 @@
     <span v-else> {{ $t("pasta.notFound") }} </span>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();

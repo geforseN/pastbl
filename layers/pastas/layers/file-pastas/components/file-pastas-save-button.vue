@@ -10,6 +10,6 @@
     </div>
   </button>
 </template>
-<script setup lang="ts">
+<script setup>
 const pastasStore = usePastasStore();
 </script>

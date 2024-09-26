@@ -4,7 +4,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 useHead({
   title: "Settings",
 });
