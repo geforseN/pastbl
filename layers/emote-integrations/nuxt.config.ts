@@ -33,7 +33,7 @@ export default defineNuxtConfig({
         type: true,
       },
     ],
-    dirs: ["composables", "utils", 'shared/abstract'],
+    dirs: ["composables", "utils", "shared/abstract"],
   },
   extends: findNuxtLayers(layersDirname),
 });
