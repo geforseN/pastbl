@@ -19,8 +19,8 @@
     <settings-badges-count v-model="badgesCount" />
   </article>
 </template>
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
-const badgesCount = defineModel < number > { required: true };
+const badgesCount = defineModel<number>({ required: true });
 </script>

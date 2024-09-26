@@ -14,10 +14,10 @@
     <slot />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const inputRef = useTemplateRef("input");
 
-const nickname = defineModel < string > ("nickname", { required: true });
+const nickname = defineModel<string>("nickname", { required: true });
 
 defineExpose({
   inputRef,

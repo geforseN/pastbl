@@ -21,8 +21,8 @@
     </client-only>
   </chat-pasta-list-hints>
 </template>
-<script setup>
-const tab = (ref < "local") | ("remote" > "local");
+<script setup lang="ts">
+const tab = ref<"local" | "remote">("local");
 
 const userStore = useUserStore();
 const pastasStore = usePastasStore();

@@ -27,20 +27,17 @@
     />
   </article>
 </template>
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
-const nickname =
-  defineModel <
-  string >
-  {
-    required: true,
-    set(string) {
-      assert.ok(typeof string === "string");
-      if (string.length > appConfig.nickname.length.max) {
-        return string.slice(0, appConfig.nickname.length.max);
-      }
-      return string;
-    },
-  };
+const nickname = defineModel<string>({
+  required: true,
+  set(string) {
+    assert.ok(typeof string === "string");
+    if (string.length > appConfig.nickname.length.max) {
+      return string.slice(0, appConfig.nickname.length.max);
+    }
+    return string;
+  },
+});
 </script>
