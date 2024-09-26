@@ -32,16 +32,16 @@ export function makeSevenTVEmoteIntegrationOwner(
   };
 }
 
-function isTSevenTV.ApiSetWithEmotes(
+function isSevenTVApiSetWithEmotes(
   set: TSevenTV.Api.SetWithEmotes | TSevenTV.Api.Set,
 ): set is TSevenTV.Api.SetWithEmotes {
   return (set as TSevenTV.Api.SetWithEmotes).emotes !== undefined;
 }
 
-export async function getTSevenTV.ApiUserEmoteSet(
+export async function getSevenTVApiUserEmoteSet(
   profile: TSevenTV.Api.UserProfile,
 ) {
-  if (isTSevenTV.ApiSetWithEmotes(profile.emote_set)) {
+  if (isSevenTVApiSetWithEmotes(profile.emote_set)) {
     return profile.emote_set;
   }
   const set = await fetchSevenTVUserSet(profile.emote_set.id);
