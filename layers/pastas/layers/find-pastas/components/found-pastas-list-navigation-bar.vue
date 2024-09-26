@@ -62,29 +62,4 @@ const selectedNumber = defineModel<number>("selectedNumber", {
     return int;
   },
 });
-
-function updateSelectedNumber(event: Event) {
-  assert.ok(event.target && "value" in event.target);
-  event.preventDefault();
-  const { value: stringValue } = event.target;
-  assert.ok(typeof stringValue === "string");
-  // console.debug(
-  //   "(find-pastas) [found-pastas-list-navigation-bar] changing input value",
-  //   { from: selectedNumber.value, to: value },
-  // );
-  const int = Number.parseInt(stringValue, 10);
-  if (Number.isNaN(int)) {
-    return;
-  }
-  const { pastasCount } = props;
-  console.log(int, pastasCount);
-  if (int > pastasCount) {
-    console.debug("int > pastasCount");
-    return emit("update:selectedNumber", pastasCount);
-  }
-  if (int < 0) {
-    return emit("update:selectedNumber", 0);
-  }
-  return emit("update:selectedNumber", int);
-}
 </script>
