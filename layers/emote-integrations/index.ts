@@ -1,1 +1,1 @@
-export type { TEmoteIntegrations } from "$/emote-integrations/utils/types-dump";
+export type * as TEmoteIntegrations from "$/emote-integrations/shared/types";
