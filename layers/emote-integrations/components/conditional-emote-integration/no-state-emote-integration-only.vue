@@ -10,8 +10,6 @@
   />
 </template>
 <script setup lang="ts">
-import type { TEmoteIntegrations } from "$/emote-integrations";
-
 defineProps<TEmoteIntegrations.__Some__>();
 
 function isLoading(
