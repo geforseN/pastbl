@@ -21,4 +21,4 @@ export type SettledRecord =
   | TEmoteIntegrations.Global.SettledRecord
   | TEmoteIntegrations.Person.SettledRecord;
 
-export type __Some__ = SomeIntegration__MoveThis;
+export type { SomeIntegration__MoveThis as __Some__ } from "./abstract/types";
