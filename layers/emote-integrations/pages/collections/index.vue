@@ -22,7 +22,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { PersonEmotesCollectionFetchForm } from "#build/components";
 
 useHead({

@@ -12,6 +12,6 @@
     />
   </div>
 </template>
-<script setup>
-const mustSelectCollectionOnLoad = defineModel < boolean > { required: true };
+<script setup lang="ts">
+const mustSelectCollectionOnLoad = defineModel<boolean>({ required: true });
 </script>
