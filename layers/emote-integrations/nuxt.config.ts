@@ -27,11 +27,13 @@ export default defineNuxtConfig({
   imports: {
     imports: [
       {
-        from: path.join(dirname, "utils", "types-dump"),
-        name: "TEmoteIntegrations",
+        from: path.join(dirname, "shared/types.ts"),
+        name: "*",
+        as: "TEmoteIntegrations",
         type: true,
       },
     ],
+    dirs: ["composables", "utils", 'shared/abstract'],
   },
   extends: findNuxtLayers(layersDirname),
 });
