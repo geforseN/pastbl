@@ -6,7 +6,7 @@ export const makeFrankerFaceZGlobalIntegration =
   );
 
 export function transformFrankerFaceZGlobalSets(
-  response: FrankerFaceZApi.GlobalStruct,
+  response: TFrankerFaceZ.Api.GlobalStruct,
 ) {
   const defaultEmoteSetsIds = new Set(response.default_sets.map(String));
   const specificEmoteSets = new Map(Object.entries(response.user_ids));
@@ -28,7 +28,7 @@ export function transformFrankerFaceZGlobalSets(
 }
 
 function makeFrankerFaceZGlobalEmote(
-  emote: FrankerFaceZApi.Emote,
+  emote: TFrankerFaceZ.Api.Emote,
 ): TFrankerFaceZ.GlobalEmote {
   return makeFrankerFaceZEmote<TFrankerFaceZ.GlobalEmote>(emote, "global");
 }
@@ -45,7 +45,7 @@ function transformFrankerFaceZGlobalSet(
   };
 }
 
-function makeFrankerFaceZSpecificEmote(emote: FrankerFaceZApi.Emote) {
+function makeFrankerFaceZSpecificEmote(emote: TFrankerFaceZ.Api.Emote) {
   return makeFrankerFaceZEmote<TFrankerFaceZ.SpecificEmote>(emote, "specific");
 }
 

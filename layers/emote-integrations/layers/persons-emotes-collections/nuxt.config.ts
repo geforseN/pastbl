@@ -12,10 +12,12 @@ export default defineNuxtConfig({
   imports: {
     imports: [
       {
-        from: path.join(dirname, "utils", "types"),
-        name: `TPersonEmoteCollection`,
+        from: path.join(dirname, "shared/types/namespace.ts"),
+        name: "*",
+        as: "TPersonEmoteCollection",
         type: true,
       },
     ],
+    dirs: ["composables", "utils", "shared/*/index.ts"],
   },
 });

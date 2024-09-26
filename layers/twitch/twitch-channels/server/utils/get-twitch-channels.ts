@@ -1,4 +1,4 @@
-function transformChannel(channel: TwitchApi.SearchChannel) {
+function transformChannel(channel: TTwitch.Api.SearchChannel) {
   const login = channel.broadcaster_login;
   assert.ok(isLowercase(login));
   return <ITwitchChannel>{
