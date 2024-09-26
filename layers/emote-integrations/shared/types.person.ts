@@ -4,18 +4,17 @@ export type Failed = FailedIntegration;
 export type Settled = SettledIntegration;
 export type SettledRecord = SettledEmoteIntegrationsRecord;
 
-type _MakeIndexedDBPersonEmoteIntegration<I extends Settled> =
-  I extends Ready
-    ? I & {
-        sets: Array<
-          Omit<I["sets"][number], "emotes"> & {
-            emotesIds: string[];
-          }
-        >;
-      }
-    : I extends Failed
-      ? I
-      : never;
+type _MakeIndexedDBPersonEmoteIntegration<I extends Settled> = I extends Ready
+  ? I & {
+      sets: Array<
+        Omit<I["sets"][number], "emotes"> & {
+          emotesIds: string[];
+        }
+      >;
+    }
+  : I extends Failed
+    ? I
+    : never;
 
 type IPersonEmoteCollectionIntegrationsRecord = {
   FrankerFaceZ: any /* TFrankerFaceZ.Person.Integration */;
