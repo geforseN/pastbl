@@ -1,8 +1,10 @@
 export type FrankerFaceZMappedEmoteSet = Unwrap<
-  Omit<FrankerFaceZApi.EmoteSet, "id"> & { id: `${number}` }
+  Omit<TFrankerFaceZ.Api.EmoteSet, "id"> & { id: `${number}` }
 >;
 
-export function makeMappedFrankerFaceZEmoteSet(set: FrankerFaceZApi.EmoteSet) {
+export function makeMappedFrankerFaceZEmoteSet(
+  set: TFrankerFaceZ.Api.EmoteSet,
+) {
   return {
     ...set,
     id: set.id.toString(),
@@ -10,7 +12,7 @@ export function makeMappedFrankerFaceZEmoteSet(set: FrankerFaceZApi.EmoteSet) {
 }
 
 function makeFrankerFaceZEmoteRelatedPerson(
-  person: FrankerFaceZApi.EmoteRelatedPerson,
+  person: TFrankerFaceZ.Api.EmoteRelatedPerson,
 ) {
   const { name: login } = person;
   assert.ok(isLowercase(login));
@@ -22,7 +24,7 @@ function makeFrankerFaceZEmoteRelatedPerson(
 }
 
 export function makeFrankerFaceZEmote<TT extends TFrankerFaceZ.Emote>(
-  emote: FrankerFaceZApi.Emote,
+  emote: TFrankerFaceZ.Api.Emote,
   type: TT["type"],
 ): TT {
   const id = emote.id.toString();

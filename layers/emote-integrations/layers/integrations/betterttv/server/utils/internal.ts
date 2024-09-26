@@ -16,7 +16,7 @@ export function defineBetterTTVSetMaker<E, T, ET extends TBetterTTV.EmoteType>(
 }
 
 export function makeBetterTTVEmote<
-  E extends BetterTTVApi.Emote,
+  E extends TBetterTTV.Api.Emote,
   T extends TBetterTTV.EmoteType,
   R extends { type: T } & Record<string, unknown>,
 >(emote: E, additional: R) {

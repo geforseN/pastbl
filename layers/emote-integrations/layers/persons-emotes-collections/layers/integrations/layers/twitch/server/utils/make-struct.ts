@@ -8,7 +8,7 @@ export function makeTwitchOwner(
 }
 
 export function makeTwitchPersonSets(
-  emotes: TwitchApi.GetChatEmotesResponse["data"],
+  emotes: TTwitch.Api.GetChatEmotesResponse["data"],
 ): TTwitch.Person.Set[] {
   const groupedEmotesBySetName = groupBy(
     emotes,
