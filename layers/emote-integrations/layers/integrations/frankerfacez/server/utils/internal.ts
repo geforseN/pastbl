@@ -2,7 +2,9 @@ export type FrankerFaceZMappedEmoteSet = Unwrap<
   Omit<TFrankerFaceZ.Api.EmoteSet, "id"> & { id: `${number}` }
 >;
 
-export function makeMappedFrankerFaceZEmoteSet(set: TFrankerFaceZ.Api.EmoteSet) {
+export function makeMappedFrankerFaceZEmoteSet(
+  set: TFrankerFaceZ.Api.EmoteSet,
+) {
   return {
     ...set,
     id: set.id.toString(),

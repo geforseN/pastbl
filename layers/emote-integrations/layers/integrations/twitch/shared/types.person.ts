@@ -14,7 +14,7 @@ export interface ReadyIntegration extends TEmoteIntegrations.Person.Ready {
   source: "Twitch";
 }
 
-export type FailedIntegration = TEmoteIntegrations.Person.Failed
+export type FailedIntegration = TEmoteIntegrations.Person.Failed;
 
 export type Integration = ReadyIntegration | FailedIntegration;
 export type SettledIntegration = ReadyIntegration | FailedIntegration;
