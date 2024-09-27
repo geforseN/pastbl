@@ -4,6 +4,7 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import playwright from "eslint-plugin-playwright";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -113,4 +114,8 @@ export default withNuxt()
     rules: {
       ...vitest.configs.recommended.rules,
     },
+  })
+  .append({
+    ...playwright.configs["flat/recommended"],
+    files: ["tests/**"],
   });
