@@ -1,13 +1,12 @@
 // @ts-check
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { includeIgnoreFile } from "@eslint/compat";
 import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
 import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "@vitest/eslint-plugin";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import playwright from "eslint-plugin-playwright";
-import { endToEndTestsGlobs } from "./test-common";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,14 +32,21 @@ function makeSpecPath(base) {
   if (!base.endsWith("/")) {
     base = base + "/";
   }
-  return specFilesExtensions.flatMap((fileExtension) =>
+  return specFilesExtensions.flatMap(fileExtension =>
     specDirectoriesNames.flatMap(
-      (directoryName) => base + directoryName + "**/*.spec." + fileExtension,
+      directoryName => base + directoryName + "**/*.spec." + fileExtension,
     ),
   );
 }
 
-export default createConfigForNuxt()
+export default createConfigForNuxt({
+  features: {
+    stylistic: {
+      quotes: "double",
+      semi: true,
+    },
+  },
+})
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
@@ -66,7 +72,7 @@ export default createConfigForNuxt()
   })
   .append({
     ...playwright.configs["flat/recommended"],
-    files: [...endToEndTestsGlobs],
+    files: ["tests/**/*.spec.ts", "{layers,app}/**/*.e2e.spec.ts"],
   })
   .append(eslintPluginUnicorn.configs["flat/recommended"])
   .override("unicorn/flat/recommended", {
@@ -123,6 +129,9 @@ export default createConfigForNuxt()
         math: "always",
       },
     ],
+  })
+  .overrideRules({
+    "vue/padding-line-between-blocks": ["error", "never"],
   })
   .override("unicorn/flat/recommended", {
     files: [...commonVueFilesPaths],
