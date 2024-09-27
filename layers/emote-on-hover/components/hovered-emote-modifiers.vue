@@ -36,7 +36,7 @@
 </template>
 <script setup>
 const props = defineProps<{
-  emoteModifiers: InstanceType<typeof EmoteOnHover>[];
+  emoteModifiers: IEmote[];
 }>();
 
 const emoteModifiers = computed(() =>
