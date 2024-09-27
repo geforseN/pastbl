@@ -7,6 +7,7 @@ import vitest from "eslint-plugin-vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import playwright from "eslint-plugin-playwright";
+import { endToEndTestsGlobs } from "./test-common";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -65,7 +66,7 @@ export default createConfigForNuxt()
   })
   .append({
     ...playwright.configs["flat/recommended"],
-    files: ["tests/**"],
+    files: [...endToEndTestsGlobs],
   })
   .append(eslintPluginUnicorn.configs["flat/recommended"])
   .override("unicorn/flat/recommended", {
