@@ -1,6 +1,6 @@
 // @ts-check
 import { includeIgnoreFile } from "@eslint/compat";
-import withNuxt from "./.nuxt/eslint.config/flat";
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
 import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
@@ -39,7 +39,7 @@ function makeSpecPath(base) {
   );
 }
 
-export default withNuxt()
+export default createConfigForNuxt()
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
