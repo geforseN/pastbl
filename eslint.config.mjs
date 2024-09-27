@@ -1,9 +1,13 @@
+// @ts-check
 import { includeIgnoreFile } from "@eslint/compat";
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
+import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import playwright from "eslint-plugin-playwright";
+import { endToEndTestsGlobs } from "./test-common";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -36,28 +40,33 @@ function makeSpecPath(base) {
   );
 }
 
-export default withNuxt()
+export default createConfigForNuxt()
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
-  .overrideRules({
-    "vue/html-self-closing": [
-      "error",
-      {
-        html: {
-          void: "always",
-          normal: "always",
-          component: "always",
-        },
-        svg: "always",
-        math: "always",
-      },
-    ],
+  .prepend({
+    rules: vueMacros.rules,
+    languageOptions: {
+      globals: vueMacros.globals,
+    },
   })
   .append({
     rules: {
       "no-console": "error",
       "no-unreachable-loop": "error",
     },
+  })
+  .append({
+    files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
+    plugins: {
+      vitest,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
+  })
+  .append({
+    ...playwright.configs["flat/recommended"],
+    files: [...endToEndTestsGlobs],
   })
   .append(eslintPluginUnicorn.configs["flat/recommended"])
   .override("unicorn/flat/recommended", {
@@ -102,15 +111,22 @@ export default withNuxt()
     },
   })
   .overrideRules({
-    files: commonVueFilesPaths,
-    "unicorn/prefer-top-level-await": "off",
+    "vue/html-self-closing": [
+      "error",
+      {
+        html: {
+          void: "always",
+          normal: "always",
+          component: "always",
+        },
+        svg: "always",
+        math: "always",
+      },
+    ],
   })
-  .append({
-    files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
-    plugins: {
-      vitest,
-    },
+  .override("unicorn/flat/recommended", {
+    files: [...commonVueFilesPaths],
     rules: {
-      ...vitest.configs.recommended.rules,
+      "unicorn/prefer-top-level-await": "off",
     },
   });
