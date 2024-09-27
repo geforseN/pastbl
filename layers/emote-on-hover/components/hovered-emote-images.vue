@@ -42,7 +42,7 @@ function onContainerUpdate(container: HTMLElement | null) {
   });
   const shouldScrollToCenter = container.scrollWidth > container.offsetWidth;
   if (shouldScrollToCenter) {
-    const left = container.scrollWidth / 2 - container.offsetWidth / 2;
+    const left = (container.scrollWidth - container.offsetWidth) / 2;
     container.scrollBy({ left });
   }
 }
