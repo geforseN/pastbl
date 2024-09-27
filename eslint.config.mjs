@@ -1,5 +1,6 @@
 import { includeIgnoreFile } from "@eslint/compat";
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import withNuxt from "./.nuxt/eslint.config/flat";
+import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
 import path from "node:path";
@@ -40,6 +41,12 @@ function makeSpecPath(base) {
 export default withNuxt()
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
+  .prepend({
+    rules: vueMacros.rules,
+    languageOptions: {
+      globals: vueMacros.globals,
+    },
+  })
   .overrideRules({
     "vue/html-self-closing": [
       "error",
