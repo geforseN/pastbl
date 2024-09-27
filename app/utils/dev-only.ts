@@ -10,7 +10,7 @@ export function log<
       object.value = value;
     }
     // eslint-disable-next-line no-console
-    console[level]();
+    console[level](object);
   }
 }
 
