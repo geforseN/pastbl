@@ -1,0 +1,13 @@
+diff --git a/dist/module.mjs b/dist/module.mjs
+index 2a899b22b3628615f6eea77600da3cced2353e73..ca5c87e1355a7dabe16fde45333c9d6ac1205909 100644
+--- a/dist/module.mjs
++++ b/dist/module.mjs
+@@ -326,7 +326,7 @@ async function resolveVueI18nConfigInfo(rootDir, configPath = "i18n.config", bui
+       parsed: { base: "", dir: "", ext: "", name: "", root: "" }
+     }
+   };
+-  const absolutePath = await resolvePath(configPathInfo.relative, { cwd: rootDir, extensions: EXECUTABLE_EXTENSIONS });
++  const absolutePath = resolve(rootDir, configPath);
+   if (!await isExists(absolutePath))
+     return void 0;
+   const parsed = parse(absolutePath);

@@ -3,7 +3,7 @@ import { includeIgnoreFile } from "@eslint/compat";
 import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
 import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
-import vitest from "eslint-plugin-vitest";
+import vitest from "@vitest/eslint-plugin";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import playwright from "eslint-plugin-playwright";
