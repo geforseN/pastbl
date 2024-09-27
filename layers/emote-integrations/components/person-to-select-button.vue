@@ -10,7 +10,7 @@
     </div>
   </button>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   twitch: PersonTwitch;
 }>();

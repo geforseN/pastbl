@@ -33,7 +33,7 @@
     />
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 const userStore = useUserStore();
 </script>
 <style scoped>

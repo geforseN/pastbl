@@ -22,7 +22,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   login: TwitchUserLogin;
   pastas?: OmegaPasta[];

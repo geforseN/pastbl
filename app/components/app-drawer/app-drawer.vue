@@ -48,6 +48,6 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const userSession = reactive(useUserSession());
 </script>

@@ -84,7 +84,7 @@
     </client-only>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineSlots<{
   default: VueSlot;
 }>();

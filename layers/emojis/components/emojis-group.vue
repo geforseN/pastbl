@@ -22,7 +22,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 type EmojisGroup =
   (typeof import("unicode-emoji-json/data-by-group.json"))[number];
 

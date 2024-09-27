@@ -18,7 +18,7 @@
     "
   />
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   source: EmoteSource;
 }>();

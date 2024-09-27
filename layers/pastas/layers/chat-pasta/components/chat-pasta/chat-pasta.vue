@@ -28,7 +28,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { OmegaPasta } from "~~/layers/pastas/layers/chat-pasta/utils/pasta";
 
 defineProps<OmegaPasta>();

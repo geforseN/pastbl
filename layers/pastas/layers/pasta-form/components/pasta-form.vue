@@ -89,7 +89,7 @@
     </pasta-form-tags-input>
   </form>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { PastaFormTextarea } from "#build/components";
 
 const userStore = useUserStore();

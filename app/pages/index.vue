@@ -13,7 +13,7 @@
     </nav>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 useHead({
   title: "Main Page",
 });

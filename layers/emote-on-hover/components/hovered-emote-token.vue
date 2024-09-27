@@ -15,7 +15,7 @@
     {{ emote.token }}
   </span>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   emote: InstanceType<typeof EmoteOnHover>;
 }>();

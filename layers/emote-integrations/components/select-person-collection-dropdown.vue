@@ -33,7 +33,7 @@
     </ul>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   collections: TPersonEmoteCollection.Default[];
 }>();

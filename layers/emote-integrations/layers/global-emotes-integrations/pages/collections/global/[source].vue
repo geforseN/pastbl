@@ -8,7 +8,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const maybeSource = getRouteStringParam("source", toLowerCase);
 
 const source = allEmoteSources.get(

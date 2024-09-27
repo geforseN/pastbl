@@ -46,7 +46,7 @@
     </span>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
 const modelValue = defineModel<string>({ required: true });

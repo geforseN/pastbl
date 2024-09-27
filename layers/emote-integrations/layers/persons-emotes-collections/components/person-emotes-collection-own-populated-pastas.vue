@@ -16,7 +16,7 @@
     <chat-pasta-list-hint-on-empty v-else />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 type Props = {
   findEmote: (token: string) => IEmote | undefined;
   canShowPastas: boolean;

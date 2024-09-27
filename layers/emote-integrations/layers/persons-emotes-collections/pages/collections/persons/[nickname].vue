@@ -8,7 +8,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const login = getRouteStringParam("nickname", toLowerCase);
 
 useHead({

@@ -26,7 +26,7 @@
     </button>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   pastasCount: number;
 }>();

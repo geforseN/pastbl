@@ -5,7 +5,7 @@
     <app-link-to-main />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const pastaId = getRouteStringParam("pasta-id", Number);
 
 useHead({

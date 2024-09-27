@@ -43,7 +43,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
 const containerRef = useTemplateRef("container");

@@ -56,7 +56,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   formedAt: number;
   nickname: string;

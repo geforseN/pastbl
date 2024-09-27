@@ -19,7 +19,7 @@
     </template>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   emote: InstanceType<typeof EmoteOnHover>;
 }>();

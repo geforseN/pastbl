@@ -16,7 +16,7 @@
     </span>
   </nuxt-link-locale>
 </template>
-<script>
+<script lang="ts">
 const routePageLinkRecord = {
   "global-emotes": {
     path: "/collections/global",
@@ -52,7 +52,7 @@ const routePageLinkRecord = {
   },
 } as const satisfies Record<string, { path: string; textKey: string }>;
 </script>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   to: keyof typeof routePageLinkRecord;
 }>();

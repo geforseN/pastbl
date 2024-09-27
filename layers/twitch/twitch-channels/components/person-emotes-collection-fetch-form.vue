@@ -41,7 +41,7 @@
     />
   </form>
 </template>
-<script setup>
+<script setup lang="ts">
 import type {
   TwitchChannelsSearch,
   PersonEmotesCollectionFetchInputGroup,

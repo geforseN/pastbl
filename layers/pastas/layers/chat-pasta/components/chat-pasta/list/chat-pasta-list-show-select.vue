@@ -25,7 +25,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{

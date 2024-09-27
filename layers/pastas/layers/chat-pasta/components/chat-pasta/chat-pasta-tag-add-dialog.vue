@@ -21,7 +21,7 @@
     </div>
   </dialog>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   tag: string;
   onSuccess: () => MaybePromise<void>;

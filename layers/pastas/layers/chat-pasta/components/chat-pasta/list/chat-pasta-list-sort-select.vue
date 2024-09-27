@@ -19,7 +19,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });
 
 const { t } = useI18n();

@@ -16,6 +16,6 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 </script>

@@ -21,7 +21,7 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   emote?: Nullish<IEmote>;
   emoji?: Nullish<string>;

@@ -20,7 +20,7 @@
     <icon v-else name="material-symbols:person-check-outline" />
   </button>
 </template>
-<script setup>
+<script setup lang="ts">
 import {
   sizeStyles,
   type ButtonSize,

@@ -33,7 +33,7 @@
  TODO: use ValidityState
  LINK: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
  -->
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
 const badgesCount = defineModel<number>({

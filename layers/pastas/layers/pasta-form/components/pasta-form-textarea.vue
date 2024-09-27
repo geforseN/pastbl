@@ -21,7 +21,7 @@
     "
   />
 </template>
-<script setup>
+<script setup lang="ts">
 const modelValue = defineModel<string>({ required: true });
 const previousValue = usePrevious(modelValue);
 

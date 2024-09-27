@@ -33,6 +33,6 @@
     <pastas-find-date />
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 const pastaFindStore = usePastaFindStore();
 </script>
