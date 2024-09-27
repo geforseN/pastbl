@@ -27,6 +27,7 @@ const environmentSchema = z
 const environmentParse = environmentSchema.safeParse(process.env);
 
 if (!environmentParse.success) {
+  // eslint-disable-next-line no-console
   console.error(environmentParse.error);
 }
 
