@@ -1,10 +1,8 @@
 import { isFunction } from "./guards";
 
-export function log<L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">>(
-  level: L,
-  key: string,
-  value?: Record<string, unknown>,
-) {
+export function log<
+  L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">,
+>(level: L, key: string, value?: Record<string, unknown>) {
   if (import.meta.dev) {
     const object = { [key]: level };
     if (arguments.length > 2) {
