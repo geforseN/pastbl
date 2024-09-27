@@ -26,7 +26,7 @@
       "
       @show-tag-context-menu="
         (event, tag) => {
-          console.log(event, tag);
+          log('debug', 'show-tag-context-menu', { event, tag });
         }
       "
     >
