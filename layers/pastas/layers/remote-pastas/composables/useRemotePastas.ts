@@ -21,7 +21,7 @@ export function useRemotePastas(
         .catch((error) => {
           canLoadMore.value = false;
           assert.isError(error);
-          console.error(error);
+          log("error", "Failed to load remove pastas", { error });
           throw error;
         });
       assertIsRemotePastasPaginationCursor(cursor);

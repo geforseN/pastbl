@@ -93,7 +93,7 @@ const pastasStore = usePastasStore();
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
 const selectedCollection = computed(() =>
-  withLogSync(personsEmoteCollections.selectedCollection.state, "asd"),
+  withLogSync(personsEmoteCollections.selectedCollection.state, "selectedCollection"),
 );
 const selectedLogin = computed(
   () => personsEmoteCollections.selectedLogin.state,

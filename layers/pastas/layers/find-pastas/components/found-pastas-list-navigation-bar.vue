@@ -46,7 +46,8 @@ const selectedNumber = defineModel<number>("selectedNumber", {
           : Number.parseInt(_value, 10)
         : _value;
     const { pastasCount } = props;
-    console.debug(
+    log(
+      'debug',
       "(find-pastas) [found-pastas-list-navigation-bar] changing input value",
       { from: selectedNumber.value, to: _value, toParsed: int, pastasCount },
     );

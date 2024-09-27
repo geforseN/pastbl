@@ -18,15 +18,16 @@ export function useOutdatedGlobalEmotesIntegrations(
   let isRefreshingOutdatedIntegrations = false;
   return watch(outdatedIntegrations, async (outdatedIntegrations) => {
     if (isRefreshingOutdatedIntegrations) {
-      return console.debug(
+      return log(
+        "debug",
         "Already refreshing outdated global emote integrations, this refresh is skipped",
       );
     }
     if (outdatedIntegrations.length === 0) {
-      return console.debug("No outdated global emote integrations");
+      return log("debug", "No outdated global emote integrations");
     }
     isRefreshingOutdatedIntegrations = true;
-    console.debug("Refreshing outdated global emote integrations", {
+    log("debug", "Refreshing outdated global emote integrations", {
       outdatedIntegrations,
     });
     const refreshed = await refreshMany(outdatedIntegrations).finally(() => {
@@ -38,7 +39,7 @@ export function useOutdatedGlobalEmotesIntegrations(
         .map((integration) => emoteSourcesAsEmojis.get(integration.source))
         .join(" "),
     );
-    console.debug("Refreshed outdated global emote integrations", {
+    log("debug", "Refreshed outdated global emote integrations", {
       refreshed,
     });
   });
