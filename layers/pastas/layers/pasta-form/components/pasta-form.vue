@@ -3,7 +3,7 @@
     class="space-y-2"
     @submit.prevent="
       () => {
-        console.log('SUBMIT');
+        log('debug', '<pasta-form /> submit');
       }
     "
   >

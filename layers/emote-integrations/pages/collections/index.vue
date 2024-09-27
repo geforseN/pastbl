@@ -36,8 +36,7 @@ onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();
   if (params.focus === "fetch") {
     if (import.meta.dev) {
-      // eslint-disable-next-line no-console
-      console.debug('pages/collections: "focus-fetch" query param found', {
+      log("debug", 'pages/collections: "focus-fetch" query param found', {
         focusFetch: params.focus,
       });
     }

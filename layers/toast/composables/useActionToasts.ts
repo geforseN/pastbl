@@ -51,7 +51,7 @@ export function useActionToasts<
     ),
   );
 
-  console.debug({ methodsObject, actionName: actionToasts.action.name });
+  log("debug", actionToasts.action.name, methodsObject);
 
   return {
     ...methodsObject,
