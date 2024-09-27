@@ -1,9 +1,9 @@
 import type { SessionUser } from "./layers/twitch/twitch-user/server/utils/twitch-user";
 
 declare module "#auth-utils" {
-  interface User extends SessionUser {}
+  type User = SessionUser;
 
-  interface UserSession extends Record<string, never> {}
+  type UserSession = Record<string, never>;
 }
 
 export {};
