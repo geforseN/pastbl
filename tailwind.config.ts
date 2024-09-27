@@ -4,7 +4,7 @@ import daisyui from "daisyui";
 // @ts-expect-error @types/tailwindcss-debug-screens does not exist
 import debugScreens from "tailwindcss-debug-screens";
 import scrollbar from "tailwind-scrollbar";
-import theme from './tailwind.theme'
+import theme from "./tailwind.theme";
 
 export default {
   darkMode: ["class", '[data-theme="dark"]'],
