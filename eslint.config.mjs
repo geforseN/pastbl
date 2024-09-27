@@ -125,9 +125,7 @@ export default createConfigForNuxt()
     ],
   })
   .override("unicorn/flat/recommended", {
-    files:
-      /** @type {string[]} */
-      (/** @type {unknown}   */ (commonVueFilesPaths)),
+    files: [...commonVueFilesPaths],
     rules: {
       "unicorn/prefer-top-level-await": "off",
     },
