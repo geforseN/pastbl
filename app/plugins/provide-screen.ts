@@ -5,7 +5,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       screen: reactive({
-        isDidBrr: isScreenDidBrr.value,
+        isDidBrr: computed(() => isScreenDidBrr.value),
       }),
     },
   };
