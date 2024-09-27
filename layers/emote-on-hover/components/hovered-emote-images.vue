@@ -36,7 +36,7 @@ function onContainerUpdate(container: HTMLElement | null) {
   if (!(container instanceof HTMLElement)) {
     return;
   }
-  log("info", "<hovered-emote-images> onContainerUpdate", {
+  log("debug", "<hovered-emote-images> onContainerUpdate", {
     scrollWidth: container.scrollWidth,
     offsetWidth: container.offsetWidth,
   });
