@@ -1,3 +1,4 @@
+// @ts-check
 import { includeIgnoreFile } from "@eslint/compat";
 import withNuxt from "./.nuxt/eslint.config/flat";
 import vueMacros from "@vue-macros/eslint-config";
@@ -109,9 +110,13 @@ export default withNuxt()
       "unicorn/no-nested-ternary": "off",
     },
   })
-  .overrideRules({
-    files: commonVueFilesPaths,
-    "unicorn/prefer-top-level-await": "off",
+  .override("unicorn/flat/recommended", {
+    files:
+      /** @type {string[]} */
+      (/** @type {unknown}   */ (commonVueFilesPaths)),
+    rules: {
+      "unicorn/prefer-top-level-await": "off",
+    },
   })
   .append({
     files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
