@@ -115,10 +115,12 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    define: {
-      defaultTailwindTheme,
-      defaultTailwindConfig,
-      tailwindTheme,
-    },
+    define: process.env.TEST
+      ? { tailwindTheme }
+      : {
+          defaultTailwindTheme,
+          defaultTailwindConfig,
+          tailwindTheme,
+        },
   },
 });
