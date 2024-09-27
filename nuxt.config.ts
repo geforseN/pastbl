@@ -1,7 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { i18n } from "./app/i18n.config";
-import defaultTailwindTheme from 'tailwindcss/defaultTheme'
-import defaultTailwindConfig from 'tailwindcss/defaultConfig'
+import defaultTailwindTheme from "tailwindcss/defaultTheme";
+import defaultTailwindConfig from "tailwindcss/defaultConfig";
 import tailwindTheme from "./tailwind.theme";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
@@ -115,12 +115,10 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    define: process.env.TEST
-      ? { tailwindTheme }
-      : {
-          defaultTailwindTheme,
-          defaultTailwindConfig,
-          tailwindTheme,
-        },
+    define: {
+      defaultTailwindTheme,
+      defaultTailwindConfig,
+      tailwindTheme,
+    },
   },
 });
