@@ -19,7 +19,7 @@
 <script setup>
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
 
-defineProps<{
+const props = defineProps<{
   emoji: string;
 }>();
 
@@ -27,5 +27,5 @@ defineEmits<{
   close: [];
 }>();
 
-const emojiData = computed(() => emoji.value && emoteDataByEmoji[emoji.value]);
+const emojiData = computed(() => emoteDataByEmoji[props.emoji]);
 </script>

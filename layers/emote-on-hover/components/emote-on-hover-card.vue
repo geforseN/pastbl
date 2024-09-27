@@ -16,6 +16,7 @@
     />
     <hovered-emoji
       v-if="emoji"
+      :emoji
       @close="$emit('close')"
     />
   </div>
