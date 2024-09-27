@@ -24,7 +24,7 @@
           />
         </template>
       </div>
-      <div class="text-center text-lg">
+      <div class="text-center text-lg text-base-content">
         <nuxt-link
           v-if="emote.integrationLink.canBe()"
           external
