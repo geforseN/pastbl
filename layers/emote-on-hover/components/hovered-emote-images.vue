@@ -1,6 +1,6 @@
 <template>
   <div
-    :ref="onContainerUpdate"
+    ref="container"
     class="flex w-max max-w-xs items-center gap-1 overflow-x-auto p-1 scrollbar"
   >
     <template
@@ -23,16 +23,26 @@ defineProps<{
   emote: InstanceType<typeof EmoteOnHover>;
 }>();
 
-async function onContainerUpdate(container: unknown) {
+const containerRef = useTemplateRef("container");
+
+watchEffect(() => {
+  // FIXME: on first call scrollWidth and offsetWidth always same (even ixf supposed to be different)
+  // TODO: add tests for this
+  onContainerUpdate(containerRef.value);
+});
+
+function onContainerUpdate(container: HTMLElement | null) {
   if (!(container instanceof HTMLElement)) {
     return;
   }
-  await nextTick();
-  const hasScrollWidth = container.scrollWidth > container.offsetWidth;
-  if (hasScrollWidth) {
-    const scrollLeft = container.scrollWidth / 2 - container.offsetWidth / 2;
-    // scroll to center
-    container.scrollLeft += scrollLeft;
+  log("info", "<hovered-emote-images> onContainerUpdate", {
+    scrollWidth: container.scrollWidth,
+    offsetWidth: container.offsetWidth,
+  });
+  const shouldScrollToCenter = container.scrollWidth > container.offsetWidth;
+  if (shouldScrollToCenter) {
+    const left = container.scrollWidth / 2 - container.offsetWidth / 2;
+    container.scrollBy({ left });
   }
 }
 </script>
