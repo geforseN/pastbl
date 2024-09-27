@@ -40,6 +40,6 @@ const props = defineProps<{
 }>();
 
 const emoteModifiers = computed(() =>
-  props.emoteModifiers.map(modifier => EmoteOnHover.create(modifier)),
+  props.emoteModifiers.map((modifier) => EmoteOnHover.create(modifier)),
 );
 </script>
