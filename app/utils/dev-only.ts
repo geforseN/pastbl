@@ -4,13 +4,8 @@ export function log<
   L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">,
 >(level: L, key: string, value?: Record<string, unknown>) {
   if (import.meta.dev) {
-    const object = { [key]: level };
-    if (arguments.length > 2) {
-      // @ts-expect-error value will be logged if developer provided third argument
-      object.value = value;
-    }
     // eslint-disable-next-line no-console
-    console[level](object);
+    console[level](arguments.length > 2 ? { [key]: value } : key);
   }
 }
 
