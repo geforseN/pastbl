@@ -91,6 +91,9 @@
     "overrides": {
       "drizzle-orm": "0.33.0",
       "eslint": "^9.11.1"
+    },
+    "patchedDependencies": {
+      "@nuxtjs/i18n": "patches/@nuxtjs__i18n.patch"
     }
   },
   "dependencies": {

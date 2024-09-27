@@ -8,6 +8,11 @@ overrides:
   drizzle-orm: 0.33.0
   eslint: ^9.11.1
 
+patchedDependencies:
+  '@nuxtjs/i18n':
+    hash: gsvuo6ny4jdczmyeaz733yoxly
+    path: patches/@nuxtjs__i18n.patch
+
 importers:
 
   .:
@@ -84,7 +89,7 @@ importers:
         version: 3.14.2(@playwright/test@1.47.2)(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@15.7.4)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.22.4)(vite@5.4.8(@types/node@22.7.3)(terser@5.34.0))(vitest@2.1.1(@types/node@22.7.3)(happy-dom@15.7.4)(jsdom@25.0.1)(terser@5.34.0))(vue-router@4.4.5(vue@3.5.9(typescript@5.6.2)))(vue@3.5.9(typescript@5.6.2))
       '@nuxtjs/i18n':
         specifier: 8.5.5
-        version: 8.5.5(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.9(typescript@5.6.2))
+        version: 8.5.5(patch_hash=gsvuo6ny4jdczmyeaz733yoxly)(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.9(typescript@5.6.2))
       '@pinia/testing':
         specifier: ^0.1.5
         version: 0.1.5(pinia@2.2.2(typescript@5.6.2)(vue@3.5.9(typescript@5.6.2)))(vue@3.5.9(typescript@5.6.2))
@@ -7483,7 +7488,7 @@ snapshots:
       - vue-tsc
       - webpack-sources
 
-  '@nuxtjs/i18n@8.5.5(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.9(typescript@5.6.2))':
+  '@nuxtjs/i18n@8.5.5(patch_hash=gsvuo6ny4jdczmyeaz733yoxly)(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.9(typescript@5.6.2))':
     dependencies:
       '@intlify/h3': 0.5.0
       '@intlify/shared': 9.14.1
