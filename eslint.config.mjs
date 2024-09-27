@@ -48,25 +48,24 @@ export default createConfigForNuxt()
       globals: vueMacros.globals,
     },
   })
-  .overrideRules({
-    "vue/html-self-closing": [
-      "error",
-      {
-        html: {
-          void: "always",
-          normal: "always",
-          component: "always",
-        },
-        svg: "always",
-        math: "always",
-      },
-    ],
-  })
   .append({
     rules: {
       "no-console": "error",
       "no-unreachable-loop": "error",
     },
+  })
+  .append({
+    files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
+    plugins: {
+      vitest,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
+  })
+  .append({
+    ...playwright.configs["flat/recommended"],
+    files: ["tests/**"],
   })
   .append(eslintPluginUnicorn.configs["flat/recommended"])
   .override("unicorn/flat/recommended", {
@@ -110,6 +109,20 @@ export default createConfigForNuxt()
       "unicorn/no-nested-ternary": "off",
     },
   })
+  .overrideRules({
+    "vue/html-self-closing": [
+      "error",
+      {
+        html: {
+          void: "always",
+          normal: "always",
+          component: "always",
+        },
+        svg: "always",
+        math: "always",
+      },
+    ],
+  })
   .override("unicorn/flat/recommended", {
     files:
       /** @type {string[]} */
@@ -117,17 +130,4 @@ export default createConfigForNuxt()
     rules: {
       "unicorn/prefer-top-level-await": "off",
     },
-  })
-  .append({
-    files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
-    plugins: {
-      vitest,
-    },
-    rules: {
-      ...vitest.configs.recommended.rules,
-    },
-  })
-  .append({
-    ...playwright.configs["flat/recommended"],
-    files: ["tests/**"],
   });
