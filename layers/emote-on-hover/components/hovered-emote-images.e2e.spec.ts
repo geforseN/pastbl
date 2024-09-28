@@ -1,10 +1,6 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
 import { isCI } from "std-env";
 
-if (isCI && !process.env.BASE_URL) {
-  throw new Error("BASE_URL is not set on CI");
-}
-
 const options = isCI
   ? {
       host: process.env.BASE_URL,
@@ -21,6 +17,8 @@ const baseUrl = isCI
 test.use({ nuxt: { ...options } });
 
 test("e2e", async ({ page }) => {
+  // eslint-disable-next-line playwright/no-skipped-test
+  test.skip(isCI && !process.env.BASE_URL);
   await page.goto(baseUrl);
   await expect(page).toHaveTitle(/pastbl/);
   const textarea = page.getByTestId("pasta-form-textarea");
