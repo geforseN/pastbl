@@ -6,12 +6,12 @@ export type SettledRecord = SettledEmoteIntegrationsRecord;
 
 type _MakeIndexedDBPersonEmoteIntegration<I extends Settled> = I extends Ready
   ? I & {
-      sets: Array<
-        Omit<I["sets"][number], "emotes"> & {
-          emotesIds: string[];
-        }
-      >;
-    }
+    sets: Array<
+      Omit<I["sets"][number], "emotes"> & {
+        emotesIds: string[];
+      }
+    >;
+  }
   : I extends Failed
     ? I
     : never;

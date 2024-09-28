@@ -40,7 +40,7 @@
     </chat-pasta>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
 const userStore = useUserStore();

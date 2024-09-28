@@ -1,6 +1,6 @@
+import { fileURLToPath } from "node:url";
 import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 import { defineConfig, devices } from "@playwright/test";
-import { fileURLToPath } from "node:url";
 import { isCI } from "std-env";
 import { endToEndTestsGlobs } from "./test-common";
 

@@ -13,8 +13,8 @@
         id="pastas-work-mode"
         v-model="userStore.pastasWorkMode.isLocal"
         :disabled="
-          !userStore.pastasWorkMode.canBeRemote &&
-          userStore.pastasWorkMode.isLocal
+          !userStore.pastasWorkMode.canBeRemote
+            && userStore.pastasWorkMode.isLocal
         "
         name="pastas-work-mode"
         type="checkbox"
@@ -22,7 +22,10 @@
       />
       {{ $t("local-mode") }}
     </div>
-    <div v-if="!userStore.pastasWorkMode.canBeRemote" class="flex flex-col">
+    <div
+      v-if="!userStore.pastasWorkMode.canBeRemote"
+      class="flex flex-col"
+    >
       <ul>
         <li
           v-if="
@@ -42,7 +45,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const userStore = useUserStore();
 </script>
 <style scoped>

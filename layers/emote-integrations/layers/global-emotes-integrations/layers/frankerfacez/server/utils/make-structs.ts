@@ -1,7 +1,7 @@
 import consola from "consola";
 
-export const makeFrankerFaceZGlobalIntegration =
-  defineGlobalIntegrationMaker<TFrankerFaceZ.Global.ReadyIntegration>(
+export const makeFrankerFaceZGlobalIntegration
+  = defineGlobalIntegrationMaker<TFrankerFaceZ.Global.ReadyIntegration>(
     "FrankerFaceZ",
   );
 

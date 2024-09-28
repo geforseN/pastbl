@@ -1,6 +1,9 @@
 <template>
   <div class="join">
-    <button class="btn btn-secondary join-item" @click="$emit('back')">
+    <button
+      class="btn btn-secondary join-item"
+      @click="$emit('back')"
+    >
       &lt;&lt;
     </button>
     <div
@@ -21,12 +24,15 @@
       <span>/</span>
       <span class="w-12 px-2 text-start">{{ pastasCount }}</span>
     </div>
-    <button class="btn btn-secondary join-item" @click="$emit('forward')">
+    <button
+      class="btn btn-secondary join-item"
+      @click="$emit('forward')"
+    >
       &gt;&gt;
     </button>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   pastasCount: number;
 }>();
@@ -39,15 +45,15 @@ defineEmits<{
 const selectedNumber = defineModel<number>("selectedNumber", {
   required: true,
   set(_value) {
-    const int =
-      typeof _value === "string"
+    const int
+      = typeof _value === "string"
         ? _value === ""
           ? 0
           : Number.parseInt(_value, 10)
         : _value;
     const { pastasCount } = props;
     log(
-      'debug',
+      "debug",
       "(find-pastas) [found-pastas-list-navigation-bar] changing input value",
       { from: selectedNumber.value, to: _value, toParsed: int, pastasCount },
     );

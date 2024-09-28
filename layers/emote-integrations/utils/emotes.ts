@@ -10,14 +10,14 @@ export function getEmotesMapInReadyEmotesIntegration(
   return new Map(emoteEntries);
 }
 
-export const EMOTES_INTEGRATIONS_HAS_NO_SETS_EVENT_NAME =
-  "ready-emotes-integration-have-no-sets" as const;
+export const EMOTES_INTEGRATIONS_HAS_NO_SETS_EVENT_NAME
+  = "ready-emotes-integration-have-no-sets" as const;
 
 const tryDispatchNoSetsEvent = () =>
   tryDispatchEvent(EMOTES_INTEGRATIONS_HAS_NO_SETS_EVENT_NAME);
 
-export const EMOTES_INTEGRATIONS_HAS_NO_EMOTES_EVENT_NAME =
-  "ready-emotes-integration-have-no-emotes" as const;
+export const EMOTES_INTEGRATIONS_HAS_NO_EMOTES_EVENT_NAME
+  = "ready-emotes-integration-have-no-emotes" as const;
 
 const tryDispatchNoEmotesEvent = () =>
   tryDispatchEvent(EMOTES_INTEGRATIONS_HAS_NO_EMOTES_EVENT_NAME);

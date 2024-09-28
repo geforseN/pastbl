@@ -1,6 +1,9 @@
 <template>
   <div class="flex items-baseline justify-between">
-    <label for="sort-pastas" class="label font-bold">
+    <label
+      for="sort-pastas"
+      class="label font-bold"
+    >
       {{ t("pastas.sort") }}
     </label>
     <select
@@ -19,7 +22,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });
 
 const { t } = useI18n();

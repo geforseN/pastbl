@@ -26,7 +26,8 @@ export function usePastasShow(
         assert.ok(isLowercase(login));
         if (map.has(login)) {
           map.get(login)!.push(pasta);
-        } else {
+        }
+        else {
           map.set(login, [pasta]);
         }
       }
@@ -56,7 +57,7 @@ export function usePastasShow(
     PastaShowStrategy,
     ComputedRef<OmegaPasta[]>
   > = {
-    all: computed(() => sortedPastas.value),
+    "all": computed(() => sortedPastas.value),
     "selected-user": computed(() => selectedUserPastas.value || []),
     "only-selected-user": computed(() => {
       const userPastas = selectedUserPastas.value;
@@ -75,7 +76,7 @@ export function usePastasShow(
         (pasta) => !selectablePastasSet.value.has(pasta),
       ),
     ),
-    none: computed(() => []),
+    "none": computed(() => []),
   };
 
   const pastasToShow = computed(

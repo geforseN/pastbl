@@ -1,5 +1,8 @@
 <template>
-  <div v-auto-animate class="space-y-1">
+  <div
+    v-auto-animate
+    class="space-y-1"
+  >
     <person-emotes-collection-chip
       v-for="collection of personsEmoteCollections.collectionsToSelect.state"
       :key="collection.person.twitch.login"
@@ -16,6 +19,6 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 </script>

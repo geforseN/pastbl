@@ -1,6 +1,9 @@
 <template>
   <section class="divide-y-2 rounded-box border-2 p-2">
-    <h2 id="heading" class="p-2 text-3xl font-bold">
+    <h2
+      id="heading"
+      class="p-2 text-3xl font-bold"
+    >
       {{ $t("settings.change") }}
     </h2>
     <settings-badges v-model="userStore.user.badges.count.state" />
@@ -9,9 +12,9 @@
     <settings-on-pasta-copy
       v-model="userStore.user.pasta.oncopy.state"
       :options="{
-        none: $t('settings.on-pasta-copied.options.none'),
-        alert: $t('settings.on-pasta-copied.options.alert'),
-        sound: $t('settings.on-pasta-copied.options.sound'),
+        'none': $t('settings.on-pasta-copied.options.none'),
+        'alert': $t('settings.on-pasta-copied.options.alert'),
+        'sound': $t('settings.on-pasta-copied.options.sound'),
         'alert&sound': $t('settings.on-pasta-copied.options.alert&sound'),
       }"
     />
@@ -33,7 +36,7 @@
     />
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 const userStore = useUserStore();
 </script>
 <style scoped>
