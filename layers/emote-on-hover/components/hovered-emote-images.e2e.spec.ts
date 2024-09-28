@@ -100,8 +100,8 @@ test("e2e", async ({ page }) => {
         .getByTestId("hovered-emote-images-container")
         .evaluate(
           (container) =>
-            container instanceof HTMLElement &&
-            container.scrollWidth > container.offsetWidth,
+            container instanceof HTMLElement
+            && container.scrollWidth > container.offsetWidth,
         ),
     ).toBe(true);
   });
