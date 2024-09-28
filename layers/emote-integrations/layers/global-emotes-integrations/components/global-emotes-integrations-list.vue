@@ -1,12 +1,18 @@
 <template>
   <div class="w-96 rounded-box border-2 p-2">
     <div class="flex justify-between p-2">
-      <h2 id="heading" class="text-3xl font-bold">
+      <h2
+        id="heading"
+        class="text-3xl font-bold"
+      >
         {{ $t("collections.global.link") }}
       </h2>
       <emote-integration-logos />
     </div>
-    <div v-on-mouseover="showEmoteCard" class="space-y-2">
+    <div
+      v-on-mouseover="showEmoteCard"
+      class="space-y-2"
+    >
       <update-all-global-emotes-integrations-button
         @click="globalEmotesIntegrationsStore.updateAllIntegrations"
       />
@@ -35,7 +41,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
 const emoteOnHover = injectEmoteOnHover();

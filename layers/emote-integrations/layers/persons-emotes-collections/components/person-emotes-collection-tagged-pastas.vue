@@ -9,7 +9,10 @@
       class="flex items-baseline gap-1 p-1 text-xl font-bold"
       tag="h2"
     >
-      <chat-pasta-tag :tag="`@${login}`" class="w-fit" />
+      <chat-pasta-tag
+        :tag="`@${login}`"
+        class="w-fit"
+      />
     </i18n-t>
     <div v-on-mouseover="showEmoteCard">
       <local-pastas-list
@@ -22,7 +25,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   login: TwitchUserLogin;
   pastas?: OmegaPasta[];

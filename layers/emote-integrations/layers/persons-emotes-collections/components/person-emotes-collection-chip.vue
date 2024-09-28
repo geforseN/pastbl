@@ -1,8 +1,8 @@
 <template>
   <div
     :class="
-      isRefreshing &&
-      'animate-pulse bg-gradient-to-r from-base-300 to-twitch-accent'
+      isRefreshing
+        && 'animate-pulse bg-gradient-to-r from-base-300 to-twitch-accent'
     "
     class="grid grid-cols-[minmax(0,5fr),minmax(0,2fr)] gap-1 rounded-btn p-2"
   >
@@ -13,7 +13,10 @@
           :size="48"
         />
         <div>
-          <p class="truncate text-xl font-bold" :title="nickname">
+          <p
+            class="truncate text-xl font-bold"
+            :title="nickname"
+          >
             {{ nickname }}
           </p>
           <person-emotes-collection-select-button
@@ -24,7 +27,10 @@
           />
         </div>
       </div>
-      <emote-collection-formed-at class="w-fit" :time="formedAt" />
+      <emote-collection-formed-at
+        class="w-fit"
+        :time="formedAt"
+      />
     </div>
     <div class="space-y-0.5">
       <person-emotes-collection-delete-button-dialog
@@ -56,7 +62,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   formedAt: number;
   nickname: string;

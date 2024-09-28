@@ -3,7 +3,7 @@
     <slot />
   </nuxt-link-locale>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   login: TwitchUserLogin;
 }>();

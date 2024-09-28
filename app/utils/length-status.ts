@@ -19,14 +19,14 @@ export function makeLengthStatusGetter<O extends Options>(
   options: MaybeGetter<O>,
 ): LengthStatusChecker<
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
-  O["warning"] extends number ? LengthStatusWithWarning : LengthStatus
-> {
+    O["warning"] extends number ? LengthStatusWithWarning : LengthStatus
+  > {
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
   const { max, min, warning } = isFunction(options) ? options() : options;
   // @ts-expect-error function overload are failed to make return correct type, must use conditional type
   return function (lengthLike: number | { length: number }) {
-    const length =
-      typeof lengthLike === "number" ? lengthLike : lengthLike.length;
+    const length
+      = typeof lengthLike === "number" ? lengthLike : lengthLike.length;
     if (!length) {
       return "empty";
     }

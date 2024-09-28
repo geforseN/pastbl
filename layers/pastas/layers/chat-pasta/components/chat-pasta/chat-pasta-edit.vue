@@ -57,7 +57,7 @@
     </teleport>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import type {
   ChatPastaEditAcceptChangesDialog,
   ChatPastaTagAddDialog,
@@ -70,10 +70,10 @@ const { pastaId } = defineProps<{
 
 const localePath = useLocalePath();
 
-const pastaFormEditRef =
-  useTemplateRef<InstanceType<typeof PastaFormEdit>>("pastaFormEdit");
-const addTagDialogRef =
-  useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
+const pastaFormEditRef
+  = useTemplateRef<InstanceType<typeof PastaFormEdit>>("pastaFormEdit");
+const addTagDialogRef
+  = useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
 const acceptChangesDialogRef = useTemplateRef<
   InstanceType<typeof ChatPastaEditAcceptChangesDialog>
 >("acceptChangesDialog");

@@ -7,7 +7,8 @@
         () => {
           if (selectedPastaNumber > 1) {
             selectedPastaNumber--;
-          } else {
+          }
+          else {
             selectedPastaNumber = pastas.length;
           }
         }
@@ -16,7 +17,8 @@
         () => {
           if (selectedPastaNumber < pastas.length) {
             selectedPastaNumber++;
-          } else {
+          }
+          else {
             selectedPastaNumber = 1;
           }
         }
@@ -50,7 +52,7 @@
     <span v-else> {{ $t("pasta.notFound") }} </span>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();

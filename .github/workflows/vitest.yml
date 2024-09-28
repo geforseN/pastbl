@@ -1,4 +1,4 @@
-name: Vitest
+name: Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main, master]
 
 jobs:
-  build:
+  vitest-nuxt-with-nitro:
     runs-on: ubuntu-latest
 
     env:

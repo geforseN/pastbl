@@ -17,7 +17,7 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const personsCollectionsStore = usePersonsEmoteCollectionsStore();
 
 const selectedCollection = computed(

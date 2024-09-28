@@ -1,6 +1,9 @@
 <template>
   <div class="flex items-baseline justify-between">
-    <label for="show-pastas" class="label font-bold">
+    <label
+      for="show-pastas"
+      class="label font-bold"
+    >
       {{ t("pastas.show") }}
     </label>
     <select
@@ -25,7 +28,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{

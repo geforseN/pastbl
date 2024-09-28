@@ -14,7 +14,10 @@
         isOpen = !isOpen;
       "
     />
-    <header :class="isOpen && 'mb-4'" class="collapse-title">
+    <header
+      :class="isOpen && 'mb-4'"
+      class="collapse-title"
+    >
       <slot name="title">
         <div class="flex items-baseline justify-between">
           <h3>
@@ -27,7 +30,10 @@
       </slot>
     </header>
     <main class="collapse-content">
-      <slot v-if="mustRenderContent" name="emoteList">
+      <slot
+        v-if="mustRenderContent"
+        name="emoteList"
+      >
         <div
           class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2 scrollbar"
           :class="[props.styles.borderAccent, props.styles.scrollbar]"
@@ -97,11 +103,11 @@ defineSlots<{
 
 const id = computed(
   () =>
-    "is-" +
-    dasherize(props.set.source) +
-    "-" +
-    dasherize(props.set.name) +
-    "-collapse-open",
+    "is-"
+    + dasherize(props.set.source)
+    + "-"
+    + dasherize(props.set.name)
+    + "-collapse-open",
 );
 </script>
 <style scoped>

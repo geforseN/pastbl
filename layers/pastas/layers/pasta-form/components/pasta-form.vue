@@ -57,7 +57,10 @@
           >
             {{ $t("tags.delete") }}
           </button>
-          <span v-else class="badge badge-warning badge-lg">
+          <span
+            v-else
+            class="badge badge-warning badge-lg"
+          >
             {{ $t("tags.noAdded") }}
           </span>
         </div>
@@ -73,9 +76,9 @@
       @add-tag="(tag) => emit('addTag', tag)"
     >
       <template #addTagSuggestions>
-        <!--   NOTE: TRIED to use <option :value="tag" ...otherAttrs><{{'important message'}}/option>  
+        <!--   NOTE: TRIED to use <option :value="tag" ...otherAttrs><{{'important message'}}/option>
         but it did fail because firefox showed slot value only (no 'important message'), which is not what wanted
-        chrome however works great, showing value attribute with smaller slot text below 
+        chrome however works great, showing value attribute with smaller slot text below
         SO implemented <option /> uses value, label and no slot, which works ok:
         firefox shows label only, value used onclick
         chrome shows value and label below, value used onclick -->
@@ -89,7 +92,7 @@
     </pasta-form-tags-input>
   </form>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { PastaFormTextarea } from "#build/components";
 
 const userStore = useUserStore();
@@ -123,8 +126,8 @@ const emit = defineEmits<{
 const mainEmit = () =>
   userStore.pastasWorkMode.isLocal ? emit("createPasta") : emit("publishPasta");
 
-const pastaFormTextareaRef =
-  useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
+const pastaFormTextareaRef
+  = useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
 
 defineExpose({
   pastaFormTextareaRef,

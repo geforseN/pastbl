@@ -11,8 +11,8 @@ function getMyTimeStringFormatMultiplier(
   format: MyTimeStringFormat | string | undefined,
 ) {
   return (
-    myTimeStringFormatMultipliers[format as MyTimeStringFormat] ||
-    assert.fail(`Unknown myTimeString format=${format}`)
+    myTimeStringFormatMultipliers[format as MyTimeStringFormat]
+    || assert.fail(`Unknown myTimeString format=${format}`)
   );
 }
 
