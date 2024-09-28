@@ -42,6 +42,7 @@
     "@nuxtjs/i18n": "8.5.5",
     "@pinia/testing": "^0.1.5",
     "@playwright/test": "^1.47.2",
+    "@testing-library/vue": "^8.1.0",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.7.2",
     "@vitejs/plugin-vue": "^5.1.4",

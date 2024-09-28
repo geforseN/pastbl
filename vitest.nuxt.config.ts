@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { defaultExclude } from "vitest/config";
 import {
@@ -5,10 +6,11 @@ import {
   nitroTestsGlobs,
   nodejsTestsGlobs,
 } from "./test-common";
-import { fileURLToPath } from "node:url";
 
 export default defineVitestConfig({
   test: {
+    globals: true,
+    environment: "nuxt",
     include: ["**/*.spec.ts", ...nitroTestsGlobs],
     exclude: [...defaultExclude, ...endToEndTestsGlobs, ...nodejsTestsGlobs],
     environmentOptions: {
