@@ -3,8 +3,8 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
   const { sortedPastas } = storeToRefs(pastasStore);
 
   const pastasToShowOnPage = computed(() => {
-    const [smallestPastaList, ...othersPastaLists] =
-      sortedByLengthPastaLists.value;
+    const [smallestPastaList, ...othersPastaLists]
+      = sortedByLengthPastaLists.value;
     assert.ok(isArray(smallestPastaList?.value));
     return smallestPastaList.value.filter((pasta) =>
       othersPastaLists.every((pastaList) =>
@@ -19,11 +19,11 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
     withLogSync(pastasToShowOnPage.value, "showedPastas"),
   );
 
-  const { text, debouncedText, textAppropriatePastas } =
-    useFindPastaText(sortedPastas);
+  const { text, debouncedText, textAppropriatePastas }
+    = useFindPastaText(sortedPastas);
 
-  const { mustRespectLengthRange, lengthAppropriatePastas, length } =
-    useFindPastasLength(sortedPastas, {
+  const { mustRespectLengthRange, lengthAppropriatePastas, length }
+    = useFindPastasLength(sortedPastas, {
       getMin: () => pastasStore.pastasTextLength.min,
       getMax: () => pastasStore.pastasTextLength.max,
     });

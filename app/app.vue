@@ -18,12 +18,18 @@
         sizes="16x16"
         href="/favicon-16x16.png"
       />
-      <Link rel="manifest" href="/site.webmanifest" />
+      <Link
+        rel="manifest"
+        href="/site.webmanifest"
+      />
       <Meta
         name="google-site-verification"
         content="CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw"
       />
-      <Meta name="theme-color" content="#ff52d9f2" />
+      <Meta
+        name="theme-color"
+        content="#ff52d9f2"
+      />
     </Head>
     <Body>
       <app-drawer class="z-50">
@@ -52,7 +58,7 @@
     </Body>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
 
@@ -71,8 +77,8 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef =
-  useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
+const emoteOnHoverCardRef
+  = useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
@@ -88,10 +94,9 @@ body {
   scrollbar-gutter: stable;
 }
 
-/* NOTE: 
-  icon class added by nuxt-icon svg's 
-  !important is necessary to override style attribute  
-*/
+/*
+  * NOTE: icon class added by nuxt-icon svg's, !important is necessary to override style attribute
+ */
 .icon {
   font-size: 10px !important;
   line-height: 1 !important;

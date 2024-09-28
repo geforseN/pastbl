@@ -6,14 +6,20 @@
         v-on-mouseover="showEmoteCard"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
       >
-        <el-tab-pane :label="$t('local')" name="local">
+        <el-tab-pane
+          :label="$t('local')"
+          name="local"
+        >
           <local-pastas-list
             v-if="pastasStore.canShowPastas"
             :items="pastasStore.pastasToShow"
             @remove-pasta="pastasStore.removePasta"
           />
         </el-tab-pane>
-        <el-tab-pane :label="$t('remote')" name="remote">
+        <el-tab-pane
+          :label="$t('remote')"
+          name="remote"
+        >
           <remote-pastas-list v-if="userStore.pastasWorkMode.canBeRemote" />
           <remote-pastas-unavailable-hint v-else />
         </el-tab-pane>

@@ -30,9 +30,9 @@ export const useEmotesStore = defineStore("emotes", () => {
   return {
     findEmote(token: string) {
       return (
-        emotesCache.get(token) ||
-        userEmotes.findEmote(token, setEmoteInCache) ||
-        globalEmotes.findEmote(token, setEmoteInCache)
+        emotesCache.get(token)
+        || userEmotes.findEmote(token, setEmoteInCache)
+        || globalEmotes.findEmote(token, setEmoteInCache)
       );
     },
     // NOTE: MUST use it in global emotes component OR there is a chance that emote with same token in userEmote will be found, but global emote expected
@@ -42,8 +42,8 @@ export const useEmotesStore = defineStore("emotes", () => {
     isInitialUserEmotesReady: userEmotes.isInitialEmotesReady,
     canUseUserEmotes: computed(
       () =>
-        (personsEmoteCollections.selectedLogin.isEmpty ||
-          userEmotes.isInitialEmotesReady.value) satisfies boolean,
+        (personsEmoteCollections.selectedLogin.isEmpty
+          || userEmotes.isInitialEmotesReady.value) satisfies boolean,
     ),
   };
 });

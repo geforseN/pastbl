@@ -6,7 +6,10 @@
     </h3>
     <div class="collapse-content">
       <article class="mb-3 flex items-center justify-between">
-        <label class="cursor-pointer" for="must-respect-selected-length">
+        <label
+          class="cursor-pointer"
+          for="must-respect-selected-length"
+        >
           <h3>{{ $t("pasta.find.range.must-respect") }}</h3>
         </label>
         <input
@@ -16,7 +19,13 @@
           class="toggle toggle-primary"
         />
       </article>
-      <el-slider v-model="range" :disabled="!respect" range :min :max />
+      <el-slider
+        v-model="range"
+        :disabled="!respect"
+        range
+        :min
+        :max
+      />
       <div class="flex justify-between">
         <div class="flex flex-col">
           <label
@@ -51,7 +60,7 @@
     </div>
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 const range = defineModel<number[]>({ required: true });
 
 const min = defineModel<number>("min", { required: true });

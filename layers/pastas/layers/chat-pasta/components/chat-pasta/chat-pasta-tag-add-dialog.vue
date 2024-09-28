@@ -1,13 +1,26 @@
 <template>
-  <dialog ref="dialog" class="modal">
+  <dialog
+    ref="dialog"
+    class="modal"
+  >
     <div class="modal-box">
       <h3 class="text-lg font-bold">
         {{ $t("modal.chatPastaTagAdd.heading") }}
       </h3>
-      <p class="py-4">{{ $t("modal.chatPastaTagAdd.body") }}</p>
+      <p class="py-4">
+        {{ $t("modal.chatPastaTagAdd.body") }}
+      </p>
       {{ $t("tag._", props.tag) }}
-      <form method="dialog" class="modal-action" @submit.prevent>
-        <button class="btn btn-error" type="reset" @click="mustAddTag = false">
+      <form
+        method="dialog"
+        class="modal-action"
+        @submit.prevent
+      >
+        <button
+          class="btn btn-error"
+          type="reset"
+          @click="mustAddTag = false"
+        >
           {{ $t("pasta.addTo") }}
         </button>
         <button
@@ -21,7 +34,7 @@
     </div>
   </dialog>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   tag: string;
   onSuccess: () => MaybePromise<void>;

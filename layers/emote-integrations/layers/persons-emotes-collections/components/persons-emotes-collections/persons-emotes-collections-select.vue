@@ -9,7 +9,9 @@
       name="user-collection"
       class="select select-info w-full"
     >
-      <option value="">{{ $t("collections.users.select.no-select") }}</option>
+      <option value="">
+        {{ $t("collections.users.select.no-select") }}
+      </option>
       <option
         v-for="login of personsEmoteCollections.loginsToSelect.state"
         :key="login"
@@ -20,6 +22,6 @@
     <person-emotes-collection-selected />
   </section>
 </template>
-<script setup>
+<script setup lang="ts">
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 </script>

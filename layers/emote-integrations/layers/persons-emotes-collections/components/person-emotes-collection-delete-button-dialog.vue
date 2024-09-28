@@ -1,5 +1,8 @@
 <template>
-  <div ref="container" class="relative">
+  <div
+    ref="container"
+    class="relative"
+  >
     <slot
       :reveal="
         () => {
@@ -16,12 +19,18 @@
       class="card card-compact absolute z-[1] w-72 border-2 bg-base-100 p-2 text-base-content"
       v-bind="$attrs"
     >
-      <div ref="card" class="card-body">
+      <div
+        ref="card"
+        class="card-body"
+      >
         <h3 class="card-title">
           {{ $t("collections.users.ready.delete-text") }}
         </h3>
         <div class="flex gap-2">
-          <button class="btn btn-error btn-sm grow" @click="$emit('delete')">
+          <button
+            class="btn btn-error btn-sm grow"
+            @click="$emit('delete')"
+          >
             {{ $t("delete") }}
           </button>
           <button
@@ -43,7 +52,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
 const containerRef = useTemplateRef("container");

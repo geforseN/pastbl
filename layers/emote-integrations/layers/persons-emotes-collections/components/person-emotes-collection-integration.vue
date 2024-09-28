@@ -16,28 +16,57 @@
           :twitch
           :size="28"
         />
-        <nuxt-link :to="integration.owner.pageAddress" external target="_blank">
-          <h2 class="link ml-1 text-xl">{{ source }}</h2>
+        <nuxt-link
+          :to="integration.owner.pageAddress"
+          external
+          target="_blank"
+        >
+          <h2 class="link ml-1 text-xl">
+            {{ source }}
+          </h2>
         </nuxt-link>
       </div>
-      <h2 v-else class="ml-1 text-xl">{{ source }}</h2>
-      <emote-integration-logo :source with-link />
+      <h2
+        v-else
+        class="ml-1 text-xl"
+      >
+        {{ source }}
+      </h2>
+      <emote-integration-logo
+        :source
+        with-link
+      />
     </header>
     <main>
       <div class="space-y-1.5">
-        <ul v-if="integration.status === 'ready'" class="space-y-1.5">
-          <li v-for="set of integration.sets" :key="set.name">
-            <emote-integration-collapsed-set :set :styles />
+        <ul
+          v-if="integration.status === 'ready'"
+          class="space-y-1.5"
+        >
+          <li
+            v-for="set of integration.sets"
+            :key="set.name"
+          >
+            <emote-integration-collapsed-set
+              :set
+              :styles
+            />
           </li>
         </ul>
         <div
           :class="styles.borderAccent"
           class="flex justify-between rounded-box border-2 p-1 px-2"
         >
-          <ready-emote-integration-only :="integration" #="{ integration }">
+          <ready-emote-integration-only
+            :="integration"
+            #="{ integration }"
+          >
             <emote-collection-formed-at :time="integration.formedAt" />
           </ready-emote-integration-only>
-          <failed-emote-integration-only :="integration" #="{ integration }">
+          <failed-emote-integration-only
+            :="integration"
+            #="{ integration }"
+          >
             <div>{{ integration.reason }}</div>
           </failed-emote-integration-only>
           <refresh-button
@@ -53,7 +82,7 @@
 </template>
 <script setup generic="Source extends EmoteSource">
 const props = defineProps<{
-  integration: any; //SomeEmoteIntegration<Source>;
+  integration: any; // SomeEmoteIntegration<Source>;
   twitch: PersonTwitch;
 }>();
 

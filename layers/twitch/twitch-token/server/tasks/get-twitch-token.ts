@@ -1,5 +1,5 @@
-import { recreateTwitchFetch } from "$/twitch/twitch-fetch/server/utils/twitch-fetch";
 import { defineTask } from "nitropack/runtime/task";
+import { recreateTwitchFetch } from "$/twitch/twitch-fetch/server/utils/twitch-fetch";
 
 export async function runTwitchTokenTask() {
   const oldToken = await getTwitchTokenFromStorage();

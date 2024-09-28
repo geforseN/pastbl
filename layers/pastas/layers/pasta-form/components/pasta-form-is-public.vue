@@ -1,6 +1,9 @@
 <template>
   <div>
-    <label :for="id" class="grow cursor-pointer">
+    <label
+      :for="id"
+      class="grow cursor-pointer"
+    >
       {{ $t("pasta.makePublic?") }}
     </label>
     <span>{{ $t(isPublic ? "yes" : "no") }}</span>

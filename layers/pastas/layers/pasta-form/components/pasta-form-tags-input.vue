@@ -26,8 +26,8 @@
       <button
         class="btn btn-info join-item box-content grow px-2"
         :class="
-          modelValue.trimStart().startsWith('@') &&
-          'border-twitch-accent bg-twitch-accent text-twitch-base hover:border-twitch-accent hover:bg-twitch-accent/90 focus:outline-twitch-accent'
+          modelValue.trimStart().startsWith('@')
+            && 'border-twitch-accent bg-twitch-accent text-twitch-base hover:border-twitch-accent hover:bg-twitch-accent/90 focus:outline-twitch-accent'
         "
         @click.prevent="emitTag"
       >
@@ -46,7 +46,7 @@
     </span>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const appConfig = useAppConfig();
 
 const modelValue = defineModel<string>({ required: true });

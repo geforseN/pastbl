@@ -14,7 +14,7 @@ export class PersonsEmotesCollectionsService<
 
   async get(login: TwitchUserLogin) {
     if (import.meta.server) {
-      return /* await this.api.get(login) */;
+      return;
     }
     const collection = await this.repository.get(login);
     return collection;
