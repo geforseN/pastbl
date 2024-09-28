@@ -10,7 +10,10 @@
         <slot name="creatorData" />
       </template>
       <template #bottom>
-        <chat-pasta-created class="block123 hidden" :date="createdAt" />
+        <chat-pasta-created
+          class="block123 hidden"
+          :date="createdAt"
+        />
       </template>
     </chat-pasta-main-data>
     <div class="remove123 flex justify-between p-1">
@@ -24,7 +27,10 @@
       class="actions123 hidden flex-col items-center justify-between gap-y-0.5 px-1 py-2"
     >
       <chat-pasta-copy-button @click="emit('copy')" />
-      <chat-pasta-more-actions @remove="emit('remove')" @edit="emit('edit')" />
+      <chat-pasta-more-actions
+        @remove="emit('remove')"
+        @edit="emit('edit')"
+      />
     </div>
   </div>
 </template>

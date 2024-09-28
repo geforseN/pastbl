@@ -32,9 +32,9 @@ function makeSpecPath(base) {
   if (!base.endsWith("/")) {
     base = base + "/";
   }
-  return specFilesExtensions.flatMap(fileExtension =>
+  return specFilesExtensions.flatMap((fileExtension) =>
     specDirectoriesNames.flatMap(
-      directoryName => base + directoryName + "**/*.spec." + fileExtension,
+      (directoryName) => base + directoryName + "**/*.spec." + fileExtension,
     ),
   );
 }
@@ -44,6 +44,7 @@ export default createConfigForNuxt({
     stylistic: {
       quotes: "double",
       semi: true,
+      arrowParens: true,
     },
   },
 })

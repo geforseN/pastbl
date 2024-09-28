@@ -26,11 +26,11 @@ const routePageLinkRecord = {
     path: "/collections/persons",
     textKey: "collections.users.link",
   },
-  emotesAndEmojis: {
+  "emotesAndEmojis": {
     path: "/collections",
     textKey: "emotesAndEmojis",
   },
-  main: {
+  "main": {
     path: "/",
     textKey: "mainPage",
   },
@@ -38,7 +38,7 @@ const routePageLinkRecord = {
     path: "/settings#heading",
     textKey: "settings.change",
   },
-  pastas: {
+  "pastas": {
     path: "/pastas",
     textKey: "pastas._",
   },
@@ -46,7 +46,7 @@ const routePageLinkRecord = {
     path: "/pastas/find#heading",
     textKey: "pasta.find.link",
   },
-  emojis: {
+  "emojis": {
     path: "/collections/emojis",
     textKey: "emojis._",
   },
