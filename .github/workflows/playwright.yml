@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main, master]
 
 jobs:
-  test:
+  playwright:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
@@ -31,6 +31,8 @@ jobs:
 
       - name: Run Playwright tests
         run: pnpm exec playwright test
+        env:
+          BASE_URL: 'https://pastbl.vercel.app' 
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4.4.0
