@@ -1,5 +1,6 @@
 <template>
   <div
+    data-testid="pasta-form-collapse"
     class="collapse collapse-arrow border-2"
     :class="
       !$formCollapse.isOpen

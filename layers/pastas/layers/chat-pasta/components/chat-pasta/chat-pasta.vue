@@ -1,5 +1,8 @@
 <template>
-  <div class="chat-pasta flex flex-col border border-secondary">
+  <div
+    data-testid="chat-pasta"
+    class="chat-pasta flex flex-col border border-secondary"
+  >
     <chat-pasta-main-data
       :tags
       :text

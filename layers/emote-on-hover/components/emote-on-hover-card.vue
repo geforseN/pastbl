@@ -1,6 +1,7 @@
 <template>
   <div
     ref="container"
+    data-testid="emote-on-hover-card"
     class="absolute z-50 flex"
     :class="emote && emoteModifiers?.length && 'items-end'"
   >

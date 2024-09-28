@@ -1,6 +1,7 @@
 <template>
   <div
     ref="container"
+    data-testid="hovered-emote-images-container"
     class="flex w-max max-w-xs items-center gap-1 overflow-x-auto p-1 scrollbar"
     @wheel.passive="scrollHorizontalIfNeeded"
   >
