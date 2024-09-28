@@ -1,14 +1,14 @@
 name: Playwright Tests
 
 on:
-  push:
-    branches: [main, master]
+  deployment_status:
 
 jobs:
-  test:
-    timeout-minutes: 60
+  playwright:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
@@ -27,9 +27,18 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run Playwright tests on Vercel preview
         run: pnpm exec playwright test
-
+        if: ${{ github.event.deployment_status.environment == 'preview' }}
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      
+      - name: Run Playwright tests on Vercel production
+        run: echo ${{ github.event.deployment_status.environment_url }} && pnpm exec playwright test
+        if: ${{ github.event.deployment_status.environment == 'production' }}
+        env:
+          BASE_URL: https://pastbl.vercel.app
+      
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4.4.0
         if: ${{ !cancelled() }}
