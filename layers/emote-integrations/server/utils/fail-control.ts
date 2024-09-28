@@ -10,7 +10,8 @@ export abstract class EmotesIntegrationWithFailControl {
   ): Promise<R | F> {
     try {
       return await fn();
-    } catch (error) {
+    }
+    catch (error) {
       return this.makeFailedIntegration<F>(error);
     }
   }

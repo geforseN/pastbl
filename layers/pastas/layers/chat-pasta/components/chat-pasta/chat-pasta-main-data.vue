@@ -5,7 +5,10 @@
     >
       <slot name="beforeColon" />
       <span aria-hidden="true">{{ ": " }}</span>
-      <span :ref="tryEmitPopulate" class="twitch-text chat-pasta-text">
+      <span
+        :ref="tryEmitPopulate"
+        class="twitch-text chat-pasta-text"
+      >
         {{ text }}
       </span>
     </div>
@@ -25,7 +28,7 @@
     <slot name="bottom" />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   text: string;
   tags: string[];

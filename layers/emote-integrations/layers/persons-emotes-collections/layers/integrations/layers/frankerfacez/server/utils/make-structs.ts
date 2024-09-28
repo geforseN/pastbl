@@ -52,7 +52,7 @@ export function makeFrankerFaceZChannelSets(
     });
 }
 
-export const makeFrankerFaceZPersonIntegration =
-  definePersonEmoteIntegrationMaker<TFrankerFaceZ.Person.ReadyIntegration>(
+export const makeFrankerFaceZPersonIntegration
+  = definePersonEmoteIntegrationMaker<TFrankerFaceZ.Person.ReadyIntegration>(
     "FrankerFaceZ",
   );

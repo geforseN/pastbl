@@ -22,7 +22,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const themes = reactive(useThemes());
 
 const id = useId();

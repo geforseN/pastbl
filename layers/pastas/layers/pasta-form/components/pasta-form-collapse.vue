@@ -1,5 +1,6 @@
 <template>
   <div
+    data-testid="pasta-form-collapse"
     class="collapse collapse-arrow border-2"
     :class="
       !$formCollapse.isOpen
@@ -51,7 +52,7 @@
       @keyup.escape="$formCollapse.close"
       @keyup.stop="
         () => {}
-        /* NOTE: 
+      /* NOTE:
           stop propagation is important to prevent collapse from closing
           (when user press 'i' in pasta textarea or in tag input)
         */
@@ -101,7 +102,7 @@
     </teleport>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { ChatPastaTagAddDialog, PastaForm } from "#build/components";
 
 const pastasStore = usePastasStore();
@@ -109,10 +110,10 @@ const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 const userStore = useUserStore();
 
-const addTagDialogRef =
-  useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
-const pastaFormRef =
-  useTemplateRef<InstanceType<typeof PastaForm>>("pastaForm");
+const addTagDialogRef
+  = useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
+const pastaFormRef
+  = useTemplateRef<InstanceType<typeof PastaForm>>("pastaForm");
 
 async function focusOnTextarea() {
   // NOTE: without sleep will be ugly layout shift when collapse become opened

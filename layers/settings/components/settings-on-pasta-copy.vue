@@ -1,6 +1,9 @@
 <template>
   <div class="form-control p-2">
-    <label for="pasta-oncopy" class="label cursor-pointer text-xl font-medium">
+    <label
+      for="pasta-oncopy"
+      class="label cursor-pointer text-xl font-medium"
+    >
       {{ $t("settings.on-pasta-copied._") }}
     </label>
     <select
@@ -19,7 +22,7 @@
     </select>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const oncopy = defineModel<string>({ required: true });
 
 defineProps<{

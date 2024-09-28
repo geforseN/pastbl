@@ -1,5 +1,8 @@
 <template>
-  <div class="dropdown w-fit space-x-0.5" :class="props.dropdownClass">
+  <div
+    class="dropdown w-fit space-x-0.5"
+    :class="props.dropdownClass"
+  >
     <time
       :datetime="time.toISOString()"
       class="w-full text-ellipsis text-nowrap"
@@ -12,7 +15,10 @@
       role="button"
       class="btn btn-circle btn-ghost btn-xs text-info"
     >
-      <icon name="ic:outline-info" size="20" />
+      <icon
+        name="ic:outline-info"
+        size="20"
+      />
     </div>
     <div
       :class="props.dropdownContentClass"
@@ -25,7 +31,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = withDefaults(
   defineProps<{
     time: Date | number | string;

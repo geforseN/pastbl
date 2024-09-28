@@ -1,5 +1,5 @@
-const parser =
-  import.meta.client && typeof DOMParser !== "undefined"
+const parser
+  = import.meta.client && typeof DOMParser !== "undefined"
     ? new DOMParser()
     : null;
 
@@ -19,4 +19,11 @@ export function tryDispatchEvent(
   // NOTE: target still can be optional if no target were provided and it is called on server side
   target?.dispatchEvent(event);
   return event;
+}
+
+export function waitImageLoaded(image: HTMLImageElement) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    image.onload = () => resolve(image);
+    image.onerror = () => reject();
+  });
 }
