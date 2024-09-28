@@ -1,9 +1,25 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
+import { isCI } from "std-env";
 
-test.use({ nuxt: { host: "http://127.0.0.1", port: 3000 } });
+if (isCI && !process.env.BASE_URL) {
+  throw new Error("BASE_URL is not set on CI");
+}
+
+const options = isCI
+  ? {
+      host: process.env.BASE_URL,
+    }
+  : {
+      host: "http://127.0.0.1",
+      port: 3000,
+    };
+
+const baseUrl = isCI ? process.env.BASE_URL! : options.host + ":" + options.port;
+
+test.use({ nuxt: { ...options } });
 
 test("e2e", async ({ page }) => {
-  await page.goto("http://127.0.0.1:3000/");
+  await page.goto(baseUrl);
   await expect(page).toHaveTitle(/pastbl/);
   const textarea = page.getByTestId("pasta-form-textarea");
   await expect(textarea).toBeHidden();
@@ -24,7 +40,7 @@ test("e2e", async ({ page }) => {
     .fill("geforsen");
   await expect(page.getByText("Add Person emotes")).toBeVisible();
   const collectionResponsePromise = page.waitForResponse(
-    "http://127.0.0.1:3000/api/v1/persons-emotes-collections/geforsen",
+    `${baseUrl}/api/v1/persons-emotes-collections/geforsen`,
   );
   await page.getByTestId("person-emotes-collection-fetch-input").press("Enter");
   await expect(
