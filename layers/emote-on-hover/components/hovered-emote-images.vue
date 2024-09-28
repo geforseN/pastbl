@@ -10,6 +10,7 @@
       :key="image.src"
     >
       <img
+        data-testid="hovered-emote-image"
         :src="image.src"
         :width="image.width"
         :height="image.height"
@@ -20,23 +21,14 @@
     </template>
   </div>
 </template>
-<script setup lang="ts">
-defineProps<{
-  emote: InstanceType<typeof EmoteOnHover>;
-}>();
-
-const containerRef = useTemplateRef("container");
-
-watchEffect(() => {
-  // FIXME: on first call scrollWidth and offsetWidth always same (even ixf supposed to be different)
-  // TODO: add tests for this
-  onContainerUpdate(containerRef.value);
-});
-
-function onContainerUpdate(container: HTMLElement | null) {
-  if (!(container instanceof HTMLElement)) {
+<script lang="ts">
+async function onContainerUpdate(containerRef: Ref<HTMLElement | null>) {
+  if (!(containerRef.value instanceof HTMLElement)) {
     return;
   }
+  const images = [...containerRef.value.querySelectorAll("img")];
+  await Promise.all(images.map(waitImageLoaded));
+  const container = containerRef.value;
   log("debug", "<hovered-emote-images> onContainerUpdate", {
     scrollWidth: container.scrollWidth,
     offsetWidth: container.offsetWidth,
@@ -47,6 +39,17 @@ function onContainerUpdate(container: HTMLElement | null) {
     container.scrollBy({ left });
   }
 }
+</script>
+<script setup lang="ts">
+defineProps<{
+  emote: InstanceType<typeof EmoteOnHover>;
+}>();
+
+const containerRef = useTemplateRef("container");
+
+watchEffect(() => {
+  onContainerUpdate(containerRef);
+});
 
 function scrollHorizontalIfNeeded(event: WheelEvent) {
   if (event.shiftKey || !containerRef.value) {
