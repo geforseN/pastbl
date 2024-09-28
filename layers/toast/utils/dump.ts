@@ -157,7 +157,7 @@ const makeFailureActionHandler = makeActionHandlerOf("failures");
 
 function makeActionHandlerOf<
   T extends string &
-    Extract<keyof ActionToastMakers, "infos" | "warnings" | "failures">,
+  Extract<keyof ActionToastMakers, "infos" | "warnings" | "failures">,
 >(type: T) {
   const mappedType = mapActionToastsKeyToType(type);
   const color = ACTION_TOASTS_NOTIFICATION_TYPE_COLORS[mappedType];

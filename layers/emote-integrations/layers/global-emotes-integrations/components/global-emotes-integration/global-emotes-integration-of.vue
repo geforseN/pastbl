@@ -38,8 +38,8 @@ if (!integration.value) {
   globalEmotesIntegrationsStore.integrationsState.set(props.source, loading);
   integration.value = loading;
   globalEmotesIntegrationsStore.loadIntegration(props.source).then(() => {
-    integration.value =
-      globalEmotesIntegrationsStore.integrationsState.state[props.source];
+    integration.value
+      = globalEmotesIntegrationsStore.integrationsState.state[props.source];
   });
 }
 

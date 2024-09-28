@@ -11,7 +11,11 @@
         inputmode="numeric"
         name="badges-count"
       />
-      <label v-show="errorMessage" class="label" for="badges-count">
+      <label
+        v-show="errorMessage"
+        class="label"
+        for="badges-count"
+      >
         <span class="label-text font-bold text-error">{{ errorMessage }}</span>
       </label>
     </div>
@@ -29,7 +33,7 @@
     </button>
   </div>
 </template>
-<!-- 
+<!--
  TODO: use ValidityState
  LINK: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
  -->

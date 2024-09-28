@@ -1,5 +1,5 @@
-export const personsEmotesCollectionsService =
-  new PersonsEmotesCollectionsService(
+export const personsEmotesCollectionsService
+  = new PersonsEmotesCollectionsService(
     new PersonsEmoteCollectionsIndexedDBRepository(
       new PersonsEmoteCollectionsIndexedDBStore(withEmoteIntegrationsIndexedDB),
       new PersonsEmotesIndexedDBStore(withEmoteIntegrationsIndexedDB),

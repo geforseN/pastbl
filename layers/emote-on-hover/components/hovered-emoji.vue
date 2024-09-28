@@ -29,11 +29,13 @@ defineEmits<{
 
 function isEmoji(emoji: string): emoji is keyof typeof emoteDataByEmoji {
   return emoji in emoteDataByEmoji;
-};
+}
 
 const emojiData = computed(() => {
-  assert.ok(isEmoji(props.emoji), `Provided emoji, ${props.emoji} is not in emojis record`);
+  assert.ok(
+    isEmoji(props.emoji),
+    `Provided emoji, ${props.emoji} is not in emojis record`,
+  );
   return emoteDataByEmoji[props.emoji];
-},
-);
+});
 </script>

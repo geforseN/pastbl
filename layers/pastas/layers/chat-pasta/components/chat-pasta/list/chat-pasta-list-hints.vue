@@ -5,7 +5,9 @@
         v-if="!$clipboard.isSupported"
         class="alert alert-warning flex w-[420px] flex-col justify-center gap-1 p-3"
       >
-        <h3 class="font-bold">{{ $t("pasta.list.clipboardFail.heading") }}</h3>
+        <h3 class="font-bold">
+          {{ $t("pasta.list.clipboardFail.heading") }}
+        </h3>
         <p>{{ $t("pasta.list.clipboardFail.explanation") }}</p>
       </div>
     </client-only>
@@ -22,7 +24,9 @@
         />
       </client-only>
     </div>
-    <slot name="default"><!-- NOTE: chat-pasta-list expected here --></slot>
+    <slot name="default">
+      <!-- NOTE: chat-pasta-list expected here -->
+    </slot>
     <client-only>
       <chat-pasta-list-skeleton v-if="pastasStore.pastas.isLoading" />
       <div
@@ -31,8 +35,8 @@
       >
         <div
           v-if="
-            pastasStore.isPersonTagShowStrategySelected &&
-            pastasStore.isNoPastasToShow
+            pastasStore.isPersonTagShowStrategySelected
+              && pastasStore.isNoPastasToShow
           "
           class="flex px-2 py-1.5"
         >
@@ -93,7 +97,10 @@ const pastasStore = usePastasStore();
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
 const selectedCollection = computed(() =>
-  withLogSync(personsEmoteCollections.selectedCollection.state, "selectedCollection"),
+  withLogSync(
+    personsEmoteCollections.selectedCollection.state,
+    "selectedCollection",
+  ),
 );
 const selectedLogin = computed(
   () => personsEmoteCollections.selectedLogin.state,

@@ -3,12 +3,12 @@ import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   screens: {
-    xs: "420px",
-    sm: defaultTheme.screens.sm,
-    md: defaultTheme.screens.md,
+    "xs": "420px",
+    "sm": defaultTheme.screens.sm,
+    "md": defaultTheme.screens.md,
     "go-brr": "890px",
-    lg: defaultTheme.screens.lg,
-    xl: defaultTheme.screens.xl,
+    "lg": defaultTheme.screens.lg,
+    "xl": defaultTheme.screens.xl,
     "2xl": defaultTheme.screens["2xl"],
   },
   extend: {

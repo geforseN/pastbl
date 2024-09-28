@@ -3,7 +3,10 @@
     <h2 class="p-1 text-xl font-bold">
       {{ $t("pastas.withPersonEmotes", { login }) }}
     </h2>
-    <div v-if="pastas.length > 0" @mouseover="findEmoteInOpenedCollection">
+    <div
+      v-if="pastas.length > 0"
+      @mouseover="findEmoteInOpenedCollection"
+    >
       <local-pastas-list
         v-if="canShowPastas"
         data-compact

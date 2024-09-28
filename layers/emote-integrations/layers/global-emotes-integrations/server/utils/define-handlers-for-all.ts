@@ -14,7 +14,8 @@ export function defineGlobalEmotesIntegrationsEventHandlers(path: string) {
         try {
           integration = await globalEmotesIntegration.get();
           assert.ok(integration);
-        } catch (reason) {
+        }
+        catch (reason) {
           const source = globalEmotesIntegration.source;
           return {
             source,

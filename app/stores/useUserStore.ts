@@ -34,8 +34,8 @@ function useEmotesIntegrationsRefreshInterval() {
     },
     isEmotesIntegrationExpired(integration: TEmoteIntegrations.Ready) {
       return (
-        integration.formedAt <
-        emotesIntegrations.expirationTime.milliseconds.value
+        integration.formedAt
+        < emotesIntegrations.expirationTime.milliseconds.value
       );
     },
   };
@@ -126,8 +126,8 @@ export const useUserStore = defineStore("user", () => {
     },
   });
 
-  const emotesIntegrationsRefreshInterval =
-    useEmotesIntegrationsRefreshInterval();
+  const emotesIntegrationsRefreshInterval
+    = useEmotesIntegrationsRefreshInterval();
 
   return {
     emotesIntegrationsRefreshInterval,

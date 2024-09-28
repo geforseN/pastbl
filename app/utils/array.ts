@@ -6,8 +6,8 @@ export function withRemoved<T>(
   raiseReason?: RaiseReason,
 ) {
   const values = toValue(array);
-  const index =
-    refOrPredicate instanceof Function
+  const index
+    = refOrPredicate instanceof Function
       ? values.findIndex(refOrPredicate)
       : values.indexOf(toValue(refOrPredicate));
   assert.ok(index >= 0, raiseReason);

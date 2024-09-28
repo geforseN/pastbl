@@ -9,7 +9,11 @@
           class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-primary"
         >
           {{ $t("collection.my") }}
-          <icon name="carbon:link" size="16" class="min-h-4 min-w-4" />
+          <icon
+            name="carbon:link"
+            size="16"
+            class="min-h-4 min-w-4"
+          />
         </person-emotes-collection-link>
       </li>
       <li>
@@ -18,7 +22,11 @@
           @click="$emit('logout')"
         >
           {{ $t("logout") }}
-          <icon name="ic:baseline-log-out" size="16" class="min-h-4 min-w-4" />
+          <icon
+            name="ic:baseline-log-out"
+            size="16"
+            class="min-h-4 min-w-4"
+          />
         </button>
       </li>
     </ul>

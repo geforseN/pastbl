@@ -9,18 +9,18 @@ type FilePasta = MiniFilePasta | MinimalFilePasta;
 
 function isMiniPasta(data: unknown): data is MiniFilePasta {
   return (
-    isObject(data) &&
-    typeof data.text === "string" &&
-    (data.tags === undefined || isStringArray(data.tags))
+    isObject(data)
+    && typeof data.text === "string"
+    && (data.tags === undefined || isStringArray(data.tags))
   );
 }
 
 function isMinimalPasta(pasta: MiniFilePasta): pasta is MinimalFilePasta {
   const pasta_ = pasta as unknown as { createdAt?: unknown };
   return (
-    Object.hasOwn(pasta_, "createdAt") &&
-    typeof pasta_.createdAt === "string" &&
-    isIsoDate(pasta_.createdAt)
+    Object.hasOwn(pasta_, "createdAt")
+    && typeof pasta_.createdAt === "string"
+    && isIsoDate(pasta_.createdAt)
   );
 }
 

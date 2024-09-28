@@ -9,7 +9,7 @@ export type TwitchUserId = `${number}`;
 
 export function isTwitchUserId(string: string): string is TwitchUserId {
   return (
-    isStringifiedNumber(string) &&
-    string.length <= twitchConfig.twitchUser.id.length.max
+    isStringifiedNumber(string)
+    && string.length <= twitchConfig.twitchUser.id.length.max
   );
 }

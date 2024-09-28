@@ -1,5 +1,5 @@
-export const makePersonBetterTTVEmoteIntegration =
-  definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>(
+export const makePersonBetterTTVEmoteIntegration
+  = definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>(
     "BetterTTV",
   );
 

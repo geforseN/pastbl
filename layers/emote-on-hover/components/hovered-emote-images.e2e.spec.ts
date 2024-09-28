@@ -14,7 +14,9 @@ const options = isCI
       port: 3000,
     };
 
-const baseUrl = isCI ? process.env.BASE_URL! : options.host + ":" + options.port;
+const baseUrl = isCI
+  ? process.env.BASE_URL!
+  : options.host + ":" + options.port;
 
 test.use({ nuxt: { ...options } });
 

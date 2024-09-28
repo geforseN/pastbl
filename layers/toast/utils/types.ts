@@ -50,9 +50,9 @@ export type ActionToasts = {
 
 export type ActionToastsPanicFn<T extends ActionToasts> =
   | (<K extends keyof T["failures"]>(
-      key: K,
-      ...args: Parameters<NonNullable<T["failures"]>[K]>
-    ) => never)
+    key: K,
+    ...args: Parameters<NonNullable<T["failures"]>[K]>
+  ) => never)
   | ((error: Error) => never)
   | ((toastableError: ToastableError) => never)
   | ((maybeError?: unknown) => never);

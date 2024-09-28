@@ -1,13 +1,13 @@
 export function useGlobalEmotesIntegrationsState(
   getIntegrations: () => Promise<TEmoteIntegrations.Global.SettledRecord>,
 ) {
-  const integrations_ =
-    useAsyncObject<TEmoteIntegrations.Global.SettledRecord>(getIntegrations);
+  const integrations_
+    = useAsyncObject<TEmoteIntegrations.Global.SettledRecord>(getIntegrations);
 
   return {
     ...integrations_,
     *[Symbol.iterator]() {
-      yield* this.values;
+      yield * this.values;
     },
     get values() {
       return Object.values(integrations_.state.value || {});

@@ -7,7 +7,8 @@
         () => {
           if (selectedPastaNumber > 1) {
             selectedPastaNumber--;
-          } else {
+          }
+          else {
             selectedPastaNumber = pastas.length;
           }
         }
@@ -16,7 +17,8 @@
         () => {
           if (selectedPastaNumber < pastas.length) {
             selectedPastaNumber++;
-          } else {
+          }
+          else {
             selectedPastaNumber = 1;
           }
         }

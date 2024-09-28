@@ -2,9 +2,7 @@
   <div
     v-if="emote"
     class="flex max-w-xs flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
-    :class="[
-      styles!.backgroundBase,
-    ]"
+    :class="[styles!.backgroundBase]"
   >
     <emote-on-hover-card-close-button @click="$emit('close')" />
     <hovered-emote-images
@@ -48,7 +46,5 @@ defineEmits<{
 
 const emote = computed(() => EmoteOnHover.create(props.emote));
 
-const styles = computed(
-  () => emoteIntegrationsStyles[emote.value.source],
-);
+const styles = computed(() => emoteIntegrationsStyles[emote.value.source]);
 </script>

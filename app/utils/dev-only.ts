@@ -14,9 +14,9 @@ export function withLogSync<T>(
   optionsOrKey:
     | string
     | {
-        logKey: string;
-        additionalMessages?: Record<string, unknown | never>;
-      },
+      logKey: string;
+      additionalMessages?: Record<string, unknown | never>;
+    },
 ): T {
   const returnValue = isFunction(valueOrGetter)
     ? valueOrGetter()
@@ -25,7 +25,8 @@ export function withLogSync<T>(
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
       console.log({ [optionsOrKey]: returnValue });
-    } else {
+    }
+    else {
       // eslint-disable-next-line no-console
       console.log({
         [optionsOrKey.logKey]: returnValue,

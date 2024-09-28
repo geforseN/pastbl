@@ -4,7 +4,10 @@
     @submit.prevent="personEmotesCollectionLoad.execute"
   >
     <div class="flex justify-between p-2">
-      <h2 id="heading" class="text-3xl font-bold">
+      <h2
+        id="heading"
+        class="text-3xl font-bold"
+      >
         {{ $t("collections.users.fetch.heading") }}&nbsp;
       </h2>
       <emote-integration-logos />
@@ -62,8 +65,8 @@ const twitchChannelsSearchContainer = computed(
   () => twitchChannelsSearchRef.value?.containerRef || raise(),
 );
 
-const inputGroupRef =
-  useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>(
+const inputGroupRef
+  = useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>(
     "inputGroup",
   );
 const inputRef = computed(() => inputGroupRef.value?.inputRef || raise());

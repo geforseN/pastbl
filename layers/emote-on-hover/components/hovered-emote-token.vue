@@ -4,7 +4,7 @@
     external
     target="_blank"
     :href="emote.integrationLink.value"
-    class="link underline-offset-2 font-bold"
+    class="link font-bold underline-offset-2"
   >
     {{ emote.token }}
   </nuxt-link>

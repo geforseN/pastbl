@@ -1,7 +1,7 @@
 export function injectEmoteOnHover() {
   return (
-    inject<ReturnType<typeof useExtendedEmoteOnHover>>("emoteOnHover") ||
-    raise()
+    inject<ReturnType<typeof useExtendedEmoteOnHover>>("emoteOnHover")
+    || raise()
   );
 }
 
@@ -102,18 +102,18 @@ export function useEmoteOnHover(container: ComputedRef<HTMLElement>) {
         if (target === currentTarget) {
           return withLogSync(nullEveryState, "cursor moved away");
         }
-        const isWrappedEmoji =
-          target instanceof HTMLElement &&
-          typeof target.dataset.emojiToken === "string";
+        const isWrappedEmoji
+          = target instanceof HTMLElement
+          && typeof target.dataset.emojiToken === "string";
         if (isWrappedEmoji) {
           return updateHoveredEmoji(target.innerHTML, event);
         }
         if (
-          relatedTarget instanceof HTMLImageElement &&
-          !(
-            target instanceof HTMLImageElement ||
+          relatedTarget instanceof HTMLImageElement
+          && !(
+            target instanceof HTMLImageElement
             /* NOTE: target instanceof HTMLInputElement is FIX for collapses-set component, first row in emote set can not trigger hoveredEmote set without this hack    */
-            target instanceof HTMLInputElement
+            || target instanceof HTMLInputElement
           )
         ) {
           return withLogSync(nullEveryState, "not an image");

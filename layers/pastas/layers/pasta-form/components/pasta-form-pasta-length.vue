@@ -1,7 +1,11 @@
 <template>
   <span class="px-1.5">
     {{ $t("pasta.length") }}:
-    <output name="pasta-length" v-bind="$attrs" :class="classes[status]">
+    <output
+      name="pasta-length"
+      v-bind="$attrs"
+      :class="classes[status]"
+    >
       {{ props.pastaText.length }}
     </output>
   </span>

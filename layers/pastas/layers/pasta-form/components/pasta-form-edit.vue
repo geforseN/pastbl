@@ -1,6 +1,8 @@
 <template>
   <div class="space-y-1 rounded-box border p-2">
-    <h2 class="p-1 text-3xl font-bold">{{ $t("pasta.edit") }}</h2>
+    <h2 class="p-1 text-3xl font-bold">
+      {{ $t("pasta.edit") }}
+    </h2>
     <div class="flex flex-col gap-2 xl:w-full xl:flex-row xl:justify-between">
       <pasta-form-textarea
         id="twitch-chat-textarea"
@@ -19,7 +21,10 @@
           {{ $t("pasta.makeChangesIn") }}
         </span>
         <div class="flex gap-4">
-          <button class="btn btn-error" @click="$emit('decline')">
+          <button
+            class="btn btn-error"
+            @click="$emit('decline')"
+          >
             {{ $t("decline") }}
           </button>
           <button
@@ -41,7 +46,10 @@
           >
             {{ $t("tags.remove") }}
           </button>
-          <span v-else class="badge badge-warning badge-lg">
+          <span
+            v-else
+            class="badge badge-warning badge-lg"
+          >
             {{ $t("tags.noAdded") }}
           </span>
         </div>
@@ -76,8 +84,8 @@ defineProps<{
   isPastaSame: boolean;
 }>();
 
-const pastaFormTextareaRef =
-  useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
+const pastaFormTextareaRef
+  = useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
 
 defineEmits<{
   decline: [];
