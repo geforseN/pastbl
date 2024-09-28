@@ -8,8 +8,8 @@ export class PersonIndexedDBEmoteCollectionDeletePreparation {
 
   #filterIntegration(integration: I) {
     return (
-      isEmotesIntegrationReady(integration) &&
-      (integration.sets || raise("__NEVER__"))
+      isEmotesIntegrationReady(integration)
+      && (integration.sets || raise("__NEVER__"))
     );
   }
 

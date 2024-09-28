@@ -1,5 +1,5 @@
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 import consola from "consola";
+import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class BetterTTVGlobalEmotesIntegration {
   constructor(

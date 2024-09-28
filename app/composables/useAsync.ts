@@ -42,8 +42,8 @@ export function useMyAsyncState<
     isInitializing: isInitialized.state satisfies Ref<boolean>,
     isRefreshing: computed(
       () =>
-        (!isInitialized.state.value &&
-          asyncState.isLoading.value) satisfies boolean,
+        (!isInitialized.state.value
+          && asyncState.isLoading.value) satisfies boolean,
     ),
     async execute(delay = 0, ...args: Parameters) {
       const result = await asyncState.execute(delay, ...args);

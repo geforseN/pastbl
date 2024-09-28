@@ -25,5 +25,5 @@ export function makeTwitchPersonSets(
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export const makePersonTwitchEmoteIntegration =
-  definePersonEmoteIntegrationMaker<TTwitch.Person.ReadyIntegration>("Twitch");
+export const makePersonTwitchEmoteIntegration
+  = definePersonEmoteIntegrationMaker<TTwitch.Person.ReadyIntegration>("Twitch");

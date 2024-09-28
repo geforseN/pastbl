@@ -1,14 +1,17 @@
 <template>
   <article class="form-control relative p-2">
-    <label class="label cursor-pointer items-end" for="nickname">
+    <label
+      class="label cursor-pointer items-end"
+      for="nickname"
+    >
       <h3 class="text-xl/tight font-medium">
         {{ $t("settings.nickname._") }}
       </h3>
       <span
         class="label-text-alt text-sm"
         :class="
-          nickname.length === appConfig.nickname.length.max &&
-          'border-b border-dashed border-b-warning'
+          nickname.length === appConfig.nickname.length.max
+            && 'border-b border-dashed border-b-warning'
         "
       >
         {{ nickname.length }}

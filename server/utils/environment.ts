@@ -16,11 +16,11 @@ const environmentSchema = z
     return {
       ...environment,
       NUXT_OAUTH_TWITCH_CLIENT_SECRET:
-        environment.NUXT_OAUTH_TWITCH_CLIENT_SECRET ??
-        environment.TWITCH_APP_CLIENT_SECRET,
+        environment.NUXT_OAUTH_TWITCH_CLIENT_SECRET
+        ?? environment.TWITCH_APP_CLIENT_SECRET,
       NUXT_OAUTH_TWITCH_CLIENT_ID:
-        environment.NUXT_OAUTH_TWITCH_CLIENT_ID ??
-        environment.TWITCH_APP_CLIENT_ID,
+        environment.NUXT_OAUTH_TWITCH_CLIENT_ID
+        ?? environment.TWITCH_APP_CLIENT_ID,
     };
   });
 

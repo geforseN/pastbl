@@ -1,10 +1,17 @@
 <template>
   <div class="drawer drawer-end">
-    <input id="app-drawer" type="checkbox" class="drawer-toggle" />
+    <input
+      id="app-drawer"
+      type="checkbox"
+      class="drawer-toggle"
+    />
     <div class="drawer-content">
       <slot />
     </div>
-    <div class="drawer-side" v-bind="$attrs">
+    <div
+      class="drawer-side"
+      v-bind="$attrs"
+    >
       <label
         for="app-drawer"
         aria-label="close sidebar"
@@ -29,7 +36,10 @@
             :user="userSession.user"
             @logout="userSession.clear"
           />
-          <auth-twitch-login-link-button v-else class="w-full" />
+          <auth-twitch-login-link-button
+            v-else
+            class="w-full"
+          />
         </li>
         <li>
           <emotes-and-emojis-button-link />

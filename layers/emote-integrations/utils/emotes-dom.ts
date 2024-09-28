@@ -52,8 +52,8 @@ function makeEmoteAsString(
 }
 
 function makeModifierEmoteAsString(modifierEmote: IEmote) {
-  const style =
-    "pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
+  const style
+    = "pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)";
   return `<span data-emote-modifier data-token="${modifierEmote.token}" style="${style}">${makeEmoteAsString(modifierEmote, (emote) => " " + emote.token)}</span>`;
 }
 

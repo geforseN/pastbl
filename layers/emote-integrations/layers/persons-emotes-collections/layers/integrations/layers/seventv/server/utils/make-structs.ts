@@ -15,8 +15,8 @@ export function defineSevenTVEmoteSetMaker<T extends string>(type: T) {
 
 export const makeSevenTVChannelSet = defineSevenTVEmoteSetMaker("channel");
 
-export const makePersonSevenTVEmoteIntegration =
-  definePersonEmoteIntegrationMaker<TSevenTV.Person.ReadyIntegration>(
+export const makePersonSevenTVEmoteIntegration
+  = definePersonEmoteIntegrationMaker<TSevenTV.Person.ReadyIntegration>(
     "SevenTV",
   );
 

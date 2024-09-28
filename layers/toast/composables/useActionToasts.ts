@@ -1,5 +1,5 @@
-import type { ActionToastsThis, Notification } from "../utils/types";
 import { ElNotification } from "element-plus";
+import type { ActionToastsThis, Notification } from "../utils/types";
 
 export function useActionToasts<
   T extends ReturnType<typeof createActionToasts>,

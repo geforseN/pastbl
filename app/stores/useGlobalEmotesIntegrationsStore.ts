@@ -60,7 +60,7 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
           case "loading":
           case "refreshing": {
             return raise(
-              'Can not update integration in "loading" or "refreshing" status',
+              "Can not update integration in \"loading\" or \"refreshing\" status",
             );
           }
           case "empty":

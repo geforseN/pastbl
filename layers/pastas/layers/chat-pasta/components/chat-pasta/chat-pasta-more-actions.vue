@@ -21,13 +21,23 @@
       >
         <!-- eslint-disable vue/no-v-html -->
         <li>
-          <button class="btn btn-info flex-nowrap" @click="$emit('edit')">
+          <button
+            class="btn btn-info flex-nowrap"
+            @click="$emit('edit')"
+          >
             <span v-html="$t('pasta.edit')" />
-            <icon name="ic:outline-edit" size="24" class="min-h-6 min-w-6" />
+            <icon
+              name="ic:outline-edit"
+              size="24"
+              class="min-h-6 min-w-6"
+            />
           </button>
         </li>
         <li>
-          <button class="btn btn-error flex-nowrap" @click="$emit('remove')">
+          <button
+            class="btn btn-error flex-nowrap"
+            @click="$emit('remove')"
+          >
             <span v-html="$t('pasta.remove')" />
             <icon
               name="ic:baseline-delete-outline"

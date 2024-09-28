@@ -14,7 +14,11 @@
       class="select select-secondary"
       name="emotes-refresh"
     >
-      <option v-for="[key, time] of objectEntries(options)" :key :value="key">
+      <option
+        v-for="[key, time] of objectEntries(options)"
+        :key
+        :value="key"
+      >
         {{ time }}
       </option>
     </select>

@@ -5,7 +5,10 @@
     >
       <slot name="beforeColon" />
       <span aria-hidden="true">{{ ": " }}</span>
-      <span :ref="tryEmitPopulate" class="twitch-text chat-pasta-text">
+      <span
+        :ref="tryEmitPopulate"
+        class="twitch-text chat-pasta-text"
+      >
         {{ text }}
       </span>
     </div>

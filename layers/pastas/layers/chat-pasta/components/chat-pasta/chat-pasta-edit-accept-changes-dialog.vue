@@ -1,11 +1,20 @@
 <template>
-  <dialog ref="dialog" class="modal">
+  <dialog
+    ref="dialog"
+    class="modal"
+  >
     <div class="modal-box">
       <h3 class="text-lg font-bold">
         {{ $t("modal.chatPastaEdit.heading") }}
       </h3>
-      <p class="py-4">{{ $t("modal.chatPastaEdit.body") }}</p>
-      <form method="dialog" class="modal-action" @submit.prevent>
+      <p class="py-4">
+        {{ $t("modal.chatPastaEdit.body") }}
+      </p>
+      <form
+        method="dialog"
+        class="modal-action"
+        @submit.prevent
+      >
         <button
           class="btn btn-error"
           type="reset"

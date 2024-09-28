@@ -3,9 +3,8 @@ import type { PersonsEmotesCollectionsIndexedDBTransactions } from "$persons-emo
 import type { PersonsEmoteCollectionsIndexedDBStore } from "$persons-emotes-collections/layers/indexed-db/utils/store";
 
 export class PersonsEmoteCollectionsIndexedDBRepository
-  implements
-    IPersonsEmoteCollectionsRepository<TPersonEmoteCollection.SettledIndexedDB>
-{
+implements
+    IPersonsEmoteCollectionsRepository<TPersonEmoteCollection.SettledIndexedDB> {
   constructor(
     private readonly rawCollectionsStore: PersonsEmoteCollectionsIndexedDBStore,
     private readonly emotesStore: PersonsEmotesIndexedDBStore,
@@ -14,8 +13,8 @@ export class PersonsEmoteCollectionsIndexedDBRepository
 
   async get(login: TwitchUserLogin) {
     const rawCollection = await this.getRaw(login);
-    const integrations =
-      await new PersonIndexedDBEmoteCollectionIntegrationsRepopulate(
+    const integrations
+      = await new PersonIndexedDBEmoteCollectionIntegrationsRepopulate(
         rawCollection.integrations,
         this.emotesStore,
       ).execute();
@@ -51,8 +50,8 @@ export class PersonsEmoteCollectionsIndexedDBRepository
   }
 
   async put(collection: IPersonEmoteCollection) {
-    const { rawCollection, emotes } =
-      new PersonIndexedDBEmoteCollectionDepopulation(collection).execute();
+    const { rawCollection, emotes }
+      = new PersonIndexedDBEmoteCollectionDepopulation(collection).execute();
     await this.transactions.put(rawCollection, emotes);
   }
 }

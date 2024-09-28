@@ -1,10 +1,14 @@
 <template>
   <div class="w-96 space-y-2">
     <app-link to="emojis">
-      <template #right>👀</template>
+      <template #right>
+        👀
+      </template>
     </app-link>
     <app-link to="global-emotes">
-      <template #right><emote-integration-logos /></template>
+      <template #right>
+        <emote-integration-logos />
+      </template>
     </app-link>
     <app-link to="users-emotes">
       <template #right>
@@ -29,14 +33,14 @@ useHead({
   title: "Emotes Collections",
 });
 
-const fetchRef =
-  useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchForm>>("fetch");
+const fetchRef
+  = useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchForm>>("fetch");
 
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();
   if (params.focus === "fetch") {
     if (import.meta.dev) {
-      log("debug", 'pages/collections: "focus-fetch" query param found', {
+      log("debug", "pages/collections: \"focus-fetch\" query param found", {
         focusFetch: params.focus,
       });
     }

@@ -1,7 +1,10 @@
 <template>
   <div class="dropdown dropdown-top dropdown-hover w-full">
     <div class="chat-pasta__created block w-full justify-between text-sm">
-      <time :datetime="time.toISOString()" class="block">
+      <time
+        :datetime="time.toISOString()"
+        class="block"
+      >
         {{ $t("pasta.$created") }}
         {{ timeAgo }}
       </time>

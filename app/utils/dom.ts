@@ -1,5 +1,5 @@
-const parser =
-  import.meta.client && typeof DOMParser !== "undefined"
+const parser
+  = import.meta.client && typeof DOMParser !== "undefined"
     ? new DOMParser()
     : null;
 

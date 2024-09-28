@@ -17,7 +17,10 @@
       v-if="props.isCollectionSelected"
       name="material-symbols:person-off-outline"
     />
-    <icon v-else name="material-symbols:person-check-outline" />
+    <icon
+      v-else
+      name="material-symbols:person-check-outline"
+    />
   </button>
 </template>
 <script setup lang="ts">
