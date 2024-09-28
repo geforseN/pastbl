@@ -2,6 +2,7 @@
   <!-- LINK: https://github.com/Akryum/vue-virtual-scroller/blob/master/packages/vue-virtual-scroller/README.md#dynamicscroller -->
   <!-- NOTE: item must not be display:inline or else width of component will be incorrect -->
   <dynamic-scroller
+    data-testid="local-pastas-list"
     class="chat-pasta-list"
     :min-item-size="100"
     item-tag="li"
@@ -44,7 +45,7 @@
     </template>
   </dynamic-scroller>
 </template>
-<script setup>
+<script setup lang="ts">
 import type { CanFindEmote } from "~~/layers/pastas/layers/chat-pasta/utils/pasta-dom";
 
 const userStore = useUserStore();

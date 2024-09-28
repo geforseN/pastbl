@@ -9,5 +9,5 @@ export function getTwitchGlobalEmoteSet(
   };
 }
 
-export const makeTwitchGlobalIntegration =
-  defineGlobalIntegrationMaker<TTwitch.Global.ReadyIntegration>("Twitch");
+export const makeTwitchGlobalIntegration
+  = defineGlobalIntegrationMaker<TTwitch.Global.ReadyIntegration>("Twitch");

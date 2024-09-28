@@ -4,13 +4,8 @@ export function log<
   L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">,
 >(level: L, key: string, value?: Record<string, unknown>) {
   if (import.meta.dev) {
-    const object = { [key]: level };
-    if (arguments.length > 2) {
-      // @ts-expect-error value will be logged if developer provided third argument
-      object.value = value;
-    }
     // eslint-disable-next-line no-console
-    console[level]();
+    console[level](arguments.length > 2 ? { [key]: value } : key);
   }
 }
 
@@ -19,9 +14,9 @@ export function withLogSync<T>(
   optionsOrKey:
     | string
     | {
-        logKey: string;
-        additionalMessages?: Record<string, unknown | never>;
-      },
+      logKey: string;
+      additionalMessages?: Record<string, unknown | never>;
+    },
 ): T {
   const returnValue = isFunction(valueOrGetter)
     ? valueOrGetter()
@@ -30,7 +25,8 @@ export function withLogSync<T>(
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
       console.log({ [optionsOrKey]: returnValue });
-    } else {
+    }
+    else {
       // eslint-disable-next-line no-console
       console.log({
         [optionsOrKey.logKey]: returnValue,

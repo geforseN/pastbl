@@ -8,6 +8,9 @@
     >
       {{ $t("loginWithTwitch") }}
     </span>
-    <emote-integration-logo source="Twitch" class="h-6 w-6 translate-y-0.5" />
+    <emote-integration-logo
+      source="Twitch"
+      class="h-6 w-6 translate-y-0.5"
+    />
   </a>
 </template>

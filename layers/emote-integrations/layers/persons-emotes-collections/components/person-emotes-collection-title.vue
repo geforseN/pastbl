@@ -11,7 +11,7 @@
     </span>
   </nuxt-link-locale>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   twitch: Pick<PersonTwitch, "login" | "nickname">;
 }>();

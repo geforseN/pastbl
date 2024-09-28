@@ -1,5 +1,5 @@
-export const globalEmotesIntegrationsService =
-  new GlobalEmotesIntegrationService(
+export const globalEmotesIntegrationsService
+  = new GlobalEmotesIntegrationService(
     new GlobalEmotesIntegrationsIndexedDBRepository(
       new GlobalEmotesIntegrationsIndexedDBStore(
         withEmoteIntegrationsIndexedDB,

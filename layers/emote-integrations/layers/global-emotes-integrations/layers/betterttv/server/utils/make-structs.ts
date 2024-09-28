@@ -15,5 +15,5 @@ export const makeBetterTTVGlobalSet = defineBetterTTVSetMaker(
   makeBetterTTVGlobalEmote,
 );
 
-export const makeBetterTTVGlobalIntegration =
-  defineGlobalIntegrationMaker<TBetterTTV.Global.ReadyIntegration>("BetterTTV");
+export const makeBetterTTVGlobalIntegration
+  = defineGlobalIntegrationMaker<TBetterTTV.Global.ReadyIntegration>("BetterTTV");

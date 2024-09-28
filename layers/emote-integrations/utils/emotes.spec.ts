@@ -1,5 +1,5 @@
-import { getEmotesMapInEmotesIntegrations } from "./emotes";
 import { describe, suite, it, expect } from "vitest";
+import { getEmotesMapInEmotesIntegrations } from "./emotes";
 
 describe("getEmotesMapInEmotesIntegrations", () => {
   suite("empty object input", () => {

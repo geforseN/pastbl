@@ -13,8 +13,8 @@ export type ITwitchChannel = {
 } & (
   | { isLive: true }
   | {
-      isLive: false;
-      readonly title: "";
-      readonly startedAt: "";
-    }
+    isLive: false;
+    readonly title: "";
+    readonly startedAt: "";
+  }
 );

@@ -20,8 +20,8 @@ function addPastaTag(pastaId: Pasta["id"], value: string) {
 
 export function addPastaTags(pastaId: Pasta["id"], values: string[]) {
   assert.ok(
-    values.length >= pastasConfig.pastaTags.count.min &&
-      values.length <= pastasConfig.pastaTags.count.max,
+    values.length >= pastasConfig.pastaTags.count.min
+    && values.length <= pastasConfig.pastaTags.count.max,
   );
   if (values.length === 1) {
     const value = values[0] || raise();

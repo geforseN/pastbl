@@ -3,7 +3,7 @@ export class PersonsEmoteIntegrationsApi {
 
   async get<T extends EmoteSource>(source: T) {
     const value = await this.fetch(`/integrations/${source}`);
-    return value as { T: TEmoteIntegrations.Person.Settled } /* TODO: OF T */;
+    return value as { T: TEmoteIntegrations.Person.Settled };
   }
 
   async getAll() {

@@ -15,7 +15,7 @@
     </nuxt-link-locale>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   twitch: Pick<PersonTwitch, "avatarUrl" | "login" | "nickname">;
   size: number;

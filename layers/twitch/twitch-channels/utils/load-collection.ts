@@ -16,8 +16,8 @@ export function usePersonEmotesCollectionLoad(
         nicknameInput.value = "";
       }
       const login = toLowerCase(nickname);
-      const collection =
-        await personsEmotesCollectionsStore.loadCollection(login);
+      const collection
+        = await personsEmotesCollectionsStore.loadCollection(login);
       toast.success(
         nickname,
         getEmotesIntegrationsStatusAsEmojisString(collection.integrations),

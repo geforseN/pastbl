@@ -1,5 +1,5 @@
-import { tryDispatchEvent } from "./dom";
 import { suite, describe, it, expect } from "vitest";
+import { tryDispatchEvent } from "./dom";
 
 suite("utils", () => {
   suite("dom", () => {

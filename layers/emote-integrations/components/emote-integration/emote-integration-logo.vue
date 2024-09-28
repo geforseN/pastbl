@@ -1,10 +1,24 @@
 <template>
-  <nuxt-link v-if="props.withLink" external target="_blank" :to="data.href">
-    <img v-bind="$attrs" :src="data.src" :alt="data.alt" />
+  <nuxt-link
+    v-if="props.withLink"
+    external
+    target="_blank"
+    :to="data.href"
+  >
+    <img
+      v-bind="$attrs"
+      :src="data.src"
+      :alt="data.alt"
+    />
   </nuxt-link>
-  <img v-else v-bind="$attrs" :src="data.src" :alt="data.alt" />
+  <img
+    v-else
+    v-bind="$attrs"
+    :src="data.src"
+    :alt="data.alt"
+  />
 </template>
-<script>
+<script lang="ts">
 const dataRecord = {
   BetterTTV: {
     src: "/img/bttv-logo-32.png",
@@ -28,7 +42,7 @@ const dataRecord = {
   },
 } as const;
 </script>
-<script setup>
+<script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
 const props = defineProps<{

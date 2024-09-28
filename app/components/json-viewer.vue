@@ -1,6 +1,10 @@
 <template>
   <div class="json-viewer">
-    <div v-for="(value, key) in data" :key class="json-item">
+    <div
+      v-for="(value, key) in data"
+      :key
+      class="json-item"
+    >
       <b class="json-item-key"> {{ key }}: </b>
       <div class="json-item-value">
         <div v-if="value !== null && typeof value === 'object'">
@@ -13,7 +17,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 defineProps<{
   data: object;
 }>();

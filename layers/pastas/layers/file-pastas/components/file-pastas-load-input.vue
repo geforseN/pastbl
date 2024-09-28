@@ -15,7 +15,7 @@
     />
   </article>
 </template>
-<script setup>
+<script setup lang="ts">
 const pastasStore = usePastasStore();
 
 const toast = useLoadPastasFromFileToast();

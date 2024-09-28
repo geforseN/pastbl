@@ -16,7 +16,7 @@
     </span>
   </nuxt-link-locale>
 </template>
-<script>
+<script lang="ts">
 const routePageLinkRecord = {
   "global-emotes": {
     path: "/collections/global",
@@ -26,11 +26,11 @@ const routePageLinkRecord = {
     path: "/collections/persons",
     textKey: "collections.users.link",
   },
-  emotesAndEmojis: {
+  "emotesAndEmojis": {
     path: "/collections",
     textKey: "emotesAndEmojis",
   },
-  main: {
+  "main": {
     path: "/",
     textKey: "mainPage",
   },
@@ -38,7 +38,7 @@ const routePageLinkRecord = {
     path: "/settings#heading",
     textKey: "settings.change",
   },
-  pastas: {
+  "pastas": {
     path: "/pastas",
     textKey: "pastas._",
   },
@@ -46,13 +46,13 @@ const routePageLinkRecord = {
     path: "/pastas/find#heading",
     textKey: "pasta.find.link",
   },
-  emojis: {
+  "emojis": {
     path: "/collections/emojis",
     textKey: "emojis._",
   },
 } as const satisfies Record<string, { path: string; textKey: string }>;
 </script>
-<script setup>
+<script setup lang="ts">
 const props = defineProps<{
   to: keyof typeof routePageLinkRecord;
 }>();
