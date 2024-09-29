@@ -27,7 +27,7 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
           title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.tooSmallInput.description",
-            { min: twitchConfig.twitchUser.login.length.max },
+            { min: twitchConfig.twitchUser.login.length.min },
           ),
         };
       },
