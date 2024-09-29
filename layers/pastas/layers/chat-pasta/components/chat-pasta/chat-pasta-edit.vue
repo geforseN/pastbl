@@ -123,7 +123,7 @@ async function canPopulate() {
 onMounted(async () => {
   await canPopulate();
   pastaFormEditRef.value!.pastaFormTextareaRef!.textareaRef.focus();
-  const pasta = await pastasStore.pastas.getById(pastaId);
+  const pasta = await pastasStore.pastas.getById(pastaId).catch(raise);
   // FIXME: here also can assign clone to pastaToEdit
   initialPasta.value = pasta;
   megaPasta.value = structuredClone(pasta);

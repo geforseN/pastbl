@@ -145,7 +145,7 @@
     "enterText": "Enter pasta text",
     "list": {
       "loading": "Loading pastas",
-      "clipboardFailMessage": {
+      "clipboardFail": {
         "heading": "Your browser does not support the clipboard API!",
         "explanation": "You won't be able to copy pasta by pressing the special button."
       },
