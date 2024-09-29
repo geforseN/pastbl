@@ -22,23 +22,24 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
           ),
         };
       },
-      tooSmallInput(this: ActionToastsThis,providedLength: number) {
+      tooSmallInput(this: ActionToastsThis, providedLength: number) {
         return {
           title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.tooSmallInput.description",
-            { min: twitchConfig.twitchUser.login.length.max, provided:providedLength },
+            { min: twitchConfig.twitchUser.login.length.max, provided: providedLength },
           ),
         };
       },
-      tooBigInput(this: ActionToastsThis,providedLength: number) {
-        return {  
+      tooBigInput(this: ActionToastsThis, providedLength: number) {
+        return {
           title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.tooBigInput.description",
-            { max: twitchConfig.twitchUser.login.length.max, provided:providedLength },
+            { max: twitchConfig.twitchUser.login.length.max, provided: providedLength },
           ),
-      }
+        };
+      },
     },
   },
 );
