@@ -311,16 +311,6 @@
         "title": "Failed to remove pasta tag",
         "noExistMessage": "Can not remove the tag which is not in tags"
       }
-    },
-    "loadCollection": {
-      "fail": {
-        "title": "Emotes load fail",
-        "emptyInputMessage": "Nickname is required to load emote collection"
-      },
-      "success": {
-        "title": "Emotes loaded",
-        "message": "Loaded {nickname} emotes: {statuses}"
-      }
     }
   }
 }

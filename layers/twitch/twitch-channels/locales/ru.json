@@ -1,0 +1,22 @@
+{
+  "persons-emotes-collection": {
+    "loadCollection": {
+      "failureTitle": "Ошибка загрузки эмоций",
+      "failures": {
+        "emptyInput": {
+          "description": "Никнейм обязателен для загрузки коллекции эмоций"
+        },
+        "tooSmallInput": {
+          "description": "Никнейм слишком короткий, минимум {min} символов, передано {provided}"
+        },
+        "tooBigInput": {
+          "description": "Никнейм слишком длинный, максимум {max} символов, передано {provided}"
+        }
+      },
+      "success": {
+        "title": "Эмоции загружены",
+        "message": "Загружены эмоции для {nickname}: {statuses}"
+      }
+    }
+  }
+}
