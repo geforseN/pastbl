@@ -21,7 +21,7 @@ test("edit pasta page", async ({ page }) => {
     await page
       .locator(".actions123")
       .getByTestId("chat-pasta-more-actions__dropdown")
-      .hover();
+      .click();
     await page.getByRole("button", { name: "Edit pasta" }).click();
     await expect(page.getByRole("button", { name: "Accept" })).toBeDisabled();
     await expect(page.getByRole("button", { name: "Decline" })).toBeEnabled();
