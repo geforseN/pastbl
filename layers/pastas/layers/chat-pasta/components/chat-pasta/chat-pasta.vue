@@ -19,9 +19,9 @@
         />
       </template>
     </chat-pasta-main-data>
-    <div class="remove123 flex justify-between p-1">
+    <div class="chat-pasta__mobile-bottom flex justify-between p-1">
       <chat-pasta-created :date="createdAt" />
-      <div class="flex items-center justify-between gap-0.5">
+      <div class="chat-pasta__actions-for-mobile items-center justify-between gap-0.5">
         <chat-pasta-more-actions
           @remove="emit('remove')"
           @edit="emit('edit')"
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div
-      class="actions123 hidden flex-col items-center justify-between gap-y-0.5 px-1 py-2"
+      class="chat-pasta__actions-for-pc hidden flex-col items-center justify-between gap-y-0.5 px-1 py-2"
     >
       <chat-pasta-copy-button @click="emit('copy')" />
       <chat-pasta-more-actions
