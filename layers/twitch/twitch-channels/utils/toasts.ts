@@ -5,18 +5,25 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
   {
     success(this: ActionToastsThis, nickname: string, statuses: string) {
       return {
-        description: this.i18n.t("persons-emotes-collection.loadCollection.success.description", {
-          nickname,
-          statuses,
-        }),
-        title: this.i18n.t("persons-emotes-collection.loadCollection.success.title"),
+        description: this.i18n.t(
+          "persons-emotes-collection.loadCollection.success.description",
+          {
+            nickname,
+            statuses,
+          },
+        ),
+        title: this.i18n.t(
+          "persons-emotes-collection.loadCollection.success.title",
+        ),
         timeout: 7000,
       };
     },
     failures: {
       emptyInput(this: ActionToastsThis) {
         return {
-          title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
+          title: this.i18n.t(
+            "persons-emotes-collection.loadCollection.failureTitle",
+          ),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.emptyInput.description",
           ),
@@ -24,7 +31,9 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
       },
       tooSmallInput(this: ActionToastsThis) {
         return {
-          title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
+          title: this.i18n.t(
+            "persons-emotes-collection.loadCollection.failureTitle",
+          ),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.tooSmallInput.description",
             { min: twitchConfig.twitchUser.login.length.min },
@@ -33,7 +42,9 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
       },
       tooBigInput(this: ActionToastsThis) {
         return {
-          title: this.i18n.t("persons-emotes-collection.loadCollection.failureTitle"),
+          title: this.i18n.t(
+            "persons-emotes-collection.loadCollection.failureTitle",
+          ),
           description: this.i18n.t(
             "persons-emotes-collection.loadCollection.failures.tooBigInput.description",
             { max: twitchConfig.twitchUser.login.length.max },
