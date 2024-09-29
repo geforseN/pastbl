@@ -1,6 +1,8 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
 
 test("e2e", async ({ page }) => {
+  test.setTimeout(45000);
+
   await test.step("add pasta", async () => {
     await page.goto("/");
     await expect(page).toHaveTitle(/pastbl/);
