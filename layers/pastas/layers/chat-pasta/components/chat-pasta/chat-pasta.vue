@@ -66,9 +66,73 @@ function handleContextMenu(event: MouseEvent) {
   emit("showTagContextMenu", event, pastaTag);
 }
 </script>
-<style scoped>
-:deep(.chat-pasta-emote) {
+<style>
+.chat-pasta-emote {
   display: inline;
   margin: -5px 0;
+}
+
+.chat-pasta-list > .vue-recycle-scroller__item-wrapper {
+  @apply min-w-[342px];
+}
+
+.chat-pasta-list:not([data-compact]) {
+  > .vue-recycle-scroller__item-wrapper {
+    @apply sm:min-w-[420px];
+  }
+
+  .chat-pasta {
+    & {
+      @apply sm:flex-row;
+    }
+
+    .chat-pasta__main {
+      @apply sm:p-2;
+    }
+
+    .chat-pasta__actions-for-pc {
+      @apply sm:flex sm:px-0;
+    }
+
+    .chat-pasta__main-123 {
+      @apply sm:border;
+    }
+
+    .block123 {
+      @apply sm:block;
+    }
+
+    .chat-pasta__mobile-bottom {
+      @apply sm:hidden;
+    }
+
+    .chat-pasta__created {
+      @apply sm:flex sm:text-base;
+    }
+
+    .chat-pasta__sidebar {
+      @apply sm:h-8;
+    }
+
+    .chat-pasta__sidebar-copy-button {
+      @apply sm:h-14 sm:w-14 sm:text-sm/none;
+    }
+
+    .chat-pasta__sidebar-more-actions-button {
+      @apply sm:h-8 sm:!min-h-8 sm:w-12;
+
+      .more-horiz-icon {
+        @apply sm:block;
+      }
+
+      .more-vert-icon {
+        @apply sm:hidden;
+      }
+    }
+
+    .chat-pasta__sidebar-more-actions-list {
+      @apply sm:translate-x-12;
+    }
+  }
 }
 </style>
