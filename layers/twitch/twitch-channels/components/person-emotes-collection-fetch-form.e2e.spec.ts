@@ -1,6 +1,8 @@
 import { test, expect } from "@nuxt/test-utils/playwright";
 
-test("person emotes collection will show alert on bad input", async ({ page }) => {
+test("person emotes collection will show alert on bad input", async ({
+  page,
+}) => {
   await page.goto("/collections");
   await expect(page.getByTestId("chat-pasta-list-skeleton")).toBeHidden();
 
@@ -15,7 +17,9 @@ test("person emotes collection will show alert on bad input", async ({ page }) =
   });
 
   await test.step("big input", async () => {
-    await page.getByTestId("person-emotes-collection-fetch-input").fill("thisisverylonganditwillnotwork");
+    await page
+      .getByTestId("person-emotes-collection-fetch-input")
+      .fill("thisisverylonganditwillnotwork");
     await page.getByRole("button", { name: "Load collection" }).click();
     await expect(
       page
