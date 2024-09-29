@@ -1,24 +1,8 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
-import { isCI } from "std-env";
-
-const options = isCI
-  ? {
-      host: process.env.BASE_URL || "https://pastbl.vercel.app",
-    }
-  : {
-      host: "http://127.0.0.1",
-      port: 3000,
-    };
-
-const baseUrl = isCI
-  ? process.env.BASE_URL! || "https://pastbl.vercel.app"
-  : options.host + ":" + options.port;
-
-test.use({ nuxt: { ...options } });
 
 test("e2e", async ({ page }) => {
   await test.step("add pasta", async () => {
-    await page.goto(baseUrl);
+    await page.goto("/");
     await expect(page).toHaveTitle(/pastbl/);
     const textarea = page.getByTestId("pasta-form-textarea");
     await expect(textarea).toBeHidden();
@@ -44,7 +28,7 @@ test("e2e", async ({ page }) => {
       .fill("geforsen");
     await expect(page.getByText("Add Person emotes")).toBeVisible();
     const collectionResponsePromise = page.waitForResponse(
-      `${baseUrl}/api/v1/persons-emotes-collections/geforsen`,
+      "/api/v1/persons-emotes-collections/geforsen",
     );
     await page
       .getByTestId("person-emotes-collection-fetch-input")
