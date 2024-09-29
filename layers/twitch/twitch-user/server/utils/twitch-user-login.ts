@@ -15,7 +15,19 @@ const loginParamSchema = z
   .transform((string) => toLowerCase(string.replaceAll(/\s+/g, "")));
 
 export function getTwitchLoginRouteParam(event: H3Event) {
-  return loginParamSchema.parse(getRouterParam(event, "login"));
+  const parse = loginParamSchema.safeParse(getRouterParam(event, "login"));
+  if (parse.success) {
+    return parse.data;
+  }
+  const issue = parse.error.issues[0];
+  assert.ok(issue, "Must be only one issue");
+  const message = issue.message.replace("String", "Twitch User Login");
+  throw createError({
+    statusCode: 400,
+    message,
+    statusMessage: message,
+    data: { issueCode: issue.code },
+  });
 }
 
 const loginQuerySchema = z.object({
