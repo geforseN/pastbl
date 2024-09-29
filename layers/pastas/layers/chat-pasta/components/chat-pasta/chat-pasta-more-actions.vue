@@ -1,6 +1,10 @@
 <template>
-  <div class="chat-pasta__sidebar h-12">
+  <div
+    data-testid="chat-pasta-more-actions"
+    class="chat-pasta__sidebar h-12"
+  >
     <div
+      data-testid="chat-pasta-more-actions__dropdown"
       class="dropdown dropdown-left dropdown-top dropdown-hover !h-8 xs:h-auto"
     >
       <div
