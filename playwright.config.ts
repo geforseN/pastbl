@@ -4,6 +4,10 @@ import { defineConfig, devices } from "@playwright/test";
 import { isCI } from "std-env";
 import { endToEndTestsGlobs } from "./test-common";
 
+const options = isCI
+  ? { host: process.env.BASE_URL || "https://pastbl.vercel.app" }
+  : { host: "http://127.0.0.1:3000" };
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -23,6 +27,7 @@ export default defineConfig<ConfigOptions>({
     trace: "on-first-retry",
     nuxt: {
       rootDir: fileURLToPath(new URL(".", import.meta.url)),
+      ...options,
     },
   },
   projects: [
