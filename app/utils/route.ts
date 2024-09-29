@@ -13,7 +13,7 @@ export function getRouteStringParam<T>(
 ) {
   // @ts-expect-error must provide param to useRoute to get type inference, however it is not needed for runtime
   const value = useRoute().params[key];
-  assert.ok(typeof value === "string", `Page param ${key} must be a string`);
+  assert.ok(typeof value === "string", `Page param "${key}" must be a string`);
   if (isFunction(transform)) {
     return transform(value);
   }
