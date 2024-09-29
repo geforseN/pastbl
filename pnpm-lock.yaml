@@ -116,7 +116,7 @@ importers:
         version: 0.7.0(eslint@9.11.1(jiti@2.0.0))
       '@vue-macros/nuxt':
         specifier: ^1.12.2
-        version: 1.12.2(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))
+        version: 1.12.3(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))
       '@vue-macros/volar':
         specifier: ^0.30.2
         version: 0.30.2(rollup@4.22.5)(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
@@ -2209,8 +2209,8 @@ packages:
     resolution: {integrity: sha512-JtCSq158I0BQmBFdaNI3pwfhElvZonU3pTfL4+g2d3KJCO8gI0JJyvr5bUIVxJJ1p29550skW49vTHq0GsNTQQ==}
     engines: {node: '>=16.14.0'}
 
-  '@vue-macros/nuxt@1.12.2':
-    resolution: {integrity: sha512-cfTYpCED9vsy5W4mL5MVQr/48CIHYLCqzd7wPl5u8p259cAuivma+mDkAw9hQd9ytvMQEy8DOmfLYv6R+EvoPQ==}
+  '@vue-macros/nuxt@1.12.3':
+    resolution: {integrity: sha512-tZ9fobjFmg24qKs98cHJU4/ArevQnxEnV/o+lAvO7fisyeNjuyeUr4nweDlklKvqVxl6t80ApW9teYpSouyiMw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       nuxt: ^3.0.0
@@ -2253,6 +2253,15 @@ packages:
 
   '@vue-macros/volar@0.30.2':
     resolution: {integrity: sha512-iBARxF4M76ZRKSximB+s9l3FBJEKZ7fQnfoexr1rQe7j+oDgSdTODpK5184c1uboZrkPcM8F77wM1yNV3rqDaA==}
+    engines: {node: '>=16.14.0'}
+    peerDependencies:
+      vue-tsc: 2.1.6
+    peerDependenciesMeta:
+      vue-tsc:
+        optional: true
+
+  '@vue-macros/volar@0.30.3':
+    resolution: {integrity: sha512-35ecwiHaKizySmEIsSHIdyBpf0AgP9wZkUJUIO4xq9lAlSXHkTMjELuwVCRFCCyjZS/UuB+rPqxguKiSaNKmGg==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue-tsc: 2.1.6
@@ -5880,8 +5889,8 @@ packages:
     resolution: {integrity: sha512-Ss+sHK0D98UPrzrJ1Bh7QmZtdymvGn7IVniB/Y1vsWQiKNOznjN8XLo228AfaHSFuIfx5x7wuNDqKTL5xBqhgw==}
     engines: {node: '>=16.14.0'}
 
-  unplugin-vue-macros@2.12.2:
-    resolution: {integrity: sha512-qmhbI/o7wtRzdxQQIUBrTIPXUT3l+1sbg8TFfXzTo9IDtRhVUPhhegALyQUIUPx8Wf75fcaeWEKd5F9LVAPBNQ==}
+  unplugin-vue-macros@2.12.3:
+    resolution: {integrity: sha512-qzCMjgdN66amHYHb6IqXESeKOZfL058yoNyaOqhtLS98Xz1VU5C4q3Gsry0GHkkkVXfe2ckfvpP4u9CzWCUhGw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
@@ -8482,12 +8491,12 @@ snapshots:
       - vue
       - webpack-sources
 
-  '@vue-macros/nuxt@1.12.2(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))':
+  '@vue-macros/nuxt@1.12.3(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))':
     dependencies:
       '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.22.5)
       '@vue-macros/common': 1.14.0(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
       nuxt: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
-      unplugin-vue-macros: 2.12.2(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))
+      unplugin-vue-macros: 2.12.3(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2))
     transitivePeerDependencies:
       - '@rspack/core'
       - '@vueuse/core'
@@ -8579,6 +8588,21 @@ snapshots:
       - vue
 
   '@vue-macros/volar@0.30.2(rollup@4.22.5)(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))':
+    dependencies:
+      '@vue-macros/boolean-prop': 0.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
+      '@vue-macros/common': 1.14.0(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
+      '@vue-macros/config': 0.4.2(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
+      '@vue-macros/short-bind': 1.1.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
+      '@vue-macros/short-vmodel': 1.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
+      '@vue/language-core': 2.1.6(typescript@5.6.2)
+      muggle-string: 0.4.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - typescript
+      - vue
+
+  '@vue-macros/volar@0.30.3(rollup@4.22.5)(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))':
     dependencies:
       '@vue-macros/boolean-prop': 0.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
       '@vue-macros/common': 1.14.0(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
@@ -12518,7 +12542,7 @@ snapshots:
       - vue
       - webpack-sources
 
-  unplugin-vue-macros@2.12.2(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2)):
+  unplugin-vue-macros@2.12.3(@vueuse/core@11.1.0(vue@3.5.10(typescript@5.6.2)))(esbuild@0.19.12)(rollup@4.22.5)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.10(typescript@5.6.2)):
     dependencies:
       '@vue-macros/better-define': 1.9.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
       '@vue-macros/boolean-prop': 0.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
@@ -12547,7 +12571,7 @@ snapshots:
       '@vue-macros/short-bind': 1.1.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
       '@vue-macros/short-emits': 1.6.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
       '@vue-macros/short-vmodel': 1.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
-      '@vue-macros/volar': 0.30.2(rollup@4.22.5)(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
+      '@vue-macros/volar': 0.30.3(rollup@4.22.5)(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
       unplugin: 1.14.1
       unplugin-combine: 1.0.3(esbuild@0.19.12)(rollup@4.22.5)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
       unplugin-vue-define-options: 1.5.1(rollup@4.22.5)(vue@3.5.10(typescript@5.6.2))
