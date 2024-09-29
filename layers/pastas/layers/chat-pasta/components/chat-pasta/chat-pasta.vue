@@ -22,7 +22,10 @@
     <div class="remove123 flex justify-between p-1">
       <chat-pasta-created :date="createdAt" />
       <div class="flex items-center justify-between gap-0.5">
-        <chat-pasta-more-actions />
+        <chat-pasta-more-actions
+          @remove="emit('remove')"
+          @edit="emit('edit')"
+        />
         <chat-pasta-copy-button />
       </div>
     </div>
