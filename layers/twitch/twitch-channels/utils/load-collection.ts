@@ -26,11 +26,11 @@ export function usePersonEmotesCollectionLoad(
       const collection
         = await personsEmotesCollectionsStore.loadCollection(login).catch((error) => {
           assert.isError(error, FetchError);
-          const issueCode = error.response?._data?.issueCode;
+          const issueCode = error.data?.data?.issueCode;
           assert.ok(typeof issueCode === "string" && issueCode in issueCodeRecord);
           // @ts-expect-error `issueCode in issueCodeRecord is used`, so it's safe
           const failKey = issueCodeRecord[issueCode] as keyof typeof issueCodeRecord;
-          return toast.panic(failKey, error) as never;
+          return toast.panic(failKey) as never;
         });
       toast.success(
         nickname,

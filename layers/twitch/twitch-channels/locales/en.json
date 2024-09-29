@@ -7,10 +7,10 @@
           "description": "Nickname is required to load emote collection"
         },
         "tooSmallInput": {
-          "description": "Nickname is too short, min {min} characters, provided {provided}"
+          "description": "Nickname is too short, min {min} characters"
         },
         "tooBigInput": {
-          "description": "Nickname is too long, max {max} characters, provided {provided}"
+          "description": "Nickname is too long, max {max} characters"
         }
       },
       "success": {
