@@ -2,8 +2,12 @@ import { expect, test } from "@nuxt/test-utils/playwright";
 import type { Page } from "@playwright/test";
 
 async function getVisibleDropdown(page: Page) {
-  const dropdownForPhone = page.locator(".chat-pasta__actions-for-mobile").getByTestId("chat-pasta-more-actions__dropdown");
-  const dropdownForPC = page.locator(".chat-pasta__actions-for-pc").getByTestId("chat-pasta-more-actions__dropdown");
+  const dropdownForPhone = page
+    .locator(".chat-pasta__actions-for-mobile")
+    .getByTestId("chat-pasta-more-actions__dropdown");
+  const dropdownForPC = page
+    .locator(".chat-pasta__actions-for-pc")
+    .getByTestId("chat-pasta-more-actions__dropdown");
   if (await dropdownForPhone.isVisible()) {
     return dropdownForPhone;
   }
