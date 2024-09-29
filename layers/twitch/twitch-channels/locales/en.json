@@ -1,0 +1,22 @@
+{
+  "persons-emotes-collection": {
+    "loadCollection": {
+      "failureTitle": "Emotes load fail",
+      "failures": {
+        "emptyInput": {
+          "description": "Nickname is required to load emote collection"
+        },
+        "tooSmallInput": {
+          "description": "Nickname is too short, min {min} characters"
+        },
+        "tooBigInput": {
+          "description": "Nickname is too long, max {max} characters"
+        }
+      },
+      "success": {
+        "title": "Emotes loaded",
+        "description": "Loaded {nickname} emotes: {statuses}"
+      }
+    }
+  }
+}
