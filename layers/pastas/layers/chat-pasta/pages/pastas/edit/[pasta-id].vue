@@ -6,7 +6,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const pastaId = getRouteStringParam("pasta-id", Number);
+const pastaId = getRouteStringParam("pastaid", Number);
 
 useHead({
   title: "Edit pasta",
