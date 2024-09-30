@@ -7,6 +7,7 @@ import vueMacros from "@vue-macros/eslint-config";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "@vitest/eslint-plugin";
 import playwright from "eslint-plugin-playwright";
+import pluginSecurity from "eslint-plugin-security";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -61,6 +62,10 @@ export default createConfigForNuxt({
       "no-console": "error",
       "no-unreachable-loop": "error",
     },
+  })
+  .append({
+    ...pluginSecurity.configs["recommended"],
+    files: ["server", "layers/**/server"],
   })
   .append({
     files: [...makeSpecPath("app"), ...makeSpecPath("layers/**")],
