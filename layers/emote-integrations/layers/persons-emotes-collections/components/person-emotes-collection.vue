@@ -49,6 +49,7 @@
     </dev-only>
     <div
       v-if="person?.twitch"
+      class="space-y-1.5"
       @mouseover="throttledMouseover"
     >
       <person-emotes-collection-integration
