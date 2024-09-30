@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 function cleanup {
   echo "Stopping Nuxt server..."
