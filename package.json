@@ -108,7 +108,7 @@
     "emojilib": "^3.0.12",
     "idb": "^8.0.0",
     "node-emoji": "^2.1.3",
-    "unicode-emoji-json": "^0.6.0",
+    "unicode-emoji-json": "^0.8.0",
     "vue": "^3.5.9",
     "vue-virtual-scroller": "2.0.0-beta.8",
     "web-vitals": "^4.2.3"
