@@ -6,10 +6,7 @@ export type EmoteIntegrationStyle = {
   scrollbar: string;
 };
 
-export const emoteIntegrationsStyles: Record<
-  EmoteSource,
-  EmoteIntegrationStyle
-> = {
+export const emoteIntegrationsStyles = {
   BetterTTV: {
     borderAccent: "border-bttv-accent",
     backgroundBase: "bg-bttv-base",
@@ -38,4 +35,7 @@ export const emoteIntegrationsStyles: Record<
     outlineAccent: "outline-twitch-accent",
     scrollbar: "scrollbar-track-twitch-base scrollbar-thumb-twitch-accent",
   },
-};
+} as const satisfies Record<
+  EmoteSource,
+  EmoteIntegrationStyle
+>;
