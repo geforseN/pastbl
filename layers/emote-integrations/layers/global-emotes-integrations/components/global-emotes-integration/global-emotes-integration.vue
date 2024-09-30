@@ -15,10 +15,7 @@
     </header>
     <main>
       <div class="space-y-1.5">
-        <ready-emote-integration-only
-          :="integration"
-          #="{ integration }"
-        >
+        <ready-emote-integration-only #="{ integration }">
           <ul class="space-y-1.5">
             <li
               v-for="set of integration.sets"

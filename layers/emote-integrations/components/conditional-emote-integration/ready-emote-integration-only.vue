@@ -1,13 +1,13 @@
 <template>
   <slot
-    v-if="status === 'ready'"
-    :integration="$props as TEmoteIntegrations.Ready"
+    v-if="integration.status === 'ready'"
+    :integration
   />
 </template>
 <script setup lang="ts">
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
-defineProps<TEmoteIntegrations.__Some__>();
+const integration = inject("integration") as TEmoteIntegrations.__Some__;
 
 defineSlots<{
   default: VueSlot<{
