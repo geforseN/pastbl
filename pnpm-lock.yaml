@@ -33,8 +33,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       emojilib:
-        specifier: ^3.0.12
-        version: 3.0.12
+        specifier: ^4.0.0
+        version: 4.0.0
       idb:
         specifier: ^8.0.0
         version: 8.0.0
@@ -3272,8 +3272,8 @@ packages:
   emojilib@2.4.0:
     resolution: {integrity: sha512-5U0rVMU5Y2n2+ykNLQqMoqklN9ICBT/KsvC1Gz6vqHbz2AXXGkG+Pm5rMWk/8Vjrr/mY9985Hi8DYzn1F09Nyw==}
 
-  emojilib@3.0.12:
-    resolution: {integrity: sha512-b52zmWqBwv9juk6lKaTdYxRQSnpsnT58Sj/x6fE8fZWcsNd43gAPXUbtjLKJvVlPS9FFNCN6nB9Vh1xipnCzXw==}
+  emojilib@4.0.0:
+    resolution: {integrity: sha512-nHdbvbIuWi/KrZESwJw5meOSK6S3uokcvBooIpNp9leDtVJWW091drLm8pwF2B7JrMq0UPgGJ7Haw+myeRaU8g==}
 
   encodeurl@1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
@@ -9607,7 +9607,7 @@ snapshots:
 
   emojilib@2.4.0: {}
 
-  emojilib@3.0.12: {}
+  emojilib@4.0.0: {}
 
   encodeurl@1.0.2: {}
 
