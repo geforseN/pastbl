@@ -92,10 +92,7 @@ defineEmits<{
 
 provide("integration", props.integration);
 
-const source = computed(() => props.integration.source);
+const source = computed<EmoteSource>(() => allEmoteSources.has(props.integration.source) ? props.integration.source : raise());
 
-const styles = computed(() =>
-  console.log(emoteIntegrationsStyles, source.value, emoteIntegrationsStyles[source.value])
-  || emoteIntegrationsStyles[source.value],
-);
+const styles = computed(() => emoteIntegrationsStyles[source.value]);
 </script>
