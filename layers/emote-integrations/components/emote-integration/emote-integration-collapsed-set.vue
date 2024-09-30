@@ -1,7 +1,7 @@
 <template>
   <div
     class="collapse collapse-arrow border-2"
-    :class="props.styles.borderAccent"
+    :class="styles.borderAccent"
   >
     <input
       :id="id"
@@ -21,10 +21,10 @@
       <slot name="title">
         <div class="flex items-baseline justify-between">
           <h3>
-            {{ props.set.name }}
+            {{ set.name }}
           </h3>
           <span class="text-sm">
-            {{ t("emote", props.set.emotes.length) }}
+            {{ t("emote", set.emotes.length) }}
           </span>
         </div>
       </slot>
@@ -36,15 +36,15 @@
       >
         <div
           class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2 scrollbar"
-          :class="[props.styles.borderAccent, props.styles.scrollbar]"
+          :class="[styles.borderAccent, styles.scrollbar]"
           tabindex="0"
         >
           <div
-            v-for="emote of props.set.emotes"
+            v-for="emote of set.emotes"
             :key="emote.id"
             class="grid min-h-8 place-items-center hover:scale-110 hover:outline hover:outline-1"
-            :class="[props.styles.backgroundBase, props.styles.outlineAccent]"
-            :title="emote.token + ' from ' + props.set.source"
+            :class="[styles.backgroundBase, styles.outlineAccent]"
+            :title="emote.token + ' from ' + set.source"
           >
             <img
               :id="`${emote.id}:${emote.source}`"
@@ -52,8 +52,8 @@
               :data-token="emote.token"
               :src="emote.url"
               :alt="emote.token"
-              :width="emote.width || props.defaultEmoteSize.width"
-              :height="emote.height || props.defaultEmoteSize.height"
+              :width="emote.width || defaultEmoteSize.width"
+              :height="emote.height || defaultEmoteSize.height"
               class="m-0.5 inline-block"
               loading="lazy"
             />
