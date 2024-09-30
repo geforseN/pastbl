@@ -95,7 +95,7 @@ provide("integration", props.integration);
 const source = computed(() => props.integration.source);
 
 const styles = computed(() =>
-  console.log(emoteIntegrationsStyles, source.value, emoteIntegrationsStyles[source.value]) 
-  || emoteIntegrationsStyles[source.value]
-  );
+  console.log(emoteIntegrationsStyles, source.value, emoteIntegrationsStyles[source.value])
+  || emoteIntegrationsStyles[source.value],
+);
 </script>

@@ -35,7 +35,4 @@ export const emoteIntegrationsStyles = {
     outlineAccent: "outline-twitch-accent",
     scrollbar: "scrollbar-track-twitch-base scrollbar-thumb-twitch-accent",
   },
-} as const satisfies Record<
-  EmoteSource,
-  EmoteIntegrationStyle
->;
+} as const satisfies Record<EmoteSource, EmoteIntegrationStyle>;
