@@ -105,5 +105,7 @@ defineEmits<{
 
 provideEmoteSource(props.integration);
 
+provide("integration", props.integration);
+
 const { source, styles } = useEmoteIntegration(props.integration);
 </script>
