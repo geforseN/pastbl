@@ -14,7 +14,7 @@
       </template>
       <template #bottom>
         <chat-pasta-created
-          class="block123 hidden"
+          class="chat-pasta__visible-on-pc hidden"
           :date="createdAt"
         />
       </template>
@@ -103,7 +103,7 @@ function handleContextMenu(event: MouseEvent) {
       @apply sm:border;
     }
 
-    .block123 {
+    .chat-pasta__visible-on-pc {
       @apply sm:block;
     }
 
