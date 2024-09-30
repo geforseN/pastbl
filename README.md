@@ -2,10 +2,6 @@
 [![End-to-End Tests](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml)
 [![autofix.ci](https://github.com/geforseN/pastbl/actions/workflows/autofix-ci.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/autofix-ci.yml)
 
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
 ## Install dependencies
 
 ```bash
@@ -23,7 +19,6 @@ pnpm dev
 Build the application for production:
 
 ```bash
-# pnpm
 pnpm build
 ```
 
