@@ -1,6 +1,6 @@
 <template>
   <article
-    class="rounded-btn border-2 p-2"
+    class="rounded-btn border-2 p-2 text-white"
     :class="[styles.backgroundBase, styles.borderAccent]"
     :data-integration-source="source"
   >
@@ -94,5 +94,8 @@ provide("integration", props.integration);
 
 const source = computed(() => props.integration.source);
 
-const styles = computed(() => emoteIntegrationsStyles[source.value]);
+const styles = computed(() =>
+  console.log(emoteIntegrationsStyles, source.value, emoteIntegrationsStyles[source.value]) 
+  || emoteIntegrationsStyles[source.value]
+  );
 </script>

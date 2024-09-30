@@ -1,6 +1,6 @@
 <template>
   <article
-    class="rounded-btn border-2 p-2"
+    class="rounded-btn border-2 p-2 text-white"
     :class="[styles.backgroundBase, styles.borderAccent]"
   >
     <header class="flex justify-between">

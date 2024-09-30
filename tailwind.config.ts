@@ -14,6 +14,7 @@ export default {
     "app/pages/index.vue",
     "app/app.vue",
     "layers/**/*.vue",
+    "layers/**/utils/**/*.ts",
     "layers/**/components/**/*.{js,vue,ts}",
     "layers/**/pages/**/*.vue",
   ],
