@@ -1,9 +1,6 @@
 fix:
-  - make tests work
-    - install playwright
-    - remove dead tests
-    - remove .skip and .todo
-  - find pastas page not opening
+  - nickname color input lags
+  - teleport not working twice
 
 feat:
   - add autocomplete in pasta-form textarea (suggest emotes tokens)
@@ -11,15 +8,11 @@ feat:
       - add refresh for persons emotes collections
   - use WebShare API for published pasta (https://www.youtube.com/watch?v=lt77LscZcn0)
   - add chrome & firefox extensions
-  - return vueMacros eslint config back ('globals' key is not allowed flat in config)
 
 docs:
   - refactor README
 
-perf:
-  - optimize dev & build scripts
-    - icon for carbon, ic + solar (hamburger icon) + material symbols
-    - tailwindcss
-    - nuxt/ui
+refactor:
+  - pastas-search by text
 
 ?: rename integrations to providers
