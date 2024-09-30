@@ -22,7 +22,7 @@
     <div class="chat-pasta__mobile-bottom flex justify-between p-1">
       <chat-pasta-created :date="createdAt" />
       <div
-        class="chat-pasta__actions-for-mobile items-center justify-between gap-0.5"
+        class="chat-pasta__actions-for-mobile flex items-center justify-between gap-0.5"
       >
         <chat-pasta-more-actions
           @remove="emit('remove')"
