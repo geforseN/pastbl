@@ -1,7 +1,5 @@
 [![Tests](https://github.com/geforseN/pastbl/actions/workflows/vitest.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/vitest.yml)
-
-[![Tests](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml)
-
+[![End-to-End Tests](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/playwright.yml)
 [![autofix.ci](https://github.com/geforseN/pastbl/actions/workflows/autofix-ci.yml/badge.svg)](https://github.com/geforseN/pastbl/actions/workflows/autofix-ci.yml)
 
 # Nuxt 3 Minimal Starter
