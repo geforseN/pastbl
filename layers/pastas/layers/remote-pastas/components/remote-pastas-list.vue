@@ -11,9 +11,7 @@
       @copy="pastasStore.copyPasta(pasta)"
       @edit="navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))"
       @remove="
-        () => {
-          /* TODO: move to file chat-pasta-server-list */
-        }
+        () => { }
       "
       @populate="
         (pastaTextContainer) => {

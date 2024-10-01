@@ -4,10 +4,12 @@
   - https://ui.nuxt.com/components/notification
 - [ ] refactor useActionsToast: add TypeScript support
 - [ ] refactor emoteIntegrations: add TypeScript support
+- [ ] update publish-pasta emit
 
 fix:  
 - [ ] nickname color input lags
 - [ ] teleport not working twice
+- [ ] <remove-pastas-list />: bad types, delete is not working, refactor
 
 feat:
   - [ ] add autocomplete in pasta-form textarea (suggest emotes tokens)
