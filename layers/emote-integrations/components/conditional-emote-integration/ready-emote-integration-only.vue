@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
-const integration = inject("integration") as TEmoteIntegrations.__Some__;
+const integration = injectEmoteIntegration();
 
 defineSlots<{
   default: VueSlot<{
