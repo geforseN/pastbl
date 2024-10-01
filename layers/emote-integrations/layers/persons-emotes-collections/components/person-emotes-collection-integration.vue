@@ -60,10 +60,7 @@
           <ready-emote-integration-only #="{ integration }">
             <emote-collection-formed-at :time="integration.formedAt" />
           </ready-emote-integration-only>
-          <failed-emote-integration-only
-            :="integration"
-            #="{ integration }"
-          >
+          <failed-emote-integration-only #="{ integration }">
             <div>{{ integration.reason }}</div>
           </failed-emote-integration-only>
           <refresh-button
@@ -79,7 +76,8 @@
 </template>
 <script setup generic="Source extends EmoteSource">
 const props = defineProps<{
-  integration: any; // SomeEmoteIntegration<Source>;
+  // TODO: use Source generic for integration prop
+  integration: TEmoteIntegrations.__Some__ ;
   twitch: PersonTwitch;
 }>();
 
@@ -87,7 +85,7 @@ defineEmits<{
   refresh: [];
 }>();
 
-provide("integration", props.integration);
+provideEmoteIntegration(props.integration);
 
 const source = computed<EmoteSource>(() => allEmoteSources.has(props.integration.source) ? props.integration.source : raise());
 
