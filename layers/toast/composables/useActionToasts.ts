@@ -16,7 +16,6 @@ export function useActionToasts<
       add(notification) {
         return ElNotification({
           ...notification,
-          progressBar: true,
           message: notification.description,
           duration: notification.timeout,
         });
