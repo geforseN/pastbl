@@ -14,9 +14,10 @@
 <script setup lang="ts">
 const integration = injectEmoteIntegration();
 
-const pageAddress = computed(() =>
-  // @ts-expect-error this is valid, no need long expression
-  integration?.owner?.pageAddress,
+const pageAddress = computed(
+  () =>
+    // @ts-expect-error this is valid, no need long expression
+    integration?.owner?.pageAddress,
 );
 
 defineSlots<{

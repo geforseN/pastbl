@@ -7,9 +7,7 @@
     <header class="flex justify-between">
       <person-emote-integration-with-owner-page-address-only>
         <template #default="{ pageAddress }">
-          <div
-            class="flex items-center"
-          >
+          <div class="flex items-center">
             <twitch-user-avatar
               target="_blank"
               class="size-7"
@@ -29,9 +27,7 @@
           </div>
         </template>
         <template #else>
-          <h2
-            class="ml-1 text-xl"
-          >
+          <h2 class="ml-1 text-xl">
             {{ source }}
           </h2>
         </template>
