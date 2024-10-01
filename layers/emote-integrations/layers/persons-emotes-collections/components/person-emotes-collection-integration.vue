@@ -5,33 +5,37 @@
     :data-integration-source="source"
   >
     <header class="flex justify-between">
-      <div
-        v-if="isString(integration?.owner?.pageAddress)"
-        class="flex items-center"
-      >
-        <twitch-user-avatar
-          target="_blank"
-          class="size-7"
-          :to="integration.owner.pageAddress"
-          :twitch
-          :size="28"
-        />
-        <nuxt-link
-          :to="integration.owner.pageAddress"
-          external
-          target="_blank"
-        >
-          <h2 class="link ml-1 text-xl">
+      <person-emote-integration-with-owner-page-address-only>
+        <template #default="{ pageAddress }">
+          <div
+            class="flex items-center"
+          >
+            <twitch-user-avatar
+              target="_blank"
+              class="size-7"
+              :to="pageAddress"
+              :twitch
+              :size="28"
+            />
+            <nuxt-link
+              :to="pageAddress"
+              external
+              target="_blank"
+            >
+              <h2 class="link ml-1 text-xl">
+                {{ source }}
+              </h2>
+            </nuxt-link>
+          </div>
+        </template>
+        <template #else>
+          <h2
+            class="ml-1 text-xl"
+          >
             {{ source }}
           </h2>
-        </nuxt-link>
-      </div>
-      <h2
-        v-else
-        class="ml-1 text-xl"
-      >
-        {{ source }}
-      </h2>
+        </template>
+      </person-emote-integration-with-owner-page-address-only>
       <emote-integration-logo
         :source
         with-link
