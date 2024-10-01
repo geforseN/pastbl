@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <Html
+    :lang="head.htmlAttrs.lang"
+    :dir="head.htmlAttrs.dir"
+  >
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -25,11 +28,16 @@
         </div>
       </app-drawer>
     </Body>
-  </div>
+  </Html>
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
+
+const head = useLocaleHead({
+  addDirAttribute: true,
+  addSeoAttributes: true,
+});
 
 const pastasStore = usePastasStore();
 
