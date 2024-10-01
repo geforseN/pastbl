@@ -60,7 +60,7 @@ export function usePersonCollection(login: TwitchUserLogin) {
 
   const api = new PersonsEmoteIntegrationsApi(
     $fetch.create({
-      baseURL: `/api/v1/persons-emotes-collections/${login}/integrations`,
+      baseURL: `/api/v1/persons-emotes-collections/${login}`,
     }),
   );
 
