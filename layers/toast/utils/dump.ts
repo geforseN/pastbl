@@ -1,11 +1,5 @@
 import type { ActionToastMakers, Notification } from "./types";
 
-export function isNotificationHasId<T extends Partial<Notification>>(
-  notification: T,
-): notification is { id: string } & T {
-  return typeof notification.id === "string";
-}
-
 function withContext(
   this: { id: string; type: string; makeNotification(): Partial<Notification> },
   context: ActionToastsThis,

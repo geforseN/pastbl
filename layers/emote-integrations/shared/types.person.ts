@@ -17,10 +17,10 @@ type _MakeIndexedDBPersonEmoteIntegration<I extends Settled> = I extends Ready
     : never;
 
 type IPersonEmoteCollectionIntegrationsRecord = {
-  FrankerFaceZ: any /* TFrankerFaceZ.Person.Integration */;
-  BetterTTV: any /* TBetterTTV.Person.Integration */;
-  SevenTV: any /* TSevenTV.Person.Integration */;
-  Twitch: any /* TTwitch.Person.Integration */;
+  FrankerFaceZ: TFrankerFaceZ.Person.Integration;
+  BetterTTV: TBetterTTV.Person.Integration ;
+  SevenTV: TSevenTV.Person.Integration ;
+  Twitch: TTwitch.Person.Integration ;
 };
 
 export type IndexedDBRecord = {

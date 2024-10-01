@@ -65,7 +65,9 @@ export function usePersonCollection(login: TwitchUserLogin) {
   );
 
   const integrationsLoad = useEmoteIntegrationsLoad({
-    load: api.get.bind(api),
+    load<E extends EmoteSource>(source: E) {
+      return api.get(source);
+    },
     loadAll: api.getAll.bind(api),
     loadMany: api.getMany.bind(api),
   });
