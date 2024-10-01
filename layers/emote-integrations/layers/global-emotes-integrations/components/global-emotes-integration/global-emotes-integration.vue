@@ -33,7 +33,7 @@
           class="rounded-box border-2 p-2"
         >
           <div class="flex justify-between">
-            <state-emote-integration-only #="{integration}">
+            <state-emote-integration-only #="{ integration }">
               <emote-collection-formed-at :time="integration.formedAt" />
             </state-emote-integration-only>
             <failed-emote-integration-only #="{ integration }">
