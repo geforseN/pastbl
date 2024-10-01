@@ -45,7 +45,7 @@ export function useActionToasts<
       (method) =>
         [
           method.type,
-          (...args) => toast.add(method.makeNotification(...args)),
+          (...args: Parameters<typeof method.makeNotification>) => toast.add(method.makeNotification(...args)),
         ] as const,
     ),
   );

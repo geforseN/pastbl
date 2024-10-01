@@ -21,7 +21,7 @@ export type Emote = TFrankerFaceZ.ChannelEmote;
 export type Set = TFrankerFaceZ.ChannelEmoteSet;
 
 export interface ReadyIntegration extends TEmoteIntegrations.Person.Ready {
-  sets: ChannelEmoteSet[];
+  sets: Set[];
   owner: IntegrationOwner;
   source: "FrankerFaceZ";
 }

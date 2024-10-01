@@ -11,6 +11,7 @@ export interface Minimal {
 type MakeIndexedDBPersonEmoteIntegration<
   I extends TEmoteIntegrations.Person.Settled,
 > = I extends TEmoteIntegrations.Person.Ready
+  // eslint-disable-next-line
   ? I & {
     sets: Array<
       Omit<I["sets"][number], "emotes"> & {
@@ -19,7 +20,7 @@ type MakeIndexedDBPersonEmoteIntegration<
     >;
   }
   : I extends TEmoteIntegrations.Person.Failed
-    ? I & { sets: undefined }
+    ? I & { sets: never }
     : never;
 
 export type SettledIndexedDB = Omit<IPersonEmoteCollection, "integrations"> & {
