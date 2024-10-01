@@ -1,5 +1,3 @@
-import consola from "consola";
-
 function __updateIntegration__(
   collection: IPersonEmoteCollection,
   integration: IEmoteIntegration,
@@ -19,7 +17,7 @@ function usePersonCollectionFindEmote(
   const emotes = computed(() => {
     let integrations = collection.value?.integrations;
     if (!integrations) {
-      consola.warn("no integrations or collection", {
+      log("warn", "no integrations or collection", {
         collection: collection.value,
         integrations,
       });
