@@ -27,7 +27,8 @@ export type ActionToastMakers = Pick<
 >;
 
 export interface MakeTranslatedActionNotification {
-  (this: ActionToastsThis, ...args: unknown[]): Partial<Notification>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
 }
 
 export type ActionToasts = {
