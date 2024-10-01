@@ -1,27 +1,6 @@
 <template>
   <div>
     <Head>
-      <Link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/apple-touch-icon.png"
-      />
-      <Link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon-32x32.png"
-      />
-      <Link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/favicon-16x16.png"
-      />
-      <Link
-        rel="manifest"
-        href="/site.webmanifest"
-      />
       <Meta
         name="google-site-verification"
         content="CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw"
