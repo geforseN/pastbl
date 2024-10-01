@@ -6,7 +6,7 @@ export class ToManyPastaTagsError extends ToastableError {
   toToast(context: ActionToastsThis) {
     return {
       description: context.i18n.t(
-        "toast.addTag.fail.toManyMessage",
+        "toast.addTag.fail.tooManyTags",
         pastasConfig.pastaTags.count,
       ),
       title: context.i18n.t("toast.addTag.fail.title"),

@@ -55,7 +55,7 @@
             class="btn btn-error btn-sm"
             @click="emit('removeAllTags')"
           >
-            {{ $t("tags.delete") }}
+            {{ $t("tags.remove") }}
           </button>
           <span
             v-else

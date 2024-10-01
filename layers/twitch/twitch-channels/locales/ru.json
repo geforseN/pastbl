@@ -15,7 +15,7 @@
       },
       "success": {
         "title": "Эмоции загружены",
-        "message": "Загружены эмоции для {nickname}: {statuses}"
+        "description": "Загружены эмоции для {nickname}: {statuses}"
       }
     }
   }
