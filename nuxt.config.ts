@@ -1,6 +1,4 @@
 import { fileURLToPath } from "node:url";
-import defaultTailwindTheme from "tailwindcss/defaultTheme";
-import defaultTailwindConfig from "tailwindcss/defaultConfig";
 import { i18n } from "./app/i18n.config";
 import tailwindTheme from "./tailwind.theme";
 
@@ -55,7 +53,8 @@ export default defineNuxtConfig({
       openAPI: true,
     },
     scheduledTasks: {
-      "0 0 * * *" /* At 00:00., everyday */:           "get-twitch-token",
+      /* Everyday at 00:00 */
+      "0 0 * * *": "get-twitch-token",
     },
   },
   imports: {
