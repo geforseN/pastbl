@@ -5,23 +5,17 @@ export function useActionToasts<
   T extends ReturnType<typeof createActionToasts>,
 >(
   actionToasts?: T,
-  options: {
-    i18n?: ReturnType<typeof useI18n>;
-    toast?: { add(notification: Partial<Notification>): void };
-  } = {},
 ) {
-  const {
-    i18n = useI18n(),
-    toast = {
-      add(notification) {
-        return ElNotification({
-          ...notification,
-          message: notification.description,
-          duration: notification.timeout,
-        });
-      },
+  const i18n = useI18n();
+  const toast = {
+    add(notification: Partial<Notification>) {
+      return ElNotification({
+        ...notification,
+        message: notification.description,
+        duration: notification.timeout,
+      });
     },
-  } = options;
+  };
 
   const context = reactive({ i18n: computed(() => i18n) });
 
