@@ -1,5 +1,5 @@
 export * as Global from "./types.global";
-export * as Person from "./types.global";
+export * as Person from "./types.person";
 
 export type Base =
   | TEmoteIntegrations.Global.Ready
