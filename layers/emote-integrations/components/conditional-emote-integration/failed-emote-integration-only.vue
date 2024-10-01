@@ -1,13 +1,13 @@
 <template>
   <slot
-    v-if="status === 'failed'"
-    :integration="$props as TEmoteIntegrations.Failed"
+    v-if="integration.status === 'failed'"
+    :integration
   />
 </template>
 <script setup lang="ts">
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
-defineProps<TEmoteIntegrations.__Some__>();
+const integration = injectEmoteIntegration();
 
 defineSlots<{
   default: VueSlot<{
