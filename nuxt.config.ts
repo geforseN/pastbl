@@ -95,6 +95,10 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
         { rel: "manifest", href: "/site.webmanifest" },
       ],
+      meta: [
+        { name: "google-site-verification", content: "CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw" },
+        { name: "theme-color", content: "#ff52d9f2" },
+      ],
     },
     viewTransition: true,
   },

@@ -1,15 +1,5 @@
 <template>
   <div>
-    <Head>
-      <Meta
-        name="google-site-verification"
-        content="CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw"
-      />
-      <Meta
-        name="theme-color"
-        content="#ff52d9f2"
-      />
-    </Head>
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
