@@ -13,6 +13,7 @@ export type IEmote = HasSource & {
   type: string;
   token: string;
   url: string;
+  isAnimated: boolean;
   isListed: boolean;
   isModifier: boolean;
   isWrapper: boolean;
