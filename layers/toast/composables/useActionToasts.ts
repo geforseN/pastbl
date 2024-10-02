@@ -39,18 +39,17 @@ export function useActionToasts<
     return { add };
   }
 
-  const methods = actionToasts.methods.map((method) =>
-    method.withContext(context),
-  );
-
   const methodsObject = Object.fromEntries(
-    methods.map(
-      (method) =>
-        [
-          method.type,
-          (...args: Parameters<typeof method.makeNotification>) => toast.add(method.makeNotification(...args)),
-        ] as const,
-    ),
+    actionToasts.methods
+      .map((method) =>
+        method.withContext(context),
+      ).map(
+        (method) =>
+          [
+            method.type,
+            (...args: Parameters<typeof method.makeNotification>) => toast.add(method.makeNotification(...args)),
+          ] as const,
+      ),
   );
 
   log("debug", actionToasts.action.name, methodsObject);
