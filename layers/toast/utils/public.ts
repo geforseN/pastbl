@@ -1,7 +1,7 @@
 import { raiseToastMethod } from "../internal/raise-method";
 import { successToastMaker } from "../internal/success-toast-maker";
 import { methodsToTransform } from "../internal/methods-to-transform";
-import type { RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
+import type { RawActionToastsMethods, Notification, ActionToastsContext } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -20,42 +20,41 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
 }
 
 function hasSuccessMethod(
-  actionMethods: unknown,
-): actionMethods is { success(...args: unknown[]): unknown } {
-  return typeof actionMethods?.success === "function";
+  value: unknown,
+): value is { success(...args: unknown[]): unknown } {
+  return (
+    typeof value === "function"
+    || (typeof value === "object" && value !== null)
+  )
+  && "success" in value
+  && typeof value.success === "function";
 }
 
-function withContext(
+function createActionToastsWithContext(
   context: ActionToastsContext,
-  objectToWrap: ReturnType<typeof createActionToasts>,
+  rawActionToasts: {
+    action: { name: string };
+  } & RawActionToastsMethods,
 ) {
-  const isSuccessMethodProvided = hasSuccessMethod(objectToWrap);
+  return wrapper(
+    rawActionToasts.action.name,
+    rawActionToasts,
+    function onBeforeReturn(_actionToasts) {
+      bindContextToRawMethods(context, _actionToasts, rawActionToasts);
 
-  const wrappedMethods = isSuccessMethodProvided
-    ? successToastMaker.define(objectToWrap.success).bind(context)
-    : function () {}.bind(context);
-
-  if (isSuccessMethodProvided) {
-    wrappedMethods["success"] = wrappedMethods;
-  }
-
-  Object.defineProperty(
-    wrappedMethods,
-    "action",
-    { value: Object.freeze({ name: objectToWrap.action.actionName }) },
+      _actionToasts.withContext = function (newContext: ActionToastsContext) {
+        return createActionToastsWithContext(newContext, rawActionToasts);
+      };
+    },
+    context,
   );
-
-  bindContext(context, wrappedMethods, objectToWrap);
-
-  wrappedMethods.withContext = function (context) {
-    return withContext(context, objectToWrap);
-  };
-
-  return wrappedMethods;
 };
 
-function defineMethods(actionToasts, actionMethods: RawActionToastsMethods) {
-  for (const [key, methods] of objectEntries(actionMethods)) {
+function defineRawMethods(
+  rawActionsToasts: object,
+  rawActionToastsMethods: RawActionToastsMethods,
+) {
+  for (const [key, methods] of objectEntries(rawActionToastsMethods)) {
     if (!methods || key === "success") {
       continue;
     }
@@ -64,7 +63,7 @@ function defineMethods(actionToasts, actionMethods: RawActionToastsMethods) {
       const toastMaker = methodsToTransform.define(key, methods);
       const actionNames = methodsToTransform.typeWithAlias(key);
       for (const name of actionNames) {
-        actionToasts[name] = toastMaker;
+        rawActionsToasts[name] = toastMaker;
       }
     }
     else {
@@ -76,21 +75,63 @@ function defineMethods(actionToasts, actionMethods: RawActionToastsMethods) {
       const toastMaker = raiseToastMethod.define(failures);
       const actionNames = raiseToastMethod.typeWithAlias;
       for (const name of actionNames) {
-        actionToasts[name] = toastMaker;
+        rawActionsToasts[name] = toastMaker;
       }
     }
   }
 }
 
-export function createActionToasts<
+export function createRawActionToasts<
   T extends string,
   A extends RawActionToastsMethods,
 >(actionName: T, actionMethods: A) {
-  const isSuccessMethodProvided = hasSuccessMethod(actionMethods);
+  return wrapper(
+    actionName,
+    actionMethods,
+    function onBeforeReturn(_actionToasts) {
+      defineRawMethods(_actionToasts, actionMethods);
+      _actionToasts.withContext = function (initialContext: ActionToastsContext) {
+        return createActionToastsWithContext(initialContext, _actionToasts);
+      };
+    },
+    null,
+  );
+}
 
-  const actionToasts = isSuccessMethodProvided
-    ? successToastMaker.define(actionMethods.success)
-    : function () {};
+export const createActionToasts = createRawActionToasts;
+
+function bindContextToRawMethods(
+  context: ActionToastsContext,
+  actionToasts: object,
+  rawActionToasts: object,
+) {
+  // NOTE: no 'success' in array above
+  const types = ["failure", "fail", "info", "warning", "warn", "panic", "raise"]
+    .filter((type) => type in rawActionToasts);
+
+  for (const type of types) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    actionToasts[type] = rawActionToasts[type].bind(context);
+  }
+}
+
+function wrapper(
+  actionName: string,
+  methods: RawActionToastsMethods,
+  onBeforeReturn: (actionToasts: object) => void,
+  context: ActionToastsContext | null = null,
+) {
+  const isSuccessMethodProvided = hasSuccessMethod(methods);
+
+  const actionToasts: {
+    (...args: unknown[]): unknown;
+  } & {
+    success(...args: unknown[]): unknown;
+  } = isSuccessMethodProvided
+    // @ts-expect-error ts is right here, context should not be null, but it it is because i18n is depend on Vue setup. then there must be right context
+    ? successToastMaker.define(methods.success).bind(context)
+    : function () {}.bind(context);
 
   if (isSuccessMethodProvided) {
     actionToasts["success"] = actionToasts;
@@ -102,23 +143,7 @@ export function createActionToasts<
     { value: Object.freeze({ name: actionName }) },
   );
 
-  defineMethods(actionToasts, actionMethods);
-
-  actionToasts.withContext = function (context) {
-    return withContext(context, actionToasts);
-  };
+  onBeforeReturn(actionToasts);
 
   return actionToasts;
-}
-
-function bindContext(context, wrappedMethods, objectToWrap) {
-  // NOTE: no 'success' in array above
-  const types = ["failure", "fail", "info", "warning", "warn", "panic", "raise"]
-    .filter((type) => type in objectToWrap);
-
-  for (const type of types) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    wrappedMethods[type] = objectToWrap[type].bind(context);
-  }
 }
