@@ -7,7 +7,7 @@ const actionToastTypeKeysTransform = new Map([
 ] as const satisfies [ActionToastsMethodsKeyToTransform, Exclude<ActionToastType, "success">][]);
 
 const aliases = new Map([
-  ["warnings", ["warnign", "warn"]],
+  ["warnings", ["warning", "warn"]],
   ["failures", ["failure", "fail"]],
   ["infos", ["info"]],
 ] as const satisfies [ActionToastsMethodsKeyToTransform, string[]][]);
