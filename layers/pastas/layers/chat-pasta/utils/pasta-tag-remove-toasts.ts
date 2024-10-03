@@ -1,6 +1,6 @@
 export const removePastaTagToasts = createActionToasts("remove-pasta-tag", {
   failures: {
-    nonExistentTag(this: ActionToastsThis) {
+    nonExistentTag() {
       return new NonExistingPastaTagError().toToast(this);
     },
   },

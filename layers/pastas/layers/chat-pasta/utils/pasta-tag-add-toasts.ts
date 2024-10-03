@@ -1,12 +1,12 @@
 export const addPastaTagToasts = createActionToasts("add-pasta-tag", {
   failures: {
-    badLength(this: ActionToastsThis, status: BadLengthStatus) {
+    badLength(status: BadLengthStatus) {
       return new BadPastaTagLengthError(status).toToast(this);
     },
-    sameTag(this: ActionToastsThis, tag: string) {
+    sameTag(tag: string) {
       return new SamePastaTagError(tag).toToast(this);
     },
-    toManyTags(this: ActionToastsThis) {
+    toManyTags() {
       return new ToManyPastaTagsError().toToast(this);
     },
   },

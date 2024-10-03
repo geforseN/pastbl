@@ -3,7 +3,7 @@ import { twitchConfig } from "$/twitch/app.config";
 export const personEmotesCollectionLoadToasts = createActionToasts(
   "load-person-emotes-collection",
   {
-    success(this: ActionToastsThis, nickname: string, statuses: string) {
+    success(nickname: string, statuses: string) {
       return {
         description: this.i18n.t(
           "persons-emotes-collection.loadCollection.success.description",
@@ -19,7 +19,7 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
       };
     },
     failures: {
-      emptyInput(this: ActionToastsThis) {
+      emptyInput() {
         return {
           title: this.i18n.t(
             "persons-emotes-collection.loadCollection.failureTitle",
@@ -29,7 +29,7 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
           ),
         };
       },
-      tooSmallInput(this: ActionToastsThis) {
+      tooSmallInput() {
         return {
           title: this.i18n.t(
             "persons-emotes-collection.loadCollection.failureTitle",
@@ -40,7 +40,7 @@ export const personEmotesCollectionLoadToasts = createActionToasts(
           ),
         };
       },
-      tooBigInput(this: ActionToastsThis) {
+      tooBigInput() {
         return {
           title: this.i18n.t(
             "persons-emotes-collection.loadCollection.failureTitle",

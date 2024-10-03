@@ -1,6 +1,6 @@
 export const pastaRemoveToasts = createActionToasts("remove-pasta", {
   infos: {
-    movedInBin(this: ActionToastsThis, onCancel: () => MaybePromise<void>) {
+    movedInBin(onCancel: () => MaybePromise<void>) {
       return {
         title: this.i18n.t("toast.removePasta.success.title"),
         description: this.i18n.t("toast.removePasta.success.message"),

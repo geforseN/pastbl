@@ -1,5 +1,5 @@
 export const copyPastaToasts = createActionToasts("copy-pasta", {
-  success(this: ActionToastsThis) {
+  success() {
     return {
       timeout: 1700,
       title: this.i18n.t("toast.copyPasta.success"),

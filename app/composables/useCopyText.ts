@@ -1,18 +1,18 @@
 export const copyTextToasts = createActionToasts("copy-text", {
-  success(this: ActionToastsThis) {
+  success() {
     return {
       timeout: 1700,
       title: this.i18n.t("toast.copyText.success"),
     };
   },
   failures: {
-    default(this: ActionToastsThis) {
+    default() {
       return {
         description: this.i18n.t("toast.copyText.fail.genericMessage"),
         timeout: 7000,
       };
     },
-    clipboardApiError(this: ActionToastsThis) {
+    clipboardApiError() {
       return {
         description: this.i18n.t("toast.copyText.fail.clipboardMessage"),
       };

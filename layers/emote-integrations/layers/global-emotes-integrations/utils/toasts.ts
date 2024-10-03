@@ -1,6 +1,5 @@
 const globalEmotesRefreshToasts = createActionToasts("refresh-global-emotes", {
   success(
-    this: ActionToastsThis,
     integrationsCount: number,
     integrationsAsEmojis: string,
   ) {
