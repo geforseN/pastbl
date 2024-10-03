@@ -43,7 +43,7 @@ export function createActionToasts<
     if (!methods || key === "success") {
       continue;
     }
-    else if (actionToastMethodsKeyTransform.has(key)) {
+    if (actionToastMethodsKeyTransform.has(key)) {
       const transformedKey = actionToastMethodsKeyTransform.get(key)!;
       actionToasts[transformedKey] = function (
         this: ActionToastsContext,
@@ -61,33 +61,33 @@ export function createActionToasts<
         const notification = method.apply(this, args);
         return notification;
       };
-      if (key === "failures") {
-        const failures = methods;
-        assert.ok(isObject(failures), "Failures must be an object");
-        actionToasts["raise"] = function (
-          this: ActionToastsContext,
-          args: Parameters<ActionToastsPanicFn<typeof actionMethods["failures"]>>,
-        ): Partial<Notification> {
-          const firstArgument = args[0];
-          if (typeof firstArgument === "string") {
-            if (firstArgument in failures) {
-              return failures[firstArgument]!.apply(this, args.slice(1));
-            }
-            throw new Error(`Action toast 'failures.${firstArgument}' not found`);
+    }
+    if (key === "failures") {
+      const failures = methods;
+      assert.ok(isObject(failures), "Failures must be an object");
+      actionToasts["raise"] = function (
+        this: ActionToastsContext,
+        args: Parameters<ActionToastsPanicFn<typeof actionMethods["failures"]>>,
+      ): Partial<Notification> {
+        const firstArgument = args[0];
+        if (typeof firstArgument === "string") {
+          if (firstArgument in failures) {
+            return failures[firstArgument]!.apply(this, args.slice(1));
           }
-          if (!(firstArgument instanceof Error)) {
-            throw new TypeError("Expected an error");
-          }
-          if (!(firstArgument instanceof ToastableError)) {
+          throw new Error(`Action toast 'failures.${firstArgument}' not found`);
+        }
+        if (!(firstArgument instanceof Error)) {
+          throw new TypeError("Expected an error");
+        }
+        if (!(firstArgument instanceof ToastableError)) {
           // TODO: here we can use this.i18n.e(actionName)
-            return {
-              title: this.i18n.t("toast.genericError.title"),
-              description: this.i18n.t("toast.genericError.description"),
-            };
-          }
-          return firstArgument.toToast(this);
-        };
-      }
+          return {
+            title: this.i18n.t("toast.genericError.title"),
+            description: this.i18n.t("toast.genericError.description"),
+          };
+        }
+        return firstArgument.toToast(this);
+      };
     }
   }
   return actionToasts;
