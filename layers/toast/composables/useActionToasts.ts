@@ -1,5 +1,5 @@
-import { ElNotification } from "element-plus";
-import type { ActionToastsThis, Notification } from "../utils/types";
+import type { ActionToastsThis, Notification, ParsedActionToasts } from "../utils/types";
+import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/public";
 
 type Basic = {
   add: (makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification) => void;
@@ -10,32 +10,21 @@ type UseActionToastsReturn<T extends ReturnType<typeof createActionToasts> | und
   [k in keyof T["methods"]]: any
 };
 
-function adapterFromNuxtUItoElementPlus(notification: Partial<Notification>) {
-  return ElNotification({
-    // ...notification["icon"],
-    // ...notification['ui'],
-    // TODO: implement: actions
-    // TODO: implement: progressBar
-    // TODO: implement: onHoverStrategy: 'pause-on-enter/resume-on-leave' | 'DEFAULT:resetInterval'
-    // TODO: docs: add about all above + keyboard shortcuts
-    // type: mapFromNuxtUIColorToElementPlusType notification["color"]
-    onClick: notification.click,
-    onClose: notification.callback,
-    title: notification.title,
-    message: notification.description,
-    duration: notification.timeout,
-  });
-}
-
 export function useActionToasts<
-  T extends ReturnType<typeof createActionToasts>,
+  T extends ParsedActionToasts,
 >(
   actionToasts?: T,
+  options: {
+    i18n?: VueI18n;
+    toast?: { add(notification: Notification): void };
+  } = {},
 ) {
-  const i18n = useI18n() as unknown as VueI18n;
-  const toast = {
-    add: adapterFromNuxtUItoElementPlus,
-  };
+  const {
+    i18n = useI18n() as unknown as VueI18n,
+    toast = {
+      add: adaptNotificationFromNuxtUItoElementPlus,
+    },
+  } = options;
 
   const toasts = {
     add(
@@ -55,12 +44,10 @@ export function useActionToasts<
   }
 
   const context = { i18n };
+  const methods = actionToasts.withContext?.(context) || {};
 
-  const methods = {
-    ...toasts,
-    ...actionToasts.methods.withContext(context),
-  };
+  Object.assign(toasts, methods);
 
   log("debug", actionToasts.action.name, methods);
-  return methods;
+  return toasts;
 }
