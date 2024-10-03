@@ -1,0 +1,8 @@
+{
+  "actionToasts": {
+    "genericError": {
+      "title": "Error",
+      "description": "Something went wrong"
+    }
+  }
+}
