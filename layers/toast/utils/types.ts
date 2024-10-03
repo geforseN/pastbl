@@ -15,7 +15,7 @@ export type Notification = {
   callback?: (...args: unknown[]) => void;
 };
 
-interface RawActionToastMaker {
+export interface RawActionToastMaker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
 }

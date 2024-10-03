@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it, test } from "vitest";
 import { setup } from "@nuxt/test-utils";
 import { createActionToasts } from "../utils/public";
 import type { RawActionToastsMethods } from "../utils/types";
@@ -7,7 +7,6 @@ import { useActionToasts } from "./useActionToasts";
 // TODO: methods aliases should be same function (warning === warn) === true
 // raise (with 'throw' alias)
 // warning (with 'warn' alias)
-// success (with 'ok' alias)
 // failure (with 'fail' alias)
 
 const actionsToastsOptions = {
@@ -38,6 +37,28 @@ describe("useActionToasts", async () => {
     });
     it.for(additionalMethods)("must not have %s method", (methodName) => {
       expect(actionToasts[methodName]).toBeUndefined();
+    });
+  });
+
+  describe("with first arg that has success method", () => {
+    const actionToasts = useTestActionToasts("success", {
+      success(string: string) {
+        return {
+          description: "success:" + string,
+        };
+      },
+    });
+    test("return value will be function", () => {
+      expect(actionToasts).toBeInstanceOf(Function);
+    });
+    test("return value will have 'success' method", () => {
+      expect(actionToasts.success).toBeInstanceOf(Function);
+    });
+    test("return value and return value success method are same", () => {
+      expect(actionToasts).toBe(actionToasts.success);
+    });
+    test("provided args will not be ignored", () => {
+      expect(actionToasts.success("test")).toEqual({ description: "success:test" });
     });
   });
 

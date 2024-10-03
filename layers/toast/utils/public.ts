@@ -1,6 +1,7 @@
+import { defineSuccessToastMaker } from "../internal/success-toast-maker";
 import { ToastableError } from "./abstract";
 import { actionToastTypeKeysTransform as actionToastMethodsKeyTransform, type ActionToastType } from "./dump";
-import type { ActionToastsContext, RawActionToastsMethods, Notification } from "./types";
+import type { ActionToastsContext, RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -18,47 +19,29 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
   });
 }
 
+function hasSuccessMethod(actionMethods: RawActionToastsMethods): actionMethods is { success: RawActionToastMaker } {
+  return typeof actionMethods?.success === "function";
+}
+
 export function createActionToasts<
   T extends string,
   A extends RawActionToastsMethods,
 >(actionName: T, actionMethods: A) {
-  const actionToasts: {
-    raise?: ActionToastsPanicFn<A["failures"]>;
-    withContext(context: ActionToastsContext): object;
-  } = {
-    withContext(context) {
-      const types = Object.keys(actionToasts).filter(isActionToastType);
-      const wrappedMethods = {}/* TODO: type */;
-      for (const type of types) {
-        // @ts-expect-error methods is object, we can get property here
-        const method = actionToasts[type];
-        if (typeof method !== "function") {
-          throw new TypeError(`Invalid type of action toasts method. Expected function, received ${typeof method}. In 'methods' user must provide object of function (except 'success', where property must be function)`);
-        }
-        // @ts-expect-error method (and method is fn)
-        wrappedMethods[type] = method.bind(context);
-      }
-      return wrappedMethods;
-    },
-  };
+  const isSuccessMethodProvided = hasSuccessMethod(actionMethods);
+
+  const actionToasts = isSuccessMethodProvided
+    ? defineSuccessToastMaker(actionMethods.success)
+    : function () {};
+
+  if (isSuccessMethodProvided) {
+    actionToasts["success"] = actionToasts;
+  }
 
   Object.defineProperty(actionToasts, "action", { value: Object.freeze({ name: actionName }) });
 
   for (const [key, methods] of objectEntries(<RawActionToastsMethods>actionMethods)) {
-    if (!methods) {
+    if (!methods || key === "success") {
       continue;
-    }
-    if (key === "success") {
-      actionToasts[key] = function (
-        this: ActionToastsContext,
-        ...args: Parameters<NonNullable<A["success"]>>
-      ) {
-        // NOTE: above we have checked that methods is not undefined
-        const method = methods as NonNullable<A["success"]>;
-        assert.ok(isFunction(method), "Action toast 'success' must be a function");
-        const notification = method.apply(this, args);
-        return notification;
-      };
     }
     else if (actionToastMethodsKeyTransform.has(key)) {
       const transformedKey = actionToastMethodsKeyTransform.get(key)!;
