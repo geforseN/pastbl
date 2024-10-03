@@ -1,7 +1,7 @@
+import { raiseToastMethod } from "../internal/raise-method";
 import { defineSuccessToastMaker } from "../internal/success-toast-maker";
 import { actionToastMakerToTransform } from "../internal/toast-maker-to-transform";
-import { ToastableError } from "./abstract";
-import type { ActionToastsContext, RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
+import type { RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -54,29 +54,11 @@ export function createActionToasts<
     if (key === "failures") {
       const failures = methods;
       assert.ok(isObject(failures), "Failures must be an object");
-      actionToasts["raise"] = function (
-        this: ActionToastsContext,
-        args: Parameters<ActionToastsPanicFn<typeof actionMethods["failures"]>>,
-      ): Partial<Notification> {
-        const firstArgument = args[0];
-        if (typeof firstArgument === "string") {
-          if (firstArgument in failures) {
-            return failures[firstArgument]!.apply(this, args.slice(1));
-          }
-          throw new Error(`Action toast 'failures.${firstArgument}' not found`);
-        }
-        if (!(firstArgument instanceof Error)) {
-          throw new TypeError("Expected an error");
-        }
-        if (!(firstArgument instanceof ToastableError)) {
-          // TODO: here we can use this.i18n.e(actionName)
-          return {
-            title: this.i18n.t("toast.genericError.title"),
-            description: this.i18n.t("toast.genericError.description"),
-          };
-        }
-        return firstArgument.toToast(this);
-      };
+      const toastMaker = raiseToastMethod.define(failures);
+      const actionNames = raiseToastMethod.typeWithAlias;
+      for (const name of actionNames) {
+        actionToasts[name] = toastMaker;
+      }
     }
   }
   return actionToasts;
