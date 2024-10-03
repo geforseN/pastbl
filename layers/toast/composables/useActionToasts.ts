@@ -40,14 +40,18 @@ export function useActionToasts<
   };
 
   if (!actionToasts) {
-    return toasts;
+    const fn = () => {};
+    for (const key of objectKeys(toasts)) {
+      fn[key] = toasts[key];
+    }
+    return fn;
   }
 
   const context = { i18n };
-  const methods = actionToasts.withContext?.(context) || {};
-
-  Object.assign(toasts, methods);
-
-  log("debug", actionToasts.action.name, methods);
-  return toasts;
+  const toastsWithContext = actionToasts.withContext(context);
+  Object.defineProperty(toastsWithContext, "add", {
+    value: toasts.add.bind(toastsWithContext),
+  });
+  log("debug", actionToasts.action.name, toastsWithContext);
+  return toastsWithContext;
 }

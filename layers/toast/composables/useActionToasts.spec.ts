@@ -32,6 +32,11 @@ describe("useActionToasts", async () => {
 
   describe("with first arg as undefined returned value", () => {
     const actionToasts = useActionToasts(undefined, actionsToastsOptions);
+
+    test("return value matches snapshot", () => {
+      expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+    });
+
     it.for(baseMethods)("must have %s method", (methodName) => {
       expect(actionToasts[methodName]).toBeInstanceOf(Function);
     });
@@ -59,6 +64,7 @@ describe("useActionToasts", async () => {
     });
     test("provided args will not be ignored", () => {
       expect(actionToasts.success("test")).toEqual({ description: "success:test" });
+      expect(actionToasts("test")).toEqual({ description: "success:test" });
     });
   });
 
@@ -73,6 +79,7 @@ describe("useActionToasts", async () => {
       });
     expect(actionToasts.add).toBeInstanceOf(Function);
     expect(actionToasts.raise).toBeInstanceOf(Function);
+    expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
     expect(actionToasts.failure).toBeInstanceOf(Function);
     expect(actionToasts.fail).toBeInstanceOf(Function);
     expect(() => actionToasts.fail("t")).toThrow();

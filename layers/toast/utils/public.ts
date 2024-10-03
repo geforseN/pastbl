@@ -19,9 +19,48 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
   });
 }
 
-function hasSuccessMethod(actionMethods: RawActionToastsMethods): actionMethods is { success: RawActionToastMaker } {
+function hasSuccessMethod(
+  actionMethods: unknown,
+): actionMethods is { success(...args: unknown[]): unknown } {
   return typeof actionMethods?.success === "function";
 }
+
+function withContext(
+  context: ActionToastsContext,
+  objectToWrap: ReturnType<typeof createActionToasts>,
+) {
+  const isSuccessMethodProvided = hasSuccessMethod(objectToWrap);
+
+  const wrappedMethods = isSuccessMethodProvided
+    ? successToastMaker.define(objectToWrap.success).bind(context)
+    : function () {}.bind(context);
+
+  if (isSuccessMethodProvided) {
+    wrappedMethods["success"] = wrappedMethods;
+  }
+
+  Object.defineProperty(
+    wrappedMethods,
+    "action",
+    { value: Object.freeze({ name: objectToWrap.action.actionName }) },
+  );
+
+  // NOTE: no 'success' in array above
+  const types = ["failure", "fail", "info", "warning", "warn", "panic", "raise"]
+    .filter((type) => type in objectToWrap);
+
+  for (const type of types) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    wrappedMethods[type] = objectToWrap[type].bind(context);
+  }
+
+  wrappedMethods.withContext = function (context) {
+    return withContext(context, objectToWrap);
+  };
+
+  return wrappedMethods;
+};
 
 export function createActionToasts<
   T extends string,
@@ -68,5 +107,10 @@ export function createActionToasts<
       }
     }
   }
+
+  actionToasts.withContext = function (context) {
+    return withContext(context, actionToasts);
+  };
+
   return actionToasts;
 }
