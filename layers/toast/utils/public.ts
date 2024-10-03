@@ -45,15 +45,7 @@ function withContext(
     { value: Object.freeze({ name: objectToWrap.action.actionName }) },
   );
 
-  // NOTE: no 'success' in array above
-  const types = ["failure", "fail", "info", "warning", "warn", "panic", "raise"]
-    .filter((type) => type in objectToWrap);
-
-  for (const type of types) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    wrappedMethods[type] = objectToWrap[type].bind(context);
-  }
+  bindContext(context, wrappedMethods, objectToWrap);
 
   wrappedMethods.withContext = function (context) {
     return withContext(context, objectToWrap);
@@ -62,27 +54,8 @@ function withContext(
   return wrappedMethods;
 };
 
-export function createActionToasts<
-  T extends string,
-  A extends RawActionToastsMethods,
->(actionName: T, actionMethods: A) {
-  const isSuccessMethodProvided = hasSuccessMethod(actionMethods);
-
-  const actionToasts = isSuccessMethodProvided
-    ? successToastMaker.define(actionMethods.success)
-    : function () {};
-
-  if (isSuccessMethodProvided) {
-    actionToasts["success"] = actionToasts;
-  }
-
-  Object.defineProperty(
-    actionToasts,
-    "action",
-    { value: Object.freeze({ name: actionName }) },
-  );
-
-  for (const [key, methods] of objectEntries(<RawActionToastsMethods>actionMethods)) {
+function defineMethods(actionToasts, actionMethods: RawActionToastsMethods) {
+  for (const [key, methods] of objectEntries(actionMethods)) {
     if (!methods || key === "success") {
       continue;
     }
@@ -107,10 +80,45 @@ export function createActionToasts<
       }
     }
   }
+}
+
+export function createActionToasts<
+  T extends string,
+  A extends RawActionToastsMethods,
+>(actionName: T, actionMethods: A) {
+  const isSuccessMethodProvided = hasSuccessMethod(actionMethods);
+
+  const actionToasts = isSuccessMethodProvided
+    ? successToastMaker.define(actionMethods.success)
+    : function () {};
+
+  if (isSuccessMethodProvided) {
+    actionToasts["success"] = actionToasts;
+  }
+
+  Object.defineProperty(
+    actionToasts,
+    "action",
+    { value: Object.freeze({ name: actionName }) },
+  );
+
+  defineMethods(actionToasts, actionMethods);
 
   actionToasts.withContext = function (context) {
     return withContext(context, actionToasts);
   };
 
   return actionToasts;
+}
+
+function bindContext(context, wrappedMethods, objectToWrap) {
+  // NOTE: no 'success' in array above
+  const types = ["failure", "fail", "info", "warning", "warn", "panic", "raise"]
+    .filter((type) => type in objectToWrap);
+
+  for (const type of types) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    wrappedMethods[type] = objectToWrap[type].bind(context);
+  }
 }
