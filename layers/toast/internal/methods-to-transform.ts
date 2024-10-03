@@ -1,15 +1,13 @@
 type ActionToastsMethodsKeyToTransform = Exclude<ActionToastsMethodsKey, "success">;
 
-const actionToastTypeKeysTransform = new Map([
-  ["failures", "failure"],
-  ["infos", "info"],
-  ["warnings", "warning"],
-] as const satisfies [ActionToastsMethodsKeyToTransform, Exclude<ActionToastType, "success">][]);
+const actionToastTypeKeysTransform = new Set([
+  "failures", "infos", "warnings",
+] as const satisfies ActionToastsMethodsKeyToTransform[]);
 
 const aliases = new Map([
-  ["warnings", ["warning", "warn"]],
   ["failures", ["failure", "fail"]],
   ["infos", ["info"]],
+  ["warnings", ["warning", "warn"]],
 ] as const satisfies [ActionToastsMethodsKeyToTransform, string[]][]);
 
 function defineTransformedToastMaker<
