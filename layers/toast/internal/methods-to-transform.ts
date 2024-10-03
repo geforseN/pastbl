@@ -16,8 +16,8 @@ function defineTransformedToastMaker<
   K extends ActionToastsMethodsKeyToTransform,
   MS extends NonNullable<RawActionToastsMethods[K]>,
 >(key: K, methods: MS) {
-  if (!isObject(methods)) {
-    throw new TypeError("Methods must be an object");
+  if (isEmptyObject(methods)) {
+    throw new TypeError("Methods must be an non-empty object");
   }
   return function <MSK extends keyof MS>(
     this: ActionToastsContext,
@@ -39,7 +39,7 @@ function defineTransformedToastMaker<
   };
 }
 
-export const actionToastMakerToTransform = {
+export const methodsToTransform = {
   has(key: ActionToastsMethodsKeyToTransform) {
     return actionToastTypeKeysTransform.has(key);
   },

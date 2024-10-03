@@ -10,3 +10,7 @@ export function defineSuccessToastMaker<RM extends RawActionToastMaker>(
     return notification;
   };
 };
+
+export const successToastMaker = {
+  define: defineSuccessToastMaker,
+};

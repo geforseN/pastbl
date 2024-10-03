@@ -1,6 +1,6 @@
 import { raiseToastMethod } from "../internal/raise-method";
-import { defineSuccessToastMaker } from "../internal/success-toast-maker";
-import { actionToastMakerToTransform } from "../internal/toast-maker-to-transform";
+import { successToastMaker } from "../internal/success-toast-maker";
+import { methodsToTransform } from "../internal/methods-to-transform";
 import type { RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
@@ -30,26 +30,33 @@ export function createActionToasts<
   const isSuccessMethodProvided = hasSuccessMethod(actionMethods);
 
   const actionToasts = isSuccessMethodProvided
-    ? defineSuccessToastMaker(actionMethods.success)
+    ? successToastMaker.define(actionMethods.success)
     : function () {};
 
   if (isSuccessMethodProvided) {
     actionToasts["success"] = actionToasts;
   }
 
-  Object.defineProperty(actionToasts, "action", { value: Object.freeze({ name: actionName }) });
+  Object.defineProperty(
+    actionToasts,
+    "action",
+    { value: Object.freeze({ name: actionName }) },
+  );
 
   for (const [key, methods] of objectEntries(<RawActionToastsMethods>actionMethods)) {
     if (!methods || key === "success") {
       continue;
     }
-    if (actionToastMakerToTransform.has(key)) {
-      // @ts-expect-error methods is object, it will throw otherwise
-      const toastMaker = actionToastMakerToTransform.define(key, methods);
-      const actionNames = actionToastMakerToTransform.typeWithAlias(key);
+    if (methodsToTransform.has(key)) {
+      // @ts-expect-error ts(2345) methods is object, otherwise it will throw inside define
+      const toastMaker = methodsToTransform.define(key, methods);
+      const actionNames = methodsToTransform.typeWithAlias(key);
       for (const name of actionNames) {
         actionToasts[name] = toastMaker;
       }
+    }
+    else {
+      log("error", "Unknown action toast method", { key, methods });
     }
     if (key === "failures") {
       const failures = methods;
