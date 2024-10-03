@@ -1,6 +1,6 @@
 import { defineSuccessToastMaker } from "../internal/success-toast-maker";
+import { actionToastMakerToTransform } from "../internal/toast-maker-to-transform";
 import { ToastableError } from "./abstract";
-import { actionToastTypeKeysTransform as actionToastMethodsKeyTransform, type ActionToastType } from "./dump";
 import type { ActionToastsContext, RawActionToastsMethods, Notification, RawActionToastMaker } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
@@ -43,24 +43,13 @@ export function createActionToasts<
     if (!methods || key === "success") {
       continue;
     }
-    if (actionToastMethodsKeyTransform.has(key)) {
-      const transformedKey = actionToastMethodsKeyTransform.get(key)!;
-      actionToasts[transformedKey] = function (
-        this: ActionToastsContext,
-        methodName: keyof A[typeof key],
-        ...args: Parameters<NonNullable<A[typeof key]>[typeof methodName]>
-      ) {
-        if (typeof methodName !== "string") {
-          throw new TypeError("Method name must be a string");
-        }
-        if (!(methodName in methods)) {
-          throw new Error(`Action toast '${key}.${methodName}' not found`);
-        };
-        // @ts-expect-error methods is object, we can get property here
-        const method = methods[methodName] as NonNullable<A[typeof key]>[typeof methodName];
-        const notification = method.apply(this, args);
-        return notification;
-      };
+    if (actionToastMakerToTransform.has(key)) {
+      // @ts-expect-error methods is object, it will throw otherwise
+      const toastMaker = actionToastMakerToTransform.define(key, methods);
+      const actionNames = actionToastMakerToTransform.typeWithAlias(key);
+      for (const name of actionNames) {
+        actionToasts[name] = toastMaker;
+      }
     }
     if (key === "failures") {
       const failures = methods;

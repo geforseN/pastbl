@@ -22,9 +22,3 @@ export function isActionToastType(type: string): type is ActionToastType {
 export function mapMethodKeyToType<K extends keyof RawActionToastsMethods>(key: K) {
   return actionToastsKeyToTypeRecord[key];
 }
-
-export const actionToastTypeKeysTransform = new Map([
-  ["failures", "failure"],
-  ["infos", "info"],
-  ["warnings", "warning"],
-] as const satisfies [Exclude<ActionToastsMethodsKey, "success">, Exclude<ActionToastType, "success">][]);
