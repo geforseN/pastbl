@@ -124,23 +124,24 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
       : () => { throw new Error("Action toast 'success' not found"); };
     const context = { i18n };
     return new Proxy(success, {
-      get: <K extends typeof validTypes[number] | "success" | "add">(target: typeof success, key: K, receiver: object) => {
+      get: <K extends typeof validTypes[number] | "success" | "add">(target: typeof success, key: K, receiver: unknown) => {
         if (key === "add") {
           return add;
         }
-        if (key === "success") {
+        if (key === "success" && hasSuccessMethod) {
           return receiver;
+        }
+        if (raiseToastMethod.typeWithAlias.includes(key)) {
+          return raiseToastMethod.define(context, this.methods.failures);
         }
         if (!validTypes.includes(key)) {
           return Reflect.get(target, key, receiver);
         }
-        if (raiseToastMethod.typeWithAlias.includes(key)) {
-          assert.ok(isObject(this.methods.failures), "Failures must be an object");
-          return raiseToastMethod.define(this.methods.failures, context);
-        }
         const methodsRecordName = revertedAliases.get(key)!;
         const methodsRecord = this.methods[methodsRecordName];
-        assert.ok(isObject(methodsRecord), `${methodsRecordName} must be an object`);
+        if (!methodsRecord) {
+          return Reflect.get(target, key, receiver);
+        }
         return function <
           MethodsRecord extends typeof methodsRecord,
           MethodsRecordKey extends keyof MethodsRecord,

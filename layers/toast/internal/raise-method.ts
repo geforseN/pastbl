@@ -1,9 +1,18 @@
 import { ToastableError } from "../utils/abstract";
 
 function defineActionToastsRaiseMethod<FS extends NonNullable<RawActionToastsMethods["failures"]>>(
-  failures: FS,
   context: ActionToastsContext,
+  failures?: FS,
 ) {
+  if (!failures || !isObject(failures)) {
+    return function () {
+      return {
+        title: context.i18n.t("actionToasts.genericError.title"),
+        description: context.i18n.t("actionToasts.genericError.description"),
+      };
+    };
+  }
+
   return function (
     args: Parameters<ActionToastsPanicFn<FS>>,
   ) {

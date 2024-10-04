@@ -26,20 +26,25 @@ describe("useActionToasts", async () => {
     port: 3000,
   });
 
-  // describe("with first arg as undefined returned value", () => {
-  //   const actionToasts = useActionToasts(undefined, actionsToastsOptions);
+  describe("with first arg as undefined returned value", () => {
+    const actionToasts = useActionToasts(undefined, actionsToastsOptions);
 
-  //   test("return value matches snapshot", () => {
-  //     expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
-  //   });
+    test("return value will be function", () => {
+      expect(actionToasts).toBeInstanceOf(Function);
+    });
 
-  //   it.for(baseMethods)("must have %s method", (methodName) => {
-  //     expect(actionToasts[methodName]).toBeInstanceOf(Function);
-  //   });
-  //   it.for(additionalMethods)("must not have %s method", (methodName) => {
-  //     expect(actionToasts[methodName]).toBeUndefined();
-  //   });
-  // });
+    test("return value matches snapshot", () => {
+      expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+    });
+
+    it.for(baseMethods)("must have %s method", (methodName) => {
+      expect(actionToasts[methodName]).toBeInstanceOf(Function);
+    });
+
+    it.for(additionalMethods)("must not have %s method", (methodName) => {
+      expect(actionToasts[methodName]).toBeUndefined();
+    });
+  });
 
   describe("with first arg that has success method", () => {
     const actionToasts = useActionToasts(
@@ -96,6 +101,5 @@ describe("useActionToasts", async () => {
     expect(() => actionToasts.fail("foo")).not.toThrow();
     expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
     expect(() => actionToasts.fail("baz")).toThrow();
-    // expect(() => actionToasts.fail("foo")).not.toThrow();
   });
 });
