@@ -15,6 +15,10 @@ export type Notification = {
   callback?: (...args: unknown[]) => void;
 };
 
+export type ActionToastType = "success" | "failure" | "info" | "warning";
+
+export type ActionToastsMethodsKey = keyof RawActionToastsMethods;
+
 export interface RawActionToastMaker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (this: ActionToastsThis, ...args: any[]): Partial<Notification>;

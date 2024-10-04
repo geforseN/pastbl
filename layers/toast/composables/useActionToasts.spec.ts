@@ -1,8 +1,7 @@
 import { describe, it, test } from "vitest";
 import { setup } from "@nuxt/test-utils";
 import { createActionToasts } from "../utils/public";
-import type { RawActionToastsMethods } from "../utils/types";
-import type { ActionToastType } from "../utils/dump";
+import type { RawActionToastsMethods, ActionToastType } from "../utils/types";
 import { useActionToasts } from "./useActionToasts";
 
 const actionsToastsOptions = {
