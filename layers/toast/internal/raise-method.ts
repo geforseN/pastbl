@@ -27,9 +27,9 @@ function defineActionToastsRaiseMethod<FS extends NonNullable<RawActionToastsMet
   };
 };
 
+const typeWithAlias = ["raise", "panic", "throw"] as const;
+
 export const raiseToastMethod = {
   define: defineActionToastsRaiseMethod,
-  get typeWithAlias() {
-    return ["raise", "panic"];
-  },
+  typeWithAlias,
 };

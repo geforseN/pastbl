@@ -4,7 +4,7 @@ const actionToastTypeKeysTransform = new Set([
   "failures", "infos", "warnings",
 ] as const satisfies ActionToastsMethodsKeyToTransform[]);
 
-const aliases = new Map([
+export const aliases = new Map([
   ["failures", ["failure", "fail"]],
   ["infos", ["info"]],
   ["warnings", ["warning", "warn"]],

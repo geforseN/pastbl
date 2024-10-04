@@ -1,4 +1,4 @@
-export function defineSuccessToastMaker<RM extends RawActionToastMaker>(
+function defineSuccessToastMaker<RM extends RawActionToastMaker>(
   rawMaker: RM,
 ) {
   assert.ok(isFunction(rawMaker), "Action toast 'success' must be a function");

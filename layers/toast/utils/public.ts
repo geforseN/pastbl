@@ -19,6 +19,8 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
   });
 }
 
+// TODO: use proxy instead of create many functions
+
 export function createRawActionToasts<
   T extends string,
   A extends RawActionToastsMethods,

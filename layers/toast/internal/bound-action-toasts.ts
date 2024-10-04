@@ -1,18 +1,23 @@
 import { wrapper } from "../utils/dump";
+import { aliases } from "./methods-to-transform";
+import { raiseToastMethod } from "./raise-method";
+
+const validTypes = [
+  ...Array.from(aliases.values()),
+  ...raiseToastMethod.typeWithAlias,
+].flat();
 
 function rebindMethodsContext(
   context: ActionToastsContext,
   actionToasts: object,
-  rawActionToasts: object,
+  oldActionToasts: object,
 ) {
-  // NOTE: no 'success' in array above
-  const types = (["failure", "fail", "info", "warning", "warn", "panic", "raise"] as const)
-    .filter((type) => type in rawActionToasts);
+  const types = validTypes.filter((type) => type in oldActionToasts);
 
   for (const type of types) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    actionToasts[type] = rawActionToasts[type].bind(context);
+    actionToasts[type] = oldActionToasts[type].bind(context);
   }
 }
 

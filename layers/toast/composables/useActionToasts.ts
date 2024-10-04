@@ -1,22 +1,20 @@
-import type { ActionToastsThis, Notification, ParsedActionToasts } from "../utils/types";
+import type { ActionToastsThis, Notification, ParsedActionToasts, RawActionToastsMethods, SoRawActionToasts } from "../utils/types";
 import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/public";
-
-type Basic = {
-  add: (makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification) => void;
-  panic: ActionToastsPanicFn<Record<string, never>>;
-};
-
-type UseActionToastsReturn<T extends ReturnType<typeof createActionToasts> | undefined> = T extends undefined ? Basic : {
-  [k in keyof T["methods"]]: any
-};
+import { raiseToastMethod } from "../internal/raise-method";
 
 export function useActionToasts<
-  T extends ParsedActionToasts,
+  T extends {
+    success?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
+    warnings?: Record<string, (this: ActionToastsThis, ...args: any[]) => Partial<Notification>>;
+    failures?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
+    infos?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
+  },
+  S extends T["success"] = T["success"],
 >(
-  actionToasts?: T,
+  actionToasts: T,
   options: {
     i18n?: VueI18n;
-    toast?: { add(notification: Notification): void };
+    toast?: { add(notification: Partial<Notification>): void };
   } = {},
 ) {
   const {
@@ -26,32 +24,31 @@ export function useActionToasts<
     },
   } = options;
 
-  const toasts = {
-    add(
-      makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification,
-    ) {
-      const notification = makeNotification(i18n);
-      return toast.add(notification);
-    },
-    // FIXME: type must be ActionToastsPanicFn
-    raise(error: unknown) {
-      throw error;
-    },
-  };
-
-  if (!actionToasts) {
-    const fn = () => {};
-    for (const key of objectKeys(toasts)) {
-      fn[key] = toasts[key];
-    }
-    return fn;
+  function add(
+    makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification,
+  ) {
+    const notification = makeNotification(i18n);
+    return toast.add(notification);
   }
 
-  const context = { i18n };
-  const toastsWithContext = actionToasts.withContext(context);
-  Object.defineProperty(toastsWithContext, "add", {
-    value: toasts.add.bind(toastsWithContext),
-  });
+  if (!actionToasts) {
+    // FIXME: type must be ActionToastsPanicFn
+    function raise(error: unknown) {
+      throw error;
+    };
+    const fn = () => {};
+    fn.add = add;
+
+    for (const key of raiseToastMethod.typeWithAlias) {
+      fn[key] = raise;
+    }
+    return fn; /* as ParsedActionToasts<Record<string, never>>; */
+  }
+
+  const toastsWithContext = actionToasts.withContext({ i18n });
+  toastsWithContext.add = add;
+
   log("debug", actionToasts.action.name, toastsWithContext);
-  return toastsWithContext;
+
+  return toastsWithContext;/*  as ParsedActionToasts<T>; */
 }
