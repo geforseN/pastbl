@@ -1,6 +1,7 @@
 import { validTypes } from "../internal/bound-action-toasts";
 import { revertedAliases } from "../internal/methods-to-transform";
 import { raiseToastMethod } from "../internal/raise-method";
+import type { ToastableError } from "./abstract";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -55,6 +56,46 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
 //   return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
 // }
 
+type Success_<M extends RawActionToastsMethods> = M extends { success: RawActionToastMaker }
+  ? {
+      (...args: Parameters<M["success"]>): ReturnType<M["success"]>;
+      success: M["success"];
+    }
+  : Record<string, never>;
+
+type Failure_<M extends RawActionToastsMethods> = M extends {
+  failures: Record<string, RawActionToastMaker>;
+} ?
+& {
+  [K in typeof raiseToastMethod.typeWithAlias[number]]:
+    & (<K extends keyof M["failures"]>(key: K, ...args: Parameters<NonNullable<M["failures"]>[K]>) => never)
+    & ((error: Error) => never)
+    & ((toastableError: ToastableError) => never)
+    & ((maybeError?: unknown) => never);
+}
+& {
+  failure<K extends keyof M["failures"]>(name: K, ...args: Parameters<M["failures"][K]>): ReturnType<M["failures"][K]>;
+  fail<K extends keyof M["failures"]>(name: K, ...args: Parameters<M["failures"][K]>): ReturnType<M["failures"][K]>;
+}
+  : Record<string, never>;
+
+type Warning_<M extends RawActionToastsMethods> = M extends {
+  warnings: Record<string, RawActionToastMaker>;
+}
+  ? {
+      warning<K extends keyof M["warnings"]>(name: K, ...args: Parameters<M["warnings"][K]>): ReturnType<M["warnings"][K]>;
+      warn<K extends keyof M["warnings"]>(name: K, ...args: Parameters<M["warnings"][K]>): ReturnType<M["warnings"][K]>;
+    }
+  : Record<string, never>;
+
+type Info_<M extends RawActionToastsMethods> = M extends {
+  infos: Record<string, RawActionToastMaker>;
+}
+  ? {
+      info<K extends keyof M["infos"]>(name: K, ...args: Parameters<M["infos"][K]>): ReturnType<M["infos"][K]>;
+    }
+  : Record<string, never>;
+
 export class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(
     public readonly actionName: N,
@@ -71,7 +112,7 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
     );
   }
 
-  contextify(
+  contextify<M extends RawActionToastsMethods>(
     i18n: VueI18n,
     add: (
       makeNotification: (i18n: ActionToastsThis["i18n"]) => Partial<Notification>
@@ -82,7 +123,7 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
       ? this.methods.success!
       : () => { throw new Error("Action toast 'success' not found"); };
     const context = { i18n };
-    return new Proxy<object>(success, {
+    return new Proxy(success, {
       get: <K extends typeof validTypes[number] | "success" | "add">(target: typeof success, key: K, receiver: object) => {
         if (key === "add") {
           return add;
@@ -121,7 +162,9 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
           return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
         };
       },
-    });
+    }) as {
+      add: typeof add;
+    } & Success_<M> & Failure_<M> & Warning_<M> & Info_<M>;
   }
 }
 

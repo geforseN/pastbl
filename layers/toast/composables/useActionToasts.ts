@@ -1,8 +1,8 @@
-import type { ActionToastsThis, Notification } from "../utils/types";
 import { adaptNotificationFromNuxtUItoElementPlus, type RawActionToast } from "../utils/public";
+import type { ActionToastsThis, Notification } from "../utils/types";
 
 export function useActionToasts<T extends InstanceType<typeof RawActionToast>>(
-  actionToasts: T,
+  actionToasts: T = createActionToasts(new Date().toString(), {}) as T,
   options: {
     i18n?: VueI18n;
     toast?: { add(notification: Partial<Notification>): void };
@@ -22,9 +22,9 @@ export function useActionToasts<T extends InstanceType<typeof RawActionToast>>(
     return toast.add(notification);
   }
 
-  const toastsWithContext = actionToasts.contextify({ i18n }, add);
+  const finalActionToasts = actionToasts.contextify<T["methods"]>(i18n, add);
 
-  log("debug", actionToasts.actionName, toastsWithContext);
+  log("debug", actionToasts.actionName, { toastsWithContext: finalActionToasts });
 
-  return toastsWithContext;
+  return finalActionToasts;
 }

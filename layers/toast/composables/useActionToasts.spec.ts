@@ -73,19 +73,29 @@ describe("useActionToasts", async () => {
     const actionToasts = useActionToasts(
       createActionToasts("f", {
         failures: {
-          bad() {
+          foo() {
             return {};
+          },
+          fooArg(baz: number) {
+            return {
+              title: String(baz),
+            };
           },
         },
       }),
       actionsToastsOptions,
     );
-
+    expect(actionToasts).toBeInstanceOf(Function);
     expect(actionToasts.add).toBeInstanceOf(Function);
-    expect(actionToasts.raise).toBeInstanceOf(Function);
+    expect(actionToasts.panic).toBeInstanceOf(Function);
     expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+    expect(Object.keys(actionToasts)).toMatchInlineSnapshot(`[]`);
+    expect(Object.values(actionToasts)).toMatchInlineSnapshot(`[]`);
     expect(actionToasts.failure).toBeInstanceOf(Function);
     expect(actionToasts.fail).toBeInstanceOf(Function);
-    expect(() => actionToasts.fail("t")).toThrow();
+    expect(() => actionToasts.fail("foo")).not.toThrow();
+    expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
+    expect(() => actionToasts.fail("baz")).toThrow();
+    // expect(() => actionToasts.fail("foo")).not.toThrow();
   });
 });

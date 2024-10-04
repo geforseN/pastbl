@@ -1,5 +1,4 @@
 import type { VueI18n } from "vue-i18n";
-import type { raiseToastMethod } from "../internal/raise-method";
 import type { ToastableError } from "$/toast/utils/abstract";
 
 export type { VueI18n } from "vue-i18n";
@@ -28,12 +27,6 @@ export type RawActionToastsMethods = {
   infos?: Record<string, RawActionToastMaker>;
 };
 
-export type SoRawActionToasts = {
-  readonly action: {
-    readonly name: string;
-  };
-} & RawActionToastsMethods;
-
 export type ActionToastsPanicFn<T extends RawActionToastsMethods["failures"]> =
   | (<K extends keyof T>(
     key: K,
@@ -42,27 +35,3 @@ export type ActionToastsPanicFn<T extends RawActionToastsMethods["failures"]> =
   | ((error: Error) => never)
   | ((toastableError: ToastableError) => never)
   | ((maybeError?: unknown) => never);
-
-type Success_<S> = S extends {
-  success(...args: infer Args): infer R;
-} ? {
-      (...args: Args): R;
-      success(...args: Args): R;
-    }
-  : () => void;
-
-export type ParsedActionToasts<R extends RawActionToastsMethods> =
-  Success_<R>
-  & {
-    [F in typeof raiseToastMethod.typeWithAlias[number]]: ActionToastsPanicFn<R["failures"]>;
-  }
-  & {
-    add(makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification): void;
-  };
-
-export type CreateRawActionToastsReturn = {
-  action: {
-    name: string;
-  };
-  methods: RawActionToastsMethods;
-};
