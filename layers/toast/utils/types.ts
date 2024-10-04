@@ -24,6 +24,8 @@ export interface RawActionToastMaker {
   (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
 }
 
+export type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
+
 export type RawActionToastsMethods = {
   success?: RawActionToastMaker;
   warnings?: Record<string, RawActionToastMaker>;

@@ -1,5 +1,6 @@
 import { raiseToastMethod } from "../internal/raise-method";
 import type { ToastableError } from "./abstract";
+import type { RawActionToastMaker, RawActionToastMakersGroup } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -54,12 +55,24 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
 //   return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
 // }
 
-type Success_<M extends RawActionToastsMethods> = M extends { success: RawActionToastMaker }
-  ? {
-      (...args: Parameters<M["success"]>): ReturnType<M["success"]>;
-      success: M["success"];
-    }
-  : Record<string, never>;
+type FN<Group extends RawActionToastMakersGroup> = <K extends keyof Group>(key: K, ...args: Parameters<Group[K]>) => Group[K];
+
+type MapMethod<
+  Group extends RawActionToastMakersGroup,
+  NewKeys extends string,
+> = Record<NewKeys, FN<Group>>;
+
+type HasMethodGroup<V extends RawActionToastMakersGroup | undefined, OnTrue> = V extends RawActionToastMaker ? OnTrue : Record<string, never>;
+
+type HasMethod<M extends RawActionToastMaker | undefined, OnTrue> = M extends RawActionToastMaker ? OnTrue : Record<string, never>;
+
+type Success_<
+  M extends RawActionToastsMethods,
+  _M extends NonNullable<M["success"] > = NonNullable<M["success"]>,
+> = HasMethod<M["success"], {
+  (...args: Parameters<_M>): ReturnType<_M>;
+  success: _M;
+}>;
 
 type Failure_<M extends RawActionToastsMethods> = M extends {
   failures: Record<string, RawActionToastMaker>;
@@ -77,22 +90,15 @@ type Failure_<M extends RawActionToastsMethods> = M extends {
 }
   : Record<string, never>;
 
-type Warning_<M extends RawActionToastsMethods> = M extends {
-  warnings: Record<string, RawActionToastMaker>;
-}
-  ? {
-      warning<K extends keyof M["warnings"]>(name: K, ...args: Parameters<M["warnings"][K]>): ReturnType<M["warnings"][K]>;
-      warn<K extends keyof M["warnings"]>(name: K, ...args: Parameters<M["warnings"][K]>): ReturnType<M["warnings"][K]>;
-    }
-  : Record<string, never>;
+type Warning_<M extends RawActionToastsMethods> = HasMethodGroup<
+  M["warnings"],
+  MapMethod<NonNullable<M["warnings"]>, "warning" | "warn">
+>;
 
-type Info_<M extends RawActionToastsMethods> = M extends {
-  infos: Record<string, RawActionToastMaker>;
-}
-  ? {
-      info<K extends keyof M["infos"]>(name: K, ...args: Parameters<M["infos"][K]>): ReturnType<M["infos"][K]>;
-    }
-  : Record<string, never>;
+type Info_<M extends RawActionToastsMethods> = HasMethodGroup<
+  M["infos"],
+  MapMethod<NonNullable<M["infos"]>, "info">
+>;
 
 export const revertedAliases = new Map([
   ["failure", "failures"],
