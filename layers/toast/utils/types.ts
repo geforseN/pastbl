@@ -1,6 +1,5 @@
 import type { VueI18n } from "vue-i18n";
 import type { raiseToastMethod } from "../internal/raise-method";
-import type { createRawActionToasts } from "./public";
 import type { ToastableError } from "$/toast/utils/abstract";
 
 export type { VueI18n } from "vue-i18n";
@@ -60,3 +59,10 @@ export type ParsedActionToasts<R extends RawActionToastsMethods> =
   & {
     add(makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification): void;
   };
+
+export type CreateRawActionToastsReturn = {
+  action: {
+    name: string;
+  };
+  methods: RawActionToastsMethods;
+};

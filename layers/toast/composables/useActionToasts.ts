@@ -1,16 +1,7 @@
-import type { ActionToastsThis, Notification, ParsedActionToasts, RawActionToastsMethods, SoRawActionToasts } from "../utils/types";
-import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/public";
-import { raiseToastMethod } from "../internal/raise-method";
+import type { ActionToastsThis, Notification } from "../utils/types";
+import { adaptNotificationFromNuxtUItoElementPlus, type RawActionToast } from "../utils/public";
 
-export function useActionToasts<
-  T extends {
-    success?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
-    warnings?: Record<string, (this: ActionToastsThis, ...args: any[]) => Partial<Notification>>;
-    failures?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
-    infos?: (this: ActionToastsThis, ...args: any[]) => Partial<Notification>;
-  },
-  S extends T["success"] = T["success"],
->(
+export function useActionToasts<T extends InstanceType<typeof RawActionToast>>(
   actionToasts: T,
   options: {
     i18n?: VueI18n;
@@ -31,24 +22,9 @@ export function useActionToasts<
     return toast.add(notification);
   }
 
-  if (!actionToasts) {
-    // FIXME: type must be ActionToastsPanicFn
-    function raise(error: unknown) {
-      throw error;
-    };
-    const fn = () => {};
-    fn.add = add;
+  const toastsWithContext = actionToasts.contextify({ i18n }, add);
 
-    for (const key of raiseToastMethod.typeWithAlias) {
-      fn[key] = raise;
-    }
-    return fn; /* as ParsedActionToasts<Record<string, never>>; */
-  }
+  log("debug", actionToasts.actionName, toastsWithContext);
 
-  const toastsWithContext = actionToasts.withContext({ i18n });
-  toastsWithContext.add = add;
-
-  log("debug", actionToasts.action.name, toastsWithContext);
-
-  return toastsWithContext;/*  as ParsedActionToasts<T>; */
+  return toastsWithContext;
 }

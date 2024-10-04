@@ -26,20 +26,20 @@ describe("useActionToasts", async () => {
     port: 3000,
   });
 
-  describe.skip("with first arg as undefined returned value", () => {
-    const actionToasts = useActionToasts(undefined, actionsToastsOptions);
+  // describe("with first arg as undefined returned value", () => {
+  //   const actionToasts = useActionToasts(undefined, actionsToastsOptions);
 
-    test("return value matches snapshot", () => {
-      expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
-    });
+  //   test("return value matches snapshot", () => {
+  //     expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+  //   });
 
-    it.for(baseMethods)("must have %s method", (methodName) => {
-      expect(actionToasts[methodName]).toBeInstanceOf(Function);
-    });
-    it.for(additionalMethods)("must not have %s method", (methodName) => {
-      expect(actionToasts[methodName]).toBeUndefined();
-    });
-  });
+  //   it.for(baseMethods)("must have %s method", (methodName) => {
+  //     expect(actionToasts[methodName]).toBeInstanceOf(Function);
+  //   });
+  //   it.for(additionalMethods)("must not have %s method", (methodName) => {
+  //     expect(actionToasts[methodName]).toBeUndefined();
+  //   });
+  // });
 
   describe("with first arg that has success method", () => {
     const actionToasts = useActionToasts(
@@ -49,7 +49,7 @@ describe("useActionToasts", async () => {
             description: "success:" + string,
           };
         },
-      } as const),
+      }),
       actionsToastsOptions,
     );
 
@@ -60,6 +60,7 @@ describe("useActionToasts", async () => {
       expect(actionToasts.success).toBeInstanceOf(Function);
     });
     test("return value and return value success method are same", () => {
+      expect(actionToasts === actionToasts.success).toBe(true);
       expect(actionToasts).toBe(actionToasts.success);
     });
     test("provided args will not be ignored", () => {
@@ -79,10 +80,6 @@ describe("useActionToasts", async () => {
       }),
       actionsToastsOptions,
     );
-    actionToasts?.success?.("123");
-    actionToasts?.success?.(123);
-    actionToasts("123");
-    actionToasts(123);
 
     expect(actionToasts.add).toBeInstanceOf(Function);
     expect(actionToasts.raise).toBeInstanceOf(Function);

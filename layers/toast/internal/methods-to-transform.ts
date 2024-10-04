@@ -10,6 +10,14 @@ export const aliases = new Map([
   ["warnings", ["warning", "warn"]],
 ] as const satisfies [ActionToastsMethodsKeyToTransform, string[]][]);
 
+export const revertedAliases = new Map([
+  ["failure", "failures"],
+  ["fail", "failures"],
+  ["info", "infos"],
+  ["warning", "warnings"],
+  ["warn", "warnings"],
+] as const);
+
 function defineTransformedToastMaker<
   K extends ActionToastsMethodsKeyToTransform,
   MS extends NonNullable<RawActionToastsMethods[K]>,

@@ -2,15 +2,15 @@ import { ToastableError } from "../utils/abstract";
 
 function defineActionToastsRaiseMethod<FS extends NonNullable<RawActionToastsMethods["failures"]>>(
   failures: FS,
+  context: ActionToastsContext,
 ) {
   return function (
-    this: ActionToastsContext,
     args: Parameters<ActionToastsPanicFn<FS>>,
   ) {
     const firstArgument = args[0];
     if (typeof firstArgument === "string") {
       if (firstArgument in failures) {
-        return failures[firstArgument]!.apply(this, args.slice(1));
+        return failures[firstArgument]!.apply(context, args.slice(1));
       }
       throw new Error(`Action toast 'failures.${firstArgument}' not found`);
     }
@@ -19,11 +19,11 @@ function defineActionToastsRaiseMethod<FS extends NonNullable<RawActionToastsMet
     }
     if (!(firstArgument instanceof ToastableError)) {
       return {
-        title: this.i18n.t("actionToasts.genericError.title"),
-        description: this.i18n.t("actionToasts.genericError.description"),
+        title: context.i18n.t("actionToasts.genericError.title"),
+        description: context.i18n.t("actionToasts.genericError.description"),
       };
     }
-    return firstArgument.toToast(this);
+    return firstArgument.toToast(context);
   };
 };
 

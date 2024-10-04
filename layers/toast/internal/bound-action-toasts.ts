@@ -2,7 +2,7 @@ import { wrapper } from "../utils/dump";
 import { aliases } from "./methods-to-transform";
 import { raiseToastMethod } from "./raise-method";
 
-const validTypes = [
+export const validTypes = [
   ...Array.from(aliases.values()),
   ...raiseToastMethod.typeWithAlias,
 ].flat();
