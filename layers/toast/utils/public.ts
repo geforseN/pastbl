@@ -1,5 +1,3 @@
-import { validTypes } from "../internal/bound-action-toasts";
-import { revertedAliases } from "../internal/methods-to-transform";
 import { raiseToastMethod } from "../internal/raise-method";
 import type { ToastableError } from "./abstract";
 
@@ -95,6 +93,27 @@ type Info_<M extends RawActionToastsMethods> = M extends {
       info<K extends keyof M["infos"]>(name: K, ...args: Parameters<M["infos"][K]>): ReturnType<M["infos"][K]>;
     }
   : Record<string, never>;
+
+export const revertedAliases = new Map([
+  ["failure", "failures"],
+  ["fail", "failures"],
+  ["info", "infos"],
+  ["warning", "warnings"],
+  ["warn", "warnings"],
+] as const);
+
+type ActionToastsMethodsKeyToTransform = Exclude<ActionToastsMethodsKey, "success">;
+
+const aliases = new Map([
+  ["failures", ["failure", "fail"]],
+  ["infos", ["info"]],
+  ["warnings", ["warning", "warn"]],
+] as const satisfies [ActionToastsMethodsKeyToTransform, string[]][]);
+
+export const validTypes = [
+  ...Array.from(aliases.values()),
+  ...raiseToastMethod.typeWithAlias,
+].flat();
 
 export class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(
