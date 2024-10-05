@@ -30,7 +30,8 @@ for (const file of files) {
   }
 }
 
-const commentBody = `
+// eslint-disable-next-line no-console
+console.log(`
 ## Summary of Comments
 
 - **TODOs**: ${todoCount}
@@ -40,7 +41,4 @@ const commentBody = `
 ---
 
 Please address the above comments before merging.
-`;
-
-// eslint-disable-next-line no-console
-console.log(commentBody);
+`);
