@@ -1,5 +1,4 @@
-name: Count TODOs, FIXMEs, and NOTEs (TypeScript)
-
+name: Count TODOs, FIXMEs, and NOTEs 
 on:
   pull_request:
     types: [opened, synchronize]
