@@ -1,6 +1,7 @@
 import type { ToastableError } from "../utils/toastable-error";
 import type { raiseToastMethod } from "./raise-method";
 import type { additionalMethods, validTypes } from "./utils";
+import type { Notification } from "../utils/types";
 
 type FN<Group extends RawActionToastMakersGroup> = <K extends keyof Group>(key: K, ...args: Parameters<Group[K]>) => ReturnType<Group[K]>;
 
