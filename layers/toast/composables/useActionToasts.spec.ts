@@ -14,23 +14,25 @@ describe("useActionToasts", async () => {
     port: 3000,
   });
 
-  describe("with first arg as undefined returned value", () => {
+  describe("with first arg as undefined", () => {
     const actionToasts = useActionToasts(undefined, actionsToastsOptions);
 
-    test("return value will be function", () => {
-      expect(actionToasts).toBeInstanceOf(Function);
-    });
+    describe("retrun value", () => {
+      it("will be function", () => {
+        expect(actionToasts).toBeInstanceOf(Function);
+      });
 
-    test("return value matches snapshot", () => {
-      expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
-    });
+      it("matches snapshot", () => {
+        expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+      });
 
-    it.for(baseMethods)("must have %s method", (methodName) => {
-      expect(actionToasts[methodName]).toBeInstanceOf(Function);
-    });
+      it.for(baseMethods)("must have %s method", (methodName) => {
+        expect(actionToasts[methodName]).toBeInstanceOf(Function);
+      });
 
-    it.for(additionalMethods)("must not have %s method", (methodName) => {
-      expect(actionToasts[methodName]).toBeUndefined();
+      it.for(additionalMethods)("must not have %s method", (methodName) => {
+        expect(actionToasts[methodName]).toBeUndefined();
+      });
     });
   });
 
