@@ -89,7 +89,7 @@ class Word {
   }
 
   format() {
-    return `${this.keyword.toUpperCase()}s: - ${this.entries.format()}`;
+    return `${this.keyword.toUpperCase()}s: ${this.entries.format()}`;
   }
 
   /**
