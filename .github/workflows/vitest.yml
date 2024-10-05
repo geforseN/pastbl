@@ -10,6 +10,9 @@ jobs:
   vitest-nuxt-with-nitro:
     runs-on: ubuntu-latest
 
+    timeout-minutes: 5
+
+    # TODO: remove this env (if they are not needed)
     env:
       HUSKY: 0
       MODE: test
@@ -46,6 +49,5 @@ jobs:
       - name: Run Nuxt and Nitro tests
         run: pnpm test:nuxt+
 
-      - name: Run Node tests 
+      - name: Run Node tests
         run: pnpm test:node
-

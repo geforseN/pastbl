@@ -11,6 +11,8 @@ permissions:
 jobs:
   lintfix:
     name: Lint
+  
+    timeout-minutes: 5
 
     runs-on: ubuntu-latest
 
