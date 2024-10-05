@@ -12,7 +12,9 @@ const execPromise = promisify(exec);
 async function main(outputFilePath) {
   const words = [new Word("todo"), new Word("fixme"), new Word("note")];
 
-  const { stdout: diffOutput } = await execPromise("git diff --name-only origin/main");
+  const { stdout: diffOutput } = await execPromise(
+    "git diff --name-only origin/main",
+  );
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
@@ -20,18 +22,18 @@ async function main(outputFilePath) {
     process.exit(0);
   }
 
-  const settled = await Promise.allSettled(files.map(async (file) => {
-    const content = await readFile(file, "utf-8").catch((error) => {
-      throw new Error(`Error reading file: ${file}`, { cause: error });
-    });
-    const lines = content.split("\n").filter(Boolean);
+  const settled = await Promise.allSettled(
+    files.map(async (file) => {
+      const content = await readFile(file, "utf-8").catch((error) => {
+        throw new Error(`Error reading file: ${file}`, { cause: error });
+      });
+      const lines = content.split("\n").filter(Boolean);
 
-    lines.forEach((line, index) => {
-      words
-        .find((word) => word.match(line))
-        ?.addEntry(file, index + 1);
-    });
-  }));
+      lines.forEach((line, index) => {
+        words.find((word) => word.match(line))?.addEntry(file, index + 1);
+      });
+    }),
+  );
 
   for (const result of settled) {
     if ("reason" in result) {
@@ -43,7 +45,9 @@ async function main(outputFilePath) {
 
   await writeFile(outputFilePath, summary);
 
-  console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
+  console.log(
+    `Report generated and saved to ${outputFilePath}, summary: ${summary}`,
+  );
 }
 
 class WordEntries {
