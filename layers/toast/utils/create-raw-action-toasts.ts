@@ -61,7 +61,9 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           }
           else {
             // eslint-disable-next-line no-console
-            console.warn("Success method returned falsy value, should return Partial<Notification>");
+            console.warn(
+              "Success method returned falsy value, should return Partial<Notification>",
+            );
           }
           return notification;
         }

@@ -101,9 +101,12 @@ describe("useActionToasts", async () => {
     });
 
     describe("raise (with aliases)", () => {
-      it.for(raiseToastMethod.typeWithAlias)("must have \"%s\" method", (methodName) => {
-        expect(actionToasts[methodName]).toBeInstanceOf(Function);
-      });
+      it.for(raiseToastMethod.typeWithAlias)(
+        "must have \"%s\" method",
+        (methodName) => {
+          expect(actionToasts[methodName]).toBeInstanceOf(Function);
+        },
+      );
     });
 
     it("will throw on raise call", () => {
@@ -152,11 +155,8 @@ describe("useActionToasts", async () => {
       it("will match snapshot", () => {
         expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
       });
-      it.for([
-        additionalMethods,
-        raiseToastMethod.typeWithAlias,
-        baseMethods,
-      ].flat(),
+      it.for(
+        [additionalMethods, raiseToastMethod.typeWithAlias, baseMethods].flat(),
       )("will have %s method", (methodName) => {
         expect(actionToasts[methodName]).toBeInstanceOf(Function);
         // NOTE: there is no property, we are using proxy
@@ -169,7 +169,7 @@ describe("useActionToasts", async () => {
       });
 
       it("throws on unimplemented notification maker", () => {
-      // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
+        // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
         expect(() => actionToasts.fail("baz")).toThrow();
       });
 
@@ -185,7 +185,7 @@ describe("useActionToasts", async () => {
   describe.each([
     {
       methods: {
-        success() { },
+        success() {},
       },
       expected: undefined,
     },
@@ -205,32 +205,37 @@ describe("useActionToasts", async () => {
       },
       expected: false,
     },
-  ] as const)("with rawActionToasts with success that returns $expected value", ({ methods, expected }) => {
-    afterEach(() => warn.mockReset());
+  ] as const)(
+    "with rawActionToasts with success that returns $expected value",
+    ({ methods, expected }) => {
+      afterEach(() => warn.mockReset());
 
-    const actionToasts = useActionToasts(
-      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
-      createActionToasts("foo", methods),
-      actionsToastsOptions,
-    );
+      const actionToasts = useActionToasts(
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
+        createActionToasts("foo", methods),
+        actionsToastsOptions,
+      );
 
-    it("will return expected", () => {
-      // @ts-expect-error this is strange that ts thinks that actionToasts is not callable
-      expect(actionToasts()).toEqual(expected);
-    });
+      it("will return expected", () => {
+        // @ts-expect-error this is strange that ts thinks that actionToasts is not callable
+        expect(actionToasts()).toEqual(expected);
+      });
 
-    it("will not throw on call", () => {
-      expect(() => {
+      it("will not throw on call", () => {
+        expect(() => {
+          actionToasts.success();
+        }).not.toThrow();
+      });
+
+      test("there is warn in console", () => {
         actionToasts.success();
-      }).not.toThrow();
-    });
-
-    test("there is warn in console", () => {
-      actionToasts.success();
-      expect(warn).toHaveBeenCalledOnce();
-      expect(warn).toHaveBeenLastCalledWith("Success method returned falsy value, should return Partial<Notification>");
-    });
-  });
+        expect(warn).toHaveBeenCalledOnce();
+        expect(warn).toHaveBeenLastCalledWith(
+          "Success method returned falsy value, should return Partial<Notification>",
+        );
+      });
+    },
+  );
 
   describe.each([
     {
@@ -263,29 +268,34 @@ describe("useActionToasts", async () => {
       },
       expected: false,
     },
-  ] as const)("with rawActionToasts with warnings that returns $expected value", ({ methods, expected }) => {
-    afterEach(() => warn.mockReset());
+  ] as const)(
+    "with rawActionToasts with warnings that returns $expected value",
+    ({ methods, expected }) => {
+      afterEach(() => warn.mockReset());
 
-    const actionToasts = useActionToasts(
-      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
-      createActionToasts("foo", methods),
-      actionsToastsOptions,
-    );
+      const actionToasts = useActionToasts(
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
+        createActionToasts("foo", methods),
+        actionsToastsOptions,
+      );
 
-    it("will return expected", () => {
-      expect(actionToasts.warning("baz")).toBe(expected);
-    });
+      it("will return expected", () => {
+        expect(actionToasts.warning("baz")).toBe(expected);
+      });
 
-    it("will not throw on call", () => {
-      expect(() => {
-        actionToasts.warning("baz");
-      }).not.toThrow();
-    });
+      it("will not throw on call", () => {
+        expect(() => {
+          actionToasts.warning("baz");
+        }).not.toThrow();
+      });
 
-    test("there is warn in console", () => {
-      actionToasts.warn("baz");
-      expect(warn).toHaveBeenCalledOnce();
-      expect(warn).toHaveBeenLastCalledWith("Method 'warn' returned falsy value, should return Partial<Notification>");
-    });
-  });
+      test("there is warn in console", () => {
+        actionToasts.warn("baz");
+        expect(warn).toHaveBeenCalledOnce();
+        expect(warn).toHaveBeenLastCalledWith(
+          "Method 'warn' returned falsy value, should return Partial<Notification>",
+        );
+      });
+    },
+  );
 });
