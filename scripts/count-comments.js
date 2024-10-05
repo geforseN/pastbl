@@ -43,12 +43,23 @@ const commentBody = `
 Please address the above comments before merging.
 `;
 
-const prNumber = process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER;
-const repo = process.env.GITHUB_REPOSITORY;
-const token = process.env.GITHUB_TOKEN;
+const {
+  GITHUB_EVENT_PULL_REQUEST_NUMBER: prNumber,
+  GITHUB_REPOSITORY: repo,
+  GITHUB_TOKEN: token,
+} = process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER;
 
 if (!prNumber || !repo || !token) {
   console.error("Required environment variables are missing.");
+  if (!prNumber) {
+    console.error("Missing GITHUB_EVENT_PULL_REQUEST_NUMBER.");
+  }
+  if (!repo) {
+    console.error("Missing GITHUB_REPOSITORY.");
+  }
+  if (!token) {
+    console.error("Missing GITHUB_TOKEN.");
+  }
   process.exit(1);
 }
 
