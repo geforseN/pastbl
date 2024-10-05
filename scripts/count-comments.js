@@ -46,10 +46,7 @@ const eventPath = process.env.GITHUB_EVENT_PATH;
 const event = JSON.parse(readFileSync(eventPath, "utf8"));
 const prNumber = event.pull_request?.number;
 
-const {
-  GITHUB_REPOSITORY: repo,
-  GITHUB_TOKEN: token,
-} = process.env;
+const { GITHUB_REPOSITORY: repo, GITHUB_TOKEN: token } = process.env;
 
 if (!prNumber || !repo || !token) {
   console.error("Required environment variables are missing.");
