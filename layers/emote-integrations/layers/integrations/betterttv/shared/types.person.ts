@@ -25,7 +25,9 @@ export interface ReadyIntegration extends TEmoteIntegrations.Person.Ready {
   source: "BetterTTV";
 }
 
-export type FailedIntegration = TEmoteIntegrations.Person.Failed;
+export type FailedIntegration = TEmoteIntegrations.Person.Failed & {
+  source: "BetterTTV";
+};
 
 export type Integration = ReadyIntegration | FailedIntegration;
 export type SettledIntegration = ReadyIntegration | FailedIntegration;

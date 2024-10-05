@@ -60,7 +60,7 @@
   "no": "No",
   "tags": {
     "noAdded": "No added tags",
-    "delete": "Delete tags"
+    "remove": "Remove tags"
   },
   "tag": {
     "_": "Tag: {tag}",
@@ -221,12 +221,7 @@
           "text": "Load collection",
           "text-on-load": "Loading"
         },
-        "must-select-onload": "Select collection on successful load",
-        "channels-search": {
-          "load": "Load",
-          "exact": "Exact",
-          "live": "Live"
-        }
+        "must-select-onload": "Select collection on successful load"
       },
       "select": {
         "heading": "Select emotes",
@@ -299,7 +294,7 @@
     "addTag": {
       "fail": {
         "title": "Failed to add pasta tag",
-        "tooManyTags": "Невозможно добавить более {max} тегов.",
+        "tooManyTags": "Can not add more than {max} tags",
         "emptyMessage": "Can not add the empty tag",
         "sameMessage": "The tag '{tag}' were already added to pasta",
         "tooLongMessage": "The tag is too long, max {max} characters",

@@ -1,5 +1,3 @@
-import consola from "consola";
-
 function __updateIntegration__(
   collection: IPersonEmoteCollection,
   integration: IEmoteIntegration,
@@ -19,7 +17,7 @@ function usePersonCollectionFindEmote(
   const emotes = computed(() => {
     let integrations = collection.value?.integrations;
     if (!integrations) {
-      consola.warn("no integrations or collection", {
+      log("warn", "no integrations or collection", {
         collection: collection.value,
         integrations,
       });
@@ -62,12 +60,14 @@ export function usePersonCollection(login: TwitchUserLogin) {
 
   const api = new PersonsEmoteIntegrationsApi(
     $fetch.create({
-      baseURL: `/api/v1/persons-emotes-collections/${login}/integrations`,
+      baseURL: `/api/v1/persons-emotes-collections/${login}`,
     }),
   );
 
   const integrationsLoad = useEmoteIntegrationsLoad({
-    load: api.get.bind(api),
+    load<E extends EmoteSource>(source: E) {
+      return api.get(source);
+    },
     loadAll: api.getAll.bind(api),
     loadMany: api.getMany.bind(api),
   });

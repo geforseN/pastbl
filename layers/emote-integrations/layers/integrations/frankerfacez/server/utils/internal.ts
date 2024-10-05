@@ -23,19 +23,29 @@ function makeFrankerFaceZEmoteRelatedPerson(
   };
 }
 
-export function makeFrankerFaceZEmote<TT extends TFrankerFaceZ.Emote>(
+export function makeFrankerFaceZEmote<E extends TFrankerFaceZ.Emote>(
   emote: TFrankerFaceZ.Api.Emote,
-  type: TT["type"],
-): TT {
+  type: E["type"],
+): E {
   const id = emote.id.toString();
   assert.ok(isStringifiedNumber(id));
+
+  const isAnimated = "animated" in emote && Boolean(emote.animated);
+
+  let url = `//cdn.frankerfacez.com/emote/${id}/`;
+  if (isAnimated) {
+    url += "animated/";
+  }
+  url += "1";
+
   return {
     id,
+    isAnimated,
     isListed: emote.status === 1,
     isModifier: emote.modifier,
     isWrapper: emote.modifier_flags % 2 === 0,
     token: emote.name,
-    url: `//cdn.frankerfacez.com/emote/${emote.id}/1`,
+    url,
     width: emote.width,
     height: emote.height,
     source: "FrankerFaceZ",

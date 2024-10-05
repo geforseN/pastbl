@@ -20,7 +20,7 @@ export function flatGroupBy<T, K extends string | number | symbol, V extends T>(
 export function flatGroupBy<T, K extends string | number | symbol, V>(
   array: T[],
   getKey: (value: T, index: number, array: T[]) => K,
-  getValue: (value: T, index: number, array: T[]) => V,
+  getValue?: (value: T, index: number, array: T[]) => V,
 ): Record<K, V>;
 
 export function flatGroupBy<T, V, K extends string | number | symbol>(

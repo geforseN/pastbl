@@ -26,8 +26,8 @@ export function makeBetterTTVEmote<
     token: emote.code,
     source,
     url: `https://cdn.betterttv.net/emote/${emote.id}/1x.webp` as const,
-    width: emote.width,
-    height: emote.height,
+    width: emote.width || 32,
+    height: emote.height || 32,
     ...additional,
   };
 }

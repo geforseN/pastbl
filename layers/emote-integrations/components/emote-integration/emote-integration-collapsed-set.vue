@@ -68,6 +68,7 @@ const isOpen = ref(false);
 const mustRenderContent = ref(false);
 
 const { t } = useI18n({
+  useScope: "local",
   pluralRules,
   messages: {
     ru: {
