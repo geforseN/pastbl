@@ -6,6 +6,9 @@ on:
 jobs:
   analyze_comments:
     runs-on: ubuntu-latest
+    
+    timeout-minutes: 5
+    
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
