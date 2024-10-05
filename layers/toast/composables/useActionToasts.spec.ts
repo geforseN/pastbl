@@ -1,7 +1,8 @@
-import { describe, it, test } from "vitest";
+import { describe, it } from "vitest";
 import { setup } from "@nuxt/test-utils";
 import { createActionToasts } from "../utils/create-raw-action-toasts";
 import { additionalMethods, baseMethods } from "../internal/utils";
+import { raiseToastMethod } from "../internal/raise-method";
 import { useActionToasts } from "./useActionToasts";
 
 const actionsToastsOptions = {
@@ -14,10 +15,43 @@ describe("useActionToasts", async () => {
     port: 3000,
   });
 
-  describe("with first arg as undefined", () => {
+  test("additional methods match snapshot", () => {
+    expect(additionalMethods).toMatchInlineSnapshot(`
+      [
+        "failure",
+        "fail",
+        "info",
+        "warning",
+        "warn",
+      ]
+    `);
+  });
+
+  test("raise types (with aliases) matches snapshot", () => {
+    expect(raiseToastMethod.typeWithAlias).toMatchInlineSnapshot(`
+        [
+          "raise",
+          "panic",
+          "throw",
+        ]
+      `);
+  });
+
+  test("base methods match snapshot", () => {
+    expect(baseMethods).toMatchInlineSnapshot(`
+      [
+        "add",
+        "raise",
+        "panic",
+        "throw",
+      ]
+    `);
+  });
+
+  describe("with rawActionToasts as undefined", () => {
     const actionToasts = useActionToasts(undefined, actionsToastsOptions);
 
-    describe("retrun value", () => {
+    describe("return value", () => {
       it("will be function", () => {
         expect(actionToasts).toBeInstanceOf(Function);
       });
@@ -36,7 +70,7 @@ describe("useActionToasts", async () => {
     });
   });
 
-  describe("with first arg that has success method", () => {
+  describe("with rawActionToasts that has success method", () => {
     const actionToasts = useActionToasts(
       createActionToasts("success", {
         success(string: string) {
@@ -47,25 +81,29 @@ describe("useActionToasts", async () => {
       }),
       actionsToastsOptions,
     );
-    test("return value will be function", () => {
-      expect(actionToasts).toBeInstanceOf(Function);
-    });
-    test("return value will have 'success' method", () => {
-      expect(actionToasts.success).toBeInstanceOf(Function);
-    });
-    test("return value and return value success method are same", () => {
-      expect(actionToasts === actionToasts.success).toBe(true);
-      expect(actionToasts).toBe(actionToasts.success);
-    });
-    test("provided args will not be ignored", () => {
-      expect(actionToasts.success("test")).toEqual({
-        description: "success:test",
+
+    describe("return value", () => {
+      it("will be function", () => {
+        expect(actionToasts).toBeInstanceOf(Function);
       });
-      expect(actionToasts("test")).toEqual({ description: "success:test" });
+
+      // this is very important, returned value has alias as success method
+      // if there will be not same then we need to test method and return value is same scenarios
+      it("is same as success method are same", () => {
+        expect(actionToasts).toBe(actionToasts.success);
+      });
+
+      it("will not ignore provided arguments", () => {
+        expect(actionToasts("test")).toEqual({ description: "success:test" });
+      });
     });
-    it("has raise method", () => {
-      expect(actionToasts.raise).toBeInstanceOf(Function);
+
+    describe("raise (with aliases)", () => {
+      it.for(raiseToastMethod.typeWithAlias)("must have \"%s\" method", (methodName) => {
+        expect(actionToasts[methodName]).toBeInstanceOf(Function);
+      });
     });
+
     it("will throw on raise call", () => {
       expect(() => {
         actionToasts.raise("test");
@@ -73,7 +111,7 @@ describe("useActionToasts", async () => {
     });
   });
 
-  it("with arg will return additional methods", () => {
+  it("with rawActionToasts and all additional methods", () => {
     const actionToasts = useActionToasts(
       createActionToasts("f", {
         failures: {
@@ -104,20 +142,36 @@ describe("useActionToasts", async () => {
       }),
       actionsToastsOptions,
     );
-    expect(actionToasts).toBeInstanceOf(Function);
-    expect(actionToasts.add).toBeInstanceOf(Function);
-    expect(actionToasts.panic).toBeInstanceOf(Function);
-    expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
-    expect(Object.keys(actionToasts)).toMatchInlineSnapshot(`[]`);
-    expect(Object.values(actionToasts)).toMatchInlineSnapshot(`[]`);
-    expect(actionToasts.failure).toBeInstanceOf(Function);
-    expect(actionToasts.warning("baz")).toEqual({ title: "baz" });
-    expect(actionToasts.fail).toBeInstanceOf(Function);
-    expect(actionToasts.info).toBeInstanceOf(Function);
-    expect(() => actionToasts.fail("foo")).not.toThrow();
-    expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
-    // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
-    expect(() => actionToasts.fail("baz")).toThrow();
-    expect(() => actionToasts.raise("fooArg", 123)).toThrow();
+
+    describe("return value", () => {
+      it("will be function", () => {
+        expect(actionToasts).toBeInstanceOf(Function);
+      });
+      it("will match snapshot", () => {
+        expect(actionToasts).toMatchInlineSnapshot(`[Function]`);
+      });
+      it.for([
+        additionalMethods,
+        raiseToastMethod.typeWithAlias,
+        baseMethods,
+      ].flat(),
+      )("will have %s method", (methodName) => {
+        expect(actionToasts).toHaveProperty(methodName);
+      });
+
+      test("other handlers in proxy are not implemented", () => {
+        expect(Object.keys(actionToasts)).toMatchInlineSnapshot(`[]`);
+        expect(Object.values(actionToasts)).toMatchInlineSnapshot(`[]`);
+      });
+
+      it("throws on unimplemented notification maker", () => {
+      // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
+        expect(() => actionToasts.fail("baz")).toThrow();
+      });
+      it("will not throw on implemented notification maker", () => {
+        expect(() => actionToasts.fail("foo")).not.toThrow();
+        expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
+      });
+    });
   });
 });

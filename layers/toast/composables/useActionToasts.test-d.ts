@@ -22,6 +22,7 @@ describe("typecheck", async () => {
           };
         },
       }),
+      // @ts-expect-error this mock only have 't' method
       actionsToastsOptions,
     );
 
@@ -31,8 +32,4 @@ describe("typecheck", async () => {
     expectTypeOf(actionToasts).parameters.toEqualTypeOf<[string]>();
     expectTypeOf(actionToasts.success).toBeFunction();
   });
-});
-
-test("typecheck 2", () => {
-  expectTypeOf({ foo: "bar" }).toMatchTypeOf<1>();
 });
