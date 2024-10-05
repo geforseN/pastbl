@@ -1,18 +1,14 @@
 <template>
   <slot
-    v-if="status === 'ready' || status === 'refreshing'"
-    :integration="
-      $props as
-        | TEmoteIntegrations.Ready
-        | Extract<TEmoteIntegrations.__Some__, { status: 'refreshing' }>
-    "
+    v-if="integration.status === 'ready' || integration.status === 'refreshing'"
+    :integration
     :is-refreshing
   />
 </template>
 <script setup lang="ts">
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
-defineProps<TEmoteIntegrations.__Some__>();
+const integration = injectEmoteIntegration();
 
 function isRefreshing(
   integration:

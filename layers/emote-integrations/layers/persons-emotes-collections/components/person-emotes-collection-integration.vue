@@ -5,33 +5,33 @@
     :data-integration-source="source"
   >
     <header class="flex justify-between">
-      <div
-        v-if="isString(integration?.owner?.pageAddress)"
-        class="flex items-center"
-      >
-        <twitch-user-avatar
-          target="_blank"
-          class="size-7"
-          :to="integration.owner.pageAddress"
-          :twitch
-          :size="28"
-        />
-        <nuxt-link
-          :to="integration.owner.pageAddress"
-          external
-          target="_blank"
-        >
-          <h2 class="link ml-1 text-xl">
+      <person-emote-integration-with-owner-page-address-only>
+        <template #default="{ pageAddress }">
+          <div class="flex items-center">
+            <twitch-user-avatar
+              target="_blank"
+              class="size-7"
+              :to="pageAddress"
+              :twitch
+              :size="28"
+            />
+            <nuxt-link
+              :to="pageAddress"
+              external
+              target="_blank"
+            >
+              <h2 class="link ml-1 text-xl">
+                {{ source }}
+              </h2>
+            </nuxt-link>
+          </div>
+        </template>
+        <template #else>
+          <h2 class="ml-1 text-xl">
             {{ source }}
           </h2>
-        </nuxt-link>
-      </div>
-      <h2
-        v-else
-        class="ml-1 text-xl"
-      >
-        {{ source }}
-      </h2>
+        </template>
+      </person-emote-integration-with-owner-page-address-only>
       <emote-integration-logo
         :source
         with-link
@@ -57,16 +57,10 @@
           :class="styles.borderAccent"
           class="flex justify-between rounded-box border-2 p-1 px-2"
         >
-          <ready-emote-integration-only
-            :="integration"
-            #="{ integration }"
-          >
+          <ready-emote-integration-only #="{ integration }">
             <emote-collection-formed-at :time="integration.formedAt" />
           </ready-emote-integration-only>
-          <failed-emote-integration-only
-            :="integration"
-            #="{ integration }"
-          >
+          <failed-emote-integration-only #="{ integration }">
             <div>{{ integration.reason }}</div>
           </failed-emote-integration-only>
           <refresh-button
@@ -82,7 +76,8 @@
 </template>
 <script setup generic="Source extends EmoteSource">
 const props = defineProps<{
-  integration: any; // SomeEmoteIntegration<Source>;
+  // TODO: use Source generic for integration prop
+  integration: TEmoteIntegrations.__Some__ ;
   twitch: PersonTwitch;
 }>();
 
@@ -90,7 +85,7 @@ defineEmits<{
   refresh: [];
 }>();
 
-provide("integration", props.integration);
+provideEmoteIntegration(props.integration);
 
 const source = computed<EmoteSource>(() => allEmoteSources.has(props.integration.source) ? props.integration.source : raise());
 
