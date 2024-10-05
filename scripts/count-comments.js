@@ -47,10 +47,7 @@ function formatCount(entries, count) {
   return entries.length
     ? ` - ${count} 
   - ${entries
-    .map(
-      ([file, lineNumber]) =>
-        `**${file}:${lineNumber}**`,
-    )
+    .map(([file, lineNumber]) => `**${file}:${lineNumber}**`)
     .join("\n")}`
     : " - None";
 }
