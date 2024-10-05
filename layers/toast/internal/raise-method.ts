@@ -1,6 +1,6 @@
 import { ToastableError } from "../utils/toastable-error";
 import type { Notification } from "../utils/types";
-import type { ActionToastsPanicFn, RawActionToastsMethods } from "./types";
+import type { ActionToastsPanicFn, RaiseMethodName, RawActionToastsMethods } from "./types";
 
 function getNotification<
   F extends NonNullable<RawActionToastsMethods["failures"]>,
@@ -45,6 +45,7 @@ function defineActionToastsRaiseMethod<FS extends RawActionToastsMethods["failur
     };
   }
   return function (...args: Parameters<ActionToastsPanicFn<FS>>) {
+    // FIXME: add type tests
     const notification = getNotification(failures, context, ...args);
     addToast(notification);
     throw new Error("Must panic", { cause: notification });
@@ -52,6 +53,12 @@ function defineActionToastsRaiseMethod<FS extends RawActionToastsMethods["failur
 };
 
 const typeWithAlias = ["raise", "panic", "throw"] as const;
+
+const typeWithAliasSet = new Set(typeWithAlias);
+
+export function isRaisePropertyName(string: string): string is RaiseMethodName {
+  return typeWithAliasSet.has(string as RaiseMethodName);
+}
 
 export const raiseToastMethod = {
   define: defineActionToastsRaiseMethod,

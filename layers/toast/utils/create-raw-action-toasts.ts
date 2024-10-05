@@ -1,8 +1,9 @@
-import { raiseToastMethod } from "../internal/raise-method";
+import { isRaisePropertyName, raiseToastMethod } from "../internal/raise-method";
 import { RawActionToastsMethods_ } from "../internal/raw-methods";
 import type {
   Failure_,
   Info_,
+  PossibleProperty,
   RawActionToastMaker,
   RawActionToastsMethods,
   Success_,
@@ -46,14 +47,14 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
       : () => { throw new Error("Action toast 'success' not found"); };
     const context = { i18n };
     return new Proxy(success, {
-      get: <K extends typeof validTypes[number] | "success" | "add">(target: typeof success, key: K, receiver: unknown) => {
+      get: <K extends PossibleProperty>(target: typeof success, key: K, receiver: typeof success) => {
         if (key === "add") {
           return add;
         }
-        if (key === "success" && hasSuccessMethod) {
+        if (key === "success") {
           return receiver;
         }
-        if (raiseToastMethod.typeWithAlias.includes(key)) {
+        if (isRaisePropertyName(key)) {
           return raiseToastMethod.define(context, this.methods.methods.failures, addToast);
         }
         if (!validTypes.includes(key)) {

@@ -1,5 +1,6 @@
 import type { ToastableError } from "../utils/toastable-error";
 import type { raiseToastMethod } from "./raise-method";
+import type { additionalMethods, validTypes } from "./utils";
 
 type FN<Group extends RawActionToastMakersGroup> = <K extends keyof Group>(key: K, ...args: Parameters<Group[K]>) => ReturnType<Group[K]>;
 
@@ -30,14 +31,14 @@ export type Failure_<M extends RawActionToastsMethods> = M extends {
   failures: Record<string, RawActionToastMaker>;
 } ?
 & {
-  [K in typeof raiseToastMethod.typeWithAlias[number]]: ActionToastsPanicFn<M["failures"]>
+  [K in RaiseMethodName]: ActionToastsPanicFn<M["failures"]>
 }
 & {
   failure<K extends keyof M["failures"]>(name: K, ...args: Parameters<M["failures"][K]>): ReturnType<M["failures"][K]>;
   fail<K extends keyof M["failures"]>(name: K, ...args: Parameters<M["failures"][K]>): ReturnType<M["failures"][K]>;
 }
   : {
-      [K in typeof raiseToastMethod.typeWithAlias[number]]: ActionToastsPanicFn2;
+      [K in RaiseMethodName]: ActionToastsPanicFn2;
     };
 
 export type Info_<M extends RawActionToastsMethods> = HasMethodGroup<
@@ -46,6 +47,12 @@ export type Info_<M extends RawActionToastsMethods> = HasMethodGroup<
 >;
 
 export type ActionToastType = "success" | "failure" | "info" | "warning";
+
+export type PossibleProperty = typeof validTypes[number] | "add" | "success";
+
+export type AdditionalMethodName = typeof additionalMethods[number];
+
+export type RaiseMethodName = typeof raiseToastMethod.typeWithAlias[number];
 
 export type ActionToastsMethodsKey = keyof RawActionToastsMethods;
 

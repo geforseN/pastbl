@@ -1,5 +1,5 @@
 import { revertedAliases } from "../internal/utils";
-import type { RawActionToastsMethods } from "./types";
+import type { RawActionToastsMethods, AdditionalMethodName } from "./types";
 
 export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
   constructor(public readonly methods: M) {}
@@ -8,8 +8,11 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
     return typeof this.methods.success === "function";
   }
 
-  makeHandler(key: string, context: ActionToastsContext) {
-    const methodsRecordName = revertedAliases.get(key)!;
+  makeHandler(key: AdditionalMethodName, context: ActionToastsContext) {
+    const methodsRecordName = revertedAliases.get(key);
+    if (!methodsRecordName) {
+      throw new Error(`Action toast '${key}' not found`);
+    }
     const methodsRecord = this.methods[methodsRecordName];
     if (!methodsRecord) {
       throw new Error(`Action toast '${methodsRecordName}' not found`);
