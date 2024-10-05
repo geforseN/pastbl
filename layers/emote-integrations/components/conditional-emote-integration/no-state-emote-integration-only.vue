@@ -1,18 +1,14 @@
 <template>
   <slot
-    v-if="status === 'failed' || status === 'loading'"
-    :integration="
-      $props as
-        | TEmoteIntegrations.Failed
-        | Extract<TEmoteIntegrations.__Some__, { status: 'loading' }>
-    "
+    v-if="integration.status === 'failed' || integration.status === 'loading'"
+    :integration
     :is-loading
   />
 </template>
 <script setup lang="ts">
 import type { TEmoteIntegrations } from "$/emote-integrations";
 
-defineProps<TEmoteIntegrations.__Some__>();
+const integration = injectEmoteIntegration();
 
 function isLoading(
   integration:

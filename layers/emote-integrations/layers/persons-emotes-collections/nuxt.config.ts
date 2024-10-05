@@ -20,4 +20,13 @@ export default defineNuxtConfig({
     ],
     dirs: ["composables", "utils", "shared/*/index.ts"],
   },
+  components: [
+    {
+      path: path.join(dirname, "components"),
+    },
+    {
+      path: path.join(dirname, "components", "conditional"),
+      pathPrefix: false,
+    },
+  ],
 });

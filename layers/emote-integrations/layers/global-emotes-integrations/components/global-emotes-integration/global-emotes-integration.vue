@@ -15,10 +15,7 @@
     </header>
     <main>
       <div class="space-y-1.5">
-        <ready-emote-integration-only
-          :="integration"
-          #="{ integration }"
-        >
+        <ready-emote-integration-only #="{ integration }">
           <ul class="space-y-1.5">
             <li
               v-for="set of integration.sets"
@@ -36,41 +33,29 @@
           class="rounded-box border-2 p-2"
         >
           <div class="flex justify-between">
-            <state-emote-integration-only
-              :="integration"
-              #="{ integration }"
-            >
+            <state-emote-integration-only #="{ integration }">
               <emote-collection-formed-at :time="integration.formedAt" />
             </state-emote-integration-only>
-            <failed-emote-integration-only
-              :="integration"
-              #="{ integration }"
-            >
+            <failed-emote-integration-only #="{ integration }">
               <span class="italic">
                 {{ integration.reason }}
               </span>
             </failed-emote-integration-only>
-            <state-emote-integration-only
-              :="integration"
-              #="{ integration, isRefreshing }"
-            >
+            <state-emote-integration-only #="{ integration, isRefreshing }">
               <refresh-button
                 size="xs"
                 class="w-fit gap-0.5"
                 :is-in-process="isRefreshing(integration)"
-                @click="$emit('update' /* refresh */)"
+                @click="$emit('update' /* TODO: ? refresh */)"
               />
             </state-emote-integration-only>
-            <no-state-emote-integration-only
-              :="integration"
-              #="{ integration, isLoading }"
-            >
+            <no-state-emote-integration-only #="{ integration, isLoading }">
               <load-button
                 size="xs"
                 class="w-fit gap-0.5 text-white hover:text-secondary-content"
                 :class="[styles.backgroundBase, styles.borderAccent]"
                 :is-in-process="isLoading(integration)"
-                @click="$emit('update' /* load */)"
+                @click="$emit('update' /* TODO: ? load */)"
               />
             </no-state-emote-integration-only>
           </div>
@@ -104,6 +89,8 @@ defineEmits<{
 }>();
 
 provideEmoteSource(props.integration);
+
+provideEmoteIntegration(props.integration);
 
 const { source, styles } = useEmoteIntegration(props.integration);
 </script>
