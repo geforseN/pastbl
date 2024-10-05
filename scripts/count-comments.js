@@ -45,12 +45,13 @@ for (const file of files) {
  * */
 function formatCount(entries, count) {
   return entries.length
-    ? ` - ${count} - ${entries
-      .map(
-        ([file, lineNumber]) =>
-          `- **File**: '${file}', **Line**: '${lineNumber}'`,
-      )
-      .join("\n")}`
+    ? ` - ${count} 
+  - ${entries
+    .map(
+      ([file, lineNumber]) =>
+        `- **${file}:${lineNumber}**`,
+    )
+    .join("\n")}`
     : " - None";
 }
 
