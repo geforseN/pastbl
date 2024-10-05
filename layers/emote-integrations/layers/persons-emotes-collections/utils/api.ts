@@ -1,6 +1,5 @@
 export class PersonsEmotesCollectionsApi {
-  constructor(private readonly fetch: typeof $fetch) {
-  }
+  constructor(private readonly fetch: typeof $fetch) {}
 
   async get(login: TwitchUserLogin) {
     const fetchedAt = Date.now();

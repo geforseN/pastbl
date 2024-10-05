@@ -1,8 +1,5 @@
 const globalEmotesRefreshToasts = createActionToasts("refresh-global-emotes", {
-  success(
-    integrationsCount: number,
-    integrationsAsEmojis: string,
-  ) {
+  success(integrationsCount: number, integrationsAsEmojis: string) {
     const description = this.i18n.t(
       "actions-toasts.refresh-global-emotes.description",
       { count: integrationsCount },

@@ -1,4 +1,7 @@
-import { isRaisePropertyName, raiseToastMethod } from "../internal/raise-method";
+import {
+  isRaisePropertyName,
+  raiseToastMethod,
+} from "../internal/raise-method";
 import { RawActionToastsMethods_ } from "../internal/raw-methods";
 import type {
   Failure_,
@@ -37,17 +40,25 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   >(
     i18n: VueI18n,
     add: (
-      makeNotification: (i18n: ActionToastsThis["i18n"]) => Partial<Notification>
+      makeNotification: (
+        i18n: ActionToastsThis["i18n"],
+      ) => Partial<Notification>,
     ) => void,
     addToast: (notification: Partial<Notification>) => void,
   ) {
     const hasSuccessMethod = typeof this.methods.methods.success === "function";
     const success: RawActionToastMaker | (() => never) = hasSuccessMethod
       ? this.methods.methods.success!
-      : () => { throw new Error("Action toast 'success' not found"); };
+      : () => {
+          throw new Error("Action toast 'success' not found");
+        };
     const context = { i18n };
     return new Proxy(success, {
-      get: <K extends PossibleProperty>(target: typeof success, key: K, receiver: typeof success) => {
+      get: <K extends PossibleProperty>(
+        target: typeof success,
+        key: K,
+        receiver: typeof success,
+      ) => {
         if (key === "add") {
           return add;
         }
@@ -55,7 +66,11 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           return receiver;
         }
         if (isRaisePropertyName(key)) {
-          return raiseToastMethod.define(context, this.methods.methods.failures, addToast);
+          return raiseToastMethod.define(
+            context,
+            this.methods.methods.failures,
+            addToast,
+          );
         }
         if (!validTypes.includes(key)) {
           return Reflect.get(target, key, receiver);
@@ -64,18 +79,23 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           return this.methods.makeHandler(key, context);
         }
         catch (error) {
-          assert.ok(error instanceof Error, new Error("Expected an error", { cause: error }));
-          assert.ok(error.message.match(/Action toast '\w+' not found/), new Error("Unexpected error", { cause: error }));
+          assert.ok(
+            error instanceof Error,
+            new Error("Expected an error", { cause: error }),
+          );
+          assert.ok(
+            error.message.match(/Action toast '\w+' not found/),
+            new Error("Unexpected error", { cause: error }),
+          );
           return Reflect.get(target, key, receiver);
         }
       },
     }) as {
       add: typeof add;
-    }
-    & Success_<M>
-    & Failure_<M>
-    & Warning_<M>
-    & Info_<M>;
+    } & Success_<M> &
+    Failure_<M> &
+    Warning_<M> &
+    Info_<M>;
   }
 }
 

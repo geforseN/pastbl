@@ -10,12 +10,14 @@ test("my types work properly", async () => {
     status: "failed";
     reason: string;
     code: string;
-  }>(await personEmoteIntegrations.BetterTTV.get({
-    login: "login",
-    id: "123",
-    nickname: "",
-    description: "",
-    avatarUrl: "",
-    createdAt: "",
-  }));
+  }>(
+    await personEmoteIntegrations.BetterTTV.get({
+      login: "login",
+      id: "123",
+      nickname: "",
+      description: "",
+      avatarUrl: "",
+      createdAt: "",
+    }),
+  );
 });

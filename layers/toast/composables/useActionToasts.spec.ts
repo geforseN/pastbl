@@ -56,7 +56,9 @@ describe("useActionToasts", async () => {
       expect(actionToasts).toBe(actionToasts.success);
     });
     test("provided args will not be ignored", () => {
-      expect(actionToasts.success("test")).toEqual({ description: "success:test" });
+      expect(actionToasts.success("test")).toEqual({
+        description: "success:test",
+      });
       expect(actionToasts("test")).toEqual({ description: "success:test" });
     });
     it("has raise method", () => {
@@ -94,8 +96,7 @@ describe("useActionToasts", async () => {
         },
         infos: {
           bar() {
-            return {
-            };
+            return {};
           },
         },
       }),
