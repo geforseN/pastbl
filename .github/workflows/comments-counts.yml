@@ -24,7 +24,15 @@ jobs:
           node-version: 20
           cache: pnpm
       
-      - name: Count TODOs, FIXMEs, and NOTEs and add comment to PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/count-comments.js
+      - name: Count TODOs, FIXMEs, and NOTEs
+        id: count-comments
+        run: |
+          node scripts/count-comments.js > comment-output.txt
+          
+      - name: Create Comment
+        uses: peter-evans/create-or-update-comment@v4.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            $(cat comment-output.txt)
