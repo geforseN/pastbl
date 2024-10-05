@@ -49,7 +49,7 @@ function formatCount(entries, count) {
   - ${entries
     .map(
       ([file, lineNumber]) =>
-        `- **${file}:${lineNumber}**`,
+        `**${file}:${lineNumber}**`,
     )
     .join("\n")}`
     : " - None";
