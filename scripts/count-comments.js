@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
 // @ts-check
-import { readFileSync, writeFileSync } from "fs";
+import { readFile, writeFile } from "fs/promises";
 import { exec } from "child_process";
+import { promisify } from "util";
+
+const execPromise = promisify(exec);
 
 const outputFilePath = process.argv[2];
 
@@ -10,15 +13,18 @@ if (!outputFilePath) {
   process.exit(1);
 }
 
-main(outputFilePath);
+main(outputFilePath).catch((err) => {
+  console.error("Error occurred during execution:", err);
+  process.exit(1);
+});
 
 /**
  * @param {string} outputFilePath
  */
-function main(outputFilePath) {
+async function main(outputFilePath) {
   const words = [new Word("todo"), new Word("fixme"), new Word("note")];
 
-  const diffOutput = exec("git diff --name-only origin/main").toString();
+  const { stdout: diffOutput } = await execPromise("git diff --name-only origin/main");
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
@@ -26,20 +32,31 @@ function main(outputFilePath) {
     process.exit(0);
   }
 
-  for (const file of files) {
-    const content = readFileSync(file, "utf-8");
+  const settled = await Promise.allSettled(files.map(async (file) => {
+    const content = await readFile(file, "utf-8").catch((error) => {
+      throw new Error(`Error reading file: ${file}`, { cause: error });
+    });
     const lines = content.split("\n").filter(Boolean);
 
-    for (const [index, line] of lines.entries()) {
+    lines.forEach((line, index) => {
       words
         .find((word) => word.match(line))
         ?.addEntry(file, index + 1);
+    });
+  }));
+
+  const { rejected } = Object.groupBy(settled, (result) => result.status);
+  if (rejected) {
+    for (const fail of rejected) {
+      if ("reason" in fail) {
+        console.log(fail.reason);
+      }
     }
   }
 
   const summary = new WordsSummary(words).create();
 
-  writeFileSync(outputFilePath, summary);
+  await writeFile(outputFilePath, summary);
 
   console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
 }
