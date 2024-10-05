@@ -1,5 +1,4 @@
-import consola from "consola";
-import { ToastableError } from "$/toast/utils/abstract";
+import { ToastableError } from "$/toast/utils/toastable-error";
 import { pastasConfig } from "$/pastas/app.config";
 
 export class NotFoundPastaError extends ToastableError {
@@ -26,7 +25,7 @@ export class BadPastaTextLengthError extends ToastableError {
   override toToast(context: ActionToastsThis) {
     const descriptionKey = `toast.createPasta.fail.${this.lengthStatus}Message`;
     if (!context.i18n.te(descriptionKey)) {
-      consola.fail("badPastaTextLength translation key not found", {
+      log("error", "badPastaTextLength translation key not found", {
         descriptionKey,
         lengthStatus: this.lengthStatus,
       });

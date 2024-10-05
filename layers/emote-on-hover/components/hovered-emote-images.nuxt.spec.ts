@@ -13,7 +13,7 @@ test.todo("<hovered-emote-images />", async () => {
         // actorId: "651fb8b2e818c1aa4e9f326c",
         height: 32,
         id: "63cec0c12ba67946677a463e",
-        // isAnimated: true,
+        isAnimated: true,
         isListed: true,
         isModifier: false,
         isWrapper: false,

@@ -1,6 +1,4 @@
 import { fileURLToPath } from "node:url";
-import defaultTailwindTheme from "tailwindcss/defaultTheme";
-import defaultTailwindConfig from "tailwindcss/defaultConfig";
 import { i18n } from "./app/i18n.config";
 import tailwindTheme from "./tailwind.theme";
 
@@ -55,7 +53,8 @@ export default defineNuxtConfig({
       openAPI: true,
     },
     scheduledTasks: {
-      "0 0 * * *" /* At 00:00., everyday */:           "get-twitch-token",
+      /* Everyday at 00:00 */
+      "0 0 * * *": "get-twitch-token",
     },
   },
   imports: {
@@ -85,10 +84,34 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      htmlAttrs: {
-        lang: "en",
-      },
       titleTemplate: "pastbl - %s",
+      link: [
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/apple-touch-icon.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicon-32x32.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicon-16x16.png",
+        },
+        { rel: "manifest", href: "/site.webmanifest" },
+      ],
+      meta: [
+        {
+          name: "google-site-verification",
+          content: "CgANEjqKJNLsIr9m7Jf_2iVg107bGXAAsEFiL3UI2cw",
+        },
+        { name: "theme-color", content: "#ff52d9f2" },
+      ],
     },
     viewTransition: true,
   },

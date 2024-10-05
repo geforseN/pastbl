@@ -1,9 +1,9 @@
 export class PersonsEmoteIntegrationsApi {
   constructor(private readonly fetch: typeof $fetch) {}
 
-  async get<T extends EmoteSource>(source: T) {
+  async get<E extends EmoteSource>(source: E) {
     const value = await this.fetch(`/integrations/${source}`);
-    return value as { T: TEmoteIntegrations.Person.Settled };
+    return value;
   }
 
   async getAll() {
