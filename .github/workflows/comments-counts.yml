@@ -1,0 +1,40 @@
+name: Count TODOs, FIXMEs, and NOTEs 
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions: 
+  issues: write 
+  pull-requests: write
+
+jobs:
+  analyze_comments:
+    runs-on: ubuntu-latest
+    
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      
+      - name: Count TODOs, FIXMEs, and NOTEs
+        id: count-comments
+        run: |
+          node scripts/count-comments.js > comment-output.txt
+          
+      - name: Create Comment
+        uses: peter-evans/create-or-update-comment@v4.0.0
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: comment-output.txt
