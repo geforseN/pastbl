@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it, vi, expect, afterEach } from "vitest";
 import { setup } from "@nuxt/test-utils";
 import { createActionToasts } from "../utils/create-raw-action-toasts";
 import { additionalMethods, baseMethods } from "../internal/utils";
@@ -9,6 +9,8 @@ const actionsToastsOptions = {
   i18n: { t: (text: string) => text },
 } as const;
 
+// TODO: add mock for toast (second param of useActionToasts has that property)
+// and ensure it is called when it should
 describe("useActionToasts", async () => {
   await setup({
     host: "http://127.0.0.1",
@@ -75,7 +77,7 @@ describe("useActionToasts", async () => {
       createActionToasts("success", {
         success(string: string) {
           return {
-            description: "success:" + string,
+            description: this.i18n.t("success:" + string),
           };
         },
       }),
@@ -111,7 +113,7 @@ describe("useActionToasts", async () => {
     });
   });
 
-  it("with rawActionToasts and all additional methods", () => {
+  describe("with rawActionToasts and all additional methods", () => {
     const actionToasts = useActionToasts(
       createActionToasts("f", {
         failures: {
@@ -156,7 +158,9 @@ describe("useActionToasts", async () => {
         baseMethods,
       ].flat(),
       )("will have %s method", (methodName) => {
-        expect(actionToasts).toHaveProperty(methodName);
+        expect(actionToasts[methodName]).toBeInstanceOf(Function);
+        // NOTE: there is no property, we are using proxy
+        expect(actionToasts).not.toHaveProperty(methodName);
       });
 
       test("other handlers in proxy are not implemented", () => {
@@ -168,10 +172,120 @@ describe("useActionToasts", async () => {
       // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
         expect(() => actionToasts.fail("baz")).toThrow();
       });
+
       it("will not throw on implemented notification maker", () => {
         expect(() => actionToasts.fail("foo")).not.toThrow();
         expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
       });
+    });
+  });
+
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+  describe.each([
+    {
+      methods: {
+        success() { },
+      },
+      expected: undefined,
+    },
+    {
+      methods: {
+        success() {
+          return null;
+        },
+      },
+      expected: null,
+    },
+    {
+      methods: {
+        success() {
+          return false;
+        },
+      },
+      expected: false,
+    },
+  ] as const)("with rawActionToasts with success that returns $expected value", ({ methods, expected }) => {
+    afterEach(() => warn.mockReset());
+
+    const actionToasts = useActionToasts(
+      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
+      createActionToasts("foo", methods),
+      actionsToastsOptions,
+    );
+
+    it("will return expected", () => {
+      // @ts-expect-error this is strange that ts thinks that actionToasts is not callable
+      expect(actionToasts()).toEqual(expected);
+    });
+
+    it("will not throw on call", () => {
+      expect(() => {
+        actionToasts.success();
+      }).not.toThrow();
+    });
+
+    test("there is warn in console", () => {
+      actionToasts.success();
+      expect(warn).toHaveBeenCalledOnce();
+      expect(warn).toHaveBeenLastCalledWith("Success method returned falsy value, should return Partial<Notification>");
+    });
+  });
+
+  describe.each([
+    {
+      methods: {
+        warnings: {
+          baz() {
+            return;
+          },
+        },
+      },
+      expected: undefined,
+    },
+    {
+      methods: {
+        warnings: {
+          baz() {
+            return null;
+          },
+        },
+      },
+      expected: null,
+    },
+    {
+      methods: {
+        warnings: {
+          baz() {
+            return false;
+          },
+        },
+      },
+      expected: false,
+    },
+  ] as const)("with rawActionToasts with warnings that returns $expected value", ({ methods, expected }) => {
+    afterEach(() => warn.mockReset());
+
+    const actionToasts = useActionToasts(
+      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<Notification>
+      createActionToasts("foo", methods),
+      actionsToastsOptions,
+    );
+
+    it("will return expected", () => {
+      expect(actionToasts.warning("baz")).toBe(expected);
+    });
+
+    it("will not throw on call", () => {
+      expect(() => {
+        actionToasts.warning("baz");
+      }).not.toThrow();
+    });
+
+    test("there is warn in console", () => {
+      actionToasts.warn("baz");
+      expect(warn).toHaveBeenCalledOnce();
+      expect(warn).toHaveBeenLastCalledWith("Method 'warn' returned falsy value, should return Partial<Notification>");
     });
   });
 });

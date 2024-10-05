@@ -46,13 +46,28 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
     ) => void,
     addToast: (notification: Partial<Notification>) => void,
   ) {
+    const context = { i18n };
     const hasSuccessMethod = typeof this.methods.methods.success === "function";
     const success: RawActionToastMaker | (() => never) = hasSuccessMethod
-      ? this.methods.methods.success!
+      ? (...args: Parameters<NonNullable<M["success"]>>) => {
+          const success = this.methods.methods.success;
+          assert.ok(
+            typeof success === "function",
+            new Error("Action toast 'success' is not a function"),
+          );
+          const notification = success.apply(context, args);
+          if (notification) {
+            addToast(notification);
+          }
+          else {
+            // eslint-disable-next-line no-console
+            console.warn("Success method returned falsy value, should return Partial<Notification>");
+          }
+          return notification;
+        }
       : () => {
           throw new Error("Action toast 'success' not found");
         };
-    const context = { i18n };
     return new Proxy(success, {
       get: <K extends PossibleProperty>(
         target: typeof success,
@@ -76,7 +91,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           return Reflect.get(target, key, receiver);
         }
         try {
-          return this.methods.makeHandler(key, context);
+          return this.methods.makeHandler(key, context, addToast);
         }
         catch (error) {
           assert.ok(
