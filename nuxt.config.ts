@@ -38,6 +38,14 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
+    [
+      "@codecov/nuxt-plugin",
+      {
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: "pastbl",
+        uploadToken: process.env.CODECOV_TOKEN,
+      },
+    ],
   ],
   postcss: {
     plugins: {
