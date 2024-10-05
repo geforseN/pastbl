@@ -24,7 +24,9 @@ main(outputFilePath).catch((err) => {
 async function main(outputFilePath) {
   const words = [new Word("todo"), new Word("fixme"), new Word("note")];
 
-  const { stdout: diffOutput } = await execPromise("git diff --name-only origin/main");
+  const { stdout: diffOutput } = await execPromise(
+    "git diff --name-only origin/main",
+  );
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
@@ -32,18 +34,18 @@ async function main(outputFilePath) {
     process.exit(0);
   }
 
-  const settled = await Promise.allSettled(files.map(async (file) => {
-    const content = await readFile(file, "utf-8").catch((error) => {
-      throw new Error(`Error reading file: ${file}`, { cause: error });
-    });
-    const lines = content.split("\n").filter(Boolean);
+  const settled = await Promise.allSettled(
+    files.map(async (file) => {
+      const content = await readFile(file, "utf-8").catch((error) => {
+        throw new Error(`Error reading file: ${file}`, { cause: error });
+      });
+      const lines = content.split("\n").filter(Boolean);
 
-    lines.forEach((line, index) => {
-      words
-        .find((word) => word.match(line))
-        ?.addEntry(file, index + 1);
-    });
-  }));
+      lines.forEach((line, index) => {
+        words.find((word) => word.match(line))?.addEntry(file, index + 1);
+      });
+    }),
+  );
 
   const { rejected } = Object.groupBy(settled, (result) => result.status);
   if (rejected) {
@@ -58,7 +60,9 @@ async function main(outputFilePath) {
 
   await writeFile(outputFilePath, summary);
 
-  console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
+  console.log(
+    `Report generated and saved to ${outputFilePath}, summary: ${summary}`,
+  );
 }
 
 /**
@@ -98,9 +102,12 @@ class WordEntries {
       return "None";
     }
 
-    return "\n" + Array.from(this.entries)
-      .map(([file, lineNumber]) => ` - **${file}:${lineNumber}**`)
-      .join("\n");
+    return (
+      "\n"
+      + Array.from(this.entries)
+        .map(([file, lineNumber]) => ` - **${file}:${lineNumber}**`)
+        .join("\n")
+    );
   }
 }
 
