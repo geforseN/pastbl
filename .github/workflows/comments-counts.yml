@@ -32,6 +32,5 @@ jobs:
       - name: Create Comment
         uses: peter-evans/create-or-update-comment@v4.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body-path: comment-output.txt
