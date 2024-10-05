@@ -1,7 +1,10 @@
-import { adaptNotificationFromNuxtUItoElementPlus, type RawActionToast } from "../utils/public";
+import type { RawActionToastsInstance } from "../utils/create-raw-action-toasts";
+import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/adapter";
 import type { ActionToastsThis, Notification } from "../utils/types";
 
-export function useActionToasts<T extends InstanceType<typeof RawActionToast>>(
+// TODO: rename to useActionToaster ?
+
+export function useActionToasts<T extends RawActionToastsInstance>(
   actionToasts: T = createActionToasts(new Date().toString(), {}) as T,
   options: {
     i18n?: VueI18n;

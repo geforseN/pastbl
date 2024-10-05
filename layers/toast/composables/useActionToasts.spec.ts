@@ -1,27 +1,12 @@
 import { describe, it, test } from "vitest";
 import { setup } from "@nuxt/test-utils";
-import { createActionToasts } from "../utils/public";
-import type { RawActionToastsMethods, ActionToastType } from "../utils/types";
+import { createActionToasts } from "../utils/create-raw-action-toasts";
+import { additionalMethods, baseMethods } from "../internal/utils";
 import { useActionToasts } from "./useActionToasts";
 
 const actionsToastsOptions = {
   i18n: { t: (text: string) => text },
 } as const;
-
-function useTestActionToasts(actionName: string, methods: RawActionToastsMethods) {
-  return useActionToasts(
-    createActionToasts(actionName, methods),
-    actionsToastsOptions,
-  );
-}
-
-// TODO: test what happens when nothing is returned from maker
-// TODO: TS: add raise, throw, panic even if failures is not defined
-// TODO: rename to useActionToaster ?
-
-const additionalMethods = ["warning", "success", "failure", "info"] as const satisfies ActionToastType[];
-
-const baseMethods = ["add", "raise"] as const;
 
 describe("useActionToasts", async () => {
   await setup({

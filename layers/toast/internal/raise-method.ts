@@ -1,5 +1,6 @@
-import { ToastableError } from "../utils/abstract";
+import { ToastableError } from "../utils/toastable-error";
 import type { Notification } from "../utils/types";
+import type { ActionToastsPanicFn, RawActionToastsMethods } from "./types";
 
 function getNotification<
   F extends NonNullable<RawActionToastsMethods["failures"]>,

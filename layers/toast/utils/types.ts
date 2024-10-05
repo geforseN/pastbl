@@ -1,5 +1,4 @@
 import type { VueI18n } from "vue-i18n";
-import type { ToastableError } from "$/toast/utils/abstract";
 
 export type { VueI18n } from "vue-i18n";
 
@@ -14,37 +13,3 @@ export type Notification = {
   click?: (...args: unknown[]) => void;
   callback?: (...args: unknown[]) => void;
 };
-
-export type ActionToastType = "success" | "failure" | "info" | "warning";
-
-export type ActionToastsMethodsKey = keyof RawActionToastsMethods;
-
-export interface RawActionToastMaker {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
-}
-
-export type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
-
-export type RawActionToastsMethods = {
-  success?: RawActionToastMaker;
-  warnings?: Record<string, RawActionToastMaker>;
-  failures?: Record<string, RawActionToastMaker>;
-  infos?: Record<string, RawActionToastMaker>;
-};
-
-export type ActionToastsPanicFn<T extends RawActionToastsMethods["failures"]> =
-  & (<K extends keyof T>(
-    key: K,
-    ...args: Parameters<NonNullable<T>[K]>
-  ) => never)
-  & ((error: Error) => never)
-  & ((toastableError: ToastableError) => never)
-  & ((maybeError?: unknown) => never);
-
-export type ActionToastsPanicFn2 =
-  ((...args: unknown[]) => never);
-  // FIXME: for now it just throws generic error
-  // ((error: Error) => never)
-  // & ((toastableError: ToastableError) => never)
-  // & ((maybeError?: unknown) => never);
