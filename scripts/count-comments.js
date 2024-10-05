@@ -13,65 +13,6 @@ if (!outputFilePath) {
   process.exit(1);
 }
 
-main(outputFilePath).catch((err) => {
-  console.error("Error occurred during execution:", err);
-  process.exit(1);
-});
-
-/**
- * @param {string} outputFilePath
- */
-async function main(outputFilePath) {
-  const words = [new Word("todo"), new Word("fixme"), new Word("note")];
-
-  const { stdout: diffOutput } = await execPromise("git diff --name-only origin/main");
-  const files = diffOutput.split("\n").filter(Boolean);
-
-  if (files.length === 0) {
-    console.log("No files changed.");
-    process.exit(0);
-  }
-
-  const settled = await Promise.allSettled(files.map(async (file) => {
-    const content = await readFile(file, "utf-8").catch((error) => {
-      throw new Error(`Error reading file: ${file}`, { cause: error });
-    });
-    const lines = content.split("\n").filter(Boolean);
-
-    lines.forEach((line, index) => {
-      words
-        .find((word) => word.match(line))
-        ?.addEntry(file, index + 1);
-    });
-  }));
-
-  const { rejected } = Object.groupBy(settled, (result) => result.status);
-  if (rejected) {
-    for (const fail of rejected) {
-      if ("reason" in fail) {
-        console.log(fail.reason);
-      }
-    }
-  }
-
-  const summary = new WordsSummary(words).create();
-
-  await writeFile(outputFilePath, summary);
-
-  console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
-}
-
-/**
- * @param {string} keyword
- * @returns {RegExp}
- */
-function createCommentRegex(keyword) {
-  return new RegExp(
-    `(?:\\/\\/|\\/\\*+|#|<!--)\\s*${keyword}\\b[\\s\\S]*?(?:\\*\\/|-->|\n|$)`,
-    "i",
-  );
-}
-
 class WordEntries {
   /**
    *
@@ -154,3 +95,59 @@ Please address the above comments before merging.
 `;
   }
 }
+
+/**
+ * @param {string} outputFilePath
+ */
+async function main(outputFilePath) {
+  const words = [new Word("todo"), new Word("fixme"), new Word("note")];
+
+  const { stdout: diffOutput } = await execPromise("git diff --name-only origin/main");
+  const files = diffOutput.split("\n").filter(Boolean);
+
+  if (files.length === 0) {
+    console.log("No files changed.");
+    process.exit(0);
+  }
+
+  const settled = await Promise.allSettled(files.map(async (file) => {
+    const content = await readFile(file, "utf-8").catch((error) => {
+      throw new Error(`Error reading file: ${file}`, { cause: error });
+    });
+    const lines = content.split("\n").filter(Boolean);
+
+    lines.forEach((line, index) => {
+      words
+        .find((word) => word.match(line))
+        ?.addEntry(file, index + 1);
+    });
+  }));
+
+  for (const result of settled) {
+    if ("reason" in result) {
+      console.log(result.reason);
+    }
+  }
+
+  const summary = new WordsSummary(words).create();
+
+  await writeFile(outputFilePath, summary);
+
+  console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
+}
+
+/**
+ * @param {string} keyword
+ * @returns {RegExp}
+ */
+function createCommentRegex(keyword) {
+  return new RegExp(
+    `(?:\\/\\/|\\/\\*+|#|<!--)\\s*${keyword}\\b[\\s\\S]*?(?:\\*\\/|-->|\n|$)`,
+    "i",
+  );
+}
+
+main(outputFilePath).catch((err) => {
+  console.error("Error occurred during execution:", err);
+  process.exit(1);
+});
