@@ -46,7 +46,10 @@ for (const file of files) {
 function formatCount(entries, count) {
   return entries.length
     ? ` - ${count} - ${entries
-      .map(([file, lineNumber]) => `- **File**: '${file}', **Line**: '${lineNumber}'`)
+      .map(
+        ([file, lineNumber]) =>
+          `- **File**: '${file}', **Line**: '${lineNumber}'`,
+      )
       .join("\n")}`
     : " - None";
 }
