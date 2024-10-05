@@ -17,7 +17,8 @@ try {
 
   let fixmeCount = 0;
   const fixmeEntries = [];
-  const fixmeRegex = /(?:\/\/|\/\*+|#|<!--)\s*fixme\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
+  const fixmeRegex
+    = /(?:\/\/|\/\*+|#|<!--)\s*fixme\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
 
   let noteCount = 0;
   const noteEntries = [];
