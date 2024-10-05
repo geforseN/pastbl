@@ -1,6 +1,6 @@
 import { flatGroupBy } from "~/utils/object";
 
-export function flatGroupBySource<T extends { source: EmoteSource }, V>(
+export function flatGroupBySource<T extends { source: EmoteSource }, V = T>(
   items: T[],
   getValue?: (value: T, index: number, array: T[]) => V,
 ) {

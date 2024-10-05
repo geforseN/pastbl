@@ -24,6 +24,14 @@ export interface Emote {
   urls: {
     [n in 1 | 2 | 4]: `https://cdn.frankerfacez.com/emote/${string}/${n}`;
   };
+  animated?:
+    | {
+      [n in
+      | 1
+      | 2
+      | 4]: `https://cdn.frankerfacez.com/emote/${string}/animated/${n}`;
+    }
+    | null;
   usage_count: number;
   width: number;
 }

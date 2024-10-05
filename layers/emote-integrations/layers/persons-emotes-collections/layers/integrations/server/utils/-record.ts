@@ -4,6 +4,13 @@ import { PersonSevenTVEmoteIntegration } from "$persons-emotes-collections/layer
 import { PersonTwitchEmoteIntegration } from "$persons-emotes-collections/layers/integrations/layers/twitch/server/utils/person-emotes-integration";
 import { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
 
+export type PersonEmoteIntegrationRecord = {
+  BetterTTV: PersonBetterTTVEmoteIntegration;
+  FrankerFaceZ: PersonFrankerFaceZEmoteIntegration;
+  SevenTV: PersonSevenTVEmoteIntegration;
+  Twitch: PersonTwitchEmoteIntegration;
+};
+
 export const personEmoteIntegrations = {
   BetterTTV: new PersonBetterTTVEmoteIntegration(
     new PersonEmotesIntegrationWithFailControl("BetterTTV"),
@@ -17,7 +24,7 @@ export const personEmoteIntegrations = {
   Twitch: new PersonTwitchEmoteIntegration(
     new PersonEmotesIntegrationWithFailControl("Twitch"),
   ),
-  of<T extends EmoteSource>(source: T) {
+  of<S extends EmoteSource>(source: S) {
     return this[source] || raise();
   },
   *[Symbol.iterator]() {
