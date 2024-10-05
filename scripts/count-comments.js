@@ -39,7 +39,7 @@ class WordEntries {
       return "None";
     }
 
-    return "\n" + Array.from(this.entries)
+    return `${this.size}\n` + Array.from(this.entries)
       .map(([file, lineNumber]) => ` - **${file}:${lineNumber}**`)
       .join("\n");
   }
