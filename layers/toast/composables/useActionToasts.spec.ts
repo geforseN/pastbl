@@ -15,6 +15,10 @@ function useTestActionToasts(actionName: string, methods: RawActionToastsMethods
   );
 }
 
+// TODO: test what happens when nothing is returned from maker
+// TODO: TS: add raise, throw, panic even if failures is not defined
+// TODO: rename to useActionToaster ?
+
 const additionalMethods = ["warning", "success", "failure", "info"] as const satisfies ActionToastType[];
 
 const baseMethods = ["add", "raise"] as const;
@@ -56,7 +60,6 @@ describe("useActionToasts", async () => {
       }),
       actionsToastsOptions,
     );
-
     test("return value will be function", () => {
       expect(actionToasts).toBeInstanceOf(Function);
     });
@@ -70,6 +73,14 @@ describe("useActionToasts", async () => {
     test("provided args will not be ignored", () => {
       expect(actionToasts.success("test")).toEqual({ description: "success:test" });
       expect(actionToasts("test")).toEqual({ description: "success:test" });
+    });
+    it("has raise method", () => {
+      expect(actionToasts.raise).toBeInstanceOf(Function);
+    });
+    it("will throw on raise call", () => {
+      expect(() => {
+        actionToasts.raise("test");
+      }).toThrowErrorMatchingInlineSnapshot(`[Error: Must panic]`);
     });
   });
 
@@ -86,6 +97,22 @@ describe("useActionToasts", async () => {
             };
           },
         },
+        warnings: {
+          baz() {
+            return {
+              title: "baz",
+            };
+          },
+          bub() {
+            return {};
+          },
+        },
+        infos: {
+          bar() {
+            return {
+            };
+          },
+        },
       }),
       actionsToastsOptions,
     );
@@ -96,9 +123,12 @@ describe("useActionToasts", async () => {
     expect(Object.keys(actionToasts)).toMatchInlineSnapshot(`[]`);
     expect(Object.values(actionToasts)).toMatchInlineSnapshot(`[]`);
     expect(actionToasts.failure).toBeInstanceOf(Function);
+    expect(actionToasts.warning("baz")).toEqual({ title: "baz" });
     expect(actionToasts.fail).toBeInstanceOf(Function);
+    expect(actionToasts.info).toBeInstanceOf(Function);
     expect(() => actionToasts.fail("foo")).not.toThrow();
     expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
     expect(() => actionToasts.fail("baz")).toThrow();
+    expect(() => actionToasts.raise("fooArg", 123)).toThrow();
   });
 });

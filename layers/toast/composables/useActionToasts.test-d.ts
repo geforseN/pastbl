@@ -6,6 +6,7 @@ const actionsToastsOptions = {
   i18n: { t: (text: string) => text },
 } as unknown as VueI18n;
 
+// FIXME: make it work
 describe("typecheck", async () => {
   // await setup({
   //   host: "http://127.0.0.1",

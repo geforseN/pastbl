@@ -34,10 +34,17 @@ export type RawActionToastsMethods = {
 };
 
 export type ActionToastsPanicFn<T extends RawActionToastsMethods["failures"]> =
-  | (<K extends keyof T>(
+  & (<K extends keyof T>(
     key: K,
     ...args: Parameters<NonNullable<T>[K]>
   ) => never)
-  | ((error: Error) => never)
-  | ((toastableError: ToastableError) => never)
-  | ((maybeError?: unknown) => never);
+  & ((error: Error) => never)
+  & ((toastableError: ToastableError) => never)
+  & ((maybeError?: unknown) => never);
+
+export type ActionToastsPanicFn2 =
+  ((...args: unknown[]) => never);
+  // FIXME: for now it just throws generic error
+  // ((error: Error) => never)
+  // & ((toastableError: ToastableError) => never)
+  // & ((maybeError?: unknown) => never);
