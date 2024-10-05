@@ -21,7 +21,7 @@ for (const file of files) {
   const lines = content.split("\n");
 
   for (let lineNumber = 1; lineNumber <= lines.length; lineNumber++) {
-    const line = lines[lineNumber];
+    const line = lines[lineNumber - 1];
 
     if (todoRegex.test(line)) {
       todoCount++;
