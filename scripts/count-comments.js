@@ -10,8 +10,6 @@ const execPromise = promisify(exec);
  * @param {string} outputFilePath
  */
 async function main(outputFilePath) {
-  const words = [new Word("todo"), new Word("fixme"), new Word("note")];
-
   const { stdout: diffOutput } = await execPromise(
     "git diff --name-only origin/main",
   );
@@ -22,16 +20,19 @@ async function main(outputFilePath) {
     process.exit(0);
   }
 
+  const words = ["todo", "fixme", "note"].map(Word.create);
+
   const settled = await Promise.allSettled(
     files.map(async (file) => {
-      const content = await readFile(file, "utf-8").catch((error) => {
-        throw new Error(`Error reading file: ${file}`, { cause: error });
+      const content = await readFile(file, "utf-8").catch((cause) => {
+        throw new Error(`Error reading file: ${file}`, { cause });
       });
+
       const lines = content.split("\n").filter(Boolean);
 
-      lines.forEach((line, index) => {
+      for (const [index, line] of lines.entries()) {
         words.find((word) => word.match(line))?.addEntry(file, index + 1);
-      });
+      }
     }),
   );
 
@@ -55,7 +56,7 @@ class WordEntries {
    *
    * @param {Set<[string, number]>} entries
    */
-  constructor(entries) {
+  constructor(entries = new Set()) {
     this.entries = entries;
   }
 
@@ -85,11 +86,20 @@ class WordEntries {
 class Word {
   /**
    * @param {string} keyword
+   * @param {RegExp} regex
+   * @param {WordEntries} entries
    */
-  constructor(keyword) {
+  constructor(keyword, regex, entries) {
     this.keyword = keyword;
-    this.regex = createCommentRegex(keyword);
-    this.entries = new WordEntries(new Set());
+    this.regex = regex;
+    this.entries = entries;
+  }
+
+  /**
+   * @param {string} keyword
+   */
+  static create(keyword) {
+    return new Word(keyword, createCommentRegex(keyword), new WordEntries());
   }
 
   format() {
