@@ -1,4 +1,7 @@
-import { personEmoteIntegrations, type PersonEmoteIntegrationRecord } from "./-record";
+import {
+  personEmoteIntegrations,
+  type PersonEmoteIntegrationRecord,
+} from "./-record";
 
 export async function getPersonEmoteIntegration<S extends EmoteSource>(
   source: S,
@@ -10,12 +13,18 @@ export async function getPersonEmoteIntegration<S extends EmoteSource>(
   return integration;
 }
 
-export function definePersonEmoteIntegrationEventHandler<S extends EmoteSource>(source: S) {
-  const _integration = personEmoteIntegrations.of(source) as PersonEmoteIntegrationRecord[S];
+export function definePersonEmoteIntegrationEventHandler<S extends EmoteSource>(
+  source: S,
+) {
+  const _integration = personEmoteIntegrations.of(
+    source,
+  ) as PersonEmoteIntegrationRecord[S];
   return async function (event: H3Event) {
     const login = getTwitchLoginRouteParam(event);
     const user = await getTwitchUser(login);
-    const integration = await _integration.get(user) as ReturnType<PersonEmoteIntegrationRecord[S]["get"]>;
+    const integration = (await _integration.get(user)) as ReturnType<
+      PersonEmoteIntegrationRecord[S]["get"]
+    >;
     return {
       integration,
     };

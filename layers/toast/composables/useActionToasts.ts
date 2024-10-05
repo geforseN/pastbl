@@ -27,7 +27,9 @@ export function useActionToasts<T extends RawActionToastsInstance>(
 
   const finalActionToasts = actionToasts.contextify<T>(i18n, add, toast.add);
 
-  log("debug", actionToasts.actionName, { toastsWithContext: finalActionToasts });
+  log("debug", actionToasts.actionName, {
+    toastsWithContext: finalActionToasts,
+  });
 
   return finalActionToasts;
 }

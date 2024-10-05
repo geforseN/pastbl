@@ -1,6 +1,10 @@
 import { ToastableError } from "../utils/toastable-error";
 import type { Notification } from "../utils/types";
-import type { ActionToastsPanicFn, RaiseMethodName, RawActionToastsMethods } from "./types";
+import type {
+  ActionToastsPanicFn,
+  RaiseMethodName,
+  RawActionToastsMethods,
+} from "./types";
 
 function getNotification<
   F extends NonNullable<RawActionToastsMethods["failures"]>,
@@ -29,7 +33,9 @@ function getNotification<
   return firstArgument.toToast(context);
 }
 
-function defineActionToastsRaiseMethod<FS extends RawActionToastsMethods["failures"]>(
+function defineActionToastsRaiseMethod<
+  FS extends RawActionToastsMethods["failures"],
+>(
   context: ActionToastsContext,
   failures: FS,
   addToast: (toast: Partial<Notification>) => void,
@@ -50,7 +56,7 @@ function defineActionToastsRaiseMethod<FS extends RawActionToastsMethods["failur
     addToast(notification);
     throw new Error("Must panic", { cause: notification });
   };
-};
+}
 
 const typeWithAlias = ["raise", "panic", "throw"] as const;
 

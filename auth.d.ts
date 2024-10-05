@@ -5,7 +5,7 @@ declare module "#auth-utils" {
   /* eslint-disable @typescript-eslint/no-empty-object-type */
   interface User extends SessionUser {}
 
-  interface UserSession extends Record<string, never> { }
+  interface UserSession extends Record<string, never> {}
   /* eslint-enable @typescript-eslint/no-empty-object-type */
 }
 

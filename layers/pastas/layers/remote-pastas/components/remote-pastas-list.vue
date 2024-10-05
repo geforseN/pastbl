@@ -10,9 +10,7 @@
       v-bind="pasta"
       @copy="pastasStore.copyPasta(pasta)"
       @edit="navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))"
-      @remove="
-        () => { }
-      "
+      @remove="() => {}"
       @populate="
         (pastaTextContainer) => {
           populatePasta(

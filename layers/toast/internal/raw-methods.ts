@@ -17,7 +17,7 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
     if (!methodsRecord) {
       throw new Error(`Action toast '${methodsRecordName}' not found`);
     }
-    return function<
+    return function <
       MethodsRecord extends typeof methodsRecord,
       MethodsRecordKey extends keyof MethodsRecord,
     >(
@@ -28,11 +28,15 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
         throw new TypeError("Method name must be a string");
       }
       if (!(methodName in methodsRecord)) {
-        throw new Error(`Action toast '${methodsRecordName}.${methodName}' not found`);
-      };
+        throw new Error(
+          `Action toast '${methodsRecordName}.${methodName}' not found`,
+        );
+      }
       const method = methodsRecord[methodName];
       if (typeof method !== "function") {
-        throw new TypeError(`Action toast '${methodsRecordName}.${methodName}' must be a function`);
+        throw new TypeError(
+          `Action toast '${methodsRecordName}.${methodName}' must be a function`,
+        );
       }
       const notification = method.apply(context, args);
       return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
