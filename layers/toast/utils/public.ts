@@ -1,5 +1,5 @@
 import { raiseToastMethod } from "../internal/raise-method";
-import type { RawActionToastMaker, RawActionToastMakersGroup, ActionToastsPanicFn, ActionToastsPanicFn2 } from "./types";
+import type { RawActionToastMaker, RawActionToastMakersGroup, ActionToastsPanicFn, Notification, ActionToastsContext, RawActionToastsMethods } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
   return ElNotification({
@@ -17,41 +17,8 @@ export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<N
   });
 }
 
-// class RawActionToastsMethods_ {
-//   constructor(private readonly methods: RawActionToastsMethods) {}
-//   get hasSuccessMethod() {
-//     return typeof this.methods.success === "function";
-//   }
-// }
-
 // class ActionToastsMethods_ {
-// }
-
-// function methodsToTransform<
-//   MethodsRecord extends Record<string, RawActionToastMaker>,
-//   MethodsRecordKey extends keyof MethodsRecord,
-// >(
-//   this: {
-//     methodsRecordName: Exclude<ActionToastsMethodsKey, "success">;
-//     methodsRecord: MethodsRecord;
-//     context: ActionToastsContext;
-//   },
-//   methodName: MethodsRecordKey,
-//   ...args: Parameters<MethodsRecord[MethodsRecordKey]>
-// ): ReturnType<MethodsRecord[MethodsRecordKey]> {
-//   const { methodsRecord, methodsRecordName } = this;
-//   if (typeof methodName !== "string") {
-//     throw new TypeError("Method name must be a string");
-//   }
-//   if (!(methodName in methodsRecord)) {
-//     throw new Error(`Action toast '${methodsRecordName}.${methodName}' not found`);
-//   };
-//   const method = methodsRecord[methodName];
-//   if (typeof method !== "function") {
-//     throw new TypeError(`Action toast '${methodsRecordName}.${methodName}' must be a function`);
-//   }
-//   const notification = method.apply(this.context, args);
-//   return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
+//   constructor(private readonly methods: RawActionToastsMethods) {}
 // }
 
 type FN<Group extends RawActionToastMakersGroup> = <K extends keyof Group>(key: K, ...args: Parameters<Group[K]>) => ReturnType<Group[K]>;
@@ -76,7 +43,7 @@ type Success_<
   _M extends NonNullable<M["success"] > = NonNullable<M["success"]>,
 > = HasMethod<M["success"], {
   (...args: Parameters<_M>): ReturnType<_M>;
-  success: _M;
+  success(...args: Parameters<_M>): ReturnType<_M>;
 }>;
 
 type Failure_<M extends RawActionToastsMethods> = M extends {
@@ -90,7 +57,7 @@ type Failure_<M extends RawActionToastsMethods> = M extends {
   fail<K extends keyof M["failures"]>(name: K, ...args: Parameters<M["failures"][K]>): ReturnType<M["failures"][K]>;
 }
   : {
-      [K in typeof raiseToastMethod.typeWithAlias[number]]: ActionToastsPanicFn2
+      [K in typeof raiseToastMethod.typeWithAlias[number]]: ActionToastsPanicFn2;
     };
 
 type Info_<M extends RawActionToastsMethods> = HasMethodGroup<
@@ -119,10 +86,46 @@ export const validTypes = [
   ...raiseToastMethod.typeWithAlias,
 ].flat();
 
+class RawActionToastsMethods_<M extends RawActionToastsMethods> {
+  constructor(public readonly methods: M) {}
+
+  get hasSuccessMethod() {
+    return typeof this.methods.success === "function";
+  }
+
+  makeHandler(key: string, context: ActionToastsContext) {
+    const methodsRecordName = revertedAliases.get(key)!;
+    const methodsRecord = this.methods[methodsRecordName];
+    if (!methodsRecord) {
+      throw new Error(`Action toast '${methodsRecordName}' not found`);
+    }
+    return function<
+      MethodsRecord extends typeof methodsRecord,
+      MethodsRecordKey extends keyof MethodsRecord,
+    >(
+      methodName: MethodsRecordKey,
+      ...args: Parameters<MethodsRecord[MethodsRecordKey]>
+    ): ReturnType<MethodsRecord[MethodsRecordKey]> {
+      if (typeof methodName !== "string") {
+        throw new TypeError("Method name must be a string");
+      }
+      if (!(methodName in methodsRecord)) {
+        throw new Error(`Action toast '${methodsRecordName}.${methodName}' not found`);
+      };
+      const method = methodsRecord[methodName];
+      if (typeof method !== "function") {
+        throw new TypeError(`Action toast '${methodsRecordName}.${methodName}' must be a function`);
+      }
+      const notification = method.apply(context, args);
+      return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
+    };
+  }
+}
+
 export class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(
     public readonly actionName: N,
-    public readonly methods: M,
+    public readonly methods: RawActionToastsMethods_<M>,
   ) {}
 
   static create<N extends string, M extends RawActionToastsMethods>(
@@ -131,7 +134,7 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
   ) {
     return new RawActionToast<N, M>(
       actionName,
-      actionMethods,
+      new RawActionToastsMethods_(actionMethods),
     );
   }
 
@@ -148,16 +151,19 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
 
   // NOTE: omit function properties (call, apply, bind, ...)
   // NOTE: this are shown when success is defined
-  contextify<M extends RawActionToastsMethods>(
+  contextify<
+    T extends InstanceType<typeof RawActionToast>,
+    M extends T["methods"]["methods"] = T["methods"]["methods"],
+  >(
     i18n: VueI18n,
     add: (
       makeNotification: (i18n: ActionToastsThis["i18n"]) => Partial<Notification>
     ) => void,
     addToast: (notification: Partial<Notification>) => void,
   ) {
-    const hasSuccessMethod = typeof this.methods.success === "function";
+    const hasSuccessMethod = typeof this.methods.methods.success === "function";
     const success: RawActionToastMaker | (() => never) = hasSuccessMethod
-      ? this.methods.success!
+      ? this.methods.methods.success!
       : () => { throw new Error("Action toast 'success' not found"); };
     const context = { i18n };
     return new Proxy(success, {
@@ -169,36 +175,19 @@ export class RawActionToast<N extends string, M extends RawActionToastsMethods> 
           return receiver;
         }
         if (raiseToastMethod.typeWithAlias.includes(key)) {
-          return raiseToastMethod.define(context, this.methods.failures, addToast);
+          return raiseToastMethod.define(context, this.methods.methods.failures, addToast);
         }
         if (!validTypes.includes(key)) {
           return Reflect.get(target, key, receiver);
         }
-        const methodsRecordName = revertedAliases.get(key)!;
-        const methodsRecord = this.methods[methodsRecordName];
-        if (!methodsRecord) {
+        try {
+          return this.methods.makeHandler(key, context);
+        }
+        catch (error) {
+          assert.ok(error instanceof Error, new Error("Expected an error", { cause: error }));
+          assert.ok(error.message.match(/Action toast '\w+' not found/), new Error("Unexpected error", { cause: error }));
           return Reflect.get(target, key, receiver);
         }
-        return function <
-          MethodsRecord extends typeof methodsRecord,
-          MethodsRecordKey extends keyof MethodsRecord,
-        >(
-          methodName: MethodsRecordKey,
-          ...args: Parameters<MethodsRecord[MethodsRecordKey]>
-        ): ReturnType<MethodsRecord[MethodsRecordKey]> {
-          if (typeof methodName !== "string") {
-            throw new TypeError("Method name must be a string");
-          }
-          if (!(methodName in methodsRecord)) {
-            throw new Error(`Action toast '${methodsRecordName}.${methodName}' not found`);
-          };
-          const method = methodsRecord[methodName];
-          if (typeof method !== "function") {
-            throw new TypeError(`Action toast '${methodsRecordName}.${methodName}' must be a function`);
-          }
-          const notification = method.apply(context, args);
-          return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;
-        };
       },
     }) as {
       add: typeof add;

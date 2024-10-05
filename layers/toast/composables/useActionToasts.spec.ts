@@ -128,6 +128,7 @@ describe("useActionToasts", async () => {
     expect(actionToasts.info).toBeInstanceOf(Function);
     expect(() => actionToasts.fail("foo")).not.toThrow();
     expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
+    // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
     expect(() => actionToasts.fail("baz")).toThrow();
     expect(() => actionToasts.raise("fooArg", 123)).toThrow();
   });

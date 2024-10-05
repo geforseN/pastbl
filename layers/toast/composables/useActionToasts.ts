@@ -22,7 +22,7 @@ export function useActionToasts<T extends InstanceType<typeof RawActionToast>>(
     return toast.add(notification);
   }
 
-  const finalActionToasts = actionToasts.contextify<T["methods"]>(i18n, add, toast.add);
+  const finalActionToasts = actionToasts.contextify<T>(i18n, add, toast.add);
 
   log("debug", actionToasts.actionName, { toastsWithContext: finalActionToasts });
 
