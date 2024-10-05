@@ -3,10 +3,10 @@ import { execSync } from "child_process";
 
 try {
   const diffOutput = execSync("git diff --name-only origin/main").toString();
-  console.log("Diff output:", diffOutput); // Для диагностики
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
+    // eslint-disable-next-line no-console
     console.log("No files changed.");
     process.exit(0);
   }
@@ -24,7 +24,7 @@ try {
   const noteRegex = /(?:\/\/|\/\*+|#|<!--)\s*note\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
 
   for (const file of files) {
-    if (!file) continue; // Пропуск пустых строк
+    if (!file) continue;
     try {
       const content = readFileSync(file, "utf-8");
       const lines = content.split("\n");
@@ -47,6 +47,7 @@ try {
       }
     }
     catch (err) {
+      // eslint-disable-next-line no-console
       console.error(`Error reading file: ${file}`, err);
     }
   }
@@ -60,6 +61,7 @@ try {
       : " - None";
   }
 
+  // eslint-disable-next-line no-console
   console.log(`
 ## Summary of Comments
 
@@ -75,6 +77,7 @@ Please address the above comments before merging.
   `);
 }
 catch (error) {
-  console.error("Error during script execution:", error);
+  // eslint-disable-next-line no-console
+  console.error("Error during script execution: ", error);
   process.exit(1);
 }
