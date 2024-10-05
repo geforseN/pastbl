@@ -1,84 +1,139 @@
-import { readFileSync } from "fs";
-import { execSync } from "child_process";
+/* eslint-disable no-console */
+// @ts-check
+import { readFileSync, writeFileSync } from "fs";
+import { exec } from "child_process";
 
-try {
-  const diffOutput = execSync("git diff --name-only origin/main").toString();
+const outputFilePath = process.argv[2];
+
+if (!outputFilePath) {
+  console.error("Error: No output file path provided.");
+  process.exit(1);
+}
+
+main(outputFilePath);
+
+/**
+ * @param {string} outputFilePath
+ */
+function main(outputFilePath) {
+  const words = [new Word("todo"), new Word("fixme"), new Word("note")];
+
+  const diffOutput = exec("git diff --name-only origin/main").toString();
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
-    // eslint-disable-next-line no-console
     console.log("No files changed.");
     process.exit(0);
   }
 
-  let todoCount = 0;
-  const todoEntries = [];
-  const todoRegex = /(?:\/\/|\/\*+|#|<!--)\s*todo\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
-
-  let fixmeCount = 0;
-  const fixmeEntries = [];
-  const fixmeRegex
-    = /(?:\/\/|\/\*+|#|<!--)\s*fixme\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
-
-  let noteCount = 0;
-  const noteEntries = [];
-  const noteRegex = /(?:\/\/|\/\*+|#|<!--)\s*note\b[\s\S]*?(?:\*\/|-->|\n|$)/i;
-
   for (const file of files) {
-    if (!file) continue;
-    try {
-      const content = readFileSync(file, "utf-8");
-      const lines = content.split("\n");
+    const content = readFileSync(file, "utf-8");
+    const lines = content.split("\n").filter(Boolean);
 
-      for (let lineNumber = 1; lineNumber <= lines.length; lineNumber++) {
-        const line = lines[lineNumber - 1];
-
-        if (todoRegex.test(line)) {
-          todoCount++;
-          todoEntries.push([file, lineNumber]);
-        }
-        if (fixmeRegex.test(line)) {
-          fixmeCount++;
-          fixmeEntries.push([file, lineNumber]);
-        }
-        if (noteRegex.test(line)) {
-          noteCount++;
-          noteEntries.push([file, lineNumber]);
-        }
-      }
-    }
-    catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Error reading file: ${file}`, err);
+    for (const [index, line] of lines.entries()) {
+      words
+        .find((word) => word.match(line))
+        ?.addEntry(file, index + 1);
     }
   }
 
-  function formatCount(entries, count) {
-    return entries.length
-      ? ` - ${count} 
-  - ${entries
-    .map(([file, lineNumber]) => `**${file}:${lineNumber}**`)
-    .join("\n")}`
-      : " - None";
+  const summary = new WordsSummary(words).create();
+
+  writeFileSync(outputFilePath, summary);
+
+  console.log(`Report generated and saved to ${outputFilePath}, summary: ${summary}`);
+}
+
+/**
+ * @param {string} keyword
+ * @returns {RegExp}
+ */
+function createCommentRegex(keyword) {
+  return new RegExp(
+    `(?:\\/\\/|\\/\\*+|#|<!--)\\s*${keyword}\\b[\\s\\S]*?(?:\\*\\/|-->|\n|$)`,
+    "i",
+  );
+}
+
+class WordEntries {
+  /**
+   *
+   * @param {Set<[string, number]>} entries
+   */
+  constructor(entries) {
+    this.entries = entries;
   }
 
-  // eslint-disable-next-line no-console
-  console.log(`
+  /**
+   * @param {string} file
+   * @param {number} lineNumber
+   */
+  add(file, lineNumber) {
+    this.entries.add([file, lineNumber]);
+  }
+
+  get size() {
+    return this.entries.size;
+  }
+
+  format() {
+    if (!this.size) {
+      return "None";
+    }
+
+    return "\n" + Array.from(this.entries)
+      .map(([file, lineNumber]) => ` - **${file}:${lineNumber}**`)
+      .join("\n");
+  }
+}
+
+class Word {
+  /**
+   * @param {string} keyword
+   */
+  constructor(keyword) {
+    this.keyword = keyword;
+    this.regex = createCommentRegex(keyword);
+    this.entries = new WordEntries(new Set());
+  }
+
+  format() {
+    return `${this.keyword.toUpperCase()}s: - ${this.entries.format()}`;
+  }
+
+  /**
+   * @param {string} file
+   * @param {number} lineNumber
+   */
+  addEntry(file, lineNumber) {
+    return this.entries.add(file, lineNumber);
+  }
+
+  /**
+   * @param {string} line
+   */
+  match(line) {
+    return this.regex.test(line);
+  }
+}
+
+class WordsSummary {
+  /**
+   * @param {Array<Word>} words
+   */
+  constructor(words) {
+    this.words = words;
+  }
+
+  create() {
+    return `
 ## Summary of Comments
 
-- **TODOs**: ${formatCount(todoEntries, todoCount)}
-
-- **FIXMEs**: ${formatCount(fixmeEntries, fixmeCount)}
-
-- **NOTEs**: ${formatCount(noteEntries, noteCount)}
+${this.words.map((word) => word.format()).join("\n\n")}
 
 ---
 
 Please address the above comments before merging.
-  `);
-}
-catch (error) {
-  // eslint-disable-next-line no-console
-  console.error("Error during script execution: ", error);
-  process.exit(1);
+`;
+  }
 }
