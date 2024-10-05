@@ -70,7 +70,7 @@
     "jest-image-snapshot": "^6.4.0",
     "jsdom": "^25.0.1",
     "lint-staged": "^15.2.10",
-    "nitro-test-utils": "0.8.2",
+    "nitro-test-utils": "0.9.0",
     "nuxt": "^3.13.2",
     "nuxt-auth-utils": "^0.4.0",
     "nuxt-icon": "^0.6.10",

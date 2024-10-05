@@ -181,8 +181,8 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       nitro-test-utils:
-        specifier: 0.8.2
-        version: 0.8.2(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(vitest@2.1.2(@types/node@22.7.4)(happy-dom@15.7.4)(jsdom@25.0.1)(terser@5.34.1))
+        specifier: 0.9.0
+        version: 0.9.0(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(vitest@2.1.2(@types/node@22.7.4)(happy-dom@15.7.4)(jsdom@25.0.1)(terser@5.34.1))
       nuxt:
         specifier: ^3.13.2
         version: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.12.0(jiti@2.2.1))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
@@ -4596,8 +4596,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  nitro-test-utils@0.8.2:
-    resolution: {integrity: sha512-A8iffxw0snEnhLGEXWY8O+M2ZpJVI0ocPQDdqRcyLSC53GyiZgbRqeImbDXicSzosVLLnvU8gLM6glovHro/mw==}
+  nitro-test-utils@0.9.0:
+    resolution: {integrity: sha512-UUIhLu1wH2yhy81p5jPQBs5q3GzvG+XlnVOW683+dPqkueTEurjcy449JQRtsVQoN04KgsKWk/GPbqDk3KZDhw==}
     peerDependencies:
       nitropack: ^2
       vitest: ^2
@@ -11170,7 +11170,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  nitro-test-utils@0.8.2(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(vitest@2.1.2(@types/node@22.7.4)(happy-dom@15.7.4)(jsdom@25.0.1)(terser@5.34.1)):
+  nitro-test-utils@0.9.0(nitropack@2.9.7(drizzle-orm@0.33.0(postgres@3.4.4))(magicast@0.3.5))(vitest@2.1.2(@types/node@22.7.4)(happy-dom@15.7.4)(jsdom@25.0.1)(terser@5.34.1)):
     dependencies:
       dotenv: 16.4.5
       listhen: 1.9.0
