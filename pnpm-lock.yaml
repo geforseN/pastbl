@@ -157,8 +157,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       eslint-plugin-unicorn:
-        specifier: ^55.0.0
-        version: 55.0.0(eslint@9.12.0(jiti@2.2.1))
+        specifier: ^56.0.0
+        version: 56.0.0(eslint@9.12.0(jiti@2.2.1))
       eslint-plugin-vue:
         specifier: ^9.28.0
         version: 9.28.0(eslint@9.12.0(jiti@2.2.1))
@@ -3475,6 +3475,12 @@ packages:
 
   eslint-plugin-unicorn@55.0.0:
     resolution: {integrity: sha512-n3AKiVpY2/uDcGrS3+QsYDkjPfaOrNrsfQxU9nt5nitd9KuvVXrfAvgCO9DYPSfap+Gqjw9EOrXIsBp5tlHZjA==}
+    engines: {node: '>=18.18'}
+    peerDependencies:
+      eslint: ^9.11.1
+
+  eslint-plugin-unicorn@56.0.0:
+    resolution: {integrity: sha512-aXpddVz/PQMmd69uxO98PA4iidiVNvA0xOtbpUoz1WhBd4RxOQQYqN618v68drY0hmy5uU2jy1bheKEVWBjlPw==}
     engines: {node: '>=18.18'}
     peerDependencies:
       eslint: ^9.11.1
@@ -9995,6 +10001,26 @@ snapshots:
       safe-regex: 2.1.1
 
   eslint-plugin-unicorn@55.0.0(eslint@9.12.0(jiti@2.2.1)):
+    dependencies:
+      '@babel/helper-validator-identifier': 7.25.7
+      '@eslint-community/eslint-utils': 4.4.0(eslint@9.12.0(jiti@2.2.1))
+      ci-info: 4.0.0
+      clean-regexp: 1.0.0
+      core-js-compat: 3.38.1
+      eslint: 9.12.0(jiti@2.2.1)
+      esquery: 1.6.0
+      globals: 15.10.0
+      indent-string: 4.0.0
+      is-builtin-module: 3.2.1
+      jsesc: 3.0.2
+      pluralize: 8.0.0
+      read-pkg-up: 7.0.1
+      regexp-tree: 0.1.27
+      regjsparser: 0.10.0
+      semver: 7.6.3
+      strip-indent: 3.0.0
+
+  eslint-plugin-unicorn@56.0.0(eslint@9.12.0(jiti@2.2.1)):
     dependencies:
       '@babel/helper-validator-identifier': 7.25.7
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.12.0(jiti@2.2.1))
