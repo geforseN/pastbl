@@ -28,6 +28,7 @@
     "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@codecov/vite-plugin": "^1.2.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@element-plus/nuxt": "^1.0.10",
@@ -47,6 +48,7 @@
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.7.4",
     "@vitejs/plugin-vue": "^5.1.4",
+    "@vitest/coverage-v8": "^2.1.2",
     "@vitest/eslint-plugin": "^1.1.6",
     "@vue-macros/eslint-config": "^0.7.0",
     "@vue-macros/nuxt": "^1.12.3",

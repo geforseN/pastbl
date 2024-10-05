@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { codecovVitePlugin } from "@codecov/vite-plugin";
 import { i18n } from "./app/i18n.config";
 import tailwindTheme from "./tailwind.theme";
 
@@ -141,5 +142,12 @@ export default defineNuxtConfig({
     define: {
       tailwindTheme,
     },
+    plugins: [
+      codecovVitePlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: "pastbl",
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
+    ],
   },
 });
