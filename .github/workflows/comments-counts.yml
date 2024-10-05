@@ -1,0 +1,26 @@
+name: Count TODOs, FIXMEs, and NOTEs (TypeScript)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  analyze_comments:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      
+      - name: Count TODOs, FIXMEs, and NOTEs and add comment to PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/count-comments.js
