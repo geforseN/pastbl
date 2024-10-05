@@ -46,6 +46,5 @@ jobs:
       - name: Run Nuxt and Nitro tests
         run: pnpm test:nuxt+
 
-      - name: Run Node tests 
+      - name: Run Node tests
         run: pnpm test:node
-
