@@ -1,13 +1,15 @@
 import { raiseToastMethod } from "../internal/raise-method";
 import type {
-  RawActionToastMaker,
-  Notification,
-  ActionToastsContext,
-  RawActionToastsMethods,
   Failure_,
   Info_,
   Success_,
   Warning_,
+} from "../internal/types";
+import type {
+  RawActionToastMaker,
+  Notification,
+  ActionToastsContext,
+  RawActionToastsMethods,
 } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(notification: Partial<Notification>) {
