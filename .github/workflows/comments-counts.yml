@@ -34,5 +34,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            $(cat comment-output.txt)
+          body-path: comment-output.txt
