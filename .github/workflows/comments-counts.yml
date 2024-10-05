@@ -1,18 +1,19 @@
-name: Count TODOs, FIXMEs, and NOTEs 
+name: Count TODOs, FIXMEs, and NOTEs
+
 on:
   pull_request:
     types: [opened, synchronize]
 
-permissions: 
-  issues: write 
+permissions:
+  issues: write
   pull-requests: write
 
 jobs:
   analyze_comments:
     runs-on: ubuntu-latest
-    
+
     timeout-minutes: 5
-    
+
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
@@ -27,13 +28,24 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      
+
       - name: Count TODOs, FIXMEs, and NOTEs
         id: count-comments
+        run: node scripts/count-comments.js comment-output.txt
+
+      - name: Check if comment file exists
+        id: check-file
         run: |
-          node scripts/count-comments.js > comment-output.txt
-          
+          if [ -f "comment-output.txt" ]; then
+            echo "File exists"
+            echo "::set-output name=file_exists::true"
+          else
+            echo "File does not exist"
+            echo "::set-output name=file_exists::false"
+          fi
+
       - name: Create Comment
+        if: steps.check-file.outputs.file_exists == 'true'
         uses: peter-evans/create-or-update-comment@v4.0.0
         with:
           issue-number: ${{ github.event.pull_request.number }}
