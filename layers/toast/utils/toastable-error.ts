@@ -7,5 +7,5 @@ export abstract class ToastableError extends Error {
     super();
   }
 
-  abstract toToast(context: ActionToastsContext): Partial<INotification>;
+  abstract toToast(context: ActionToastsContext): INotification;
 }

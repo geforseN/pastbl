@@ -47,7 +47,7 @@ export type RawActionToastsMethodsKeyToTransform = Exclude<
 
 export interface RawActionToastMaker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (this: ActionToastsThis, ...args: any[]): Partial<INotification>;
+  (this: ActionToastsThis, ...args: any[]): INotification;
 }
 
 type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
@@ -92,6 +92,6 @@ export type ContextifyActionToasts<T extends RawActionToastsMethods> =
     add: (
       makeNotification: (
         i18n: ActionToastsThis["i18n"],
-      ) => Partial<INotification>,
+      ) => INotification,
     ) => void;
   };

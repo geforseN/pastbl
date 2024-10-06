@@ -13,7 +13,7 @@ function getNotification<
   failures: F,
   context: ActionToastsContext,
   ...args: Parameters<F[K]>
-): Partial<INotification> {
+): INotification {
   const firstArgument = args[0];
   if (typeof firstArgument === "string") {
     if (firstArgument in failures) {
@@ -38,7 +38,7 @@ function defineActionToastsRaiseMethod<
 >(
   context: ActionToastsContext,
   failures: FS,
-  addToast: (toast: Partial<INotification>) => void,
+  addToast: (toast: INotification) => void,
 ) {
   if (!failures || !isObject(failures)) {
     return function () {

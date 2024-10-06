@@ -8,7 +8,7 @@ export function useActionToasts<T extends RawActionToastsInstance>(
   actionToasts: T = createActionToasts(new Date().toString(), {}) as T,
   options: {
     i18n?: VueI18n;
-    toast?: { add(notification: Partial<INotification>): void };
+    toast?: { add(notification: INotification): void };
   } = {},
 ) {
   const {

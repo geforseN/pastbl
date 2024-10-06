@@ -211,7 +211,7 @@ describe("useActionToasts", async () => {
       afterEach(() => warn.mockReset());
 
       const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification
         createActionToasts("foo", methods),
         actionsToastsOptions,
       );
@@ -231,7 +231,7 @@ describe("useActionToasts", async () => {
         actionToasts.success();
         expect(warn).toHaveBeenCalledOnce();
         expect(warn).toHaveBeenLastCalledWith(
-          "Success method returned falsy value, should return Partial<INotification>",
+          "Success method returned falsy value, should return INotification",
         );
       });
     },
@@ -274,7 +274,7 @@ describe("useActionToasts", async () => {
       afterEach(() => warn.mockReset());
 
       const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification
         createActionToasts("foo", methods),
         actionsToastsOptions,
       );
@@ -293,7 +293,7 @@ describe("useActionToasts", async () => {
         actionToasts.warn("baz");
         expect(warn).toHaveBeenCalledOnce();
         expect(warn).toHaveBeenLastCalledWith(
-          "Method 'warn' returned falsy value, should return Partial<INotification>",
+          "Method 'warn' returned falsy value, should return INotification",
         );
       });
     },
