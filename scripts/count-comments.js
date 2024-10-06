@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 // @ts-check
-import { readFile, writeFile } from "fs/promises";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { readFile, writeFile } from "node:fs/promises";
+import child_process from "node:child_process";
+import { promisify } from "node:util";
 
-const execPromise = promisify(exec);
+const exec = promisify(child_process.exec);
 
 /**
  * @param {string} outputFilePath
  */
 async function main(outputFilePath) {
-  const { stdout: diffOutput } = await execPromise(
+  const { stdout: diffOutput } = await exec(
     "git diff --name-only origin/main",
   );
   const files = diffOutput.split("\n").filter(Boolean);
@@ -20,7 +20,7 @@ async function main(outputFilePath) {
     process.exit(0);
   }
 
-  const words = ["todo", "fixme", "note"].map(Word.create);
+  const comments = ["todo", "fixme", "note"].map(Comment.create);
 
   const settled = await Promise.allSettled(
     files.map(async (file) => {
@@ -31,7 +31,9 @@ async function main(outputFilePath) {
       const lines = content.split("\n").filter(Boolean);
 
       for (const [index, line] of lines.entries()) {
-        words.find((word) => word.match(line))?.addEntry(file, index + 1);
+        comments
+          .find((comment) => comment.match(line))
+          ?.addEntry(CommentEntry.fromLine(file, index));
       }
     }),
   );
@@ -42,7 +44,7 @@ async function main(outputFilePath) {
     }
   }
 
-  const summary = new WordsSummary(words).create();
+  const summary = await new GithubCommentsSummary(comments).create();
 
   await writeFile(outputFilePath, summary);
 
@@ -51,46 +53,77 @@ async function main(outputFilePath) {
   );
 }
 
-class WordEntries {
+class CommentEntry {
   /**
-   *
-   * @param {Set<[string, number]>} entries
+   * @param {string} baseUrl
    */
-  constructor(entries = new Set()) {
-    this.entries = entries;
+  asMarkdownListItem(baseUrl) {
+    const { file, lineNumber } = this;
+    return ` - [**${file}:${lineNumber}**](${baseUrl}${file}#L${lineNumber})`;
   }
 
   /**
    * @param {string} file
    * @param {number} lineNumber
    */
-  add(file, lineNumber) {
-    this.entries.add([file, lineNumber]);
+  constructor(file, lineNumber) {
+    this.file = file;
+    this.lineNumber = lineNumber;
+  }
+
+  /**
+   * @param {string} file
+   * @param {number} index
+   */
+  static fromLine(file, index) {
+    return new CommentEntry(file, index + 1);
+  }
+}
+
+class CommentsEntries {
+  /**
+   * @param {Set<CommentEntry>} entries
+   */
+  constructor(entries = new Set()) {
+    this.entries = entries;
+  }
+
+  /**
+   * @param {CommentEntry} commentEntry
+   */
+  add(commentEntry) {
+    this.entries.add(commentEntry);
   }
 
   get size() {
     return this.entries.size;
   }
 
-  format() {
+  countAsString() {
     if (!this.size) {
       return "None";
     }
+    return String(this.size);
+  }
 
-    return (
-      `${this.size}\n`
-      + Array.from(this.entries)
-        .map(([file, lineNumber]) => ` - **${file}:${lineNumber}**`)
-        .join("\n")
-    );
+  /**
+   * @param {string} baseUrl
+   */
+  asMarkdownListItems(baseUrl) {
+    if (!baseUrl.endsWith("/")) {
+      baseUrl += "/";
+    }
+    return Array.from(this.entries)
+      .map((entry) => entry.asMarkdownListItem(baseUrl))
+      .join("\n");
   }
 }
 
-class Word {
+class Comment {
   /**
    * @param {string} keyword
    * @param {RegExp} regex
-   * @param {WordEntries} entries
+   * @param {CommentsEntries} entries
    */
   constructor(keyword, regex, entries) {
     this.keyword = keyword;
@@ -102,19 +135,34 @@ class Word {
    * @param {string} keyword
    */
   static create(keyword) {
-    return new Word(keyword, createCommentRegex(keyword), new WordEntries());
-  }
-
-  format() {
-    return `${this.keyword.toUpperCase()}s: ${this.entries.format()}`;
+    return new Comment(
+      keyword,
+      createCommentRegex(keyword),
+      new CommentsEntries(),
+    );
   }
 
   /**
-   * @param {string} file
-   * @param {number} lineNumber
+   * @param {string} baseUrl
    */
-  addEntry(file, lineNumber) {
-    return this.entries.add(file, lineNumber);
+  asMarkdownSummary(baseUrl) {
+    const heading = `${this.keyword.toUpperCase()}s: ${this.entries.countAsString()}`;
+    if (!this.entries.size) {
+      return heading;
+    }
+
+    return `
+<details><summary>${heading}</summary>
+${this.entries.asMarkdownListItems(baseUrl)}
+</details>
+`;
+  }
+
+  /**
+   * @param {CommentEntry} commentEntry
+   */
+  addEntry(commentEntry) {
+    return this.entries.add(commentEntry);
   }
 
   /**
@@ -136,19 +184,42 @@ function createCommentRegex(keyword) {
   );
 }
 
-class WordsSummary {
+/**
+ * Github comments summary.
+ */
+class GithubCommentsSummary {
   /**
-   * @param {Array<Word>} words
+   * @param {Array<Comment>} comments
    */
-  constructor(words) {
-    this.words = words;
+  constructor(comments) {
+    this.comments = comments;
   }
 
-  create() {
+  async #getBaseUrl() {
+    const [{ stdout: gitHash }, { stdout: gitUrl }] = await Promise.all([
+      exec("git log -1 --format=%H"),
+      exec("git config --get remote.origin.url"),
+    ]);
+
+    if (typeof gitUrl !== "string") {
+      throw new Error("Error: Git URL not string, received: " + gitUrl);
+    }
+    if (typeof gitHash !== "string") {
+      throw new Error("Error: Git hash not string, received: " + gitHash);
+    }
+    const baseUrl = gitUrl.trim().replace(".git", `/blob/${gitHash.trim()}/`);
+    return baseUrl;
+  }
+
+  async create() {
+    const baseUrl = await this.#getBaseUrl();
+    const summaries = this.comments.map((comment) =>
+      comment.asMarkdownSummary(baseUrl),
+    );
     return `
 ## Summary of Comments
 
-${this.words.map((word) => word.format()).join("\n\n")}
+${summaries.join("\n\n")}
 
 ---
 
