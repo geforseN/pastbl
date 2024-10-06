@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # NOTE: execute firstly: chmod +x scripts/create_lang_folder.sh
 
 create_lang_folder() {
   local path=$1
-  local lang_folder="$path/lang"
+  local lang_folder="$path/locales"
 
   local content="{\n\t\n}"
   mkdir -p "$lang_folder"

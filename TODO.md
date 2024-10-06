@@ -34,3 +34,11 @@ refactor:
 - [ ] pastas-search by text
 
 ?: rename integrations to providers
+
+fix
+Run if [ -f "comment-output.txt" ]; then
+File exists
+Warning: The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+
+fix
+make coverage work (update run command, add config param)
