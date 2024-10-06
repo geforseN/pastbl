@@ -1,7 +1,7 @@
-import type { Notification } from "./types";
+import type { INotification } from "./types";
 
 export function adaptNotificationFromNuxtUItoElementPlus(
-  notification: Partial<Notification>,
+  notification: Partial<INotification>,
 ) {
   return ElNotification({
     // ...notification["icon"],

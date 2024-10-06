@@ -39,9 +39,9 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
     add: (
       makeNotification: (
         i18n: ActionToastsThis["i18n"],
-      ) => Partial<Notification>,
+      ) => Partial<INotification>,
     ) => void,
-    addToast: (notification: Partial<Notification>) => void,
+    addToast: (notification: Partial<INotification>) => void,
   ) {
     const context = { i18n };
     const hasSuccessMethod = typeof this.methods.methods.success === "function";
@@ -59,7 +59,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           else {
             // eslint-disable-next-line no-console
             console.warn(
-              "Success method returned falsy value, should return Partial<Notification>",
+              "Success method returned falsy value, should return Partial<INotification>",
             );
           }
           return notification;

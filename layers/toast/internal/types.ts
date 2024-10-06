@@ -1,5 +1,5 @@
 import type { ToastableError } from "../utils/toastable-error";
-import type { Notification } from "../utils/types";
+import type { INotification } from "../utils/types";
 import type { raiseToastMethod } from "./raise-method";
 import type { additionalMethods, validTypes } from "./utils";
 
@@ -47,7 +47,7 @@ export type RawActionToastsMethodsKeyToTransform = Exclude<
 
 export interface RawActionToastMaker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
+  (this: ActionToastsThis, ...args: any[]): Partial<INotification>;
 }
 
 type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
@@ -92,6 +92,6 @@ export type ContextifyActionToasts<T extends RawActionToastsMethods> =
     add: (
       makeNotification: (
         i18n: ActionToastsThis["i18n"],
-      ) => Partial<Notification>,
+      ) => Partial<INotification>,
     ) => void;
   };

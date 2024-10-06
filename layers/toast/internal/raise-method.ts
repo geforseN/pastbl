@@ -1,5 +1,5 @@
 import { ToastableError } from "../utils/toastable-error";
-import type { Notification } from "../utils/types";
+import type { INotification } from "../utils/types";
 import type {
   ActionToastsPanicFn,
   RaiseMethodName,
@@ -13,7 +13,7 @@ function getNotification<
   failures: F,
   context: ActionToastsContext,
   ...args: Parameters<F[K]>
-): Partial<Notification> {
+): Partial<INotification> {
   const firstArgument = args[0];
   if (typeof firstArgument === "string") {
     if (firstArgument in failures) {
@@ -38,7 +38,7 @@ function defineActionToastsRaiseMethod<
 >(
   context: ActionToastsContext,
   failures: FS,
-  addToast: (toast: Partial<Notification>) => void,
+  addToast: (toast: Partial<INotification>) => void,
 ) {
   if (!failures || !isObject(failures)) {
     return function () {

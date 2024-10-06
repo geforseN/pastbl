@@ -11,7 +11,7 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
   makeHandler(
     key: AdditionalMethodName,
     context: ActionToastsContext,
-    addToast: (notification: Partial<Notification>) => void,
+    addToast: (notification: Partial<INotification>) => void,
   ) {
     const methodsRecordName = revertedAliases.get(key);
     if (!methodsRecordName) {
@@ -49,7 +49,7 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
       else {
         // eslint-disable-next-line no-console
         console.warn(
-          `Method '${key}' returned falsy value, should return Partial<Notification>`,
+          `Method '${key}' returned falsy value, should return Partial<INotification>`,
         );
       }
       return notification as ReturnType<MethodsRecord[MethodsRecordKey]>;

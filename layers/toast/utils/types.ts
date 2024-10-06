@@ -6,7 +6,7 @@ export type ActionToastsThis = { i18n: VueI18n };
 
 export type ActionToastsContext = ActionToastsThis;
 
-export type Notification = {
+export type INotification = {
   title?: string;
   description?: string;
   timeout?: number;
