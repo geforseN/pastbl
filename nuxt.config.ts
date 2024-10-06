@@ -38,6 +38,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
+    // NOTE: @codecov/nuxt-plugin must be at the end
     [
       "@codecov/nuxt-plugin",
       {
@@ -151,6 +152,7 @@ export default defineNuxtConfig({
       tailwindTheme,
     },
     plugins: [
+      // NOTE: codecovVitePlugin must be at the end
       codecovVitePlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
         bundleName: "pastbl",
