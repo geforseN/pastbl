@@ -38,10 +38,10 @@ jobs:
         run: |
           if [ -f "comment-output.txt" ]; then
             echo "File exists"
-            echo "::set-output name=file_exists::true"
+            echo "file_exists=true" >> $GITHUB_OUTPUT
           else
             echo "File does not exist"
-            echo "::set-output name=file_exists::false"
+            echo "file_exists=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Create Comment
