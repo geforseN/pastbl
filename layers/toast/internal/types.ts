@@ -13,12 +13,7 @@ type ToastMakers<
   RawGroup extends RawActionToastMakersGroup,
 > = Record<NewKeys, ToastMaker<RawGroup>>;
 
-export type Warning_<G extends RawActionToastMakersGroup | undefined> =
-G extends RawActionToastMakersGroup
-  ? ToastMakers<"warning" | "warn", G>
-  : Record<string, never>;
-
-export type Success_<
+type TransformSuccess<
   M extends RawActionToastMaker | undefined,
 > =
   M extends RawActionToastMaker
@@ -30,16 +25,12 @@ export type Success_<
 
 type RaiseRecord<FN> = Record<RaiseMethodName, FN>;
 
-export type Failure_<G extends RawActionToastMakersGroup | undefined> =
+type TransformFailures<G extends RawActionToastMakersGroup | undefined> =
 G extends RawActionToastMakersGroup
   ?
   & RaiseRecord<ActionToastsPanicFn<G>>
   & ToastMakers<"failure" | "fail", G>
   : RaiseRecord<ActionToastsPanicFn2>;
-
-export type Info_<G extends RawActionToastMakersGroup | undefined> = G extends RawActionToastMakersGroup
-  ? ToastMakers<"info", G>
-  : Record<string, never>;
 
 export type PossibleProperty = (typeof validTypes)[number] | "add" | "success";
 
@@ -47,10 +38,10 @@ export type AdditionalMethodName = (typeof additionalMethods)[number];
 
 export type RaiseMethodName = (typeof raiseToastMethod.typeWithAlias)[number];
 
-export type ActionToastsMethodsKey = keyof RawActionToastsMethods;
+export type RawActionToastsMethodsKey = keyof RawActionToastsMethods;
 
-export type ActionToastsMethodsKeyToTransform = Exclude<
-  ActionToastsMethodsKey,
+export type RawActionToastsMethodsKeyToTransform = Exclude<
+  RawActionToastsMethodsKey,
   "success"
 >;
 
@@ -83,12 +74,21 @@ export type ActionToastsPanicFn2 = (...args: unknown[]) => never;
 // & ((toastableError: ToastableError) => never)
 // & ((maybeError?: unknown) => never);
 
+type TransformRawGroup<
+  RawGroup extends RawActionToastMakersGroup | undefined,
+  NewKeys extends string,
+  OnUndefined extends Record<string, unknown> = Record<string, never>,
+> = RawGroup extends RawActionToastMakersGroup
+  ? Record<NewKeys, ToastMaker<RawGroup>>
+  : OnUndefined;
+
 export type ContextifyActionToasts<T extends RawActionToastsMethods> =
-  Warning_<T["warnings"]> &
-  Success_<T["success"]> &
-  Failure_<T["failures"]> &
-  Info_<T["infos"]> &
-  {
+  & TransformSuccess<T["success"]>
+  & TransformRawGroup<T["infos"], "info">
+  & TransformRawGroup<T["warnings"], "warn" | "warning">
+  & TransformFailures<T["failures"]>
+  // & TransformRawGroup<T["failures"], "fail" | "failure", RaiseRecord<ActionToastsPanicFn2>>
+  & {
     add: (
       makeNotification: (
         i18n: ActionToastsThis["i18n"],

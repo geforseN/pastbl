@@ -1,5 +1,5 @@
 import { raiseToastMethod } from "./raise-method";
-import type { ActionToastsMethodsKeyToTransform } from "./types";
+import type { RawActionToastsMethodsKeyToTransform } from "./types";
 
 export const revertedAliases = new Map([
   ["failure", "failures"],
@@ -13,7 +13,7 @@ const aliases = new Map([
   ["failures", ["failure", "fail"]],
   ["infos", ["info"]],
   ["warnings", ["warning", "warn"]],
-] as const satisfies [ActionToastsMethodsKeyToTransform, string[]][]);
+] as const satisfies [RawActionToastsMethodsKeyToTransform, string[]][]);
 
 export const validTypes = [
   ...Array.from(aliases.values()),
