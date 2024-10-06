@@ -29,8 +29,6 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
 
   // TODO: add mote interceptors (and add test for then). Object.keys, Object.values...
 
-  // TODO: test what happens when nothing is returned from maker
-
   contextify<
     T extends InstanceType<typeof RawActionToast>,
     M extends T["methods"]["methods"] = T["methods"]["methods"],

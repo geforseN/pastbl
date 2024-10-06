@@ -1,5 +1,4 @@
 import { describe, it, vi, expect, afterEach } from "vitest";
-import { setup } from "@nuxt/test-utils";
 import { createActionToasts } from "../utils/create-raw-action-toasts";
 import { additionalMethods, baseMethods } from "../internal/utils";
 import { raiseToastMethod } from "../internal/raise-method";
@@ -12,11 +11,6 @@ const actionsToastsOptions = {
 // TODO: add mock for toast (second param of useActionToasts has that property)
 // and ensure it is called when it should
 describe("useActionToasts", async () => {
-  await setup({
-    host: "http://127.0.0.1",
-    port: 3000,
-  });
-
   test("additional methods match snapshot", () => {
     expect(additionalMethods).toMatchInlineSnapshot(`
       [
@@ -211,7 +205,7 @@ describe("useActionToasts", async () => {
       afterEach(() => warn.mockReset());
 
       const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
         createActionToasts("foo", methods),
         actionsToastsOptions,
       );
@@ -274,7 +268,7 @@ describe("useActionToasts", async () => {
       afterEach(() => warn.mockReset());
 
       const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification
+        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification'
         createActionToasts("foo", methods),
         actionsToastsOptions,
       );
