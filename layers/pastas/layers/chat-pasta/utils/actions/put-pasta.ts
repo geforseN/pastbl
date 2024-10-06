@@ -1,5 +1,5 @@
 export const putPastaToasts = createActionToasts("put-pasta", {
-  success(this: ActionToastsThis) {
+  success() {
     return {
       description: this.i18n.t("toast.putPasta.success.message"),
       title: this.i18n.t("toast.putPasta.success.title"),
@@ -7,7 +7,7 @@ export const putPastaToasts = createActionToasts("put-pasta", {
     };
   },
   failures: {
-    pastaNotChanged(this: ActionToastsThis) {
+    pastaNotChanged() {
       return {
         description: this.i18n.t("toast.putPasta.fail.sameValuesMessage"),
         title: this.i18n.t("toast.putPasta.fail.title"),

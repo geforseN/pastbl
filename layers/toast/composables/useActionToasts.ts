@@ -1,60 +1,35 @@
-import { ElNotification } from "element-plus";
-import type { ActionToastsThis, Notification } from "../utils/types";
+import type { RawActionToastsInstance } from "../utils/create-raw-action-toasts";
+import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/adapter";
+import type { ActionToastsThis, INotification } from "../utils/types";
 
-export function useActionToasts<
-  T extends ReturnType<typeof createActionToasts>,
->(
-  actionToasts?: T,
+// TODO: rename to useActionToaster ?
+
+export function useActionToasts<T extends RawActionToastsInstance>(
+  actionToasts: T = createActionToasts(new Date().toString(), {}) as T,
   options: {
-    i18n?: ReturnType<typeof useI18n>;
-    toast?: { add(notification: Partial<Notification>): void };
+    i18n?: VueI18n;
+    toast?: { add(notification: INotification): void };
   } = {},
 ) {
   const {
-    i18n = useI18n(),
+    i18n = useI18n() as unknown as VueI18n,
     toast = {
-      add(notification) {
-        return ElNotification({
-          ...notification,
-          progressBar: true,
-          message: notification.description,
-          duration: notification.timeout,
-        });
-      },
+      add: adaptNotificationFromNuxtUItoElementPlus,
     },
   } = options;
 
-  const context = reactive({ i18n: computed(() => i18n) });
-
   function add(
-    makeNotification: (i18n: ActionToastsThis["i18n"]) => Notification,
+    makeNotification: (i18n: ActionToastsThis["i18n"]) => INotification,
   ) {
     const notification = makeNotification(i18n);
     return toast.add(notification);
   }
 
-  if (!actionToasts) {
-    return { add };
-  }
+  const finalActionToasts = actionToasts.contextify<T>(i18n, add, toast.add);
 
-  const methods = actionToasts.methods.map((method) =>
-    method.withContext(context),
-  );
+  log("debug", actionToasts.actionName, {
+    toastsWithContext: finalActionToasts,
+  });
 
-  const methodsObject = Object.fromEntries(
-    methods.map(
-      (method) =>
-        [
-          method.type,
-          (...args) => toast.add(method.makeNotification(...args)),
-        ] as const,
-    ),
-  );
-
-  log("debug", actionToasts.action.name, methodsObject);
-
-  return {
-    ...methodsObject,
-    add,
-  };
+  return finalActionToasts;
 }
