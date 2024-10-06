@@ -3,67 +3,43 @@ import type { Notification } from "../utils/types";
 import type { raiseToastMethod } from "./raise-method";
 import type { additionalMethods, validTypes } from "./utils";
 
-type FN<Group extends RawActionToastMakersGroup> = <K extends keyof Group>(
+type ToastMaker<RawGroup extends RawActionToastMakersGroup> = <K extends keyof RawGroup>(
   key: K,
-  ...args: Parameters<Group[K]>
-) => ReturnType<Group[K]>;
+  ...args: Parameters<RawGroup[K]>
+) => ReturnType<RawGroup[K]>;
 
-type MapMethod<
-  Group extends RawActionToastMakersGroup,
+type ToastMakers<
   NewKeys extends string,
-> = Record<NewKeys, FN<Group>>;
+  RawGroup extends RawActionToastMakersGroup,
+> = Record<NewKeys, ToastMaker<RawGroup>>;
 
-type HasMethodGroup<
-  V extends RawActionToastMakersGroup | undefined,
-  OnTrue,
-> = V extends RawActionToastMakersGroup ? OnTrue : Record<string, never>;
-
-export type Warning_<M extends RawActionToastsMethods> = HasMethodGroup<
-  M["warnings"],
-  MapMethod<NonNullable<M["warnings"]>, "warning" | "warn">
->;
-
-type HasMethod<
-  M extends RawActionToastMaker | undefined,
-  OnTrue,
-> = M extends RawActionToastMaker ? OnTrue : Record<string, never>;
+export type Warning_<G extends RawActionToastMakersGroup | undefined> =
+G extends RawActionToastMakersGroup
+  ? ToastMakers<"warning" | "warn", G>
+  : Record<string, never>;
 
 export type Success_<
-  M extends RawActionToastsMethods,
-  _M extends NonNullable<M["success"]> = NonNullable<M["success"]>,
-> = HasMethod<
-  M["success"],
-  {
-    (...args: Parameters<_M>): ReturnType<_M>;
-    success(...args: Parameters<_M>): ReturnType<_M>;
-  }
->;
+  M extends RawActionToastMaker | undefined,
+> =
+  M extends RawActionToastMaker
+    ? {
+        (...args: Parameters<M>): ReturnType<M>;
+        success(...args: Parameters<M>): ReturnType<M>;
+      }
+    : Record<string, never>;
 
-export type Failure_<M extends RawActionToastsMethods> = M extends {
-  failures: Record<string, RawActionToastMaker>;
-}
-  ? {
-    [K in RaiseMethodName]: ActionToastsPanicFn<M["failures"]>;
-  } & {
-    failure<K extends keyof M["failures"]>(
-      name: K,
-      ...args: Parameters<M["failures"][K]>
-    ): ReturnType<M["failures"][K]>;
-    fail<K extends keyof M["failures"]>(
-      name: K,
-      ...args: Parameters<M["failures"][K]>
-    ): ReturnType<M["failures"][K]>;
-  }
-  : {
-      [K in RaiseMethodName]: ActionToastsPanicFn2;
-    };
+type RaiseRecord<FN> = Record<RaiseMethodName, FN>;
 
-export type Info_<M extends RawActionToastsMethods> = HasMethodGroup<
-  M["infos"],
-  MapMethod<NonNullable<M["infos"]>, "info">
->;
+export type Failure_<G extends RawActionToastMakersGroup | undefined> =
+G extends RawActionToastMakersGroup
+  ?
+  & RaiseRecord<ActionToastsPanicFn<G>>
+  & ToastMakers<"failure" | "fail", G>
+  : RaiseRecord<ActionToastsPanicFn2>;
 
-export type ActionToastType = "success" | "failure" | "info" | "warning";
+export type Info_<G extends RawActionToastMakersGroup | undefined> = G extends RawActionToastMakersGroup
+  ? ToastMakers<"info", G>
+  : Record<string, never>;
 
 export type PossibleProperty = (typeof validTypes)[number] | "add" | "success";
 
@@ -83,13 +59,13 @@ export interface RawActionToastMaker {
   (this: ActionToastsThis, ...args: any[]): Partial<Notification>;
 }
 
-export type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
+type RawActionToastMakersGroup = Record<string, RawActionToastMaker>;
 
 export type RawActionToastsMethods = {
   success?: RawActionToastMaker;
-  warnings?: Record<string, RawActionToastMaker>;
-  failures?: Record<string, RawActionToastMaker>;
-  infos?: Record<string, RawActionToastMaker>;
+  warnings?: RawActionToastMakersGroup;
+  failures?: RawActionToastMakersGroup;
+  infos?: RawActionToastMakersGroup;
 };
 
 export type ActionToastsPanicFn<T extends RawActionToastsMethods["failures"]> =
@@ -106,3 +82,16 @@ export type ActionToastsPanicFn2 = (...args: unknown[]) => never;
 // ((error: Error) => never)
 // & ((toastableError: ToastableError) => never)
 // & ((maybeError?: unknown) => never);
+
+export type ContextifyActionToasts<T extends RawActionToastsMethods> =
+  Warning_<T["warnings"]> &
+  Success_<T["success"]> &
+  Failure_<T["failures"]> &
+  Info_<T["infos"]> &
+  {
+    add: (
+      makeNotification: (
+        i18n: ActionToastsThis["i18n"],
+      ) => Partial<Notification>,
+    ) => void;
+  };

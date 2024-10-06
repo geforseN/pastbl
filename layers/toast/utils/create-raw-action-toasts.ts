@@ -4,13 +4,10 @@ import {
 } from "../internal/raise-method";
 import { RawActionToastsMethods_ } from "../internal/raw-methods";
 import type {
-  Failure_,
-  Info_,
+  ContextifyActionToasts,
   PossibleProperty,
   RawActionToastMaker,
   RawActionToastsMethods,
-  Success_,
-  Warning_,
 } from "../internal/types";
 import { validTypes } from "../internal/utils";
 
@@ -107,12 +104,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           return Reflect.get(target, key, receiver);
         }
       },
-    }) as {
-      add: typeof add;
-    } & Success_<M> &
-    Failure_<M> &
-    Warning_<M> &
-    Info_<M>;
+    }) as ContextifyActionToasts<M>;
   }
 }
 
