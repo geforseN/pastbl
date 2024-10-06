@@ -1,16 +1,38 @@
 import { describe, it, vi, expect, afterEach } from "vitest";
-import { createActionToasts } from "../utils/create-raw-action-toasts";
+import { createRawActionToasts } from "../utils/create-raw-action-toasts";
 import { additionalMethods, baseMethods } from "../internal/utils";
 import { raiseToastMethod } from "../internal/raise-method";
+import type { RawActionToastsMethods } from "../internal/types";
 import { useActionToasts } from "./useActionToasts";
 
-const actionsToastsOptions = {
-  i18n: { t: (text: string) => text },
-} as const;
+function useTestActionToasts<N extends string, M extends RawActionToastsMethods>(methods?: M, name?: N) {
+  const rawActionToasts = methods
+    ? createRawActionToasts(
+      name ?? Date.now().toString(),
+      methods,
+    )
+    : undefined;
 
-// TODO: add mock for toast (second param of useActionToasts has that property)
-// and ensure it is called when it should
+  const options = {
+    i18n: { t: (text: string) => text },
+    toast: {
+      add() { },
+    },
+  } as const;
+
+  const addToast = vi.spyOn(options.toast, "add");
+
+  return [
+    useActionToasts(rawActionToasts, options),
+    addToast,
+  ] as const;
+}
+
 describe("useActionToasts", async () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   test("additional methods match snapshot", () => {
     expect(additionalMethods).toMatchInlineSnapshot(`
       [
@@ -45,7 +67,7 @@ describe("useActionToasts", async () => {
   });
 
   describe("with rawActionToasts as undefined", () => {
-    const actionToasts = useActionToasts(undefined, actionsToastsOptions);
+    const [actionToasts] = useTestActionToasts();
 
     describe("return value", () => {
       it("will be function", () => {
@@ -67,15 +89,13 @@ describe("useActionToasts", async () => {
   });
 
   describe("with rawActionToasts that has success method", () => {
-    const actionToasts = useActionToasts(
-      createActionToasts("success", {
-        success(string: string) {
-          return {
-            description: this.i18n.t("success:" + string),
-          };
-        },
-      }),
-      actionsToastsOptions,
+    const [actionToasts, addToast] = useTestActionToasts({
+      success(string: string) {
+        return {
+          description: this.i18n.t("success:" + string),
+        };
+      },
+    },
     );
 
     describe("return value", () => {
@@ -91,6 +111,12 @@ describe("useActionToasts", async () => {
 
       it("will not ignore provided arguments", () => {
         expect(actionToasts("test")).toEqual({ description: "success:test" });
+      });
+
+      it("will call addToast on success call", () => {
+        expect(addToast).not.toHaveBeenCalled();
+        expect(actionToasts("test")).toEqual({ description: "success:test" });
+        expect(addToast).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -108,39 +134,46 @@ describe("useActionToasts", async () => {
         actionToasts.raise("test");
       }).toThrowErrorMatchingInlineSnapshot(`[Error: Must panic]`);
     });
+
+    it("will call addToast on raise call", () => {
+      expect(addToast).not.toHaveBeenCalled();
+      try {
+        actionToasts.raise("test");
+      }
+      catch {
+        expect(addToast).toHaveBeenCalledTimes(1);
+      }
+    });
   });
 
   describe("with rawActionToasts and all additional methods", () => {
-    const actionToasts = useActionToasts(
-      createActionToasts("f", {
-        failures: {
-          foo() {
-            return {};
-          },
-          fooArg(baz: number) {
-            return {
-              title: String(baz),
-            };
-          },
+    const [actionToasts, addToast] = useTestActionToasts({
+      failures: {
+        foo() {
+          return {};
         },
-        warnings: {
-          baz() {
-            return {
-              title: "baz",
-            };
-          },
-          bub() {
-            return {};
-          },
+        fooArg(baz: number) {
+          return {
+            title: String(baz),
+          };
         },
-        infos: {
-          bar() {
-            return {};
-          },
+      },
+      warnings: {
+        baz() {
+          return {
+            title: "baz",
+          };
         },
-      }),
-      actionsToastsOptions,
-    );
+        bub() {
+          return {};
+        },
+      },
+      infos: {
+        bar() {
+          return {};
+        },
+      },
+    });
 
     describe("return value", () => {
       it("will be function", () => {
@@ -167,9 +200,28 @@ describe("useActionToasts", async () => {
         expect(() => actionToasts.fail("baz")).toThrow();
       });
 
+      it("will not call addToast on unimplemented notification maker", () => {
+        expect(addToast).not.toHaveBeenCalled();
+        try {
+        // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
+          actionToasts.fail("baz");
+        }
+        catch {
+          expect(addToast).not.toHaveBeenCalled();
+        }
+      });
+
       it("will not throw on implemented notification maker", () => {
         expect(() => actionToasts.fail("foo")).not.toThrow();
         expect(() => actionToasts.fail("fooArg", 123)).not.toThrow();
+      });
+
+      it("will call addToast", () => {
+        expect(addToast).not.toHaveBeenCalled();
+        actionToasts.fail("foo");
+        expect(addToast).toHaveBeenCalledOnce(1);
+        actionToasts.fail("fooArg", 123);
+        expect(addToast).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -204,11 +256,8 @@ describe("useActionToasts", async () => {
     ({ methods, expected }) => {
       afterEach(() => warn.mockReset());
 
-      const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
-        createActionToasts("foo", methods),
-        actionsToastsOptions,
-      );
+      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
+      const [actionToasts, addToast] = useTestActionToasts(methods);
 
       it("will return expected", () => {
         // @ts-expect-error this is strange that ts thinks that actionToasts is not callable
@@ -219,6 +268,12 @@ describe("useActionToasts", async () => {
         expect(() => {
           actionToasts.success();
         }).not.toThrow();
+      });
+
+      it("will not call addToast", () => {
+        expect(addToast).not.toHaveBeenCalled();
+        actionToasts.success();
+        expect(addToast).not.toHaveBeenCalled();
       });
 
       test("there is warn in console", () => {
@@ -267,11 +322,8 @@ describe("useActionToasts", async () => {
     ({ methods, expected }) => {
       afterEach(() => warn.mockReset());
 
-      const actionToasts = useActionToasts(
-        //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification'
-        createActionToasts("foo", methods),
-        actionsToastsOptions,
-      );
+      //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification'
+      const [actionToasts, addToast] = useTestActionToasts(methods);
 
       it("will return expected", () => {
         expect(actionToasts.warning("baz")).toBe(expected);
@@ -281,6 +333,12 @@ describe("useActionToasts", async () => {
         expect(() => {
           actionToasts.warning("baz");
         }).not.toThrow();
+      });
+
+      it("will not call addToast", () => {
+        expect(addToast).not.toHaveBeenCalled();
+        actionToasts.warning("baz");
+        expect(addToast).not.toHaveBeenCalled();
       });
 
       test("there is warn in console", () => {
