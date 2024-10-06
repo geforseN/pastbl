@@ -35,9 +35,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   >(
     i18n: VueI18n,
     add: (
-      makeNotification: (
-        i18n: ActionToastsThis["i18n"],
-      ) => INotification,
+      makeNotification: (i18n: ActionToastsThis["i18n"]) => INotification,
     ) => void,
     addToast: (notification: INotification) => void,
   ) {

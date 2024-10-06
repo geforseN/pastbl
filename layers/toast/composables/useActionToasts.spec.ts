@@ -5,27 +5,24 @@ import { raiseToastMethod } from "../internal/raise-method";
 import type { RawActionToastsMethods } from "../internal/types";
 import { useActionToasts } from "./useActionToasts";
 
-function useTestActionToasts<N extends string, M extends RawActionToastsMethods>(methods?: M, name?: N) {
+function useTestActionToasts<
+  N extends string,
+  M extends RawActionToastsMethods,
+>(methods?: M, name?: N) {
   const rawActionToasts = methods
-    ? createRawActionToasts(
-      name ?? Date.now().toString(),
-      methods,
-    )
+    ? createRawActionToasts(name ?? Date.now().toString(), methods)
     : undefined;
 
   const options = {
     i18n: { t: (text: string) => text },
     toast: {
-      add() { },
+      add() {},
     },
   } as const;
 
   const addToast = vi.spyOn(options.toast, "add");
 
-  return [
-    useActionToasts(rawActionToasts, options),
-    addToast,
-  ] as const;
+  return [useActionToasts(rawActionToasts, options), addToast] as const;
 }
 
 describe("useActionToasts", async () => {
@@ -95,8 +92,7 @@ describe("useActionToasts", async () => {
           description: this.i18n.t("success:" + string),
         };
       },
-    },
-    );
+    });
 
     describe("return value", () => {
       it("will be function", () => {
@@ -203,7 +199,7 @@ describe("useActionToasts", async () => {
       it("will not call addToast on unimplemented notification maker", () => {
         expect(addToast).not.toHaveBeenCalled();
         try {
-        // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
+          // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
           actionToasts.fail("baz");
         }
         catch {
