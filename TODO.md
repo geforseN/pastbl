@@ -2,12 +2,12 @@
 - [ ] add issue to element-plus about notification
   - https://element-plus.org/en-US/component/notification.html#basic-usage
   - https://ui.nuxt.com/components/notification
-- [ ] refactor useActionsToast: add TypeScript support
 - [ ] refactor emoteIntegrations: add TypeScript support
 - [ ] update publish-pasta emit
 
 fix:
 
+- [ ] make coverage work (update run command, add config param)
 - [ ] nickname color input lags
 - [ ] teleport not working twice
 - [ ] <remove-pastas-list />: bad types, delete is not working, refactor
@@ -35,10 +35,12 @@ refactor:
 
 ?: rename integrations to providers
 
-fix
-Run if [ -f "comment-output.txt" ]; then
-File exists
-Warning: The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+ci:
+  comments-counts 
+    - should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
 
-fix
-make coverage work (update run command, add config param)
+test:
+ - hovered-emote-images.e2e.spec
+   - test wheel works
+     - [] no shift + mouse wheel => vertical scroll
+     - [] shift + mouse wheel => vertical scroll
