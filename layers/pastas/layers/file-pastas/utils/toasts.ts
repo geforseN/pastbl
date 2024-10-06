@@ -11,7 +11,7 @@ export const loadPastasFromFileToasts = createActionToasts(
       };
     },
     failures: {
-      incorrectFileContent(this: ActionToastsThis) {
+      incorrectFileContent() {
         return {
           title: this.i18n.t(
             "actions.pastas.load-from-file.incorrect-input.title",
@@ -23,7 +23,7 @@ export const loadPastasFromFileToasts = createActionToasts(
       },
     },
     warnings: {
-      foundRejected(this: ActionToastsThis, rejectedPastasCount: number) {
+      foundRejected(rejectedPastasCount: number) {
         return {
           title: this.i18n.t(
             "actions.pastas.load-from-file.found-rejected.title",

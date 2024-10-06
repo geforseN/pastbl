@@ -1,4 +1,4 @@
-import { ToastableError } from "$/toast/utils/abstract";
+import { ToastableError } from "$/toast/utils/toastable-error";
 import { pastasConfig } from "$/pastas/app.config";
 
 export class NotFoundPastaError extends ToastableError {

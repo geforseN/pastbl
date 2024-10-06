@@ -1,11 +1,11 @@
 export const createPastaToasts = createActionToasts("create-pasta", {
-  success(this: ActionToastsThis) {
+  success() {
     return {
       title: this.i18n.t("toast.createPasta.success.title"),
     };
   },
   failures: {
-    badPastaTextLength(this: ActionToastsThis, lengthStatus: BadLengthStatus) {
+    badPastaTextLength(lengthStatus: BadLengthStatus) {
       return new BadPastaTextLengthError(lengthStatus).toToast(this);
     },
   },
