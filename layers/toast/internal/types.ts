@@ -8,7 +8,9 @@ export interface RawActionToastMaker {
   (this: ActionToastsThis, ...args: any[]): INotification;
 }
 
-type ToastMaker<RawGroup extends RawActionToastMakersGroup> = <K extends keyof RawGroup>(
+type ToastMaker<RawGroup extends RawActionToastMakersGroup> = <
+  K extends keyof RawGroup,
+>(
   key: K,
   ...args: Parameters<RawGroup[K]>
 ) => ReturnType<RawGroup[K]>;
@@ -54,9 +56,7 @@ export type ActionToastsPanicFn2 = (...args: unknown[]) => never;
 // & ((toastableError: ToastableError) => never)
 // & ((maybeError?: unknown) => never);
 
-type TransformSuccess<
-  M extends RawActionToastMaker | undefined,
-> =
+type TransformSuccess<M extends RawActionToastMaker | undefined> =
   M extends RawActionToastMaker
     ? {
         (...args: Parameters<M>): ReturnType<M>;
@@ -67,11 +67,9 @@ type TransformSuccess<
 type RaiseRecord<FN> = Record<RaiseMethodName, FN>;
 
 type TransformFailures<G extends RawActionToastMakersGroup | undefined> =
-G extends RawActionToastMakersGroup
-  ?
-  & RaiseRecord<ActionToastsPanicFn<G>>
-  & ToastMakers<"failure" | "fail", G>
-  : RaiseRecord<ActionToastsPanicFn2>;
+  G extends RawActionToastMakersGroup
+    ? RaiseRecord<ActionToastsPanicFn<G>> & ToastMakers<"failure" | "fail", G>
+    : RaiseRecord<ActionToastsPanicFn2>;
 
 type TransformRawGroup<
   RawGroup extends RawActionToastMakersGroup | undefined,
@@ -82,14 +80,11 @@ type TransformRawGroup<
   : OnUndefined;
 
 export type ContextifyActionToasts<T extends RawActionToastsMethods> =
-  & TransformSuccess<T["success"]>
-  & TransformRawGroup<T["infos"], "info">
-  & TransformRawGroup<T["warnings"], "warn" | "warning">
-  & TransformFailures<T["failures"]>
-  & {
+  TransformSuccess<T["success"]> &
+  TransformRawGroup<T["infos"], "info"> &
+  TransformRawGroup<T["warnings"], "warn" | "warning"> &
+  TransformFailures<T["failures"]> & {
     add: (
-      makeNotification: (
-        i18n: ActionToastsThis["i18n"],
-      ) => INotification,
+      makeNotification: (i18n: ActionToastsThis["i18n"]) => INotification,
     ) => void;
   };

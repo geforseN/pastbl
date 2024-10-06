@@ -36,11 +36,11 @@ refactor:
 ?: rename integrations to providers
 
 ci:
-  comments-counts 
-    - should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
+comments-counts - should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
 
 test:
- - hovered-emote-images.e2e.spec
-   - test wheel works
-     - [] no shift + mouse wheel => vertical scroll
-     - [] shift + mouse wheel => vertical scroll
+
+- hovered-emote-images.e2e.spec
+  - test wheel works
+    - [] no shift + mouse wheel => vertical scroll
+    - [] shift + mouse wheel => vertical scroll
