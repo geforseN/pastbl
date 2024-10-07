@@ -10,9 +10,7 @@ const exec = promisify(child_process.exec);
  * @param {string} outputFilePath
  */
 async function main(outputFilePath) {
-  const { stdout: diffOutput } = await exec(
-    "git diff --name-only origin/main",
-  );
+  const { stdout: diffOutput } = await exec("git diff --name-only origin/main");
   const files = diffOutput.split("\n").filter(Boolean);
 
   if (files.length === 0) {
@@ -184,9 +182,6 @@ function createCommentRegex(keyword) {
   );
 }
 
-/**
- * Github comments summary.
- */
 class GithubCommentsSummary {
   /**
    * @param {Array<Comment>} comments
