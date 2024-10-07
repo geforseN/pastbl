@@ -197,7 +197,7 @@ importers:
         version: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(drizzle-orm@0.33.0(postgres@3.4.4))(eslint@9.12.0(jiti@2.3.1))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
       nuxt-auth-utils:
         specifier: ^0.4.2
-        version: 0.4.2(magicast@0.3.5)(rollup@4.24.0)
+        version: 0.4.3(magicast@0.3.5)(rollup@4.24.0)
       nuxt-icon:
         specifier: ^0.6.10
         version: 0.6.10(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))(vue@3.5.11(typescript@5.6.2))
@@ -562,9 +562,11 @@ packages:
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-kit/esm-loader@2.6.5':
     resolution: {integrity: sha512-FxEMIkJKnodyA1OaCUoEvbYRkoZlLZ4d/eXFu9Fh8CbBBgP5EmZxrfTRyN0qpXZ4vOvqnE5YdRdcrmUUXuU+dA==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -4825,8 +4827,8 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  nuxt-auth-utils@0.4.2:
-    resolution: {integrity: sha512-qDzSye1EovzlFkfnNOZyYdg9YXIlm75MqawsMdhDpH1n9bVZ2ydNyfHEZbpc1NWs5YfX3TyeJFpuvaXb4O/6yA==}
+  nuxt-auth-utils@0.4.3:
+    resolution: {integrity: sha512-jKktt9vHNJHQj1x4p5yelhJQNmSkeLpHgB2HeVLjq/2IvZPvfaOi9onGDU1wiVDQC62i5DohvmQmYYEq1fKZ0w==}
     peerDependencies:
       '@simplewebauthn/browser': ^10.0.0
       '@simplewebauthn/server': ^10.0.1
@@ -11671,7 +11673,7 @@ snapshots:
 
   nuxi@3.14.0: {}
 
-  nuxt-auth-utils@0.4.2(magicast@0.3.5)(rollup@4.24.0):
+  nuxt-auth-utils@0.4.3(magicast@0.3.5)(rollup@4.24.0):
     dependencies:
       '@adonisjs/hash': 9.0.5
       '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.24.0)
