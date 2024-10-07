@@ -147,9 +147,6 @@ export default defineNuxtConfig({
       defaultLang: "ts",
     },
   },
-  icon: {
-    fetchTimeout: 60_000,
-  },
   vite: {
     define: {
       tailwindTheme,
