@@ -57,9 +57,7 @@ class CommentEntry {
    */
   asHtmlLink(baseUrl) {
     const { file, lineNumber } = this;
-    return (
-      `<a href="${baseUrl}${file}#L${lineNumber}" target="_blank">${file}:${lineNumber}</a>`
-    );
+    return `<a href="${baseUrl}${file}#L${lineNumber}" target="_blank">${file}:${lineNumber}</a>`;
   }
 
   /**
@@ -113,8 +111,9 @@ class CommentsEntries {
     if (!baseUrl.endsWith("/")) {
       baseUrl += "/";
     }
-    return Array.from(this.entries)
-      .map((entry) => `<li>${entry.asHtmlLink(baseUrl)}</li>`);
+    return Array.from(this.entries).map(
+      (entry) => `<li>${entry.asHtmlLink(baseUrl)}</li>`,
+    );
   }
 }
 
@@ -211,9 +210,7 @@ class GithubCommentsSummary {
 
   async create() {
     const baseUrl = await this.#getBaseUrl();
-    const summaries = this.comments.map((comment) =>
-      comment.asHtml(baseUrl),
-    );
+    const summaries = this.comments.map((comment) => comment.asHtml(baseUrl));
     return `
 ## Summary of Comments
 
