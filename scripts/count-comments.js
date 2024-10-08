@@ -55,9 +55,11 @@ class CommentEntry {
   /**
    * @param {string} baseUrl
    */
-  asMarkdownListItem(baseUrl) {
+  asHtmlLink(baseUrl) {
     const { file, lineNumber } = this;
-    return ` - [**${file}:${lineNumber}**](${baseUrl}${file}#L${lineNumber})`;
+    return (
+      `<a href="${baseUrl}${file}#L${lineNumber}" target="_blank">${file}:${lineNumber}</a>`
+    );
   }
 
   /**
@@ -107,13 +109,12 @@ class CommentsEntries {
   /**
    * @param {string} baseUrl
    */
-  asMarkdownListItems(baseUrl) {
+  asHtmlListItems(baseUrl) {
     if (!baseUrl.endsWith("/")) {
       baseUrl += "/";
     }
     return Array.from(this.entries)
-      .map((entry) => entry.asMarkdownListItem(baseUrl))
-      .join("\n");
+      .map((entry) => `<li>${entry.asHtmlLink(baseUrl)}</li>`);
   }
 }
 
@@ -143,7 +144,7 @@ class Comment {
   /**
    * @param {string} baseUrl
    */
-  asMarkdownSummary(baseUrl) {
+  asHtmlSummary(baseUrl) {
     const heading = `${this.keyword.toUpperCase()}s: ${this.entries.countAsString()}`;
     if (!this.entries.size) {
       return heading;
@@ -151,7 +152,9 @@ class Comment {
 
     return `
 <details><summary>${heading}</summary>
-${this.entries.asMarkdownListItems(baseUrl)}
+<ul>
+  ${this.entries.asHtmlListItems(baseUrl).join("\n  ")}
+</ul>
 </details>
 `;
   }
@@ -209,7 +212,7 @@ class GithubCommentsSummary {
   async create() {
     const baseUrl = await this.#getBaseUrl();
     const summaries = this.comments.map((comment) =>
-      comment.asMarkdownSummary(baseUrl),
+      comment.asHtmlSummary(baseUrl),
     );
     return `
 ## Summary of Comments
