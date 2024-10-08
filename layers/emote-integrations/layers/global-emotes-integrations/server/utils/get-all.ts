@@ -6,7 +6,9 @@ const getters = [
 ];
 
 export async function getAllGlobalEmotesIntegrations() {
-  const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all(getters);
+  const [BetterTTV, FrankerFaceZ, SevenTV, Twitch] = await Promise.all(
+    getters.map((getter) => getter()),
+  );
 
   return {
     BetterTTV,
