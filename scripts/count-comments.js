@@ -195,7 +195,7 @@ class GithubCommentsSummary {
       exec("git log -1 --format=%H"),
       exec("git config --get remote.origin.url"),
     ]);
-
+    console.debug({ gitHash, gitUrl });
     if (typeof gitUrl !== "string") {
       throw new Error("Error: Git URL not string, received: " + gitUrl);
     }
