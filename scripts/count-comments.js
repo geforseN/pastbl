@@ -205,7 +205,7 @@ class GithubCommentsSummary {
     if (typeof gitHash !== "string") {
       throw new Error("Error: Git hash not string, received: " + gitHash);
     }
-    const baseUrl = gitUrl.trim().replace(".git", `/blob/${gitHash.trim()}/`);
+    const baseUrl = `${gitUrl.trim().replace(".git", "")}/blob/${gitHash.trim()}/`;
     return baseUrl;
   }
 
