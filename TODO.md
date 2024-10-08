@@ -4,6 +4,7 @@
   - https://ui.nuxt.com/components/notification
 - [ ] refactor emoteIntegrations: add TypeScript support
 - [ ] update publish-pasta emit
+- [ ] manually inspect .output dir
 
 fix:
 
@@ -11,6 +12,7 @@ fix:
 - [ ] nickname color input lags
 - [ ] teleport not working twice
 - [ ] <remove-pastas-list />: bad types, delete is not working, refactor
+- [x] tsc warns
 
 feat:
 
@@ -20,10 +22,11 @@ feat:
 - [ ] use WebShare API for published pasta
   - https://www.youtube.com/watch?v=lt77LscZcn0
   - https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
-- [ ] add chrome & firefox extensions
+- [x] add chrome & firefox extensions
 - [ ] add 'is ascii pasta' filter
 - [ ] chat-pasta-list-hints:
   - [ ] add "Showing pastas with global emotes"
+- [ ] eslint configs order
 
 docs:
 
@@ -36,11 +39,14 @@ refactor:
 ?: rename integrations to providers
 
 ci:
-comments-counts - should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
+
+- comments-counts
+  - [x] should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
+- [ ] always run autofix and count-comments, other must be approved via pr ui
 
 test:
 
 - hovered-emote-images.e2e.spec
   - test wheel works
-    - [] no shift + mouse wheel => vertical scroll
-    - [] shift + mouse wheel => vertical scroll
+    - [ ] no shift + mouse wheel => vertical scroll
+    - [ ] shift + mouse wheel => vertical scroll
