@@ -144,7 +144,7 @@ class Comment {
   /**
    * @param {string} baseUrl
    */
-  asHtmlSummary(baseUrl) {
+  asHtml(baseUrl) {
     const heading = `${this.keyword.toUpperCase()}s: ${this.entries.countAsString()}`;
     if (!this.entries.size) {
       return heading;
@@ -212,7 +212,7 @@ class GithubCommentsSummary {
   async create() {
     const baseUrl = await this.#getBaseUrl();
     const summaries = this.comments.map((comment) =>
-      comment.asHtmlSummary(baseUrl),
+      comment.asHtml(baseUrl),
     );
     return `
 ## Summary of Comments
