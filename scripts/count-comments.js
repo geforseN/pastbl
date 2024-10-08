@@ -27,11 +27,11 @@ async function main(outputFilePath) {
       });
 
       const lines = content.split("\n").filter(Boolean);
-
+      const FileCommentEntry = CommentEntry.ofFile(file);
       for (const [index, line] of lines.entries()) {
         comments
           .find((comment) => comment.match(line))
-          ?.addEntry(CommentEntry.fromLine(file, index));
+          ?.addEntry(FileCommentEntry.fromIndex(index));
       }
     }),
   );
@@ -73,8 +73,22 @@ class CommentEntry {
    * @param {string} file
    * @param {number} index
    */
-  static fromLine(file, index) {
+  static fromIndex(file, index) {
     return new CommentEntry(file, index + 1);
+  }
+
+  /**
+   * @param {string} file
+   */
+  static ofFile(file) {
+    return {
+      /**
+       * @param {number} index
+       */
+      fromIndex(index) {
+        return CommentEntry.fromIndex(file, index);
+      },
+    };
   }
 }
 
