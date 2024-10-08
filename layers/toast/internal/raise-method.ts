@@ -52,6 +52,7 @@ function defineActionToastsRaiseMethod<
   }
   return function (...args: Parameters<ActionToastsPanicFn<FS>>) {
     // FIXME: add type tests
+    // @ts-expect-error Argument of type '[maybeError: unknown]' is not assignable to parameter of type 'Parameters<NonNullable<FS>[keyof NonNullable<FS>]>'.ts(2345)
     const notification = getNotification(failures, context, ...args);
     addToast(notification);
     throw new Error("Must panic", { cause: notification });
