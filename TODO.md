@@ -4,6 +4,7 @@
   - https://ui.nuxt.com/components/notification
 - [ ] refactor emoteIntegrations: add TypeScript support
 - [ ] update publish-pasta emit
+- [ ] manually inspect .output dir
 
 fix:
 
@@ -25,6 +26,7 @@ feat:
 - [ ] add 'is ascii pasta' filter
 - [ ] chat-pasta-list-hints:
   - [ ] add "Showing pastas with global emotes"
+- [ ] eslint configs order
 
 docs:
 
@@ -37,8 +39,10 @@ refactor:
 ?: rename integrations to providers
 
 ci:
-comments-counts 
+
+- comments-counts
   - [x] should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
+- [ ] always run autofix and count-comments, other must be approved via pr ui
 
 test:
 
