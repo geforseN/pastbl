@@ -42,7 +42,7 @@ jobs:
           BASE_URL: https://pastbl.vercel.app
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
