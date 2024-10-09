@@ -12,13 +12,5 @@
       }
     }
   },
-  "exclude": [
-    "tests/**/*.spec.ts",
-    "app/**/*.spec.ts",
-    "layers/**/*.spec.ts",
-    "layers/**/*.spec.ts",
-    "layers/**/components/**/*.nuxt.spec.ts",
-    "server/**/*.spec.ts",
-    "browser-extension"
-  ]
+  "exclude": ["browser-extension"]
 }
