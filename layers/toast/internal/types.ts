@@ -66,9 +66,14 @@ type TransformSuccess<M extends RawActionToastMaker | undefined> =
 
 type RaiseRecord<FN> = Record<RaiseMethodName, FN>;
 
-type TransformFailures<G extends RawActionToastMakersGroup | undefined> =
+type TransformFailures<
+  G extends RawActionToastMakersGroup | undefined,
+  NewKeys extends string,
+> =
   G extends RawActionToastMakersGroup
-    ? RaiseRecord<ActionToastsPanicFn<G>> & ToastMakers<"failure" | "fail", G>
+    ?
+    & RaiseRecord<ActionToastsPanicFn<G>>
+    & ToastMakers<NewKeys, G>
     : RaiseRecord<ActionToastsPanicFn2>;
 
 type TransformRawGroup<
@@ -76,14 +81,14 @@ type TransformRawGroup<
   NewKeys extends string,
   OnUndefined extends Record<string, unknown> = Record<string, never>,
 > = RawGroup extends RawActionToastMakersGroup
-  ? Record<NewKeys, ToastMaker<RawGroup>>
+  ? ToastMakers<NewKeys, RawGroup>
   : OnUndefined;
 
 export type ContextifyActionToasts<T extends RawActionToastsMethods> =
   TransformSuccess<T["success"]> &
   TransformRawGroup<T["infos"], "info"> &
   TransformRawGroup<T["warnings"], "warn" | "warning"> &
-  TransformFailures<T["failures"]> & {
+  TransformFailures<T["failures"], "fail" | "failure"> & {
     add: (
       makeNotification: (i18n: ActionToastsThis["i18n"]) => INotification,
     ) => void;
