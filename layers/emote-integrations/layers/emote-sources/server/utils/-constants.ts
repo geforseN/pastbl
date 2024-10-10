@@ -8,5 +8,7 @@ export const EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH = allEmoteSources.reduce(
   0,
 );
 
-export const UNDEFINED_RECEIVED_ERROR_MESSAGE = `Must provided sources query string, allowed values are: ${allEmoteSources.join(", ")}, must be separated by +`;
-export const SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE = `At least one source is required, allowed values are: ${allEmoteSources.join(", ")}, must be separated by +`;
+const HELPFUL_TEXT = `Allowed values are: ${allEmoteSources.join(", ")}. Must be separated by \`+\``;
+
+export const UNDEFINED_RECEIVED_ERROR_MESSAGE = `Must provided \`sources\` query string. ${HELPFUL_TEXT}`;
+export const SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE = `At least one source in \`sources\` query string is required. ${HELPFUL_TEXT}`;
