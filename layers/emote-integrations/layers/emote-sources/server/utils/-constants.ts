@@ -12,3 +12,9 @@ const HELPFUL_TEXT = `Allowed values are: ${allEmoteSources.join(", ")}. Must be
 
 export const UNDEFINED_RECEIVED_ERROR_MESSAGE = `Must provided \`sources\` query string. ${HELPFUL_TEXT}`;
 export const SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE = `At least one source in \`sources\` query string is required. ${HELPFUL_TEXT}`;
+
+/**
+ * @description NOTE: must replace `<SOURCE>`
+ * @example INVALID_EMOTE_SOURCE_PARAM.replace("<SOURCE>", source)
+ */
+export const INVALID_EMOTE_SOURCE_PARAM = `Provided invalid param: <SOURCE>. Allowed value is one of: ${allEmoteSources.join(", ")}`;
