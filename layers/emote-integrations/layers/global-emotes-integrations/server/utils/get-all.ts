@@ -1,3 +1,17 @@
+import type {
+  BetterTTVGlobalEmotesIntegration,
+  FrankerFaceZGlobalEmotesIntegration,
+  SevenTVGlobalEmotesIntegration,
+  TwitchGlobalEmotesIntegration,
+} from "#build/types/nitro-imports";
+
+export type GlobalEmoteIntegrationRecord = {
+  BetterTTV: BetterTTVGlobalEmotesIntegration;
+  FrankerFaceZ: FrankerFaceZGlobalEmotesIntegration;
+  SevenTV: SevenTVGlobalEmotesIntegration;
+  Twitch: TwitchGlobalEmotesIntegration;
+};
+
 const getters = [
   () => globalEmotesIntegrations.of("BetterTTV").get(),
   () => globalEmotesIntegrations.of("FrankerFaceZ").get(),
