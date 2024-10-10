@@ -1,27 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > invalid param > _data > will match snapshot 1`] = `
-{
-  "data": {
-    "message": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
-  },
-  "message": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
-  "stack": "",
-  "statusCode": 404,
-  "statusMessage": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
-  "url": "/api/v1/global-emotes-integrations/unknown",
-}
-`;
-
 exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > invalid param > BetterTTV/FrankerFaceZ > _data > will match snapshot 1`] = `
 {
   "data": {
-    "message": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+    "message": "Provided invalid param: \`BetterTTV/FrankerFaceZ\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
   },
-  "message": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "message": "Provided invalid param: \`BetterTTV/FrankerFaceZ\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
   "stack": "",
   "statusCode": 404,
-  "statusMessage": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "statusMessage": "Provided invalid param: \`BetterTTV/FrankerFaceZ\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
   "url": "/api/v1/global-emotes-integrations/BetterTTV/FrankerFaceZ",
 }
 `;
