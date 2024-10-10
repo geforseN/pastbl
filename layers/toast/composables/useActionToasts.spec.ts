@@ -22,7 +22,14 @@ function useTestActionToasts<
 
   const addToast = vi.spyOn(options.toast, "add");
 
-  return [useActionToasts(rawActionToasts, options), addToast] as const;
+  return [
+    useActionToasts(
+      rawActionToasts,
+      // @ts-expect-error this is simple fake object, only `t` method is needed
+      options,
+    ),
+    addToast,
+  ] as const;
 }
 
 describe("useActionToasts", async () => {
@@ -215,7 +222,7 @@ describe("useActionToasts", async () => {
       it("will call addToast", () => {
         expect(addToast).not.toHaveBeenCalled();
         actionToasts.fail("foo");
-        expect(addToast).toHaveBeenCalledOnce(1);
+        expect(addToast).toHaveBeenCalledOnce();
         actionToasts.fail("fooArg", 123);
         expect(addToast).toHaveBeenCalledTimes(2);
       });

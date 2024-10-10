@@ -1,10 +1,10 @@
-name: End-to-End Tests
+name: Test Server API
 
 on:
   deployment_status:
 
 jobs:
-  playwright:
+  tests:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
 
     timeout-minutes: 5
@@ -27,25 +27,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
-
-      - name: Run Playwright tests on Vercel preview
+      - name: Run server API tests on Vercel preview
         run: pnpm exec playwright test
         if: ${{ github.event.deployment_status.environment == 'preview' }}
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
 
-      - name: Run Playwright tests on Vercel production
-        run: echo ${{ github.event.deployment_status.environment_url }} && pnpm exec playwright test
+      - name: Run server API tests on Vercel production
+        run: pnpm exec vitest --config vitest/server-api/vitest.config.ts
         if: ${{ github.event.deployment_status.environment == 'production' }}
         env:
           BASE_URL: https://pastbl.vercel.app
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4.4.0
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
