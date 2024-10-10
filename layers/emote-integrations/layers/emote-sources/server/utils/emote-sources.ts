@@ -1,34 +1,8 @@
-import { z } from "zod";
-import { uniqueValues } from "~/utils/array";
-
-const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = allEmoteSources.reduce(
-  (length, source) => length + source.length,
-  allEmoteSources.count,
-);
-
-const EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH = allEmoteSources.reduce(
-  (min, source) => Math.min(min, source.length),
-  0,
-);
-
-const UNDEFINED_RECEIVED_ERROR_MESSAGE = `Must provided sources query string, allowed values are: ${allEmoteSources.join(", ")}, must be separated by +`;
-const SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE = `At least one source is required, allowed values are: ${allEmoteSources.join(", ")}, must be separated by +`;
-
-const emoteSourcesQueryStringSchema = z
-  .string()
-  .min(EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH)
-  .max(EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH)
-  .transform((sources) => {
-    const validSources = sources
-      .split("+")
-      .filter((source) => allEmoteSources.has(source));
-    return uniqueValues(validSources);
-  })
-  .refine((sources) => sources.length > 0, SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE);
-
-const emoteSourcesQuerySchema = z.object({
-  sources: emoteSourcesQueryStringSchema,
-});
+import {
+  SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE,
+  UNDEFINED_RECEIVED_ERROR_MESSAGE,
+} from "./-constants";
+import { emoteSourcesQuerySchema } from "./-zod-schemas";
 
 export function getEmoteSourcesFromQuery(event: H3Event) {
   const parse = emoteSourcesQuerySchema.safeParse(getQuery(event));
