@@ -56,6 +56,8 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       expect(response.status).toBe(200);
     });
 
+    response._data.integrations.FrankerFaceZ.sets = response._data.integrations.FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+
     it("will contained only valid source, invalid will be filtered out", () => {
       expect(response._data).toMatchSnapshot({
         integrations: {
