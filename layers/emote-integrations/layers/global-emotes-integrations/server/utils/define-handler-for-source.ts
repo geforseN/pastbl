@@ -10,11 +10,11 @@ export function defineGlobalEmotesIntegrationEventHandler<S extends EmoteSource>
     source,
   ) as GlobalEmoteIntegrationRecord[S];
   return async function (event: H3Event) {
-    const { path } = event;
-    consola_.debug("GET", { path });
+    const url = getRequestURL(event);
+    consola_.debug("GET", { url });
     const integration = await _integration.get() as Awaited<ReturnType<GlobalEmoteIntegrationRecord[S]["get"]>>;
     consola_.debug("GET", {
-      path,
+      url,
       status: integration.status,
       source: integration.source,
     });
