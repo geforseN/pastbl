@@ -30,6 +30,10 @@ describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
       expect(response.status).toBe(404);
     });
 
-    it.todo("data will contain error message");
+    describe("_data", () => {
+      it("will match snapshot", () => {
+        expect(response._data).toMatchSnapshot();
+      });
+    });
   });
 });
