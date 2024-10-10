@@ -4,6 +4,7 @@ import {
   EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH,
   SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE,
 } from "./-constants";
+import { uniqueValues } from "~/utils/array";
 
 export const emoteSourcesQueryStringSchema = z
   .string()
