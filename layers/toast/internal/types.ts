@@ -69,12 +69,9 @@ type RaiseRecord<FN> = Record<RaiseMethodName, FN>;
 type TransformFailures<
   G extends RawActionToastMakersGroup | undefined,
   NewKeys extends string,
-> =
-  G extends RawActionToastMakersGroup
-    ?
-    & RaiseRecord<ActionToastsPanicFn<G>>
-    & ToastMakers<NewKeys, G>
-    : RaiseRecord<ActionToastsPanicFn2>;
+> = G extends RawActionToastMakersGroup
+  ? RaiseRecord<ActionToastsPanicFn<G>> & ToastMakers<NewKeys, G>
+  : RaiseRecord<ActionToastsPanicFn2>;
 
 type TransformRawGroup<
   RawGroup extends RawActionToastMakersGroup | undefined,

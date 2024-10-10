@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { integrationWithAnyFormedAtNumber, makeShortFrankerFaceZGlobalSet } from "./utils";
+import {
+  integrationWithAnyFormedAtNumber,
+  makeShortFrankerFaceZGlobalSet,
+} from "./utils";
 import { $apiFetch } from "~~/vitest/server-api/$apiFetch";
 
 describe("GET /api/v1/global-emotes-integrations", () => {
@@ -21,13 +24,16 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       query: { sources: allEmoteSources.join("+") },
     });
 
-    response.integrations.FrankerFaceZ.sets = response.integrations.FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+    response.integrations.FrankerFaceZ.sets
+      = response.integrations.FrankerFaceZ.sets.map(
+        makeShortFrankerFaceZGlobalSet,
+      );
 
-    expect(response).toMatchSnapshot(
-      {
-        integrations: allEmoteSources.flatGroupBySource(() => integrationWithAnyFormedAtNumber),
-      },
-    );
+    expect(response).toMatchSnapshot({
+      integrations: allEmoteSources.flatGroupBySource(
+        () => integrationWithAnyFormedAtNumber,
+      ),
+    });
   });
 
   describe("query with invalid only", async () => {
@@ -57,7 +63,10 @@ describe("GET /api/v1/global-emotes-integrations", () => {
         expect(response.status).toBe(200);
       });
 
-      response._data.integrations.FrankerFaceZ.sets = response._data.integrations.FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+      response._data.integrations.FrankerFaceZ.sets
+        = response._data.integrations.FrankerFaceZ.sets.map(
+          makeShortFrankerFaceZGlobalSet,
+        );
 
       it("will contained only valid source, invalid will be filtered out", () => {
         expect(response._data).toMatchSnapshot({

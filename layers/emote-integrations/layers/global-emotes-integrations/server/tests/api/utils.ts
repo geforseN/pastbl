@@ -14,7 +14,7 @@ export function makeShortFrankerFaceZGlobalSet(set) {
     };
   }
   return set;
-};
+}
 
 export const integrationWithAnyFormedAtNumber = {
   formedAt: expect.any(Number),

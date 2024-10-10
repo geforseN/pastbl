@@ -16,7 +16,10 @@ export const emoteSourcesQueryStringSchema = z
       .filter((source) => allEmoteSources.has(source));
     return uniqueValues(validSources);
   })
-  .refine((sources) => sources.length > 0, SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE);
+  .refine(
+    (sources) => sources.length > 0,
+    SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE,
+  );
 
 export const emoteSourcesQuerySchema = z.object({
   sources: emoteSourcesQueryStringSchema,

@@ -10,7 +10,10 @@ export default defineEventHandler(async (event) => {
   const preparedMaybeSource = toLowerCase(maybeSource.trim());
   const source = lowercaseEmoteSources.get(preparedMaybeSource);
   if (!source) {
-    const message = INVALID_EMOTE_SOURCE_PARAM.replace("<SOURCE>", `\`${maybeSource}\``);
+    const message = INVALID_EMOTE_SOURCE_PARAM.replace(
+      "<SOURCE>",
+      `\`${maybeSource}\``,
+    );
     throw createError({
       statusCode: 404,
       statusMessage: message,
