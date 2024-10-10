@@ -84,13 +84,4 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       });
     });
   });
-
-  it.todo.for([...allEmoteSources])("matches snapshot", async (source) => {
-    const response = await $apiFetch("/global-emotes-integrations/" + source);
-    expect(response).toMatchSnapshot(
-      {
-        integration: allEmoteSources.flatGroupBySource(() => integrationWithAnyFormedAtNumber),
-      },
-    );
-  });
 });
