@@ -13,6 +13,32 @@ exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > invalid param >
 }
 `;
 
+exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > invalid param > BetterTTV/FrankerFaceZ > _data > will match snapshot 1`] = `
+{
+  "data": {
+    "message": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  },
+  "message": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "stack": "",
+  "statusCode": 404,
+  "statusMessage": "Provided invalid param: \`betterttv/frankerfacez\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "url": "/api/v1/global-emotes-integrations/BetterTTV/FrankerFaceZ",
+}
+`;
+
+exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > invalid param > unknown > _data > will match snapshot 1`] = `
+{
+  "data": {
+    "message": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  },
+  "message": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "stack": "",
+  "statusCode": 404,
+  "statusMessage": "Provided invalid param: \`unknown\`. Allowed value is one of: BetterTTV, FrankerFaceZ, SevenTV, Twitch",
+  "url": "/api/v1/global-emotes-integrations/unknown",
+}
+`;
+
 exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > valid emote source is provided > BetterTTV matches snapshot 1`] = `
 {
   "integration": {

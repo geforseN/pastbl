@@ -31,23 +31,46 @@ describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
     });
   });
 
-  describe("invalid param", async () => {
-    const response = await $apiFetch.raw("/global-emotes-integrations/unknown", {
-      ignoreResponseError: true,
+  describe("invalid param", () => {
+    describe("unknown", async () => {
+      const response = await $apiFetch.raw("/global-emotes-integrations/unknown", {
+        ignoreResponseError: true,
+      });
+
+      it("will be not ok", () => {
+        expect(response.ok).toBe(false);
+      });
+
+      it("will not be 400, but 404", () => {
+        expect(response.status).not.toBe(400);
+        expect(response.status).toBe(404);
+      });
+
+      describe("_data", () => {
+        it("will match snapshot", () => {
+          expect(response._data).toMatchSnapshot();
+        });
+      });
     });
 
-    it("will be not ok", () => {
-      expect(response.ok).toBe(false);
-    });
+    describe("BetterTTV/FrankerFaceZ", async () => {
+      const response = await $apiFetch.raw("/global-emotes-integrations/BetterTTV/FrankerFaceZ", {
+        ignoreResponseError: true,
+      });
 
-    it("will not be 400, but 404", () => {
-      expect(response.status).not.toBe(400);
-      expect(response.status).toBe(404);
-    });
+      it("will be not ok", () => {
+        expect(response.ok).toBe(false);
+      });
 
-    describe("_data", () => {
-      it("will match snapshot", () => {
-        expect(response._data).toMatchSnapshot();
+      it("will not be 400, but 404", () => {
+        expect(response.status).not.toBe(400);
+        expect(response.status).toBe(404);
+      });
+
+      describe("_data", () => {
+        it("will match snapshot", () => {
+          expect(response._data).toMatchSnapshot();
+        });
       });
     });
   });
