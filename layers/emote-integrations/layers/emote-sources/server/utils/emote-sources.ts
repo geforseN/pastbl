@@ -19,6 +19,8 @@ export function getEmoteSourcesFromQuery(event: H3Event) {
     }
     throw createError({
       statusCode: 400,
+      statusMessage: message,
+      message,
       data: { message },
     });
   }
