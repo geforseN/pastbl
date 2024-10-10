@@ -46,23 +46,41 @@ describe("GET /api/v1/global-emotes-integrations", () => {
     });
   });
 
-  describe("query with invalid and valid", async () => {
-    const response = await $apiFetch.raw("/global-emotes-integrations", {
-      query: { sources: "invalid+FrankerFaceZ" },
+  describe("query with invalid and valid", () => {
+    describe("invalid+FrankerFaceZ", async () => {
+      const response = await $apiFetch.raw("/global-emotes-integrations", {
+        query: { sources: "invalid+FrankerFaceZ" },
+      });
+
+      it("will be ok and 200", async () => {
+        expect(response.ok).toBe(true);
+        expect(response.status).toBe(200);
+      });
+
+      response._data.integrations.FrankerFaceZ.sets = response._data.integrations.FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+
+      it("will contained only valid source, invalid will be filtered out", () => {
+        expect(response._data).toMatchSnapshot({
+          integrations: {
+            FrankerFaceZ: integrationWithAnyFormedAtNumber,
+          },
+        });
+      });
     });
 
-    it("will be ok and 200", async () => {
-      expect(response.ok).toBe(true);
-      expect(response.status).toBe(200);
-    });
+    describe("invalid+frankerFacez", async () => {
+      const response = await $apiFetch.raw("/global-emotes-integrations", {
+        query: { sources: "invalid+frankerFacez" },
+        ignoreResponseError: true,
+      });
 
-    response._data.integrations.FrankerFaceZ.sets = response._data.integrations.FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+      it("will be not ok and 400", async () => {
+        expect(response.ok).toBe(false);
+        expect(response.status).toBe(400);
+      });
 
-    it("will contained only valid source, invalid will be filtered out", () => {
-      expect(response._data).toMatchSnapshot({
-        integrations: {
-          FrankerFaceZ: integrationWithAnyFormedAtNumber,
-        },
+      it("will match _data snapshot", () => {
+        expect(response._data).toMatchSnapshot();
       });
     });
   });
