@@ -6757,8 +6757,8 @@ exports[`GET /api/v1/global-emotes-integrations > query with invalid only > will
   },
   "message": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
   "stack": "<pre><span class="stack internal">at createError (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:78:15)</span>
-<span class="stack">at getEmoteSourcesFromQuery (./.nuxt/dev/index.mjs:1:37132)</span>
-<span class="stack">at Object.handler (./.nuxt/dev/index.mjs:1:78173)</span>
+<span class="stack">at getEmoteSourcesFromQuery (./.nuxt/dev/index.mjs:1:37199)</span>
+<span class="stack">at Object.handler (./.nuxt/dev/index.mjs:1:79831)</span>
 <span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1904:24)</span>
 <span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:2217:34)</span>
 <span class="stack internal">at ./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1978:31</span>

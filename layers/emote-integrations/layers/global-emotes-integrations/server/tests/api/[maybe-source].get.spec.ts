@@ -3,20 +3,35 @@ import { integrationWithAnyFormedAtNumber, makeShortFrankerFaceZGlobalSet } from
 import { $apiFetch } from "~~/vitest/server-api/$apiFetch";
 
 describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
-  // FIXME
-  // FIXME
-  // FIXME
-  it.todo.for([...allEmoteSources])("%s matches snapshot", async (source) => {
-    const response = await $apiFetch("/global-emotes-integrations/" + source);
-    if (source === "FrankerFaceZ") {
-      response.integration.sets = response.integration.sets.map(makeShortFrankerFaceZGlobalSet);
-    }
-    expect(response).toMatchSnapshot({
-      integration: integrationWithAnyFormedAtNumber,
+  describe("valid emote source is provided", () => {
+    it.for([...allEmoteSources])("%s matches snapshot", async (source) => {
+      const response = await $apiFetch("/global-emotes-integrations/" + source);
+      if (source === "FrankerFaceZ") {
+        response.integration.sets = response.integration.sets.map(makeShortFrankerFaceZGlobalSet);
+      }
+      expect(response).toMatchSnapshot({
+        integration: integrationWithAnyFormedAtNumber,
+      });
     });
   });
 
-  describe("404 on unknown non emote source param", async () => {
+  describe("emote source is provided, but string case is different", () => {
+    it.for(allEmoteSources.map(toLowerCase))("%s param is valid", async (lowercasedSource) => {
+      const source = allEmoteSources.find((source) => source.toLowerCase() === lowercasedSource);
+      expect(source).toBeTypeOf("string");
+      const response = await $apiFetch("/global-emotes-integrations/" + lowercasedSource);
+      expect(response).toEqual({
+        integration: {
+          source,
+          status: "ready",
+          sets: expect.any(Array),
+          formedAt: expect.any(Number),
+        },
+      });
+    });
+  });
+
+  describe("invalid param", async () => {
     const response = await $apiFetch.raw("/global-emotes-integrations/unknown", {
       ignoreResponseError: true,
     });
