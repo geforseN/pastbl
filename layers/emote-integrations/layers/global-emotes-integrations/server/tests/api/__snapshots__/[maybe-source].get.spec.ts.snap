@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GET /api/v1/global-emotes-integrations/[maybe-source] > 404 on unknown non emote source param 1`] = `[FetchError: [GET] "http://127.0.0.1:1984/api/v1/global-emotes-integrations/unknown": 404 Page not found: /api/v1/global-emotes-integrations/unknown]`;
