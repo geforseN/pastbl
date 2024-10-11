@@ -1,27 +1,9 @@
 #!/usr/bin/env bash
 
-# Проверка наличия переменных окружения
-if [ -z "$HOST" ]; then
-  echo "Error: HOST environment variable is not set. Allowed values: 'localhost' or '127.0.0.1'."
-  exit 1
-fi
+source ./scripts/_check_env_var.sh
 
-if [ -z "$PORT" ]; then
-  echo "Error: PORT environment variable is not set. Allowed values: 1024-65535."
-  exit 1
-fi
-
-# Проверка допустимых значений для HOST
-if [[ "$HOST" != "localhost" && "$HOST" != "127.0.0.1" ]]; then
-  echo "Error: Invalid HOST value. Allowed values: 'localhost' or '127.0.0.1'."
-  exit 1
-fi
-
-# Проверка допустимого диапазона значений для PORT
-if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1024 ] || [ "$PORT" -gt 65535 ]; then
-  echo "Error: Invalid PORT value. Allowed values: 1024-65535."
-  exit 1
-fi
+check_env_var "HOST" "$HOST" "localhost|127.0.0.1"
+check_env_var "PORT" "$PORT" "" 1024 65535
 
 echo "Using host: $HOST"
 echo "Using port: $PORT"
@@ -33,7 +15,7 @@ function cleanup {
 }
 
 echo "Starting Nuxt server on $HOST:$PORT..."
-pnpm exec nuxt dev --host $HOST --port $PORT &
+pnpm exec nuxt dev --host "$HOST" --port "$PORT" &
 NUXT_PID=$!
 
 pnpm exec wait-on "http://$HOST:$PORT" --interval 2000 || cleanup
