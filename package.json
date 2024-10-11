@@ -18,6 +18,7 @@
     "postinstall": "nuxt prepare",
     "analyze": "nuxi analyze",
     "test:vue": "vitest --config vitest.vue.config.ts",
+    "test:server": "vitest --config vitest/server-api/vitest.config.ts",
     "test:nuxt": "vitest --config vitest.nuxt.config.ts --exclude server",
     "test:nuxt+": "scripts/vitest-nuxt-with-nitro.sh",
     "test:node": "vitest --config vitest.node.config.ts",

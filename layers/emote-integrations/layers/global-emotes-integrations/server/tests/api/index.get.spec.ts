@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { objectOmit } from "@vueuse/core";
 import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,
@@ -47,8 +48,16 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       expect(response.status).toBe(400);
     });
 
-    it("will match data object", () => {
-      expect(response._data).toMatchSnapshot();
+    describe("response._data", () => {
+      it("is object", () => {
+        expect(response._data).toBeTypeOf("object");
+      });
+
+      it("will match snapshot", () => {
+        expect(
+          objectOmit(response._data, ["stack"]),
+        ).toMatchSnapshot();
+      });
     });
   });
 
@@ -88,8 +97,16 @@ describe("GET /api/v1/global-emotes-integrations", () => {
         expect(response.status).toBe(400);
       });
 
-      it("will match _data snapshot", () => {
-        expect(response._data).toMatchSnapshot();
+      describe("response._data", () => {
+        it("is object", () => {
+          expect(response._data).toBeTypeOf("object");
+        });
+
+        it("will match snapshot", () => {
+          expect(
+            objectOmit(response._data, ["stack"]),
+          ).toMatchSnapshot();
+        });
       });
     });
   });

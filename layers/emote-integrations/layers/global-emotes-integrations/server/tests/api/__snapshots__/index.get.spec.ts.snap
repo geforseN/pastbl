@@ -2137,6 +2137,32 @@ exports[`GET /api/v1/global-emotes-integrations > query with all emotes sources 
           "emotes": [
             {
               "height": 28,
+              "id": "emotesv2_f2fd474fbe964964b2570671575b39ea",
+              "isAnimated": false,
+              "isListed": true,
+              "isModifier": false,
+              "isWrapper": false,
+              "source": "Twitch",
+              "token": "BratChat",
+              "type": "global",
+              "url": "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f2fd474fbe964964b2570671575b39ea/static/light/1.0",
+              "width": 28,
+            },
+            {
+              "height": 28,
+              "id": "emotesv2_a9d7138efebd40d9b667adde70e51610",
+              "isAnimated": false,
+              "isListed": true,
+              "isModifier": false,
+              "isWrapper": false,
+              "source": "Twitch",
+              "token": "OnlyYou",
+              "type": "global",
+              "url": "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a9d7138efebd40d9b667adde70e51610/static/light/1.0",
+              "width": 28,
+            },
+            {
+              "height": 28,
               "id": "emotesv2_db3cd788399347a8b2ebfb8a85f5badb",
               "isAnimated": false,
               "isListed": true,
@@ -6750,42 +6776,24 @@ exports[`GET /api/v1/global-emotes-integrations > query with invalid and valid >
 }
 `;
 
-exports[`GET /api/v1/global-emotes-integrations > query with invalid and valid > invalid+frankerFacez > will match _data snapshot 1`] = `
+exports[`GET /api/v1/global-emotes-integrations > query with invalid and valid > invalid+frankerFacez > response._data > will match snapshot 1`] = `
 {
   "data": {
     "message": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
   },
   "message": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
-  "stack": "<pre><span class="stack internal">at createError (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:78:15)</span>
-<span class="stack">at getEmoteSourcesFromQuery (./.nuxt/dev/index.mjs:1:37199)</span>
-<span class="stack">at Object.handler (./.nuxt/dev/index.mjs:1:79831)</span>
-<span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1904:24)</span>
-<span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:2217:34)</span>
-<span class="stack internal">at ./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1978:31</span>
-<span class="stack internal">at process.processTicksAndRejections (node:internal/process/task_queues:95:5)</span>
-<span class="stack internal">at async Object.callAsync (./node_modules/.pnpm/unctx@2.3.1/node_modules/unctx/dist/index.mjs:72:16)</span>
-<span class="stack internal">at async Server.toNodeHandle (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:2270:7)</span></pre>",
   "statusCode": 400,
   "statusMessage": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
   "url": "/api/v1/global-emotes-integrations?sources=invalid%2BfrankerFacez",
 }
 `;
 
-exports[`GET /api/v1/global-emotes-integrations > query with invalid only > will match data object 1`] = `
+exports[`GET /api/v1/global-emotes-integrations > query with invalid only > response._data > will match snapshot 1`] = `
 {
   "data": {
     "message": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
   },
   "message": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
-  "stack": "<pre><span class="stack internal">at createError (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:78:15)</span>
-<span class="stack">at getEmoteSourcesFromQuery (./.nuxt/dev/index.mjs:1:37199)</span>
-<span class="stack">at Object.handler (./.nuxt/dev/index.mjs:1:79831)</span>
-<span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1904:24)</span>
-<span class="stack internal">at Object.handler (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:2217:34)</span>
-<span class="stack internal">at ./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:1978:31</span>
-<span class="stack internal">at process.processTicksAndRejections (node:internal/process/task_queues:95:5)</span>
-<span class="stack internal">at async Object.callAsync (./node_modules/.pnpm/unctx@2.3.1/node_modules/unctx/dist/index.mjs:72:16)</span>
-<span class="stack internal">at async Server.toNodeHandle (./node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs:2270:7)</span></pre>",
   "statusCode": 400,
   "statusMessage": "At least one source in \`sources\` query string is required. Allowed values are: BetterTTV, FrankerFaceZ, SevenTV, Twitch. Must be separated by \`+\`",
   "url": "/api/v1/global-emotes-integrations?sources=invalid",
