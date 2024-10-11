@@ -22,6 +22,9 @@ cleanup() {
 }
 
 echo "Starting Nuxt server on $HOST:$PORT..."
+
+TWITCH_APP_CLIENT_SECRET="$TWITCH_APP_CLIENT_SECRET" \   
+TWITCH_APP_CLIENT_ID="$TWITCH_APP_CLIENT_ID" \
 pnpm exec nuxt dev --host "$HOST" --port "$PORT" & NUXT_PID=$!
 
 pnpm exec wait-on "$URL" --interval 2000 || { 
@@ -32,8 +35,6 @@ pnpm exec wait-on "$URL" --interval 2000 || {
 echo "Nuxt server is running, starting Vitest on $URL"
 
 VITEST_SERVER_API_BASE_URL="$URL" \
-TWITCH_APP_CLIENT_SECRET="$TWITCH_APP_CLIENT_SECRET" \   
-TWITCH_APP_CLIENT_ID="$TWITCH_APP_CLIENT_ID" \
 pnpm test:nitro
 
 echo "Vitest $( [ $? -ne 0 ] && echo "failed" || echo "finished successfully" )"
