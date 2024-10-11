@@ -1,22 +1,30 @@
 #!/usr/bin/env bash
 
-if [ -z "$VITEST_SERVER_API_BASE_URL" ]; then
-  echo "Error: VITEST_SERVER_API_BASE_URL environment variable is not set."
+# Проверка наличия переменных окружения
+if [ -z "$HOST" ]; then
+  echo "Error: HOST environment variable is not set. Allowed values: 'localhost' or '127.0.0.1'."
   exit 1
 fi
-
-URL=$VITEST_SERVER_API_BASE_URL
-
-HOST=$(echo "$URL" | awk -F[/:] '{print $4}')
-PORT=$(echo "$URL" | awk -F[/:] '{print $5}')
 
 if [ -z "$PORT" ]; then
-  echo "Error: Port is not specified in URL."
+  echo "Error: PORT environment variable is not set. Allowed values: 1024-65535."
   exit 1
 fi
 
-echo "Parsed host: $HOST"
-echo "Parsed port: $PORT"
+# Проверка допустимых значений для HOST
+if [[ "$HOST" != "localhost" && "$HOST" != "127.0.0.1" ]]; then
+  echo "Error: Invalid HOST value. Allowed values: 'localhost' or '127.0.0.1'."
+  exit 1
+fi
+
+# Проверка допустимого диапазона значений для PORT
+if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1024 ] || [ "$PORT" -gt 65535 ]; then
+  echo "Error: Invalid PORT value. Allowed values: 1024-65535."
+  exit 1
+fi
+
+echo "Using host: $HOST"
+echo "Using port: $PORT"
 
 function cleanup {
   echo "Stopping Nuxt server..."
@@ -28,9 +36,9 @@ echo "Starting Nuxt server on $HOST:$PORT..."
 pnpm exec nuxt dev --host $HOST --port $PORT &
 NUXT_PID=$!
 
-pnpm exec wait-on "$URL" --interval 2000 || cleanup
+pnpm exec wait-on "http://$HOST:$PORT" --interval 2000 || cleanup
 
-echo "Nuxt server is running, starting Vitest with API base URL: $URL"
+echo "Nuxt server is running, starting Vitest with API base URL: http://$HOST:$PORT"
 pnpm test:server
 TEST_EXIT_CODE=$?
 
