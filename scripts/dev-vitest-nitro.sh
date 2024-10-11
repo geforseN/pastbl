@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+# Подключение файла с функциями
 source ./scripts/_check_env_var.sh
 
-check_env_var "HOST" "$HOST" "localhost|127.0.0.1"
-check_env_var "PORT" "$PORT" "" 1024 65535
+# Проверка переменных окружения
+check_host_var "HOST" "$HOST" "localhost|127.0.0.1"
+check_port_var "PORT" "$PORT" 1024 65535
 
 echo "Using host: $HOST"
 echo "Using port: $PORT"
