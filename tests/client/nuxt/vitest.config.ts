@@ -7,6 +7,7 @@ import {
   nodejsTestsGlobs,
 } from "../../test-common";
 
+// NOTE:  --exclude server must be added
 export default defineVitestConfig({
   test: {
     globals: true,

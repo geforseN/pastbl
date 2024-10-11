@@ -3,7 +3,7 @@ import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,
 } from "./utils";
-import { $apiFetch } from "~~/vitest/server/nitro/$apiFetch";
+import { $apiFetch } from "~~/tests/server/nitro/$apiFetch";
 
 describe("GET /api/v1/global-emotes-integrations/all", () => {
   it("matches snapshot", async () => {

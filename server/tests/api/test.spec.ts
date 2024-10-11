@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { $apiFetch } from "~~/vitest/server/nitro/$apiFetch";
+import { $apiFetch } from "~~/tests/server/nitro/$apiFetch";
 
 describe("/test", async () => {
   it("should return 'Hello World!'", async () => {

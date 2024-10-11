@@ -27,6 +27,9 @@ feat:
 - [ ] chat-pasta-list-hints:
   - [ ] add "Showing pastas with global emotes"
 - [ ] eslint configs order
+- add 'package.json'.scripts.test
+  - [ ] console must ask which environments to run
+  - [ ] console must ask path 
 
 docs:
 
