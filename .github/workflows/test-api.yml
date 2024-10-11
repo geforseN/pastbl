@@ -27,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run dev server and Vitest on push to main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Run dev server and Vitest on pull request
+        if: github.event_name == 'pull_request' && github.base_ref == 'main'   
         run: ./scripts/dev-vitest-nitro.sh
         env:
           HOST: 127.0.0.1
