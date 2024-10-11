@@ -3,20 +3,24 @@ import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { defaultExclude } from "vitest/config";
 import {
   endToEndTestsGlobs,
-  nitroTestsGlobs,
   nodejsTestsGlobs,
 } from "../../utils";
+import { nitroTestInclude } from "../../server/nitro/utils";
 
 // NOTE:  --exclude server must be added
 export default defineVitestConfig({
   test: {
     globals: true,
     environment: "nuxt",
-    include: ["**/*.spec.ts", ...nitroTestsGlobs],
-    exclude: defaultExclude.concat(endToEndTestsGlobs, nodejsTestsGlobs),
+    include: ["**/*.spec.ts"],
+    exclude: defaultExclude.concat(
+      endToEndTestsGlobs,
+      nodejsTestsGlobs,
+      nitroTestInclude,
+    ),
     environmentOptions: {
       nuxt: {
-        rootDir: fileURLToPath(new URL(".", import.meta.url)),
+        rootDir: fileURLToPath(new URL("../../..", import.meta.url)),
         mock: {
           intersectionObserver: true,
           indexedDb: true,
