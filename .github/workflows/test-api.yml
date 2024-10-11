@@ -36,13 +36,13 @@ jobs:
           PORT: 3000
 
       - name: Run server API tests on Vercel preview
-        run: pnpm test:server
+        run: pnpm test:nitro
         if: ${{ github.event.deployment_status.environment == 'preview' }}
         env:
           VITEST_SERVER_API_BASE_URL: ${{ github.event.deployment_status.environment_url }}
 
       - name: Run server API tests on Vercel production
-        run: pnpm test:server
+        run: pnpm test:nitro
         if: ${{ github.event.deployment_status.environment == 'production' }}
         env:
           VITEST_SERVER_API_BASE_URL: https://pastbl.vercel.app
