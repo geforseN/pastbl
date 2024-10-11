@@ -2,17 +2,6 @@
 
 source ./scripts/_check_env_var.sh
 
-[ -n "$TWITCH_APP_CLIENT_SECRET" ] || { echo "TWITCH_APP_CLIENT_SECRET is empty" 1>&2; exit 1; }
-[ -n "$TWITCH_APP_CLIENT_ID" ] || { echo "TWITCH_APP_CLIENT_ID is empty" 1>&2; exit 1; }
-
-check_host_var "HOST" "$HOST" "localhost|127.0.0.1"
-check_port_var "PORT" "$PORT" 1024 65535
-
-echo "Using host: $HOST"
-echo "Using port: $PORT"
-
-URL="http://$HOST:$PORT"
-
 cleanup() {
   local message="$1"
   local exit_code=${2:-0}
@@ -25,13 +14,24 @@ cleanup() {
   exit "$exit_code"
 }
 
+[ -n "$TWITCH_APP_CLIENT_SECRET" ] || cleanup "TWITCH_APP_CLIENT_SECRET is empty" 1
+[ -n "$TWITCH_APP_CLIENT_ID" ] || cleanup "TWITCH_APP_CLIENT_ID is empty" 2
+
+check_host_var "HOST" "$HOST" "localhost|127.0.0.1"
+check_port_var "PORT" "$PORT" 1024 65535
+
+echo "Using host: $HOST"
+echo "Using port: $PORT"
+
+URL="http://$HOST:$PORT"
+
 echo "Starting Nuxt server on $HOST:$PORT..."
 
 TWITCH_APP_CLIENT_SECRET="$TWITCH_APP_CLIENT_SECRET" \
 TWITCH_APP_CLIENT_ID="$TWITCH_APP_CLIENT_ID" \
 pnpm exec nuxt dev --host "$HOST" --port "$PORT" & NUXT_PID=$!
 
-pnpm exec wait-on "$URL" --interval 2000 || cleanup "Error: Nuxt server did not start in time." 1
+pnpm exec wait-on "$URL" --interval 2000 || cleanup "Error: Nuxt server did not start in time." 3
 
 echo "Nuxt server is running, starting Vitest on $URL"
 
