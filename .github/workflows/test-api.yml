@@ -33,7 +33,7 @@ jobs:
         run: ./scripts/dev-vitest-nitro.sh
         env:
           HOST: 127.0.0.1
-          PORT: 3000
+          PORT: 5555
 
       - name: Run server API tests on Vercel preview
         run: pnpm test:nitro
