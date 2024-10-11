@@ -40,10 +40,7 @@ export function removeTwitchTokenFromStorage() {
   return storage.removeItem("twitchToken");
 }
 
-const {
-  TWITCH_APP_CLIENT_ID,
-  TWITCH_APP_CLIENT_SECRET,
-} = process.env;
+const { TWITCH_APP_CLIENT_ID, TWITCH_APP_CLIENT_SECRET } = process.env;
 
 assert.ok(TWITCH_APP_CLIENT_ID && TWITCH_APP_CLIENT_SECRET);
 
