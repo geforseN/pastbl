@@ -29,7 +29,7 @@ feat:
 - [ ] eslint configs order
 - add 'package.json'.scripts.test
   - [ ] console must ask which environments to run
-  - [ ] console must ask path 
+  - [ ] console must ask path
 
 docs:
 

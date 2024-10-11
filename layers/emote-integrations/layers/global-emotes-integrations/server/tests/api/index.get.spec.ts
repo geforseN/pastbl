@@ -61,9 +61,7 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       });
 
       it("will match snapshot", () => {
-        expect(
-          objectOmit(response._data, ["stack"]),
-        ).toMatchSnapshot();
+        expect(objectOmit(response._data, ["stack"])).toMatchSnapshot();
       });
     });
   });
@@ -110,9 +108,7 @@ describe("GET /api/v1/global-emotes-integrations", () => {
         });
 
         it("will match snapshot", () => {
-          expect(
-            objectOmit(response._data, ["stack"]),
-          ).toMatchSnapshot();
+          expect(objectOmit(response._data, ["stack"])).toMatchSnapshot();
         });
       });
     });

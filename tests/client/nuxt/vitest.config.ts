@@ -1,10 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { defaultExclude } from "vitest/config";
-import {
-  endToEndTestsGlobs,
-  nodejsTestsGlobs,
-} from "../../utils";
+import { endToEndTestsGlobs, nodejsTestsGlobs } from "../../utils";
 import { nitroTestInclude } from "../../server/nitro/utils";
 
 // NOTE:  --exclude server must be added
