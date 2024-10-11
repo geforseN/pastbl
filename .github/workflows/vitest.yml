@@ -1,4 +1,4 @@
-name: Run tests for "nuxt" and "node" environment
+name: Test nuxt and node
 
 on:
   push:
