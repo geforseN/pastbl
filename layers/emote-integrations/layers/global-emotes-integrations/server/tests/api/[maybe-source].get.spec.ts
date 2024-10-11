@@ -3,7 +3,7 @@ import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,
 } from "./utils";
-import { $apiFetch } from "~~/tests/server/nitro/$apiFetch";
+import { $apiFetch } from "#tests-nitro-api-fetch";
 
 describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
   describe("valid emote source is provided", () => {
