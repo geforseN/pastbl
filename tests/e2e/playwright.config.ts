@@ -2,10 +2,10 @@ import { fileURLToPath } from "node:url";
 import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 import { defineConfig, devices } from "@playwright/test";
 import { isCI } from "std-env";
-import { endToEndTestsGlobs } from "./vitest/test-common";
+import { endToEndTestsGlobs } from "~~/tests/test-common";
 
 const options = isCI
-  ? { host: process.env.BASE_URL || "https://pastbl.vercel.app" }
+  ? { host: process.env.PLAYWRIGHT_NUXT_HOST || "https://pastbl.vercel.app" }
   : { host: "http://127.0.0.1:3000" };
 
 /**
