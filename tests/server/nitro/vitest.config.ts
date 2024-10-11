@@ -1,7 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { baseUrl } from "./$apiFetch";
-import { nitroTestInclude } from "./utils";
+import { nitroTestGlobs } from "./utils";
 
 // NOTE: must manually run `pnpm dev` and wait until server is loaded
 // NOTE: in scripts/dev-vitest-nitro.sh there there is such logic
@@ -10,7 +10,7 @@ import { nitroTestInclude } from "./utils";
 
 export default defineVitestConfig({
   test: {
-    include: [...nitroTestInclude],
+    include: [...nitroTestGlobs],
     environment: "nuxt",
     environmentOptions: {
       nuxt: {

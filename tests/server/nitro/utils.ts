@@ -1,1 +1,1 @@
-export const nitroTestInclude = ["**/server/tests/api/**/*.spec.ts"] as const;
+export const nitroTestGlobs = ["**/server/tests/api/**/*.spec.ts"] as const;
