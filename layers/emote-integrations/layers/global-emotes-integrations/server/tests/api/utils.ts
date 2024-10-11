@@ -1,6 +1,7 @@
 import { expect } from "vitest";
 
-export function makeShortFrankerFaceZGlobalSet(set) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function makeShortFrankerFaceZGlobalSet(set: any) {
   if (set.allowedTo) {
     assert.ok(
       Array.isArray(set.allowedTo.twitchIds)
