@@ -2,11 +2,12 @@ name: Test Server API
 
 on:
   deployment_status:
+  push:
+    branches:
+      - main
 
 jobs:
   tests:
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
-
     timeout-minutes: 5
 
     runs-on: ubuntu-latest
@@ -26,6 +27,13 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Run dev server and Vitest on push to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: ./scripts/dev-vitest-nitro.sh
+        env:
+          HOST: 127.0.0.1
+          PORT: 3000
 
       - name: Run server API tests on Vercel preview
         run: pnpm test:server
