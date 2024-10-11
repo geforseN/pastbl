@@ -7,7 +7,7 @@ on:
     branches: main
 
 jobs:
-  vitest-nuxt-plus-node-no-server:
+  nuxt-and-node:
     runs-on: ubuntu-latest
 
     timeout-minutes: 5

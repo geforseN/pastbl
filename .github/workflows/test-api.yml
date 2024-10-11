@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  tests:
+  nitro:
     timeout-minutes: 5
 
     runs-on: ubuntu-latest
