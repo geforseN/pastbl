@@ -12,7 +12,7 @@ export default defineVitestConfig({
     globals: true,
     environment: "nuxt",
     include: ["**/*.spec.ts", ...nitroTestsGlobs],
-    exclude: [...defaultExclude, ...endToEndTestsGlobs, ...nodejsTestsGlobs],
+    exclude: defaultExclude.concat(endToEndTestsGlobs, nodejsTestsGlobs),
     environmentOptions: {
       nuxt: {
         rootDir: fileURLToPath(new URL(".", import.meta.url)),
