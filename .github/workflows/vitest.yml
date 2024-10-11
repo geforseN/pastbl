@@ -1,4 +1,4 @@
-name: Tests
+name: Run tests for "nuxt" and "node" environment
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: main
 
 jobs:
-  vitest-nuxt-with-nitro:
+  vitest-nuxt-plus-node-no-server:
     runs-on: ubuntu-latest
 
     timeout-minutes: 5
@@ -46,8 +46,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run Nuxt and Nitro tests
-        run: pnpm test:nuxt+
+      - name: Run Nuxt tests
+        run: pnpm test:nuxt
 
       - name: Run Node tests
         run: pnpm test:node
