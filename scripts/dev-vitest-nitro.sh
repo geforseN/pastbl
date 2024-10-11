@@ -29,7 +29,7 @@ pnpm exec wait-on "$URL" --interval 2000 || {
 echo "Nuxt server is running, starting Vitest on $URL"
 
 VITEST_SERVER_API_BASE_URL="$URL" \
-pnpm test:server
+pnpm test:nitro
 
 echo "Vitest $( [ $? -ne 0 ] && echo "failed" || echo "finished successfully" )"
 
