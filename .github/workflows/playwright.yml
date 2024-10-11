@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm install:playwright
 
       - name: Run Playwright tests on Vercel preview
         run: pnpm test:e2e
