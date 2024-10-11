@@ -15,11 +15,11 @@ const rootDir = fileURLToPath(new URL("../..", import.meta.url));
  */
 export default defineConfig<ConfigOptions>({
   testDir: rootDir,
-  outputDir: "test-results",
+  outputDir: "playwright-results",
   testMatch: [...endToEndTestsGlobs],
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
+  retries: isCI ? 2 : 1,
   workers: isCI ? 1 : undefined,
   globalTimeout: 1.5 * 60 * 1000,
   timeout: 45 * 1000,
