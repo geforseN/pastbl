@@ -25,10 +25,11 @@ if ! pnpm exec wait-on "http://$HOST:$PORT" --interval 2000; then
 
 echo "Nuxt server is running, starting Vitest with API base URL: http://$HOST:$PORT"
 
-if ! pnpm test:server; then
-  echo "Vitest failed"
-  cleanup
-}
+VITEST_SERVER_API_BASE_URL="http://$HOST:$PORT" pnpm test:server
 
-echo "Vitest finished successfully"
+if [ $? -ne 0 ]; then
+  echo "Vitest failed"
+elif 
+  echo "Vitest finished successfully"
+
 cleanup
