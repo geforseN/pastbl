@@ -25,7 +25,7 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       query: { sources: allEmoteSources.join("+") },
     });
 
-    test("will be ok and 200", () => {
+    it("will be ok and 200", () => {
       expect(response.ok).toBe(true);
       expect(response.status).toBe(200);
     });
