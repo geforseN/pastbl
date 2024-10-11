@@ -2,9 +2,8 @@ name: Test server api
 
 on:
   deployment_status:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   nitro:
