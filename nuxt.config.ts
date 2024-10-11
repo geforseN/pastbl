@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url";
 import { codecovVitePlugin } from "@codecov/vite-plugin";
 import { i18n } from "./app/i18n.config";
 import tailwindTheme from "./tailwind.theme";
+import testsAlias from "./tests/alias";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -18,6 +19,7 @@ export default defineNuxtConfig({
   },
   alias: {
     $: fileURLToPath(new URL("layers", import.meta.url)),
+    ...testsAlias,
   },
   devtools: {
     enabled: true,
