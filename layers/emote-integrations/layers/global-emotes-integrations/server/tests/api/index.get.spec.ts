@@ -36,11 +36,9 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       );
 
     it("matches snapshot", () => {
-      expect(response._data).toMatchSnapshot({
-        integrations: allEmoteSources.flatGroupBySource(
-          () => integrationWithAnyFormedAtNumber,
-        ),
-      });
+      expect(response._data.integrations).toMatchSnapshot(
+        allEmoteSources.flatGroupBySource(() => integrationWithAnyFormedAtNumber),
+      );
     });
   });
 

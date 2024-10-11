@@ -14,10 +14,8 @@ describe("GET /api/v1/global-emotes-integrations/all", () => {
         makeShortFrankerFaceZGlobalSet,
       );
 
-    expect(response).toMatchSnapshot({
-      integrations: allEmoteSources.flatGroupBySource(
-        () => integrationWithAnyFormedAtNumber,
-      ),
-    });
+    expect(response.integrations).toMatchSnapshot(
+      allEmoteSources.flatGroupBySource(() => integrationWithAnyFormedAtNumber),
+    );
   });
 });
