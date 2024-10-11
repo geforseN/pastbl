@@ -4,7 +4,7 @@ import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,
 } from "./utils";
-import { $apiFetch } from "~~/vitest/server-api/$apiFetch";
+import { $apiFetch } from "~~/vitest/server/nitro/$apiFetch";
 
 describe("GET /api/v1/global-emotes-integrations", () => {
   describe("when no query", async () => {

@@ -6,6 +6,7 @@ import { baseUrl } from "./$apiFetch";
 // ! If so then baseUrl must be changed to, for example 127.0.0.1:1234
 
 // FIXME: snapshots must not depend on baseUrl (localhost:3000 in snap files)
+// TODO: add import aliases for $apiFetch
 export default defineVitestConfig({
   test: {
     include: ["**/server/tests/api/**/*.spec.ts"],
