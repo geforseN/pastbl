@@ -26,8 +26,8 @@ logs
 .prettierignore
 .vscode/settings.json
 .VSCodeCounter
-/test-results/
-/playwright-report/
+tests/e2e/playwright-results
+tests/e2e/playwright-report
 /blob-report/
 /playwright/.cache/
 

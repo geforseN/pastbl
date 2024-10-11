@@ -20,7 +20,7 @@
     "test:nitro": "vitest --config tests/server/nitro/vitest.config.ts",
     "test:nuxt": "vitest --config tests/client/nuxt/vitest.config.ts",
     "test:node": "vitest --config tests/server/node/vitest.config.ts",
-    "test:e2e": "playwright test --config tests/e2e/playwright.config.ts",
+    "test:e2e": "PLAYWRIGHT_HTML_OUTPUT_DIR=tests/e2e/playwright-report playwright test --config tests/e2e/playwright.config.ts",
     "lint": "eslint .",
     "lintfix": "prettier . --list-different --write ; eslint . --fix",
     "commitlint": "commitlint --edit"
