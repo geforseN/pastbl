@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 import { defineConfig, devices } from "@playwright/test";
 import { isCI } from "std-env";
-import { endToEndTestsGlobs } from "./test-common";
+import { endToEndTestsGlobs } from "./vitest/test-common";
 
 const options = isCI
   ? { host: process.env.BASE_URL || "https://pastbl.vercel.app" }

@@ -5,7 +5,7 @@ import {
   endToEndTestsGlobs,
   nitroTestsGlobs,
   nodejsTestsGlobs,
-} from "./test-common";
+} from "../test-common";
 
 export default defineVitestConfig({
   test: {
