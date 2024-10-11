@@ -6,10 +6,14 @@ export abstract class EmotesIntegrationWithFailControl {
   ): F;
 
   async handle<R extends ReadyIntegration, F extends FailedIntegration>(
-    fn: () => Promise<R>,
-  ): Promise<R | F> {
+    getter: () => Promise<R>,
+  ) {
     try {
-      return await fn();
+      const integration = await getter();
+      if (!integration) {
+        throw new Error(`${this.source} Global emotes integration not found`);
+      }
+      return integration;
     }
     catch (error) {
       return this.makeFailedIntegration<F>(error);

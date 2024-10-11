@@ -74,4 +74,8 @@ export class EmoteSources<T extends string> {
   flatGroupBySource<V>(getValue: (value: T, index: number, array: T[]) => V) {
     return flatGroupBy(this.values, (source) => source, getValue);
   }
+
+  join(separator: string) {
+    return this.values.join(separator);
+  }
 }

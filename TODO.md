@@ -27,6 +27,9 @@ feat:
 - [ ] chat-pasta-list-hints:
   - [ ] add "Showing pastas with global emotes"
 - [ ] eslint configs order
+- add 'package.json'.scripts.test
+  - [ ] console must ask which environments to run
+  - [ ] console must ask path
 
 docs:
 
@@ -40,8 +43,7 @@ refactor:
 
 ci:
 
-- comments-counts
-  - [x] should generate links (https://github.com/geforseN/pastbl/blob/{hash}/{path}#L{line})
+- [ ] stop run most of actions on pull request from 'renovate' bot
 - [ ] always run autofix and count-comments, other must be approved via pr ui
 
 test:

@@ -1,4 +1,4 @@
-name: Run tests and upload coverage
+name: Upload tests coverage
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: main
 
 jobs:
-  test:
+  codecov:
     name: Run tests and collect coverage
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +28,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+        # FIXME: add config (codecov.yml)
+        # FIXME: paths to include are not correct, only /app is used, should also /server and /layers
       - name: Run tests
         run: pnpm test:nuxt --coverage
 

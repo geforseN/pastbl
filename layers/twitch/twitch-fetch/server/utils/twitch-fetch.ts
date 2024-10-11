@@ -1,11 +1,13 @@
 import { $fetch, type FetchOptions, type FetchRequest } from "ofetch";
-import { environment } from "~~/server/utils/environment";
+
+const { TWITCH_APP_CLIENT_ID } = process.env;
+assert.ok(TWITCH_APP_CLIENT_ID);
 
 let twitchFetch = createTwitchApiFetch();
 
 export function createTwitchApiFetch(token?: TwitchToken) {
   const headers = new Headers({
-    "Client-ID": environment.TWITCH_APP_CLIENT_ID,
+    "Client-ID": TWITCH_APP_CLIENT_ID!,
   });
   if (token) {
     headers.append("Authorization", `Bearer ${token.access_token}`);
