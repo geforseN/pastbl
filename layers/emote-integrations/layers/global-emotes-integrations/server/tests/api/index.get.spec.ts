@@ -20,20 +20,27 @@ describe("GET /api/v1/global-emotes-integrations", () => {
     });
   });
 
-  it("query with all emotes sources", async () => {
-    const response = await $apiFetch("/global-emotes-integrations", {
+  describe("query with all emotes sources", async () => {
+    const response = await $apiFetch.raw("/global-emotes-integrations", {
       query: { sources: allEmoteSources.join("+") },
     });
 
-    response.integrations.FrankerFaceZ.sets
-      = response.integrations.FrankerFaceZ.sets.map(
+    test("will be ok and 200", () => {
+      expect(response.ok).toBe(true);
+      expect(response.status).toBe(200);
+    });
+
+    response._data.integrations.FrankerFaceZ.sets
+      = response._data.integrations.FrankerFaceZ.sets.map(
         makeShortFrankerFaceZGlobalSet,
       );
 
-    expect(response).toMatchSnapshot({
-      integrations: allEmoteSources.flatGroupBySource(
-        () => integrationWithAnyFormedAtNumber,
-      ),
+    it("matches snapshot", () => {
+      expect(response._data).toMatchSnapshot({
+        integrations: allEmoteSources.flatGroupBySource(
+          () => integrationWithAnyFormedAtNumber,
+        ),
+      });
     });
   });
 
@@ -72,12 +79,12 @@ describe("GET /api/v1/global-emotes-integrations", () => {
         expect(response.status).toBe(200);
       });
 
-      response._data.integrations.FrankerFaceZ.sets
-        = response._data.integrations.FrankerFaceZ.sets.map(
-          makeShortFrankerFaceZGlobalSet,
-        );
-
       it("will contained only valid source, invalid will be filtered out", () => {
+        response._data.integrations.FrankerFaceZ.sets
+          = response._data.integrations.FrankerFaceZ.sets.map(
+            makeShortFrankerFaceZGlobalSet,
+          );
+
         expect(response._data).toMatchSnapshot({
           integrations: {
             FrankerFaceZ: integrationWithAnyFormedAtNumber,
