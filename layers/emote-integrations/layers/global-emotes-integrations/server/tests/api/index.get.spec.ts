@@ -30,15 +30,18 @@ describe("GET /api/v1/global-emotes-integrations", () => {
       expect(response.status).toBe(200);
     });
 
-    response._data.integrations.FrankerFaceZ.sets
-      = response._data.integrations.FrankerFaceZ.sets.map(
-        makeShortFrankerFaceZGlobalSet,
-      );
+    describe("response._data", () => {
+      for (const integration of Object.values(response._data.integrations)) {
+        expect(Number.isFinite(integration.formedAt)).toBe(true);
+        integration.formedAt = expect.any(Number);
+      }
 
-    it("matches snapshot", () => {
-      expect(response._data.integrations).toMatchSnapshot(
-        allEmoteSources.flatGroupBySource(() => integrationWithAnyFormedAtNumber),
-      );
+      const { FrankerFaceZ } = response._data.integrations;
+      FrankerFaceZ.sets = FrankerFaceZ.sets.map(makeShortFrankerFaceZGlobalSet);
+
+      it("matches integrations snapshot", () => {
+        expect(response._data.integrations).toMatchSnapshot();
+      });
     });
   });
 

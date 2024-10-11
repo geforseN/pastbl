@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GET /api/v1/global-emotes-integrations > query with all emotes sources > matches snapshot 1`] = `
+exports[`GET /api/v1/global-emotes-integrations > query with all emotes sources > response._data > matches integrations snapshot 1`] = `
 {
   "BetterTTV": {
     "formedAt": Any<Number>,
