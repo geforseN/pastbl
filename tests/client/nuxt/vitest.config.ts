@@ -5,7 +5,7 @@ import {
   endToEndTestsGlobs,
   nitroTestsGlobs,
   nodejsTestsGlobs,
-} from "../../test-common";
+} from "../../utils";
 
 // NOTE:  --exclude server must be added
 export default defineVitestConfig({

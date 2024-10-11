@@ -1,5 +1,5 @@
 import { defineConfig } from "vitest/config";
-import { nodejsTestsGlobs } from "../../test-common";
+import { nodejsTestsGlobs } from "../../utils";
 
 export default defineConfig({
   test: {
