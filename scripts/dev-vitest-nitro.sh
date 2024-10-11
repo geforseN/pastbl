@@ -8,6 +8,8 @@ check_port_var "PORT" "$PORT" 1024 65535
 echo "Using host: $HOST"
 echo "Using port: $PORT"
 
+URL="http://$HOST:$PORT"
+
 cleanup() {
   if [ -n "$NUXT_PID" ]; then
     echo "Stopping Nuxt server..."
@@ -19,14 +21,14 @@ cleanup() {
 echo "Starting Nuxt server on $HOST:$PORT..."
 pnpm exec nuxt dev --host "$HOST" --port "$PORT" & NUXT_PID=$!
 
-pnpm exec wait-on "http://$HOST:$PORT" --interval 2000 || { 
+pnpm exec wait-on "$URL" --interval 2000 || { 
   echo "Error: Nuxt server did not start in time."; 
   cleanup; 
 }
 
-echo "Nuxt server is running, starting Vitest with API base URL: http://$HOST:$PORT"
+echo "Nuxt server is running, starting Vitest on $URL"
 
-VITEST_SERVER_API_BASE_URL="http://$HOST:$PORT" \
+VITEST_SERVER_API_BASE_URL="$URL" \
 pnpm test:server
 
 echo "Vitest $( [ $? -ne 0 ] && echo "failed" || echo "finished successfully" )"
