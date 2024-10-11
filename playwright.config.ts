@@ -18,6 +18,7 @@ export default defineConfig<ConfigOptions>({
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
   workers: isCI ? 1 : undefined,
+  globalTimeout: 60 * 1000,
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
