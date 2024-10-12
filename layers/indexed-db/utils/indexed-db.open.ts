@@ -8,7 +8,7 @@ export async function openIndexedDBDatabase<T extends DBSchema>(
     serverStub?: object;
   } & OpenDBCallbacks<T>,
 ) {
-  if (import.meta.env.MODE === "test") {
+  if (import.meta.env.VITEST) {
     // @ts-expect-error types declaration file not found, but it does not matter here
     await import("fake-indexeddb/auto");
   }

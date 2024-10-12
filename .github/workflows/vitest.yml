@@ -12,11 +12,6 @@ jobs:
 
     timeout-minutes: 5
 
-    # TODO: remove this env (if they are not needed)
-    env:
-      HUSKY: 0
-      MODE: test
-
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v4
