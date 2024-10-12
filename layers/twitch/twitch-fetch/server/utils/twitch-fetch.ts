@@ -3,6 +3,10 @@ import { $fetch, type FetchOptions, type FetchRequest } from "ofetch";
 const { TWITCH_APP_CLIENT_ID } = process.env;
 assert.ok(TWITCH_APP_CLIENT_ID);
 
+let resolve: () => void;
+const twitchApiHasTokenPromise = new Promise<void>((resolve_) => {
+  resolve = resolve_;
+});
 let twitchFetch = createTwitchApiFetch();
 
 export function createTwitchApiFetch(token?: TwitchToken) {
@@ -11,6 +15,7 @@ export function createTwitchApiFetch(token?: TwitchToken) {
   });
   if (token) {
     headers.append("Authorization", `Bearer ${token.access_token}`);
+    resolve();
   }
   return $fetch.create({
     baseURL: "https://api.twitch.tv/helix",
@@ -22,9 +27,10 @@ export function recreateTwitchFetch(token: TwitchToken) {
   twitchFetch = createTwitchApiFetch(token);
 }
 
-export function fetchTwitchApi<
+export async function fetchTwitchApi<
   T,
   R extends "blob" | "text" | "arrayBuffer" | "stream" | "json" = "json",
 >(request: FetchRequest, options?: FetchOptions<R>) {
-  return twitchFetch<T, R>(request, options);
+  await twitchApiHasTokenPromise;
+  return await twitchFetch<T, R>(request, options);
 }
