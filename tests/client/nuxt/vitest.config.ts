@@ -5,9 +5,13 @@ import { endToEndTestsGlobs } from "../../e2e/utils";
 import { nitroTestGlobs } from "../../server/nitro/utils";
 import { nodejsTestsGlobs } from "../../server/node/utils";
 
+const root = fileURLToPath(new URL("../../..", import.meta.url));
+
 export default defineVitestConfig({
+  root,
   test: {
     globals: true,
+    name: "nuxt",
     environment: "nuxt",
     include: ["**/*.spec.ts"],
     exclude: defaultExclude.concat(
@@ -17,7 +21,7 @@ export default defineVitestConfig({
     ),
     environmentOptions: {
       nuxt: {
-        rootDir: fileURLToPath(new URL("../../..", import.meta.url)),
+        rootDir: root,
         mock: {
           intersectionObserver: true,
           indexedDb: true,
