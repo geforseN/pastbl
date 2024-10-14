@@ -11,7 +11,7 @@
       <p class="py-4">
         {{ $t("modal.chatPastaTagAdd.body") }}
       </p>
-      {{ $t("tag._", props.tag) }}
+      {{ $t("tag._", { tag }) }}
       <form
         method="dialog"
         class="modal-action"
