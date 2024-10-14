@@ -2,6 +2,7 @@
   <dialog
     ref="dialog"
     class="modal"
+    data-testid="chat-pasta-tag-add-dialog"
   >
     <div class="modal-box">
       <h3 class="text-lg font-bold">
