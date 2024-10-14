@@ -5,7 +5,7 @@ async function fillPastaForm(page: Page, { tag, text }: { tag: string; text: str
   await page.goto("/");
   await page.getByTestId("pasta-form-collapse").click();
   await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-  await page.getByTestId("add-pasta-tag-input").fill(text);
+  await page.getByTestId("pasta-form-textarea").fill(text);
   await page.getByTestId("add-pasta-tag-input").fill(tag);
   await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
 }
