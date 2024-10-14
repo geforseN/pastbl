@@ -6,29 +6,6 @@ import testsAlias from "./tests/alias";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-09-19",
-  future: {
-    compatibilityVersion: 4,
-  },
-  experimental: {
-    viewTransition: true,
-    typedPages: true,
-  },
-  features: {
-    devLogs: true,
-  },
-  alias: {
-    $: fileURLToPath(new URL("layers", import.meta.url)),
-    ...testsAlias,
-  },
-  devtools: {
-    enabled: true,
-    telemetry: true,
-    timeline: {
-      enabled: true,
-    },
-  },
-  extensions: ["ts", "vue"],
   modules: [
     "@nuxtjs/i18n",
     !process.env.TEST && "@vue-macros/nuxt",
@@ -50,23 +27,18 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
+  $development: {
+    app: {
+      head: {
+        titleTemplate: "pastbl - dev - %s",
+      },
     },
   },
-  css: ["~/assets/css/tailwind.css"],
-  nitro: {
-    compressPublicAssets: true,
-    minify: true,
-    experimental: {
-      tasks: true,
-      openAPI: true,
-    },
-    scheduledTasks: {
-      /* Everyday at 00:00 */
-      "0 0 * * *": "get-twitch-token",
+  $production: {
+    vite: {
+      esbuild: {
+        pure: ["console.log"],
+      },
     },
   },
   imports: {
@@ -80,18 +52,11 @@ export default defineNuxtConfig({
       },
     ],
   },
-  $development: {
-    app: {
-      head: {
-        titleTemplate: "pastbl - dev - %s",
-      },
-    },
-  },
-  $production: {
-    vite: {
-      esbuild: {
-        pure: ["console.log"],
-      },
+  devtools: {
+    enabled: true,
+    telemetry: true,
+    timeline: {
+      enabled: true,
     },
   },
   app: {
@@ -127,26 +92,44 @@ export default defineNuxtConfig({
     },
     viewTransition: true,
   },
-  sourcemap: {
-    server: false,
-    client: false,
-  },
-  i18n: {
-    ...i18n,
-    lazy: true,
-    defaultLocale: "en",
-    strategy: "prefix",
-  },
+  css: ["~/assets/css/tailwind.css"],
   vue: {
     propsDestructure: true,
   },
+  alias: {
+    $: fileURLToPath(new URL("layers", import.meta.url)),
+    ...testsAlias,
+  },
+  extensions: ["ts", "vue"],
   ignoreOptions: {
     ignorecase: false,
     allowRelativePaths: false,
   },
-  macros: {
-    scriptLang: {
-      defaultLang: "ts",
+  sourcemap: {
+    server: false,
+    client: false,
+  },
+  future: {
+    compatibilityVersion: 4,
+  },
+  features: {
+    devLogs: true,
+  },
+  experimental: {
+    viewTransition: true,
+    typedPages: true,
+  },
+  compatibilityDate: "2024-09-19",
+  nitro: {
+    compressPublicAssets: true,
+    minify: true,
+    experimental: {
+      tasks: true,
+      openAPI: true,
+    },
+    scheduledTasks: {
+      /* Everyday at 00:00 */
+      "0 0 * * *": "get-twitch-token",
     },
   },
   vite: {
@@ -161,5 +144,22 @@ export default defineNuxtConfig({
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
+  },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  i18n: {
+    ...i18n,
+    lazy: true,
+    defaultLocale: "en",
+    strategy: "prefix",
+  },
+  macros: {
+    scriptLang: {
+      defaultLang: "ts",
+    },
   },
 });

@@ -9,13 +9,6 @@ const allEmoteSources_ = [...allEmoteSources];
 const allLowercaseEmoteSources = allEmoteSources_.map(toLowerCase);
 
 export default defineNuxtConfig({
-  alias: {
-    ...flatGroupBy(
-      allLowercaseEmoteSources,
-      (source) => `#t_${source}`,
-      (source) => path.join(dirname, `${source}/shared/types`),
-    ),
-  },
   extends: allLowercaseEmoteSources,
   imports: {
     imports: allEmoteSources_.map((source) => ({
@@ -24,5 +17,12 @@ export default defineNuxtConfig({
       as: `T${source}`,
       type: true,
     })),
+  },
+  alias: {
+    ...flatGroupBy(
+      allLowercaseEmoteSources,
+      (source) => `#t_${source}`,
+      (source) => path.join(dirname, `${source}/shared/types`),
+    ),
   },
 });
