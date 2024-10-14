@@ -5,15 +5,30 @@ async function fillPastaForm(page: Page, { tag, text }: { tag: string; text: str
   await page.goto("/");
   await page.getByTestId("pasta-form-collapse").click();
   await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-  const textarea = page.getByTestId("pasta-form-textarea");
-  await textarea.fill(text);
-  const tagInput = page.getByTestId("add-pasta-tag-input");
-  tagInput.fill(tag);
+  await page.getByTestId("add-pasta-tag-input").fill(text);
+  await page.getByTestId("add-pasta-tag-input").fill(tag);
   await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
 }
 
 function isNodeOpenDialog(node: Node) {
   return node instanceof HTMLDialogElement && node.open;
+}
+
+async function addPasta(page: Page, { dialogButtonName, expectedTextToInclude }: { dialogButtonName: string; expectedTextToInclude: RegExp }) {
+  await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
+  const textarea = page.getByTestId("pasta-form-textarea");
+  await textarea.press("Enter");
+
+  const dialog = page.getByTestId("chat-pasta-tag-add-dialog");
+  expect(await dialog.evaluate(isNodeOpenDialog)).toBe(true);
+  await expect(dialog).toHaveText(expectedTextToInclude);
+
+  await dialog.getByRole("button", { name: dialogButtonName }).click();
+
+  await expect(page.getByTestId("add-pasta-tag-input")).toHaveValue("");
+  await expect(textarea).toHaveValue("");
+  expect(await dialog.evaluate(isNodeOpenDialog)).toBe(false);
+  await expect(page.getByTestId("chat-pasta")).toHaveCount(1);
 }
 
 test("add pasta with tag", async ({ page }) => {
@@ -22,20 +37,10 @@ test("add pasta with tag", async ({ page }) => {
   });
 
   await test.step("add pasta with tag", async () => {
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-    const textarea = page.getByTestId("pasta-form-textarea");
-    textarea.press("Enter");
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-    const dialog = page.getByTestId("chat-pasta-tag-add-dialog");
-    expect(await dialog.evaluate(isNodeOpenDialog)).toBe(true);
-    await expect(dialog).toHaveText(/Tag: bar/);
-    await dialog.getByRole("button", { name: "Add to pasta" }).click();
-    const tagInput = page.getByTestId("add-pasta-tag-input");
-    await expect(tagInput).toHaveValue("");
-    await expect(textarea).toHaveValue("");
-    expect(await dialog.evaluate(isNodeOpenDialog)).toBe(false);
-    expect(await dialog.evaluate(isNodeOpenDialog)).toBe(false);
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(1);
+    await addPasta(page, {
+      dialogButtonName: "Add to pasta",
+      expectedTextToInclude: /Tag: bar/,
+    });
     await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(1);
     await expect(page.getByTestId("chat-pasta-tag")).toHaveText("bar");
   });
@@ -47,19 +52,10 @@ test("add pasta without tag", async ({ page }) => {
   });
 
   await test.step("add pasta without tag", async () => {
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-    const textarea = page.getByTestId("pasta-form-textarea");
-    textarea.press("Enter");
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(0);
-    const dialog = page.getByTestId("chat-pasta-tag-add-dialog");
-    expect(await dialog.evaluate(isNodeOpenDialog)).toBe(true);
-    await expect(dialog).toHaveText(/Tag: baz/);
-    await dialog.getByRole("button", { name: "Nothing" }).click();
-    const tagInput = page.getByTestId("add-pasta-tag-input");
-    await expect(tagInput).toHaveValue("");
-    await expect(textarea).toHaveValue("");
-    expect(await dialog.evaluate(isNodeOpenDialog)).toBe(false);
-    await expect(page.getByTestId("chat-pasta")).toHaveCount(1);
+    await addPasta(page, {
+      dialogButtonName: "Nothing",
+      expectedTextToInclude: /Tag: baz/,
+    });
     await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(0);
   });
 });
