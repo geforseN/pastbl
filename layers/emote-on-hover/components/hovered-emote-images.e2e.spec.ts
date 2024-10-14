@@ -1,8 +1,6 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
 
-test("e2e", async ({ page }) => {
-  test.setTimeout(45000);
-
+test("hovered-emote-images", async ({ page }) => {
   await test.step("add pasta", async () => {
     await page.goto("/");
     await expect(page).toHaveTitle(/pastbl/);
@@ -53,7 +51,6 @@ test("e2e", async ({ page }) => {
     await expect(page.getByTestId("emote-on-hover-card")).toBeVisible();
   });
 
-  // because must scrollbar is in middle and other images are big enough to add overflow
   await test.step("first emote image is not in viewport", async () => {
     const hoverCard = page.getByTestId("emote-on-hover-card");
     await page.waitForFunction(() => {
