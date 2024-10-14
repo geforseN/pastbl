@@ -18,16 +18,14 @@
         @submit.prevent
       >
         <button
-          class="btn btn-error"
-          type="reset"
-          @click="mustAddTag = false"
+          class="btn btn-success"
+          @click="mustAddTag = true"
         >
           {{ $t("pasta.addTo") }}
         </button>
         <button
-          class="btn btn-success"
-          type="submit"
-          @click="mustAddTag = true"
+          class="btn btn-error"
+          @click="mustAddTag = false"
         >
           {{ $t("nothing") }}
         </button>
@@ -55,6 +53,7 @@ defineExpose({
     if (mustAddTag.value) {
       await props.onSuccess();
     }
+    mustAddTag.value = null;
     dialogRef.value.close();
   },
 });
