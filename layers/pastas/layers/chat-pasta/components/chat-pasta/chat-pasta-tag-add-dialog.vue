@@ -2,6 +2,7 @@
   <dialog
     ref="dialog"
     class="modal"
+    data-testid="chat-pasta-tag-add-dialog"
   >
     <div class="modal-box">
       <h3 class="text-lg font-bold">
@@ -10,23 +11,21 @@
       <p class="py-4">
         {{ $t("modal.chatPastaTagAdd.body") }}
       </p>
-      {{ $t("tag._", props.tag) }}
+      {{ $t("tag._", { tag }) }}
       <form
         method="dialog"
         class="modal-action"
         @submit.prevent
       >
         <button
-          class="btn btn-error"
-          type="reset"
-          @click="mustAddTag = false"
+          class="btn btn-success"
+          @click="mustAddTag = true"
         >
           {{ $t("pasta.addTo") }}
         </button>
         <button
-          class="btn btn-success"
-          type="submit"
-          @click="mustAddTag = true"
+          class="btn btn-error"
+          @click="mustAddTag = false"
         >
           {{ $t("nothing") }}
         </button>
@@ -54,6 +53,7 @@ defineExpose({
     if (mustAddTag.value) {
       await props.onSuccess();
     }
+    mustAddTag.value = null;
     dialogRef.value.close();
   },
 });

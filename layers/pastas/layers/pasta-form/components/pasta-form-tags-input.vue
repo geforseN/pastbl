@@ -4,6 +4,7 @@
       <input
         id="add-tag"
         v-model="modelValue"
+        data-testid="add-pasta-tag-input"
         class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content/80 empty:pr-0 xl:w-auto xl:min-w-[320px]"
         :class="isTagTooLong && 'border-error focus:outline-error'"
         type="text"
