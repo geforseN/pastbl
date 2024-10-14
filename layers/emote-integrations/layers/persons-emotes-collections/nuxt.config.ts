@@ -9,6 +9,15 @@ const layersDirname = path.join(dirname, "layers");
 
 export default defineNuxtConfig({
   extends: findNuxtLayers(layersDirname),
+  components: [
+    {
+      path: path.join(dirname, "components"),
+    },
+    {
+      path: path.join(dirname, "components", "conditional"),
+      pathPrefix: false,
+    },
+  ],
   imports: {
     imports: [
       {
@@ -20,13 +29,4 @@ export default defineNuxtConfig({
     ],
     dirs: ["composables", "utils", "shared/*/index.ts"],
   },
-  components: [
-    {
-      path: path.join(dirname, "components"),
-    },
-    {
-      path: path.join(dirname, "components", "conditional"),
-      pathPrefix: false,
-    },
-  ],
 });

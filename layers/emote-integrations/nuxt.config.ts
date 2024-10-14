@@ -5,16 +5,7 @@ const dirname = __dirname__(import.meta.url);
 const layersDirname = path.join(dirname, "layers");
 
 export default defineNuxtConfig({
-  alias: {
-    "$global-emotes-integrations": path.join(
-      layersDirname,
-      "global-emotes-integrations",
-    ),
-    "$persons-emotes-collections": path.join(
-      layersDirname,
-      "persons-emotes-collections",
-    ),
-  },
+  extends: findNuxtLayers(layersDirname),
   components: [
     {
       path: path.join(dirname, "components"),
@@ -35,5 +26,14 @@ export default defineNuxtConfig({
     ],
     dirs: ["composables", "utils", "shared/abstract"],
   },
-  extends: findNuxtLayers(layersDirname),
+  alias: {
+    "$global-emotes-integrations": path.join(
+      layersDirname,
+      "global-emotes-integrations",
+    ),
+    "$persons-emotes-collections": path.join(
+      layersDirname,
+      "persons-emotes-collections",
+    ),
+  },
 });
