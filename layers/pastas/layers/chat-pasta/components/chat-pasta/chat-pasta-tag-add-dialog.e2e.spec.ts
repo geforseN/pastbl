@@ -1,7 +1,10 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
 import type { Page } from "@playwright/test";
 
-async function fillPastaForm(page: Page, { tag, text }: { tag: string; text: string }) {
+async function fillPastaForm(
+  page: Page,
+  { tag, text }: { tag: string; text: string },
+) {
   await page.getByTestId("pasta-form-collapse").click();
   await page.getByTestId("pasta-form-textarea").fill(text);
   await page.getByTestId("add-pasta-tag-input").fill(tag);
@@ -11,13 +14,16 @@ function isNodeOpenDialog(node: Node) {
   return node instanceof HTMLDialogElement && node.open;
 }
 
-async function addPasta(page: Page, {
-  dialogButtonName,
-  expectedTextToInclude,
-}: {
-  dialogButtonName: string;
-  expectedTextToInclude: RegExp;
-}) {
+async function addPasta(
+  page: Page,
+  {
+    dialogButtonName,
+    expectedTextToInclude,
+  }: {
+    dialogButtonName: string;
+    expectedTextToInclude: RegExp;
+  },
+) {
   await page.getByTestId("pasta-form-textarea").press("Enter");
 
   const dialog = page.getByTestId("chat-pasta-tag-add-dialog");
