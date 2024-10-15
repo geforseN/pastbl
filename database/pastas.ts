@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { and, eq, sql } from "drizzle-orm";
-import { database } from "~~/database";
-import { pastas, pastasTags, type Pasta } from "~~/database/schema";
+import { database } from "~~/database.ts";
+import { pastas, pastasTags, type Pasta } from "~~/database/schema.ts";
 
 export function createPasta(
   text: string,
