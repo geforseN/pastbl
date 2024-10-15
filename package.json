@@ -59,7 +59,7 @@
     "@vueuse/nuxt": "^11.1.0",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.12",
-    "drizzle-kit": "^0.24.2",
+    "drizzle-kit": "^0.26.0",
     "drizzle-orm": "^0.33.0",
     "element-plus": "^2.8.4",
     "eslint": "^9.12.0",
