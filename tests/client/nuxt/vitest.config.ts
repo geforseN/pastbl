@@ -1,9 +1,9 @@
 import { fileURLToPath } from "node:url";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { defaultExclude } from "vitest/config";
-import { endToEndTestsGlobs } from "../../e2e/utils";
-import { nitroTestGlobs } from "../../server/nitro/utils";
-import { nodejsTestsGlobs } from "../../server/node/utils";
+import { endToEndTestsGlobs } from "../../e2e/utils.ts";
+import { nitroTestGlobs } from "../../server/nitro/utils.ts";
+import { nodejsTestsGlobs } from "../../server/node/utils.ts";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 

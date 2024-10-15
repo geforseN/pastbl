@@ -1,4 +1,4 @@
-import { isFunction } from "./guards";
+import { isFunction } from "./guards.ts";
 
 export function log<
   L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">,

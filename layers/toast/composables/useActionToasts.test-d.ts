@@ -1,5 +1,5 @@
 import { expectTypeOf, describe, test, it } from "vitest";
-import { useActionToasts } from "./useActionToasts";
+import { useActionToasts } from "./useActionToasts.ts";
 
 const actionsToastsOptions = {
   i18n: { t: (text: string) => text },

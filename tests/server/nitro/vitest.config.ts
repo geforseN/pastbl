@@ -1,7 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
-import { baseUrl } from "./$apiFetch";
-import { nitroTestGlobs } from "./utils";
+import { baseUrl } from "./$apiFetch.ts";
+import { nitroTestGlobs } from "./utils.ts";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 

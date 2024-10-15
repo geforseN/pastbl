@@ -1,5 +1,5 @@
-import type { PersonsEmotesCollectionsApi } from "./api";
-import type { IPersonsEmoteCollectionsRepository } from "./abstract";
+import type { PersonsEmotesCollectionsApi } from "./api.ts";
+import type { IPersonsEmoteCollectionsRepository } from "./abstract.ts";
 
 // OPTIMIZATIONS: if will add code for optimizations then must not mutate this file? must use decorator pattern
 // 1) when get is called then must return non raw collection. however, repository contains raw collection. so should transform raw to not raw and save in Map struct. then if collection is unselected and selected again then should take collection from Map, not from repository

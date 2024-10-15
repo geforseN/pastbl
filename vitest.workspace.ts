@@ -1,8 +1,8 @@
 import { defaultExclude } from "vitest/config";
 import { defineVitestConfig } from "@nuxt/test-utils/config";
-import { endToEndTestsGlobs } from "./tests/e2e/utils";
-import { nodejsTestsGlobs } from "./tests/server/node/utils";
-import { nitroTestGlobs } from "./tests/server/nitro/utils";
+import { endToEndTestsGlobs } from "./tests/e2e/utils.ts";
+import { nodejsTestsGlobs } from "./tests/server/node/utils.ts";
+import { nitroTestGlobs } from "./tests/server/nitro/utils.ts";
 
 export default [
   defineVitestConfig({

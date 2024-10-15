@@ -1,4 +1,4 @@
-import { objectValues } from "../../../app/utils/object";
+import { objectValues } from "../../../app/utils/object.ts";
 
 export type EmoteToken = string;
 

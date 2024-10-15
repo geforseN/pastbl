@@ -1,5 +1,5 @@
-import { revertedAliases } from "../internal/utils";
-import type { RawActionToastsMethods, AdditionalMethodName } from "./types";
+import { revertedAliases } from "../internal/utils.ts";
+import type { RawActionToastsMethods, AdditionalMethodName } from "./types.ts";
 
 export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
   constructor(public readonly methods: M) {}
