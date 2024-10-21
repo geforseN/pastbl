@@ -6,7 +6,7 @@
   />
 </template>
 <script setup lang="ts">
-import type { TEmoteIntegrations } from "$/emote-integrations";
+import type { TEmoteIntegrations } from "$/emote-integrations/index.ts";
 
 const integration = injectEmoteIntegration();
 
