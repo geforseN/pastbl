@@ -1,38 +1,44 @@
 <template>
-  <Html
-    :lang="head.htmlAttrs.lang"
-    :dir="head.htmlAttrs.dir"
-  >
-    <Body>
-      <app-drawer class="z-50">
-        <div class="relative grid">
-          <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
-          <nuxt-loading-indicator />
-          <nuxt-layout>
-            <nuxt-page />
-          </nuxt-layout>
-          <emote-on-hover-card
-            ref="emoteOnHoverCard"
-            v-on-click-outside="emoteOnHover.close"
-            :emoji="emoteOnHover.emoji.value"
-            :emote="emoteOnHover.emote.value"
-            :emote-modifiers="emoteOnHover.emoteModifiers.value"
-            @close="emoteOnHover.close"
-            @mouseleave="emoteOnHover.close"
-          />
-          <client-only>
-            <pastas-work-mode-toggle
-              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+  <SpeedInsights>
+    <Html
+      :lang="head.htmlAttrs.lang"
+      :dir="head.htmlAttrs.dir"
+    >
+      <Body>
+        <app-drawer class="z-50">
+          <div class="relative grid">
+            <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
+            <nuxt-loading-indicator />
+            <nuxt-layout>
+              <nuxt-page />
+            </nuxt-layout>
+            <emote-on-hover-card
+              ref="emoteOnHoverCard"
+              v-on-click-outside="emoteOnHover.close"
+              :emoji="emoteOnHover.emoji.value"
+              :emote="emoteOnHover.emote.value"
+              :emote-modifiers="emoteOnHover.emoteModifiers.value"
+              @close="emoteOnHover.close"
+              @mouseleave="emoteOnHover.close"
             />
-          </client-only>
-        </div>
-      </app-drawer>
-    </Body>
-  </Html>
+            <client-only>
+              <pastas-work-mode-toggle
+                class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+              />
+            </client-only>
+          </div>
+        </app-drawer>
+      </Body>
+    </Html>
+  </SpeedInsights>
 </template>
 <script setup lang="ts">
+import LogRocket from "logrocket";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
+
+LogRocket.init("lkrbqs/pastbl-prod");
 
 const head = useLocaleHead({
   addDirAttribute: true,
