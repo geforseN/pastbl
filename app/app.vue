@@ -30,37 +30,15 @@
 </template>
 <script setup lang="ts">
 import { SpeedInsights } from "@vercel/speed-insights/vue";
-import LogRocket from "logrocket";
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
-
-LogRocket.init("lkrbqs/pastbl-prod");
-
-const userSession = useUserSession();
-
-async function getLogRocketUserId(
-  userSession: ReturnType<typeof useUserSession>,
-  isLoggedIn: boolean,
-) {
-  const login = userSession.user.value?.twitch?.login;
-  if (isLoggedIn && login) {
-    return login;
-  }
-  const nickname = useIndexedDBKeyValue("nickname:value", "Kappa");
-  await until(nickname.isRestored).toBeTruthy();
-  return nickname.state.value || "unknown";
-}
-
-whenever(userSession.ready, async () => {
-  const loggedIn = userSession.loggedIn.value;
-  const uid = await getLogRocketUserId(userSession, loggedIn);
-  LogRocket.identify(uid, { loggedIn });
-});
 
 const head = useLocaleHead({
   addDirAttribute: true,
   addSeoAttributes: true,
 });
+
+useLogRocket("init&identify");
 
 const pastasStore = usePastasStore();
 
