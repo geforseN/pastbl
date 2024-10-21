@@ -16,7 +16,7 @@ export function defineSevenTVEmoteMaker<T extends string>(type: T) {
       isAnimated: animated,
       isListed: listed,
       isModifier: flags === 256,
-      isWrapper: flags === 1,
+      isWrapper: false,
       actorId,
       width,
       height,
