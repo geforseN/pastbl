@@ -16,7 +16,10 @@
       ref="inputGroup"
       v-model:nickname="twitchChannelsSearchNickname"
     >
-      <button class="btn btn-accent join-item w-2/6">
+      <button
+        :disabled="!isMounted"
+        class="btn btn-accent join-item w-2/6"
+      >
         <span
           v-if="personEmotesCollectionLoad.isLoading"
           class="flex items-center gap-2"
@@ -55,6 +58,8 @@ defineExpose({
     inputRef.value!.focus();
   },
 });
+
+const isMounted = useMounted();
 
 const twitchChannelsSearchNickname = ref("");
 
