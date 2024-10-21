@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host 127.0.0.1",
+    "dev": "DEBUG=1 nuxt dev --host 127.0.0.1",
     "generate": "nuxt generate",
     "install:playwright": "playwright install --with-deps",
     "preview": "nuxt preview",
@@ -104,6 +104,7 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
     "@pinia/nuxt": "^0.5.5",
+    "@vercel/speed-insights": "^1.0.12",
     "@vueuse/components": "^11.1.0",
     "@vueuse/integrations": "^11.1.0",
     "consola": "^3.2.3",
