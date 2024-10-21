@@ -11,7 +11,6 @@ interface __Emote extends IEmote {
   height: number;
   isModifier: boolean;
   // isListed: boolean;
-  // isWrapper: boolean;
 }
 
 export interface GlobalEmote extends __Emote {

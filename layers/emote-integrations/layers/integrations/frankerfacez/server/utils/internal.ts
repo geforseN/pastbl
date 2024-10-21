@@ -43,7 +43,6 @@ export function makeFrankerFaceZEmote<E extends TFrankerFaceZ.Emote>(
     isAnimated,
     isListed: emote.status === 1,
     isModifier: emote.modifier,
-    isWrapper: emote.modifier_flags % 2 === 0,
     token: emote.name,
     url,
     width: emote.width,

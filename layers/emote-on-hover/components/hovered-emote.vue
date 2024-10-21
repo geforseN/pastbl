@@ -30,7 +30,6 @@
         <span v-if="emote.isAnimated">animated</span>
         <span v-if="emote.isListed">listed</span>
         <span v-if="emote.isModifier">modifier</span>
-        <span v-if="emote.isWrapper">wrapper</span>
       </div>
     </dev-only>
   </div>

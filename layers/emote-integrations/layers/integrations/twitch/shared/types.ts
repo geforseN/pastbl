@@ -4,7 +4,6 @@ interface __Emote extends IEmote {
   isAnimated: boolean;
   isListed: boolean;
   isModifier: boolean;
-  isWrapper: boolean;
   width: number;
   height: number;
   source: "Twitch";

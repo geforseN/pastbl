@@ -16,7 +16,6 @@ export type IEmote = HasSource & {
   isAnimated: boolean;
   isListed: boolean;
   isModifier: boolean;
-  isWrapper: boolean;
   width: number;
   height: number;
 };
