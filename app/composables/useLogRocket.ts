@@ -1,6 +1,8 @@
 import LogRocket from "logrocket";
 
-export function useLogRocket(strategy: "ignore-all" | "init" | "init&identify" = "init&identify") {
+export function useLogRocket(
+  strategy: "ignore-all" | "init" | "init&identify" = "init&identify",
+) {
   if (!strategy || strategy === "ignore-all") {
     return;
   }
