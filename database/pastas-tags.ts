@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { pastasTags, type Pasta } from "~~/database/schema.ts";
-import { database } from "~~/database.ts";
+import { database } from "~~/database/setup.ts";
 import { setDifferenceOtTwoSets } from "~/utils/set.ts";
 import { pastasConfig } from "$/pastas/app.config";
 
