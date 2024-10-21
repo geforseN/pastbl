@@ -1,9 +1,6 @@
 <template>
   <SpeedInsights>
-    <Html
-      :lang="head.htmlAttrs.lang"
-      :dir="head.htmlAttrs.dir"
-    >
+    <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
       <Body>
         <app-drawer class="z-50">
           <div class="relative grid">
@@ -33,9 +30,12 @@
   </SpeedInsights>
 </template>
 <script setup lang="ts">
+import LogRocket from "logrocket";
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
+
+LogRocket.init("lkrbqs/pastbl-prod");
 
 const head = useLocaleHead({
   addDirAttribute: true,
