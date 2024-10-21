@@ -1,6 +1,9 @@
 <template>
   <SpeedInsights>
-    <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+    <Html
+      :lang="head.htmlAttrs.lang"
+      :dir="head.htmlAttrs.dir"
+    >
       <Body>
         <app-drawer class="z-50">
           <div class="relative grid">
@@ -57,8 +60,8 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef =
-  useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
+const emoteOnHoverCardRef
+  = useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
