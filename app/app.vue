@@ -1,8 +1,5 @@
 <template>
-  <Html
-    :lang="head.htmlAttrs.lang"
-    :dir="head.htmlAttrs.dir"
-  >
+  <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -39,6 +36,27 @@ import type { EmoteOnHoverCard } from "#build/components";
 
 LogRocket.init("lkrbqs/pastbl-prod");
 
+const userSession = useUserSession();
+
+async function getLogRocketUserId(
+  userSession: ReturnType<typeof useUserSession>,
+  isLoggedIn: boolean,
+) {
+  const login = userSession.user.value?.twitch?.login;
+  if (isLoggedIn && login) {
+    return login;
+  }
+  const nickname = useIndexedDBKeyValue("nickname:value", "Kappa");
+  await until(nickname.isRestored).toBeTruthy();
+  return nickname.state.value || "unknown";
+}
+
+whenever(userSession.ready, async () => {
+  const loggedIn = userSession.loggedIn.value;
+  const uid = await getLogRocketUserId(userSession, loggedIn);
+  LogRocket.identify(uid, { loggedIn });
+});
+
 const head = useLocaleHead({
   addDirAttribute: true,
   addSeoAttributes: true,
@@ -59,8 +77,8 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef
-  = useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
+const emoteOnHoverCardRef =
+  useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
