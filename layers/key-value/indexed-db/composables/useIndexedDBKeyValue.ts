@@ -13,7 +13,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
   const idbValue = makeIndexedDBValue(key);
   const isLoading = ref(true);
   const isRestored = ref(false);
-  const state = ref(defaultValue) as Ref<KeyValueSchema[K]>;
+  const state = shallowRef(defaultValue);
   const error = ref<unknown>();
 
   const setErrorAndThrow = (reason: unknown) => {
