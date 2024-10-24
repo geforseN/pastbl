@@ -1,5 +1,5 @@
-import { ToastableError } from "../utils/toastable-error";
-import type { INotification } from "../utils/types";
+import { ToastableError } from "../utils/toastable-error.ts";
+import type { INotification } from "../utils/types.ts";
 import type {
   ActionToastsPanicFn,
   RaiseMethodName,

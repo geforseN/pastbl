@@ -1,6 +1,6 @@
-import type { RawActionToastsInstance } from "../utils/create-raw-action-toasts";
-import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/adapter";
-import type { ActionToastsThis, INotification } from "../utils/types";
+import type { RawActionToastsInstance } from "../utils/create-raw-action-toasts.ts";
+import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/adapter.ts";
+import type { ActionToastsThis, INotification } from "../utils/types.ts";
 
 // TODO: rename to useActionToaster ?
 

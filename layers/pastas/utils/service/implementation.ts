@@ -1,4 +1,4 @@
-import type { IPastasRepository } from "../abstract";
+import type { IPastasRepository } from "../abstract.ts";
 
 export class PastasService {
   constructor(private readonly repository: IPastasRepository) {}

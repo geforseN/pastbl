@@ -1,4 +1,4 @@
-import type { RemotePastasPaginationCursor } from "~/brands";
+import type { RemotePastasPaginationCursor } from "~/brands.ts";
 
 export const pastasAPI = {
   postPasta(text: string, tags: string[], isPublic: boolean) {

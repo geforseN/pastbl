@@ -1,4 +1,4 @@
-import type { Pasta } from "~~/database/schema";
+import type { Pasta } from "~~/database/schema.ts";
 import {
   type RemotePastasPaginationCursor,
   assertIsRemotePastasPaginationCursor,

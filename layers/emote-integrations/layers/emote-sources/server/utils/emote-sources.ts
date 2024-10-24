@@ -2,7 +2,7 @@ import {
   SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE,
   UNDEFINED_RECEIVED_ERROR_MESSAGE,
 } from "./-constants";
-import { emoteSourcesQuerySchema } from "./-zod-schemas";
+import { emoteSourcesQuerySchema } from "./-zod-schemas.ts";
 
 export function getEmoteSourcesFromQuery(event: H3Event) {
   const parse = emoteSourcesQuerySchema.safeParse(getQuery(event));

@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
-import { nodejsTestsGlobs } from "./utils";
+import { nodejsTestsGlobs } from "./utils.ts";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 

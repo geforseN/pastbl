@@ -1,4 +1,4 @@
-import type { GlobalEmotesIntegrationsIndexedDBStore } from "./store";
+import type { GlobalEmotesIntegrationsIndexedDBStore } from "./store.ts";
 
 export class GlobalEmotesIntegrationsIndexedDBRepository {
   constructor(private readonly store: GlobalEmotesIntegrationsIndexedDBStore) {}

@@ -1,7 +1,7 @@
-import type { ToastableError } from "../utils/toastable-error";
-import type { INotification, ActionToastsThis } from "../utils/types";
-import type { raiseToastMethod } from "./raise-method";
-import type { additionalMethods, validTypes } from "./utils";
+import type { ToastableError } from "../utils/toastable-error.ts";
+import type { INotification, ActionToastsThis } from "../utils/types.ts";
+import type { raiseToastMethod } from "./raise-method.ts";
+import type { additionalMethods, validTypes } from "./utils.ts";
 
 export interface RawActionToastMaker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

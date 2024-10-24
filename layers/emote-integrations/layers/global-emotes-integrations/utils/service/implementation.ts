@@ -1,5 +1,5 @@
-import type { GlobalEmotesIntegrationsIndexedDBRepository } from "../indexed-db/repository";
-import type { GlobalEmotesIntegrationsAPI } from "../api";
+import type { GlobalEmotesIntegrationsIndexedDBRepository } from "../indexed-db/repository.ts";
+import type { GlobalEmotesIntegrationsAPI } from "../api.ts";
 
 export class GlobalEmotesIntegrationService {
   constructor(

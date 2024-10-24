@@ -1,5 +1,5 @@
 import { emojify, has as hasEmoji } from "node-emoji";
-import { assert } from "~/utils/assert";
+import { assert } from "~/utils/assert.ts";
 
 export interface FindEmote {
   (token: string): IEmote | undefined;

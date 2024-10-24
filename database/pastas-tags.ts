@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
-import { pastasTags, type Pasta } from "~~/database/schema";
-import { database } from "~~/database";
-import { setDifferenceOtTwoSets } from "~/utils/set";
+import { pastasTags, type Pasta } from "~~/database/schema.ts";
+import { database } from "~~/database/setup.ts";
+import { setDifferenceOtTwoSets } from "~/utils/set.ts";
 import { pastasConfig } from "$/pastas/app.config";
 
 function addPastaTag(pastaId: Pasta["id"], value: string) {

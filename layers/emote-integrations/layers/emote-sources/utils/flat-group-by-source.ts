@@ -1,4 +1,4 @@
-import { flatGroupBy } from "~/utils/object";
+import { flatGroupBy } from "~/utils/object.ts";
 
 export function flatGroupBySource<T extends { source: EmoteSource }, V = T>(
   items: T[],

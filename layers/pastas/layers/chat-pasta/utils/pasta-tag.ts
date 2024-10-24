@@ -1,4 +1,4 @@
-import { makeLengthStatusGetter } from "~/utils/length-status";
+import { makeLengthStatusGetter } from "~/utils/length-status.ts";
 import { pastasConfig } from "$/pastas/app.config";
 
 export function isPastaMentionTagLike(tag: string) {

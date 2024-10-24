@@ -12,9 +12,9 @@ import { relations } from "drizzle-orm";
 import {
   defaultPastaPublicity,
   pastasPublicity,
-} from "$/pastas/layers/remote-pastas/server/utils/pastas";
-import { pastasConfig } from "$/pastas/app.config";
-import { twitchConfig } from "$/twitch/app.config";
+} from "$/pastas/layers/remote-pastas/server/utils/pastas.ts";
+import { pastasConfig } from "$/pastas/app.config.ts";
+import { twitchConfig } from "$/twitch/app.config.ts";
 
 export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 

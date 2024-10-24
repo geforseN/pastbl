@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { twitchConfig } from "$/twitch/app.config";
-import { uniqueValues } from "~/utils/array";
+import { uniqueValues } from "~/utils/array.ts";
 
 export type TwitchUserLogin = Lowercase<string>;
 

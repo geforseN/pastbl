@@ -1,8 +1,8 @@
 import { fileURLToPath } from "node:url";
 import { codecovVitePlugin } from "@codecov/vite-plugin";
-import { i18n } from "./app/i18n.config";
-import tailwindTheme from "./tailwind.theme";
-import testsAlias from "./tests/alias";
+import { i18n } from "./app/i18n.config.ts";
+import tailwindTheme from "./tailwind.theme.ts";
+import testsAlias from "./tests/alias.ts";
 
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -144,6 +144,13 @@ export default defineNuxtConfig({
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
+  },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        allowImportingTsExtensions: true,
+      },
+    },
   },
   postcss: {
     plugins: {
