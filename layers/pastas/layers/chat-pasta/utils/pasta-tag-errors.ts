@@ -1,4 +1,4 @@
-import type { PastaTag, Unbranded } from "~/brands";
+import type { PastaTag, Unbranded } from "~/brands.ts";
 import { ToastableError } from "$/toast/utils/toastable-error";
 import { pastasConfig } from "$/pastas/app.config";
 

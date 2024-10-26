@@ -1,5 +1,5 @@
 import { describe, expect, it, suite } from "vitest";
-import { isEmptyObject } from "./guards";
+import { isEmptyObject } from "./guards.ts";
 
 suite("utils", () => {
   suite("guard", () => {

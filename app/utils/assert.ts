@@ -1,4 +1,4 @@
-import { raise, type RaiseReason_ } from "./raise";
+import { raise, type RaiseReason_ } from "./raise.ts";
 
 export type RaiseReason = MaybeGetter<RaiseReason_>;
 

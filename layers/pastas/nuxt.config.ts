@@ -1,4 +1,4 @@
-import { i18n } from "../../app/i18n.config";
+import { i18n } from "../../app/i18n.config.ts";
 import {
   __layersDirname__,
   findNuxtLayers,

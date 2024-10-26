@@ -1,4 +1,4 @@
-import type { SessionUser } from "./layers/twitch/twitch-user/server/utils/twitch-user";
+import type { SessionUser } from "./layers/twitch/twitch-user/server/utils/twitch-user.ts";
 
 declare module "#auth-utils" {
   // NOTE: must use interface, otherwise generated types are wrong

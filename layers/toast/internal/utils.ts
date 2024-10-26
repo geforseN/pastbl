@@ -1,5 +1,5 @@
-import { raiseToastMethod } from "./raise-method";
-import type { RawActionToastsMethodsKeyToTransform } from "./types";
+import { raiseToastMethod } from "./raise-method.ts";
+import type { RawActionToastsMethodsKeyToTransform } from "./types.ts";
 
 export const revertedAliases = new Map([
   ["failure", "failures"],
