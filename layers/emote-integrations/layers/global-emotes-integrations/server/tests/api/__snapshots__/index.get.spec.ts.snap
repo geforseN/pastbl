@@ -2004,6 +2004,18 @@ exports[`GET /api/v1/global-emotes-integrations > query with all emotes sources 
         "emotes": [
           {
             "height": 28,
+            "id": "emotesv2_21baaf76fd3e4d258e5c0110614724bd",
+            "isAnimated": false,
+            "isListed": true,
+            "isModifier": false,
+            "source": "Twitch",
+            "token": "CerberusDog",
+            "type": "global",
+            "url": "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_21baaf76fd3e4d258e5c0110614724bd/static/light/1.0",
+            "width": 28,
+          },
+          {
+            "height": 28,
             "id": "emotesv2_f2fd474fbe964964b2570671575b39ea",
             "isAnimated": false,
             "isListed": true,
@@ -2084,18 +2096,6 @@ exports[`GET /api/v1/global-emotes-integrations > query with all emotes sources 
             "token": "SUBtember",
             "type": "global",
             "url": "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_bfb533e2253044f3a77d0032b2354c0b/animated/light/1.0",
-            "width": 28,
-          },
-          {
-            "height": 28,
-            "id": "emotesv2_cb05fb473a3a44ed9441db2b62e84cd9",
-            "isAnimated": false,
-            "isListed": true,
-            "isModifier": false,
-            "source": "Twitch",
-            "token": "TheOne",
-            "type": "global",
-            "url": "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_cb05fb473a3a44ed9441db2b62e84cd9/static/light/1.0",
             "width": 28,
           },
           {
