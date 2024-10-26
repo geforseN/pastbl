@@ -70,7 +70,6 @@ export default createConfigForNuxt({
       "no-unreachable-loop": "error",
       "@stylistic/max-len": ["error", {
         code: 100,
-        // ignorePattern: "class=\"",
       }],
     },
   })
