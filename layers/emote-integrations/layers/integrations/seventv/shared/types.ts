@@ -5,7 +5,6 @@ export interface __Emote extends IEmote {
   isAnimated: boolean;
   isListed: boolean;
   isModifier: boolean;
-  isWrapper: boolean;
   actorId: string | null;
   width: number;
   height: number;

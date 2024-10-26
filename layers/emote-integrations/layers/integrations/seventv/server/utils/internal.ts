@@ -1,13 +1,12 @@
 export function defineSevenTVEmoteMaker<T extends string>(type: T) {
   return function (emote: TSevenTV.Api.Emote) {
     const {
-      data: { tags, host, listed, animated },
+      data: { tags, host, listed, animated, flags },
       id,
-      flags,
       name,
       actor_id: actorId,
     } = emote;
-    const file = host.files[1];
+    const file = host.files[0];
     assert.ok(file);
     const { width, height } = file;
     return {
@@ -16,8 +15,7 @@ export function defineSevenTVEmoteMaker<T extends string>(type: T) {
       tags,
       isAnimated: animated,
       isListed: listed,
-      isModifier: flags !== 0,
-      isWrapper: flags === 1,
+      isModifier: flags === 256,
       actorId,
       width,
       height,

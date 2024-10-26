@@ -82,7 +82,6 @@ export class EmoteOnHover {
   readonly isAnimated;
   readonly isListed;
   readonly isModifier;
-  readonly isWrapper;
 
   integrationLink: EmoteIntegrationLink;
 
@@ -95,7 +94,6 @@ export class EmoteOnHover {
       isAnimated,
       isListed,
       isModifier,
-      isWrapper,
     }: Omit<IEmote, "width" | "height" | "url">,
     {
       width,
@@ -117,7 +115,6 @@ export class EmoteOnHover {
     this.isAnimated = isAnimated;
     this.isListed = isListed;
     this.isModifier = isModifier;
-    this.isWrapper = isWrapper;
     this.integrationLink = new EmoteIntegrationLink(this);
   }
 

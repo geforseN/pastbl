@@ -11,6 +11,7 @@
           <nuxt-layout>
             <nuxt-page />
           </nuxt-layout>
+          <speed-insights />
           <emote-on-hover-card
             ref="emoteOnHoverCard"
             v-on-click-outside="emoteOnHover.close"
@@ -22,7 +23,7 @@
           />
           <client-only>
             <pastas-work-mode-toggle
-              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 py-1.5"
             />
           </client-only>
         </div>
@@ -31,6 +32,7 @@
   </Html>
 </template>
 <script setup lang="ts">
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
 
@@ -38,6 +40,8 @@ const head = useLocaleHead({
   addDirAttribute: true,
   addSeoAttributes: true,
 });
+
+useLogRocket("init&identify");
 
 const pastasStore = usePastasStore();
 

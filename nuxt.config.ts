@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
+    "@nuxtjs/storybook",
     // NOTE: @codecov/nuxt-plugin must be at the end
     [
       "@codecov/nuxt-plugin",
@@ -42,7 +43,6 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    presets: [],
     imports: [
       {
         from: "vue",
@@ -93,9 +93,6 @@ export default defineNuxtConfig({
     viewTransition: true,
   },
   css: ["~/assets/css/tailwind.css"],
-  vue: {
-    propsDestructure: true,
-  },
   alias: {
     $: fileURLToPath(new URL("layers", import.meta.url)),
     ...testsAlias,
@@ -121,11 +118,8 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-09-19",
   nitro: {
-    compressPublicAssets: true,
-    minify: true,
     experimental: {
       tasks: true,
-      openAPI: true,
     },
     scheduledTasks: {
       /* Everyday at 00:00 */

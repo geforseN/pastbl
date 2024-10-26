@@ -16,7 +16,6 @@ test.todo("<hovered-emote-images />", async () => {
         isAnimated: true,
         isListed: true,
         isModifier: false,
-        isWrapper: false,
         source: "SevenTV",
         // tags: ["buh", "guh"],
         token: "buh",

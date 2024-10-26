@@ -22,7 +22,6 @@ function makeBetterTTVChannelEmote(
     type: "channel",
     isModifier: false,
     isListed: true,
-    isWrapper: false,
   });
 }
 
@@ -39,7 +38,6 @@ function makeBetterTTVSharedEmote(
     type: "shared",
     isModifier: false,
     isListed: true,
-    isWrapper: false,
     codeOrigin: emote.codeOriginal,
     userId: emote.user.id,
   });

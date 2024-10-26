@@ -5,7 +5,6 @@ function makeBetterTTVGlobalEmote(
     type: "global",
     isModifier: emote.modifier,
     isListed: true,
-    isWrapper: false,
   });
 }
 

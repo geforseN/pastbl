@@ -38,7 +38,6 @@ export function makeTwitchEmote<T extends TTwitch.EmoteType>(
     isAnimated,
     isListed: true,
     isModifier: false,
-    isWrapper: false,
     width: 28,
     height: 28,
   };
