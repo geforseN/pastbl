@@ -1,4 +1,4 @@
-import { expect, test } from "@nuxt/test-utils/playwright";
+import { expect, test } from "~~/tests/e2e/utils.ts";
 import type { Page } from "@playwright/test";
 
 async function getVisibleDropdown(page: Page) {
@@ -39,6 +39,6 @@ test("can go to edit pasta when there is pasta", async ({ page }) => {
 
 test("can not go to pasta edit where is no pastas", async ({ page }) => {
   await page.goto("/pastas/edit/1");
-  await expect(page.getByTestId("chat-pasta-list-skeleton")).toBeHidden();
+  await expect(page).toHaveNoSkeleton();
   await expect(page).toHaveTitle(/404 - Local pasta not found/);
 });
