@@ -2,14 +2,14 @@ import {
   isRaisePropertyName,
   raiseToastMethod,
 } from "../internal/raise-method";
-import { RawActionToastsMethods_ } from "../internal/raw-methods";
+import { RawActionToastsMethods_ } from "../internal/raw-methods.ts";
 import type {
   ContextifyActionToasts,
   PossibleProperty,
   RawActionToastMaker,
   RawActionToastsMethods,
 } from "../internal/types";
-import { validTypes } from "../internal/utils";
+import { validTypes } from "../internal/utils.ts";
 
 class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(

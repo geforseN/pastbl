@@ -1,4 +1,4 @@
-import { EmoteSources } from "./emote-sources";
+import { EmoteSources } from "./emote-sources.ts";
 
 const emoteSources = [
   "BetterTTV" as const,

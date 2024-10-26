@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { z } from "zod";
 import { $fetch } from "ofetch";
-import { environment } from "~~/server/utils/environment";
+import { environment } from "~~/server/utils/environment.ts";
 
 const twitchTokenBaseOptions = {
   method: "POST",

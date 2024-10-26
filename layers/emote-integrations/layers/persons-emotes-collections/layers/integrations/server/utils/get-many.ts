@@ -1,4 +1,4 @@
-import { personEmoteIntegrations } from "./-record";
+import { personEmoteIntegrations } from "./-record.ts";
 
 export async function getPersonEmoteIntegrations<S extends EmoteSource>(
   sources: S[],

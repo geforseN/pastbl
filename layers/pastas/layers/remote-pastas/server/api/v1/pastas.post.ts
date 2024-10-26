@@ -1,4 +1,4 @@
-import { createPasta } from "~~/database/pastas";
+import { createPasta } from "~~/database/pastas.ts";
 
 export default defineEventHandler(async (event) => {
   const userTwitchId = await requireUserTwitchIdFromSession(event);

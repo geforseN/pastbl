@@ -1,4 +1,4 @@
-import type { INotification } from "./types";
+import type { INotification } from "./types.ts";
 
 export function adaptNotificationFromNuxtUItoElementPlus(
   notification: INotification,

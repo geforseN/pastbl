@@ -1,5 +1,5 @@
-import type { PastasListIndexedDBStore } from "./pastas.indexed-db-store.list";
-import type { PastasIndexedDBTransactions } from "./pastas.indexed-db-transactions";
+import type { PastasListIndexedDBStore } from "./pastas.indexed-db-store.list.ts";
+import type { PastasIndexedDBTransactions } from "./pastas.indexed-db-transactions.ts";
 
 export class PastasIndexedDBRepository implements IPastasRepository {
   constructor(
