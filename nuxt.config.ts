@@ -139,6 +139,14 @@ export default defineNuxtConfig({
       }),
     ],
   },
+  icon: {
+    collections: [
+      'ic',
+      'carbon',
+      'solar',
+      'material-symbols'
+    ]
+  },
   typescript: {
     tsConfig: {
       compilerOptions: {
