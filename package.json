@@ -24,7 +24,7 @@
     "test:node": "vitest --config tests/server/node/vitest.config.ts",
     "test:e2e": "PLAYWRIGHT_HTML_OUTPUT_DIR=tests/e2e/playwright-report playwright test --config tests/e2e/playwright.config.ts",
     "lint": "eslint .",
-    "lintfix": "prettier . --list-different --write ; eslint . --fix",
+    "lintfix": "eslint . --fix",
     "commitlint": "commitlint --edit"
   },
   "devDependencies": {
@@ -46,6 +46,7 @@
     "@playwright/test": "^1.47.2",
     "@testing-library/vue": "^8.1.0",
     "@types/eslint-plugin-security": "^3.0.0",
+    "@types/eslint-plugin-tailwindcss": "^3.17.0",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.7.5",
     "@vitejs/plugin-vue": "^5.1.4",
@@ -65,6 +66,7 @@
     "eslint": "^9.12.0",
     "eslint-plugin-playwright": "^1.6.2",
     "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-tailwindcss": "^3.17.5",
     "eslint-plugin-unicorn": "^56.0.0",
     "eslint-plugin-vue": "^9.28.0",
     "fake-indexeddb": "^6.0.0",
@@ -80,8 +82,6 @@
     "playwright-core": "^1.47.2",
     "postcss": "^8.4.47",
     "postgres": "^3.4.4",
-    "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8",
     "std-env": "^3.7.0",
     "tailwind-merge": "^2.5.3",
     "tailwind-scrollbar": "^3.1.0",

@@ -8,6 +8,7 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "@vitest/eslint-plugin";
 import playwright from "eslint-plugin-playwright";
 import pluginSecurity from "eslint-plugin-security";
+import tailwind from "eslint-plugin-tailwindcss";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -43,9 +44,15 @@ function makeSpecPath(base) {
 export default createConfigForNuxt({
   features: {
     stylistic: {
+      arrowParens: true,
+      blockSpacing: true,
+      braceStyle: "1tbs",
+      commaDangle: "always-multiline",
+      indent: 2,
+      jsx: true,
+      quoteProps: "as-needed",
       quotes: "double",
       semi: true,
-      arrowParens: true,
     },
   },
 })
@@ -61,6 +68,10 @@ export default createConfigForNuxt({
     rules: {
       "no-console": "error",
       "no-unreachable-loop": "error",
+      "@stylistic/max-len": ["error", {
+        code: 100,
+        // ignorePattern: "class=\"",
+      }],
     },
   })
   .append({
@@ -80,6 +91,7 @@ export default createConfigForNuxt({
     ...playwright.configs["flat/recommended"],
     files: ["tests/**/*.spec.ts", "{layers,app}/**/*.e2e.spec.ts"],
   })
+  .append(tailwind.configs["flat/recommended"])
   .append(eslintPluginUnicorn.configs["flat/recommended"])
   .override("unicorn/flat/recommended", {
     rules: {
