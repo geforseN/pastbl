@@ -52,3 +52,4 @@ test:
   - test wheel works
     - [ ] no shift + mouse wheel => vertical scroll
     - [ ] shift + mouse wheel => vertical scroll
+- [ ] add screenshot testing
