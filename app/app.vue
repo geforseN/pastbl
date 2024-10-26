@@ -1,5 +1,8 @@
 <template>
-  <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+  <Html
+    :lang="head.htmlAttrs.lang"
+    :dir="head.htmlAttrs.dir"
+  >
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -20,7 +23,7 @@
           />
           <client-only>
             <pastas-work-mode-toggle
-              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 pb-1.5 pt-1.5"
+              class="fixed bottom-0 right-1/2 w-max translate-x-1/2 rounded-b-none border-b-0 py-1.5"
             />
           </client-only>
         </div>
@@ -55,8 +58,8 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef =
-  useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
+const emoteOnHoverCardRef
+  = useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );
