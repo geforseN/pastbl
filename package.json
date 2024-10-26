@@ -42,6 +42,7 @@
     "@nuxt/icon": "^1.5.5",
     "@nuxt/test-utils": "^3.14.3",
     "@nuxtjs/i18n": "8.5.5",
+    "@nuxtjs/storybook": "^8.3.2",
     "@pinia/testing": "^0.1.6",
     "@playwright/test": "^1.47.2",
     "@testing-library/vue": "^8.1.0",

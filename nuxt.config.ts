@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-auth-utils",
+    "@nuxtjs/storybook",
     // NOTE: @codecov/nuxt-plugin must be at the end
     [
       "@codecov/nuxt-plugin",
