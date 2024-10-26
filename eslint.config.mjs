@@ -56,7 +56,6 @@ export default createConfigForNuxt({
     },
   },
 })
-  .prepend(includeIgnoreFile(path.resolve(__dirname, ".prettierignore")))
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
     rules: vueMacros.rules,
