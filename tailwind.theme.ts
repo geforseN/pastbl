@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -27,3 +28,4 @@ export default {
     },
   },
 } as const satisfies NonNullable<Config["theme"]>;
+/* c8 ignore stop */
