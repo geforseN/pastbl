@@ -1,7 +1,6 @@
 import { fileURLToPath } from "node:url";
-import { defineVitestConfig } from "@nuxt/test-utils/config";
+import { defineNitroVitestConfig } from "./utils.ts";
 import { baseUrl } from "./$apiFetch.ts";
-import { nitroTestGlobs } from "./utils.ts";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 
@@ -9,11 +8,8 @@ const root = fileURLToPath(new URL("../../..", import.meta.url));
 // NOTE: in scripts/dev-vitest-nitro.sh there there is such logic
 // ? Can it be done without manually run `pnpm dev` ?
 // ! If so then baseUrl must be changed to, for example 127.0.0.1:1234
-export default defineVitestConfig({
+export default defineNitroVitestConfig({
   test: {
-    name: "nitro",
-    include: [...nitroTestGlobs],
-    environment: "nuxt",
     environmentOptions: {
       nuxt: {
         url: baseUrl,

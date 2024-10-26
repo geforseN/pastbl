@@ -1,4 +1,4 @@
-import { describe, it, vi, expect, afterEach } from "vitest";
+import { describe, it, vi, expect, afterEach, test } from "vitest";
 import { createRawActionToasts } from "../utils/create-raw-action-toasts.ts";
 import { additionalMethods, baseMethods } from "../internal/utils.ts";
 import { raiseToastMethod } from "../internal/raise-method.ts";

@@ -1,14 +1,10 @@
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "vitest/config";
-import { nodejsTestsGlobs } from "./utils.ts";
+import { defineNodeVitestConfig } from "./utils.ts";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 
-export default defineConfig({
+export default defineNodeVitestConfig({
   test: {
-    name: "node",
-    environment: "node",
-    include: [...nodejsTestsGlobs],
     root,
   },
 });

@@ -1,14 +1,14 @@
 import { parseArgs } from "node:util";
-import { defaultExclude } from "vitest/config";
-import { defineVitestConfig } from "@nuxt/test-utils/config";
-import { endToEndTestsGlobs } from "./tests/e2e/utils.ts";
-import { nodejsTestsGlobs } from "./tests/server/node/utils.ts";
-import { nitroTestGlobs } from "./tests/server/nitro/utils.ts";
+import { defineNuxtVitestConfig } from "./tests/client/nuxt/utils.ts";
+import { defineNitroVitestConfig } from "./tests/server/nitro/utils.ts";
+import { defineNodeVitestConfig } from "./tests/server/node/utils.ts";
 
 const allowedProjectsArray = ["nuxt", "nitro", "node"] as const;
-const allowedProjects = new Set(allowedProjectsArray);
-const isAllowedProject = (project: unknown) =>
-  allowedProjects.has(project as typeof allowedProjectsArray[number]);
+type Project = (typeof allowedProjectsArray)[number];
+
+function isAllowedProject(project: unknown): project is Project {
+  return allowedProjectsArray.includes(project as Project);
+}
 
 const parsedArgs = parseArgs({
   args: process.argv.slice(2),
@@ -21,50 +21,12 @@ const parsedArgs = parseArgs({
   },
 });
 
-const providedProjects = new Set(
-  parsedArgs.values.project.filter((value) =>
-    typeof value === "string"
-    && isAllowedProject(value),
-  ),
-) as typeof allowedProjects;
+const providedProjects = new Set<Project>(
+  parsedArgs.values.project.filter(isAllowedProject)
+);
 
 export default [
-  providedProjects.has("nuxt")
-  && defineVitestConfig({
-    test: {
-      name: "nuxt",
-      globals: true,
-      environment: "nuxt",
-      include: ["**/*.spec.ts"],
-      exclude: defaultExclude.concat(
-        endToEndTestsGlobs,
-        nodejsTestsGlobs,
-        nitroTestGlobs,
-      ),
-      environmentOptions: {
-        nuxt: {
-          mock: {
-            intersectionObserver: true,
-            indexedDb: true,
-          },
-        },
-      },
-    },
-  }),
-  providedProjects.has("nitro")
-  && defineVitestConfig({
-    test: {
-      name: "nitro",
-      include: [...nitroTestGlobs],
-      environment: "nuxt",
-    },
-  }),
-  providedProjects.has("node")
-  && {
-    test: {
-      name: "node",
-      environment: "node",
-      include: [...nodejsTestsGlobs],
-    },
-  },
+  providedProjects.has("nuxt") && defineNuxtVitestConfig(),
+  providedProjects.has("nitro") && defineNitroVitestConfig(),
+  providedProjects.has("node") && defineNodeVitestConfig(),
 ].filter(Boolean);
