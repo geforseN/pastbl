@@ -13,6 +13,7 @@ fix:
 - [ ] teleport not working twice
 - [ ] <remove-pastas-list />: bad types, delete is not working, refactor
 - [x] tsc warns
+- [ ] login with twitch button (also add tests)
 
 feat:
 
@@ -53,3 +54,4 @@ test:
     - [ ] no shift + mouse wheel => vertical scroll
     - [ ] shift + mouse wheel => vertical scroll
 - [ ] add screenshot testing
+- [ ] login with twitch button
