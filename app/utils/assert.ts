@@ -30,18 +30,49 @@ function assertResponseOk(
   }
 }
 
-export const assert: {
+type TypeofReturn =
+  | "string"
+  | "number"
+  | "bigint"
+  | "boolean"
+  | "symbol"
+  | "undefined"
+  | "object"
+  | "function";
+
+function assertTypeof(v: unknown, t: "string"): asserts v is string;
+function assertTypeof(v: unknown, t: "number"): asserts v is number;
+function assertTypeof(v: unknown, t: "bigint"): asserts v is bigint;
+function assertTypeof(v: unknown, t: "boolean"): asserts v is boolean;
+function assertTypeof(v: unknown, t: "symbol"): asserts v is symbol;
+function assertTypeof(v: unknown, t: "undefined"): asserts v is undefined;
+function assertTypeof(v: unknown, t: "object"): asserts v is object;
+function assertTypeof(
+  value: unknown,
+  type: "function"
+): asserts value is (...args: unknown[]) => unknown;
+function assertTypeof(value: unknown, type: TypeofReturn): asserts value is TypeofReturn {
+  if (typeof value !== type) {
+    throw new TypeError(`Expected ${type}, got ${typeof value}`);
+  }
+}
+
+export const assert: typeof assertOk & {
   fail: typeof raise;
   ok: typeof assertOk;
   isError: typeof assertIsError;
   response: {
     ok: typeof assertResponseOk;
   };
-} = {
-  ok: assertOk,
-  isError: assertIsError,
-  response: {
-    ok: assertResponseOk,
-  },
-  fail: raise,
+  typeof: typeof assertTypeof;
+} = function assert(...args: Parameters<typeof assertOk>) {
+  assertOk(...args);
 };
+
+assert.ok = assertOk;
+assert.isError = assertIsError;
+assert.response = {
+  ok: assertResponseOk,
+};
+assert.fail = raise;
+assert.typeof = assertTypeof;
