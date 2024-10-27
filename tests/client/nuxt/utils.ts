@@ -1,21 +1,19 @@
 import { defineVitestConfig } from "@nuxt/test-utils/config";
-import { defaultExclude, coverageConfigDefaults } from "vitest/config";
-import { endToEndTestsGlobs } from "../../e2e/utils.ts";
+import { defaultExclude } from "vitest/config";
 import { nitroTestGlobs } from "../../server/nitro/utils.ts";
+import { endToEndTestsGlobs } from "../../e2e/utils.ts";
+import { coverageConfigDefaults } from "../../utils.ts";
 import { nodejsTestsGlobs } from "../../server/node/utils.ts";
-import type { NuxtTestUtilsConfig } from "~~/tests/types.ts";
+import type { NuxtTestUtilsConfig } from "../../types.ts";
 
-export const defineNuxtVitestConfig = (config?: NuxtTestUtilsConfig) =>
-  defineVitestConfig({
+export function defineNuxtVitestConfig(config?: NuxtTestUtilsConfig) {
+  return defineVitestConfig({
     ...config,
     test: {
+      ...config?.test,
       coverage: {
-        exclude: coverageConfigDefaults.exclude.concat(
-          "**/*.config.ts",
-          "**/.nuxt",
-          "stories",
-          "storybook-static"
-        ),
+        ...coverageConfigDefaults,
+        ...config?.test?.coverage,
       },
       name: "nuxt",
       environment: "nuxt",
@@ -23,8 +21,8 @@ export const defineNuxtVitestConfig = (config?: NuxtTestUtilsConfig) =>
       exclude: defaultExclude.concat(
         endToEndTestsGlobs,
         nodejsTestsGlobs,
-        nitroTestGlobs
+        nitroTestGlobs,
       ),
-      ...config?.test,
     },
   });
+};

@@ -10,6 +10,9 @@ const root = fileURLToPath(new URL("../../..", import.meta.url));
 // ! If so then baseUrl must be changed to, for example 127.0.0.1:1234
 export default defineNitroVitestConfig({
   test: {
+    coverage: {
+      reportsDirectory: fileURLToPath(new URL("./coverage", import.meta.url)),
+    },
     environmentOptions: {
       nuxt: {
         url: baseUrl,

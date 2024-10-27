@@ -1,4 +1,5 @@
 import { defineConfig, type ViteUserConfig } from "vitest/config";
+import { coverageConfigDefaults } from "../../utils.ts";
 
 export const nodejsTestsGlobs = [
   "{server,layers,app}/**/*.node.spec.ts",
@@ -8,9 +9,13 @@ export const defineNodeVitestConfig = (config?: ViteUserConfig) =>
   defineConfig({
     ...config,
     test: {
+      ...config?.test,
+      coverage: {
+        ...coverageConfigDefaults,
+        ...config?.test?.coverage,
+      },
       name: "node",
       environment: "node",
       include: [...nodejsTestsGlobs],
-      ...config?.test,
     },
   });

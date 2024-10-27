@@ -55,3 +55,4 @@ test:
     - [ ] shift + mouse wheel => vertical scroll
 - [ ] add screenshot testing
 - [ ] login with twitch button
+- [ ] add import alias plugin into vitest.config.ts files

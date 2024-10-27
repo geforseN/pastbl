@@ -1,0 +1,12 @@
+# Now coverage is working only with test:nuxt output
+# Must include test:nitro, test:node, test:e2e (Playwright) 
+coverage:
+  status:
+    project:
+      default:
+        target: 100%
+        # Must decrease threshold
+        threshold: 70%
+
+# TODO use flags instead
+# https://docs.codecov.com/docs/github-5b-setting-coverage-standards-with-flags
