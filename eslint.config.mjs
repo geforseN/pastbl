@@ -1,14 +1,17 @@
 // @ts-check
-import path from "node:path";
+// NOTE: must import "./.nuxt/eslint.config.mjs" or no TypeScript help
+import "./.nuxt/eslint.config.mjs";
 import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { includeIgnoreFile } from "@eslint/compat";
 import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
-import vueMacros from "@vue-macros/eslint-config";
-import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import vitest from "@vitest/eslint-plugin";
+import vueMacros from "@vue-macros/eslint-config";
 import playwright from "eslint-plugin-playwright";
 import pluginSecurity from "eslint-plugin-security";
 import tailwind from "eslint-plugin-tailwindcss";
+import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import importX from "eslint-plugin-import-x";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -61,6 +64,39 @@ export default createConfigForNuxt({
     rules: vueMacros.rules,
     languageOptions: {
       globals: vueMacros.globals,
+    },
+  })
+  .append(
+    // @ts-ignore
+    importX.flatConfigs.recommended,
+  )
+  .append({
+    // TODO allow import from X/internal only from X
+    // "import/no-restricted-paths": ["error", { zones: [{ }] }],
+    rules: {
+      "import/first": "error",
+      "import/newline-after-import": "error",
+      "import/no-duplicates": "error",
+      "import-x/no-unresolved": ["error", {
+        ignore: ["~~", "~", "\\$", "@"],
+      }],
+      "import/order": ["error", {
+        "newlines-between": "never",
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+        ],
+        pathGroups: [
+          { pattern: "~~/**", group: "internal" },
+          { pattern: "~/**", group: "internal" },
+        ],
+      }],
     },
   })
   .append({
