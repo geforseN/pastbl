@@ -4,6 +4,18 @@ import { i18n } from "./app/i18n.config.ts";
 import tailwindTheme from "./tailwind.theme.ts";
 import testsAlias from "./tests/alias.ts";
 
+const nuxtDefaults = {
+  ignore: [
+    "**/*.stories.{js,cts,mts,ts,jsx,tsx}",
+    "**/*.{spec,test}.{js,cts,mts,ts,jsx,tsx}",
+    "**/*.d.{cts,mts,ts}",
+    "**/.{pnpm-store,vercel,netlify,output,git,cache,data}",
+    ".nuxt/analyze",
+    ".nuxt",
+    "**/-*.*",
+  ],
+};
+
 // LINK: https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -98,10 +110,9 @@ export default defineNuxtConfig({
     ...testsAlias,
   },
   extensions: ["ts", "vue"],
-  ignoreOptions: {
-    ignorecase: false,
-    allowRelativePaths: false,
-  },
+  ignore: nuxtDefaults.ignore.concat([
+    "**/coverage/**",
+  ]),
   sourcemap: {
     server: false,
     client: false,
@@ -138,9 +149,22 @@ export default defineNuxtConfig({
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
-  },
-  icon: {
-    collections: ["ic", "carbon", "solar", "mdi", "material-symbols"],
+    server: {
+      warmup: {
+        clientFiles: [
+          "./_nuxt/plugins",
+          "**/app.config.ts",
+          "./app/app.vue",
+          "./layers/pastas/**",
+        ],
+      },
+    },
+    optimizeDeps: {
+      include: [
+        "@vueuse/core",
+        "vue-virtual-scroller",
+      ],
+    },
   },
   typescript: {
     tsConfig: {
@@ -160,6 +184,9 @@ export default defineNuxtConfig({
     lazy: true,
     defaultLocale: "en",
     strategy: "prefix",
+  },
+  icon: {
+    collections: ["ic", "carbon", "solar", "mdi", "material-symbols"],
   },
   macros: {
     scriptLang: {
