@@ -209,7 +209,7 @@ importers:
         version: 56.0.0(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-vue:
         specifier: ^9.29.1
-        version: 9.29.1(eslint@9.13.0(jiti@2.3.3))
+        version: 9.30.0(eslint@9.13.0(jiti@2.3.3))
       fake-indexeddb:
         specifier: ^6.0.0
         version: 6.0.0
@@ -3184,6 +3184,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.14.0:
+    resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   adm-zip@0.5.16:
     resolution: {integrity: sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==}
     engines: {node: '>=12.0'}
@@ -4426,8 +4431,8 @@ packages:
     peerDependencies:
       eslint: ^9.13.0
 
-  eslint-plugin-vue@9.29.1:
-    resolution: {integrity: sha512-MH/MbVae4HV/tM8gKAVWMPJbYgW04CK7SuzYRrlNERpxbO0P3+Zdsa2oAcFBW6xNu7W6lIkGOsFAMCRTYmrlWQ==}
+  eslint-plugin-vue@9.30.0:
+    resolution: {integrity: sha512-CyqlRgShvljFkOeYK8wN5frh/OGTvkj1S7wlr2Q2pUvwq+X5VYiLd6ZjujpgSgLnys2W8qrBLkXQ41SUYaoPIQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^9.13.0
@@ -7843,6 +7848,9 @@ packages:
   vue-component-type-helpers@2.1.6:
     resolution: {integrity: sha512-ng11B8B/ZADUMMOsRbqv0arc442q7lifSubD0v8oDXIFoMg/mXwAPUunrroIDkY+mcD0dHKccdaznSVp8EoX3w==}
 
+  vue-component-type-helpers@2.1.8:
+    resolution: {integrity: sha512-ii36gDzrYAfOQIkOlo44yceDdT5269gKmNGxf07Qx6seH2U50+tQ2ol02XLhYPmxrh6YabAsOdte8WDrpaO6Tw==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -9432,7 +9440,7 @@ snapshots:
       eslint-plugin-jsdoc: 50.4.3(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-regexp: 2.6.0(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-unicorn: 56.0.0(eslint@9.13.0(jiti@2.3.3))
-      eslint-plugin-vue: 9.29.1(eslint@9.13.0(jiti@2.3.3))
+      eslint-plugin-vue: 9.30.0(eslint@9.13.0(jiti@2.3.3))
       globals: 15.11.0
       local-pkg: 0.5.0
       pathe: 1.1.2
@@ -10383,7 +10391,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.5.12(typescript@5.6.3)
-      vue-component-type-helpers: 2.1.6
+      vue-component-type-helpers: 2.1.8
 
   '@stylistic/eslint-plugin@2.9.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)':
     dependencies:
@@ -11447,11 +11455,17 @@ snapshots:
     dependencies:
       acorn: 8.13.0
 
+  acorn-jsx@5.3.2(acorn@8.14.0):
+    dependencies:
+      acorn: 8.14.0
+
   acorn@7.4.1: {}
 
   acorn@8.12.1: {}
 
   acorn@8.13.0: {}
+
+  acorn@8.14.0: {}
 
   adm-zip@0.5.16: {}
 
@@ -12806,7 +12820,7 @@ snapshots:
       semver: 7.6.3
       strip-indent: 3.0.0
 
-  eslint-plugin-vue@9.29.1(eslint@9.13.0(jiti@2.3.3)):
+  eslint-plugin-vue@9.30.0(eslint@9.13.0(jiti@2.3.3)):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@9.13.0(jiti@2.3.3))
       eslint: 9.13.0(jiti@2.3.3)
@@ -12892,8 +12906,8 @@ snapshots:
 
   espree@9.6.1:
     dependencies:
-      acorn: 8.13.0
-      acorn-jsx: 5.3.2(acorn@8.13.0)
+      acorn: 8.14.0
+      acorn-jsx: 5.3.2(acorn@8.14.0)
       eslint-visitor-keys: 3.4.3
 
   esprima@4.0.1: {}
@@ -16624,6 +16638,8 @@ snapshots:
       typescript: 5.6.3
 
   vue-component-type-helpers@2.1.6: {}
+
+  vue-component-type-helpers@2.1.8: {}
 
   vue-demi@0.14.10(vue@3.5.12(typescript@5.6.3)):
     dependencies:
