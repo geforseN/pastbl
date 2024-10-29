@@ -1,7 +1,7 @@
 import styles from "../assets/button.module.css";
 import type { ConsolaInstance } from "consola";
 
-export function createButton(
+function createButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
 ) {
   const button = document.createElement("button");
@@ -11,7 +11,7 @@ export function createButton(
   return button;
 }
 
-export function getButtonContainer(): HTMLElement {
+function getButtonContainer(): HTMLElement {
   const container = document.querySelector(".chat-input__buttons-container");
   if (!container) {
     throw new Error("container not found");
@@ -34,6 +34,7 @@ function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) 
     buttonsContainer.append(button);
   }
 }
+
 export function createMutationObserver(consola: ConsolaInstance) {
   return new MutationObserver(() => {
     consola.log({ where: "MutationObserver" });
