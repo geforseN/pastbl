@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host 127.0.0.1",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "install:playwright": "playwright install --with-deps",
     "preview": "nuxt preview",
