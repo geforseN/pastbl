@@ -1,4 +1,5 @@
 import styles from "../assets/button.module.css";
+import type { ConsolaInstance } from "consola";
 
 export function createButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
@@ -21,4 +22,24 @@ export function getButtonContainer(): HTMLElement {
     throw error;
   }
   return container;
+}
+
+export function createMutationObserver(consola: ConsolaInstance) {
+  return new MutationObserver(() => {
+    consola.log({ where: "MutationObserver" });
+    let buttonsContainer: HTMLElement;
+    try {
+      buttonsContainer = getButtonContainer();
+    } catch (e) {
+      consola.error(e);
+      return;
+    }
+    consola.log({ buttonsContainer, where: "MutationObserver" });
+    if (!buttonsContainer.querySelector(`.asd`)) {
+      const button = createButton(() => {
+        consola.log("clicked pastbl button");
+      });
+      buttonsContainer.prepend(button);
+    }
+  });
 }
