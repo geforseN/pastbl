@@ -105,6 +105,13 @@ export default defineNuxtConfig({
     viewTransition: true,
   },
   css: ["~/assets/css/tailwind.css"],
+  runtimeConfig: {
+    session: {
+      cookie: {
+        sameSite: "none",
+      },
+    },
+  },
   alias: {
     $: fileURLToPath(new URL("layers", import.meta.url)),
     ...testsAlias,
