@@ -1,15 +1,6 @@
 import { consola } from "consola";
 import styles from "../assets/button.module.css";
 
-function addPastblButton(buttonContainer: HTMLElement) {
-  if (!buttonContainer.querySelector(`.asd`)) {
-    const button = createPastblButton(() => {
-      console.log("clicked pastbl button");
-    });
-    buttonContainer.prepend(button);
-  }
-}
-
 function createPastblButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
 ) {
@@ -63,10 +54,5 @@ export default defineContentScript({
         clearInterval(buttonsInterval);
       }
     }, 1000);
-    // document.addEventListener("load", () => {
-    //   consola_.log({ where: "load" });
-    //   const buttonsContainer = getButtonContainer();
-    //   consola_.log({ buttonsContainer, where: "load" });
-    // });
   },
 });
