@@ -1,5 +1,6 @@
 import styles from "../assets/button.module.css";
 import type { ConsolaInstance } from "consola";
+import { config } from "@/entrypoints/utils/config";
 
 function createButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
@@ -11,8 +12,12 @@ function createButton(
   return button;
 }
 
+export function findButtonContainer() {
+  return document.querySelector(config.twitch["chat-input"]["buttons-container"].selector);
+}
+
 function getButtonContainer(): HTMLElement {
-  const container = document.querySelector(".chat-input__buttons-container");
+  const container = findButtonContainer();
   if (!container) {
     throw new Error("container not found");
   }
