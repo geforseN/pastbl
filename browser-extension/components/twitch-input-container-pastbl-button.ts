@@ -24,6 +24,16 @@ export function getButtonContainer(): HTMLElement {
   return container;
 }
 
+function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) {
+  consola.log({ buttonsContainer, where: "emplaceButton" });
+  // FIXME: do not use .asd
+  if (!buttonsContainer.querySelector(`.asd`)) {
+    const button = createButton(() => {
+      consola.log("clicked pastbl button");
+    });
+    buttonsContainer.append(button);
+  }
+}
 export function createMutationObserver(consola: ConsolaInstance) {
   return new MutationObserver(() => {
     consola.log({ where: "MutationObserver" });
@@ -34,12 +44,6 @@ export function createMutationObserver(consola: ConsolaInstance) {
       consola.error(e);
       return;
     }
-    consola.log({ buttonsContainer, where: "MutationObserver" });
-    if (!buttonsContainer.querySelector(`.asd`)) {
-      const button = createButton(() => {
-        consola.log("clicked pastbl button");
-      });
-      buttonsContainer.append(button);
-    }
+    emplaceButton(buttonsContainer, consola);
   });
 }
