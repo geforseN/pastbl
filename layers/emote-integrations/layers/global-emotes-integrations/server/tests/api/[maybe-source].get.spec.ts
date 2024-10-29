@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,
-} from "./utils";
+} from "./utils.ts";
 import { $apiFetch } from "#tests-nitro-api-fetch";
 
 describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
@@ -10,9 +10,10 @@ describe("GET /api/v1/global-emotes-integrations/[maybe-source]", () => {
     it.for([...allEmoteSources])("%s matches snapshot", async (source) => {
       const response = await $apiFetch("/global-emotes-integrations/" + source);
       if (source === "FrankerFaceZ") {
-        response.integration.sets = response.integration.sets.map(
-          makeShortFrankerFaceZGlobalSet,
-        );
+        const ffz = response.integration;
+        if ("sets" in ffz && Array.isArray(ffz.sets)) {
+          ffz.sets = ffz.sets.map(makeShortFrankerFaceZGlobalSet);
+        }
       }
       expect(response).toMatchSnapshot({
         integration: integrationWithAnyFormedAtNumber,
