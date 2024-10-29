@@ -4,11 +4,9 @@ export function raise(reason?: RaiseReason_): never {
   if (typeof reason === "string") {
     /* eslint-disable-next-line unicorn/prefer-type-error */
     throw new Error(reason);
-  }
-  else if (reason instanceof Error) {
+  } else if (reason instanceof Error) {
     throw reason;
-  }
-  else {
+  } else {
     /* eslint-disable-next-line unicorn/prefer-type-error */
     throw new Error("Assertion failed");
   }

@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@nuxtjs/storybook";
-
 import MyNuxtWelcome from "./MyWelcome.vue";
+import type { Meta, StoryObj } from "@nuxtjs/storybook";
 
 // More on how to set up stories at: https://storybook.js.org/docs/vue/writing-stories/introduction
 

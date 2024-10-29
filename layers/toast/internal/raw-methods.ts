@@ -45,8 +45,7 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
       const notification = method.apply(context, args);
       if (notification) {
         addToast(notification);
-      }
-      else {
+      } else {
         // eslint-disable-next-line no-console
         console.warn(
           `Method '${key}' returned falsy value, should return INotification`,

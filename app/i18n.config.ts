@@ -1,5 +1,5 @@
-import type { ModuleOptions } from "@nuxtjs/i18n";
 import { isDevelopment } from "std-env";
+import type { ModuleOptions } from "@nuxtjs/i18n";
 
 let baseUrl = isDevelopment ? "" : "https://pastbl.vercel.app";
 if (typeof process.env.BASE_URL === "string") {

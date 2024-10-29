@@ -40,8 +40,7 @@ export function useTextCopy(initialOptions: UseTextCopyOptions = {}) {
     if (clipboard.copied.value) {
       await initialOptions.onSuccess?.();
       await options.onSuccess?.();
-    }
-    else {
+    } else {
       await initialOptions.onFail?.();
       await options.onFail?.();
     }

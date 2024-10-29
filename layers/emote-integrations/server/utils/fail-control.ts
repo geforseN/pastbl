@@ -14,8 +14,7 @@ export abstract class EmotesIntegrationWithFailControl {
         throw new Error(`${this.source} Global emotes integration not found`);
       }
       return integration;
-    }
-    catch (error) {
+    } catch (error) {
       return this.makeFailedIntegration<F>(error);
     }
   }
