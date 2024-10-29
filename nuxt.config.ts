@@ -149,20 +149,30 @@ export default defineNuxtConfig({
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
+    // esbuild: {/* TODO */},
     server: {
       warmup: {
         clientFiles: [
-          "./_nuxt/plugins",
+          "./assets/css/tailwind.css",
+          "./app/plugins/**",
           "**/app.config.ts",
           "./app/app.vue",
-          "./layers/pastas/**",
+          "./app.vue",
+          "./app/i18n.config.ts",
+          "./i18n.config.ts",
+          "./app/components/**/*.vue",
+          "./components/**/*.vue",
+          "./layers/pastas/**/*.vue",
         ],
       },
     },
     optimizeDeps: {
       include: [
         "@vueuse/core",
+        "idb",
+        "vue-i18n",
         "vue-virtual-scroller",
+        "tailwindcss",
       ],
     },
   },
