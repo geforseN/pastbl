@@ -1,0 +1,8 @@
+.pastbl__button {
+  background-color: var(--color-background-button-brand, '#1ea7fd');
+  font-size: inherit;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  border-radius: var(--border-radius-medium, 0.5rem);
+}
