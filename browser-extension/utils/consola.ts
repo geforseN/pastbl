@@ -1,3 +1,3 @@
 import { consola as _consola } from "consola/browser";
 
-export const consola = _consola.withTag("pastbl:browser-extension");
+export const consola = _consola.withTag("pastbl");

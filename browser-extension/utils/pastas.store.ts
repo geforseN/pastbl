@@ -1,7 +1,9 @@
-import { consola } from "@/utils/consola";
+import { consola as _consola } from "@/utils/consola";
 
 export const pastas = ref<unknown[]>([]);
 
-watch(() => pastas.value.length, (...args) => {
-  consola.log(pastas.value, args);
+const consola = _consola.withTag("pastas.store");
+
+watch(() => pastas.value.length, () => {
+  consola.log(pastas.value);
 });
