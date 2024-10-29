@@ -33,7 +33,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: ./scripts/dev-vitest-nitro.sh
         env:
-          HOST: 127.0.0.1
+          HOST: localhost
           PORT: 5555
           TWITCH_APP_CLIENT_SECRET: ${{ secrets.TWITCH_APP_CLIENT_SECRET }} 
           TWITCH_APP_CLIENT_ID: ${{ secrets.TWITCH_APP_CLIENT_ID }} 
