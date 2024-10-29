@@ -1,4 +1,4 @@
-import { StorybookConfig } from "@nuxtjs/storybook";
+import type { StorybookConfig } from "@nuxtjs/storybook";
 
 const config: StorybookConfig = {
   stories: [

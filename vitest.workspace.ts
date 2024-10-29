@@ -22,7 +22,7 @@ const parsedArgs = parseArgs({
 });
 
 const providedProjects = new Set<Project>(
-  parsedArgs.values.project.filter(isAllowedProject)
+  parsedArgs.values.project.filter(isAllowedProject),
 );
 
 export default [

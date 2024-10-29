@@ -14,16 +14,14 @@ export function getEmoteSourcesFromQuery(event: H3Event) {
       )
     ) {
       message = SOURCES_LENGTH_IS_ZERO_ERROR_MESSAGE;
-    }
-    else if (
+    } else if (
       parse.error.issues.some(
         (issue) =>
           issue.code === "invalid_type" && issue.received === "undefined",
       )
     ) {
       message = UNDEFINED_RECEIVED_ERROR_MESSAGE;
-    }
-    else {
+    } else {
       message = parse.error.toString();
     }
     throw createError({

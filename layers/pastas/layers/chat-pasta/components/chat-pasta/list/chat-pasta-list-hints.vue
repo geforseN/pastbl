@@ -56,7 +56,7 @@
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <div
             v-if="isEmotesLoaded && selectedCollection"
-            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-[420px]"
+            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-screen-xs"
           >
             <i18n-t
               keypath="emotes.showingPastasWithPerson"

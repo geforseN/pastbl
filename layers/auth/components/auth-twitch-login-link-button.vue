@@ -12,7 +12,7 @@
     </span>
     <emote-integration-logo
       source="Twitch"
-      class="h-6 w-6 translate-y-0.5"
+      class="size-6 translate-y-0.5"
     />
   </nuxt-link>
 </template>
