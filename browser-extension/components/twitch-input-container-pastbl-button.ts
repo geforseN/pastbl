@@ -39,7 +39,7 @@ export function createMutationObserver(consola: ConsolaInstance) {
       const button = createButton(() => {
         consola.log("clicked pastbl button");
       });
-      buttonsContainer.prepend(button);
+      buttonsContainer.append(button);
     }
   });
 }
