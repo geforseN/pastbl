@@ -14,22 +14,25 @@ describe("remote-pastas", () => {
         });
 
         test.for([
-          "foo",
-          "",
-          "-1",
-          "0",
-        ])("cursor is null when %s", (cursor) => {
-          expect(parseQuery({ cursor })).toEqual({ cursor: null });
+          {},
+          { cursor: undefined },
+          { cursor: null },
+          { cursor: "foo" },
+          { cursor: "" },
+          { cursor: "-1" },
+          { cursor: "0" },
+        ])("cursor is null when query is %o", (query) => {
+          expect(parseQuery(query)).toEqual({ cursor: null });
         });
 
         const number = 1;
         test.for([
-          `${number}`,
-          `${number}.0`,
-          `${number}.123`,
-          `${number}foo`,
-        ])(`cursor is ${number} when %s`, (cursor) => {
-          expect(parseQuery({ cursor })).toEqual({ cursor: number });
+          { cursor: `${number}` },
+          { cursor: `${number}.0` },
+          { cursor: `${number}.123` },
+          { cursor: `${number}foo` },
+        ])(`cursor is ${number} when query is %o`, (query) => {
+          expect(parseQuery(query)).toEqual({ cursor: number });
         });
       });
     });
