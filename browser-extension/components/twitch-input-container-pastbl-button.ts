@@ -36,7 +36,7 @@ function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) 
 
 export function createMutationObserver(consola: ConsolaInstance) {
   return new MutationObserver(() => {
-    consola.log({ where: "MutationObserver" });
+    consola.log({ where: "createMutationObserver" });
     let buttonsContainer: HTMLElement;
     try {
       buttonsContainer = getButtonContainer();
