@@ -12,8 +12,12 @@ function createButton(
   return button;
 }
 
-export function findButtonContainer() {
-  return document.querySelector(config.twitch["chat-input"]["buttons-container"].selector);
+export function findButtonContainer(container: ParentNode = document) {
+  return container.querySelector(config.twitch["chat-input"]["buttons-container"].selector);
+}
+
+function findButton(container: ParentNode) {
+  return container.querySelector(`.${styles.pastbl__button}`);
 }
 
 function getButtonContainer(): HTMLElement {
@@ -31,7 +35,7 @@ function getButtonContainer(): HTMLElement {
 
 function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) {
   consola.log({ buttonsContainer, where: "emplaceButton" });
-  if (!buttonsContainer.querySelector(`.${styles.pastbl__button}`)) {
+  if (!findButton(buttonsContainer)) {
     const button = createButton(() => {
       consola.log("clicked pastbl button");
     });
