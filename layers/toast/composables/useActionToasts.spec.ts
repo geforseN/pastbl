@@ -2,8 +2,8 @@ import { describe, it, vi, expect, afterEach, test } from "vitest";
 import { createRawActionToasts } from "../utils/create-raw-action-toasts.ts";
 import { additionalMethods, baseMethods } from "../internal/utils.ts";
 import { raiseToastMethod } from "../internal/raise-method.ts";
-import type { RawActionToastsMethods } from "../internal/types.ts";
 import { useActionToasts } from "./useActionToasts.ts";
+import type { RawActionToastsMethods } from "../internal/types.ts";
 
 function useTestActionToasts<
   N extends string,
@@ -142,8 +142,7 @@ describe("useActionToasts", async () => {
       expect(addToast).not.toHaveBeenCalled();
       try {
         actionToasts.raise("test");
-      }
-      catch {
+      } catch {
         expect(addToast).toHaveBeenCalledTimes(1);
       }
     });
@@ -208,8 +207,7 @@ describe("useActionToasts", async () => {
         try {
           // @ts-expect-error Argument of type '"baz"' is not assignable to parameter of type '"foo" | "fooArg"'.ts(2345)
           actionToasts.fail("baz");
-        }
-        catch {
+        } catch {
           expect(addToast).not.toHaveBeenCalled();
         }
       });

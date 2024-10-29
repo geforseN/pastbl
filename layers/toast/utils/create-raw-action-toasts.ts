@@ -3,13 +3,13 @@ import {
   raiseToastMethod,
 } from "../internal/raise-method";
 import { RawActionToastsMethods_ } from "../internal/raw-methods.ts";
+import { validTypes } from "../internal/utils.ts";
 import type {
   ContextifyActionToasts,
   PossibleProperty,
   RawActionToastMaker,
   RawActionToastsMethods,
 } from "../internal/types";
-import { validTypes } from "../internal/utils.ts";
 
 class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(
@@ -51,8 +51,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           const notification = success.apply(context, args);
           if (notification) {
             addToast(notification);
-          }
-          else {
+          } else {
             // eslint-disable-next-line no-console
             console.warn(
               "Success method returned falsy value, should return INotification",
@@ -87,8 +86,7 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
         }
         try {
           return this.methods.makeHandler(key, context, addToast);
-        }
-        catch (error) {
+        } catch (error) {
           assert.ok(
             error instanceof Error,
             new Error("Expected an error", { cause: error }),

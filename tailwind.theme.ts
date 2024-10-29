@@ -1,15 +1,15 @@
 /* c8 ignore start */
-import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
+import type { Config } from "tailwindcss";
 
 export default {
   screens: {
-    "xs": "420px",
-    "sm": defaultTheme.screens.sm,
-    "md": defaultTheme.screens.md,
+    xs: "420px",
+    sm: defaultTheme.screens.sm,
+    md: defaultTheme.screens.md,
     "go-brr": "890px",
-    "lg": defaultTheme.screens.lg,
-    "xl": defaultTheme.screens.xl,
+    lg: defaultTheme.screens.lg,
+    xl: defaultTheme.screens.xl,
     "2xl": defaultTheme.screens["2xl"],
   },
   extend: {

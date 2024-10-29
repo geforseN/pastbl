@@ -16,7 +16,7 @@
       >
         <span
           v-if="isPastaSame"
-          class="badge badge-error badge-lg hidden h-fit w-fit font-bold xl:block"
+          class="badge badge-error badge-lg hidden size-fit font-bold xl:block"
         >
           {{ $t("pasta.makeChangesIn") }}
         </span>
@@ -57,12 +57,12 @@
     </div>
     <span
       v-if="isPastaSame"
-      class="badge badge-error badge-lg h-fit w-fit font-bold"
+      class="badge badge-error badge-lg size-fit font-bold"
     >
       {{ $t("pasta.makeChangesIn") }}
     </span>
     <pasta-form-tags
-      class="xs:max-w-[420px]"
+      class="xs:max-w-screen-xs"
       :tags="tags"
       @remove-tag="(tag) => $emit('removeTag', tag)"
     />

@@ -22,7 +22,7 @@
     </div>
     <div
       :class="props.dropdownContentClass"
-      class="card dropdown-content compact z-[10] w-max rounded-box border bg-base-100 shadow"
+      class="card dropdown-content compact z-10 w-max rounded-box border bg-base-100 shadow"
     >
       <div class="card-body font-bold text-base-content">
         {{ $t("updated") }}

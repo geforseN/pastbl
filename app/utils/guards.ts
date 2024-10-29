@@ -64,8 +64,7 @@ export function isIsoDate2(string: string) {
     if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(string)) {
       return false;
     }
-  }
-  else if (!/\d{4}-\d{2}-\d{2}/.test(string)) {
+  } else if (!/\d{4}-\d{2}-\d{2}/.test(string)) {
     return false;
   }
   const d = new Date(string);

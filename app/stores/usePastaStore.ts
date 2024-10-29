@@ -7,8 +7,7 @@ function usePastaAddTag(
     try {
       pasta.addTag(newTag);
       tagInput.value = "";
-    }
-    catch (error) {
+    } catch (error) {
       __toast__.panic(error);
     }
   };

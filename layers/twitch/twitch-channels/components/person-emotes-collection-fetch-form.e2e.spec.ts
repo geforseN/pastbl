@@ -12,7 +12,7 @@ test("person emotes collection will show alert on bad input", async ({
     await expect(
       page
         .getByRole("alert")
-        .filter({ hasText: "Nickname is too short, min 3 characters" })
+        .filter({ hasText: "Nickname is too short, min 3 characters" }),
     ).toBeVisible();
   });
 
@@ -24,7 +24,7 @@ test("person emotes collection will show alert on bad input", async ({
     await expect(
       page
         .getByRole("alert")
-        .filter({ hasText: "Nickname is too long, max 25 characters" })
+        .filter({ hasText: "Nickname is too long, max 25 characters" }),
     ).toBeVisible();
   });
 });

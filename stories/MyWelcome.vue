@@ -2,7 +2,6 @@
   <h1> Welcome Nuxt to Storybook  </h1>
   <NuxtWelcome />
 </template>
-
 <style>
 .readmore {
     -webkit-text-size-adjust: 100%;

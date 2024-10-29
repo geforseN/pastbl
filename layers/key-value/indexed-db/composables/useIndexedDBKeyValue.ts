@@ -65,8 +65,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
         debounce: options.debounce ?? 500,
       },
     );
-  }
-  else {
+  } else {
     state.value = defaultValue;
     isLoading.value = false;
   }

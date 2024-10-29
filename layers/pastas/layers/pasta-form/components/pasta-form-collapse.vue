@@ -36,7 +36,7 @@
             class="flex translate-x-3.5 items-center gap-1"
           >
             <img
-              class="h-8 w-8 translate-y-1"
+              class="size-8 translate-y-1"
               src="https://cdn.7tv.app/emote/6306876cbe8c19d70f9d6b22/1x.webp"
               alt="Jokerge emote"
               width="34"

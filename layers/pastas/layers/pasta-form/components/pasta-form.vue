@@ -67,7 +67,7 @@
       </div>
     </div>
     <pasta-form-tags
-      class="xs:max-w-[420px]"
+      class="xs:max-w-screen-xs"
       :tags="pastaTags"
       @remove-tag="(tag) => emit('removeTag', tag)"
     />

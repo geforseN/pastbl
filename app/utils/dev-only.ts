@@ -25,8 +25,7 @@ export function withLogSync<T>(
     if (typeof optionsOrKey === "string") {
       // eslint-disable-next-line no-console
       console.log({ [optionsOrKey]: returnValue });
-    }
-    else {
+    } else {
       // eslint-disable-next-line no-console
       console.log({
         [optionsOrKey.logKey]: returnValue,
