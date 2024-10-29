@@ -15,38 +15,34 @@ function addPastblButton(buttonContainer: HTMLElement) {
   }
 }
 
-const chatInputButtonsContainerSelector = "chat-input__buttons-container";
+const chatInputButtonsContainerSelector = ".chat-input__buttons-container";
 
-function foo() {
+function getButtonContainer(): HTMLElement | null {
   const container = document.querySelector(chatInputButtonsContainerSelector);
-  if (!container) {
-    throw new Error("container not found");
+  if (container instanceof HTMLElement) {
+    return container;
   }
-  if (!(container instanceof HTMLElement)) {
-    const error = new Error("container is not HTMLElement");
-    error.context = { container };
-    throw error;
-  }
-  return container;
+  return null;
 }
 
 export default defineContentScript({
   matches: ["*://*.twitch.tv/*"],
   main() {
     console.log("hello from content script");
+
     const observer = new MutationObserver(() => {
-      console.log("hello from MutationObserver");
-      const buttonsContainer = foo();
-      console.log({ buttonsContainer, where: "MutationObserver" });
-      addPastblButton(buttonsContainer);
+      const buttonsContainer = getButtonContainer();
+      if (buttonsContainer) {
+        console.log({ buttonsContainer, where: "MutationObserver" });
+        addPastblButton(buttonsContainer);
+      }
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      console.log("hello from DOMContentLoaded");
-      const buttonsContainer = foo();
-      console.log({ buttonsContainer, where: "DOMContentLoaded" });
+    const buttonsContainer = getButtonContainer();
+    if (buttonsContainer) {
+      console.log({ buttonsContainer, where: "Initial Check" });
       addPastblButton(buttonsContainer);
-      observer.observe(buttonsContainer, { childList: true, subtree: true });
-    });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   },
 });
