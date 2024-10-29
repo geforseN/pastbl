@@ -1,6 +1,8 @@
-import styles from "../assets/button.module.css";
 import type { ConsolaInstance } from "consola";
-import { config } from "@/entrypoints/utils/config";
+import styles from "@/assets/button.module.css";
+import { config } from "@/utils/config";
+import { fetchPastas } from "@/utils/pastas";
+import { pastas } from "@/utils/pastas.store";
 
 function createButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
@@ -36,8 +38,14 @@ function getButtonContainer(): HTMLElement {
 function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) {
   consola.log({ buttonsContainer, where: "emplaceButton" });
   if (!findButton(buttonsContainer)) {
-    const button = createButton(() => {
-      consola.log("clicked pastbl button");
+    const button = createButton(async () => {
+      try {
+        consola.log("clicked pastbl button");
+        const json = await fetchPastas(consola);
+        pastas.value.push(...json.pastas);
+      } catch (error) {
+        consola.error(error);
+      }
     });
     buttonsContainer.append(button);
   }

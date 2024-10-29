@@ -1,12 +1,10 @@
-import { consola } from "consola";
-
-const _consola = consola.withTag("pastbl").withTag("browser-extension");
+import { consola } from "@/utils/consola";
 
 export default defineContentScript({
   matches: ["*://*.twitch.tv/*"],
   main() {
-    _consola.log("hello from content script");
-    const observer = createMutationObserver(_consola);
+    consola.log("hello from content script");
+    const observer = createMutationObserver(consola);
     const buttonsInterval = setInterval(() => {
       const container = findButtonContainer();
       if (container) {
