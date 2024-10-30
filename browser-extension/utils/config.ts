@@ -8,6 +8,9 @@ export const config = {
   },
   pastbl: {
     baseUrl: "https://pastbl.vercel.app",
+    auth: {
+      path: import.meta.env.WXT_AUTH_PATH || import.meta.env.WXT_GET_PASTAS_PATH + "/api/auth",
+    },
     pastas: {
       get: {
         path: import.meta.env.WXT_GET_PASTAS_PATH,

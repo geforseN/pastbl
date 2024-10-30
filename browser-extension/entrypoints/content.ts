@@ -1,6 +1,6 @@
 import { consola } from "@/utils/consola";
 import "@/assets/index.css";
-import App from "@/entrypoints/popup/App.vue";
+import PastblApp from "@/components/pastbl-app.vue";
 
 export default defineContentScript({
   matches: ["*://*.twitch.tv/*"],
@@ -9,6 +9,6 @@ export default defineContentScript({
     const div = document.createElement("div");
     div.id = "pastbl";
     document.body.append(div);
-    createApp(App).mount("#" + div.id);
+    createApp(PastblApp).mount("#" + div.id);
   },
 });
