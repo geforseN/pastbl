@@ -1,17 +1,14 @@
 import { consola } from "@/utils/consola";
-import { config } from "@/utils/config";
+import "@/assets/index.css";
+import App from "@/entrypoints/popup/App.vue";
 
 export default defineContentScript({
   matches: ["*://*.twitch.tv/*"],
-  main() {
+  main(_context) {
     consola.success("content script loaded");
-    const observer = createMutationObserver(consola);
-    const buttonsInterval = setInterval(() => {
-      const container = findButtonContainer();
-      if (container) {
-        observer.observe(container, { childList: true, subtree: true });
-        clearInterval(buttonsInterval);
-      }
-    }, config.pastbl.contentScript.pollInterval);
+    const div = document.createElement("div");
+    div.id = "pastbl";
+    document.body.append(div);
+    createApp(App).mount("#" + div.id);
   },
 });

@@ -1,6 +1,14 @@
 import { consola as _consola } from "@/utils/consola";
 
-export const pastas = ref<unknown[]>([]);
+export type XPasta = {
+  id: number;
+  text: string;
+  publishedAt: string;
+  publicity: string;
+  tags: string[];
+};
+
+export const pastas = ref<XPasta[]>([]);
 
 const consola = _consola.withTag("pastas.store");
 

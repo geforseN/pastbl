@@ -1,26 +1,51 @@
-import type { ConsolaInstance } from "consola";
+import type { XPasta } from "./pastas.store";
 import { config } from "@/utils/config";
 
-export async function fetchPastas(consola: ConsolaInstance) {
-  consola = consola.withTag("fetchPastas");
+export async function fetchPastas() {
+  const xConsola = consola.withTag("fetchPastas");
   const options = config.pastbl.pastas.get;
   const response = await fetch(options.path, options.init);
+  if (!response.ok) {
+    throw new Error(`HTTP error, status = ${response.status}`);
+  }
   const json: unknown = await response.json();
   if (typeof json !== "object" || json === null) {
     throw new Error(`json is not an object, json is ${json}`);
   }
-  let pastas: unknown[] = [];
+  let pastas: XPasta[] = [];
   if (!("pastas" in json)) {
-    consola.warn("Expected json to contain pastas", { json });
+    xConsola.warn("Expected json to contain pastas", { json });
     pastas = [];
-  } else if (!Array.isArray(json.pastas)) {
-    consola.warn(
+  } else if (Array.isArray(json.pastas)) {
+    const parsedPastas = json.pastas.filter((value): value is Record<string, unknown> => {
+      const isObject = typeof value === "object" && value !== null;
+      if (!isObject) {
+        xConsola.warn("Wrong pasta provided", { value });
+      }
+      return isObject;
+    },
+    ).filter((object): object is {
+      id: number;
+      text: string;
+      publishedAt: string;
+      publicity: string;
+      tags: string[];
+    } => {
+      return (
+        typeof object.id === "number"
+        && typeof object.text === "string"
+        && typeof typeof object.publishedAt === "string"
+        && (object.publicity === "private" || object.publicity === "public")
+        && Array.isArray(object.tags) && object.tags.every((tag) => typeof tag === "string")
+      );
+    });
+    pastas = parsedPastas;
+  } else {
+    xConsola.warn(
       "Expected json.pastas to be an array",
       { pastas },
     );
     pastas = [];
-  } else {
-    pastas = json.pastas;
   }
 
   return { ...json, pastas };
