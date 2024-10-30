@@ -5,4 +5,7 @@ export default defineConfig({
   manifest: {
     name: "pastbl",
   },
+  runner: {
+    chromiumArgs: ["--user-data-dir=./.wxt/chrome-data"],
+  },
 });
