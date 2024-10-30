@@ -10,9 +10,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-defineProps<{
-  msg: string;
-}>();
 </script>
 <style scoped>
 .read-the-docs {
