@@ -16,5 +16,8 @@ export const config = {
         } satisfies RequestInit,
       },
     },
+    contentScript: {
+      pollInterval: 300,
+    },
   },
 } as const;

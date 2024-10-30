@@ -4,6 +4,7 @@ import { config } from "@/utils/config";
 import { fetchPastas } from "@/utils/pastas";
 import { pastas } from "@/utils/pastas.store";
 
+// TODO: use vue component
 function createButton(
   clickListener: (this: HTMLButtonElement, event: MouseEvent) => void,
 ) {
@@ -29,14 +30,18 @@ function getButtonContainer(): HTMLElement {
   }
   if (!(container instanceof HTMLElement)) {
     const error = new Error("container is not an HTMLElement");
-    (error as any).context = { container };
+    // @ts-expect-error Property 'context' does not exist on type 'Error'.ts(2339)
+    error.context = { container };
     throw error;
   }
   return container;
 }
 
+// TODO: change append strategy
+// should check children for their chider
+// must insert button at left side
 function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) {
-  consola.log({ buttonsContainer, where: "emplaceButton" });
+  consola = consola.withTag("emplaceButton");
   if (!findButton(buttonsContainer)) {
     const button = createButton(async () => {
       try {
@@ -52,15 +57,13 @@ function emplaceButton(buttonsContainer: HTMLElement, consola: ConsolaInstance) 
 }
 
 export function createMutationObserver(consola: ConsolaInstance) {
+  consola = consola.withTag("createMutationObserver");
   return new MutationObserver(() => {
-    consola.log({ where: "createMutationObserver" });
-    let buttonsContainer: HTMLElement;
     try {
-      buttonsContainer = getButtonContainer();
+      const buttonsContainer = getButtonContainer();
+      emplaceButton(buttonsContainer, consola);
     } catch (e) {
       consola.error(e);
-      return;
     }
-    emplaceButton(buttonsContainer, consola);
   });
 }

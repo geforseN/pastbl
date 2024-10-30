@@ -1,9 +1,10 @@
 import { consola } from "@/utils/consola";
+import { config } from "@/utils/config";
 
 export default defineContentScript({
   matches: ["*://*.twitch.tv/*"],
   main() {
-    consola.log("hello from content script");
+    consola.success("content script loaded");
     const observer = createMutationObserver(consola);
     const buttonsInterval = setInterval(() => {
       const container = findButtonContainer();
@@ -11,6 +12,6 @@ export default defineContentScript({
         observer.observe(container, { childList: true, subtree: true });
         clearInterval(buttonsInterval);
       }
-    }, 1000);
+    }, config.pastbl.contentScript.pollInterval);
   },
 });
