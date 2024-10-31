@@ -3,7 +3,7 @@
     :class="[
       !isContainerVisible && 'pointer-events-none',
     ]"
-    class="relative z-40 h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
+    class="absolute bottom-0 right-1/2 z-40 h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
   >
     <div
       v-if="status === 'loading' && isContainerVisible"
