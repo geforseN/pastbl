@@ -1,6 +1,7 @@
 <template>
   <div
     class="border border-b-0 px-2 py-1 text-base last:border-b"
+    @click="tryRemovePastaActionsElement"
     @contextmenu="onContextMenu"
   >
     {{ nickname }}: {{ text }}
@@ -18,12 +19,17 @@ const emit = defineEmits<{
   send: [];
 }>();
 
-function createPastaActionsElement(event: PointerEvent) {
-  const ID = "pasta-actions";
+const ID = "pasta-actions";
+
+function tryRemovePastaActionsElement() {
   const old = document.querySelector("#" + ID);
   if (old) {
     old.remove();
   }
+}
+
+function createPastaActionsElement(event: PointerEvent) {
+  tryRemovePastaActionsElement();
   const container = document.createElement("div");
   container.id = ID;
   container.style.width = "auto";
