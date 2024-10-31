@@ -17,7 +17,7 @@
       v-show="isContainerVisible"
       class="flex h-full flex-col-reverse items-center bg-purple-900 p-2"
     >
-      <x-pastas-list
+      <pastbl-pastas-list
         v-if="status === 'ready'"
         class="bg-base-100 text-base-content"
         :pastas
@@ -58,7 +58,7 @@
 </template>
 <script setup lang="ts">
 import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
-import XPastasList from "~/components/x-pastas-list.vue";
+import PastblPastasList from "~/components/pastbl-pastas-list.vue";
 import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import { isNotAuthorizedError } from "~/utils/pastas";
 import { fetchFirstPastas, copyPasta, sendPasta } from "~/utils/handlers";

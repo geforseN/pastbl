@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col overflow-auto border-b">
-    <x-pasta
+    <pastbl-pasta
       v-for="pasta in pastas"
       :key="pasta.id"
       v-bind="pasta"
@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import type { XPasta } from "~/utils/pastas.store";
-import xPasta from "~/components/x-pasta.vue";
+import PastblPasta from "~/components/pastbl-pasta.vue";
 
 defineProps<{
   pastas: XPasta[];
