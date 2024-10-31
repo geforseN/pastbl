@@ -4,8 +4,7 @@
     target="_blank"
     class="btn btn-primary"
   >
-    <!-- TODO: i18n browser extension api -->
-    Login with Twitch
+    {{ i18n.t('loginWithTwitch') }}
   </a>
 </template>
 <script setup lang="ts">
