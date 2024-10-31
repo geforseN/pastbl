@@ -1,15 +1,11 @@
 <template>
   <a
-    :href="config.pastbl.auth.path"
+    :href="config.pastbl.auth.twitch.path"
     target="_blank"
-    class="group btn btn-ghost w-fit flex-nowrap bg-twitch-accent text-base-300 xs:w-auto"
+    class="btn btn-primary"
   >
-    <span
-      class="text-lg/1 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
-    >
-      <!-- TODO: i18n browser extension api -->
-      Auth to Twitch
-    </span>
+    <!-- TODO: i18n browser extension api -->
+    Login with Twitch
   </a>
 </template>
 <script setup lang="ts">
