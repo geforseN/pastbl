@@ -1,16 +1,14 @@
 <template>
   <div
-    class="border border-b-0 px-2 py-1 text-base last:border-b"
+    class="px-2 py-1 text-2xl"
     @click="tryRemovePastaActionsElement"
     @contextmenu="onContextMenu"
   >
-    {{ nickname }}: {{ text }}
+    {{ text }}
   </div>
 </template>
 <script setup lang="ts">
 import type { XPasta } from "@/utils/pastas.store";
-
-const nickname = inject("nickname", "geforsen");
 
 defineProps<XPasta>();
 
@@ -28,37 +26,64 @@ function tryRemovePastaActionsElement() {
   }
 }
 
-function createPastaActionsElement(event: PointerEvent) {
-  tryRemovePastaActionsElement();
+function createButtonsContainer({ left, top, buttons }: {
+  left: string;
+  top: string;
+  buttons: HTMLButtonElement[];
+}) {
   const container = document.createElement("div");
   container.id = ID;
   container.style.width = "auto";
   container.style.height = "auto";
   container.style.backgroundColor = "black";
   container.style.position = "absolute";
-  container.style.left = `${event.pageX}px`;
-  container.style.top = `${event.pageY}px`;
+  container.style.left = left;
+  container.style.top = top;
   container.style.zIndex = "99999";
-  const copyPastaButton = document.createElement("button");
-  copyPastaButton.classList.add("btn", "btn-xs", "btn-secondary");
-  copyPastaButton.textContent = "copy";
-  function copyPastaButtonListener() {
-    emit("copy");
-    container.remove();
-    copyPastaButton.removeEventListener("click", copyPastaButtonListener);
+  for (const button of buttons) {
+    container.append(button);
   }
-  copyPastaButton.addEventListener("click", copyPastaButtonListener);
-  container.append(copyPastaButton);
-  const sendPastaButton = document.createElement("button");
-  sendPastaButton.classList.add("btn", "btn-xs", "btn-primary");
-  sendPastaButton.textContent = "send";
-  function sendPastaButtonListener() {
-    emit("send");
-    container.remove();
-    sendPastaButton.removeEventListener("click", sendPastaButtonListener);
-  }
-  sendPastaButton.addEventListener("click", sendPastaButtonListener);
-  container.append(sendPastaButton);
+  return container;
+}
+
+function createActionButton({ textContent, classes, onClick }: {
+  textContent: string;
+  classes: string[];
+  onClick: (this: HTMLButtonElement, event: Event) => void;
+}) {
+  const button = document.createElement("button");
+  button.classList.add("btn", "text-2xl", ...classes);
+  button.textContent = textContent;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createPastaActionsElement(event: PointerEvent) {
+  tryRemovePastaActionsElement();
+  const container = createButtonsContainer({
+    left: `${event.pageX}px`,
+    top: `${event.pageY}px`,
+    buttons: [
+      createActionButton({
+        textContent: "copy",
+        classes: ["btn", "text-2xl", "btn-secondary"],
+        onClick() {
+          emit("copy");
+          container.remove();
+          // copyPastaButton.removeEventListener("click", copyPastaButtonListener);
+        },
+      }),
+      createActionButton({
+        textContent: "send",
+        classes: ["btn", "text-2xl", "btn-primary"],
+        onClick() {
+          emit("send");
+          container.remove();
+          // sendPastaButton.removeEventListener("click", sendPastaButtonListener);
+        },
+      }),
+    ],
+  });
   return container;
 }
 
@@ -71,3 +96,13 @@ function onContextMenu(event: Event) {
   document.body.append(pastaActionsElement);
 }
 </script>
+<style scoped>
+div {
+  border: 1px solid black;
+  border-bottom: none;
+}
+
+div:last-child {
+  border-bottom: 1px solid black;
+}
+</style>
