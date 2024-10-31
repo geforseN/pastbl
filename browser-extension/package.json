@@ -26,6 +26,7 @@
     "wxt": "^0.19.11"
   },
   "dependencies": {
+    "@vueuse/core": "^11.1.0",
     "@wxt-dev/i18n": "^0.2.3",
     "consola": "^3.2.3",
     "vue": "^3.5.11"

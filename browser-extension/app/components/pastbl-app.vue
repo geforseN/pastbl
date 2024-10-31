@@ -17,13 +17,18 @@
       v-show="appVisibility.isVisible"
       class="flex h-full flex-col-reverse items-center bg-purple-900 p-2"
     >
-      <pastbl-pastas-list
+      <pastbl-with-active-pasta-action-buttons
         v-if="pastasLoad.status === 'ready'"
-        class="size-full bg-base-100 text-base-content"
-        :pastas
-        @copy="copyPasta"
-        @send="sendPasta"
-      />
+        class="size-full"
+        #="{ showActions }"
+      >
+        <pastbl-pasta-actions-hint />
+        <pastbl-pastas-list
+          class="overflow-x-auto bg-base-100 text-base-content"
+          :pastas
+          v-on="{ showActions }"
+        />
+      </pastbl-with-active-pasta-action-buttons>
       <div
         v-if="pastasLoad.status === 'not-authorized'"
         class="flex flex-col items-center gap-2"
@@ -60,7 +65,8 @@
 import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
 import PastblPastasList from "~/components/pastbl-pastas-list.vue";
 import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
-import { copyPasta, sendPasta } from "~/utils/handlers";
+import PastblWithActivePastaActionButtons from "~/components/pastbl-with-active-pasta-actions.vue";
+import PastblPastaActionsHint from "~/components/pastbl-pasta-actions-hint.vue";
 import { usePastasLoad } from "~/composables/usePastasLoad";
 import { useVisibility } from "~/composables/useVisibility";
 

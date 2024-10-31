@@ -1,24 +1,39 @@
 <template>
-  <div class="flex flex-col overflow-auto">
+  <div
+    class="flex h-full flex-col overflow-x-auto"
+    @contextmenu="onContextMenu"
+  >
     <pastbl-pasta
-      v-for="pasta in pastas"
+      v-for="(pasta, index) in pastas"
       :key="pasta.id"
+      :data-pasta-index="index"
       v-bind="pasta"
-      @copy="$emit('copy', pasta)"
-      @send="$emit('send', pasta)"
     />
   </div>
 </template>
 <script setup lang="ts">
 import type { XPasta } from "~/utils/pastas.store";
 import PastblPasta from "~/components/pastbl-pasta.vue";
+import { findPasta, getCoords } from "@/utils/pastbl-pastas-list";
 
 defineProps<{
   pastas: XPasta[];
 }>();
 
-defineEmits<{
-  copy: [pasta: XPasta];
-  send: [pasta: XPasta];
+const emit = defineEmits<{
+  showActions: [pasta: XPasta, coords: { x: number; y: number }];
 }>();
+
+function onContextMenu(event: Event) {
+  if (!(event instanceof PointerEvent)) {
+    throw new TypeError("event must be a PointerEvent instance");
+  }
+  event.preventDefault();
+  if (!(event.target instanceof HTMLElement)) {
+    throw new TypeError("event.target is not an HTMLElement");
+  }
+  const pasta = findPasta(event.target);
+  const coords = getCoords(event);
+  emit("showActions", pasta, coords);
+}
 </script>
