@@ -6,7 +6,7 @@
     class="absolute bottom-0 right-1/2 z-40 h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
   >
     <div
-      v-if="status === 'loading' && isContainerVisible"
+      v-if="pastasLoad.status === 'loading' && isContainerVisible"
       class="absolute inset-0 animate-pulse bg-gray-400"
     />
     <pastbl-rounded-button
@@ -18,14 +18,14 @@
       class="flex h-full flex-col-reverse items-center bg-purple-900 p-2"
     >
       <pastbl-pastas-list
-        v-if="status === 'ready'"
-        class="bg-base-100 text-base-content"
+        v-if="pastasLoad.status === 'ready'"
+        class="size-full bg-base-100 text-base-content"
         :pastas
         @copy="copyPasta"
         @send="sendPasta"
       />
       <div
-        v-if="status === 'not-authorized'"
+        v-if="pastasLoad.status === 'not-authorized'"
         class="flex flex-col items-center gap-2"
       >
         <span class="text-lg">
@@ -40,7 +40,7 @@
         <pastbl-login-with-twitch />
       </div>
       <div
-        v-if="status === 'unknown-error'"
+        v-if="pastasLoad.status === 'unknown-error'"
         class="flex flex-col items-center text-lg"
       >
         {{ i18n.t('somethingWentWrong') }}
@@ -60,26 +60,15 @@
 import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
 import PastblPastasList from "~/components/pastbl-pastas-list.vue";
 import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
-import { isNotAuthorizedError } from "~/utils/pastas";
-import { fetchFirstPastas, copyPasta, sendPasta } from "~/utils/handlers";
+import { copyPasta, sendPasta } from "~/utils/handlers";
+import { usePastasLoad } from "@/composables/usePastasLoad";
 
 const isContainerVisible = ref(false);
 const toggleVisibility = () => isContainerVisible.value = !isContainerVisible.value;
 
-const status = ref<
-  | "loading"
-  | "ready"
-  | "not-authorized"
-  | "unknown-error"
->("loading");
+const pastasLoad = reactive(usePastasLoad());
 
 onMounted(async () => {
-  await fetchFirstPastas()
-    .then(() => status.value = "ready")
-    .catch((error) => {
-      status.value = isNotAuthorizedError(error)
-        ? "not-authorized"
-        : "unknown-error";
-    });
+  await pastasLoad.init(true);
 });
 </script>

@@ -34,19 +34,19 @@ export async function fetchPastas() {
       }
       return isObject;
     },
-    ).filter((object): object is {
-      id: number;
-      text: string;
-      publishedAt: string;
-      publicity: string;
-      tags: string[];
-    } => {
+    ).filter((object): object is XPasta => {
       return (
         typeof object.id === "number"
         && typeof object.text === "string"
         && typeof typeof object.publishedAt === "string"
         && (object.publicity === "private" || object.publicity === "public")
-        && Array.isArray(object.tags) && object.tags.every((tag) => typeof tag === "string")
+        && Array.isArray(object.tags)
+        && object.tags.every((tag) =>
+          tag !== null
+          && typeof tag === "object"
+          && "value" in tag
+          && typeof tag.value === "string",
+        )
       );
     });
     pastas = parsedPastas;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col overflow-auto border-b">
+  <div class="flex flex-col overflow-auto">
     <pastbl-pasta
       v-for="pasta in pastas"
       :key="pasta.id"

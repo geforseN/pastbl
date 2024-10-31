@@ -4,8 +4,11 @@ export type XPasta = {
   id: number;
   text: string;
   publishedAt: string;
+  lastUpdatedAt: string | null;
   publicity: string;
-  tags: string[];
+  tags: {
+    value: string;
+  }[];
 };
 
 export const pastas = ref<XPasta[]>([]);
