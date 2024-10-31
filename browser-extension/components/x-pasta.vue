@@ -52,7 +52,7 @@ function createActionButton({ textContent, classes, onClick }: {
   onClick: (this: HTMLButtonElement, event: Event) => void;
 }) {
   const button = document.createElement("button");
-  button.classList.add("btn", "text-2xl", ...classes);
+  button.classList.add(...classes);
   button.textContent = textContent;
   button.addEventListener("click", onClick);
   return button;
