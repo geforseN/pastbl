@@ -1,20 +1,20 @@
 <template>
   <div
     :class="[
-      !isContainerVisible && 'pointer-events-none',
+      !appVisibility.isVisible && 'pointer-events-none',
     ]"
     class="absolute bottom-0 right-1/2 z-40 h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
   >
     <div
-      v-if="pastasLoad.status === 'loading' && isContainerVisible"
+      v-if="pastasLoad.status === 'loading' && appVisibility.isVisible"
       class="absolute inset-0 animate-pulse bg-gray-400"
     />
     <pastbl-rounded-button
       class="pointer-events-auto visible absolute bottom-px right-px z-50 flex"
-      @click="toggleVisibility"
+      @click="appVisibility.toggle"
     />
     <div
-      v-show="isContainerVisible"
+      v-show="appVisibility.isVisible"
       class="flex h-full flex-col-reverse items-center bg-purple-900 p-2"
     >
       <pastbl-pastas-list
@@ -61,10 +61,10 @@ import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
 import PastblPastasList from "~/components/pastbl-pastas-list.vue";
 import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import { copyPasta, sendPasta } from "~/utils/handlers";
-import { usePastasLoad } from "@/composables/usePastasLoad";
+import { usePastasLoad } from "~/composables/usePastasLoad";
+import { useVisibility } from "~/composables/useVisibility";
 
-const isContainerVisible = ref(false);
-const toggleVisibility = () => isContainerVisible.value = !isContainerVisible.value;
+const appVisibility = reactive(useVisibility());
 
 const pastasLoad = reactive(usePastasLoad());
 
