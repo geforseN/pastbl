@@ -4,7 +4,7 @@ import type { Config } from "tailwindcss";
 
 export default {
   ...config,
-  content: ["assets/**", "entrypoints/**", "components/**"],
+  content: ["app/assets/**", "app/entrypoints/**", "app/components/**"],
   theme: {
     ...config.theme,
     extend: {
