@@ -18,7 +18,7 @@ export function sendPasta(pasta: XPasta) {
   consola.log("send", pasta.text);
 }
 
-export function trySaveExistingInputData(input: Element) {
+function trySaveExistingInputData(input: Element) {
   const stringElement = input.querySelector("[data-slate-string=\"true\"]");
   if (!stringElement) {
     return consola.withTag("sendPasta").debug("string element not found");
@@ -30,9 +30,3 @@ export function trySaveExistingInputData(input: Element) {
   navigator.clipboard.writeText(string);
   consola.withTag("sendPasta").log("saved existing input in clipboard", { string });
 }
-
-export const fetchFirstPastas = async () => {
-  consola.log("clicked pastbl button");
-  const json = await fetchPastas();
-  pastas.value.push(...json.pastas);
-};

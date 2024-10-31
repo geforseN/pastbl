@@ -1,16 +1,6 @@
 import type { XPasta } from "~/utils/pastas.store";
 import { config } from "~/utils/config";
 
-export class NotAuthorizedError extends Error {
-  constructor() {
-    super("Not authorized");
-  }
-}
-
-export const isNotAuthorizedError = (
-  error: unknown,
-): error is NotAuthorizedError => error instanceof NotAuthorizedError;
-
 export async function fetchPastas() {
   const xConsola = consola.withTag("fetchPastas");
   const options = config.pastbl.pastas.get;

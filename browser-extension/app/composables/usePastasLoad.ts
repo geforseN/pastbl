@@ -20,15 +20,17 @@ export function usePastasLoad() {
         pastas.value = module.default;
         return;
       }
-
+      status.value = "loading";
       consola.debug("loading pastas");
-      await fetchFirstPastas()
-        .then(() => status.value = "ready")
-        .catch((error) => {
-          status.value = isNotAuthorizedError(error)
-            ? "not-authorized"
-            : "unknown-error";
-        });
+      try {
+        const response = await fetchPastas();
+        pastas.value.push(...response.pastas);
+        status.value = "ready";
+      } catch (error) {
+        status.value = isNotAuthorizedError(error)
+          ? "not-authorized"
+          : "unknown-error";
+      }
     },
   };
 }
