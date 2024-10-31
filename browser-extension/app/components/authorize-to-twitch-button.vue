@@ -8,5 +8,5 @@
   </a>
 </template>
 <script setup lang="ts">
-import { config } from "@/utils/config";
+import { config } from "~/utils/config";
 </script>

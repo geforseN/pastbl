@@ -1,5 +1,5 @@
-import type { XPasta } from "./pastas.store";
-import { config } from "@/utils/config";
+import type { XPasta } from "~/utils/pastas.store";
+import { config } from "~/utils/config";
 
 export class NotAuthorizedError extends Error {
   constructor() {

@@ -1,6 +1,6 @@
-import { consola } from "@/utils/consola";
-import "@/assets/index.css";
-import PastblApp from "@/components/pastbl-app.vue";
+import "~/assets/index.css";
+import { consola } from "~/utils/consola";
+import PastblApp from "~/components/pastbl-app.vue";
 
 const xConsola = consola.withTag("twitch");
 

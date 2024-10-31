@@ -10,12 +10,12 @@
 <!-- TODO: move logic to parent, reuse context menu actions -->
 <!-- FIXME: close actions on <pastbl-rounded-button /> press -->
 <script setup lang="ts">
-import type { XPasta } from "@/utils/pastas.store";
+import type { XPasta } from "~/utils/pastas.store";
 import {
   createActionButton,
   createButtonsContainer,
   tryRemovePastaActionsElement,
-} from "@/utils/x-pasta";
+} from "~/utils/x-pasta";
 
 defineProps<XPasta>();
 

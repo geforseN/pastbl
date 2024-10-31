@@ -57,11 +57,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import PastblRoundedButton from "@/components/pastbl-rounded-button.vue";
-import XPastasList from "@/components/x-pastas-list.vue";
-import AuthorizeToTwitchButton from "@/components/authorize-to-twitch-button.vue";
-import { isNotAuthorizedError } from "@/utils/pastas";
-import { fetchFirstPastas, copyPasta, sendPasta } from "@/utils/handlers";
+import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
+import XPastasList from "~/components/x-pastas-list.vue";
+import AuthorizeToTwitchButton from "~/components/authorize-to-twitch-button.vue";
+import { isNotAuthorizedError } from "~/utils/pastas";
+import { fetchFirstPastas, copyPasta, sendPasta } from "~/utils/handlers";
 
 const isContainerVisible = ref(false);
 const toggleVisibility = () => isContainerVisible.value = !isContainerVisible.value;

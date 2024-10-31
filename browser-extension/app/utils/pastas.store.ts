@@ -1,4 +1,4 @@
-import { consola as _consola } from "@/utils/consola";
+import { consola as _consola } from "~/utils/consola";
 
 export type XPasta = {
   id: number;

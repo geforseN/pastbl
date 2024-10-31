@@ -1,6 +1,6 @@
 import { createApp } from "vue";
+import PastblApp from "~/components/pastbl-app.vue";
+import "~/assets/index.css";
 import "./style.css";
-import "./../../assets/index.css";
-import PastblApp from "../../components/pastbl-app.vue";
 
 createApp(PastblApp).mount("#app");

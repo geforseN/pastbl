@@ -10,8 +10,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { XPasta } from "@/utils/pastas.store";
-import xPasta from "@/components/x-pasta.vue";
+import type { XPasta } from "~/utils/pastas.store";
+import xPasta from "~/components/x-pasta.vue";
 
 defineProps<{
   pastas: XPasta[];
