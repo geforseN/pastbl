@@ -70,7 +70,6 @@ function createPastaActionsElement(event: PointerEvent) {
         onClick() {
           emit("copy");
           container.remove();
-          // copyPastaButton.removeEventListener("click", copyPastaButtonListener);
         },
       }),
       createActionButton({
@@ -79,7 +78,6 @@ function createPastaActionsElement(event: PointerEvent) {
         onClick() {
           emit("send");
           container.remove();
-          // sendPastaButton.removeEventListener("click", sendPastaButtonListener);
         },
       }),
     ],
