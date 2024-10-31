@@ -1,4 +1,3 @@
-import daisyuiThemes from "daisyui/src/theming/themes";
 import daisyui from "daisyui";
 import config from "../tailwind.config";
 import type { Config } from "tailwindcss";
