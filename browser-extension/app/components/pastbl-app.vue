@@ -37,7 +37,7 @@
             pastbl
           </a>
         </span>
-        <authorize-to-twitch-button />
+        <pastbl-login-with-twitch />
       </div>
       <div
         v-if="status === 'unknown-error'"
@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import PastblRoundedButton from "~/components/pastbl-rounded-button.vue";
 import XPastasList from "~/components/x-pastas-list.vue";
-import AuthorizeToTwitchButton from "~/components/authorize-to-twitch-button.vue";
+import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import { isNotAuthorizedError } from "~/utils/pastas";
 import { fetchFirstPastas, copyPasta, sendPasta } from "~/utils/handlers";
 
