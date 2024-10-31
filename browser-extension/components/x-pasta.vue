@@ -7,59 +7,21 @@
     {{ text }}
   </div>
 </template>
+<!-- TODO: move logic to parent, reuse context menu actions -->
+<!-- FIXME: close actions on <pastbl-rounded-button /> press -->
 <script setup lang="ts">
 import type { XPasta } from "@/utils/pastas.store";
+import {
+  createActionButton,
+  createButtonsContainer,
+  tryRemovePastaActionsElement,
+} from "@/utils/x-pasta";
 
 defineProps<XPasta>();
 
-const emit = defineEmits<{
-  copy: [];
-  send: [];
-}>();
-
-const ID = "pasta-actions";
-
-function tryRemovePastaActionsElement() {
-  const old = document.querySelector("#" + ID);
-  if (old) {
-    old.remove();
-  }
-}
-
-function createButtonsContainer({ left, top, buttons }: {
-  left: string;
-  top: string;
-  buttons: HTMLButtonElement[];
-}) {
-  const container = document.createElement("div");
-  container.id = ID;
-  container.style.width = "auto";
-  container.style.height = "auto";
-  container.style.backgroundColor = "black";
-  container.style.position = "absolute";
-  container.style.left = left;
-  container.style.top = top;
-  container.style.zIndex = "99999";
-  for (const button of buttons) {
-    container.append(button);
-  }
-  return container;
-}
-
-function createActionButton({ textContent, classes, onClick }: {
-  textContent: string;
-  classes: string[];
-  onClick: (this: HTMLButtonElement, event: Event) => void;
-}) {
-  const button = document.createElement("button");
-  button.classList.add(...classes);
-  button.textContent = textContent;
-  button.addEventListener("click", onClick);
-  return button;
-}
+const emit = defineEmits(["copy", "send"]);
 
 function createPastaActionsElement(event: PointerEvent) {
-  tryRemovePastaActionsElement();
   const container = createButtonsContainer({
     left: `${event.pageX}px`,
     top: `${event.pageY}px`,
@@ -90,6 +52,7 @@ function onContextMenu(event: Event) {
     throw new TypeError("event must be a PointerEvent");
   }
   event.preventDefault();
+  tryRemovePastaActionsElement();
   const pastaActionsElement = createPastaActionsElement(event);
   document.body.append(pastaActionsElement);
 }
