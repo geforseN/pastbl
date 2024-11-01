@@ -15,6 +15,7 @@
           }
           else {
             copyPasta(pasta_)
+            closeActions();
           }
         }"
       >
