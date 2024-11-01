@@ -1,6 +1,6 @@
 import "~/assets/index.css";
-import { consola } from "~/utils/consola";
 import PastblApp from "~/components/pastbl-app.vue";
+import { consola } from "~/utils/consola";
 import type { ContentScriptContext } from "wxt/client";
 
 async function createUI(context: ContentScriptContext) {
@@ -11,6 +11,7 @@ async function createUI(context: ContentScriptContext) {
     onMount(documentBody) {
       const div = document.createElement("div");
       documentBody.append(div);
+      div.classList.add("absolute", "bottom-0", "right-1/2", "z-40");
       const app = createApp(PastblApp);
       app.mount(div);
       return app;

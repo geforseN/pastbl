@@ -3,7 +3,7 @@
     :class="[
       !appVisibility.isVisible && 'pointer-events-none',
     ]"
-    class="absolute bottom-0 right-1/2 z-40 h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
+    class="relative h-[400px] w-[320px] overflow-hidden rounded-lg rounded-br-3xl"
   >
     <div
       v-if="pastasLoad.status === 'loading' && appVisibility.isVisible"
