@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between gap-1 border-base-content bg-base-100 px-2 text-base-content">
+  <div class="flex items-center justify-between gap-1 rounded border border-base-content/50 bg-base-100 px-3 py-1 text-base-content">
     <label
       :for="id"
       class="cursor-pointer"
