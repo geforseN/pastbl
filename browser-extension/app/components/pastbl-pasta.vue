@@ -1,6 +1,19 @@
 <template>
-  <div class="border-2 border-b-0 px-2 py-1 text-2xl last:border-b-2">
-    {{ text }}
+  <div class="flex flex-col border-2 border-b-0 px-2 py-1 text-2xl last:border-b-2">
+    <span class="text-[1.3rem]">{{ text }}</span>
+    <div
+      v-if="tags.length > 0"
+      class="-mb-0.5 mt-0.5 inline-flex flex-wrap gap-0.5"
+    >
+      <div
+        v-for="tag in tags.map(tag => tag.value)"
+        :key="tag"
+        class="line-clamp-2 w-fit break-all rounded-lg bg-info px-1 py-0.5 text-info-content"
+        :class="tag.startsWith('@') && 'bg-twitch-accent'"
+      >
+        {{ tag }}
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
