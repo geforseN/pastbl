@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-full flex-col overflow-x-auto"
+    class="flex flex-col overflow-y-auto bg-base-100 text-base-content"
     @contextmenu="onContextMenu"
   >
     <pastbl-pasta

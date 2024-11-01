@@ -10,21 +10,20 @@
       class="absolute inset-0 animate-pulse bg-gray-400"
     />
     <pastbl-rounded-button
-      class="pointer-events-auto visible absolute bottom-px right-px z-50 flex"
+      class="pointer-events-auto absolute bottom-0 right-0 z-50"
       @click="appVisibility.toggle"
     />
     <div
       v-show="appVisibility.isVisible"
-      class="flex h-full flex-col-reverse items-center bg-purple-900 p-2"
+      class="h-full"
     >
       <pastbl-with-active-pasta-action-buttons
         v-if="pastasLoad.status === 'ready'"
-        class="size-full"
+        class="flex h-full flex-col items-center bg-purple-900 p-2"
         #="{ showActions }"
       >
         <pastbl-pasta-actions-hint />
         <pastbl-pastas-list
-          class="overflow-x-auto bg-base-100 text-base-content"
           :pastas
           v-on="{ showActions }"
         />
@@ -33,30 +32,15 @@
         v-if="pastasLoad.status === 'not-authorized'"
         class="flex flex-col items-center gap-2"
       >
-        <span class="text-lg">
-          {{ i18n.t('youAreNotAuthorizedTo') }}
-          <a
-            class="link"
-            :href="config.pastbl.baseUrl"
-          >
-            pastbl
-          </a>
-        </span>
+        <pastbl-not-authorized-hint />
         <pastbl-login-with-twitch />
       </div>
       <div
         v-if="pastasLoad.status === 'unknown-error'"
         class="flex flex-col items-center text-lg"
       >
-        {{ i18n.t('somethingWentWrong') }}
-        <!-- eslint-disable @stylistic/max-len  -->
-        <a
-          class="link link-accent"
-          href="https://github.com/geforseN/pastbl/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="
-        >
-          <!-- eslint-enable @stylistic/max-len  -->
-          {{ i18n.t('createIssueHere') }}
-        </a>
+        <pastbl-something-went-wrong />
+        <pastbl-describe-issue-here />
       </div>
     </div>
   </div>
@@ -67,6 +51,9 @@ import PastblPastasList from "~/components/pastbl-pastas-list.vue";
 import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import PastblWithActivePastaActionButtons from "~/components/pastbl-with-active-pasta-actions.vue";
 import PastblPastaActionsHint from "~/components/pastbl-pasta-actions-hint.vue";
+import PastblNotAuthorizedHint from "~/components/pastbl-not-authorized-hint.vue";
+import PastblSomethingWentWrong from "~/components/pastbl-something-went-wrong.vue";
+import PastblDescribeIssueHere from "~/components/pastbl-describe-issue-here.vue";
 import { usePastasLoad } from "~/composables/usePastasLoad";
 import { useVisibility } from "~/composables/useVisibility";
 
