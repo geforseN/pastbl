@@ -19,7 +19,7 @@
     >
       <pastbl-with-active-pasta-action-buttons
         v-if="pastasLoad.status === 'ready'"
-        class="flex h-full flex-col items-center bg-purple-900 p-2"
+        class="flex h-full flex-col items-center bg-purple-900 p-2 text-white"
         #="{ showActions }"
       >
         <pastbl-pasta-actions-hint />
