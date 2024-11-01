@@ -6,6 +6,7 @@ export default defineConfig({
   manifest: {
     name: "pastbl",
     default_locale: "en",
+    permissions: ["storage"],
   },
   runner: {
     chromiumArgs: ["--user-data-dir=./.wxt/chrome-data"],
