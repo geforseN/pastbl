@@ -20,7 +20,7 @@
             }
           }"
         >
-          copy
+          {{ i18n.t('copy') }}
         </button>
         <div
           :title="i18n.t('notImplementedYet')"
@@ -30,7 +30,7 @@
             disabled
             @click="() => { /** FIXME */ }"
           >
-            send
+            {{ i18n.t('send') }}
           </button>
         </div>
       </div>
