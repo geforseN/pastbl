@@ -1,5 +1,3 @@
-import type { Nullish } from "@/utils/types";
-
 export type PastasLoadStatus =
   | "unstarted"
   | "initializing"

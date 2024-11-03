@@ -37,13 +37,13 @@
 <script setup lang="ts">
 import { fetchPastas } from "~/utils/pastas";
 import { pastas, cursor } from "~/utils/pastas.store";
+import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
 import AppBottomNav from "~/components/app/app-bottom-nav.vue";
 import AppMainButton from "~/components/app/app-main-button.vue";
-import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
-import CreatePastasTab from "@/components/app/tabs/create-pastas-tab.vue";
-import ListPastasTab from "@/components/app/tabs/list-pastas-tab.vue";
+import CreatePastasTab from "~/components/app/tabs/create-pastas-tab.vue";
+import ListPastasTab from "~/components/app/tabs/list-pastas-tab.vue";
 
 const pastasLoad = reactive(useLazyPastasLoad(fetchPastas));
 
