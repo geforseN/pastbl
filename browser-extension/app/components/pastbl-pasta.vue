@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col border-2 border-b-0 px-2 py-1 text-2xl last:border-b-2">
+  <div class="flex flex-col px-2 py-1 text-2xl">
     <span class="text-[1.3rem]">{{ text }}</span>
     <div
       v-if="tags.length > 0"

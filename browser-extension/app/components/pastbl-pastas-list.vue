@@ -2,12 +2,13 @@
   <div
     ref="container"
     :class="remotePastas.isLoading && loadingClass"
-    class="flex flex-col overflow-y-auto bg-base-100 text-base-content"
+    class="flex flex-col divide-y overflow-y-auto border bg-base-100 text-base-content"
     @contextmenu="onContextMenu"
   >
     <pastbl-pasta
       v-for="(pasta, index) in pastas"
       :key="pasta.id"
+      class="border-r"
       :data-pasta-index="index"
       v-bind="pasta"
     />

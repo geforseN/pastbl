@@ -1,5 +1,5 @@
 <template>
-  <p class="text-lg">
+  <p>
     {{ i18n.t('rightClickOnPastaToSeeActions') }}
   </p>
 </template>

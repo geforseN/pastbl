@@ -3,7 +3,7 @@
     <slot :show-actions />
     <div
       v-on-click-outside="closeActions"
-      class="absolute"
+      class="absolute z-10 "
       :hidden="!pasta_"
       :style="buttonsContainerStyle"
     >
