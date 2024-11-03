@@ -55,6 +55,7 @@ export const config = {
     },
     contentScript: {
       pollInterval: 300,
+      maxAttemptCount: 20,
     },
   },
 } as const;

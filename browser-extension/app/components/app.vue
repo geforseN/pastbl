@@ -13,7 +13,7 @@
     />
     <div
       v-show="appVisibility.state"
-      class="flex h-full flex-col items-center rounded-t-3xl"
+      class="pointer-events-auto flex h-full flex-col items-center rounded-t-3xl"
     >
       <div class="h-[calc(100%-3rem)] w-full">
         <list-pastas-tab
@@ -59,7 +59,7 @@ async function onMainButtonClick() {
   appVisibility.toggle();
   if (!wasMainButtonPressed) {
     wasMainButtonPressed = true;
-    const response = await pastasLoad.execute(undefined, true);
+    const response = await pastasLoad.execute(undefined, false && import.meta.env.DEV);
     handlePastasLoadResponse(response);
   }
 }

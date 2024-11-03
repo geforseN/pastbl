@@ -1,23 +1,36 @@
 import "~/assets/index.css";
 import App from "~/components/app.vue";
 import { consola } from "~/utils/consola";
+import { poolFor } from "~/utils/pool-for";
 import type { ContentScriptContext } from "wxt/client";
 
 async function createUI(context: ContentScriptContext) {
+  const { maxAttemptCount, pollInterval } = config.pastbl.contentScript;
+  const container = await pollFor({
+    maxAttemptCount,
+    interval: pollInterval,
+    queryFn: () => document.querySelector(".chat-room__content > .chat-input"),
+  });
+  if (!container) {
+    throw new Error("Failed to find chat input");
+  }
   return await createShadowRootUi(context, {
     name: "pastbl-ui",
     position: "inline",
-    anchor: "body",
-    onMount(documentBody) {
+    anchor: container,
+    onMount(chatInput) {
+      consola.log("mounting ui", chatInput);
       const div = document.createElement("div");
-      documentBody.append(div);
-      div.classList.add("absolute", "bottom-0", "right-1/2", "z-40");
+      chatInput.append(div);
+      div.classList.add(
+        "absolute", "pointer-events-none", "-left-[calc(320px+0.75rem)]", "bottom-1.5", "z-40",
+      );
       const app = createApp(App);
       app.mount(div);
       return app;
     },
-    onRemove(app) {
-      app?.unmount();
+    onRemove(mounted) {
+      mounted?.unmount();
     },
   });
 }
