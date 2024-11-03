@@ -22,6 +22,7 @@
         copy
       </button>
       <button
+        disabled
         class="btn btn-primary btn-sm text-xl"
         @click="() => {
           /** FIXME */
@@ -35,11 +36,6 @@
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
 import type { XPasta } from "~/utils/pastas.store";
-
-defineEmits<{
-  copy: [];
-  send: [];
-}>();
 
 defineSlots<{
   default: VueSlot<{
