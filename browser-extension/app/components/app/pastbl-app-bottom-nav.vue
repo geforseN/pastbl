@@ -18,7 +18,7 @@
   </nav>
 </template>
 <script setup lang="ts">
-import PastblSettings from "./pastbl-settings.vue";
+import PastblSettings from "~/components/settings/pastbl-settings.vue";
 
 const selectedTagKey = defineModel<string>("selectedTagKey", { required: true });
 

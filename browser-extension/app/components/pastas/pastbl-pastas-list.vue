@@ -16,10 +16,10 @@
 </template>
 <script setup lang="ts">
 import type { XPasta } from "~/utils/pastas.store";
-import PastblPasta from "~/components/pastbl-pasta.vue";
 import type { Nullish } from "~/utils/types";
 import { findPasta, getCoords } from "~/utils/pastbl-pastas-list";
 import { useInfiniteRemotePastas } from "~/composables/useInfiniteRemotePastas";
+import PastblPasta from "~/components/pastas/pastbl-pasta.vue";
 
 const props = defineProps<{
   pastas: XPasta[];

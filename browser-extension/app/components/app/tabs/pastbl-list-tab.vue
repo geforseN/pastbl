@@ -15,9 +15,10 @@
   </pastbl-with-active-pasta-action-buttons>
 </template>
 <script setup lang="ts">
-import PastblWithActivePastaActionButtons from "./pastbl-with-active-pasta-actions.vue";
-import PastblPastaActionsHint from "./pastbl-pasta-actions-hint.vue";
-import PastblPastasList from "./pastbl-pastas-list.vue";
+import PastblPastaActionsHint from "~/components/pastas/pastbl-pasta-actions-hint.vue";
+import PastblPastasList from "~/components/pastas/pastbl-pastas-list.vue";
+// eslint-disable-next-line @stylistic/max-len
+import PastblWithActivePastaActionButtons from "~/components/pastas/pastbl-with-active-pasta-actions.vue";
 
 defineProps<{
   pastas: XPasta[];

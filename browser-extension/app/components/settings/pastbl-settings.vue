@@ -12,9 +12,9 @@
   </pastbl-with-settings-tooltip>
 </template>
 <script setup lang="ts">
-import PastblWithSettingsTooltip from "~/components/pastbl-with-settings-tooltip.vue";
-import PastblSettingsButton from "~/components/pastbl-settings-button.vue";
-import PastblSettingsModal from "~/components/pastbl-settings-modal.vue";
+import PastblWithSettingsTooltip from "~/components/settings/pastbl-with-settings-tooltip.vue";
+import PastblSettingsButton from "~/components/settings/pastbl-settings-button.vue";
+import PastblSettingsModal from "~/components/settings/pastbl-settings-modal.vue";
 
 const appVisibility = inject<{ state: boolean }>("appVisibility");
 if (!appVisibility) {

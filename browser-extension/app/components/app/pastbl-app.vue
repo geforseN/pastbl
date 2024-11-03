@@ -40,10 +40,10 @@ import { fetchPastas } from "~/utils/pastas";
 import { pastas, cursor } from "~/utils/pastas.store";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
-import PastblAppBottomNav from "./pastbl-app-bottom-nav.vue";
-import PastblMainButton from "./pastbl-main-button.vue";
-import PastasCreateTab from "./pastbl-create-tab.vue";
-import PastasListTab from "./pastbl-list-tab.vue";
+import PastblAppBottomNav from "~/components/app/pastbl-app-bottom-nav.vue";
+import PastasCreateTab from "~/components/app/tabs/pastbl-create-tab.vue";
+import PastasListTab from "~/components/app/tabs/pastbl-list-tab.vue";
+import PastblMainButton from "@/components/app/pastbl-main-button.vue";
 
 const appVisibility = reactive(useBool());
 
