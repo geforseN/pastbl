@@ -2,9 +2,9 @@
   <div
     id="pastbl-app"
     :class="[
-      !appVisibility.state && 'pointer-events-none',
+      appVisibility.state ? 'bg-purple-900 text-white' : 'pointer-events-none',
     ]"
-    class="relative h-[400px] w-[320px] bg-purple-900 text-white"
+    class="relative h-[400px] w-[320px]"
   >
     <pastbl-main-button
       v-show="!appVisibility.state"
