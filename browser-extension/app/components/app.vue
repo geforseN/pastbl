@@ -6,7 +6,7 @@
     ]"
     class="relative h-[400px] w-[320px]"
   >
-    <pastbl-main-button
+    <app-main-button
       v-show="!appVisibility.state"
       class="pointer-events-auto absolute bottom-0 right-0 "
       @click="onMainButtonClick"
@@ -16,21 +16,21 @@
       class="flex h-full flex-col items-center rounded-t-3xl"
     >
       <div class="h-[calc(100%-3rem)] w-full">
-        <pastas-list-tab
+        <list-pastas-tab
           v-if="selectedTagKey === 'list'"
           :pastas
           :cursor
         />
-        <pastas-create-tab v-if="selectedTagKey === 'create'" />
+        <create-pastas-tab v-if="selectedTagKey === 'create'" />
       </div>
-      <pastbl-app-bottom-nav
+      <app-bottom-nav
         v-model:selected-tag-key="selectedTagKey"
         :tabs
       >
         <template #right>
-          <pastbl-main-button @click="onMainButtonClick" />
+          <app-main-button @click="onMainButtonClick" />
         </template>
-      </pastbl-app-bottom-nav>
+      </app-bottom-nav>
     </div>
   </div>
 </template>
@@ -40,10 +40,10 @@ import { fetchPastas } from "~/utils/pastas";
 import { pastas, cursor } from "~/utils/pastas.store";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
-import PastblAppBottomNav from "~/components/app/pastbl-app-bottom-nav.vue";
-import PastasCreateTab from "~/components/app/tabs/pastbl-create-tab.vue";
-import PastasListTab from "~/components/app/tabs/pastbl-list-tab.vue";
-import PastblMainButton from "@/components/app/pastbl-main-button.vue";
+import AppBottomNav from "~/components/app/app-bottom-nav.vue";
+import AppMainButton from "~/components/app/app-main-button.vue";
+import CreatePastasTab from "@/components/app/tabs/create-pastas-tab.vue";
+import ListPastasTab from "@/components/app/tabs/list-pastas-tab.vue";
 
 const appVisibility = reactive(useBool());
 

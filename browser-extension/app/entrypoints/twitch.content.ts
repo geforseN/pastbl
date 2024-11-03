@@ -1,5 +1,5 @@
 import "~/assets/index.css";
-import PastblApp from "~/components/pastbl-app.vue";
+import App from "~/components/app.vue";
 import { consola } from "~/utils/consola";
 import type { ContentScriptContext } from "wxt/client";
 
@@ -12,7 +12,7 @@ async function createUI(context: ContentScriptContext) {
       const div = document.createElement("div");
       documentBody.append(div);
       div.classList.add("absolute", "bottom-0", "right-1/2", "z-40");
-      const app = createApp(PastblApp);
+      const app = createApp(App);
       app.mount(div);
       return app;
     },
