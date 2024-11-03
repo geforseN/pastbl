@@ -15,11 +15,9 @@
 import WithSettingsTooltip from "~/components/settings/with-settings-tooltip.vue";
 import SettingsButton from "~/components/settings/settings-button.vue";
 import SettingsModal from "~/components/settings/settings-modal.vue";
+import { injectAppVisibility } from "~/utils/provide-inject-app-visibility";
 
-const appVisibility = inject<{ state: boolean }>("appVisibility");
-if (!appVisibility) {
-  throw new Error("isAppVisible is not provided");
-}
+const appVisibility = injectAppVisibility();
 
 const isSettingsOpen = reactive(useBool());
 </script>

@@ -18,14 +18,12 @@
 import PastaActionsHint from "~/components/pastas/pasta-actions-hint.vue";
 import PastasList from "~/components/pastas/list/pastas-list.vue";
 import WithActivePastaActionButtons from "~/components/pastas/list/with-active-pasta-actions.vue";
+import { injectAppVisibility } from "~/utils/provide-inject-app-visibility";
 
 defineProps<{
   pastas: XPasta[];
   cursor: Nullish<number>;
 }>();
 
-const appVisibility = inject<{ state: boolean }>("appVisibility");
-if (!appVisibility) {
-  throw new Error("isAppVisible is not provided");
-}
+const appVisibility = injectAppVisibility();
 </script>
