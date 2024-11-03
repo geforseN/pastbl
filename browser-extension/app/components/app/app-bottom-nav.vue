@@ -1,6 +1,6 @@
 <template>
   <nav class="flex w-full justify-between">
-    <pastbl-settings />
+    <app-settings />
     <div class="tabs tabs-bordered h-full self-end py-0">
       <input
         v-for="tab of tabs"
@@ -18,7 +18,7 @@
   </nav>
 </template>
 <script setup lang="ts">
-import PastblSettings from "~/components/settings/pastbl-settings.vue";
+import AppSettings from "~/components/settings/app-settings.vue";
 
 const selectedTagKey = defineModel<string>("selectedTagKey", { required: true });
 
