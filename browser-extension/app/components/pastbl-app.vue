@@ -4,16 +4,16 @@
     :class="[
       !appVisibility.state && 'pointer-events-none',
     ]"
-    class="relative h-[400px] w-[320px]"
+    class="relative h-[400px] w-[320px] bg-purple-900 text-white"
   >
     <pastbl-main-button
-      v-if="!appVisibility.state"
-      class="pointer-events-auto absolute bottom-0 right-0"
+      v-show="!appVisibility.state"
+      class="pointer-events-auto absolute bottom-0 right-0 "
       @click="onMainButtonClick"
     />
     <pastbl-with-active-pasta-action-buttons
-      v-if="appVisibility.state"
-      class="flex h-full flex-col justify-between rounded-3xl bg-purple-900 text-white"
+      v-show="appVisibility.state"
+      class="flex h-full flex-col justify-between rounded-3xl bg-inherit"
       #="{ showActions }"
     >
       <div
