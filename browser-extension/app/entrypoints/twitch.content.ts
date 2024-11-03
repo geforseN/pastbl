@@ -1,7 +1,7 @@
 import "~/assets/index.css";
 import App from "~/components/app.vue";
 import { consola } from "~/utils/consola";
-import { poolFor } from "~/utils/pool-for";
+import { pollFor } from "~/utils/poll-for";
 import type { ContentScriptContext } from "wxt/client";
 
 async function createUI(context: ContentScriptContext) {
