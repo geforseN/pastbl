@@ -7,6 +7,7 @@
         :key="tab.key"
         v-model="selectedTagKey"
         :disabled="tab.disabled"
+        :title="tab.title"
         :value="tab.key"
         class="tab h-full px-8 text-2xl"
         role="tab"

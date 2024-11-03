@@ -2,10 +2,11 @@ export type IAppTab = {
   key: string;
   label: string;
   disabled?: boolean;
+  title?: string;
 };
 
 const createTabs = () => [
-  { key: "create", label: "Create", disabled: true },
+  { key: "create", label: "Create", disabled: true, title: i18n.t("notImplementedYet") },
   { key: "list", label: "List" },
 ] as const satisfies IAppTab [];
 

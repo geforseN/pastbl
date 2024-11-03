@@ -3,33 +3,37 @@
     <slot :show-actions />
     <div
       v-on-click-outside="closeActions"
-      class="absolute z-10 "
+      class="absolute z-10"
       :hidden="!pasta_"
       :style="buttonsContainerStyle"
     >
-      <button
-        class="btn btn-secondary btn-sm text-xl"
-        @click="() => {
-          if (!pasta_) {
-            consola.warn('no pasta_');
-          }
-          else {
-            copyPasta(pasta_)
-            closeActions();
-          }
-        }"
-      >
-        copy
-      </button>
-      <button
-        disabled
-        class="btn btn-primary btn-sm text-xl"
-        @click="() => {
-          /** FIXME */
-        }"
-      >
-        send
-      </button>
+      <div class="flex flex-col">
+        <button
+          class="btn btn-secondary btn-sm text-xl"
+          @click="() => {
+            if (!pasta_) {
+              consola.warn('no pasta_');
+            }
+            else {
+              copyPasta(pasta_)
+              closeActions();
+            }
+          }"
+        >
+          copy
+        </button>
+        <div
+          :title="i18n.t('notImplementedYet')"
+        >
+          <button
+            class="btn btn-primary btn-sm text-xl"
+            disabled
+            @click="() => { /** FIXME */ }"
+          >
+            send
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
