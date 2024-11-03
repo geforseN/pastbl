@@ -10,12 +10,13 @@ export const mainButtonStyles = reactive({
   borderColor: "#ea580c",
 });
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
-storage.getItem<typeof mainButtonStyles>("local:main-button-styles").then((value) => {
-  if (value) {
-    Object.assign(mainButtonStyles, value);
-  }
-});
+storage
+  .getItem<typeof mainButtonStyles>("local:main-button-styles")
+  .then((value) => {
+    if (value) {
+      Object.assign(mainButtonStyles, value);
+    }
+  });
 
 watchThrottled(mainButtonStyles, async (mainButtonStyles) => {
   await storage.setItem("local:main-button-styles", mainButtonStyles);

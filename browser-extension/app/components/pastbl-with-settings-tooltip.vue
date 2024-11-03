@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tooltip tooltip-right absolute bottom-0 left-0 before:text-xl"
+    class="tooltip tooltip-right absolute bottom-0 left-0 z-40 before:text-xl"
     data-tip="Settings"
   >
     <slot />

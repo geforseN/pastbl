@@ -1,12 +1,19 @@
 import type { XPasta } from "~/utils/pastas.store";
 import { config } from "~/utils/config";
+import type { Nullish } from "./types";
 
-export async function fetchPastas() {
+export async function fetchPastas(cursor: Nullish<number>) {
   const xConsola = consola.withTag("fetchPastas");
+  xConsola.debug("fetching pastas", { cursor });
   const options = config.pastbl.pastas.get;
-  const response = await fetch(options.path, options.init);
+  const query = !cursor ? "" : `?cursor=${cursor}`;
+  const response = await fetch(`${options.path}${query}`, options.init);
   if (!response.ok) {
-    throw new NotAuthorizedError();
+    if (response.status === 401) {
+      throw new NotAuthorizedError();
+    } else {
+      throw new Error(response.statusText);
+    }
   }
   const json: unknown = await response.json();
   if (typeof json !== "object" || json === null) {
@@ -48,5 +55,18 @@ export async function fetchPastas() {
     pastas = [];
   }
 
-  return { ...json, pastas };
+  const newCursor = "cursor" in json
+    ? "cursor" in json
+    && typeof json.cursor === "number"
+    && Number.isInteger(json.cursor)
+    && json.cursor > 0
+      ? json.cursor
+      : null
+    : null;
+
+  return {
+    ...json,
+    pastas,
+    cursor: newCursor,
+  };
 }

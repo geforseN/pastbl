@@ -9,4 +9,8 @@
 </template>
 <script setup lang="ts">
 import { mainButtonStyles } from "~/utils/settings.store";
+
+defineOptions({
+  tagColor: "#ea580c",
+});
 </script>

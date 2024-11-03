@@ -23,7 +23,9 @@
       </button>
       <button
         class="btn btn-primary btn-sm text-xl"
-        @click="$emit('send')"
+        @click="() => {
+          /** FIXME */
+        }"
       >
         send
       </button>

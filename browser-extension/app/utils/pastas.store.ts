@@ -13,6 +13,8 @@ export type XPasta = {
 
 export const pastas = ref<XPasta[]>([]);
 
+export const cursor = ref<Nullish<number>>(null);
+
 const consola = _consola.withTag("pastas.store");
 
 watch(() => pastas.value.length, () => {

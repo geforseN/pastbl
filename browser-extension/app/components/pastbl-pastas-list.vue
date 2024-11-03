@@ -1,5 +1,7 @@
 <template>
   <div
+    ref="container"
+    :class="remotePastas.isLoading && loadingClass"
     class="flex flex-col overflow-y-auto bg-base-100 text-base-content"
     @contextmenu="onContextMenu"
   >
@@ -14,15 +16,41 @@
 <script setup lang="ts">
 import type { XPasta } from "~/utils/pastas.store";
 import PastblPasta from "~/components/pastbl-pasta.vue";
-import { findPasta, getCoords } from "@/utils/pastbl-pastas-list";
+import type { Nullish } from "~/utils/types";
+import { findPasta, getCoords } from "~/utils/pastbl-pastas-list";
+import { useInfiniteRemotePastas } from "~/composables/useInfiniteRemotePastas";
 
-defineProps<{
+const props = defineProps<{
   pastas: XPasta[];
+  cursor: Nullish<number>;
+  loadMore: (cursor: Nullish<number>) => Promise<{ pastas: XPasta[]; cursor: number | null }>;
+  loadingClass?: string;
 }>();
 
 const emit = defineEmits<{
   showActions: [pasta: XPasta, coords: { x: number; y: number }];
+  response: [response: { pastas: XPasta[]; cursor: number | null }, container: HTMLElement | null];
 }>();
+
+const containerRef = useTemplateRef("container");
+
+onMounted(() => {
+  if (!containerRef.value) {
+    throw new Error("container is null");
+  }
+  containerRef.value.scrollTop = containerRef.value.scrollHeight;
+});
+const remotePastas = reactive(
+  useInfiniteRemotePastas(
+    containerRef,
+    () => props.cursor,
+    (response) => emit("response", response, toValue(containerRef)),
+    async (...args: Parameters<typeof props.loadMore>) => await props.loadMore(...args),
+    {
+      direction: "top",
+    },
+  ),
+);
 
 function onContextMenu(event: Event) {
   if (!(event instanceof PointerEvent)) {

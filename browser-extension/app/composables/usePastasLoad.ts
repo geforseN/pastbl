@@ -1,36 +1,77 @@
+import type { Nullish } from "@/utils/types";
+
 export type PastasLoadStatus =
+  | "unstarted"
+  | "initializing"
   | "loading"
   | "ready"
-  | "not-authorized"
+  | "finished"
+  | "not-authorized-error"
   | "unknown-error";
 
-export function usePastasLoad() {
-  const status = ref<PastasLoadStatus>("loading");
+export function useLazyPastasLoad(
+  fetchPastas: (cursor: Nullish<number>) => Promise<{
+    pastas: XPasta[];
+    cursor: number | null;
+  }>,
+) {
+  const xConsola = consola.withTag("useLazyPastasLoad");
+  const status = ref<PastasLoadStatus>("unstarted");
 
   return {
     status,
-    async init(mustMock = false) {
-      if (mustMock) {
-        consola.debug("mocking pastas");
-        status.value = "ready";
-        const module = await import("~/utils/pastas.mock.json");
-        if (!Array.isArray(module.default)) {
-          throw new TypeError("module.default is not an array");
-        }
-        pastas.value = module.default;
-        return;
+    async execute(cursor?: Nullish<number>, __mock__?: boolean) {
+      if (
+        status.value !== "ready"
+        && status.value !== "unstarted"
+        && status.value !== "loading"
+        && status.value !== "initializing"
+      ) {
+        xConsola.error(
+          "status is not loading or ready, not supposed to call execute",
+          { status },
+        );
+        throw new Error(`status is ${status.value}`);
       }
-      status.value = "loading";
-      consola.debug("loading pastas");
+
+      if (status.value === "loading" || status.value === "initializing") {
+        xConsola.warn("possible race condition (status is \"loading\")", { cursor });
+      }
+
       try {
-        const response = await fetchPastas();
-        pastas.value.push(...response.pastas);
-        status.value = "ready";
+        consola.debug("loading pastas");
+        if (status.value === "unstarted") {
+          status.value = "initializing";
+        } else if (status.value === "ready") {
+          status.value = "loading";
+        }
+        const response = await fetchPastas(cursor);
+        if (response.cursor === null) {
+          status.value = "finished";
+        } else {
+          status.value = "ready";
+        }
+        return response;
       } catch (error) {
         status.value = isNotAuthorizedError(error)
-          ? "not-authorized"
+          ? "not-authorized-error"
           : "unknown-error";
+        throw error;
       }
     },
   };
 }
+
+// if (__mock__) {
+//         consola.debug("mocking pastas");
+//         const module = await import("~/utils/pastas.mock.json");
+//         if (!Array.isArray(module.default)) {
+//           throw new TypeError("module.default is not an array");
+//         }
+//         const pastas = module.default;
+//         status.value = "ready";
+//         return {
+//           pastas,
+//           cursor: null,
+//         };
+//       }
