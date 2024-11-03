@@ -1,5 +1,5 @@
 <template>
-  <span class="text-lg">
+  <span>
     {{ i18n.t('youAreNotAuthorizedTo') }}
     <a
       class="link"

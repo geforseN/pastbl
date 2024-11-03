@@ -5,6 +5,7 @@
     class="flex flex-col divide-y overflow-y-auto border bg-base-100 text-base-content"
     @contextmenu="onContextMenu"
   >
+    <slot name="top" />
     <list-pasta
       v-for="(pasta, index) in pastas"
       :key="pasta.id"
@@ -41,6 +42,7 @@ onMounted(() => {
   }
   containerRef.value.scrollTop = containerRef.value.scrollHeight;
 });
+
 const remotePastas = reactive(
   useInfiniteRemotePastas(
     containerRef,

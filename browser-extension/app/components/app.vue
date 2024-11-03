@@ -20,6 +20,9 @@
           v-if="selectedTagKey === 'list'"
           :pastas
           :cursor
+          :status="pastasLoad.status"
+          :load-more="pastasLoad.execute"
+          @response="handlePastasLoadResponse"
         />
         <create-pastas-tab v-if="selectedTagKey === 'create'" />
       </div>
@@ -28,7 +31,7 @@
         :tabs
       >
         <template #right>
-          <app-main-button @click="onMainButtonClick" />
+          <app-main-button @click="appVisibility.toggle" />
         </template>
       </app-bottom-nav>
     </div>
@@ -36,7 +39,7 @@
 </template>
 <script setup lang="ts">
 import { fetchPastas } from "~/utils/pastas";
-import { pastas, cursor } from "~/utils/pastas.store";
+import { pastas, cursor, handlePastasLoadResponse } from "~/utils/pastas.store";
 import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
@@ -57,8 +60,7 @@ async function onMainButtonClick() {
   if (!wasMainButtonPressed) {
     wasMainButtonPressed = true;
     const response = await pastasLoad.execute(undefined, true);
-    pastas.value.unshift(...response.pastas.toReversed());
-    cursor.value = response.cursor;
+    handlePastasLoadResponse(response);
   }
 }
 </script>
