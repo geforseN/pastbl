@@ -7,9 +7,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Slot } from "vue";
-
 defineSlots<{
-  default: Slot;
+  default: VueSlot;
 }>();
 </script>

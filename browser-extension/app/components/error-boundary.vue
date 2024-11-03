@@ -10,13 +10,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Slot } from "vue";
-
 const error = ref<Error>();
 
 defineSlots<{
-  default: Slot;
-  error: Slot<{
+  default: VueSlot;
+  error: VueSlot<{
     error: Error;
     clearError: () => void;
   }>;

@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
 import type { XPasta } from "~/utils/pastas.store";
-import type { Slot } from "vue";
 
 defineEmits<{
   copy: [];
@@ -43,7 +42,7 @@ defineEmits<{
 }>();
 
 defineSlots<{
-  default: Slot<{
+  default: VueSlot<{
     showActions: (pasta: XPasta, coords: { x: number; y: number }) => void;
   }>;
 }>();

@@ -2,7 +2,7 @@
   <pastbl-with-settings-tooltip>
     <pastbl-settings-button @click="isSettingsOpen.toggle" />
     <teleport
-      v-if="isAppVisible"
+      v-if="appVisibility.state"
       to="#pastbl-app"
     >
       <pastbl-settings-modal
@@ -16,9 +16,10 @@ import PastblWithSettingsTooltip from "~/components/pastbl-with-settings-tooltip
 import PastblSettingsButton from "~/components/pastbl-settings-button.vue";
 import PastblSettingsModal from "~/components/pastbl-settings-modal.vue";
 
-defineProps<{
-  isAppVisible: boolean;
-}>();
+const appVisibility = inject<{ state: boolean }>("appVisibility");
+if (!appVisibility) {
+  throw new Error("isAppVisible is not provided");
+}
 
 const isSettingsOpen = reactive(useBool());
 </script>
