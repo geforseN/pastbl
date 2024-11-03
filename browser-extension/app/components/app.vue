@@ -1,6 +1,7 @@
 <template>
   <div
     id="pastbl-app"
+    ref="appRef"
     :class="[
       appVisibility.state ? 'bg-purple-900 text-white' : 'pointer-events-none',
     ]"
@@ -47,6 +48,9 @@ import AppBottomNav from "~/components/app/app-bottom-nav.vue";
 import AppMainButton from "~/components/app/app-main-button.vue";
 import CreatePastasTab from "~/components/app/tabs/create-pastas-tab.vue";
 import ListPastasTab from "~/components/app/tabs/list-pastas-tab.vue";
+
+const appRef = useTemplateRef("appRef");
+provide("appRef", appRef);
 
 const pastasLoad = reactive(useLazyPastasLoad(fetchPastas));
 
