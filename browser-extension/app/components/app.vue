@@ -18,14 +18,14 @@
     >
       <div class="h-[calc(100%-3rem)] w-full">
         <list-pastas-tab
-          v-if="selectedTagKey === 'list'"
+          v-show="selectedTagKey === 'list'"
           :pastas
           :cursor
           :status="pastasLoad.status"
           :load-more="pastasLoad.execute"
           @response="handlePastasLoadResponse"
         />
-        <create-pastas-tab v-if="selectedTagKey === 'create'" />
+        <create-pastas-tab v-show="selectedTagKey === 'create'" />
       </div>
       <app-bottom-nav
         v-model:selected-tag-key="selectedTagKey"
