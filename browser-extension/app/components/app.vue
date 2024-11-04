@@ -63,7 +63,7 @@ async function onMainButtonClick() {
   appVisibility.toggle();
   if (!wasMainButtonPressed) {
     wasMainButtonPressed = true;
-    const response = await pastasLoad.execute(undefined, false && import.meta.env.DEV);
+    const response = await pastasLoad.execute();
     handlePastasLoadResponse(response);
   }
 }
