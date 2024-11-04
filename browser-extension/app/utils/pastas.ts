@@ -1,6 +1,41 @@
 import type { XPasta } from "~/utils/pastas.store";
 import { config } from "~/utils/config";
-import type { Nullish } from "./types";
+
+function isRecordObject(
+  object: unknown,
+  options?: { onFalse?: () => void },
+): object is Record<string, unknown> {
+  const isRecord = typeof object === "object" && object !== null;
+  if (!isRecord) {
+    options?.onFalse?.();
+  }
+  return isRecord;
+}
+
+function isPasta(object: Record<string, unknown>): object is XPasta {
+  return typeof object.id === "number"
+    && typeof object.text === "string"
+    && typeof typeof object.publishedAt === "string"
+    && (object.publicity === "private" || object.publicity === "public")
+    && Array.isArray(object.tags)
+    && object.tags.every((tag) =>
+      tag !== null
+      && typeof tag === "object"
+      && "value" in tag
+      && typeof tag.value === "string",
+    );
+}
+
+type XPasta2 = Omit<XPasta, "tags"> & { tags: string[] };
+
+function isPasta2(object: Record<string, unknown>): object is XPasta2 {
+  return typeof object.id === "number"
+    && typeof object.text === "string"
+    && typeof typeof object.publishedAt === "string"
+    && (object.publicity === "private" || object.publicity === "public")
+    && Array.isArray(object.tags)
+    && object.tags.every((tag) => typeof tag === "string");
+}
 
 export async function fetchPastas(cursor: Nullish<number>) {
   const xConsola = consola.withTag("fetchPastas");

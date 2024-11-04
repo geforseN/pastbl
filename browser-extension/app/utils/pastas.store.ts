@@ -21,6 +21,10 @@ watch(() => pastas.value.length, () => {
   consola.success(pastas.value);
 });
 
+export function $pushPasta(pasta: XPasta) {
+  return pastas.value.push(pasta);
+}
+
 export function handlePastasLoadResponse(response: { pastas: XPasta[]; cursor: number | null }) {
   pastas.value.unshift(...response.pastas.toReversed());
   cursor.value = response.cursor;

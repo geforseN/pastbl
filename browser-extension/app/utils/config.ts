@@ -30,6 +30,11 @@ const pastblGetPastasPath = withDefaultValueIfNotString(
   pastblBasePath + "/api/v1/pastas",
 );
 
+const pastblPostPastasPath = withDefaultValueIfNotString(
+  import.meta.env.WXT_PASTBL_GET_PASTAS_PATH,
+  pastblBasePath + "/api/v1/pastas",
+);
+
 export const config = {
   twitch: {
     "chat-input": {
