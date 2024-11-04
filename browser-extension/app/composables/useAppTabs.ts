@@ -6,7 +6,7 @@ export type IAppTab = {
 };
 
 const createTabs = () => [
-  { key: "create", label: "Create", disabled: true, title: i18n.t("notImplementedYet") },
+  { key: "create", label: "Create" },
   { key: "list", label: "List" },
 ] as const satisfies IAppTab [];
 

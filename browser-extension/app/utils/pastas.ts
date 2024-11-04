@@ -61,28 +61,14 @@ export async function fetchPastas(cursor: Nullish<number>) {
     xConsola.warn("Expected json to contain pastas", { json });
     pastas = [];
   } else if (Array.isArray(json.pastas)) {
-    const parsedPastas = json.pastas.filter((value): value is Record<string, unknown> => {
-      const isObject = typeof value === "object" && value !== null;
-      if (!isObject) {
-        xConsola.warn("Wrong pasta provided", { value });
-      }
-      return isObject;
-    },
-    ).filter((object): object is XPasta => {
-      return (
-        typeof object.id === "number"
-        && typeof object.text === "string"
-        && typeof typeof object.publishedAt === "string"
-        && (object.publicity === "private" || object.publicity === "public")
-        && Array.isArray(object.tags)
-        && object.tags.every((tag) =>
-          tag !== null
-          && typeof tag === "object"
-          && "value" in tag
-          && typeof tag.value === "string",
-        )
-      );
-    });
+    const parsedPastas = json.pastas
+      .filter((value) =>
+        isRecordObject(value, {
+          onFalse: () => {
+            xConsola.warn("Wrong pasta provided", { value });
+          },
+        }),
+      ).filter(isPasta);
     pastas = parsedPastas;
   } else {
     xConsola.warn(
@@ -106,4 +92,46 @@ export async function fetchPastas(cursor: Nullish<number>) {
     pastas,
     cursor: newCursor,
   };
+}
+
+/**
+ * @throws {Error} error only, not primitive value
+ * @returns {Promise<XPasta>} pasta from database
+ */
+export async function postPasta(body: {
+  text: string;
+  tags: string[];
+  publicity: string;
+}): Promise<XPasta2> {
+  try {
+    const response = await fetch(config.pastbl.pastas.post.path, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw _postPastaError(response);
+    }
+    const json = await response.json();
+    if (!isRecordObject(json) || !("pasta" in json)) {
+      throw _postPastaError(json);
+    }
+    const { pasta } = json;
+    if (!isRecordObject(pasta) || !isPasta2(pasta)) {
+      throw _postPastaError(pasta);
+    }
+    return pasta;
+  } catch (error) {
+    if (!(error instanceof Error)) {
+      throw _postPastaError(error);
+    }
+    throw error;
+  }
+}
+
+export function _postPastaError(cause?: unknown) {
+  const message = i18n.t("_postPastaError");
+  return new Error(message, { cause });
 }

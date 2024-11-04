@@ -57,6 +57,9 @@ export const config = {
           credentials: "include",
         } satisfies RequestInit,
       },
+      post: {
+        path: pastblPostPastasPath,
+      },
     },
     contentScript: {
       pollInterval: 300,
