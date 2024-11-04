@@ -5,6 +5,7 @@ export type PastasLoadStatus =
   | "ready"
   | "finished"
   | "not-authorized-error"
+  | "service-not-available-error"
   | "unknown-error";
 
 export function useLazyPastasLoad(
@@ -67,7 +68,9 @@ export function useLazyPastasLoad(
       } catch (error) {
         status.value = isNotAuthorizedError(error)
           ? "not-authorized-error"
-          : "unknown-error";
+          : isServiceNotAvailableError(error)
+            ? "service-not-available-error"
+            : "unknown-error";
         throw error;
       }
     },

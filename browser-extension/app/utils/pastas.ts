@@ -46,6 +46,8 @@ export async function fetchPastas(cursor: Nullish<number>) {
   if (!response.ok) {
     if (response.status === 401) {
       throw new NotAuthorizedError();
+    } else if (String(response.status).startsWith("5")) {
+      throw new ServiceNotAvailableError();
     } else {
       throw new Error(response.statusText);
     }

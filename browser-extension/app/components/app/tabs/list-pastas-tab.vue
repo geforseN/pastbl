@@ -11,6 +11,12 @@
       <pastbl-login-with-twitch class="btn-lg text-2xl" />
     </div>
     <div
+      v-else-if="status === 'service-not-available-error'"
+      class="contents"
+    >
+      {{ i18n.t("serviceNotAvailable") }}
+    </div>
+    <div
       v-else-if="status === 'unknown-error'"
       class="contents"
     >

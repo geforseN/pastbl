@@ -14,3 +14,4 @@ publishPasta: Опубликовать пасту
 isPublic: Является публичной
 addTag: Добавить тег
 _postPastaError: Произошла ошибка при создании пасты
+serviceNotAvailable: Сервис недоступен
