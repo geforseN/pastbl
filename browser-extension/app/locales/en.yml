@@ -15,3 +15,4 @@ isPublic: Is Public
 addTag: Add Tag
 _postPastaError: An error occurred when posting the pasta
 serviceNotAvailable: Service not available
+deleteTag: Delete Tag

@@ -15,3 +15,4 @@ isPublic: Является публичной
 addTag: Добавить тег
 _postPastaError: Произошла ошибка при создании пасты
 serviceNotAvailable: Сервис недоступен
+deleteTag: Удалить тег

@@ -48,10 +48,12 @@
         class="flex flex-wrap gap-1"
       >
         <!-- eslint-disable vue/no-template-shadow -->
-        <pasta-tag
+        <removable-pasta-tag
           v-for="tag in tags"
           :key="tag"
           :tag
+          :close-button-attrs="{ title: i18n.t('deleteTag') }"
+          @remove="tags.splice(tags.indexOf(tag), 1)"
         />
         <!-- eslint-enable vue/no-template-shadow -->
       </div>
@@ -76,9 +78,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import PastaTag from "~/components/pastas/pasta-tag.vue";
 import { _postPastaError, postPasta } from "~/utils/pastas";
 import { $pushPasta } from "~/utils/pastas.store";
+import RemovablePastaTag from "$ui/removable-pasta-tag.vue";
 
 const error = ref<Error>();
 
