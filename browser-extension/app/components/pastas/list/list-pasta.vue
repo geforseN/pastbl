@@ -5,18 +5,16 @@
       v-if="tags.length > 0"
       class="-mb-0.5 mt-0.5 inline-flex flex-wrap gap-0.5"
     >
-      <div
+      <pasta-tag
         v-for="tag in tags.map(tag => tag.value)"
         :key="tag"
-        class="line-clamp-2 w-fit break-all rounded-lg bg-info px-1 py-0.5 text-info-content"
-        :class="tag.startsWith('@') && 'bg-twitch-accent'"
-      >
-        {{ tag }}
-      </div>
+        :tag
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import PastaTag from "~/components/pastas/pasta-tag.vue";
 import type { XPasta } from "~/utils/pastas.store";
 
 defineProps<XPasta>();
