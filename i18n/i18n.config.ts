@@ -1,10 +1,8 @@
-import { isDevelopment } from "std-env";
 import type { ModuleOptions } from "@nuxtjs/i18n";
 
-let baseUrl = isDevelopment ? "" : "https://pastbl.vercel.app";
-if (typeof process.env.BASE_URL === "string") {
-  baseUrl = process.env.BASE_URL;
-}
+const baseUrl = typeof process.env.BASE_URL === "string"
+  ? process.env.BASE_URL
+  : "https://pastbl.vercel.app";
 
 export const i18n = {
   langDir: "locales",

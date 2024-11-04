@@ -1,8 +1,5 @@
 <template>
-  <Html
-    :lang="head.htmlAttrs.lang"
-    :dir="head.htmlAttrs.dir"
-  >
+  <Html v-bind="localeHead.htmlAttrs">
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -36,10 +33,7 @@ import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import type { EmoteOnHoverCard } from "#build/components";
 
-const head = useLocaleHead({
-  addDirAttribute: true,
-  addSeoAttributes: true,
-});
+const localeHead = useLocaleHead({});
 
 useLogRocket("init&identify");
 

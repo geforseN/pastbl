@@ -44,7 +44,7 @@
     "@nuxt/eslint": "^0.6.0",
     "@nuxt/icon": "^1.5.8",
     "@nuxt/test-utils": "^3.14.4",
-    "@nuxtjs/i18n": "8.5.5",
+    "@nuxtjs/i18n": "9.0.0",
     "@nuxtjs/storybook": "^8.3.2",
     "@pinia/testing": "^0.1.6",
     "@playwright/test": "^1.48.2",
