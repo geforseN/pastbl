@@ -9,7 +9,7 @@
     <list-pasta
       v-for="(pasta, index) in pastas"
       :key="pasta.id"
-      class="border-r"
+      class="break-words border-r"
       :data-pasta-index="index"
       v-bind="pasta"
     />
