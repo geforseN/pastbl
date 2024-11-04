@@ -38,7 +38,7 @@
         />
         <pastas-list
           v-else-if="pastas.length > 0"
-          class="h-[calc(100%-2rem)]"
+          class="h-[calc(100%-2rem)] w-[320px]"
           :pastas
           :cursor
           :load-more
