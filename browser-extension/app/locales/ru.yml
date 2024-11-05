@@ -1,0 +1,18 @@
+loginWithTwitch: Войти с Twitch
+youAreNotAuthorizedTo: Вы не авторизованы в
+somethingWentWrong: Что-то пошло не так
+describeIssueHere: Опишите проблему здесь
+rightClickOnPastaToSeeActions: Щелкните правой кнопкой мыши по пасте, чтобы увидеть действия
+loading: Загрузка
+noMorePastas: Больше паст нет
+noRemotePastasFound: Дистанционные пасты не найдены
+createHere: Создать здесь
+notImplementedYet: Ещё не реализовано
+copy: Скопировать
+send: Отправить
+publishPasta: Опубликовать пасту
+isPublic: Является публичной
+addTag: Добавить тег
+_postPastaError: Произошла ошибка при создании пасты
+serviceNotAvailable: Сервис недоступен
+deleteTag: Удалить тег

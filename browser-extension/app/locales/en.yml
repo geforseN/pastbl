@@ -1,0 +1,18 @@
+loginWithTwitch: Login with Twitch
+youAreNotAuthorizedTo: You are not authorized to
+somethingWentWrong: Something went wrong
+describeIssueHere: Describe issue here
+rightClickOnPastaToSeeActions: Right click on pasta to see actions
+loading: Loading
+noMorePastas: No More Pastas
+noRemotePastasFound: No Remote Pastas Found
+createHere: Create Here
+notImplementedYet: Not Implemented Yet
+copy: Copy
+send: Send
+publishPasta: Publish Pasta
+isPublic: Is Public
+addTag: Add Tag
+_postPastaError: An error occurred when posting the pasta
+serviceNotAvailable: Service not available
+deleteTag: Delete Tag

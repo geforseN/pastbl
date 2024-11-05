@@ -181,8 +181,6 @@ export default createConfigForNuxt({
         math: "always",
       },
     ],
-  })
-  .overrideRules({
     "vue/padding-line-between-blocks": ["error", "never"],
   })
   .override("unicorn/flat/recommended", {

@@ -16,6 +16,12 @@ pnpm install
 pnpm dev
 ```
 
+## Browser Extension Development Server
+
+```bash
+pnpm --filter @pastbl/browser-extension dev
+```
+
 ## Production
 
 Build the application for production:
