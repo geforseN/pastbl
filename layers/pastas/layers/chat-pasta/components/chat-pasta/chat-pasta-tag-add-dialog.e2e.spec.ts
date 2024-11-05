@@ -53,8 +53,8 @@ test("add pasta with tag", async ({ page }) => {
       expectedTextToInclude: /Tag: bar/,
     });
     await expect(page.getByTestId("chat-pasta")).toHaveCount(1);
-    await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(1);
-    await expect(page.getByTestId("chat-pasta-tag")).toHaveText("bar");
+    await expect(page.getByTestId("clamped-pasta-tag")).toHaveCount(1);
+    await expect(page.getByTestId("clamped-pasta-tag")).toHaveText("bar");
   });
 });
 
@@ -72,7 +72,7 @@ test("add pasta without tag", async ({ page }) => {
       expectedTextToInclude: /Tag: baz/,
     });
     await expect(page.getByTestId("chat-pasta")).toHaveCount(1);
-    await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(0);
+    await expect(page.getByTestId("clamped-pasta-tag")).toHaveCount(0);
   });
 });
 
@@ -94,8 +94,8 @@ test("add many pastas", async ({ page }) => {
     expectedTextToInclude: /Tag: bar/,
   });
   await expect(page.getByTestId("chat-pasta")).toHaveCount(2);
-  await expect(page.getByTestId("chat-pasta-tag")).toHaveText("bar");
-  await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(1);
+  await expect(page.getByTestId("clamped-pasta-tag")).toHaveText("bar");
+  await expect(page.getByTestId("clamped-pasta-tag")).toHaveCount(1);
 
   await fillPastaForm(page, { text: "fiz", tag: "baz" });
   await addPasta(page, {
@@ -103,6 +103,6 @@ test("add many pastas", async ({ page }) => {
     expectedTextToInclude: /Tag: baz/,
   });
   await expect(page.getByTestId("chat-pasta")).toHaveCount(3);
-  await expect(page.getByTestId("chat-pasta-tag")).toHaveText("bar");
-  await expect(page.getByTestId("chat-pasta-tag")).toHaveCount(1);
+  await expect(page.getByTestId("clamped-pasta-tag")).toHaveText("bar");
+  await expect(page.getByTestId("clamped-pasta-tag")).toHaveCount(1);
 });

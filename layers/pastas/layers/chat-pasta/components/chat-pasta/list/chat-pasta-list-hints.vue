@@ -42,7 +42,7 @@
         >
           <i18n-t keypath="pastas.notFoundWithTag">
             <template #tag>
-              <chat-pasta-tag
+              <pasta-tag
                 class="mx-1 line-clamp-1 w-fit break-all"
                 :tag="`@${selectedLogin}`"
                 :title="selectedLogin"
@@ -89,6 +89,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { PastaTag } from "$ui";
+
 defineSlots<{
   default: VueSlot;
 }>();
