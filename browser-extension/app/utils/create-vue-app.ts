@@ -1,8 +1,8 @@
-import { createApp as createVueApp } from "vue";
+import { createApp } from "vue";
 import App from "~/components/app.vue";
 
-export function createApp() {
-  const app = createVueApp(App);
+export function createVueApp() {
+  const app = createApp(App);
   app.config.globalProperties.$t = i18n.t.bind(i18n);
   return app;
 }

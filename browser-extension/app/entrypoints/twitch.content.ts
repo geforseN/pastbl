@@ -2,7 +2,7 @@ import "~/assets/index.css";
 import type { ContentScriptContext } from "wxt/client";
 import { consola } from "~/utils/consola";
 import { pollFor } from "~/utils/poll-for";
-import { createApp } from "~/utils/create-app";
+import { createVueApp } from "~/utils/create-vue-app";
 
 async function createUI(context: ContentScriptContext) {
   const { maxAttemptCount, pollInterval } = config.pastbl.contentScript;
@@ -25,7 +25,7 @@ async function createUI(context: ContentScriptContext) {
       div.classList.add(
         "absolute", "pointer-events-none", "-left-[calc(320px+0.75rem)]", "bottom-1.5", "z-40",
       );
-      const app = createApp();
+      const app = createVueApp();
       app.mount(div);
       return app;
     },
