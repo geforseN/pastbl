@@ -4,7 +4,7 @@
     target="_blank"
     class="btn btn-primary"
   >
-    {{ i18n.t('loginWithTwitch') }}
+    {{ $t('loginWithTwitch') }}
   </a>
 </template>
 <script setup lang="ts">

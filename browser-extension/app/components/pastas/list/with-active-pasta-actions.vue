@@ -20,17 +20,17 @@
             }
           }"
         >
-          {{ i18n.t('copy') }}
+          {{ $t('copy') }}
         </button>
         <div
-          :title="i18n.t('notImplementedYet')"
+          :title="$t('notImplementedYet')"
         >
           <button
             class="btn btn-primary btn-sm text-xl"
             disabled
             @click="() => { /** FIXME */ }"
           >
-            {{ i18n.t('send') }}
+            {{ $t('send') }}
           </button>
         </div>
       </div>

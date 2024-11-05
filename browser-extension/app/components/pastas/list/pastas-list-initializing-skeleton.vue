@@ -5,7 +5,7 @@
   >
     <!-- eslint-enable @stylistic/max-len -->
     <p class="p-2">
-      {{ i18n.t('loading') }}
+      {{ $t('loading') }}
     </p>
   </div>
 </template>

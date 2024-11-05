@@ -16,7 +16,7 @@
           for="is-public"
           class="grow cursor-pointer"
         >
-          {{ i18n.t("isPublic") }}
+          {{ $t("isPublic") }}
         </label>
         <input
           id="pasta-is-public"
@@ -40,7 +40,7 @@
           class="btn btn-secondary text-lg"
           @click="addTag"
         >
-          {{ i18n.t("addTag") }}
+          {{ $t("addTag") }}
         </button>
       </div>
       <div
@@ -52,7 +52,7 @@
           v-for="tag in tags"
           :key="tag"
           :tag
-          :close-button-attrs="{ title: i18n.t('deleteTag') }"
+          :close-button-attrs="{ title: $t('deleteTag') }"
           @remove="tags.splice(tags.indexOf(tag), 1)"
         />
         <!-- eslint-enable vue/no-template-shadow -->
@@ -63,7 +63,7 @@
             type="submit"
             class="btn btn-primary btn-lg text-2xl"
           >
-            {{ i18n.t("publishPasta") }}
+            {{ $t("publishPasta") }}
           </button>
         </div>
       </div>
