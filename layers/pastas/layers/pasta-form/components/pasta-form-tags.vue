@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import RemovablePastaTag from "$ui/removable-pasta-tag.vue";
+import { RemovablePastaTag } from "$ui";
 
 defineProps<{
   tags: string[];

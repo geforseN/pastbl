@@ -98,7 +98,7 @@
 </template>
 <script setup lang="ts">
 import type { PastaFormTextarea } from "#build/components";
-import PastaIsPublicCheckboxControl from "$ui/pasta-is-public-checkbox-control.vue";
+import { PastaIsPublicCheckboxControl } from "$ui";
 
 const userStore = useUserStore();
 
