@@ -11,21 +11,10 @@
         name="text"
         class="min-h-60 w-full resize-none bg-base-100 p-2 text-base-content caret-purple-900"
       />
-      <div class="flex items-center justify-between px-2 py-1">
-        <label
-          for="is-public"
-          class="grow cursor-pointer"
-        >
-          {{ $t("isPublic") }}
-        </label>
-        <input
-          id="pasta-is-public"
-          v-model="isPublic"
-          type="checkbox"
-          name="_is-public"
-          class="checkbox-info checkbox checkbox-lg"
-        />
-      </div>
+      <pasta-is-public-checkbox-control
+        class="flex items-center justify-between px-2 py-1"
+        :label="$t('isPublic')"
+      />
       <div class="flex justify-between gap-2">
         <input
           id="pasta-tag"
@@ -80,7 +69,7 @@
 <script setup lang="ts">
 import { _postPastaError, postPasta } from "~/utils/pastas";
 import { $pushPasta } from "~/utils/pastas.store";
-import RemovablePastaTag from "$ui/removable-pasta-tag.vue";
+import { RemovablePastaTag, PastaIsPublicCheckboxControl } from "$ui";
 
 const error = ref<Error>();
 

@@ -4,9 +4,9 @@
       :for="id"
       class="grow cursor-pointer"
     >
-      {{ $t("pasta.makePublic?") }}
+      {{ label }}
     </label>
-    <span>{{ $t(isPublic ? "yes" : "no") }}</span>
+    <span>{{ text }}</span>
     <input
       :id
       v-model="isPublic"
@@ -17,7 +17,14 @@
   </div>
 </template>
 <script setup lang="ts">
-const isPublic = defineModel<boolean>({ required: true });
+import { useId } from "vue";
+
+defineProps<{
+  label: string;
+  text?: string;
+}>();
+
+const isPublic = defineModel<boolean>();
 
 const id = useId();
 </script>

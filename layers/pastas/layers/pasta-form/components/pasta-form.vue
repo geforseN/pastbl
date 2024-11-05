@@ -17,10 +17,12 @@
         @submit="mainEmit"
       />
       <client-only>
-        <pasta-form-is-public
+        <pasta-is-public-checkbox-control
           v-show="userStore.pastasWorkMode.isRemote"
           v-model="isPublic"
           class="-mb-2 ml-1.5 flex items-center gap-1 xl:hidden"
+          :label="$t('pasta.makePublic?')"
+          :text="$t(isPublic ? 'yes' : 'no')"
         />
       </client-only>
       <div
@@ -44,10 +46,12 @@
             :pasta-text="trimmedText"
           />
           <client-only>
-            <pasta-form-is-public
+            <pasta-is-public-checkbox-control
               v-show="userStore.pastasWorkMode.isRemote"
               v-model="isPublic"
               class="hidden xl:ml-1.5 xl:flex xl:items-center xl:gap-1"
+              :label="$t('pasta.makePublic?')"
+              :text="$t(isPublic ? 'yes' : 'no')"
             />
           </client-only>
           <button
@@ -94,6 +98,7 @@
 </template>
 <script setup lang="ts">
 import type { PastaFormTextarea } from "#build/components";
+import PastaIsPublicCheckboxControl from "$ui/pasta-is-public-checkbox-control.vue";
 
 const userStore = useUserStore();
 
