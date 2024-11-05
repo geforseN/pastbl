@@ -19,21 +19,7 @@ export function useLazyPastasLoad(
 
   return {
     status,
-    async execute(cursor?: Nullish<number>, __mock__?: boolean) {
-      if (__mock__) {
-        consola.debug("mocking pastas");
-        const module = await import("~/utils/pastas.mock.json");
-        if (!Array.isArray(module.default)) {
-          throw new TypeError("module.default is not an array");
-        }
-        const pastas = module.default;
-        status.value = "finished";
-        return {
-          pastas,
-          cursor: null,
-        };
-      }
-
+    async execute(cursor?: Nullish<number>) {
       if (
         status.value !== "ready"
         && status.value !== "unstarted"
