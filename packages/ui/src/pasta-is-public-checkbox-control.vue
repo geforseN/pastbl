@@ -6,7 +6,7 @@
     >
       {{ label }}
     </label>
-    <span>{{ text }}</span>
+    <span v-if="text">{{ text }}</span>
     <input
       :id
       v-model="isPublic"
