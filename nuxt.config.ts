@@ -114,7 +114,7 @@ export default defineNuxtConfig({
   },
   alias: {
     $: fileURLToPath(new URL("layers", import.meta.url)),
-    $ui: fileURLToPath(new URL("shared/ui/src", import.meta.url)),
+    $ui: fileURLToPath(new URL("packages/ui/src", import.meta.url)),
     ...testsAlias,
   },
   extensions: ["ts", "vue"],
