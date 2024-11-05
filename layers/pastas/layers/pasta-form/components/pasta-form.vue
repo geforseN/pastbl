@@ -17,12 +17,10 @@
         @submit="mainEmit"
       />
       <client-only>
-        <pasta-is-public-checkbox-control
+        <pasta-form-is-pasta-public-checkbox-control
           v-show="userStore.pastasWorkMode.isRemote"
           v-model="isPublic"
           class="-mb-2 ml-1.5 flex items-center gap-1 xl:hidden"
-          :label="$t('pasta.makePublic?')"
-          :text="$t(isPublic ? 'yes' : 'no')"
         />
       </client-only>
       <div
@@ -45,15 +43,12 @@
             :pasta-text-status="pastaStatus"
             :pasta-text="trimmedText"
           />
-          <client-only>
-            <pasta-is-public-checkbox-control
-              v-show="userStore.pastasWorkMode.isRemote"
-              v-model="isPublic"
-              class="hidden xl:ml-1.5 xl:flex xl:items-center xl:gap-1"
-              :label="$t('pasta.makePublic?')"
-              :text="$t(isPublic ? 'yes' : 'no')"
-            />
-          </client-only>
+          <client-only />
+          <pasta-form-is-pasta-public-checkbox-control
+            v-show="userStore.pastasWorkMode.isRemote"
+            v-model="isPublic"
+            class="hidden xl:ml-1.5 xl:flex xl:items-center xl:gap-1"
+          />
           <button
             v-if="pastaTags.length > 0"
             class="btn btn-error btn-sm"
@@ -102,8 +97,8 @@ import {
   PastaFormTags,
   PastaFormTagsInput,
   PastaFormTextarea,
+  PastaFormIsPastaPublicCheckboxControl,
 } from "#components";
-import { PastaIsPublicCheckboxControl } from "$ui";
 
 const userStore = useUserStore();
 
