@@ -1,6 +1,6 @@
 import daisyui from "daisyui";
-import config from "../tailwind.config";
 import type { Config } from "tailwindcss";
+import config from "../tailwind.config";
 
 export default {
   ...config,
