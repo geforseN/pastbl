@@ -97,7 +97,12 @@
   </form>
 </template>
 <script setup lang="ts">
-import type { PastaFormTextarea } from "#build/components";
+import {
+  PastaFormPastaLength,
+  PastaFormTags,
+  PastaFormTagsInput,
+  PastaFormTextarea,
+} from "#components";
 import { PastaIsPublicCheckboxControl } from "$ui";
 
 const userStore = useUserStore();
