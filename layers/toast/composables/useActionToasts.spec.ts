@@ -2,8 +2,8 @@ import { describe, it, vi, expect, afterEach, test } from "vitest";
 import { createRawActionToasts } from "../utils/create-raw-action-toasts.ts";
 import { additionalMethods, baseMethods } from "../internal/utils.ts";
 import { raiseToastMethod } from "../internal/raise-method.ts";
-import { useActionToasts } from "./useActionToasts.ts";
 import type { RawActionToastsMethods } from "../internal/types.ts";
+import { useActionToasts } from "./useActionToasts.ts";
 
 function useTestActionToasts<
   N extends string,

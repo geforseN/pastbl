@@ -1,6 +1,6 @@
 <template>
   <span>
-    {{ i18n.t('youAreNotAuthorizedTo') }}
+    {{ $t('youAreNotAuthorizedTo') }}
     <a
       class="link"
       :href="config.pastbl.baseUrl"

@@ -1,3 +1,3 @@
 <template>
-  {{ i18n.t('somethingWentWrong') }}
+  {{ $t('somethingWentWrong') }}
 </template>

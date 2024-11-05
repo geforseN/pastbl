@@ -1,5 +1,5 @@
-import { expect, test } from "~~/tests/e2e/utils.ts";
 import type { Page } from "@playwright/test";
+import { expect, test } from "~~/tests/e2e/utils.ts";
 
 async function getVisibleDropdown(page: Page) {
   const dropdownForPhone = page

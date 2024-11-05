@@ -9,7 +9,7 @@
       class="flex items-baseline gap-1 p-1 text-xl font-bold"
       tag="h2"
     >
-      <chat-pasta-tag
+      <pasta-tag
         :tag="`@${login}`"
         class="w-fit"
       />
@@ -26,6 +26,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { PastaTag } from "$ui";
+
 defineProps<{
   login: TwitchUserLogin;
   pastas?: OmegaPasta[];

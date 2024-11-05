@@ -17,18 +17,19 @@
       class="-mb-0.5 mt-0.5 inline-flex flex-wrap gap-0.5"
       @contextmenu="$emit('showTagContextMenu', $event)"
     >
-      <chat-pasta-tag
+      <clamped-pasta-tag
         v-for="tag of tags"
         :key="tag"
-        :tag="tag"
+        :tag
         :data-pasta-tag="tag"
-        class="line-clamp-2 w-fit break-all"
       />
     </div>
     <slot name="bottom" />
   </div>
 </template>
 <script setup lang="ts">
+import { ClampedPastaTag } from "$ui";
+
 defineProps<{
   text: string;
   tags: string[];

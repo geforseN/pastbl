@@ -47,3 +47,6 @@ jobs:
 
       - name: Run Node tests
         run: pnpm test:node
+
+      - name: Run Vue tests
+        run: pnpm test:vue

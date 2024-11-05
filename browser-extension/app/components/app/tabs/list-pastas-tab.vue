@@ -14,7 +14,7 @@
       v-else-if="status === 'service-not-available-error'"
       class="contents"
     >
-      {{ i18n.t("serviceNotAvailable") }}
+      {{ $t("serviceNotAvailable") }}
     </div>
     <div
       v-else-if="status === 'unknown-error'"
@@ -45,18 +45,18 @@
           @show-actions="showActions"
           @response="onResponse"
         >
-          <template #top>
+          <template $top>
             <div
               v-if="status === 'finished'"
               class="w-full bg-base-100 text-center text-accent"
             >
-              {{ i18n.t('noMorePastas') }}
+              {{ $t('noMorePastas') }}
             </div>
             <div
               v-else-if="status === 'loading'"
               class="w-full bg-base-100 text-center text-accent"
             >
-              {{ i18n.t('loading') }}
+              {{ $t('loading') }}
             </div>
           </template>
         </pastas-list>

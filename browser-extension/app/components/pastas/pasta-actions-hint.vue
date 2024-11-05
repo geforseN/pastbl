@@ -1,5 +1,5 @@
 <template>
   <p>
-    {{ i18n.t('rightClickOnPastaToSeeActions') }}
+    {{ $t('rightClickOnPastaToSeeActions') }}
   </p>
 </template>
