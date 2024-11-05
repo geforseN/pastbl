@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { codecovVitePlugin } from "@codecov/vite-plugin";
-import { i18n } from "./app/i18n.config.ts";
+import { i18n } from "./i18n/i18n.config.ts";
 import tailwindTheme from "./tailwind.theme.ts";
 import testsAlias from "./tests/alias.ts";
 
@@ -114,6 +114,7 @@ export default defineNuxtConfig({
   },
   alias: {
     $: fileURLToPath(new URL("layers", import.meta.url)),
+    $ui: fileURLToPath(new URL("packages/ui/src", import.meta.url)),
     ...testsAlias,
   },
   extensions: ["ts", "vue"],

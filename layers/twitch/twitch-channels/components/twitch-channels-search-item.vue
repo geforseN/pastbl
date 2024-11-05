@@ -33,7 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ITwitchChannel } from "$/twitch/twitch-channels/utils/types";
+import type { ITwitchChannel } from "../utils/types.ts";
 
 defineProps<ITwitchChannel>();
 

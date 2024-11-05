@@ -7,24 +7,6 @@ export function getPastaIdParam(event: H3Event) {
   return pastaIdParamSchema.parse(getRouterParam(event, "pastaId"));
 }
 
-const pastasCursorQuerySchema = z
-  .object({
-    cursor: z.string().nullish().default(null),
-  })
-  .transform(({ cursor }) => {
-    return {
-      cursor: cursor === "" ? null : Number(cursor),
-    };
-  });
-
-export function getPastasCursorFromQuery(event: H3Event) {
-  const query = getQuery(event);
-  console.log({ query });
-  const parsed = pastasCursorQuerySchema.parse(query).cursor;
-  console.log({ parsed });
-  return parsed;
-}
-
 export const pastaTextSchema = z
   .string()
   .min(pastasConfig.pastaText.length.min)

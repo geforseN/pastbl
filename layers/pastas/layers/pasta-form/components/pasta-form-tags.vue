@@ -3,33 +3,18 @@
     v-auto-animate="{ duration: 300 }"
     class="flex max-h-[120px] min-w-full flex-wrap gap-2 overflow-y-auto"
   >
-    <div
+    <removable-pasta-tag
       v-for="tag of tags"
       :key="tag"
-      class="join flex rounded-lg"
-      :title="tag"
-    >
-      <span
-        class="join-item rounded-lg py-0.5 pl-1.5 pr-1 text-sm"
-        :class="
-          tag.startsWith('@')
-            ? 'bg-twitch-accent text-twitch-base'
-            : 'bg-info text-info-content'
-        "
-      >
-        {{ tag }}
-      </span>
-      <button
-        class="btn btn-outline join-item btn-xs h-full border-l-0"
-        :title="$t('tag.delete', { tag })"
-        @click.prevent="$emit('removeTag', tag)"
-      >
-        <span>x</span>
-      </button>
-    </div>
+      :close-button-attrs="{ title: $t('tag.delete', { tag }) }"
+      :tag
+      @remove="$emit('removeTag', tag)"
+    />
   </div>
 </template>
 <script setup lang="ts">
+import RemovablePastaTag from "$ui/removable-pasta-tag.vue";
+
 defineProps<{
   tags: string[];
 }>();

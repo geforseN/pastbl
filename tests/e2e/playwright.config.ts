@@ -6,7 +6,7 @@ import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 
 const options = isCI
   ? { host: process.env.PLAYWRIGHT_NUXT_HOST || "https://pastbl.vercel.app" }
-  : { host: "http://127.0.0.1:3000" };
+  : { host: "http://localhost:3000" };
 
 const rootDir = fileURLToPath(new URL("../..", import.meta.url));
 
@@ -27,7 +27,6 @@ export default defineConfig<ConfigOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: "http://127.0.0.1:3000",
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     nuxt: {
