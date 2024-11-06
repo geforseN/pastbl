@@ -1,4 +1,6 @@
-import { removeAllPastaTags } from "~~/database/pastas-tags.ts";
+import {
+  removeAllPastaTags,
+} from "$/pastas/layers/remote-pastas/server/database/pastas-tags.methods.ts";
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event);
