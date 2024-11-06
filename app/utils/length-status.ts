@@ -1,4 +1,4 @@
-import { isFunction } from "~/utils/guards.ts";
+import { isFunction } from "./guards.ts";
 
 export type LengthStatus = "empty" | "tooShort" | "tooLong" | "ok";
 export type BaseLengthOptions = { min: number; max: number };

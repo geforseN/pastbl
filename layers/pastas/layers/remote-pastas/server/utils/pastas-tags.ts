@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { transformPastaTag } from "~~/layers/pastas/layers/chat-pasta/utils/pasta-tag.ts";
-import { pastasConfig } from "$/pastas/app.config";
+import { transformPastaTag } from "../../../chat-pasta/utils/pasta-tag.ts";
+import { pastasConfig } from "../../../../config.ts";
 
 const pastaTagSchema = z
   .string()

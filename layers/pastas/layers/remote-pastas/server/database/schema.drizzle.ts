@@ -9,8 +9,9 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { pastasConfig } from "../../../../app.config.ts";
-import { twitchConfig } from "../../../../../twitch/app.config.ts";
+import { pastasConfig } from "../../../../config.ts";
+import { twitchConfig } from "../../../../../twitch/config.ts";
+import { pastasPublicity, defaultPastaPublicity } from "../utils/pastas.ts";
 
 export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 

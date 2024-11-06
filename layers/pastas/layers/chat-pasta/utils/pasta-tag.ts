@@ -1,5 +1,5 @@
-import { makeLengthStatusGetter } from "~/utils/length-status.ts";
-import { pastasConfig } from "$/pastas/app.config";
+import { makeLengthStatusGetter } from "../../../../../app/utils/length-status.ts";
+import { pastasConfig } from "../../../config.ts";
 
 export function isPastaMentionTagLike(tag: string) {
   return tag.startsWith("@");
