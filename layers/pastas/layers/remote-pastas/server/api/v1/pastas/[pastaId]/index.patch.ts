@@ -1,4 +1,6 @@
-import { patchPasta } from "~~/database/pastas.ts";
+import {
+  patchPasta,
+} from "$/pastas/layers/remote-pastas/server/database/pastas.methods.ts";
 
 export default defineEventHandler(async (event) => {
   const userTwitchId = await requireUserTwitchIdFromSession(event);
