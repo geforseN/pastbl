@@ -1,5 +1,7 @@
 import { z } from "zod";
-import { pastasConfig } from "$/pastas/app.config";
+import { megaTrim } from "../../../../../../app/utils/string.ts";
+import { pastasConfig } from "../../../../config.ts";
+import { pastaTagsSchema } from "./pastas-tags.ts";
 
 const pastaIdParamSchema = z.coerce.number().safe().int().positive();
 
