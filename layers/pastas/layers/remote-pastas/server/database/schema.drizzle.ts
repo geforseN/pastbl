@@ -15,18 +15,18 @@ import { twitchConfig } from "../../../../../twitch/app.config.ts";
 export const pastasPublicityEnum = pgEnum("pasta_publicity", pastasPublicity);
 
 const pastasColumns = {
-  id: serial("id").primaryKey(),
-  text: varchar("text", {
+  id: serial().primaryKey(),
+  text: varchar({
     length: pastasConfig.pastaText.length.max,
   }).notNull(),
-  publishedAt: timestamp("published_at", { mode: "string" })
+  publishedAt: timestamp({ mode: "string" })
     .notNull()
     .defaultNow(),
-  lastUpdatedAt: timestamp("last_updated_at", { mode: "string" }),
-  publisherTwitchId: varchar("publisher_twitch_id", {
+  lastUpdatedAt: timestamp({ mode: "string" }),
+  publisherTwitchId: varchar({
     length: twitchConfig.twitchUser.id.length.max,
   }).notNull(),
-  publicity: pastasPublicityEnum("publicity")
+  publicity: pastasPublicityEnum()
     .notNull()
     .default(defaultPastaPublicity),
 } as const;
@@ -50,7 +50,7 @@ export const pastasRelations = relations(pastas, ({ many }) => ({
 export type Pasta = typeof pastas.$inferSelect;
 
 const pastasTagsColumns = {
-  pastaId: integer("pasta_id")
+  pastaId: integer()
     .notNull()
     .references(() => pastas.id, {
       onDelete: "cascade",
