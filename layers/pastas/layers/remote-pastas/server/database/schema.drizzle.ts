@@ -34,13 +34,13 @@ const pastasColumns = {
 export const pastas = pgTable(
   "pastas",
   pastasColumns,
-  ({ publisherTwitchId, publishedAt }) => ({
-    publisher: index("publisher").on(publisherTwitchId),
-    publisherNewest: index("publisher_newest").on(
+  ({ publisherTwitchId, publishedAt }) => [
+    index("publisher").on(publisherTwitchId),
+    index("publisher_newest").on(
       publisherTwitchId,
       publishedAt.desc(),
     ),
-  }),
+  ],
 );
 
 export const pastasRelations = relations(pastas, ({ many }) => ({
@@ -61,11 +61,11 @@ const pastasTagsColumns = {
 export const pastasTags = pgTable(
   "pastas_tags",
   pastasTagsColumns,
-  ({ pastaId, value }) => ({
-    pastas: index("pastas").on(pastaId),
-    values: index("values").on(value),
-    pk: primaryKey({ columns: [pastaId, value] }),
-  }),
+  ({ pastaId, value }) => [
+    index("pastas").on(pastaId),
+    index("values").on(value),
+    primaryKey({ columns: [pastaId, value] }),
+  ],
 );
 
 export const tagsRelations = relations(pastasTags, ({ one }) => ({
