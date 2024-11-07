@@ -15,7 +15,7 @@
 </template>
 <script setup lang="ts">
 import { ClampedPastaTag } from "$ui";
-import type { XPasta } from "~/utils/pastas.store";
+import type { XPasta } from "~/utils/pastas";
 
 defineProps<XPasta>();
 </script>

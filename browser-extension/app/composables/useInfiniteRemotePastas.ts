@@ -3,8 +3,8 @@ import { useInfiniteScroll, type UseInfiniteScrollOptions } from "@vueuse/core";
 export function useInfiniteRemotePastas<T extends HTMLElement | null>(
   container: MaybeRefOrGetter<T>,
   cursor: MaybeRefOrGetter<Nullish<number>>,
-  onLoaded: (response: { pastas: XPasta[]; cursor: number | null }) => void,
-  getRemotePastas: (cursor: number | null) => Promise<{ pastas: XPasta[]; cursor: number | null }>,
+  onLoaded: (response: GetPastasResponse) => void,
+  getRemotePastas: GetPastasFn,
   options?: UseInfiniteScrollOptions<T>,
 ) {
   let canLoadMore = true;

@@ -9,10 +9,7 @@ export type PastasLoadStatus =
   | "unknown-error";
 
 export function useLazyPastasLoad(
-  fetchPastas: (cursor: Nullish<number>) => Promise<{
-    pastas: XPasta[];
-    cursor: number | null;
-  }>,
+  fetchPastas: GetPastasFn,
 ) {
   const xConsola = consola.withTag("useLazyPastasLoad");
   const status = ref<PastasLoadStatus>("unstarted");

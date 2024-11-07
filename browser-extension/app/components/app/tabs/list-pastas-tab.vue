@@ -81,16 +81,13 @@ defineProps<{
   pastas: XPasta[];
   cursor: Nullish<number>;
   status: PastasLoadStatus;
-  loadMore: (cursor?: Nullish<number>) => Promise<{
-    pastas: XPasta[];
-    cursor: number | null;
-  }>;
+  loadMore: GetPastasFn;
 }>();
 
 const appVisibility = injectAppVisibility();
 
 async function onResponse(
-  response: { pastas: XPasta[]; cursor: number | null },
+  response: GetPastasResponse,
   container: HTMLElement | null,
 ) {
   if (!container) {
