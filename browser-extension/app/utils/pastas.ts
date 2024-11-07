@@ -1,5 +1,22 @@
-import type { XPasta } from "~/utils/pastas.store";
 import { config } from "~/utils/config";
+
+export type XPasta = {
+  id: number;
+  text: string;
+  publishedAt: string;
+  lastUpdatedAt: string | null;
+  publicity: string;
+  tags: {
+    value: string;
+  }[];
+};
+
+export type GetPastasResponse = {
+  pastas: XPasta[];
+  cursor: number | null;
+};
+
+export type GetPastasFn = (cursor?: Nullish<number>) => Promise<GetPastasResponse>;
 
 function isRecordObject(
   object: unknown,

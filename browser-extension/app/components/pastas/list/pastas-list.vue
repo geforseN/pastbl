@@ -16,8 +16,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { XPasta } from "~/utils/pastas.store";
-import type { Nullish } from "~/utils/types";
 import { findPasta, getCoords } from "~/utils/pastbl-pastas-list";
 import { useInfiniteRemotePastas } from "~/composables/useInfiniteRemotePastas";
 import ListPasta from "~/components/pastas/list/list-pasta.vue";
@@ -25,13 +23,13 @@ import ListPasta from "~/components/pastas/list/list-pasta.vue";
 const props = defineProps<{
   pastas: XPasta[];
   cursor: Nullish<number>;
-  loadMore: (cursor: Nullish<number>) => Promise<{ pastas: XPasta[]; cursor: number | null }>;
+  loadMore: GetPastasFn;
   loadingClass?: string;
 }>();
 
 const emit = defineEmits<{
   showActions: [pasta: XPasta, coords: { x: number; y: number }];
-  response: [response: { pastas: XPasta[]; cursor: number | null }, container: HTMLElement | null];
+  response: [response: GetPastasResponse, container: HTMLElement | null];
 }>();
 
 const containerRef = useTemplateRef("container");
@@ -48,7 +46,7 @@ const remotePastas = reactive(
     containerRef,
     () => props.cursor,
     (response) => emit("response", response, toValue(containerRef)),
-    async (...args: Parameters<typeof props.loadMore>) => await props.loadMore(...args),
+    props.loadMore,
     {
       direction: "top",
     },

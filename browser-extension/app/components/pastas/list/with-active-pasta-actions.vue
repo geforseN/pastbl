@@ -39,7 +39,6 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
-import type { XPasta } from "~/utils/pastas.store";
 
 defineSlots<{
   default: VueSlot<{

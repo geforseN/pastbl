@@ -45,7 +45,7 @@
           @show-actions="showActions"
           @response="onResponse"
         >
-          <template $top>
+          <template #top>
             <div
               v-if="status === 'finished'"
               class="w-full bg-base-100 text-center text-accent"
@@ -73,31 +73,28 @@ import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import PastblSomethingWentWrong from "~/components/pastbl-something-went-wrong.vue";
 import PastblDescribeIssueHere from "~/components/pastbl-describe-issue-here.vue";
 import PastblNoRemotePastas from "~/components/pastbl-no-remote-pastas.vue";
-// eslint-disable-next-line @stylistic/max-len
 import PastasListInitializingSkeleton from "~/components/pastas/list/pastas-list-initializing-skeleton.vue";
 import { injectAppVisibility } from "~/utils/provide-inject-app-visibility";
+import { $handlePastasLoadResponse } from "~/utils/pastas.store";
 
 defineProps<{
   pastas: XPasta[];
   cursor: Nullish<number>;
   status: PastasLoadStatus;
-  loadMore: (cursor?: Nullish<number>) => Promise<{
-    pastas: XPasta[];
-    cursor: number | null;
-  }>;
+  loadMore: GetPastasFn;
 }>();
 
 const appVisibility = injectAppVisibility();
 
 async function onResponse(
-  response: { pastas: XPasta[]; cursor: number | null },
+  response: GetPastasResponse,
   container: HTMLElement | null,
 ) {
   if (!container) {
     throw new Error("container is null");
   }
   const oldElementHeight = container.scrollHeight;
-  handlePastasLoadResponse(response);
+  $handlePastasLoadResponse(response);
   await nextTick();
   const newElementHeight = container.scrollHeight;
   container.scrollTop = newElementHeight - oldElementHeight;

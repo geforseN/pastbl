@@ -49,8 +49,9 @@
       <div class="flex w-full gap-2">
         <div class="ml-auto">
           <button
+            ref="publishButton"
             type="submit"
-            class="btn btn-primary btn-lg text-2xl"
+            class="btn btn-primary btn-lg text-2xl focus:outline focus:outline-2 focus:outline-offset-2"
           >
             {{ $t("publishPasta") }}
           </button>
@@ -71,9 +72,15 @@ import { _postPastaError, postPasta } from "~/utils/pastas";
 import { $pushPasta } from "~/utils/pastas.store";
 import { RemovablePastaTag, PastaIsPublicCheckboxControl } from "$ui";
 
+const publishButton = useTemplateRef("publishButton");
+
+defineExpose({
+  publishButton,
+});
+
 const error = ref<Error>();
 
-const text = ref("");
+const text = defineModel<string>("text", { required: true });
 
 const tag = ref("");
 const tags = ref<string[]>([]);

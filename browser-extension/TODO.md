@@ -15,8 +15,6 @@ add pastas sort, filter
 
 [ ] make sure can work in browser-extension dir, not in pastbl, check package.json
 
-[ ] refactor popup entrypoint, should render settings
-
 [ ] document in readme how to install extension for chrome and firefox
 
 [ ] update package.json version property 

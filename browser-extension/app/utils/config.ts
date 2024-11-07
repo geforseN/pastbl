@@ -37,9 +37,18 @@ const pastblPostPastasPath = withDefaultValueIfNotString(
 
 export const config = {
   twitch: {
-    "chat-input": {
-      "buttons-container": {
-        selector: ".chat-input__buttons-container",
+    chatMessagesContainer: {
+      selector: ".chat-scrollable-area__message-container",
+      messageBody: {
+        finders: [
+          (target) => target.querySelector("[data-a-target=\"chat-line-message-body\"]"),
+          (target) => target.querySelector("span.message"),
+          (target) => target.closest("[data-a-target=\"chat-line-message-body\"]"),
+          (target) => target.closest("span.message"),
+          (target) => target.closest(".chat-line__message")
+            ?.querySelector?.(".chat-line__message-container [data-a-target=\"chat-line-message-body\"]")
+            ?? null,
+        ] satisfies ((target: HTMLElement) => HTMLElement | null)[],
       },
     },
   },
@@ -64,6 +73,10 @@ export const config = {
     contentScript: {
       pollInterval: 300,
       maxAttemptCount: 20,
+      chatMessages: {
+        pollInterval: 300,
+        maxAttemptCount: 20,
+      },
     },
   },
 } as const;

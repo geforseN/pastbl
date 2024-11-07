@@ -12,6 +12,15 @@
       class="pointer-events-auto absolute bottom-0 right-0 "
       @click="onMainButtonClick"
     />
+    <app-twitch-chat-message-clicked-modal
+      @save="async (message) => {
+        appVisibility.state = true;
+        selectedTagKey = 'create';
+        text = message.text;
+        await nextTick();
+        createPastaTabRef!.publishButton!.focus();;
+      }"
+    />
     <div
       v-show="appVisibility.state"
       class="pointer-events-auto flex h-full flex-col items-center rounded-t-3xl"
@@ -19,13 +28,17 @@
       <div class="h-[calc(100%-3rem)] w-full">
         <list-pastas-tab
           v-show="selectedTagKey === 'list'"
-          :pastas
-          :cursor
+          :pastas="$pastas"
+          :cursor="$cursor"
           :status="pastasLoad.status"
           :load-more="pastasLoad.execute"
-          @response="handlePastasLoadResponse"
+          @response="$handlePastasLoadResponse"
         />
-        <create-pastas-tab v-show="selectedTagKey === 'create'" />
+        <create-pastas-tab
+          v-show="selectedTagKey === 'create'"
+          ref="createPastaTabRef"
+          v-model:text="text"
+        />
       </div>
       <app-bottom-nav
         v-model:selected-tag-key="selectedTagKey"
@@ -40,7 +53,7 @@
 </template>
 <script setup lang="ts">
 import { fetchPastas } from "~/utils/pastas";
-import { pastas, cursor, handlePastasLoadResponse } from "~/utils/pastas.store";
+import { $pastas, $cursor, $handlePastasLoadResponse } from "~/utils/pastas.store";
 import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
@@ -48,9 +61,14 @@ import AppBottomNav from "~/components/app/app-bottom-nav.vue";
 import AppMainButton from "~/components/app/app-main-button.vue";
 import CreatePastasTab from "~/components/app/tabs/create-pastas-tab.vue";
 import ListPastasTab from "~/components/app/tabs/list-pastas-tab.vue";
+import AppTwitchChatMessageClickedModal from "~/components/app/app-twitch-chat-message-clicked-modal.vue";
 
 const appRef = useTemplateRef("appRef");
 provide("appRef", appRef);
+
+const text = ref("");
+
+const createPastaTabRef = useTemplateRef("createPastaTabRef");
 
 const pastasLoad = reactive(useLazyPastasLoad(fetchPastas));
 
@@ -64,7 +82,7 @@ async function onMainButtonClick() {
   if (!wasMainButtonPressed) {
     wasMainButtonPressed = true;
     const response = await pastasLoad.execute();
-    handlePastasLoadResponse(response);
+    $handlePastasLoadResponse(response);
   }
 }
 </script>
