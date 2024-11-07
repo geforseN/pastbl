@@ -69,9 +69,6 @@ export default createConfigForNuxt({
     rules: {
       "no-console": "error",
       "no-unreachable-loop": "error",
-      "@stylistic/max-len": ["error", {
-        code: 100,
-      }],
     },
   })
   .append({
