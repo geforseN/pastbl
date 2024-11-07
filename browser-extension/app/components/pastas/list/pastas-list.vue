@@ -46,7 +46,7 @@ const remotePastas = reactive(
     containerRef,
     () => props.cursor,
     (response) => emit("response", response, toValue(containerRef)),
-    async (...args: Parameters<typeof props.loadMore>) => await props.loadMore(...args),
+    props.loadMore,
     {
       direction: "top",
     },
