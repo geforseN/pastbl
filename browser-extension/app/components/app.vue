@@ -28,11 +28,11 @@
       <div class="h-[calc(100%-3rem)] w-full">
         <list-pastas-tab
           v-show="selectedTagKey === 'list'"
-          :pastas
-          :cursor
+          :pastas="$pastas"
+          :cursor="$cursor"
           :status="pastasLoad.status"
           :load-more="pastasLoad.execute"
-          @response="handlePastasLoadResponse"
+          @response="$handlePastasLoadResponse"
         />
         <create-pastas-tab
           v-show="selectedTagKey === 'create'"
@@ -53,7 +53,7 @@
 </template>
 <script setup lang="ts">
 import { fetchPastas } from "~/utils/pastas";
-import { pastas, cursor, handlePastasLoadResponse } from "~/utils/pastas.store";
+import { $pastas, $cursor, $handlePastasLoadResponse } from "~/utils/pastas.store";
 import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
 import { useLazyPastasLoad } from "~/composables/usePastasLoad";
 import { useAppTabs } from "~/composables/useAppTabs";
@@ -82,7 +82,7 @@ async function onMainButtonClick() {
   if (!wasMainButtonPressed) {
     wasMainButtonPressed = true;
     const response = await pastasLoad.execute();
-    handlePastasLoadResponse(response);
+    $handlePastasLoadResponse(response);
   }
 }
 </script>

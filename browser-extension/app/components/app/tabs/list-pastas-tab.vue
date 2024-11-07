@@ -73,9 +73,9 @@ import PastblLoginWithTwitch from "~/components/pastbl-login-with-twitch.vue";
 import PastblSomethingWentWrong from "~/components/pastbl-something-went-wrong.vue";
 import PastblDescribeIssueHere from "~/components/pastbl-describe-issue-here.vue";
 import PastblNoRemotePastas from "~/components/pastbl-no-remote-pastas.vue";
-// eslint-disable-next-line @stylistic/max-len
 import PastasListInitializingSkeleton from "~/components/pastas/list/pastas-list-initializing-skeleton.vue";
 import { injectAppVisibility } from "~/utils/provide-inject-app-visibility";
+import { $handlePastasLoadResponse } from "~/utils/pastas.store";
 
 defineProps<{
   pastas: XPasta[];
@@ -97,7 +97,7 @@ async function onResponse(
     throw new Error("container is null");
   }
   const oldElementHeight = container.scrollHeight;
-  handlePastasLoadResponse(response);
+  $handlePastasLoadResponse(response);
   await nextTick();
   const newElementHeight = container.scrollHeight;
   container.scrollTop = newElementHeight - oldElementHeight;
