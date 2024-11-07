@@ -45,7 +45,7 @@
           @show-actions="showActions"
           @response="onResponse"
         >
-          <template $top>
+          <template #top>
             <div
               v-if="status === 'finished'"
               class="w-full bg-base-100 text-center text-accent"
