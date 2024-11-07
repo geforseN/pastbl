@@ -52,7 +52,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { create } from "domain";
 import { fetchPastas } from "~/utils/pastas";
 import { pastas, cursor, handlePastasLoadResponse } from "~/utils/pastas.store";
 import { useAppVisibility } from "~/utils/provide-inject-app-visibility";
