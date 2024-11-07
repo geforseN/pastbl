@@ -5,21 +5,21 @@
         Pastbl Button Colors
       </legend>
       <settings-color-form-control
-        v-model="mainButtonStyles.borderColor"
+        v-model="$mainButtonStyles.borderColor"
         :label="`Border`"
       />
       <settings-color-form-control
-        v-model="mainButtonStyles.color"
+        v-model="$mainButtonStyles.color"
         :label="`Text`"
       />
       <settings-color-form-control
-        v-model="mainButtonStyles.backgroundColor"
+        v-model="$mainButtonStyles.backgroundColor"
         :label="`Background`"
       />
     </fieldset>
   </div>
 </template>
 <script setup lang="ts">
-import { mainButtonStyles } from "~/utils/settings.store";
+import { $mainButtonStyles } from "~/utils/settings.store";
 import SettingsColorFormControl from "~/components/settings/settings-color-form-control.vue";
 </script>
