@@ -12,6 +12,7 @@
       class="pointer-events-auto absolute bottom-0 right-0 "
       @click="onMainButtonClick"
     />
+    <app-twitch-chat-message-clicked-modal />
     <div
       v-show="appVisibility.state"
       class="pointer-events-auto flex h-full flex-col items-center rounded-t-3xl"
@@ -48,6 +49,7 @@ import AppBottomNav from "~/components/app/app-bottom-nav.vue";
 import AppMainButton from "~/components/app/app-main-button.vue";
 import CreatePastasTab from "~/components/app/tabs/create-pastas-tab.vue";
 import ListPastasTab from "~/components/app/tabs/list-pastas-tab.vue";
+import AppTwitchChatMessageClickedModal from "~/components/app/app-twitch-chat-message-clicked-modal.vue";
 
 const appRef = useTemplateRef("appRef");
 provide("appRef", appRef);
