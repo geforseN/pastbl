@@ -1,6 +1,10 @@
+export function copyText(text: string) {
+  navigator.clipboard.writeText(text);
+  consola.log("copied", text);
+}
+
 export function copyPasta(pasta: XPasta) {
-  navigator.clipboard.writeText(pasta.text);
-  consola.log("copied", pasta.text);
+  copyText(pasta.text);
 }
 
 export function sendPasta(pasta: XPasta) {

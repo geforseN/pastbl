@@ -8,7 +8,9 @@ noMorePastas: Больше паст нет
 noRemotePastasFound: Дистанционные пасты не найдены
 createHere: Создать здесь
 notImplementedYet: Ещё не реализовано
+save: Сохранить
 copy: Скопировать
+copyWithNickname: Скопировать с ником
 send: Отправить
 publishPasta: Опубликовать пасту
 isPublic: Является публичной

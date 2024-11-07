@@ -1,43 +1,55 @@
 <template>
-  <Teleport
-    to="#root"
+  <div
+    v-show="show"
+    ref="container"
+    v-on-click-outside="() => (show = false)"
+    class="pointer-events-auto absolute z-10 flex flex-col items-center gap-1 rounded bg-base-100 p-2 text-base-content"
+    :style
   >
-    <div
-      v-show="show"
-      ref="container"
-      v-on-click-outside="() => (show = false)"
-      :style
+    <button
+      class="btn btn-primary btn-sm"
+      @click="$emit('save', message)"
     >
-      {{ textToCopy }}
-      <button class="btn btn-primary btn-sm">
-        Save
-      </button>
-    </div>
-  </Teleport>
+      {{ $t("save") }}
+    </button>
+    <button
+      class="btn btn-secondary btn-sm"
+      @click="copyText(message.text)"
+    >
+      {{ $t("copy") }}
+    </button>
+    <button
+      v-if="message.nickname"
+      class="btn btn-secondary btn-sm h-fit"
+      @click="copyText(`${message.nickname}: ${message.text})`)"
+    >
+      {{ $t("copyWithNickname") }}
+    </button>
+  </div>
 </template>
 <script setup lang="ts">
 import { useEventListener } from "@vueuse/core";
 import { vOnClickOutside } from "@vueuse/components";
 import type { CSSProperties } from "vue";
+import { copyText } from "~/utils/active-pasta-actions";
 
 const container = useTemplateRef("container");
 
-const show = ref(false);
-const textToCopy = ref("");
+defineEmits<{
+  save: [message: typeof message];
+}>();
 
+const show = ref(false);
+const message = reactive({
+  text: "",
+  nickname: undefined as string | undefined,
+  emotesUrls: new Map<string, string>(),
+});
+
+// FIXME: make positioning dynamic
 const style = reactive({
-  position: "absolute",
-  top: "0",
-  left: "0",
-  zIndex: "10",
-  display: "inline-flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "white",
-  backgroundColor: "black",
-  borderRadius: "5px",
-  padding: "10px",
+  bottom: "30px",
+  right: "0",
 } satisfies CSSProperties);
 
 const { finders: chatMessageBodyFinders } = config.twitch.chatMessagesContainer.messageBody;
@@ -50,27 +62,28 @@ function findMessageBodyElement(target: HTMLElement) {
   }
 }
 
-function getMessageText(element: Element) {
+function parseMessagePart(element: Element) {
   const xConsola = consola.withTag("get-message-text");
   if (!(element instanceof HTMLElement)) {
     xConsola.warn("element is not an HTMLElement", { element });
-    return "";
-  }
-  if (element.dataset.aTarget === "chat-message-text") {
+  } else if (element.dataset.aTarget === "chat-message-text") {
     if (element.textContent !== null) {
-      return element.textContent;
+      return { text: element.textContent };
     }
     xConsola.warn("element is message text, but textContent is null", { element });
   } else if (element.dataset.testSelector === "emote-button") {
     const emote = element.querySelector("img");
     if (emote !== null) {
-      return emote.alt;
+      return {
+        text: emote.alt,
+        url: emote.src,
+      };
     }
     xConsola.warn("element is emote button, but emote is null", { element });
   } else {
     xConsola.warn("unknown element", { element });
   }
-  return "";
+  return { text: "" };
 }
 
 const {
@@ -103,17 +116,34 @@ onMounted(() => {
       if (!messageBody) {
         return consola.info("no message body found", { target: event.target });
       }
+      message.emotesUrls.clear();
       let text = "";
       for (const element of messageBody.children) {
-        text += getMessageText(element);
+        const result = parseMessagePart(element);
+        text += result.text;
+        if (result.url !== undefined) {
+          message.emotesUrls.set(result.text, result.url);
+        }
       }
-      textToCopy.value = text;
+      message.text = text;
+      const parent = messageBody.closest(".chat-line__message");
+      if (!parent) {
+        consola.warn("no parent found", { messageBody });
+      }
+      if (parent instanceof HTMLElement && parent.dataset.aUser) {
+        message.nickname = parent.dataset.aUser;
+      } else {
+        consola.warn("no parent.dataset.aUser found", { parent });
+        message.nickname = undefined;
+      }
       show.value = true;
       await nextTick();
-      consola.debug(event);
-      style.top = `${event.clientY - event.offsetY - container.value!.offsetHeight}px`;
-      style.left = `${event.clientX}px`;
-      consola.info("click handled", { text, messageBody });
+      consola.info("click handled", {
+        message,
+        messageBody,
+        container: container.value,
+        event,
+      });
     });
   });
 });
