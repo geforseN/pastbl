@@ -1,7 +1,9 @@
-support `savePasta` action 
-- [ ] when click on chat pasta must add own popover
+support chat pasta actions 
+- [X] when click on chat pasta must add own popover
+- [ ] fix popover position
 - [ ] must send metadata: user.login, user.id
-- [ ] buttons: `save` and `save with login in text` 
+- [X] buttons: `save`, `copy` and `copy with nickname` 
+- [ ] button: `save with nickname`  
 
 support get local pastas
 - [ ] probably should use browser.storage
