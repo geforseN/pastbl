@@ -1,9 +1,8 @@
 <template>
-  <!-- w-8 -->
   <!-- eslint-disable tailwindcss/no-custom-classname -->
   <span
     :class="props.flat ? 'flex-row items-center': 'flex-col'"
-    class="main inline-flex gap-1"
+    class="emotes-container inline-flex gap-1"
   >
     <emote-integration-logo
       v-for="(source, index) of sources_"
@@ -39,10 +38,11 @@ const hasValidSizeProp = computed(() => "size" in props && typeof props.size ===
 const width_ = computed(() => hasValidSizeProp.value ? props.size! : props.width ?? 16);
 const height_ = computed(() => hasValidSizeProp.value ? props.size! : props.height ?? 16);
 
-const translateY = computed(() => `${height_.value + 4}px`);
-const translateX = computed(() => `${width_.value + 4}px`);
+const TRANSLATE_GAP = 4;
+const translateY = computed(() => `${height_.value + TRANSLATE_GAP}px`);
+const translateX = computed(() => `${width_.value + TRANSLATE_GAP}px`);
 
-const minWidth = computed(() => {
+const containerMinWidth = computed(() => {
   const multiplier = props.flat
     ? sources_.value.length
     : Math.ceil(sources_.value.length / 2);
@@ -50,8 +50,8 @@ const minWidth = computed(() => {
 });
 </script>
 <style scoped>
-.container {
-  min-width: v-bind(minWidth);
+.emotes-container {
+  min-width: v-bind(containerMinWidth);
 }
 
 .translate-to-right {
