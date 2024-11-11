@@ -55,23 +55,10 @@
         />
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <div
-            v-if="isEmotesLoaded && selectedCollection"
-            class="my-0.5 flex max-w-[342px] flex-col sm:max-w-screen-xs"
+            class="my-0.5 flex max-w-[342px] flex-col empty:m-0 empty:border-0 sm:max-w-screen-xs"
           >
-            <i18n-t
-              keypath="emotes.showingPastasWithPerson"
-              class="flex flex-wrap items-center gap-0.5 px-2 py-0.5"
-              tag="div"
-            >
-              <template #person>
-                <selected-person-collection-badge
-                  :twitch="selectedCollection.person.twitch"
-                />
-              </template>
-            </i18n-t>
-          </div>
-          <div v-else>
-            <add-emotes-hint />
+            <persons-emotes-collections-hint />
+            <global-emotes-integrations-hint />
           </div>
           <div class="flex justify-between p-1">
             <add-emotes-button-link />
@@ -98,21 +85,7 @@ defineSlots<{
 const pastasStore = usePastasStore();
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
-const selectedCollection = computed(() =>
-  withLogSync(
-    personsEmoteCollections.selectedCollection.state,
-    "selectedCollection",
-  ),
-);
 const selectedLogin = computed(
   () => personsEmoteCollections.selectedLogin.state,
-);
-
-const isEmotesLoaded = computedAsync(
-  () =>
-    until(() => useEmotesStore().isInitialUserEmotesReady).toBeTruthy({
-      timeout: 3000,
-    }),
-  false,
 );
 </script>
