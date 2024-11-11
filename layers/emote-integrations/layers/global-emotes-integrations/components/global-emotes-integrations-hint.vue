@@ -3,24 +3,29 @@
     v-if="uncheckedSources.length !== allEmoteSources.count"
     class="flex flex-wrap items-center gap-0.5 px-2 py-0.5"
   >
-    Showing
-    {{ allSourcesChecked && 'all' }}
-    <emote-integration-logos
+    <template
       v-if="!allSourcesChecked"
-      :sources="checkedSources"
-      flat
-      :size="12"
-      class="px-0.5"
-    />
+    >
+      {{ $t('showing') }}
+      <emote-integration-logos
+        :sources="checkedSources"
+        flat
+        :size="12"
+        class="px-0.5"
+      />
+    </template>
+    <template v-else>
+      {{ $t('showing-all') }}
+    </template>
     <nuxt-link-locale
       class="link inline-flex"
       to="/collections/global"
     >
-      global emotes
+      {{ $t('collections.global.link').toLowerCase() }}
     </nuxt-link-locale>
     <wrap-with-text
       before="("
-      :after="allSourcesChecked ? ')' : 'excluded )'"
+      :after="allSourcesChecked ? ')' : `${$t('excluded').toLowerCase()} )`"
     >
       <emote-integration-logos
         :sources="allSourcesChecked ? checkedSources : uncheckedSources"
