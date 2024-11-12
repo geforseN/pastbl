@@ -30,6 +30,9 @@ pnpm coverage
 ```
 
 ### Test some workspace
+
+Allowed values for `--project` are: `nuxt`, `vue`, `nitro`, `node`
+
 ```bash
 pnpm test -- --project node
 ```
