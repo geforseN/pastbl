@@ -15,6 +15,9 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
     const integrations = computed(() => integrationsState.state.value);
 
     const checkedSources = useGlobalEmotesIntegrationsCheckedSources();
+    const uncheckedSources = computed(() =>
+      allEmoteSources.filter((source) => !checkedSources.has(source)),
+    );
 
     const integrationsLoad = useEmoteIntegrationsLoad(
       globalEmotesIntegrationsService,
@@ -53,6 +56,7 @@ export const useGlobalEmotesIntegrationsStore = defineStore(
 
     return {
       checkedSources,
+      uncheckedSources,
       updateIntegration<SO extends EmoteSource>(
         integration: SomeEmoteIntegration<SO>,
       ) {

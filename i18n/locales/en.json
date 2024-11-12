@@ -307,5 +307,8 @@
         "noExistMessage": "Can not remove the tag which is not in tags"
       }
     }
-  }
+  },
+  "showing": "Showing",
+  "showing-all": "Showing all",
+  "excluded": "Excluded" 
 }

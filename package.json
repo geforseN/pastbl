@@ -19,6 +19,7 @@
     "postinstall": "nuxt prepare",
     "analyze": "nuxi analyze",
     "test": "vitest",
+    "coverage": "vitest run --coverage --coverage.include='**' --coverage.include='!stories' --coverage.include='!storybook-static' --coverage.include='!**/.nuxt' --coverage.include='!**/*.config.ts'",
     "test:nitro": "vitest --config tests/server/nitro/vitest.config.ts",
     "test:nuxt": "vitest --config tests/client/nuxt/vitest.config.ts",
     "test:nuxt:coverage": "pnpm test:nuxt --coverage",

@@ -10,10 +10,8 @@ fix:
 
 - [ ] make coverage work (update run command, add config param)
 - [ ] nickname color input lags
-- [ ] teleport not working twice
 - [ ] <remove-pastas-list />: bad types, delete is not working, refactor
 - [x] tsc warns
-- [ ] login with twitch button (also add tests)
 
 feat:
 
@@ -35,6 +33,7 @@ feat:
 docs:
 
 - [ ] refactor README
+  - [ ] write about test scripts
 
 refactor:
 
@@ -56,3 +55,6 @@ test:
 - [ ] add screenshot testing
 - [ ] login with twitch button
 - [ ] add import alias plugin into vitest.config.ts files
+
+build:
+  - [ ] use rspack (fails because of @nuxtjs/i18n virtual modules)
