@@ -16,6 +16,29 @@ pnpm install
 pnpm dev
 ```
 
+## Test
+
+### Test all workspaces
+```bash
+pnpm test
+```
+
+### Coverage all workspaces
+
+```bash
+pnpm coverage
+```
+
+### Test some workspace
+```bash
+pnpm test -- --project node
+```
+
+### Test some workspaces
+```bash
+pnpm test -- --project node --project vue
+```
+
 ## Browser Extension Development Server
 
 ```bash
