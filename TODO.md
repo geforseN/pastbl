@@ -11,7 +11,7 @@ also ignore md files for pull requests!
 
 fix:
 
-- [ ] make coverage work (update run command, add config param)
+- [ ] `unknown` in coverage badge
 - [ ] nickname color input lags
 - [ ] <remove-pastas-list />: bad types, delete is not working, refactor
 - [x] tsc warns
@@ -32,6 +32,8 @@ feat:
 - add 'package.json'.scripts.test
   - [ ] console must ask which environments to run
   - [ ] console must ask path
+
+  when remote pasta added must update remote pastas list
 
 docs:
 
