@@ -2,7 +2,7 @@ import { z } from "zod";
 import consola from "consola";
 
 const bodySchema = z.object({
-  broadcasterTwitchId: z.string().refine(isTwitchUserId),
+  login: z.string().refine(isTwitchUserLogin),
   message: z.string(),
 });
 
@@ -40,6 +40,12 @@ const responseSchema = z.union([
     })),
 ]);
 
+const getTwitchUser = defineCachedFunction(fetchTwitchUser, {
+  maxAge: 60 * 10 /* 10 minutes */,
+  name: "getTwitchUserForTwitchChatMessages",
+  getKey: (login) => login,
+});
+
 export default defineEventHandler(async (event) => {
   setTwitchHeaders(event);
   setHeaders(event, {
@@ -49,34 +55,12 @@ export default defineEventHandler(async (event) => {
   const body = bodySchema.parse(await readBody(event));
   try {
     // LINK: https://dev.twitch.tv/docs/api/reference/#send-chat-message
-    // data.message_id -  string
-    // data.is_sent - boolean
-    // data.drop_reason is null when is_sent is true, otherwise:
-    // data.drop_reason.code - string
-    // data.drop_reason.message - string
-    // 400 Bad Request
-    //  - The broadcaster_id query parameter is required.
-    //  - The ID in the broadcaster_id query parameter is not valid.
-    //  - The sender_id query parameter is required.
-    //  - The ID in the sender_id query parameter is not valid.
-    //  - The text query parameter is required.
-    //  - The ID in the reply_parent_message_id query parameter is not valid.
-    // 401 Unauthenticated
-    //  - The ID in the user_id query parameter must match the user ID in the access token.
-    //  - The Authorization header is required and must contain a user access token.
-    //  - The user access token must include the user:write:chat scope.
-    //  - The access token is not valid.
-    //  - The client ID specified in the Client-Id header does not match the client ID specified in the access token.
-    // 403 Forbidden
-    //  - The sender is not permitted to send chat messages to the broadcaster’s chat room.
-    // 422 Unprocessable Entity
-    //  - The message is too large.
+    const broadcaster = await getTwitchUser(body.login);
     const response = await fetchTwitchApi("/chat/messages", {
       method: "POST",
       ignoreResponseError: true,
       body: {
-        // TODO: user should send broadcaster nickname, broadcaster id should be fetch from api here
-        broadcaster_id: body.broadcasterTwitchId,
+        broadcaster_id: broadcaster.id,
         sender_id: userTwitchId,
         /* TODO: also can accept pastaId in body and then get pasta text via db call */
         message: body.message,

@@ -24,7 +24,7 @@
         </button>
         <button
           class="btn btn-primary btn-sm text-xl"
-          @click="sendPasta"
+          @click="sendPastaInChat"
         >
           {{ $t('send') }}
         </button>
@@ -34,6 +34,34 @@
 </template>
 <script setup lang="ts">
 import { vOnClickOutside } from "@vueuse/components";
+import { useBrowserLocation } from "@vueuse/core";
+
+const browserLocation = useBrowserLocation();
+
+async function sendPastaInChat() {
+  const message = pasta_.value?.text;
+  if (message === undefined) {
+    throw new Error("Pasta text is undefined, can not send chat message");
+  }
+  const login = browserLocation.value.pathname?.replace("/", "");
+  if (typeof login !== "string" || login.includes("/")) {
+    throw new Error("Failed to send chat message, correct broadcaster login not found");
+  }
+  const res = await fetch(config.pastbl.chatMessages.post.path, {
+    ...config.pastbl.chatMessages.post.init,
+    body: JSON.stringify({
+      message,
+      login,
+    }),
+  });
+  if (!res.ok) {
+    throw new Error("response not ok");
+  }
+  const data = await res.json();
+  if (typeof data !== "object" || data === null || !("isSent" in data) || typeof data.isSent !== "boolean") {
+    throw new Error("incorrect response");
+  }
+}
 
 defineSlots<{
   default: VueSlot<{
