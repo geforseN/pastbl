@@ -9,6 +9,9 @@ const bodySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   setTwitchHeaders(event);
+  setHeaders(event, {
+    "Access-Control-Allow-Headers": "Content-Type",
+  });
   const userTwitchId = await requireUserTwitchIdFromSession(event);
   const body = bodySchema.parse(await readBody(event));
   try {
