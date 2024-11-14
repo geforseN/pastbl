@@ -16,7 +16,7 @@ export function getCoords(event: PointerEvent) {
 export function findPasta(target: HTMLElement) {
   const element = findPastaElement(target);
   const index = findPastaIndex(element);
-  const pasta = pastas.value.at(index);
+  const pasta = $pastas.value.at(index);
   if (!pasta) {
     throw new Error(`Pasta with index=${index} not found`);
   }
