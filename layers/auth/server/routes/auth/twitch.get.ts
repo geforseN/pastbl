@@ -1,4 +1,10 @@
 export default defineOAuthTwitchEventHandler({
+  config: {
+    scope: [
+      "user:write:chat",
+      "user:bot",
+    ],
+  },
   async onSuccess(event, { user: twitchApiUser, tokens: _tokens }) {
     const user = parseSessionUser(twitchApiUser);
     await setUserSession(event, { user });
