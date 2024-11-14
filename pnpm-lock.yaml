@@ -166,7 +166,7 @@ importers:
         version: 0.7.0(eslint@9.14.0(jiti@2.4.0))
       '@vue-macros/nuxt':
         specifier: ^1.12.8
-        version: 1.12.8(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.23.1)(magicast@0.3.5)(nuxt@3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)))(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))
+        version: 1.12.8(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)))(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))
       '@vue-macros/volar':
         specifier: ^0.30.5
         version: 0.30.5(rollup@4.24.4)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
@@ -241,7 +241,7 @@ importers:
         version: 3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))
       nuxt-auth-utils:
         specifier: ^0.5.3
-        version: 0.5.3(magicast@0.3.5)(rollup@4.24.4)
+        version: 0.5.4(magicast@0.3.5)(rollup@4.24.4)
       playwright:
         specifier: ^1.48.2
         version: 1.48.2
@@ -6154,8 +6154,8 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  nuxt-auth-utils@0.5.3:
-    resolution: {integrity: sha512-APDKcRHn1gROwPUXB5C7NIV7P/4w6oqLINfTLtRyD69VUUSoY2CC0I1OqDnMsUxD3LHIvlEideRZ/rjYBQtfOg==}
+  nuxt-auth-utils@0.5.4:
+    resolution: {integrity: sha512-Dyo5+sj44aFYfDO2aahpdqbwewz7OCEcjoXiCcrLty5ZJWErLXUL68xKzzkgeyXEdV4YhtKZnfpP/+NI1+fPNw==}
     peerDependencies:
       '@simplewebauthn/browser': ^11.0.0
       '@simplewebauthn/server': ^11.0.0
@@ -11288,12 +11288,12 @@ snapshots:
       - rollup
       - vue
 
-  '@vue-macros/nuxt@1.12.8(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.23.1)(magicast@0.3.5)(nuxt@3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)))(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))':
+  '@vue-macros/nuxt@1.12.8(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)))(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))':
     dependencies:
       '@nuxt/kit': 3.14.159(magicast@0.3.5)(rollup@4.24.4)
       '@vue-macros/common': 1.15.0(rollup@4.24.4)(vue@3.5.12(typescript@5.6.3))
       nuxt: 3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(drizzle-orm@0.36.1(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))
-      unplugin-vue-macros: 2.13.3(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.23.1)(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))
+      unplugin-vue-macros: 2.13.3(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.19.12)(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))
     transitivePeerDependencies:
       - '@rspack/core'
       - '@vueuse/core'
@@ -14680,11 +14680,12 @@ snapshots:
 
   nuxi@3.15.0: {}
 
-  nuxt-auth-utils@0.5.3(magicast@0.3.5)(rollup@4.24.4):
+  nuxt-auth-utils@0.5.4(magicast@0.3.5)(rollup@4.24.4):
     dependencies:
       '@adonisjs/hash': 9.0.5
       '@nuxt/kit': 3.14.159(magicast@0.3.5)(rollup@4.24.4)
       defu: 6.1.4
+      h3: 1.13.0
       hookable: 5.5.3
       ofetch: 1.4.1
       ohash: 1.1.4
@@ -16350,12 +16351,12 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin-combine@1.0.3(esbuild@0.23.1)(rollup@4.24.4)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)):
+  unplugin-combine@1.0.3(esbuild@0.19.12)(rollup@4.24.4)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0)):
     dependencies:
       '@antfu/utils': 0.7.10
       unplugin: 1.16.0
     optionalDependencies:
-      esbuild: 0.23.1
+      esbuild: 0.19.12
       rollup: 4.24.4
       vite: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
 
@@ -16368,7 +16369,7 @@ snapshots:
       - rollup
       - vue
 
-  unplugin-vue-macros@2.13.3(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.23.1)(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3)):
+  unplugin-vue-macros@2.13.3(@vueuse/core@11.2.0(vue@3.5.12(typescript@5.6.3)))(esbuild@0.19.12)(rollup@4.24.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@vue-macros/better-define': 1.11.0(rollup@4.24.4)(vue@3.5.12(typescript@5.6.3))
       '@vue-macros/boolean-prop': 0.5.2(rollup@4.24.4)(vue@3.5.12(typescript@5.6.3))
@@ -16400,7 +16401,7 @@ snapshots:
       '@vue-macros/short-vmodel': 1.5.2(rollup@4.24.4)(vue@3.5.12(typescript@5.6.3))
       '@vue-macros/volar': 0.30.5(rollup@4.24.4)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
       unplugin: 1.16.0
-      unplugin-combine: 1.0.3(esbuild@0.23.1)(rollup@4.24.4)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))
+      unplugin-combine: 1.0.3(esbuild@0.19.12)(rollup@4.24.4)(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))
       unplugin-vue-define-options: 1.5.2(rollup@4.24.4)(vue@3.5.12(typescript@5.6.3))
       vue: 3.5.12(typescript@5.6.3)
     transitivePeerDependencies:
