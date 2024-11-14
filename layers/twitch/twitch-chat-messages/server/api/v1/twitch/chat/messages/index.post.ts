@@ -1,11 +1,44 @@
-import consola from "consola";
 import { z } from "zod";
-import { isObject, isBoolean } from "~/utils/guards";
+import consola from "consola";
 
 const bodySchema = z.object({
   broadcasterTwitchId: z.string().refine(isTwitchUserId),
   message: z.string(),
 });
+
+const responseSchema = z.union([
+  z
+    .object({
+      error: z.string(),
+      status: z.number(),
+      message: z.string(),
+    })
+    .transform((error) => ({
+      error,
+      isSent: false as const,
+    })),
+  z
+    .object({
+      data: z
+        .array(
+          z.object({
+            message_id: z.string(),
+            is_sent: z.boolean().refine((value): value is true => value === true, {
+              message: "is_sent must be true",
+            }),
+            drop_reason: z.null(),
+          }),
+        )
+        .length(1),
+    })
+    .transform((res) => res.data[0])
+    .refine((data) => data !== undefined, {
+      message: "data is undefined",
+    })
+    .transform((data) => ({
+      isSent: data.is_sent,
+    })),
+]);
 
 export default defineEventHandler(async (event) => {
   setTwitchHeaders(event);
@@ -16,31 +49,11 @@ export default defineEventHandler(async (event) => {
   const body = bodySchema.parse(await readBody(event));
   try {
     // LINK: https://dev.twitch.tv/docs/api/reference/#send-chat-message
-    // data.message_id
-    // data.is_sent
-    // data.drop_reason.code
-    // data.drop_reason.message
-    const data = await fetchTwitchApi("/chat/messages", {
-      method: "POST",
-      body: {
-        broadcaster_id: body.broadcasterTwitchId,
-        sender_id: userTwitchId,
-        /* TODO: also can accept pastaId in body and then get pasta text via db call */
-        message: body.message,
-      },
-    });
-    assert.ok(isObject(data) && isBoolean(data.is_sent));
-    const result = {
-      isSent: data.is_sent,
-    };
-    if (data.drop_reason) {
-      if (result.isSent) {
-        consola.warn("message is sent, but drop_reason is present", { data, result });
-      }
-      Object.assign(result, { dropReason: { ...data.drop_reason } });
-    }
-    return result;
-  } catch {
+    // data.message_id -  string
+    // data.is_sent - boolean
+    // data.drop_reason is null when is_sent is true, otherwise:
+    // data.drop_reason.code - string
+    // data.drop_reason.message - string
     // 400 Bad Request
     //  - The broadcaster_id query parameter is required.
     //  - The ID in the broadcaster_id query parameter is not valid.
@@ -58,9 +71,29 @@ export default defineEventHandler(async (event) => {
     //  - The sender is not permitted to send chat messages to the broadcaster’s chat room.
     // 422 Unprocessable Entity
     //  - The message is too large.
+    const response = await fetchTwitchApi("/chat/messages", {
+      method: "POST",
+      ignoreResponseError: true,
+      body: {
+        // TODO: user should send broadcaster nickname, broadcaster id should be fetch from api here
+        broadcaster_id: body.broadcasterTwitchId,
+        sender_id: userTwitchId,
+        /* TODO: also can accept pastaId in body and then get pasta text via db call */
+        message: body.message,
+      },
+    });
+    const result = responseSchema.parse(response);
+    if (!result.isSent) {
+      setResponseStatus(event, result.error.status);
+    }
+    return result;
+  } catch (error) {
+    consola
+      .withTag("twitch-chat-messages")
+      .error("Unknown error occurred, catch block should be unreachable", { error, cause: error?.cause });
     return {
       isSent: false,
-      // FIXME: add drop_reason
+      error,
     };
   }
 });
