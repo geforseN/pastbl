@@ -7,7 +7,7 @@ support chat pasta actions
 
 support get local pastas
 - [ ] probably should use browser.storage
-- [ ] may be can be solved with iframe (must allow iframe in manifest for pastbl domen)
+- [ ] may be can be solved with iframe (must allow iframe in manifest for pastbl domain)
 
 support `sendPasta` ("~/utils/active-pasta-actions.ts")
 - [ ] maybe can implemented only with twitch api
