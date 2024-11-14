@@ -22,17 +22,12 @@
         >
           {{ $t('copy') }}
         </button>
-        <div
-          :title="$t('notImplementedYet')"
+        <button
+          class="btn btn-primary btn-sm text-xl"
+          @click="sendPasta"
         >
-          <button
-            class="btn btn-primary btn-sm text-xl"
-            disabled
-            @click="() => { /** FIXME */ }"
-          >
-            {{ $t('send') }}
-          </button>
-        </div>
+          {{ $t('send') }}
+        </button>
       </div>
     </div>
   </div>
