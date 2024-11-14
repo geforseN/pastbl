@@ -79,3 +79,7 @@ export const isArray = Array.isArray;
 
 export const isStringArray = (value: unknown): value is string[] =>
   isArray(value) && value.every((v) => typeof v === "string");
+
+export function isBoolean(value: unknown): value is boolean {
+  return typeof value === "boolean";
+}
