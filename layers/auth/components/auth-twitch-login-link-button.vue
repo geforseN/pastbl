@@ -1,6 +1,6 @@
 <template>
-  <nuxt-link
-    to="/auth/twitch"
+  <a
+    href="/auth/twitch"
     target="_blank"
     data-testid="auth-twitch-login-link-button"
     class="group btn btn-ghost w-fit flex-nowrap bg-twitch-accent text-base-300 xs:w-auto"
@@ -14,5 +14,5 @@
       source="Twitch"
       class="size-6 translate-y-0.5"
     />
-  </nuxt-link>
+  </a>
 </template>
