@@ -10,7 +10,7 @@ support get local pastas
 - [ ] may be can be solved with iframe (must allow iframe in manifest for pastbl domain)
 
 support `sendPasta` ("~/utils/active-pasta-actions.ts")
-- [ ] maybe can implemented only with twitch api
+- [X] maybe can implemented only with twitch api
 
 add pastas sort, filter
 - [ ] like in pastbl, reuse this code, see in find-pasta and pastas-list-wrapper
