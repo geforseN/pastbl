@@ -17,7 +17,6 @@ feat:
 - [ ] use WebShare API for published pasta
   - https://www.youtube.com/watch?v=lt77LscZcn0
   - https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
-- [x] add chrome & firefox extensions
 - [ ] add 'is ascii pasta' filter
 - [ ] eslint configs order
 - add 'package.json'.scripts.test
@@ -44,7 +43,6 @@ test:
     - [ ] no shift + mouse wheel => vertical scroll
     - [ ] shift + mouse wheel => vertical scroll
 - [ ] add screenshot testing
-- [ ] login with twitch button
 - [ ] add import alias plugin into vitest.config.ts files
 
 build:
