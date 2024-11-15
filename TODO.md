@@ -1,4 +1,3 @@
-- [ ] use consola instead of log utility function
 - [ ] add issue to element-plus about notification
   - https://element-plus.org/en-US/component/notification.html#basic-usage
   - https://ui.nuxt.com/components/notification

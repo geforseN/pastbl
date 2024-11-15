@@ -1,11 +1,16 @@
 import { isFunction } from "./guards.ts";
 
+let consolaPromise: Promise<typeof import("consola")>;
+
 export function log<
-  L extends keyof Pick<typeof console, "debug" | "info" | "warn" | "error">,
->(level: L, key: string, value?: Record<string, unknown>) {
+  T extends import("consola").LogType,
+>(...args: [type: T, key: string, value?: Record<string, unknown>]) {
   if (import.meta.dev) {
-    // eslint-disable-next-line no-console
-    console[level](arguments.length > 2 ? { [key]: value } : key);
+    const [type, key, value] = args;
+    consolaPromise ??= import("consola");
+    consolaPromise.then(({ consola }) => {
+      consola[type](args.length > 2 ? { [key]: value } : key);
+    });
   }
 }
 
