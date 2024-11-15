@@ -110,10 +110,8 @@ const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();
 const userStore = useUserStore();
 
-const addTagDialogRef
-  = useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
-const pastaFormRef
-  = useTemplateRef<InstanceType<typeof PastaForm>>("pastaForm");
+const addTagDialogRef = useTemplateRef("addTagDialog");
+const pastaFormRef = useTemplateRef("pastaForm");
 
 async function focusOnTextarea() {
   // NOTE: without sleep will be ugly layout shift when collapse become opened

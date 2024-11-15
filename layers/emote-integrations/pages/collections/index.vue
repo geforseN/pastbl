@@ -33,8 +33,7 @@ useHead({
   title: "Emotes Collections",
 });
 
-const fetchRef
-  = useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchForm>>("fetch");
+const fetchRef = useTemplateRef("fetch");
 
 onMounted(() => {
   const params = useUrlSearchParams<{ focus?: "fetch" }>();

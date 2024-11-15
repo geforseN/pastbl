@@ -58,17 +58,12 @@ defineExpose({
 
 const twitchChannelsSearchNickname = ref("");
 
-const twitchChannelsSearchRef = useTemplateRef<
-  InstanceType<typeof TwitchChannelsSearch>
->("twitchChannelsSearch");
+const twitchChannelsSearchRef = useTemplateRef("twitchChannelsSearch");
 const twitchChannelsSearchContainer = computed(
   () => twitchChannelsSearchRef.value?.containerRef || raise(),
 );
 
-const inputGroupRef
-  = useTemplateRef<InstanceType<typeof PersonEmotesCollectionFetchInputGroup>>(
-    "inputGroup",
-  );
+const inputGroupRef = useTemplateRef("inputGroup");
 const inputRef = computed(() => inputGroupRef.value?.inputRef || raise());
 
 const mustSelectCollectionOnLoad = reactive(

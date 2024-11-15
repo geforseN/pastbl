@@ -58,25 +58,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type {
-  ChatPastaEditAcceptChangesDialog,
-  ChatPastaTagAddDialog,
-  PastaFormEdit,
-} from "#build/components";
-
 const { pastaId } = defineProps<{
   pastaId: number;
 }>();
 
 const localePath = useLocalePath();
 
-const pastaFormEditRef
-  = useTemplateRef<InstanceType<typeof PastaFormEdit>>("pastaFormEdit");
-const addTagDialogRef
-  = useTemplateRef<InstanceType<typeof ChatPastaTagAddDialog>>("addTagDialog");
-const acceptChangesDialogRef = useTemplateRef<
-  InstanceType<typeof ChatPastaEditAcceptChangesDialog>
->("acceptChangesDialog");
+const pastaFormEditRef = useTemplateRef("pastaFormEdit");
+const addTagDialogRef = useTemplateRef("addTagDialog");
+const acceptChangesDialogRef = useTemplateRef("acceptChangesDialog");
 
 const mustIgnoreRouteLeaveGuard = ref(false);
 

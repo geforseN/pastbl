@@ -84,8 +84,7 @@ defineProps<{
   isPastaSame: boolean;
 }>();
 
-const pastaFormTextareaRef
-  = useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
+const pastaFormTextareaRef = useTemplateRef("pastaFormTextarea");
 
 defineEmits<{
   decline: [];
