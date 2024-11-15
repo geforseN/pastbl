@@ -9,7 +9,7 @@
       :key="`${pasta.id}:${pasta.text}`"
       v-bind="pasta"
       @copy="pastasStore.copyPasta(pasta)"
-      @edit="navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))"
+      @edit="navigateTo($localePath(`/pastas/edit/${pasta.id}`))"
       @remove="() => {}"
       @populate="
         (pastaTextContainer) => {
