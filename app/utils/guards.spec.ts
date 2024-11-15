@@ -23,7 +23,7 @@ suite("utils", () => {
 
       it.for(
         [guards.isEmptyObject, guards.isEmptyObject2],
-      )("asd", (isEmptyObject) => {
+      )("returns true for empty class instances", (isEmptyObject) => {
         // @ts-expect-error isEmptyObject argument type expect Record (object), received class instance (also object)
         expect(isEmptyObject(new Empty())).toBe(true);
       });
