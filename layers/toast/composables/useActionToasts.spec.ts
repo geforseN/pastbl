@@ -4,7 +4,7 @@ import { additionalMethods, baseMethods } from "../internal/utils.ts";
 import { raiseToastMethod } from "../internal/raise-method.ts";
 import type { RawActionToastsMethods } from "../internal/types.ts";
 import { useActionToasts } from "./useActionToasts.ts";
-import * as devOnly from "~/utils/dev-only.ts";
+import * as devOnly from "~~/shared/utils/dev-only.ts";
 
 function useTestActionToasts<
   N extends string,
