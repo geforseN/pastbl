@@ -1,4 +1,5 @@
 import { raise, type RaiseReason_ } from "./raise.ts";
+import { isFunction } from "./guards.ts";
 
 export type RaiseReason = MaybeGetter<RaiseReason_>;
 

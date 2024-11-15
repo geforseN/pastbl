@@ -14,25 +14,12 @@ export function getCoords(event: PointerEvent) {
 }
 
 export function findPasta(target: HTMLElement) {
-  const element = findPastaElement(target);
-  const index = findPastaIndex(element);
-  const pasta = pastas.value.at(index);
-  if (!pasta) {
-    throw new Error(`Pasta with index=${index} not found`);
-  }
+  const index = findPastaIndex(target);
+  const pasta = $requirePastaAt(index);
   return pasta;
 }
 
 function findPastaIndex(target: HTMLElement) {
-  const pastaElement = findPastaElement(target);
-  const number = Number(pastaElement.dataset.pastaIndex);
-  if (!Number.isInteger(number)) {
-    throw new TypeError(`number=${number} is not an integer`);
-  }
-  return number;
-}
-
-function findPastaElement(target: HTMLElement) {
   const pastaElement = target.dataset.pastaIndex
     ? target
     : target.closest("[data-pasta-index]");
@@ -41,5 +28,9 @@ function findPastaElement(target: HTMLElement) {
       target,
     });
   }
-  return pastaElement;
+  const index = Number(pastaElement.dataset.pastaIndex);
+  if (!Number.isInteger(index)) {
+    throw new TypeError(`index=${index} is not an integer`);
+  }
+  return index;
 }

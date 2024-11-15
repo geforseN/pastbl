@@ -35,6 +35,11 @@ const pastblPostPastasPath = withDefaultValueIfNotString(
   pastblBasePath + "/api/v1/pastas",
 );
 
+const pastblPostChatMessagesPath = withDefaultValueIfNotString(
+  import.meta.env.WXT_PASTBL_CHAT_MESSAGES_PATH,
+  pastblBasePath + "/api/v1/twitch/chat/messages",
+);
+
 export const config = {
   twitch: {
     chatMessagesContainer: {
@@ -69,6 +74,19 @@ export const config = {
       post: {
         path: pastblPostPastasPath,
       },
+    },
+    chatMessages: {
+      post: {
+        path: pastblPostChatMessagesPath,
+        init: {
+          credentials: "include",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      },
+
     },
     contentScript: {
       pollInterval: 300,
