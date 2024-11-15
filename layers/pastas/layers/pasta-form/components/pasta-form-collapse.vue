@@ -93,7 +93,7 @@
         />
       </client-only>
     </div>
-    <teleport to="body">
+    <teleport to="#teleports">
       <chat-pasta-tag-add-dialog
         ref="addTagDialog"
         :tag="pastaStore.pasta.tag"

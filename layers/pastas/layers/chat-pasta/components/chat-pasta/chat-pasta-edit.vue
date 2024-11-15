@@ -30,7 +30,7 @@
         :can-populate
       />
     </client-only>
-    <teleport to="body">
+    <teleport to="#teleports">
       <chat-pasta-edit-accept-changes-dialog
         ref="acceptChangesDialog"
         :tags="megaPasta.tags"
