@@ -1,3 +1,4 @@
+import consola from "consola";
 import { z } from "zod";
 
 const environmentSchema = z
@@ -27,8 +28,7 @@ const environmentSchema = z
 const environmentParse = environmentSchema.safeParse(process.env);
 
 if (!environmentParse.success) {
-  // eslint-disable-next-line no-console
-  console.error(environmentParse.error);
+  consola.withTag("environment").error(environmentParse.error);
 }
 
 export const environment = (environmentParse.data || {}) as z.infer<

@@ -26,7 +26,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
       .get()
       .catch(() => {})
       .then(async (restoredValue) => {
-        withLogSync({ restoredValue, key }, `${key}:restoredValue`);
+        log("debug", "restored", { restoredValue, key, tag: "useIndexedDBKeyValue" });
         const isRestoredOk = restoredValue !== undefined;
         if (!isRestoredOk) {
           await idbValue.set(defaultValue).catch(setErrorAndThrow);
@@ -46,7 +46,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
       state,
       (value) => {
         if (!isRestored.value) {
-          return withLogSync({ key }, `${key}:set:fast-quit`);
+          return log("debug", "set:fast-quit", { key, tag: "useIndexedDBKeyValue" });
         }
         // NOTE: must use toRaw, otherwise will throw cause Proxy can not be in IndexedDB
         const rawValue = toRaw(value);
@@ -56,7 +56,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
           .catch(setErrorAndThrow)
           .finally(() => {
             isLoading.value = false;
-            withLogSync({ key, rawValue, value }, `${key}:set:done`);
+            return log("debug", "set:done", { key, rawValue, value, tag: "useIndexedDBKeyValue" });
           });
       },
       {

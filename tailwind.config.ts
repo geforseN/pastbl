@@ -17,6 +17,7 @@ export default {
     "layers/**/utils/**/*.ts",
     "layers/**/components/**/*.{js,vue,ts}",
     "layers/**/pages/**/*.vue",
+    "packages/ui/src/**/*.{js,vue,ts}",
   ],
   theme,
   plugins: [daisyui, debugScreens, scrollbar],

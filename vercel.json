@@ -1,3 +1,3 @@
 {
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':!*.md' ':!.github/*'"
+  "ignoreCommand": "[ $(git diff --name-only HEAD^ HEAD | grep -cvE '\\.md$|^\\.github/') -eq 0 ]"
 }

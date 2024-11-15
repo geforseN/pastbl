@@ -29,7 +29,7 @@ export function useLogRocket(
   watchImmediate(userSession.ready, async () => {
     const loggedIn = userSession.loggedIn.value;
     const uid = await getLogRocketUserId(userSession, loggedIn);
-    console.debug({ loggedIn, uid });
+    log("debug", "session", { loggedIn, uid });
     LogRocket.identify(uid, { loggedIn });
   });
 }

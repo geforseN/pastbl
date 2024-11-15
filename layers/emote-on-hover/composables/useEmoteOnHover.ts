@@ -97,10 +97,11 @@ export function useEmoteOnHover(container: ComputedRef<HTMLElement>) {
         assert.ok(event instanceof MouseEvent);
         const { target, relatedTarget, currentTarget } = event;
         if (!(target instanceof Element)) {
-          return withLogSync(null, "not an element");
+          return log("debug", "not an element");
         }
         if (target === currentTarget) {
-          return withLogSync(nullEveryState, "cursor moved away");
+          nullEveryState();
+          return log("debug", "cursor moved away");
         }
         const isWrappedEmoji
           = target instanceof HTMLElement
@@ -116,7 +117,8 @@ export function useEmoteOnHover(container: ComputedRef<HTMLElement>) {
             || target instanceof HTMLInputElement
           )
         ) {
-          return withLogSync(nullEveryState, "not an image");
+          nullEveryState();
+          return log("debug", "not an image");
         }
         if (!(target instanceof HTMLImageElement) || !isFn(options.findEmote)) {
           return;

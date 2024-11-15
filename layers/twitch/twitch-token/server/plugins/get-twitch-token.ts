@@ -1,15 +1,15 @@
+import consola from "consola";
+
 export default defineNitroPlugin(async (nitro) => {
   await runTask("get-twitch-token");
   nitro.hooks.hookOnce("close", async () => {
-    /* eslint-disable no-console */
-    console.log("Twitch token revoke started");
+    consola.withTag("twitch-token").log("Revoking...");
     const token = await getTwitchTokenFromStorage();
     if (!token) {
-      return console.log("No twitch token to revoke, fast exit");
+      return consola.withTag("twitch-token").warn("No token to revoke, fast return");
     }
     await revokeTwitchToken(token);
     await removeTwitchTokenFromStorage();
-    console.log(`Twitch token revoked`);
-    /* eslint-enable no-console */
+    consola.withTag("twitch-token").log(`Revoked!`);
   });
 });

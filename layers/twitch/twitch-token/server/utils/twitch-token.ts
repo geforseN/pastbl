@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { z } from "zod";
 import { $fetch } from "ofetch";
+import consola from "consola";
 import { environment } from "~~/server/utils/environment.ts";
 
 const twitchTokenBaseOptions = {
@@ -59,10 +60,8 @@ export async function fetchTwitchToken() {
 }
 
 export async function fetchTwitchTokenWithLogs() {
-  /* eslint-disable no-console */
-  console.log("Fetching twitch token");
+  consola.withTag("twitch-token").log("Fetching...");
   const token = await fetchTwitchToken();
-  console.log("Fetched twitch token");
+  consola.withTag("twitch-token").log("Fetched!");
   return token;
-  /* eslint-enable no-console */
 }

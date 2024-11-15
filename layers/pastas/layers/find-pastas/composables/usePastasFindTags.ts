@@ -14,20 +14,14 @@ export function useFindPastasTags(
 
   const allPastasTags = computed(() => {
     const unique = uniqueValues(allPastas.value.flatMap((pasta) => pasta.tags));
-    return withLogSync(
-      unique.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1)),
-      "allPastasTags",
-    );
+    return unique.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
   });
 
   const pastasWithSelectedTags = computed(() => {
-    return withLogSync(
-      allPastas.value.filter((pasta) =>
-        selectedPastaTags.value.every((selectedTag) =>
-          pasta.tags.includes(selectedTag),
-        ),
+    return allPastas.value.filter((pasta) =>
+      selectedPastaTags.value.every((selectedTag) =>
+        pasta.tags.includes(selectedTag),
       ),
-      "pastasWithSelectedTags",
     );
   });
 
@@ -35,15 +29,12 @@ export function useFindPastasTags(
     const unique = uniqueValues(
       showedPastas.value.flatMap((pasta) => pasta.tags),
     );
-    return withLogSync(unique.sort(sortTags), "showedPastasTags");
+    return unique.sort(sortTags);
   });
 
   const tagsOfPastasWithTextOccurrence = computed(() => {
     const tags = pastasWithTextOccurrence.value.flatMap((pasta) => pasta.tags);
-    return withLogSync(
-      uniqueValues(tags).sort(sortTags),
-      "tagsOfPastasWithTextOccurrence",
-    );
+    return uniqueValues(tags).sort(sortTags);
   });
 
   return {

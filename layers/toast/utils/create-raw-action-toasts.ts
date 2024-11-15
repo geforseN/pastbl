@@ -52,8 +52,8 @@ class RawActionToast<N extends string, M extends RawActionToastsMethods> {
           if (notification) {
             addToast(notification);
           } else {
-            // eslint-disable-next-line no-console
-            console.warn(
+            log(
+              "warn",
               "Success method returned falsy value, should return INotification",
             );
           }

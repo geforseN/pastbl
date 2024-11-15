@@ -20,10 +20,7 @@ import { usePersonsEmoteCollectionsStore } from "~/stores/usePersonsEmoteCollect
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
 const selectedCollection = computed(() =>
-  withLogSync(
-    personsEmoteCollections.selectedCollection.state,
-    "selectedCollection",
-  ),
+  personsEmoteCollections.selectedCollection.state,
 );
 
 const isEmotesLoaded = computedAsync(

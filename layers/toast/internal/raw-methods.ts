@@ -46,8 +46,8 @@ export class RawActionToastsMethods_<M extends RawActionToastsMethods> {
       if (notification) {
         addToast(notification);
       } else {
-        // eslint-disable-next-line no-console
-        console.warn(
+        log(
+          "warn",
           `Method '${key}' returned falsy value, should return INotification`,
         );
       }

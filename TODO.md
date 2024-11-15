@@ -1,10 +1,3 @@
-ENSURE manually: on push workflows ignored for .md files only
-also ignore md files for pull requests!
-
-- [ ] use consola instead of log utility function
-- [ ] add issue to element-plus about notification
-  - https://element-plus.org/en-US/component/notification.html#basic-usage
-  - https://ui.nuxt.com/components/notification
 - [ ] refactor emoteIntegrations: add TypeScript support
 - [ ] update publish-pasta emit
 - [ ] manually inspect .output dir
@@ -24,7 +17,6 @@ feat:
 - [ ] use WebShare API for published pasta
   - https://www.youtube.com/watch?v=lt77LscZcn0
   - https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
-- [x] add chrome & firefox extensions
 - [ ] add 'is ascii pasta' filter
 - [ ] eslint configs order
 - add 'package.json'.scripts.test
@@ -32,11 +24,6 @@ feat:
   - [ ] console must ask path
 
   when remote pasta added must update remote pastas list
-
-docs:
-
-- [ ] refactor README
-  - [ ] write about test scripts
 
 refactor:
 
@@ -56,7 +43,6 @@ test:
     - [ ] no shift + mouse wheel => vertical scroll
     - [ ] shift + mouse wheel => vertical scroll
 - [ ] add screenshot testing
-- [ ] login with twitch button
 - [ ] add import alias plugin into vitest.config.ts files
 
 build:

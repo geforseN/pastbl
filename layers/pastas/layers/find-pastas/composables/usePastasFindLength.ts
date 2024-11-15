@@ -55,7 +55,7 @@ export function useFindPastasLength(
   const isInRange = isPastaInRange.bind(debouncedRange);
 
   const pastasWithLengthOccurrence = computed(() =>
-    withLogSync(pastas.value.filter(isInRange), "lengthAppropriatePastas"),
+    pastas.value.filter(isInRange),
   );
 
   const lengthAppropriatePastas = computed(() => {
