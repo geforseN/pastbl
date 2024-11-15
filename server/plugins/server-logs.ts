@@ -1,19 +1,21 @@
+import { log } from "~/utils/dev-only";
+
 export default defineNitroPlugin((nitroApp) => {
-  /* eslint-disable no-console */
-  nitroApp.hooks.hook("error", (error, { event }) => {
-    console.error(`${event?.path} Application error:`, error);
-  });
-  nitroApp.hooks.hook("request", (event) => {
-    console.log("on request", event.path);
-  });
-  nitroApp.hooks.hook("beforeResponse", (event /* , { body } */) => {
-    console.log("on response", event.path /* , { body } */);
-  });
-  nitroApp.hooks.hook("afterResponse", (event /* , { body } = {} */) => {
-    console.log("on after response", event.path /* , { body } */);
-  });
-  nitroApp.hooks.hookOnce("close", () => {
-    console.log("on close");
-  });
-  /* eslint-enable no-console */
+  if (import.meta.dev) {
+    nitroApp.hooks.hook("error", (error, { event }) => {
+      log("error", `${event?.path} Application error:`, { error });
+    });
+    nitroApp.hooks.hook("request", (event) => {
+      log("info", `on request ${event.path}`);
+    });
+    nitroApp.hooks.hook("beforeResponse", (event) => {
+      log("info", `on response ${event.path}`);
+    });
+    nitroApp.hooks.hook("afterResponse", (event) => {
+      log("info", `on after response ${event.path}`);
+    });
+    nitroApp.hooks.hookOnce("close", () => {
+      log("info", "on close");
+    });
+  }
 });

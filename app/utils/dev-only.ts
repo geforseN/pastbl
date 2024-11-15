@@ -9,7 +9,7 @@ export function log<
     const [type, key, value] = args;
     consolaPromise ??= import("consola");
     consolaPromise.then(({ consola }) => {
-      consola[type](args.length > 2 ? { [key]: value } : key);
+      consola[type](key, value);
     });
   }
 }

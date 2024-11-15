@@ -47,13 +47,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  $production: {
-    vite: {
-      esbuild: {
-        pure: ["console.log"],
-      },
-    },
-  },
   imports: {
     imports: [
       {

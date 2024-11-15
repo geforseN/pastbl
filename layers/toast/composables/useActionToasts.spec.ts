@@ -4,6 +4,7 @@ import { additionalMethods, baseMethods } from "../internal/utils.ts";
 import { raiseToastMethod } from "../internal/raise-method.ts";
 import type { RawActionToastsMethods } from "../internal/types.ts";
 import { useActionToasts } from "./useActionToasts.ts";
+import * as devOnly from "~/utils/dev-only.ts";
 
 function useTestActionToasts<
   N extends string,
@@ -227,7 +228,7 @@ describe("useActionToasts", async () => {
     });
   });
 
-  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  const log = vi.spyOn(devOnly, "log").mockImplementation(() => {});
 
   describe.each([
     {
@@ -255,7 +256,7 @@ describe("useActionToasts", async () => {
   ] as const)(
     "with rawActionToasts with success that returns $expected value",
     ({ methods, expected }) => {
-      afterEach(() => warn.mockReset());
+      afterEach(() => log.mockReset());
 
       //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'Partial<INotification>
       const [actionToasts, addToast] = useTestActionToasts(methods);
@@ -277,10 +278,11 @@ describe("useActionToasts", async () => {
         expect(addToast).not.toHaveBeenCalled();
       });
 
-      test("there is warn in console", () => {
+      test("log is called", () => {
         actionToasts.success();
-        expect(warn).toHaveBeenCalledOnce();
-        expect(warn).toHaveBeenLastCalledWith(
+        expect(log).toHaveBeenCalledOnce();
+        expect(log).toHaveBeenLastCalledWith(
+          "warn",
           "Success method returned falsy value, should return INotification",
         );
       });
@@ -321,7 +323,7 @@ describe("useActionToasts", async () => {
   ] as const)(
     "with rawActionToasts with warnings that returns $expected value",
     ({ methods, expected }) => {
-      afterEach(() => warn.mockReset());
+      afterEach(() => log.mockReset());
 
       //  @ts-expect-error  Type 'undefined', 'null', 'false' is not assignable to type 'INotification'
       const [actionToasts, addToast] = useTestActionToasts(methods);
@@ -342,10 +344,11 @@ describe("useActionToasts", async () => {
         expect(addToast).not.toHaveBeenCalled();
       });
 
-      test("there is warn in console", () => {
+      test("log is called", () => {
         actionToasts.warn("baz");
-        expect(warn).toHaveBeenCalledOnce();
-        expect(warn).toHaveBeenLastCalledWith(
+        expect(log).toHaveBeenCalledOnce();
+        expect(log).toHaveBeenLastCalledWith(
+          "warn",
           "Method 'warn' returned falsy value, should return INotification",
         );
       });
