@@ -15,9 +15,7 @@ export const usePastaFindStore = defineStore("pasta-find", () => {
 
   const pastasCreatedAtRange = usePastaFindTimeRange("createdAt", sortedPastas);
 
-  const showedPastas = computed(() =>
-    withLogSync(pastasToShowOnPage.value, "showedPastas"),
-  );
+  const showedPastas = computed(() => pastasToShowOnPage.value);
 
   const { text, debouncedText, textAppropriatePastas }
     = useFindPastaText(sortedPastas);
