@@ -1,4 +1,3 @@
-import consola from "consola";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class BetterTTVGlobalEmotesIntegration {
@@ -16,7 +15,6 @@ export class BetterTTVGlobalEmotesIntegration {
       TBetterTTV.Global.FailedIntegration
     >(async () => {
       const apiEmotes = await fetchBetterTTVGlobalEmotes();
-      consola.info("BetterTTV getGlobalIntegration emotes", apiEmotes);
       const set = makeBetterTTVGlobalSet(apiEmotes);
       return makeBetterTTVGlobalIntegration([set]);
     });
