@@ -1,6 +1,3 @@
-- [ ] add issue to element-plus about notification
-  - https://element-plus.org/en-US/component/notification.html#basic-usage
-  - https://ui.nuxt.com/components/notification
 - [ ] refactor emoteIntegrations: add TypeScript support
 - [ ] update publish-pasta emit
 - [ ] manually inspect .output dir
