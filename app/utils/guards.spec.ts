@@ -40,8 +40,18 @@ suite("utils", () => {
           isError(new Error("test"), undefined),
           isError(new Error("test")),
         ] as const,
-      )("must be true", (actual) => {
+      )("returns true for errors", (actual) => {
         expect(actual).toBe(true);
+      });
+
+      it.for([
+        isError({ message: "fake error" }),
+        isError(null),
+        isError(undefined),
+      ])("returns false for non-errors", (actual) => {
+        expect(actual).toBe(false);
+        expect(actual).toBe(false);
+        expect(actual).toBe(false);
       });
     });
   });
