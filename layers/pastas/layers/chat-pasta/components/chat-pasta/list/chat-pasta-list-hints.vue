@@ -61,7 +61,7 @@
             <global-emotes-integrations-hint />
           </div>
           <div class="flex justify-between p-1">
-            <add-emotes-button-link />
+            <add-person-emotes-button-link />
             <select-person-collection-dropdown
               :collections="personsEmoteCollections.collectionsToSelect.state"
               @select="personsEmoteCollections.selectCollection"

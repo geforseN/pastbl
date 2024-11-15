@@ -11,7 +11,7 @@
       />
     </template>
   </i18n-t>
-  <add-emotes-hint v-else />
+  <add-person-emotes-hint v-else />
 </template>
 <script setup lang="ts">
 import { useEmotesStore } from "~/stores/useEmotesStore";
