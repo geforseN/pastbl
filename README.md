@@ -42,6 +42,11 @@ pnpm test -- --project node
 pnpm test -- --project node --project vue
 ```
 
+### End-to-End Testing
+```bash
+pnpm test:e2e
+```
+
 ## Browser Extension Development Server
 
 ```bash
