@@ -9,8 +9,10 @@ support get local pastas
 - [ ] probably should use browser.storage
 - [ ] may be can be solved with iframe (must allow iframe in manifest for pastbl domain)
 
-support `sendPasta` ("~/utils/active-pasta-actions.ts")
-- [X] maybe can implemented only with twitch api
+refactor:
+  sendPastaInChat:
+    - [ ] add loading state handling, add queue
+    - [ ] show error/success message for user 
 
 add pastas sort, filter
 - [ ] like in pastbl, reuse this code, see in find-pasta and pastas-list-wrapper
