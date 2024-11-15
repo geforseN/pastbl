@@ -6,6 +6,12 @@ const bodySchema = z.object({
   message: z.string(),
 });
 
+const successfulResponseSchema = z.object({
+  message_id: z.string(),
+  is_sent: z.literal(true),
+  drop_reason: z.null(),
+});
+
 const responseSchema = z.union([
   z
     .object({
@@ -20,23 +26,11 @@ const responseSchema = z.union([
   z
     .object({
       data: z
-        .array(
-          z.object({
-            message_id: z.string(),
-            is_sent: z.boolean().refine((value): value is true => value === true, {
-              message: "is_sent must be true",
-            }),
-            drop_reason: z.null(),
-          }),
-        )
+        .array(successfulResponseSchema)
         .length(1),
     })
-    .transform((res) => res.data[0])
-    .refine((data) => data !== undefined, {
-      message: "data is undefined",
-    })
-    .transform((data) => ({
-      isSent: data.is_sent,
+    .transform((response) => ({
+      isSent: successfulResponseSchema.parse(response.data[0]).is_sent,
     })),
 ]);
 
