@@ -26,8 +26,6 @@ feat:
   - https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
 - [x] add chrome & firefox extensions
 - [ ] add 'is ascii pasta' filter
-- [ ] chat-pasta-list-hints:
-  - [ ] add "Showing pastas with global emotes"
 - [ ] eslint configs order
 - add 'package.json'.scripts.test
   - [ ] console must ask which environments to run
