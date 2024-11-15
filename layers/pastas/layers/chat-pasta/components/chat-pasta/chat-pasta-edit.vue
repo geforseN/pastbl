@@ -31,7 +31,7 @@
       />
     </client-only>
     <teleport to="body">
-      <chat-pasta-accept-changes-dialog
+      <chat-pasta-edit-accept-changes-dialog
         ref="acceptChangesDialog"
         :tags="megaPasta.tags"
         :text="megaPasta.text"
