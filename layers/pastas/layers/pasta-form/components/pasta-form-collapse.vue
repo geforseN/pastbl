@@ -24,8 +24,8 @@
             {{
               $t(
                 userStore.pastasWorkMode.isLocal
-                  ? "pasta.create"
-                  : "pasta.publish",
+                  ? "Create local pasta"
+                  : "Publish remote pasta",
               )
             }}
           </h2>
@@ -51,11 +51,11 @@
       class="collapse-content space-y-2 px-1 xs:px-3"
       @keyup.escape="$formCollapse.close"
       @keyup.stop="
-        () => {}
-      /* NOTE:
-          stop propagation is important to prevent collapse from closing
-          (when user press 'i' in pasta textarea or in tag input)
-        */
+        () => {
+          // NOTE: stop propagation is important to prevent collapse from closing
+          // (when user press 'i' in pasta textarea or in tag input)
+          // FIXME: add test for that situation
+        }
       "
     >
       <pasta-form
@@ -68,22 +68,8 @@
         @add-tag="(tag) => pastaStore.addTag(tag)"
         @remove-tag="(tag) => pastaStore.pasta.removeTag(tag)"
         @remove-all-tags="() => pastaStore.pasta.removeAllTags()"
-        @create-pasta="
-          async () => {
-            assert.ok(addTagDialogRef);
-            await addTagDialogRef.execute();
-            await pastasStore.createPasta(pastaStore.pasta);
-            pastaStore.pasta.reset();
-          }
-        "
-        @publish-pasta="
-          async () => {
-            // TODO: add loading state
-            await pastaStore.postPasta();
-            useActionToasts().add((i18n) => ({ title: 'Pasta posted!' }));
-            pastaStore.pasta.reset();
-          }
-        "
+        @create-pasta="createPasta"
+        @publish-pasta="publishRemotePasta"
       />
       <client-only>
         <chat-pasta-preview
@@ -124,6 +110,31 @@ watch(useMagicKeys().i, () => {
   focusOnTextarea();
 });
 whenever(() => $formCollapse.isOpen, focusOnTextarea);
+
+const toast = useActionToasts();
+
+async function createPasta() {
+  assert.ok(addTagDialogRef);
+  await addTagDialogRef.value!.execute();
+  await pastasStore.createPasta(pastaStore.pasta);
+  pastaStore.pasta.reset();
+}
+
+async function publishRemotePasta() {
+  // TODO: add loading state
+  const { pasta } = await pastaStore.postPasta();
+  pastasStore.__remotePastas = [
+    {
+      id: pasta.id,
+      text: pasta.text,
+      createdAt: pasta.publishedAt,
+      tags: pasta.tags,
+    },
+    ...pastasStore.__remotePastas,
+  ];
+  toast.add(() => ({ title: "Pasta posted!", type: "success" }));
+  pastaStore.pasta.reset();
+};
 
 async function canPopulate() {
   await Promise.all([
