@@ -2,6 +2,12 @@ export const usePastasStore = defineStore("pastas", () => {
   const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 
   const pastas = usePastas(async () => await pastasService.getAll());
+  const __remotePastas = ref<{
+    id: number;
+    text: string;
+    createdAt: string;
+    tags: string[];
+  }[]>([]);
 
   const createPasta = usePastaCreate(pastas);
   const removePasta = usePastaRemove(pastas);
@@ -31,6 +37,7 @@ export const usePastasStore = defineStore("pastas", () => {
   }, false);
 
   return {
+    __remotePastas,
     canShowPastas,
     async cancelPastasShowForOneTick() {
       const pastValue = canShowPastas.value;

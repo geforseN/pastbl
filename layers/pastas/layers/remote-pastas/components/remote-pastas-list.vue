@@ -5,12 +5,12 @@
     class="chat-pasta-list overflow-y-auto"
   >
     <chat-pasta
-      v-for="pasta of remotePastas.list.value"
+      v-for="pasta of pastasStore.__remotePastas"
       :key="`${pasta.id}:${pasta.text}`"
       v-bind="pasta"
-      @copy="pastasStore.copyPasta(pasta)"
+      @remove="deletePasta(pasta.id)"
+      @copy="userStore.copyText(pasta.text)"
       @edit="navigateTo($localePath(`/pastas/edit/${pasta.id}`))"
-      @remove="() => {}"
       @populate="
         (pastaTextContainer) => {
           populatePasta(
@@ -18,11 +18,6 @@
             makeValidPastaTokens(pasta.text),
             emotesStore.findEmote,
           );
-        }
-      "
-      @show-tag-context-menu="
-        (event, tag) => {
-          log('debug', 'show-tag-context-menu', { event, tag });
         }
       "
     >
@@ -37,6 +32,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { z } from "zod";
+import { assertIsRemotePastasPaginationCursor } from "~/brands";
+
 const appConfig = useAppConfig();
 
 const userStore = useUserStore();
@@ -44,5 +42,66 @@ const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();
 
 const remotePastasListRef = useTemplateRef("remotePastasList");
-const remotePastas = useRemotePastas(remotePastasListRef);
+useRemotePastasInfiniteLoad<number>(
+  remotePastasListRef,
+  async function onLoadMore(cursor) {
+    cursor ??= null;
+    assertIsRemotePastasPaginationCursor(cursor);
+    const response = await pastasAPI.getPastas(cursor)
+      .then(getPastasResponseSchema.parse);
+    pastasStore.__remotePastas.push(...response.pastas);
+    return {
+      cursor: response.cursor,
+    };
+  },
+);
+
+const toast = useActionToasts();
+
+const getPastasResponseSchema = z.object({
+  pastas: z
+    .array(
+    /* REPEATED LIKE */z.object({
+        id: z.number().positive(),
+        lastUpdatedAt: z.string().nullable(),
+        publicity: /* REPEATED */z.enum(["public", "private"]),
+        publishedAt: z.string(),
+        tags: z.array(
+          z.object({
+            value: z.string(),
+          }),
+        ),
+        text: z.string(),
+      }),
+    )
+    .transform((pastas) =>
+      pastas.map((pasta) => ({
+        id: pasta.id,
+        text: pasta.text,
+        createdAt: pasta.publishedAt,
+        tags: pasta.tags.map((tag) => tag.value),
+      })),
+    ),
+  cursor: z.number().positive().nullable(),
+});
+
+// TEST: can delete remove pasta with tags
+
+async function deletePasta(pastaId: number) {
+  try {
+    await pastasAPI.deletePasta(pastaId);
+    pastasStore.__remotePastas = withRemoved(pastasStore.__remotePastas, (pasta) => pasta.id === pastaId);
+    toast.add(() => ({
+      title: "Remote pasta delete",
+      description: "Successfully deleted remote pasta",
+      type: "success",
+    }));
+  } catch {
+    toast.add(() => ({
+      title: "Remote pasta delete",
+      description: "Failed to delete remote pasta",
+      type: "error",
+    }));
+  }
+}
 </script>
