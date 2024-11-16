@@ -15,5 +15,6 @@ export function adaptNotificationFromNuxtUItoElementPlus(
     title: notification.title,
     message: notification.description,
     duration: notification.timeout,
+    type: notification.type,
   });
 }
