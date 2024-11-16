@@ -11,6 +11,7 @@ fix:
 
 feat:
 
+- [ ] support tokens in other languages (SevenTV emote tokens can be written with non latin characters )
 - [ ] add autocomplete in pasta-form textarea (suggest emotes tokens)
 - [ ] ! add refresh for emotes-integrations (global and persons):
   - [ ] add refresh for persons emotes collections
@@ -23,10 +24,20 @@ feat:
   - [ ] console must ask which environments to run
   - [ ] console must ask path
 
-  when remote pasta added must update remote pastas list
+  pastas:
+    - [ ] delete mode: on pasta click make it red-ish and on accept delete red-ish pastas
+      - can add checkboxes on pasta left side
+      - can add select all  
+  remote-pastas
+    - [ ] must set min-width when loading remote pastas, when pastas loaded - width is fine, but a bit different from local pastas
+    - [ ] when remote pasta added must update remote pastas list
+    - [ ] `Sort pastas` and `Show pastas` is not implemented for remote pastas, but work for local pastas
+    - [ ] implement show-tag-context-menu
+    - [ ] persist selected tab: local or remote
+    
 
 refactor:
-
+- [ ] use element-plus from PR, actions in toasts is not working
 - [ ] pastas-search by text
 
 ?: rename integrations to providers
