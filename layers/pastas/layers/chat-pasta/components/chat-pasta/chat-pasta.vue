@@ -43,9 +43,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { OmegaPasta } from "../../utils/pasta.ts";
-
-defineProps<OmegaPasta>();
+defineProps<{
+  tags: string[];
+  text: string;
+  createdAt: string;
+}>();
 
 defineSlots<{
   creatorData: VueSlot;
