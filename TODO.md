@@ -29,12 +29,28 @@ feat:
       - can add checkboxes on pasta left side
       - can add select all  
   remote-pastas
-    - [ ] must set min-width when loading remote pastas, when pastas loaded - width is fine, but a bit different from local pastas
-    - [ ] when remote pasta added must update remote pastas list
+    - [X] must set min-width when loading remote pastas, when pastas loaded - 
+    - [ ] fix local pastas list width is different from remote pastas list, should be same
+    - [X] when remote pasta added must update remote pastas list
     - [ ] `Sort pastas` and `Show pastas` is not implemented for remote pastas, but work for local pastas
+    - [ ] support remote pasta edit
     - [ ] implement show-tag-context-menu
-    - [ ] persist selected tab: local or remote
-    
+    - [ ] on loading state show skeleton 
+    - [X] persist selected tab: local or remote
+    - fix styles, look for long classes in templates, use props instead of such magic classes
+    - try use teleport.to with copy-button in pasta
+      - must teleport when sm breakpoint changes
+    - TESTS TESTS TESTS TESTS    
+
+components
+ - remote-pasta
+    - remote-pasta-published-at
+ - local-pasta
+    - remote-pasta-created-at
+  
+REFACTOR!:
+  move most of pastas pages into pastas/local
+
 
 refactor:
 - [ ] use element-plus from PR, actions in toasts is not working
