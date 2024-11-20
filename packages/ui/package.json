@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "tailwind-merge": "^2.5.4",
     "vue": "^3.5.12"
   },
   "devDependencies": {
