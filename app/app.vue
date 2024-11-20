@@ -31,7 +31,6 @@
 <script setup lang="ts">
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#build/components";
 
 const localeHead = useLocaleHead({});
 
