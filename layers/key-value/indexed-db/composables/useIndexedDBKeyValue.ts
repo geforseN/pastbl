@@ -8,6 +8,7 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
   defaultValue: KeyValueSchema[K],
   options: WatchDebouncedOptions<boolean> & {
     onRestored?: (value: KeyValueSchema[K]) => void;
+    onUpdated?: (value: KeyValueSchema[K]) => void;
   } = {},
 ) {
   const idbValue = makeIndexedDBValue(key);
@@ -53,6 +54,9 @@ export function useIndexedDBKeyValue<K extends keyof KeyValueSchema>(
         isLoading.value = true;
         return idbValue
           .set(rawValue)
+          .then(() => {
+            options.onUpdated?.(value);
+          })
           .catch(setErrorAndThrow)
           .finally(() => {
             isLoading.value = false;
