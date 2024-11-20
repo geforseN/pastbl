@@ -127,7 +127,7 @@ async function publishRemotePasta() {
     {
       id: pasta.id,
       text: pasta.text,
-      createdAt: pasta.publishedAt,
+      publishedAt: pasta.publishedAt,
       tags: pasta.tags,
     },
     ...pastasStore.__remotePastas,

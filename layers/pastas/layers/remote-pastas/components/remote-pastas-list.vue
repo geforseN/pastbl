@@ -7,10 +7,16 @@
     <chat-pasta
       v-for="pasta of pastasStore.__remotePastas"
       :key="`${pasta.id}:${pasta.text}`"
-      v-bind="pasta"
+      :text="pasta.text"
+      :tags="pasta.tags"
+      :time="{
+        label: 'Published',
+        value: pasta.publishedAt,
+      }"
+      compact
       @remove="deletePasta(pasta.id)"
       @copy="userStore.copyText(pasta.text)"
-      @edit="navigateTo($localePath(`/pastas/edit/${pasta.id}`))"
+      @edit="navigateTo($localePath(`/pastas/remote/edit/${pasta.id}`))"
       @populate="
         (pastaTextContainer) => {
           populatePasta(
@@ -78,7 +84,7 @@ const getPastasResponseSchema = z.object({
       pastas.map((pasta) => ({
         id: pasta.id,
         text: pasta.text,
-        createdAt: pasta.publishedAt,
+        publishedAt: pasta.publishedAt,
         tags: pasta.tags.map((tag) => tag.value),
       })),
     ),

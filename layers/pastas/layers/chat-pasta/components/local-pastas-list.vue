@@ -8,6 +8,7 @@
     item-tag="li"
     list-tag="ol"
     :buffer="500"
+    :data-compact="compact"
   >
     <template #default="{ item: pasta, index, active }">
       <dynamic-scroller-item
@@ -19,17 +20,19 @@
         <chat-pasta
           :key="`${pasta.id}:${pasta.text}`"
           v-bind="pasta"
+          :text="pasta.text"
+          :tags="pasta.tags"
+          :time="{
+            label: 'Created',
+            value: pasta.createdAt,
+          }"
+          :compact
           @copy="pastasStore.copyPasta(pasta)"
-          @edit="navigateTo(useLocalePath()(`/pastas/edit/${pasta.id}`))"
+          @edit="navigateTo($localePath(`/pastas/edit/${pasta.id}`))"
           @remove="$emit('removePasta', pasta)"
           @populate="
             (pastaTextContainer) => {
               populatePasta(pastaTextContainer, pasta.validTokens, findEmote);
-            }
-          "
-          @show-tag-context-menu="
-            (event, tag) => {
-              log('debug', 'show-tag-context-menu', { event, tag });
             }
           "
         >
@@ -51,9 +54,12 @@ import type { CanFindEmote } from "../utils/pasta-dom.ts";
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
-const props = defineProps<Partial<CanFindEmote>>();
-
-const findEmote = props.findEmote || useEmotesStore().findEmote;
+const {
+  findEmote = useEmotesStore().findEmote,
+  compact = useNuxtApp().$screen.isSmall,
+} = defineProps<Partial<CanFindEmote> & {
+  compact: boolean;
+}>();
 
 defineEmits<{
   removePasta: [OmegaPasta];

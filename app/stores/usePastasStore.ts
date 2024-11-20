@@ -5,7 +5,7 @@ export const usePastasStore = defineStore("pastas", () => {
   const __remotePastas = ref<{
     id: number;
     text: string;
-    createdAt: string;
+    publishedAt: string;
     tags: string[];
   }[]>([]);
 
