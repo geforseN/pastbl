@@ -1,5 +1,8 @@
 <template>
-  <Html v-bind="localeHead.htmlAttrs">
+  <Html
+    v-bind="localeHead.htmlAttrs"
+    :data-theme="themes.cookie.value"
+  >
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -50,6 +53,8 @@ useKeysListenWithAlt([
 if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
+
+const themes = useThemes();
 
 const emoteOnHoverCardRef = useTemplateRef("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
