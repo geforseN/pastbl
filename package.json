@@ -3,7 +3,7 @@
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.14.1",
+  "packageManager": "pnpm@9.14.2",
   "repository": {
     "url": "https://github.com/geforsen/pastbl"
   },
