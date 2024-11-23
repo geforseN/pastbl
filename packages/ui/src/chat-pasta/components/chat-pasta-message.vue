@@ -1,7 +1,8 @@
 <!-- eslint-disable tailwindcss/no-custom-classname -->
 <template>
   <span
-    class="chat-pasta__text"
+    class="chat-pasta__message"
+    data-testid="chat-pasta-message"
   >
     {{ text }}
   </span>

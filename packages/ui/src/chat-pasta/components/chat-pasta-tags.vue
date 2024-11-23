@@ -6,7 +6,6 @@
       v-for="tag of tags"
       :key="tag"
       :tag
-      :data-pasta-tag="tag"
     />
   </div>
 </template>

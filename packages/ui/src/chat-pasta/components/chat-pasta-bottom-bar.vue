@@ -14,13 +14,13 @@
       <chat-pasta-more-actions />
     </chat-pasta-more-actions-button >
       -->
-      <chat-pasta-more-actions
+      <!-- <chat-pasta-more-actions
         :compact
         direction="horizontal"
         class="h-9 min-h-0"
         @remove="$emit('remove')"
         @edit="$emit('edit')"
-      />
+      /> -->
       <chat-pasta-copy-button
         :compact
         class="h-9 min-h-0"
@@ -31,7 +31,6 @@
 </template>
 <script setup lang="ts">
 import ChatPastaTime from "./chat-pasta-time.vue";
-import ChatPastaMoreActions from "./chat-pasta-more-actions.vue";
 import ChatPastaCopyButton from "./buttons/chat-pasta-copy-button.vue";
 
 defineProps<{

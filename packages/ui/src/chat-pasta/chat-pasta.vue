@@ -13,7 +13,7 @@
       >
         <chat-pasta-chatter v-bind="chatter" />
         <span aria-hidden="true">{{ ": " }}</span>
-        <chat-pasta-text :text />
+        <chat-pasta-message :text />
       </div>
       <chat-pasta-tags
         v-if="tags.length > 0"
@@ -31,7 +31,7 @@
 </template>
 <script setup lang="ts">
 import { defineAsyncComponent, type Slot } from "vue";
-import ChatPastaText from "./components/chat-pasta-text.vue";
+import ChatPastaMessage from "./components/chat-pasta-message.vue";
 import ChatPastaTags from "./components/chat-pasta-tags.vue";
 import ChatPastaBottomBar from "./components/chat-pasta-bottom-bar.vue";
 import ChatPastaChatter, { type ChatPastaChatterProps } from "./components/chat-pasta-chatter.vue";
