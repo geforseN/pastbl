@@ -43,7 +43,7 @@ export interface BlButtonProps {
   size?: keyof typeof sizeClasses;
   shape?: keyof typeof shapeClasses;
   variant?: keyof typeof variantClasses;
-  tag?: "button" | "link";
+  tag?: "button" | "link" | "a" | "div" | "details";
   to?: string;
 };
 </script>
@@ -56,17 +56,24 @@ const {
   to,
 } = defineProps<BlButtonProps>();
 
-const tag_ = computed(() => tag === "link" ? "a" : "button");
+const tag_ = computed(() => tag === "link" ? "a" : tag);
 
 const attrs = computed(() => {
-  if (tag_.value === "a") {
+  if (tag === "a" || tag === "link") {
     return {
       href: to,
     } as const;
   }
-  if (tag === "button") {
+  if (tag === "button" || tag === "details") {
     return {} as const;
   }
-  throw new Error("Unknown tag", { cause: tag });
+  if (tag !== "div" && import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.warn("bl-button: unknown tag prop", { tag });
+  }
+  return {
+    tabindex: "0",
+    role: "button",
+  } as const;
 });
 </script>
