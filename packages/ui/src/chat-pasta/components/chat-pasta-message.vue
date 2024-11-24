@@ -12,8 +12,3 @@ defineProps<{
   text: string;
 }>();
 </script>
-<style scoped>
-.chat-pasta-text {
-
-}
-</style>
