@@ -1,32 +1,16 @@
 <template>
-  <button
+  <bl-button
     :class="[
-      twMerge('btn btn-accent border-2 border-accent-content', $attrs.class),
-      square && 'btn-square',
+      twMerge('border-2 border-accent-content', $attrs.class as string | undefined),
     ]"
+    v-bind="{ ...props, variant: props.variant ?? 'accent' }"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-    >
-      <path
-        fill="currentColor"
-        d="M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm0-2h9V4H9zm-4 6q-.825 0-1.412-.587T3 20V6h2v14h11v2zm4-6V4z"
-      />
-    </svg>
-  </button>
+    Copy
+  </bl-button>
 </template>
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
+import BlButton, { type BlButtonProps } from "../../../button/bl-button.vue";
 
-defineProps<{
-  square?: boolean;
-}>();
+const props = defineProps<BlButtonProps>();
 </script>
-<style>
-svg {
-  font-size: theme('fontSize.3xl');
-}
-</style>

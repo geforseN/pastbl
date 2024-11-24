@@ -1,14 +1,14 @@
 <template>
-  <button
-    class="btn btn-info flex-nowrap"
+  <bl-button
+    v-bind="{ ...props, variant: props.variant ?? 'info', tag: 'link' }"
   >
     <slot>
-      Edit pasta
+      Edit
     </slot>
-    <icon
-      name="ic:outline-edit"
-      size="24"
-      class="min-h-6 min-w-6"
-    />
-  </button>
+  </bl-button>
 </template>
+<script setup lang="ts">
+import BlButton, { type BlButtonProps } from "../../../button/bl-button.vue";
+
+const props = defineProps<BlButtonProps & { to: string }>();
+</script>
