@@ -61,7 +61,9 @@ export const bem = withBem("chat-pasta");
 // TODO: handle scenario when component is not fetched after for example 5 seconds => should switch to compact pasta
 const ChatPastaRightSidebar = defineAsyncComponent(() => import("./components/chat-pasta-right-sidebar.vue"));
 
-const { tags = [] } = defineProps<ChatPastaProps>();
+const {
+  tags = [],
+} = defineProps<ChatPastaProps>();
 
 const attrs: { class?: string } & Record<string, unknown> = useAttrs();
 
