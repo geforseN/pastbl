@@ -50,8 +50,8 @@ export interface BlButtonProps {
 <script setup lang="ts">
 const {
   size = inject("size", "medium"),
-  shape = inject("shape"),
-  variant = inject("type"),
+  shape = inject("shape", undefined),
+  variant = inject("variant", undefined),
   tag = "button",
   to,
 } = defineProps<BlButtonProps>();
