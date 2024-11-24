@@ -9,8 +9,9 @@
     ]"
   >
     <div
-      class="w-[341px]"
-      :class="compact ? '' : 'border-r border-r-twitch-accent'"
+      :class="compact
+        ? 'w-[340px]'
+        : 'w-[341px] border-r border-r-twitch-accent'"
     >
       <div
         :class="bem.element('main')"

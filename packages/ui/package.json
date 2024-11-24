@@ -10,6 +10,7 @@
     "storybook": "storybook dev -p 6008",
     "build-storybook": "storybook build",
     "test-ct": "playwright test -c playwright-ct.config.ts",
+    "test-ct:snapshots:update": "pnpm test-ct --update-snapshots",
     "test-ct:snapshots:delete": "rm -rf __snapshots__"
   },
   "dependencies": {
