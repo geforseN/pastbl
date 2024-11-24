@@ -1,25 +1,25 @@
 <template>
-  <button
+  <component
+    :is="tag_"
     class="btn"
     :class="[
       sizeClasses[size],
       variant && variantClasses[variant],
       shape && shapeClasses[shape],
     ]"
+    v-bind="{ ...attrs, ...$attrs }"
   >
     <slot />
-  </button>
+  </component>
 </template>
 <script lang="ts">
-import { inject } from "vue";
+import { computed, inject } from "vue";
 
 const variantClasses = {
   neutral: "btn-neutral",
   primary: "btn-primary",
   secondary: "btn-secondary",
   accent: "btn-accent",
-  ghost: "btn-ghost",
-  link: "btn-link",
   error: "btn-error",
   warning: "btn-warning",
   info: "btn-info",
@@ -27,6 +27,7 @@ const variantClasses = {
 };
 
 const sizeClasses = {
+  tiny: "btn-xs",
   small: "btn-sm",
   medium: "btn-md",
   large: "btn-lg",
@@ -42,12 +43,30 @@ export interface BlButtonProps {
   size?: keyof typeof sizeClasses;
   shape?: keyof typeof shapeClasses;
   variant?: keyof typeof variantClasses;
-}
+  tag?: "button" | "link";
+  to?: string;
+};
 </script>
 <script setup lang="ts">
 const {
   size = inject("size", "medium"),
   shape = inject("shape"),
   variant = inject("type"),
+  tag = "button",
+  to,
 } = defineProps<BlButtonProps>();
+
+const tag_ = computed(() => tag === "link" ? "a" : "button");
+
+const attrs = computed(() => {
+  if (tag_.value === "a") {
+    return {
+      href: to,
+    } as const;
+  }
+  if (tag === "button") {
+    return {} as const;
+  }
+  throw new Error("Unknown tag", { cause: tag });
+});
 </script>
