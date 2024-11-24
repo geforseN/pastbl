@@ -1,56 +1,32 @@
 <template>
-  <div
-    class="flex flex-col items-center bg-base-100"
-    style="gap: 3rem;"
-  >
-    <div>
-      <h2>Compact</h2>
+  <div>
+    <chat-pasta
+      v-bind="propsToTest_[1]"
+    />
+    <div class="my-2" />
+    <chat-pasta
+      v-bind="propsToTest_[19]"
+    />
+    <div
+      class="grid grid-cols-3 items-center gap-12 bg-base-100"
+    >
       <chat-pasta
-        class="w-[420px] border"
-        text="hello world"
-        compact
-        :time="{ label: 'Created', value: Date.now() }"
-        :chatter
-      />
-    </div>
-    <div>
-      <h2>Compact with tags</h2>
-      <chat-pasta
-        class="w-[420px] border"
-        text="hello world"
-        compact
-        :time="{ label: 'Created', value: Date.now() }"
-        :tags="['tag1', 'tag2']"
-        :chatter
-      />
-    </div>
-    <div>
-      <h2>Not Compact</h2>
-      <chat-pasta
-        class="w-[420px] border"
-        text="hello world"
-        :time="{ label: 'Created', value: Date.now() }"
-        :chatter
-      />
-    </div>
-    <div>
-      <h2>Not Compact with tags</h2>
-      <chat-pasta
-        class="w-[420px] border"
-        text="hello world"
-        :time="{ label: 'Created', value: Date.now() }"
-        :tags="['tag1', 'tag2']"
-        :chatter
+        v-for="(props, i) of propsToTest_"
+        :key="i"
+        v-bind="props"
       />
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts">
+import type { ChatPastaProps } from "../chat-pasta.vue";
 import ChatPasta from "../chat-pasta.vue";
-
-const chatter = {
-  badges: 1,
-  nickname: "geforsen",
-  nicknameColor: "red",
-};
+import { creationTime, propsToTest, someChatter } from "./utils/chat-pasta";
+</script>
+<script setup lang="ts">
+const propsToTest_ = propsToTest.map((props) => ({
+  ...props,
+  time: creationTime,
+  chatter: someChatter,
+}) satisfies ChatPastaProps);
 </script>

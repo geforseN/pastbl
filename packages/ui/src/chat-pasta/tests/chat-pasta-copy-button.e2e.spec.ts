@@ -7,8 +7,8 @@ test.describe("chat-pasta-copy-button", () => {
     await expect(button).toHaveScreenshot();
   });
 
-  test("square", async ({ mount }) => {
-    const squareButton = await mount(ChatPastaCopyButton, { props: { square: true } });
+  test("shape=square", async ({ mount }) => {
+    const squareButton = await mount(ChatPastaCopyButton, { props: { shape: "square" } });
     await expect(squareButton).toHaveScreenshot();
   });
 });

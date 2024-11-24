@@ -1,5 +1,6 @@
 import { defineConfig, devices } from "@playwright/experimental-ct-vue";
 
+// LINK: https://playwright.dev/docs/test-components
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
