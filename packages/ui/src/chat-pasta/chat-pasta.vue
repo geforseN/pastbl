@@ -2,14 +2,19 @@
 <template>
   <div
     data-testid="chat-pasta"
-    class="chat-pasta"
     :class="[
+      bem.block,
       compact && 'chat-pasta-compact',
+      twMerge('border border-secondary w-fit', attrs.class),
     ]"
   >
-    <div>
+    <div
+      class="w-[341px]"
+      :class="compact ? '' : 'border-r border-r-twitch-accent'"
+    >
       <div
-        class="chat-pasta__main"
+        :class="bem.element('main')"
+        class="border-b border-b-twitch-accent px-5 py-2"
       >
         <chat-pasta-chatter v-bind="chatter" />
         <span aria-hidden="true">{{ ": " }}</span>
@@ -29,16 +34,16 @@
     />
   </div>
 </template>
-<script setup lang="ts">
-import { defineAsyncComponent, type Slot } from "vue";
+<script lang="ts">
+import { twMerge } from "tailwind-merge";
+import { defineAsyncComponent, useAttrs, type Slot } from "vue";
+import { withBem } from "../utils/bem" with { type: "macros" };
 import ChatPastaMessage from "./components/chat-pasta-message.vue";
 import ChatPastaTags from "./components/chat-pasta-tags.vue";
 import ChatPastaBottomBar from "./components/chat-pasta-bottom-bar.vue";
 import ChatPastaChatter, { type ChatPastaChatterProps } from "./components/chat-pasta-chatter.vue";
 
-const ChatPastaRightSidebar = defineAsyncComponent(() => import("./components/chat-pasta-right-sidebar.vue"));
-
-const { tags = [] } = defineProps<{
+export interface ChatPastaProps {
   text: string;
   time: {
     label: string;
@@ -47,7 +52,17 @@ const { tags = [] } = defineProps<{
   tags?: string[];
   compact?: boolean;
   chatter: ChatPastaChatterProps;
-}>();
+}
+
+export const bem = withBem("chat-pasta");
+</script>
+<script setup lang="ts">
+// TODO: handle scenario when component is not fetched after for example 5 seconds => should switch to compact pasta
+const ChatPastaRightSidebar = defineAsyncComponent(() => import("./components/chat-pasta-right-sidebar.vue"));
+
+const { tags = [] } = defineProps<ChatPastaProps>();
+
+const attrs: { class?: string } & Record<string, unknown> = useAttrs();
 
 defineSlots<{
   creatorData: Slot;
@@ -61,10 +76,10 @@ defineEmits<{
 </script>
 <style>
 .chat-pasta {
-  display: flex;
+  @apply flex
 }
 
-.chat-pasta-main {
-  @apply w-[342px] border-b border-b-twitch-accent px-5 py-2
+.chat-pasta__main {
+  overflow-wrap: anywhere;
 }
 </style>
