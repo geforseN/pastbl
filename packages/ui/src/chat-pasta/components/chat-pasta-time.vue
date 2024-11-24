@@ -1,6 +1,10 @@
 <template>
-  <div class="dropdown dropdown-top dropdown-hover w-full">
-    <div class="block w-full justify-between text-sm">
+  <with-dropdown
+    side="right"
+    data-testid="chat-pasta-time"
+    :class="twMerge('text-sm', $attrs.class as string | undefined)"
+  >
+    <div class="justify-between">
       <time
         :datetime="time.toISOString()"
         class="block"
@@ -11,24 +15,32 @@
         {{ time.toLocaleTimeString() }}
       </span>
     </div>
-    <div
-      class="card dropdown-content compact z-10 w-max rounded-box border bg-base-100 shadow"
-    >
-      <div class="card-body !px-3 !py-2 font-bold text-base-content">
-        {{ time.toLocaleString() }}
+    <template #content>
+      <div
+        class="card dropdown-content z-10 w-max border border-base-content bg-base-100 text-base-content"
+      >
+        <div class="card-body !px-3 !py-2 font-bold">
+          {{ time.toLocaleString() }}
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </with-dropdown>
 </template>
-<script setup lang="ts">
+<script lang="ts">
 import { computed } from "vue";
+import { twMerge } from "tailwind-merge";
+import WithDropdown from "../../with-dropdown/with-dropdown.vue";
 
-const props = defineProps<{
+export interface ChatPastaTimeProps {
   value: Date | number | string;
   label: string;
-}>();
+}
+</script>
+<script setup lang="ts">
+const {
+  label,
+  value,
+} = defineProps<ChatPastaTimeProps>();
 
-const time = computed(() => new Date(props.value));
-
-const label = computed(() => props.label);
+const time = computed(() => new Date(value));
 </script>
