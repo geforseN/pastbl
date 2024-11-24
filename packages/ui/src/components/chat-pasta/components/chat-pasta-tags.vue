@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
-import ClampedPastaTag from "../../clamped-pasta-tag.vue";
+import ClampedPastaTag from "../../clamped-pasta-tag/clamped-pasta-tag.vue";
 
 const { shouldSort = true, tags } = defineProps<{
   tags: string[];

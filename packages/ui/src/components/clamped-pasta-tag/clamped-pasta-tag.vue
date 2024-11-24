@@ -6,8 +6,8 @@
   />
 </template>
 <script setup lang="ts">
-import type { PastaTagProps } from "./pasta-tag/pasta-tag";
-import PastaTag from "./pasta-tag/pasta-tag.vue";
+import type { PastaTagProps } from "../pasta-tag/pasta-tag";
+import PastaTag from "../pasta-tag/pasta-tag.vue";
 
 defineProps<PastaTagProps>();
 </script>

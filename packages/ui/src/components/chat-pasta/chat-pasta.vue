@@ -38,7 +38,7 @@
 <script lang="ts">
 import { twMerge } from "tailwind-merge";
 import { useAttrs, type Slot } from "vue";
-import { withBem } from "../utils/bem" with { type: "macros" };
+import { withBem } from "../../utils/bem" with { type: "macros" };
 import ChatPastaMessage from "./components/chat-pasta-message.vue";
 import ChatPastaTags from "./components/chat-pasta-tags.vue";
 import ChatPastaBottomBar from "./components/chat-pasta-bottom-bar.vue";
