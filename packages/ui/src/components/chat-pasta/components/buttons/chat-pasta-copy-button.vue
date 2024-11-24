@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
-import BlButton, { type BlButtonProps } from "../../../button/bl-button.vue";
+import BlButton, { type BlButtonProps } from "../../../bl-button/bl-button.vue";
 
 const props = defineProps<BlButtonProps>();
 </script>

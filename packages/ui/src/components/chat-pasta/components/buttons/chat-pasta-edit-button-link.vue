@@ -8,7 +8,7 @@
   </bl-button>
 </template>
 <script setup lang="ts">
-import BlButton, { type BlButtonProps } from "../../../button/bl-button.vue";
+import BlButton, { type BlButtonProps } from "../../../bl-button/bl-button.vue";
 
 const props = defineProps<BlButtonProps & { to: string }>();
 </script>
