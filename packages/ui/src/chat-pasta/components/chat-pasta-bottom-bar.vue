@@ -1,7 +1,8 @@
 <!-- eslint-disable tailwindcss/no-custom-classname -->
 <template>
   <div
-    class="chat-pasta__bottom-bar flex"
+    class="chat-pasta__bottom-bar"
+    :class="twMerge('items-center flex justify-between gap-0.5 px-1 py-0.5', attrs.class)"
     data-testid="chat-pasta__bottom-bar"
   >
     <chat-pasta-time v-bind="time" />
@@ -9,29 +10,36 @@
       v-if="compact"
       class="flex items-center gap-0.5"
     >
-      <!--
-    <chat-pasta-more-actions-button >
-      <chat-pasta-more-actions />
-    </chat-pasta-more-actions-button >
-      -->
-      <!-- <chat-pasta-more-actions
-        :compact
-        direction="horizontal"
-        class="h-9 min-h-0"
-        @remove="$emit('remove')"
-        @edit="$emit('edit')"
-      /> -->
+      <with-dropdown
+        placement="top"
+        align="end"
+      >
+        <template #default>
+          <chat-pasta-more-actions-button
+            size="small"
+          />
+        </template>
+        <template #content>
+          <chat-pasta-more-actions-dropdown-content />
+        </template>
+      </with-dropdown>
       <chat-pasta-copy-button
-        :compact
-        class="h-9 min-h-0"
+        size="small"
         @click="$emit('copy')"
       />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { twMerge } from "tailwind-merge";
+import { useAttrs } from "vue";
+import WithDropdown from "../../with-dropdown/with-dropdown.vue";
 import ChatPastaTime from "./chat-pasta-time.vue";
 import ChatPastaCopyButton from "./buttons/chat-pasta-copy-button.vue";
+import {
+  ChatPastaMoreActionsButton,
+  ChatPastaMoreActionsDropdownContent,
+} from "./more-actions/components";
 
 defineProps<{
   time: {
@@ -46,4 +54,6 @@ defineEmits<{
   edit: [];
   copy: [];
 }>();
+
+const attrs: { class?: string } & Record<string, unknown> = useAttrs();
 </script>
