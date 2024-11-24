@@ -1,9 +1,11 @@
 <!-- eslint-disable tailwindcss/no-custom-classname -->
 <template>
   <div
-    class="chat-pasta__bottom-bar"
-    :class="twMerge('items-center flex justify-between gap-0.5 px-1 py-0.5', attrs.class)"
-    data-testid="chat-pasta__bottom-bar"
+    :class="[
+      bem.element('bottom-bar'),
+      twMerge('items-center flex justify-between gap-0.5 px-1 py-0.5', attrs.class),
+    ]"
+    data-testid="chat-pasta-bottom-bar"
   >
     <chat-pasta-time v-bind="time" />
     <div
@@ -34,6 +36,7 @@
 import { twMerge } from "tailwind-merge";
 import { useAttrs } from "vue";
 import WithDropdown from "../../with-dropdown/with-dropdown.vue";
+import { bem } from "../chat-pasta.vue";
 import ChatPastaTime from "./chat-pasta-time.vue";
 import ChatPastaCopyButton from "./buttons/chat-pasta-copy-button.vue";
 import {
