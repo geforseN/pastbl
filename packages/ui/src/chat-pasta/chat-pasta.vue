@@ -37,12 +37,13 @@
 </template>
 <script lang="ts">
 import { twMerge } from "tailwind-merge";
-import { defineAsyncComponent, useAttrs, type Slot } from "vue";
+import { useAttrs, type Slot } from "vue";
 import { withBem } from "../utils/bem" with { type: "macros" };
 import ChatPastaMessage from "./components/chat-pasta-message.vue";
 import ChatPastaTags from "./components/chat-pasta-tags.vue";
 import ChatPastaBottomBar from "./components/chat-pasta-bottom-bar.vue";
 import ChatPastaChatter, { type ChatPastaChatterProps } from "./components/chat-pasta-chatter.vue";
+import ChatPastaRightSidebar from "./components/chat-pasta-right-sidebar.vue";
 
 export interface ChatPastaProps {
   text: string;
@@ -58,9 +59,6 @@ export interface ChatPastaProps {
 export const bem = withBem("chat-pasta");
 </script>
 <script setup lang="ts">
-// TODO: handle scenario when component is not fetched after for example 5 seconds => should switch to compact pasta
-const ChatPastaRightSidebar = defineAsyncComponent(() => import("./components/chat-pasta-right-sidebar.vue"));
-
 const {
   tags = [],
 } = defineProps<ChatPastaProps>();
