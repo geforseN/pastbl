@@ -26,17 +26,16 @@
     </template>
   </with-dropdown>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { computed } from "vue";
 import { twMerge } from "tailwind-merge";
 import WithDropdown from "../../with-dropdown/with-dropdown.vue";
 
-export interface ChatPastaTimeProps {
+interface ChatPastaTimeProps {
   value: Date | number | string;
   label: string;
 }
-</script>
-<script setup lang="ts">
+
 const {
   label,
   value,

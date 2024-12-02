@@ -18,12 +18,11 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import type { ChatPastaProps } from "../chat-pasta.ts";
 import ChatPasta from "../chat-pasta.vue";
 import { creationTime, propsToTest, someChatter } from "./utils/chat-pasta";
-</script>
-<script setup lang="ts">
+
 const propsToTest_ = propsToTest.map((props) => ({
   ...props,
   time: creationTime,
