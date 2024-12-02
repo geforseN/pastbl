@@ -29,6 +29,10 @@
       v-if="selectedPasta"
       :key="selectedPasta.id"
       v-bind="selectedPasta"
+      :time="{
+        label: 'Created',
+        value: selectedPasta.createdAt,
+      }"
       @copy="pastasStore.copyPasta(selectedPasta)"
       @delete="pastasStore.removePasta(selectedPasta)"
       @mouseover="throttledMouseover"

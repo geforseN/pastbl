@@ -1,5 +1,6 @@
 export type KeyValueSchema = {
   "app:daisyui-theme": AppTheme;
+  "app:selected-tab-key": PastasWorkMode;
   "nickname:value": string;
   "nickname:color": string;
   "pasta:oncopy": "none" | "alert" | "sound" | "alert&sound";

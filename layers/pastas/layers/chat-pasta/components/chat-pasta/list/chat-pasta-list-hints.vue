@@ -11,7 +11,10 @@
         <p>{{ $t("pasta.list.clipboardFail.explanation") }}</p>
       </div>
     </client-only>
-    <div class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5">
+    <fieldset
+      :disabled="userStore.selectedTabName === 'remote'"
+      class="rounded-btn rounded-b-none border-2 border-b-0 px-2 py-1.5"
+    >
       <client-only>
         <chat-pasta-list-sort-select
           v-model="pastasStore.selectedSortStrategy"
@@ -23,7 +26,7 @@
           :selected-login="selectedLogin"
         />
       </client-only>
-    </div>
+    </fieldset>
     <slot name="default">
       <!-- NOTE: chat-pasta-list expected here -->
     </slot>
@@ -82,6 +85,7 @@ defineSlots<{
   default: VueSlot;
 }>();
 
+const userStore = useUserStore();
 const pastasStore = usePastasStore();
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 

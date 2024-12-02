@@ -17,7 +17,7 @@
     <div v-on-mouseover="showEmoteCard">
       <local-pastas-list
         v-if="pastas?.length && canShowPastas"
-        data-compact
+        compact
         class="pasta-list max-h-[46dvh]"
         :items="pastas"
         @remove-pasta="(pasta) => $emit('removePasta', pasta)"

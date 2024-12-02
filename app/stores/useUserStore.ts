@@ -129,7 +129,23 @@ export const useUserStore = defineStore("user", () => {
   const emotesIntegrationsRefreshInterval
     = useEmotesIntegrationsRefreshInterval();
 
+  const selectedTabNameAsCookie = useCookie<PastasWorkMode>("selected-tab-key", {
+    default: () => "local",
+  });
+  const {
+    state: selectedTabName,
+  } = useIndexedDBKeyValue(
+    "app:selected-tab-key",
+    selectedTabNameAsCookie.value,
+    {
+      onUpdated: (value) => {
+        selectedTabNameAsCookie.value = value;
+      },
+    },
+  );
+
   return {
+    selectedTabName,
     emotesIntegrationsRefreshInterval,
     user,
     userPreferences,

@@ -1,9 +1,17 @@
 export type AppTheme = "system" | "dark" | "light";
 
 export function useThemes() {
+  const cookie = useCookie<AppTheme>("daisyui-theme", {
+    default: () => "system",
+  });
   const { state: selected } = useIndexedDBKeyValue(
     "app:daisyui-theme",
-    "system",
+    cookie.value,
+    {
+      onUpdated: (selected) => {
+        cookie.value = selected;
+      },
+    },
   );
 
   const { t } = useI18n();
@@ -26,5 +34,6 @@ export function useThemes() {
   return {
     selected,
     entries,
+    cookie,
   };
 }

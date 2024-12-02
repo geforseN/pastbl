@@ -1,26 +1,30 @@
 <template>
   <div
     data-testid="chat-pasta"
-    class="chat-pasta flex flex-col border border-secondary"
+    class="chat-pasta flex border-secondary"
+    :class="compact ? 'flex-col' : 'flex-row'"
   >
     <chat-pasta-main-data
       :tags
       :text
       @populate-text="(container) => $emit('populate', container)"
-      @show-tag-context-menu="handleContextMenu"
     >
       <template #beforeColon>
         <slot name="creatorData" />
       </template>
       <template #bottom>
-        <chat-pasta-created
-          class="chat-pasta__visible-on-pc hidden"
-          :date="createdAt"
+        <chat-pasta-time
+          v-if="!compact"
+          v-bind="time"
         />
       </template>
     </chat-pasta-main-data>
-    <div class="chat-pasta__mobile-bottom flex justify-between p-1">
-      <chat-pasta-created :date="createdAt" />
+    <div
+      v-if="compact"
+      class="chat-pasta__mobile-bottom flex justify-between p-1"
+      data-testid="chat-pasta__bottom-bar"
+    >
+      <chat-pasta-time v-bind="time" />
       <div
         class="chat-pasta__actions-for-mobile flex items-center justify-between gap-0.5"
       >
@@ -32,7 +36,9 @@
       </div>
     </div>
     <div
-      class="chat-pasta__actions-for-pc hidden flex-col items-center justify-between gap-y-0.5 px-1 py-2"
+      v-else
+      class="flex-col items-center justify-between gap-y-0.5 px-1 py-2"
+      data-testid="chat-pasta__right-sidebar"
     >
       <chat-pasta-copy-button @click="emit('copy')" />
       <chat-pasta-more-actions
@@ -43,9 +49,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { OmegaPasta } from "../../utils/pasta.ts";
-
-defineProps<OmegaPasta>();
+const { compact, tags = [] } = defineProps<{
+  text: string;
+  tags?: string[];
+  time: {
+    label: string;
+    value: string | number | Date;
+  };
+  compact?: boolean;
+}>();
 
 defineSlots<{
   creatorData: VueSlot;
@@ -53,23 +65,10 @@ defineSlots<{
 
 const emit = defineEmits<{
   populate: [pastaTextContainer: HTMLElement];
-  showTagContextMenu: [event: MouseEvent, tag: string];
   remove: [];
   copy: [];
   edit: [];
 }>();
-
-function handleContextMenu(event: MouseEvent) {
-  if (!(event.target instanceof HTMLElement)) {
-    return;
-  }
-  const { pastaTag } = event.target.dataset;
-  if (typeof pastaTag !== "string") {
-    return;
-  }
-  event.preventDefault();
-  emit("showTagContextMenu", event, pastaTag);
-}
 </script>
 <style>
 .chat-pasta-emote {

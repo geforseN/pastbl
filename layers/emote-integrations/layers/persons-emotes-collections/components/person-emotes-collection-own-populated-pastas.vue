@@ -9,7 +9,7 @@
     >
       <local-pastas-list
         v-if="canShowPastas"
-        data-compact
+        compact
         class="pasta-list h-[16dvh]"
         :items="pastas"
         :find-emote

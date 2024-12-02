@@ -1,3 +1,5 @@
+import type * as ElementPlus from "element-plus";
+
 import type { VueI18n } from "vue-i18n";
 
 export type { VueI18n } from "vue-i18n";
@@ -12,4 +14,5 @@ export type INotification = {
   timeout?: number;
   click?: (...args: unknown[]) => void;
   callback?: (...args: unknown[]) => void;
+  type?: ElementPlus.NotificationOptions["type"];
 };

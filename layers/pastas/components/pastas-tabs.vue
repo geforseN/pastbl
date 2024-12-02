@@ -2,7 +2,7 @@
   <chat-pasta-list-hints>
     <client-only>
       <el-tabs
-        v-model="tab"
+        v-model="userStore.selectedTabName"
         v-on-mouseover="showEmoteCard"
         class="scrollbar-gutter-stable !space-y-0 border border-base-content"
       >
@@ -28,8 +28,6 @@
   </chat-pasta-list-hints>
 </template>
 <script setup lang="ts">
-const tab = ref<"local" | "remote">("local");
-
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 

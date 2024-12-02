@@ -16,7 +16,7 @@ const rootDir = fileURLToPath(new URL("../..", import.meta.url));
 export default defineConfig<ConfigOptions>({
   testDir: rootDir,
   outputDir: "playwright-results",
-  testMatch: [...endToEndTestsGlobs],
+  testMatch: [...endToEndTestsGlobs, "!packages/ui/**/*.e2e.spec.ts"],
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,

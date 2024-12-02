@@ -131,8 +131,7 @@ const emit = defineEmits<{
 const mainEmit = () =>
   userStore.pastasWorkMode.isLocal ? emit("createPasta") : emit("publishPasta");
 
-const pastaFormTextareaRef
-  = useTemplateRef<InstanceType<typeof PastaFormTextarea>>("pastaFormTextarea");
+const pastaFormTextareaRef = useTemplateRef("pastaFormTextarea");
 
 defineExpose({
   pastaFormTextareaRef,

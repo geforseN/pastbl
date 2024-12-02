@@ -1,9 +1,11 @@
 import {
+  useNow,
   formatTimeAgo,
   type UseTimeAgoMessages,
   type UseTimeAgoOptions,
   type UseTimeAgoUnitNamesDefault,
 } from "@vueuse/core";
+import { objectKeys } from "./object.ts";
 import { assert } from "./assert.ts";
 
 const numberInRegex = /\d/;
@@ -198,11 +200,10 @@ function getRussianTimeRuleOf(key: keyof typeof russianTimeRules) {
   return (n: number, isPast: boolean) => {
     assert.ok(Number.isInteger(n));
     if (n === 1) {
-      const { one } = rule;
       if (isPast) {
-        return one.past;
+        return rule.one.past;
       }
-      return one.future;
+      return rule.one.future;
     }
     const index = getRussianPluralIndex(n);
     return `${n} ${rule.list[index]}`;

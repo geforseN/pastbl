@@ -1,5 +1,8 @@
 <template>
-  <Html v-bind="localeHead.htmlAttrs">
+  <Html
+    v-bind="localeHead.htmlAttrs"
+    :data-theme="themes.cookie.value"
+  >
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
@@ -31,7 +34,6 @@
 <script setup lang="ts">
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
-import type { EmoteOnHoverCard } from "#build/components";
 
 const localeHead = useLocaleHead({});
 
@@ -52,8 +54,9 @@ if (import.meta.client && import.meta.dev) {
   document.body.classList.add("debug-screens");
 }
 
-const emoteOnHoverCardRef
-  = useTemplateRef<InstanceType<typeof EmoteOnHoverCard>>("emoteOnHoverCard");
+const themes = useThemes();
+
+const emoteOnHoverCardRef = useTemplateRef("emoteOnHoverCard");
 const emoteOnHover = useExtendedEmoteOnHover(
   computed(() => emoteOnHoverCardRef.value?.containerRef || raise()),
 );

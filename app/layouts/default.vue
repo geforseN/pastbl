@@ -11,11 +11,13 @@
 <style>
 .chat-pasta-list {
   max-height: 50dvh;
+  min-width: 342px;
 }
 
 @media (min-width: 890px) {
   .chat-pasta-list {
     max-height: 60dvh;
+    min-width: 416px;
   }
 }
 
