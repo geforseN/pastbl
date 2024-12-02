@@ -1,5 +1,13 @@
-import { coverageConfigDefaults as coverageConfigDefaults_ } from "vitest/config";
+import {
+  coverageConfigDefaults as coverageConfigDefaults_,
+  defaultExclude as defaultExclude_,
+} from "vitest/config";
 import type { CoverageOptions } from "vitest/node";
+
+export const defaultExclude = [
+  ...defaultExclude_,
+  "packages/ui/**/*",
+];
 
 export const coverageConfigDefaults = {
   ...coverageConfigDefaults_,

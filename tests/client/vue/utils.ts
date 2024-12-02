@@ -1,6 +1,6 @@
 import vue from "@vitejs/plugin-vue";
 import { defineConfig, type ViteUserConfig } from "vitest/config";
-import { coverageConfigDefaults } from "../../utils.ts";
+import { coverageConfigDefaults, defaultExclude } from "../../utils.ts";
 
 export const vueTestsGlob = "**/*.vue.spec.?(c|m)[jt]s?(x)";
 
@@ -16,6 +16,7 @@ export const defineVueVitestConfig = (config?: ViteUserConfig) =>
       name: "vue",
       environment: "happy-dom",
       include: [vueTestsGlob],
+      exclude: defaultExclude,
     },
     plugins: [
       vue(),
