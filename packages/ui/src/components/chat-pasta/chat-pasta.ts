@@ -1,5 +1,5 @@
 import { withBem } from "../../utils/bem" with { type: "macros" };
-import type { ChatPastaChatterProps } from "./components/chat-pasta-chatter.vue";
+import type { ChatPastaChatterProps } from "./components/chat-pasta-chatter.ts";
 
 export interface ChatPastaProps {
   text: string;

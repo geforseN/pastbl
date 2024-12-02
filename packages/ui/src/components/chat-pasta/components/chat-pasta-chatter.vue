@@ -18,13 +18,8 @@
     </span>
   </div>
 </template>
-<script lang="ts">
-export interface ChatPastaChatterProps {
-  nickname: string;
-  nicknameColor: string;
-  badges: number | object[];
-}
-</script>
 <script setup lang="ts">
+import type { ChatPastaChatterProps } from "./chat-pasta-chatter";
+
 defineProps<ChatPastaChatterProps>();
 </script>
