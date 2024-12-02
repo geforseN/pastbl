@@ -18,7 +18,8 @@
 </template>
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
-import BlButton, { type BlButtonProps } from "../../../bl-button/bl-button.vue";
+import BlButton from "../../../bl-button/bl-button.vue";
+import type { BlButtonProps } from "../../../bl-button/bl-button.ts";
 
 const props = defineProps<BlButtonProps>();
 
