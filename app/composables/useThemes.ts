@@ -11,7 +11,7 @@ export function useThemes() {
       onUpdated(selected) {
         cookie.value = selected;
       },
-    }
+    },
   );
 
   const { t } = useI18n();
