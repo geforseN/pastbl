@@ -97,7 +97,7 @@ importers:
         version: 1.8.2(magicast@0.3.5)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue@3.5.13(typescript@5.6.3))
       '@nuxt/test-utils':
         specifier: ^3.14.4
-        version: 3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.6)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
+        version: 3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.7)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
       '@nuxtjs/i18n':
         specifier: 9.1.0
         version: 9.1.0(patch_hash=gsvuo6ny4jdczmyeaz733yoxly)(@vue/compiler-dom@3.5.13)(eslint@9.15.0(jiti@2.4.0))(magicast@0.3.5)(rollup@4.27.4)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
@@ -154,16 +154,16 @@ importers:
         version: 5.2.0(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue@3.5.13(typescript@5.6.3))
       '@vitest/coverage-v8':
         specifier: ^2.1.5
-        version: 2.1.5(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))
+        version: 2.1.5(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))
       '@vitest/eslint-plugin':
         specifier: ^1.1.10
-        version: 1.1.10(@typescript-eslint/utils@8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))
+        version: 1.1.10(@typescript-eslint/utils@8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))
       '@vue-macros/eslint-config':
         specifier: ^0.7.0
         version: 0.7.0(eslint@9.15.0(jiti@2.4.0))
       '@vue-macros/nuxt':
         specifier: ^1.12.9
-        version: 1.12.9(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.24.0)(magicast@0.3.5)(nuxt@3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3)))(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
+        version: 1.12.9(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3)))(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
       '@vue-macros/volar':
         specifier: ^0.30.6
         version: 0.30.6(rollup@4.27.4)(typescript@5.6.3)(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
@@ -217,7 +217,7 @@ importers:
         version: 6.0.0
       happy-dom:
         specifier: ^15.11.6
-        version: 15.11.6
+        version: 15.11.7
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -232,7 +232,7 @@ importers:
         version: 15.2.10
       nitro-test-utils:
         specifier: 0.9.0
-        version: 0.9.0(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))
+        version: 0.9.0(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))
       nuxt:
         specifier: ^3.14.1592
         version: 3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))
@@ -274,7 +274,7 @@ importers:
         version: 5.6.3
       vitest:
         specifier: ^2.1.5
-        version: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)
+        version: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)
       wait-on:
         specifier: ^8.0.1
         version: 8.0.1
@@ -4966,8 +4966,8 @@ packages:
   h3@1.13.0:
     resolution: {integrity: sha512-vFEAu/yf8UMUcB4s43OaDaigcqpQd14yanmOsn+NcRX3/guSKncyE2rOYhq8RIchgJrPSs/QiIddnTTR1ddiAg==}
 
-  happy-dom@15.11.6:
-    resolution: {integrity: sha512-elX7iUTu+5+3b2+NGQc0L3eWyq9jKhuJJ4GpOMxxT/c2pg9O3L5H3ty2VECX0XXZgRmmRqXyOK8brA2hDI6LsQ==}
+  happy-dom@15.11.7:
+    resolution: {integrity: sha512-KyrFvnl+J9US63TEzwoiJOQzZBJY7KgBushJA8X61DMbNsH+2ONkDuLDnCnwUiPTF42tLoEmrPyoqbenVA5zrg==}
     engines: {node: '>=18.0.0'}
 
   has-bigints@1.0.2:
@@ -9617,7 +9617,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxt/test-utils@3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.6)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))':
+  '@nuxt/test-utils@3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.7)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))':
     dependencies:
       '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.27.4)
       '@nuxt/schema': 3.14.1592(magicast@0.3.5)(rollup@4.27.4)
@@ -9644,17 +9644,17 @@ snapshots:
       unenv: 1.10.0
       unplugin: 1.16.0
       vite: 5.4.11(@types/node@22.9.3)(terser@5.36.0)
-      vitest-environment-nuxt: 1.0.1(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.6)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
+      vitest-environment-nuxt: 1.0.1(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.7)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
       vue: 3.5.13(typescript@5.6.3)
       vue-router: 4.4.5(vue@3.5.13(typescript@5.6.3))
     optionalDependencies:
       '@playwright/test': 1.49.0
       '@testing-library/vue': 8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3))
       '@vue/test-utils': 2.4.6
-      happy-dom: 15.11.6
+      happy-dom: 15.11.7
       jsdom: 25.0.1
       playwright-core: 1.49.0
-      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)
+      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)
     transitivePeerDependencies:
       - magicast
       - rollup
@@ -10831,7 +10831,7 @@ snapshots:
       vite: 5.4.11(@types/node@22.9.3)(terser@5.36.0)
       vue: 3.5.13(typescript@5.6.3)
 
-  '@vitest/coverage-v8@2.1.5(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))':
+  '@vitest/coverage-v8@2.1.5(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -10845,17 +10845,17 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)
+      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.1.10(@typescript-eslint/utils@8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))':
+  '@vitest/eslint-plugin@1.1.10(@typescript-eslint/utils@8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))':
     dependencies:
       '@typescript-eslint/utils': 8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)
       eslint: 9.15.0(jiti@2.4.0)
     optionalDependencies:
       typescript: 5.6.3
-      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)
+      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)
 
   '@vitest/expect@2.0.5':
     dependencies:
@@ -11127,12 +11127,12 @@ snapshots:
       - rollup
       - vue
 
-  '@vue-macros/nuxt@1.12.9(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.24.0)(magicast@0.3.5)(nuxt@3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3)))(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))':
+  '@vue-macros/nuxt@1.12.9(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3)))(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))':
     dependencies:
       '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.27.4)
       '@vue-macros/common': 1.15.0(rollup@4.27.4)(vue@3.5.13(typescript@5.6.3))
       nuxt: 3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))
-      unplugin-vue-macros: 2.13.4(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.24.0)(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
+      unplugin-vue-macros: 2.13.4(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.19.12)(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
     transitivePeerDependencies:
       - '@rspack/core'
       - '@vueuse/core'
@@ -13324,7 +13324,7 @@ snapshots:
       uncrypto: 0.1.3
       unenv: 1.10.0
 
-  happy-dom@15.11.6:
+  happy-dom@15.11.7:
     dependencies:
       entities: 4.5.0
       webidl-conversions: 7.0.0
@@ -14292,7 +14292,7 @@ snapshots:
   ncp@2.0.0:
     optional: true
 
-  nitro-test-utils@0.9.0(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)):
+  nitro-test-utils@0.9.0(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)):
     dependencies:
       dotenv: 16.4.5
       listhen: 1.9.0
@@ -14300,7 +14300,7 @@ snapshots:
       ofetch: 1.4.1
       pathe: 1.1.2
       ufo: 1.5.4
-      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0)
+      vitest: 2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0)
 
   nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3):
     dependencies:
@@ -16116,12 +16116,12 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin-combine@1.0.3(esbuild@0.24.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0)):
+  unplugin-combine@1.0.3(esbuild@0.19.12)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0)):
     dependencies:
       '@antfu/utils': 0.7.10
       unplugin: 1.16.0
     optionalDependencies:
-      esbuild: 0.24.0
+      esbuild: 0.19.12
       rollup: 4.27.4
       vite: 5.4.11(@types/node@22.9.3)(terser@5.36.0)
 
@@ -16134,7 +16134,7 @@ snapshots:
       - rollup
       - vue
 
-  unplugin-vue-macros@2.13.4(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.24.0)(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3)):
+  unplugin-vue-macros@2.13.4(@vueuse/core@11.3.0(vue@3.5.13(typescript@5.6.3)))(esbuild@0.19.12)(rollup@4.27.4)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3)):
     dependencies:
       '@vue-macros/better-define': 1.11.0(rollup@4.27.4)(vue@3.5.13(typescript@5.6.3))
       '@vue-macros/boolean-prop': 0.5.2(rollup@4.27.4)(vue@3.5.13(typescript@5.6.3))
@@ -16166,7 +16166,7 @@ snapshots:
       '@vue-macros/short-vmodel': 1.5.2(rollup@4.27.4)(vue@3.5.13(typescript@5.6.3))
       '@vue-macros/volar': 0.30.6(rollup@4.27.4)(typescript@5.6.3)(vue-tsc@2.1.10(typescript@5.6.3))(vue@3.5.13(typescript@5.6.3))
       unplugin: 1.16.0
-      unplugin-combine: 1.0.3(esbuild@0.24.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))
+      unplugin-combine: 1.0.3(esbuild@0.19.12)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))
       unplugin-vue-define-options: 1.5.2(rollup@4.27.4)(vue@3.5.13(typescript@5.6.3))
       vue: 3.5.13(typescript@5.6.3)
     transitivePeerDependencies:
@@ -16423,9 +16423,9 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.36.0
 
-  vitest-environment-nuxt@1.0.1(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.6)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3)):
+  vitest-environment-nuxt@1.0.1(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.7)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3)):
     dependencies:
-      '@nuxt/test-utils': 3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.6)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
+      '@nuxt/test-utils': 3.14.4(@playwright/test@1.49.0)(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.13)(vue@3.5.13(typescript@5.6.3)))(@vue/test-utils@2.4.6)(h3@1.13.0)(happy-dom@15.11.7)(jsdom@25.0.1)(magicast@0.3.5)(nitropack@2.10.4(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(typescript@5.6.3))(playwright-core@1.49.0)(rollup@4.27.4)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0))(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
@@ -16446,7 +16446,7 @@ snapshots:
       - vue
       - vue-router
 
-  vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.6)(jsdom@25.0.1)(terser@5.36.0):
+  vitest@2.1.5(@types/node@22.9.3)(happy-dom@15.11.7)(jsdom@25.0.1)(terser@5.36.0):
     dependencies:
       '@vitest/expect': 2.1.5
       '@vitest/mocker': 2.1.5(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))
@@ -16470,7 +16470,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.9.3
-      happy-dom: 15.11.6
+      happy-dom: 15.11.7
       jsdom: 25.0.1
     transitivePeerDependencies:
       - less
