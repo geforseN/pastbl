@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-import type { ChatPastaProps } from "../chat-pasta.vue";
+import type { ChatPastaProps } from "../chat-pasta.ts";
 import ChatPasta from "../chat-pasta.vue";
 import { creationTime, propsToTest, someChatter } from "./utils/chat-pasta";
 </script>

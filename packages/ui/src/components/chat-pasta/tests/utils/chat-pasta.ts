@@ -1,4 +1,4 @@
-import type { ChatPastaProps } from "../../chat-pasta.vue";
+import type { ChatPastaProps } from "../../chat-pasta.ts";
 
 const date = new Date("2022-01-01T00:00:00.000Z");
 

@@ -35,30 +35,19 @@
     />
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { twMerge } from "tailwind-merge";
 import { useAttrs, type Slot } from "vue";
-import { withBem } from "../../utils/bem" with { type: "macros" };
 import ChatPastaMessage from "./components/chat-pasta-message.vue";
 import ChatPastaTags from "./components/chat-pasta-tags.vue";
 import ChatPastaBottomBar from "./components/chat-pasta-bottom-bar.vue";
-import ChatPastaChatter, { type ChatPastaChatterProps } from "./components/chat-pasta-chatter.vue";
+import ChatPastaChatter from "./components/chat-pasta-chatter.vue";
 import ChatPastaRightSidebar from "./components/chat-pasta-right-sidebar.vue";
+import {
+  bem,
+  type ChatPastaProps,
+} from "./chat-pasta.ts";
 
-export interface ChatPastaProps {
-  text: string;
-  time: {
-    label: string;
-    value: string | number | Date;
-  };
-  tags?: string[];
-  compact?: boolean;
-  chatter: ChatPastaChatterProps;
-}
-
-export const bem = withBem("chat-pasta");
-</script>
-<script setup lang="ts">
 const {
   tags = [],
 } = defineProps<ChatPastaProps>();
