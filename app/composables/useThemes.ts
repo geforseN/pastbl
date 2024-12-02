@@ -8,7 +8,7 @@ export function useThemes() {
     "app:daisyui-theme",
     cookie.value,
     {
-      onUpdated(selected) {
+      onUpdated: (selected) => {
         cookie.value = selected;
       },
     },

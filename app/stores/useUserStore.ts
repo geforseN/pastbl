@@ -138,7 +138,7 @@ export const useUserStore = defineStore("user", () => {
     "app:selected-tab-key",
     selectedTabNameAsCookie.value,
     {
-      onUpdated(value) {
+      onUpdated: (value) => {
         selectedTabNameAsCookie.value = value;
       },
     },
