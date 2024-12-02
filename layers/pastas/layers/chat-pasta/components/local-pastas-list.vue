@@ -54,12 +54,12 @@ import type { CanFindEmote } from "../utils/pasta-dom.ts";
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 
-const {
-  findEmote = useEmotesStore().findEmote,
-  compact = useNuxtApp().$screen.isSmall,
-} = defineProps<Partial<CanFindEmote> & {
+const props = defineProps<Partial<CanFindEmote> & {
   compact: boolean;
 }>();
+
+const findEmote = computed(() => props.findEmote || useEmotesStore().findEmote);
+const compact = computed(() => props.compact || useNuxtApp().$screen.isSmall);
 
 defineEmits<{
   removePasta: [OmegaPasta];
