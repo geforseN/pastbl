@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
-import { bem } from "../chat-pasta.vue";
+import { bem } from "../chat-pasta.ts";
 import WithDropdown from "../../with-dropdown/with-dropdown.vue";
 import ChatPastaCopyButton from "./buttons/chat-pasta-copy-button.vue";
 import {
