@@ -1,6 +1,5 @@
-import { toLowerCase } from "../../../../../../../../app/utils/string";
-import { allEmoteSources } from "../../../../../emote-sources/utils/external";
-import { createError } from "#app/composables/error";
+import { toLowerCase } from "~/utils/string";
+import { allEmoteSources } from "$/emote-integrations/layers/emote-sources/utils/external";
 
 const lowercaseEmoteSources = new Map(
   allEmoteSources.map((source) => [toLowerCase(source), source] as const),

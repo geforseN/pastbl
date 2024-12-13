@@ -1,8 +1,7 @@
 // LINK: https://7tv.io/docs
 
-import { isArray } from "../../../../../../../../../../app/utils/guards";
-import { assert } from "../../../../../../../../../../app/utils/assert";
-import type * as TSevenTV from "#t_seventv";
+import { isArray } from "~/utils/guards";
+import { assert } from "~/utils/assert";
 
 export async function fetchSevenTVUserSet(setId: string) {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);

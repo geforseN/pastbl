@@ -1,7 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../shared/abstract/types";
-import type * as TSevenTV from "#t_seventv";
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
-
 export class SevenTVGlobalEmotesIntegration {
   constructor(
     private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,

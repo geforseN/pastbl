@@ -1,7 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../../../shared/abstract/types";
-import type * as TTwitch from "#t_twitch";
-import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
-
 export class PersonTwitchEmoteIntegration {
   constructor(
     private readonly withFailControl: PersonEmotesIntegrationWithFailControl,

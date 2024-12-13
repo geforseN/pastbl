@@ -1,6 +1,5 @@
 import { z } from "zod";
 import consola from "consola";
-import { setResponseStatus } from "#app/composables/ssr";
 
 const bodySchema = z.object({
   login: z.string().refine(isTwitchUserLogin),

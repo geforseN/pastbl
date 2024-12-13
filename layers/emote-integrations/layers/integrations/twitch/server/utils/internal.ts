@@ -1,5 +1,4 @@
-import { assert } from "../../../../../../../app/utils/assert";
-import type * as TTwitch from "#t_twitch";
+import { assert } from "~/utils/assert";
 
 export function getTwitchEmoteSetName(emote: {
   emote_type: "bitstier" | "follower" | "subscriptions";

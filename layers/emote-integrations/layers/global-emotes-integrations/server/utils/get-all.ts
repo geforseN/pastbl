@@ -1,4 +1,4 @@
-import { assert } from "../../../../../../app/utils/assert";
+import { assert } from "~/utils/assert";
 import type {
   BetterTTVGlobalEmotesIntegration,
   FrankerFaceZGlobalEmotesIntegration,

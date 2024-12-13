@@ -1,7 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../shared/abstract/types";
-import type * as TTwitch from "#t_twitch";
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
-
 export class TwitchGlobalEmotesIntegration {
   constructor(
     private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,

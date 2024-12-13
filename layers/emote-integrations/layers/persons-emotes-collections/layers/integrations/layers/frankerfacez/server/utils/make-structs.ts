@@ -1,6 +1,4 @@
 import consola from "consola";
-import { ReadyIntegration } from "../../../../../../../../shared/abstract/types";
-import type * as TFrankerFaceZ from "#t_frankerfacez";
 
 export function makeFrankerFaceZEmoteIntegrationOwner(
   profile: TFrankerFaceZ.Api.UserStruct,

@@ -1,7 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../../../shared/abstract/types";
-import type * as TSevenTV from "#t_seventv";
-import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
-
 export class PersonSevenTVEmoteIntegration {
   constructor(
     private readonly withFailControl: PersonEmotesIntegrationWithFailControl,

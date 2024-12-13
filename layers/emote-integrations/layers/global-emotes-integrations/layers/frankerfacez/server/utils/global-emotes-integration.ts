@@ -1,7 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../shared/abstract/types";
-import type * as TFrankerFaceZ from "#t_frankerfacez";
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
-
 export class FrankerFaceZGlobalEmotesIntegration {
   constructor(
     private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,

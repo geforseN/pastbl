@@ -1,6 +1,5 @@
 // LINK: https://betterttv.com/developers/api#user
-import { assert } from "../../../../../../../../../../app/utils/assert";
-import type * as TBetterTTV from "#t_betterttv";
+import { assert } from "~/utils/assert";
 
 export async function fetchBetterTTVUser(
   twitchId: TwitchUserId,

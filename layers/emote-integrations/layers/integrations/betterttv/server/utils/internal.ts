@@ -1,5 +1,3 @@
-import type * as TBetterTTV from "#t_betterttv";
-
 const source = "BetterTTV" as const;
 
 export function defineBetterTTVSetMaker<E, T, ET extends TBetterTTV.EmoteType>(

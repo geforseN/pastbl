@@ -1,6 +1,3 @@
-import { ReadyIntegration } from "../../../../../../../../shared/abstract/types";
-import type * as TSevenTV from "#t_seventv";
-
 export function defineSevenTVEmoteSetMaker<T extends string>(type: T) {
   const makeEmote = defineSevenTVEmoteMaker(type);
 

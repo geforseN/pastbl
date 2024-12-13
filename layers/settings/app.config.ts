@@ -1,5 +1,3 @@
-import { defineAppConfig } from "#app/nuxt";
-
 export const settingsConfig = {
   badges: {
     count: {

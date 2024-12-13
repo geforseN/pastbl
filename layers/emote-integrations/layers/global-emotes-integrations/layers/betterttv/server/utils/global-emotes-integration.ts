@@ -1,5 +1,3 @@
-import { FailedIntegration, ReadyIntegration } from "../../../../../../shared/abstract/types";
-import type * as TBetterTTV from "#t_betterttv";
 import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
 
 export class BetterTTVGlobalEmotesIntegration {

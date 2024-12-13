@@ -1,6 +1,4 @@
-import { ReadyIntegration } from "../../../../../../../../shared/abstract/types";
-import { groupBy } from "../../../../../../../../../../app/utils/object";
-import type * as TTwitch from "#t_twitch";
+import { groupBy } from "~/utils/object";
 
 export function makeTwitchOwner(
   twitch: PersonTwitch,

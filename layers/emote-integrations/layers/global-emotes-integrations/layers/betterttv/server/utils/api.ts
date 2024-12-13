@@ -1,6 +1,5 @@
 // LINK: https://betterttv.com/developers/api#global-emotes
 import { assert } from "../../../../../../../../app/utils/assert";
-import type * as TBetterTTV from "#t_betterttv";
 
 export async function fetchBetterTTVGlobalEmotes() {
   const response = await fetch(

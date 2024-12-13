@@ -1,7 +1,6 @@
 import { assert } from "../../../../app/utils/assert";
 import type { ITwitchChannel } from "../utils/types";
 import { useActionToasts } from "../../../toast/composables/useActionToasts";
-import { useFetch } from "#app/composables/fetch";
 
 export function useTwitchChannelsSearch(nickname: Ref<string>) {
   const mustShow = ref(false);

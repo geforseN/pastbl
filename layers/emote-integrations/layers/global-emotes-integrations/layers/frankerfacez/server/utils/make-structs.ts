@@ -1,7 +1,5 @@
 import consola from "consola";
 import { isNotNullable } from "../../../../../../../../app/utils/guards";
-import { ReadyIntegration } from "../../../../../../shared/abstract/types";
-import type * as TFrankerFaceZ from "#t_frankerfacez";
 
 export const makeFrankerFaceZGlobalIntegration
   = defineGlobalIntegrationMaker<TFrankerFaceZ.Global.ReadyIntegration>(
