@@ -36,11 +36,11 @@ import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { useExtendedEmoteOnHover } from "../layers/emote-on-hover/composables/useEmoteOnHover";
 import { savePastasInFile } from "../layers/pastas/layers/file-pastas/utils/file-pastas";
-import { raise } from "./utils/raise";
-import { useThemes } from "./composables/useThemes";
-import { useKeysListenWithAlt } from "./composables/useKeysListen";
-import { usePastasStore } from "./stores/usePastasStore";
-import { useLogRocket } from "./composables/useLogRocket";
+import { raise } from "~/utils/raise";
+import { useThemes } from "~/composables/useThemes";
+import { useKeysListenWithAlt } from "~/composables/useKeysListen";
+import { usePastasStore } from "~/stores/usePastasStore";
+import { useLogRocket } from "~/composables/useLogRocket";
 
 const localeHead = useLocaleHead({});
 

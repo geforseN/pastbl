@@ -24,7 +24,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useLocales } from "../composables/useLocales";
+import { useLocales } from "~/composables/useLocales";
 
 const locales = reactive(useLocales());
 

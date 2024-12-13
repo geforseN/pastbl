@@ -1,7 +1,7 @@
 import { useClipboard } from "@vueuse/core";
-import type { MaybePromise } from "../utils/types";
 import { useActionToasts } from "../../layers/toast/composables/useActionToasts";
 import { createActionToasts } from "../../layers/toast/utils/create-raw-action-toasts";
+import type { MaybePromise } from "~/utils/types";
 
 export const copyTextToasts = createActionToasts("copy-text", {
   success() {

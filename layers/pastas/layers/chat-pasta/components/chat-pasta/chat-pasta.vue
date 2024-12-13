@@ -49,7 +49,6 @@
   </div>
 </template>
 <script setup lang="ts">
-
 const { compact, tags = [] } = defineProps<{
   text: string;
   tags?: string[];

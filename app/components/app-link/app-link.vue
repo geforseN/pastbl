@@ -17,7 +17,6 @@
   </nuxt-link-locale>
 </template>
 <script lang="ts">
-
 const routePageLinkRecord = {
   "global-emotes": {
     path: "/collections/global",

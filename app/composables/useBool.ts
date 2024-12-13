@@ -1,4 +1,3 @@
-
 export function useBool(initialValue: boolean) {
   const state = ref(initialValue);
 

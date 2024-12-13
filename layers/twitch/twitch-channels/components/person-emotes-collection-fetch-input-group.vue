@@ -15,7 +15,6 @@
   </div>
 </template>
 <script setup lang="ts">
-
 const inputRef = useTemplateRef("input");
 
 const nickname = defineModel<string>("nickname", { required: true });

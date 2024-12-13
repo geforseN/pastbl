@@ -5,7 +5,7 @@ import { usePastaRemove } from "../../layers/pastas/layers/chat-pasta/utils/acti
 import { usePastaCreate } from "../../layers/pastas/layers/chat-pasta/utils/actions/create-pasta";
 import { pastasService } from "../../layers/pastas/utils/service/singleton";
 import { usePastas } from "../../layers/pastas/layers/chat-pasta/composables/usePastas";
-import { usePersonsEmoteCollectionsStore } from "./usePersonsEmoteCollectionsStore";
+import { usePersonsEmoteCollectionsStore } from "~/stores/usePersonsEmoteCollectionsStore";
 
 export const usePastasStore = defineStore("pastas", () => {
   const personsEmoteCollections = usePersonsEmoteCollectionsStore();

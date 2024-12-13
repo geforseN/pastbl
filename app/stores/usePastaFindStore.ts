@@ -2,9 +2,9 @@ import { useFindPastasTags } from "../../layers/pastas/layers/find-pastas/compos
 import { useFindPastasLength } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindLength";
 import { useFindPastaText } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindText";
 import { usePastaFindTimeRange } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindTimeRange";
-import { isArray } from "../utils/guards";
-import { assert } from "../utils/assert";
-import { usePastasStore } from "./usePastasStore";
+import { isArray } from "~/utils/guards";
+import { assert } from "~/utils/assert";
+import { usePastasStore } from "~/stores/usePastasStore";
 
 export const usePastaFindStore = defineStore("pasta-find", () => {
   const pastasStore = usePastasStore();

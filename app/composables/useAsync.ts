@@ -2,7 +2,7 @@ import {
   type UseAsyncStateOptions,
   useAsyncState as useVueUseAsyncState,
 } from "@vueuse/core";
-import { useBool } from "./useBool";
+import { useBool } from "~/composables/useBool";
 
 const ASYNC_STATE_DEFAULT_SHALLOW = true as const;
 

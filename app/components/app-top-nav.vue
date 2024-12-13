@@ -44,7 +44,6 @@
   </nav>
 </template>
 <script setup lang="ts">
-
 const userSession = reactive(useUserSession());
 </script>
 <style scoped>

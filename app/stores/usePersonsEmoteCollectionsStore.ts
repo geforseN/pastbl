@@ -4,7 +4,7 @@ import { usePersonsCollectionsLoad } from "../../layers/emote-integrations/layer
 import { useSelectedPersonCollection } from "../../layers/emote-integrations/layers/persons-emotes-collections/composables/useSelectedPersonCollection";
 import { useSelectedPersonCollectionLogin } from "../../layers/emote-integrations/layers/persons-emotes-collections/composables/useSelectedPersonCollectionLogin";
 import { personsEmotesCollectionsService } from "../../layers/emote-integrations/layers/persons-emotes-collections/utils/service-singleton";
-import { useAsyncArray } from "../composables/useAsync";
+import { useAsyncArray } from "~/composables/useAsync";
 
 export const usePersonsEmoteCollectionsStore = defineStore(
   "persons-emotes-collections",

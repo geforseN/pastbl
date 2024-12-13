@@ -3,7 +3,7 @@ import {
   makeLengthStatusGetter,
   type LengthStatus,
   type LengthStatusWithWarning,
-} from "./length-status";
+} from "~/utils/length-status";
 
 test("makeLengthStatusGetter types are correct", () => {
   const noWarningChecker = makeLengthStatusGetter({
