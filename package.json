@@ -94,6 +94,7 @@
     "nitro-test-utils": "0.9.0",
     "nuxt": "^3.14.1592",
     "nuxt-auth-utils": "^0.5.5",
+    "nuxt-eslint-auto-explicit-import": "^0.1.1",
     "playwright": "^1.49.0",
     "playwright-core": "^1.49.0",
     "postcss": "^8.4.49",
