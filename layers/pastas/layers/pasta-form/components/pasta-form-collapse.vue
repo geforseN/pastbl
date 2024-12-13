@@ -89,6 +89,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import { whenever, useMagicKeys } from "@vueuse/core";
+import { watch, useTemplateRef } from "vue";
+import { sleep } from "../../../../../app/utils/promise";
+import { useUserStore } from "../../../../../app/stores/useUserStore";
+import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";
+import { usePastaStore } from "../../../../../app/stores/usePastaStore";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+import { useNuxtApp } from "#app/nuxt";
+
 const pastasStore = usePastasStore();
 const pastaStore = usePastaStore();
 const emotesStore = useEmotesStore();

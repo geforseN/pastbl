@@ -1,3 +1,8 @@
+import { toValue } from "vue";
+import type { MaybeRef } from "vue";
+import { assert } from "./assert";
+import type { RaiseReason } from "./assert";
+
 export function withRemoved<T>(
   array: MaybeRef<T[]>,
   refOrPredicate:

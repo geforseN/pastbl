@@ -28,6 +28,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Slot as VueSlot } from "vue";
+import { assert } from "../../../../../../app/utils/assert";
 import { ClampedPastaTag } from "$ui";
 
 defineProps<{

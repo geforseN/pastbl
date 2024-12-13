@@ -1,3 +1,4 @@
+import type { MaybePromise } from "./types";
 import { groupBy } from "./object.ts";
 
 export async function groupAsync<T>(values: MaybePromise<T>[]) {

@@ -8,5 +8,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useAppConfig } from "#app/config";
+
 const appConfig = useAppConfig();
 </script>

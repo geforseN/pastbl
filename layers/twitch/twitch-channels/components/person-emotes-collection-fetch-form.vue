@@ -45,6 +45,12 @@
   </form>
 </template>
 <script setup lang="ts">
+import { onMounted, reactive, computed, useTemplateRef, ref } from "vue";
+import { useDebounce } from "@vueuse/core";
+import { usePersonEmotesCollectionLoad } from "../utils/load-collection";
+import { useTwitchChannelsSearch } from "../composables/useTwitchChannelsSearch";
+import { useIndexedDBKeyValue } from "../../../key-value/indexed-db/composables/useIndexedDBKeyValue";
+import { raise } from "../../../../app/utils/raise";
 import type {
   TwitchChannelsSearch,
   PersonEmotesCollectionFetchInputGroup,

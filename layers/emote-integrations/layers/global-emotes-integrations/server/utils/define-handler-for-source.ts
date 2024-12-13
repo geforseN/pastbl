@@ -1,4 +1,5 @@
 import consola from "consola";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
 import type { GlobalEmoteIntegrationRecord } from "./get-all.ts";
 
 const consola_ = consola.withTag("global-emotes-integrations");

@@ -33,6 +33,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { log } from "../../../../../shared/utils/dev-only";
+
 const props = defineProps<{
   pastasCount: number;
 }>();

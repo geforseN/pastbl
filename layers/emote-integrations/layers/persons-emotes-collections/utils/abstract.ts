@@ -1,3 +1,6 @@
+import { Default, Minimal } from "../shared/types/namespace";
+import type * as TPersonEmoteCollection from "../shared/types/namespace";
+
 export interface IPersonsEmoteCollectionsRepository<
   C extends TPersonEmoteCollection.Minimal,
 > {

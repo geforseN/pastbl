@@ -1,3 +1,10 @@
+import type { IPersonEmoteCollection } from "../../../shared/types/index";
+import { SettledIndexedDB } from "../../../shared/types/namespace";
+import type * as TPersonEmoteCollection from "../../../shared/types/namespace";
+import type { IPersonsEmoteCollectionsRepository } from "../../../utils/abstract";
+import { PersonIndexedDBEmoteCollectionIntegrationsRepopulate } from "./commands/populate-integrations";
+import { PersonIndexedDBEmoteCollectionDeletePreparation } from "./commands/delete-collection";
+import { PersonIndexedDBEmoteCollectionDepopulation } from "./commands/depopulate-collection";
 import type { PersonsEmotesIndexedDBStore } from "$persons-emotes-collections/layers/emotes/utils/indexed-db-store";
 import type { PersonsEmotesCollectionsIndexedDBTransactions } from "$persons-emotes-collections/layers/indexed-db/utils/transactions-store";
 import type { PersonsEmoteCollectionsIndexedDBStore } from "$persons-emotes-collections/layers/indexed-db/utils/store";

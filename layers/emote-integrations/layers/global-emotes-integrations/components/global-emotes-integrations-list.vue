@@ -42,6 +42,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
+import { useGlobalEmotesIntegrationsStore } from "../../../../../app/stores/useGlobalEmotesIntegrationsStore";
+
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();
 
 const emoteOnHover = injectEmoteOnHover();

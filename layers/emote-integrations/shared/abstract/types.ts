@@ -1,3 +1,5 @@
+import type { EmoteSource } from "../../layers/emote-sources/utils/external";
+
 export interface HasSource {
   source: EmoteSource;
 }

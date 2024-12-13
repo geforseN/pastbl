@@ -1,3 +1,13 @@
+import { computed } from "vue";
+import type { Ref } from "vue";
+import { useMyAsyncState } from "../../../../../app/composables/useAsync";
+import { usePersonsEmoteCollectionsStore } from "../../../../../app/stores/usePersonsEmoteCollectionsStore";
+import type { EmoteToken, getEmotesMapInEmotesIntegrations } from "../../../utils/emotes";
+import { log } from "../../../../../shared/utils/dev-only";
+import type { Nullish } from "../../../../../app/utils/types";
+import type { IEmoteIntegration } from "../../../shared/abstract/types";
+import type { IPersonEmoteCollection } from "../shared/types/index";
+
 function __updateIntegration__(
   collection: IPersonEmoteCollection,
   integration: IEmoteIntegration,

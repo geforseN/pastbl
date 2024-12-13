@@ -17,7 +17,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
 import emoteDataByEmoji from "unicode-emoji-json/data-by-emoji.json";
+import { assert } from "../../../app/utils/assert";
 
 const props = defineProps<{
   emoji: string;

@@ -1,4 +1,5 @@
 import { expectTypeOf, describe } from "vitest";
+import { assert } from "./assert";
 import { isError } from "./guards.ts";
 
 class CustomError extends Error {}

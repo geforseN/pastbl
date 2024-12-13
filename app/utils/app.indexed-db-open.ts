@@ -1,4 +1,6 @@
 import type { DBSchema } from "idb";
+import { openIndexedDBDatabase } from "../../layers/indexed-db/utils/indexed-db";
+import type { KeyValueIndexedDBSchema } from "../../layers/key-value/indexed-db/utils/schema";
 
 export interface AppIndexedDBSchema extends DBSchema, KeyValueIndexedDBSchema {}
 

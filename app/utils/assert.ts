@@ -1,3 +1,4 @@
+import type { MaybeGetter } from "./types";
 import { raise, type RaiseReason_ } from "./raise.ts";
 import { isFunction } from "./guards.ts";
 

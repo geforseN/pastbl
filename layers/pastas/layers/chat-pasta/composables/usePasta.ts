@@ -1,3 +1,7 @@
+import { toValue, ref } from "vue";
+import type { Ref } from "vue";
+import { usePastaTags } from "./usePastaTags";
+
 type UsePastaStateProperties = {
   tag?: Ref<string>;
   tags?: Ref<string[]>;

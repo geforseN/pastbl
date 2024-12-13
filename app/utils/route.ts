@@ -1,5 +1,6 @@
 import { isFunction } from "./guards.ts";
 import { assert } from "./assert.ts";
+import { useRoute } from "#app/composables/router";
 
 export function getRouteStringParam(key: string, transform?: undefined): string;
 export function getRouteStringParam<T>(

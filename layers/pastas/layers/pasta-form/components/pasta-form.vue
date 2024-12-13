@@ -92,6 +92,11 @@
   </form>
 </template>
 <script setup lang="ts">
+import { computed, useTemplateRef, ref } from "vue";
+import { watchDebounced } from "@vueuse/core";
+import { getTextStatus } from "../../chat-pasta/utils/pasta";
+import { megaTrim } from "../../../../../app/utils/string";
+import { useUserStore } from "../../../../../app/stores/useUserStore";
 import {
   PastaFormPastaLength,
   PastaFormTags,

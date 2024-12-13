@@ -23,6 +23,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useTemplateRef } from "vue";
+import type { IEmote } from "../../emote-integrations/shared/abstract/types";
+import type { Nullish } from "../../../app/utils/types";
+
 defineProps<{
   emote?: Nullish<IEmote>;
   emoji?: Nullish<string>;

@@ -1,3 +1,14 @@
+import { refDebounced } from "@vueuse/core";
+import { computed } from "vue";
+import { useUserSession } from "../../node_modules//nuxt-auth-utils@0@0@4/node_modules/nuxt-auth-utils/dist/runtime/app/composables/session";
+import { defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
+import { handlePreferences } from "../../layers/settings/utils/handle-preferences";
+import { useCopyTextToasts } from "../composables/useCopyText";
+import { useCopyPastaToasts } from "../../layers/pastas/layers/chat-pasta/utils/actions/copy-pasta";
+import type * as TEmoteIntegrations from "../../layers/emote-integrations/shared/types";
+import { formatMyTimeStringToMilliseconds } from "../utils/my-time-string";
+import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";
+
 function useEmotesIntegrationsRefreshInterval() {
   const emotesIntegrationsRefreshInterval = useIndexedDBKeyValue(
     "emotes-integrations:refresh-interval",

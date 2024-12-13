@@ -1,3 +1,6 @@
+import { ref } from "vue";
+import type { IPersonEmoteCollection } from "../shared/types/index";
+
 export function usePersonsCollectionsLoad(
   load: (login: TwitchUserLogin) => Promise<IPersonEmoteCollection>,
 ) {

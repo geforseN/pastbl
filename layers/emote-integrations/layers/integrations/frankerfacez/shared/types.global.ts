@@ -1,3 +1,6 @@
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type * as TFrankerFaceZ from "#t_frankerfacez";
+
 export type Emote = TFrankerFaceZ.GlobalEmote;
 
 export type Set = TFrankerFaceZ.GlobalEmoteSet;

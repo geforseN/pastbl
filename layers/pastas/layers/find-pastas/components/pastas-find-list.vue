@@ -57,6 +57,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { watch, ref, computed } from "vue";
+import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
+import { usePastaFindStore } from "../../../../../app/stores/usePastaFindStore";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";
+import { useUserStore } from "../../../../../app/stores/useUserStore";
+import { populatePasta } from "../../chat-pasta/utils/pasta-dom";
+
 const userStore = useUserStore();
 const emotesStore = useEmotesStore();
 const pastasStore = usePastasStore();

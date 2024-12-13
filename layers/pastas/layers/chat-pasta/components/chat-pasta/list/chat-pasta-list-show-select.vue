@@ -29,6 +29,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import { reactive, computed } from "vue";
+import { useI18n } from "../../../../../../../node_modules//vue-i18n@10@3@5/node_modules/vue-i18n/dist/vue-i18n";
+import type { SelectedLogin } from "../../../../../../emote-integrations/layers/persons-emotes-collections/utils/get-person-login";
+import type { PastaShowStrategy } from "../../../composables/usePastasShow";
+
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{

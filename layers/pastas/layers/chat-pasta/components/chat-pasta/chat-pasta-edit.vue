@@ -58,6 +58,16 @@
   </div>
 </template>
 <script setup lang="ts">
+import { watchDebounced } from "@vueuse/core";
+import { ref, useTemplateRef } from "vue";
+import { writableComputedForKey } from "../../../../../../app/utils/reactive";
+import { usePasta } from "../../composables/usePasta";
+import { createMegaPasta } from "../../utils/pasta";
+import type { OmegaPasta } from "../../utils/pasta";
+import { usePastasStore } from "../../../../../../app/stores/usePastasStore";
+import { useEmotesStore } from "../../../../../../app/stores/useEmotesStore";
+import { useLocalePath } from "../../../../../../node_modules//@nuxtjs+i18n@9=gsvuo6ny4jdczmyeaz733yoxly_@vue+compiler-dom@3@9/node_modules/@nuxtjs/i18n/dist/runtime/composables/index";
+
 const { pastaId } = defineProps<{
   pastaId: number;
 }>();

@@ -1,3 +1,5 @@
+import { assert } from "./assert";
+
 export type MyTimeStringFormat = "m" | "h" | "d";
 export type MyTimeString = `${number}${MyTimeStringFormat}`;
 

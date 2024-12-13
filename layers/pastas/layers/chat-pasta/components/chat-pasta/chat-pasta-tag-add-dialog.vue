@@ -34,6 +34,11 @@
   </dialog>
 </template>
 <script setup lang="ts">
+import { until } from "@vueuse/core";
+import { useTemplateRef, ref } from "vue";
+import { assert } from "../../../../../../app/utils/assert";
+import type { MaybePromise } from "../../../../../../app/utils/types";
+
 const props = defineProps<{
   tag: string;
   onSuccess: () => MaybePromise<void>;

@@ -24,6 +24,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useId, reactive } from "vue";
+import { useLocales } from "../composables/useLocales";
+
 const locales = reactive(useLocales());
 
 const id = useId();

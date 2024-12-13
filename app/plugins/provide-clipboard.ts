@@ -1,4 +1,6 @@
+import { reactive } from "vue";
 import { useClipboard } from "@vueuse/core";
+import { defineNuxtPlugin } from "#app/nuxt";
 
 export default defineNuxtPlugin(() => {
   return {

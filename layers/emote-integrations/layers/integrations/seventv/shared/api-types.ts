@@ -1,3 +1,5 @@
+import type { Unwrap } from "../../../../../../app/utils/types";
+
 type EmoteFileFormat = "webp" | "avif";
 type EmoteFileSize = "1x" | "2x" | "3x" | "4x";
 

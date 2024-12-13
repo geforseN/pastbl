@@ -35,6 +35,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
+import { emoteIntegrationsStyles } from "../../emote-integrations/utils/styles";
+import { EmoteOnHover } from "../utils/emote-on-hover";
+import type { IEmote } from "../../emote-integrations/shared/abstract/types";
+
 const props = defineProps<{
   emote: IEmote;
 }>();

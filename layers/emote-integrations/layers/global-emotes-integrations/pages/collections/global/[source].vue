@@ -11,6 +11,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useHead } from "@unhead/vue";
+import { allEmoteSources } from "../../../../emote-sources/utils/external";
+import { toLowerCase } from "../../../../../../../app/utils/string";
+import { getRouteStringParam } from "../../../../../../../app/utils/route";
+
 const maybeSource = getRouteStringParam("source", toLowerCase);
 
 const source = allEmoteSources.get(

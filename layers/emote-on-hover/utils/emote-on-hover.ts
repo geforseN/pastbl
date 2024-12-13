@@ -1,3 +1,9 @@
+import { computed } from "vue";
+import { raise } from "../../../app/utils/raise";
+import type { IEmote } from "../../emote-integrations/shared/abstract/types";
+import type { EmoteSource } from "../../emote-integrations/layers/emote-sources/utils/external";
+import { assert } from "../../../app/utils/assert";
+
 class EmoteUrl {
   constructor(public readonly string: string) {}
 

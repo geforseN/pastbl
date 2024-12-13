@@ -1,3 +1,5 @@
+import type { EmoteSource } from "../../../../emote-sources/utils/external";
+
 export class EmotesService_____ {
   constructor(private readonly repository: any) {}
 

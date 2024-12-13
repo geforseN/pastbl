@@ -15,6 +15,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useTemplateRef } from "vue";
+
 const inputRef = useTemplateRef("input");
 
 const nickname = defineModel<string>("nickname", { required: true });

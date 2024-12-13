@@ -1,3 +1,6 @@
+import { assert } from "../../../../../app/utils/assert";
+import { Default, Minimal } from "../shared/types/namespace";
+import type * as TPersonEmoteCollection from "../shared/types/namespace";
 import type { PersonsEmotesCollectionsApi } from "./api.ts";
 import type { IPersonsEmoteCollectionsRepository } from "./abstract.ts";
 

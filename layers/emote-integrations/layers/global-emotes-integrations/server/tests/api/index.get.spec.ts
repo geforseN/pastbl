@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { objectOmit } from "@vueuse/core";
+import { isArray } from "../../../../../../../app/utils/guards";
+import { allEmoteSources } from "../../../../emote-sources/utils/external";
 import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,

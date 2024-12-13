@@ -1,3 +1,6 @@
+import { openIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db";
+import type { PastasIndexedDBSchema } from "./pastas-db-schema";
+
 export async function openPastasIndexedDB() {
   return await openIndexedDBDatabase<PastasIndexedDBSchema>({
     name: "pastas",

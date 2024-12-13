@@ -1,3 +1,5 @@
+import { FailedIntegration, ReadyIntegration } from "../../../../../../../../shared/abstract/types";
+import type * as TFrankerFaceZ from "#t_frankerfacez";
 import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
 
 export class PersonFrankerFaceZEmoteIntegration {

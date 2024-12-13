@@ -1,3 +1,9 @@
+import { isStringifiedNumber } from "../../../../../../../app/utils/guards";
+import { isLowercase } from "../../../../../../../app/utils/string";
+import { assert } from "../../../../../../../app/utils/assert";
+import type { Unwrap } from "../../../../../../../app/utils/types";
+import type * as TFrankerFaceZ from "#t_frankerfacez";
+
 export type FrankerFaceZMappedEmoteSet = Unwrap<
   Omit<TFrankerFaceZ.Api.EmoteSet, "id"> & { id: `${number}` }
 >;

@@ -49,6 +49,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Slot as VueSlot } from "vue";
+
 const { compact, tags = [] } = defineProps<{
   text: string;
   tags?: string[];

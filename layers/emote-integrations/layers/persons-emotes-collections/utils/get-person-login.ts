@@ -1,3 +1,8 @@
+import { isLowercase } from "../../../../../app/utils/string";
+import { assert } from "../../../../../app/utils/assert";
+import { Default } from "../shared/types/namespace";
+import type * as TPersonEmoteCollection from "../shared/types/namespace";
+
 export type SelectableLogin = TwitchUserLogin | "";
 export type SelectedLogin = SelectableLogin;
 

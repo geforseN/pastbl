@@ -1,3 +1,13 @@
+import { watch, ref } from "vue";
+import { getEmotesMapInReadyEmotesIntegration } from "../utils/emotes";
+import { flatGroupBySource } from "../layers/emote-sources/utils/flat-group-by-source";
+import { isEmotesIntegrationReady } from "../utils/guards";
+import { isNotNullable } from "../../../app/utils/guards";
+import type * as TEmoteIntegrations from "../shared/types";
+import type { IEmote } from "../shared/abstract/types";
+import type { EmotesMap } from "../utils/emotes-cache";
+import type { EmoteSource } from "../layers/emote-sources/utils/external";
+
 type EmotesMapRecord = Record<EmoteSource, EmotesMap<IEmote>>;
 
 export type IEmoteIntegrationRecord = Record<

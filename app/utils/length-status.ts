@@ -1,3 +1,4 @@
+import type { MaybeGetter } from "./types";
 import { isFunction } from "./guards.ts";
 
 export type LengthStatus = "empty" | "tooShort" | "tooLong" | "ok";

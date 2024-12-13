@@ -1,3 +1,5 @@
+import type { KeyValueSchema } from "./schema";
+
 export interface IKeyValueRepository {
   get<K extends keyof KeyValueSchema>(key: K): Promise<KeyValueSchema[K]>;
   set<K extends keyof KeyValueSchema>(

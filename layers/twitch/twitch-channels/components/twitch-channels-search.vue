@@ -17,6 +17,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useTemplateRef } from "vue";
+import type { ITwitchChannel } from "../utils/types";
+
 const containerRef = useTemplateRef("container");
 
 defineProps<{

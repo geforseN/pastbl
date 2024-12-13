@@ -1,7 +1,10 @@
+import { computed } from "vue";
+import type { Ref } from "vue";
 import {
   type UseAsyncStateOptions,
   useAsyncState as useVueUseAsyncState,
 } from "@vueuse/core";
+import { useBool } from "./useBool";
 
 const ASYNC_STATE_DEFAULT_SHALLOW = true as const;
 

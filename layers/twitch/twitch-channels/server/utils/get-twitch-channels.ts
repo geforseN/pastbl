@@ -1,3 +1,9 @@
+import { groupBy } from "../../../../../app/utils/object";
+import type { ITwitchChannel } from "../../utils/types";
+import { isLowercase } from "../../../../../app/utils/string";
+import { assert } from "../../../../../app/utils/assert";
+import type * as TTwitch from "#t_twitch";
+
 function transformChannel(channel: TTwitch.Api.SearchChannel) {
   const login = channel.broadcaster_login;
   assert.ok(isLowercase(login));

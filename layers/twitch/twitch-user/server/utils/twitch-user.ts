@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type * as TTwitch from "#t_twitch";
 
 // LINK: https://dev.twitch.tv/docs/api/reference/#get-users
 const twitchApiUserSchema = z.object({

@@ -1,3 +1,6 @@
+import { assert } from "../../../../../../../../app/utils/assert";
+import type * as TFrankerFaceZ from "#t_frankerfacez";
+
 export async function getFrankerFaceZGlobalEmotes() {
   const response = await fetch(
     "https://api.frankerfacez.com/v1/set/global/ids",

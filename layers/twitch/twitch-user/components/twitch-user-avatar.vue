@@ -16,6 +16,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
+
 const props = defineProps<{
   twitch: Pick<PersonTwitch, "avatarUrl" | "login" | "nickname">;
   size: number;

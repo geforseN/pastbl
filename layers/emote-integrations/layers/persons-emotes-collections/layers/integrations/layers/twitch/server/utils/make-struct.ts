@@ -1,3 +1,7 @@
+import { ReadyIntegration } from "../../../../../../../../shared/abstract/types";
+import { groupBy } from "../../../../../../../../../../app/utils/object";
+import type * as TTwitch from "#t_twitch";
+
 export function makeTwitchOwner(
   twitch: PersonTwitch,
 ): TTwitch.Person.IntegrationOwner {

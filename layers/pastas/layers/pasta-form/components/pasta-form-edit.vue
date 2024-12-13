@@ -73,6 +73,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useTemplateRef } from "vue";
 import type { PastaFormTextarea } from "#build/components";
 
 const text = defineModel<string>("text", { required: true });

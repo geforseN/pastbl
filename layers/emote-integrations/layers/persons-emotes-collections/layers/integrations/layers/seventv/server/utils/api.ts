@@ -1,5 +1,9 @@
 // LINK: https://7tv.io/docs
 
+import { isArray } from "../../../../../../../../../../app/utils/guards";
+import { assert } from "../../../../../../../../../../app/utils/assert";
+import type * as TSevenTV from "#t_seventv";
+
 export async function fetchSevenTVUserSet(setId: string) {
   const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
   assert.response.ok(response, "Failed to load emote set from SevenTV");

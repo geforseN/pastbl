@@ -1,3 +1,6 @@
+import { assert } from "../../../../../../../app/utils/assert";
+import type * as TTwitch from "#t_twitch";
+
 export function getTwitchEmoteSetName(emote: {
   emote_type: "bitstier" | "follower" | "subscriptions";
   tier: string;

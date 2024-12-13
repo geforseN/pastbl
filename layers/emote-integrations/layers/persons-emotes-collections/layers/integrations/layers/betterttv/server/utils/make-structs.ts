@@ -1,3 +1,6 @@
+import { ReadyIntegration } from "../../../../../../../../shared/abstract/types";
+import type * as TBetterTTV from "#t_betterttv";
+
 export const makePersonBetterTTVEmoteIntegration
   = definePersonEmoteIntegrationMaker<TBetterTTV.Person.ReadyIntegration>(
     "BetterTTV",

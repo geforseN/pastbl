@@ -11,6 +11,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useHead } from "@unhead/vue";
+import { definePageMeta } from "../../../../../../node_modules//nuxt@3@parcel+watcher@2@types+node@22-orm@0@types+react@18/node_modules/nuxt/dist/pages/runtime/composables";
+
 definePageMeta({
   layout: false,
 });

@@ -1,3 +1,5 @@
+import type { OmegaPasta, MegaPasta } from "../../chat-pasta/utils/pasta";
+import type { IPastasRepository } from "../../../utils/abstract";
 import type { PastasListIndexedDBStore } from "./pastas.indexed-db-store.list.ts";
 import type { PastasIndexedDBTransactions } from "./pastas.indexed-db-transactions.ts";
 

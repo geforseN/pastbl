@@ -64,6 +64,12 @@
   </div>
 </template>
 <script setup generic="EmoteSetT extends IEmoteSet">
+import { computed } from "vue";
+import type { Slot as VueSlot, ref } from "vue";
+import { dasherize } from "../../../../app/utils/string";
+import type { EmoteIntegrationStyle } from "../../utils/styles";
+import { useI18n } from "../../../../node_modules//vue-i18n@10@3@5/node_modules/vue-i18n/dist/vue-i18n";
+
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
 

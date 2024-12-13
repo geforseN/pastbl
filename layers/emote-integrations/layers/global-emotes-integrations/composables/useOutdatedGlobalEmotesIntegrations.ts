@@ -1,3 +1,11 @@
+import { watch, computed } from "vue";
+import type { Ref } from "vue";
+import { emoteSourcesAsEmojis } from "../../../utils/status";
+import { log } from "../../../../../shared/utils/dev-only";
+import { useGlobalEmotesRefreshToasts } from "../utils/toasts";
+import { isEmotesIntegrationReady } from "../../../utils/guards";
+import type * as TEmoteIntegrations from "../../../shared/types";
+
 export function useOutdatedGlobalEmotesIntegrations(
   allIntegrations: Ref<TEmoteIntegrations.Global.SettledRecord>,
   refreshMany: (

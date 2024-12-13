@@ -1,3 +1,6 @@
+import { ReadyIntegration } from "../../../../../../shared/abstract/types";
+import type * as TBetterTTV from "#t_betterttv";
+
 function makeBetterTTVGlobalEmote(
   emote: TBetterTTV.Api.GlobalEmote,
 ): TBetterTTV.Global.Emote {

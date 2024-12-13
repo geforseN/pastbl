@@ -1,3 +1,5 @@
+import type { Unwrap } from "../../../../../../app/utils/types";
+
 interface BaseEmote {
   animated: boolean;
   code: string;

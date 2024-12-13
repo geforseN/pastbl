@@ -18,6 +18,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
+import { usePersonsEmoteCollectionsStore } from "../../../../../app/stores/usePersonsEmoteCollectionsStore";
+
 const personsCollectionsStore = usePersonsEmoteCollectionsStore();
 
 const selectedCollection = computed(

@@ -1,3 +1,8 @@
+import { flatGroupBySource } from "../../../emote-sources/utils/flat-group-by-source";
+import { allEmoteSources } from "../../../emote-sources/utils/external";
+import { objectValues } from "../../../../../../app/utils/object";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+import type * as TEmoteIntegrations from "../../../../shared/types";
 import type { GlobalEmotesIntegrationsIndexedDBRepository } from "../indexed-db/repository.ts";
 import type { GlobalEmotesIntegrationsAPI } from "../api.ts";
 

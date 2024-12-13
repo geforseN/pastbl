@@ -9,6 +9,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useHead } from "@unhead/vue";
+import { toLowerCase } from "../../../../../../../app/utils/string";
+import { getRouteStringParam } from "../../../../../../../app/utils/route";
+
 const login = getRouteStringParam("nickname", toLowerCase);
 
 useHead({

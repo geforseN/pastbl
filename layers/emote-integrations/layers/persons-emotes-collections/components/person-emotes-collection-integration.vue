@@ -75,6 +75,14 @@
   </article>
 </template>
 <script setup generic="Source extends EmoteSource">
+import { computed } from "vue";
+import { emoteIntegrationsStyles } from "../../../utils/styles";
+import { raise } from "../../../../../app/utils/raise";
+import { allEmoteSources } from "../../emote-sources/utils/external";
+import type { EmoteSource } from "../../emote-sources/utils/external";
+import { provideEmoteIntegration } from "../../../utils/provide-inject";
+import type * as TEmoteIntegrations from "../../../shared/types";
+
 const props = defineProps<{
   // TODO: use Source generic for integration prop
   integration: TEmoteIntegrations.__Some__ ;

@@ -29,6 +29,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from "vue";
+
 type EmojisGroup =
   (typeof import("unicode-emoji-json/data-by-group.json"))[number];
 

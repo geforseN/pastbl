@@ -1,3 +1,5 @@
+import { log } from "../../shared/utils/dev-only";
+
 export default defineNitroPlugin((nitroApp) => {
   if (import.meta.dev) {
     nitroApp.hooks.hook("error", (error, { event }) => {

@@ -6,6 +6,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { onErrorCaptured } from "vue";
+import { useHead } from "@unhead/vue";
+import { NotFoundPastaError } from "../../../utils/pasta-errors";
+import { getRouteStringParam } from "../../../../../../../app/utils/route";
+import { createError } from "#app/composables/error";
+
 const pastaId = getRouteStringParam("pastaid", Number);
 
 useHead({

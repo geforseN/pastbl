@@ -3,6 +3,7 @@ import {
   mountSuspended,
   // renderSuspended
 } from "@nuxt/test-utils/runtime";
+import { EmoteOnHover } from "../utils/emote-on-hover";
 import { HoveredEmoteImages } from "#components";
 // import { screen } from "@testing-library/vue";
 

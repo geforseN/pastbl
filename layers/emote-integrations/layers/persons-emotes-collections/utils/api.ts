@@ -1,3 +1,5 @@
+import type { IPersonEmoteCollection } from "../shared/types/index";
+
 export class PersonsEmotesCollectionsApi {
   constructor(private readonly fetch: typeof $fetch) {}
 

@@ -3,6 +3,7 @@ import {
   UNDEFINED_RECEIVED_ERROR_MESSAGE,
 } from "./-constants";
 import { emoteSourcesQuerySchema } from "./-zod-schemas.ts";
+import { createError } from "#app/composables/error";
 
 export function getEmoteSourcesFromQuery(event: H3Event) {
   const parse = emoteSourcesQuerySchema.safeParse(getQuery(event));

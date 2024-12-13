@@ -1,3 +1,6 @@
+import { ReadyIntegration } from "../../../../../../shared/abstract/types";
+import type * as TTwitch from "#t_twitch";
+
 export function getTwitchGlobalEmoteSet(
   response: TTwitch.Api.ChatEmotesResponse,
 ) {

@@ -1,3 +1,7 @@
+import type { FailedIntegration, ReadyIntegration, IEmoteSet } from "../../../../shared/abstract/types";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type * as TTwitch from "#t_twitch";
+
 export type Emote = TTwitch.GlobalEmote;
 
 export interface Set extends IEmoteSet<Emote> {
