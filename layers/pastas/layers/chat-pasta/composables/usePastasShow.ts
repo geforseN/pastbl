@@ -1,4 +1,3 @@
-import type { ComputedRef, computed, Ref } from "vue";
 import { isLowercase } from "../../../../../app/utils/string";
 import { assert } from "../../../../../app/utils/assert";
 import { parseLoginFromPastaMentionTag, isPastaMentionTagLike } from "../utils/pasta-tag";

@@ -1,4 +1,3 @@
-import { computed, reactive } from "vue";
 import { useBreakpoints, useMediaQuery } from "@vueuse/core";
 import { defineNuxtPlugin } from "#app/nuxt";
 

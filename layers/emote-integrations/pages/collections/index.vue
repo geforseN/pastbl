@@ -28,7 +28,6 @@
 </template>
 <script setup lang="ts">
 import { useUrlSearchParams } from "@vueuse/core";
-import { onMounted, useTemplateRef } from "vue";
 import { useHead } from "@unhead/vue";
 import { log } from "../../../../shared/utils/dev-only";
 import type { PersonEmotesCollectionFetchForm } from "#build/components";

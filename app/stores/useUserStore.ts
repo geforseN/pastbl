@@ -1,5 +1,4 @@
 import { refDebounced } from "@vueuse/core";
-import { computed } from "vue";
 import { handlePreferences } from "../../layers/settings/utils/handle-preferences";
 import { useCopyTextToasts } from "../composables/useCopyText";
 import { useCopyPastaToasts } from "../../layers/pastas/layers/chat-pasta/utils/actions/copy-pasta";

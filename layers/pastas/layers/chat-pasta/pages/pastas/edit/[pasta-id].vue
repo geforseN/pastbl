@@ -6,7 +6,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onErrorCaptured } from "vue";
 import { useHead } from "@unhead/vue";
 import { NotFoundPastaError } from "../../../utils/pasta-errors";
 import { getRouteStringParam } from "../../../../../../../app/utils/route";

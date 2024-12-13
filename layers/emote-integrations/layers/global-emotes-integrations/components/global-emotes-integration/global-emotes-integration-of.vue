@@ -20,7 +20,6 @@
 </template>
 <script setup lang="ts">
 import { useThrottleFn } from "@vueuse/core";
-import { ref } from "vue";
 import { useGlobalEmotesIntegrationsStore } from "../../../../../../app/stores/useGlobalEmotesIntegrationsStore";
 import { injectEmoteOnHover } from "../../../../../emote-on-hover/composables/useEmoteOnHover";
 import type { EmoteSource } from "../../../emote-sources/utils/external";

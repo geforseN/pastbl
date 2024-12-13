@@ -32,7 +32,6 @@
   </Html>
 </template>
 <script setup lang="ts">
-import { onMounted, provide, computed, useTemplateRef } from "vue";
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { useExtendedEmoteOnHover } from "../layers/emote-on-hover/composables/useEmoteOnHover";

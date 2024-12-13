@@ -1,5 +1,3 @@
-import { watch, computed } from "vue";
-import type { Ref } from "vue";
 import { emoteSourcesAsEmojis } from "../../../utils/status";
 import { log } from "../../../../../shared/utils/dev-only";
 import { useGlobalEmotesRefreshToasts } from "../utils/toasts";

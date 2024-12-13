@@ -1,6 +1,4 @@
-import { computed } from "vue";
 import { refDebounced } from "@vueuse/core";
-import type { Ref } from "vue";
 import { megaTrim } from "../utils/string";
 import { usePublishPasta } from "../../layers/pastas/layers/remote-pastas/composables/usePublishPasta";
 import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";

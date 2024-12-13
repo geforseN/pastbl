@@ -30,7 +30,6 @@
 </template>
 <script setup lang="ts">
 import { useThrottleFn } from "@vueuse/core";
-import { watch, ref } from "vue";
 import { injectEmoteOnHover } from "../../../../../emote-on-hover/composables/useEmoteOnHover";
 import { populatePasta } from "../../utils/pasta-dom";
 import { makeValidPastaTokens } from "../../utils/pasta";

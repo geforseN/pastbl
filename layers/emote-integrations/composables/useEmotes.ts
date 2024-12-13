@@ -1,4 +1,3 @@
-import { watch, ref } from "vue";
 import { getEmotesMapInReadyEmotesIntegration } from "../utils/emotes";
 import { flatGroupBySource } from "../layers/emote-sources/utils/flat-group-by-source";
 import { isEmotesIntegrationReady } from "../utils/guards";

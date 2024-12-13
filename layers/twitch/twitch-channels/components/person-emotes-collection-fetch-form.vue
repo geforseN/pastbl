@@ -45,7 +45,6 @@
   </form>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, computed, useTemplateRef, ref } from "vue";
 import { useDebounce } from "@vueuse/core";
 import { usePersonEmotesCollectionLoad } from "../utils/load-collection";
 import { useTwitchChannelsSearch } from "../composables/useTwitchChannelsSearch";

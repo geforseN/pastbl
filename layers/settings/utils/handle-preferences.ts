@@ -1,4 +1,3 @@
-import type { Ref } from "vue";
 import type { MaybePromise } from "../../../app/utils/types";
 
 type ExcludeAmpersandJoined<S extends string> = S extends `${string}&${string}`

@@ -90,7 +90,6 @@
 </template>
 <script setup lang="ts">
 import { whenever, useMagicKeys } from "@vueuse/core";
-import { watch, useTemplateRef } from "vue";
 import { sleep } from "../../../../../app/utils/promise";
 import { useUserStore } from "../../../../../app/stores/useUserStore";
 import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";

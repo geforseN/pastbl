@@ -1,5 +1,3 @@
-import { computed } from "vue";
-import type { Ref } from "vue";
 import { useMyAsyncState } from "../../../../../app/composables/useAsync";
 import { usePersonsEmoteCollectionsStore } from "../../../../../app/stores/usePersonsEmoteCollectionsStore";
 import type { EmoteToken, getEmotesMapInEmotesIntegrations } from "../../../utils/emotes";

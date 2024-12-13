@@ -1,4 +1,3 @@
-import { computed } from "vue";
 import { useFindPastasTags } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindTags";
 import { useFindPastasLength } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindLength";
 import { useFindPastaText } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindText";

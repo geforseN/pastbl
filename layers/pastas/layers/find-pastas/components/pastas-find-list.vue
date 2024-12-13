@@ -58,7 +58,6 @@
 </template>
 <script setup lang="ts">
 import { useThrottleFn } from "@vueuse/core";
-import { watch, ref, computed } from "vue";
 import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
 import { usePastaFindStore } from "../../../../../app/stores/usePastaFindStore";
 import { usePastasStore } from "../../../../../app/stores/usePastasStore";

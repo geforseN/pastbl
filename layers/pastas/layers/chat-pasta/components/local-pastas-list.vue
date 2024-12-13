@@ -49,7 +49,6 @@
   </dynamic-scroller>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";
 import type { OmegaPasta } from "../utils/pasta";
 import { usePastasStore } from "../../../../../app/stores/usePastasStore";

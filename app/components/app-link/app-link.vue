@@ -17,7 +17,6 @@
   </nuxt-link-locale>
 </template>
 <script lang="ts">
-import type { Slot as VueSlot } from "vue";
 
 const routePageLinkRecord = {
   "global-emotes": {

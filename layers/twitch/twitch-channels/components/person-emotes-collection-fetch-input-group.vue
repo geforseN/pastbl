@@ -15,7 +15,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useTemplateRef } from "vue";
 
 const inputRef = useTemplateRef("input");
 

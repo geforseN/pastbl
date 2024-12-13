@@ -1,5 +1,3 @@
-import { computed } from "vue";
-import type { Ref } from "vue";
 import type { OmegaPasta } from "../utils/pasta";
 
 export function usePastasTextLength(pastas: Ref<OmegaPasta[]>) {

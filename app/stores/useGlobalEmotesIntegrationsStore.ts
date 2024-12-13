@@ -1,5 +1,4 @@
 import { watchOnce } from "@vueuse/core";
-import { computed } from "vue";
 import { useOutdatedGlobalEmotesIntegrations } from "../../layers/emote-integrations/layers/global-emotes-integrations/composables/useOutdatedGlobalEmotesIntegrations";
 import { useEmoteIntegrationsLoad } from "../../layers/emote-integrations/composables/useEmoteIntegrationsLoad";
 import { useGlobalEmotesIntegrationsCheckedSources } from "../../layers/emote-integrations/layers/global-emotes-integrations/composables/useGlobalEmotesIntegrationsCheckedSources";

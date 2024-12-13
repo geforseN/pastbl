@@ -23,7 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useId, reactive } from "vue";
 import { useThemes } from "../composables/useThemes";
 
 const themes = reactive(useThemes());

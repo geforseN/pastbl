@@ -1,4 +1,3 @@
-import type { Ref } from "vue";
 import { pastasAPI } from "../utils/pastas";
 import { useIndexedDBKeyValue } from "../../../../key-value/indexed-db/composables/useIndexedDBKeyValue";
 

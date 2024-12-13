@@ -12,7 +12,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Slot as VueSlot, computed } from "vue";
 import type * as TEmoteIntegrations from "../../../../shared/types";
 import { injectEmoteIntegration } from "../../../../utils/provide-inject";
 

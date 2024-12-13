@@ -20,7 +20,6 @@
   <!-- eslint-enable tailwindcss/no-custom-classname -->
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import { allEmoteSources } from "../../layers/emote-sources/utils/external";
 import type { EmoteSource } from "../../layers/emote-sources/utils/external";
 

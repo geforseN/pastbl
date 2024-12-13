@@ -94,7 +94,6 @@
 </template>
 <script setup lang="ts">
 import { useThrottleFn } from "@vueuse/core";
-import { computed } from "vue";
 import { withEmoteIntegrationsIndexedDB } from "../../indexed-db/utils/with";
 import { EmoteContainer } from "../../../utils/emotes-dom";
 import { EmoteIntegrationContainer } from "../../../utils/integrations-dom";

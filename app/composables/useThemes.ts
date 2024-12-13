@@ -1,5 +1,4 @@
 import { watchImmediate } from "@vueuse/core";
-import { onMounted, computed } from "vue";
 import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";
 import { useCookie } from "#app/composables/cookie";
 

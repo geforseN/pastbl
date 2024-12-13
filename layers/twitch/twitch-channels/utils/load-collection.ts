@@ -1,5 +1,3 @@
-import { toValue } from "vue";
-import type { MaybeRef, Ref } from "vue";
 import { FetchError } from "ofetch";
 import { getEmotesIntegrationsStatusAsEmojisString } from "../../../emote-integrations/utils/status";
 import { toLowerCase } from "../../../../app/utils/string";

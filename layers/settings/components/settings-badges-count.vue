@@ -38,7 +38,6 @@
  LINK: https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
  -->
 <script setup lang="ts">
-import { ref } from "vue";
 import { useAppConfig } from "#app/config";
 
 const appConfig = useAppConfig();

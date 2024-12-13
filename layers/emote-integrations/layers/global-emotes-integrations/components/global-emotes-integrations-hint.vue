@@ -36,7 +36,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import { allEmoteSources } from "../../emote-sources/utils/external";
 import { useGlobalEmotesIntegrationsStore } from "~/stores/useGlobalEmotesIntegrationsStore";
 

@@ -1,5 +1,4 @@
 import { useInfiniteScroll } from "@vueuse/core";
-import type { MaybeRefOrGetter } from "vue";
 import { assert } from "../../../../../app/utils/assert";
 import { log } from "../../../../../shared/utils/dev-only";
 import type { MaybePromise, Nullish } from "../../../../../app/utils/types";

@@ -1,5 +1,3 @@
-import { toValue, computed } from "vue";
-import type { MaybeRefOrGetter } from "vue";
 import { raise } from "../../../app/utils/raise";
 import { emoteIntegrationsStyles } from "../utils/styles";
 import type * as TEmoteIntegrations from "../shared/types";

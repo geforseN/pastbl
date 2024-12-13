@@ -1,5 +1,3 @@
-import { ref } from "vue";
-import type { ComputedRef, inject } from "vue";
 import type { IEmote } from "../../emote-integrations/shared/abstract/types";
 import type { Nullish } from "../../../app/utils/types";
 import { isNotNullable } from "../../../app/utils/guards";

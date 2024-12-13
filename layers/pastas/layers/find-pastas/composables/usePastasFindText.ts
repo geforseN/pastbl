@@ -1,6 +1,4 @@
-import { computed, ref } from "vue";
 import { refDebounced } from "@vueuse/core";
-import type { Ref } from "vue";
 import type { OmegaPasta } from "../../chat-pasta/utils/pasta";
 
 function isPastaHasTextOccurrence(this: Ref<string>, pasta: OmegaPasta) {

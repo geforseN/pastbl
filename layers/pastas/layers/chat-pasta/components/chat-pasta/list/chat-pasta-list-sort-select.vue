@@ -23,7 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import type { PastaSortStrategy } from "../../../composables/usePastasSort";
 
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });

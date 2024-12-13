@@ -1,6 +1,4 @@
 import { watchOnce } from "@vueuse/core";
-import { ref, computed } from "vue";
-import type { Ref } from "vue";
 import { toDateCompactISO } from "../../../../../app/utils/time";
 import type { OmegaPasta } from "../../chat-pasta/utils/pasta";
 

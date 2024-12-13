@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { allEmoteSources } from "../layers/emote-sources/utils/external";
 import type { EmoteSource } from "../layers/emote-sources/utils/external";
 

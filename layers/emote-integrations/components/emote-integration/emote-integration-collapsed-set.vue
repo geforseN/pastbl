@@ -64,8 +64,6 @@
   </div>
 </template>
 <script setup generic="EmoteSetT extends IEmoteSet">
-import { computed } from "vue";
-import type { Slot as VueSlot, ref } from "vue";
 import { dasherize } from "../../../../app/utils/string";
 import type { EmoteIntegrationStyle } from "../../utils/styles";
 

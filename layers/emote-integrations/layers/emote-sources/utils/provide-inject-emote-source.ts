@@ -1,4 +1,3 @@
-import { provide, inject } from "vue";
 import type * as TEmoteIntegrations from "../../../shared/types";
 import { assert } from "../../../../../app/utils/assert";
 import { allEmoteSources } from "./external";

@@ -35,7 +35,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import { EmoteOnHover } from "../utils/emote-on-hover";
 import type { IEmote } from "../../emote-integrations/shared/abstract/types";
 

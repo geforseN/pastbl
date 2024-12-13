@@ -54,7 +54,6 @@
 </template>
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
-import { ref, useTemplateRef } from "vue";
 import { assert } from "../../../../../app/utils/assert";
 
 defineOptions({ inheritAttrs: false });

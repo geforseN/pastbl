@@ -1,5 +1,3 @@
-import { computed } from "vue";
-import type { Ref } from "vue";
 import { countAppearances } from "../../../../../app/utils/map";
 import type { OmegaPasta } from "../utils/pasta";
 

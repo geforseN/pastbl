@@ -48,8 +48,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { nextTick } from "vue";
-import type { Slot as VueSlot, computed } from "vue";
 import { assert } from "../../../../../app/utils/assert";
 import { useAppConfig } from "#app/config";
 

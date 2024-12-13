@@ -1,4 +1,3 @@
-import type { Ref } from "vue";
 import { transformPastaTag, ensurePastaTagLengthIsOk, definePastaTagsEnsure } from "../utils/pasta-tag";
 import { megaTrim } from "../../../../../app/utils/string";
 import { NonExistingPastaTagError } from "../utils/pasta-tag-errors";

@@ -1,4 +1,3 @@
-import { computed, watch } from "vue";
 import { useEmotesWithInitialReady, useEmotes } from "../../layers/emote-integrations/composables/useEmotes";
 import type { IEmote } from "../../layers/emote-integrations/shared/abstract/types";
 import { EmotesCache } from "../../layers/emote-integrations/utils/emotes-cache";

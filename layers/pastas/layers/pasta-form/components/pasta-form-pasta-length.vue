@@ -11,7 +11,6 @@
   </span>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
 import { getTextStatus } from "../../chat-pasta/utils/pasta";
 
 defineOptions({

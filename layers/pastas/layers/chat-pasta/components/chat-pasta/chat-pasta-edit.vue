@@ -59,7 +59,6 @@
 </template>
 <script setup lang="ts">
 import { watchDebounced } from "@vueuse/core";
-import { ref, useTemplateRef } from "vue";
 import { writableComputedForKey } from "../../../../../../app/utils/reactive";
 import { usePasta } from "../../composables/usePasta";
 import { createMegaPasta } from "../../utils/pasta";

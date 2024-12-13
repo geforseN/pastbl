@@ -38,7 +38,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useTemplateRef } from "vue";
 import { z } from "zod";
 import { withRemoved } from "../../../../../app/utils/array";
 import { useActionToasts } from "../../../../toast/composables/useActionToasts";

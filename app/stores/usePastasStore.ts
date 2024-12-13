@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { usePastasSort } from "../../layers/pastas/layers/chat-pasta/composables/usePastasSort";
 import { usePastaPut } from "../../layers/pastas/layers/chat-pasta/utils/actions/put-pasta";
 import { usePastaCopy } from "../../layers/pastas/layers/chat-pasta/utils/actions/copy-pasta";

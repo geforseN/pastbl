@@ -72,7 +72,6 @@
   </article>
 </template>
 <script setup generic="Source extends EmoteSource">
-import type { Slot as VueSlot } from "vue";
 import { useEmoteIntegration } from "../../../../composables/useEmoteIntegration";
 import { provideEmoteIntegration } from "../../../../utils/provide-inject";
 import { provideEmoteSource } from "../../../emote-sources/utils/provide-inject-emote-source";

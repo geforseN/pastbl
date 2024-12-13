@@ -22,8 +22,6 @@
   </div>
 </template>
 <script lang="ts">
-import { watchEffect, useTemplateRef } from "vue";
-import type { Ref } from "vue";
 import type { EmoteOnHover } from "../utils/emote-on-hover";
 import { log } from "../../../shared/utils/dev-only";
 import { waitImageLoaded } from "../../../app/utils/dom";
