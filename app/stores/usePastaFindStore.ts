@@ -5,7 +5,6 @@ import { useFindPastaText } from "../../layers/pastas/layers/find-pastas/composa
 import { usePastaFindTimeRange } from "../../layers/pastas/layers/find-pastas/composables/usePastasFindTimeRange";
 import { isArray } from "../utils/guards";
 import { assert } from "../utils/assert";
-import { storeToRefs, defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
 import { usePastasStore } from "./usePastasStore";
 
 export const usePastaFindStore = defineStore("pasta-find", () => {

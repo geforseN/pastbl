@@ -39,7 +39,6 @@
  -->
 <script setup lang="ts">
 import { ref } from "vue";
-import { useI18n } from "../../../node_modules//vue-i18n@10@3@5/node_modules/vue-i18n/dist/vue-i18n";
 import { useAppConfig } from "#app/config";
 
 const appConfig = useAppConfig();

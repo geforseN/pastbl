@@ -4,7 +4,6 @@ import type { Ref } from "vue";
 import { megaTrim } from "../utils/string";
 import { usePublishPasta } from "../../layers/pastas/layers/remote-pastas/composables/usePublishPasta";
 import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";
-import { defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
 import { usePastaTagAddToasts } from "../../layers/pastas/layers/chat-pasta/utils/pasta-tag-add-toasts";
 import { usePasta } from "../../layers/pastas/layers/chat-pasta/composables/usePasta";
 

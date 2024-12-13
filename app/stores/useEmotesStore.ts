@@ -2,7 +2,6 @@ import { computed, watch } from "vue";
 import { useEmotesWithInitialReady, useEmotes } from "../../layers/emote-integrations/composables/useEmotes";
 import type { IEmote } from "../../layers/emote-integrations/shared/abstract/types";
 import { EmotesCache } from "../../layers/emote-integrations/utils/emotes-cache";
-import { defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
 import { useGlobalEmotesIntegrationsStore } from "./useGlobalEmotesIntegrationsStore";
 import { usePersonsEmoteCollectionsStore } from "./usePersonsEmoteCollectionsStore";
 import { usePastasStore } from "./usePastasStore";

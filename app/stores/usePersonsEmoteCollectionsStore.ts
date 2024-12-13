@@ -5,7 +5,6 @@ import { useSelectedPersonCollection } from "../../layers/emote-integrations/lay
 import { useSelectedPersonCollectionLogin } from "../../layers/emote-integrations/layers/persons-emotes-collections/composables/useSelectedPersonCollectionLogin";
 import { personsEmotesCollectionsService } from "../../layers/emote-integrations/layers/persons-emotes-collections/utils/service-singleton";
 import { useAsyncArray } from "../composables/useAsync";
-import { defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
 
 export const usePersonsEmoteCollectionsStore = defineStore(
   "persons-emotes-collections",

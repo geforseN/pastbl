@@ -1,4 +1,3 @@
-import { ElNotification } from "../../../node_modules//element-plus@2@3@5/node_modules/element-plus/es/components/notification/index";
 import type { INotification } from "./types.ts";
 
 export function adaptNotificationFromNuxtUItoElementPlus(

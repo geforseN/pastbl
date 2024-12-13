@@ -6,7 +6,6 @@ import { usePastaRemove } from "../../layers/pastas/layers/chat-pasta/utils/acti
 import { usePastaCreate } from "../../layers/pastas/layers/chat-pasta/utils/actions/create-pasta";
 import { pastasService } from "../../layers/pastas/utils/service/singleton";
 import { usePastas } from "../../layers/pastas/layers/chat-pasta/composables/usePastas";
-import { defineStore } from "../../node_modules//@pinia+nuxt@0@0@4@5@3@5/node_modules/@pinia/nuxt/dist/runtime/composables";
 import { usePersonsEmoteCollectionsStore } from "./usePersonsEmoteCollectionsStore";
 
 export const usePastasStore = defineStore("pastas", () => {

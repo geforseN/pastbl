@@ -1,5 +1,4 @@
 import { log } from "../../../shared/utils/dev-only";
-import { useI18n } from "../../../node_modules//vue-i18n@10@3@5/node_modules/vue-i18n/dist/vue-i18n";
 import type { VueI18n } from "../utils/types";
 import { createActionToasts } from "../utils/create-raw-action-toasts";
 import { adaptNotificationFromNuxtUItoElementPlus } from "../utils/adapter.ts";

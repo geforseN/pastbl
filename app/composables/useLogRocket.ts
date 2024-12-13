@@ -2,7 +2,6 @@ import { watchImmediate, until } from "@vueuse/core";
 import LogRocket from "logrocket";
 import { log } from "../../shared/utils/dev-only";
 import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";
-import { useUserSession } from "../../node_modules//nuxt-auth-utils@0@0@4/node_modules/nuxt-auth-utils/dist/runtime/app/composables/session";
 
 async function getLogRocketUserId(
   userSession: ReturnType<typeof useUserSession>,

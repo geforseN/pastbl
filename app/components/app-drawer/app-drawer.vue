@@ -60,7 +60,6 @@
 </template>
 <script setup lang="ts">
 import { reactive } from "vue";
-import { useUserSession } from "../../../node_modules//nuxt-auth-utils@0@0@4/node_modules/nuxt-auth-utils/dist/runtime/app/composables/session";
 
 const userSession = reactive(useUserSession());
 </script>

@@ -35,7 +35,6 @@
 import { onMounted, provide, computed, useTemplateRef } from "vue";
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
-import { useLocaleHead } from "../node_modules//@nuxtjs+i18n@9=gsvuo6ny4jdczmyeaz733yoxly_@vue+compiler-dom@3@9/node_modules/@nuxtjs/i18n/dist/runtime/composables/index";
 import { useExtendedEmoteOnHover } from "../layers/emote-on-hover/composables/useEmoteOnHover";
 import { savePastasInFile } from "../layers/pastas/layers/file-pastas/utils/file-pastas";
 import { raise } from "./utils/raise";
