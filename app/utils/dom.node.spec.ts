@@ -1,5 +1,6 @@
 import { suite, describe, it, expect } from "vitest";
-import { tryDispatchEvent } from "~/utils/dom.ts";
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
+import { tryDispatchEvent } from "./dom";
 
 suite("utils", () => {
   suite("dom", () => {
