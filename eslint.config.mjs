@@ -11,6 +11,7 @@ import playwright from "eslint-plugin-playwright";
 import pluginSecurity from "eslint-plugin-security";
 import tailwind from "eslint-plugin-tailwindcss";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import noRelativeImportPaths from "eslint-plugin-no-relative-import-paths";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -58,6 +59,20 @@ export default createConfigForNuxt({
     },
   },
 })
+  .prepend({
+    plugins: {
+      "no-relative-import-paths": noRelativeImportPaths,
+    },
+    rules: {
+      "no-relative-import-paths/no-relative-import-paths": [
+        "error",
+        {
+          rootDir: "src",
+          prefix: "@",
+        },
+      ],
+    },
+  })
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
     rules: vueMacros.rules,
