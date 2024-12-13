@@ -1,6 +1,5 @@
-import { flatGroupBy } from "../../../../../app/utils/object";
-import { raise } from "../../../../../app/utils/raise";
-import { flatGroupBySource } from "./flat-group-by-source";
+import { flatGroupBy } from "~/utils/object";
+import { raise } from "~/utils/raise";
 
 export class EmoteSources<T extends string> {
   readonly #set: Set<T> = new Set();

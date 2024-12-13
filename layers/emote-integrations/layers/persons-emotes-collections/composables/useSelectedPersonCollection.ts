@@ -1,9 +1,7 @@
 import type { SelectableLogin, SelectedLogin } from "../utils/get-person-login";
-import { isLowercase } from "../../../../../app/utils/string";
-import { assert } from "../../../../../app/utils/assert";
-import { useMyAsyncState } from "../../../../../app/composables/useAsync";
-import { Default } from "../shared/types/namespace";
-import type * as TPersonEmoteCollection from "../shared/types/namespace";
+import { isLowercase } from "~/utils/string";
+import { assert } from "~/utils/assert";
+import { useMyAsyncState } from "~/composables/useAsync";
 
 export function useSelectedPersonCollection(
   getCollection: (

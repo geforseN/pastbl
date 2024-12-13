@@ -1,8 +1,6 @@
-import type { IEmote } from "../../../../../shared/abstract/types";
-import { SettledIndexedDB } from "../../../shared/types/namespace";
-import type * as TPersonEmoteCollection from "../../../shared/types/namespace";
-import type { EmoteSource } from "../../../../emote-sources/utils/external";
-import type { WithEmoteIntegrationsIndexedDB } from "../../../../indexed-db/utils/with";
+import type { IEmote } from "$/emote-integrations/shared/abstract/types";
+import type { EmoteSource } from "$/emote-integrations/layers/emote-sources/utils/external";
+import type { WithEmoteIntegrationsIndexedDB } from "$/emote-integrations/layers/indexed-db/utils/with";
 
 export class PersonsEmotesCollectionsIndexedDBTransactions {
   constructor(private readonly withDatabase: WithEmoteIntegrationsIndexedDB) {}

@@ -12,9 +12,9 @@
 </template>
 <script setup lang="ts">
 import { useHead } from "@unhead/vue";
-import { allEmoteSources } from "../../../../emote-sources/utils/external";
-import { toLowerCase } from "../../../../../../../app/utils/string";
-import { getRouteStringParam } from "../../../../../../../app/utils/route";
+import { allEmoteSources } from "$/emote-integrations/layers/emote-sources/utils/external";
+import { toLowerCase } from "~/utils/string";
+import { getRouteStringParam } from "~/utils/route";
 
 const maybeSource = getRouteStringParam("source", toLowerCase);
 

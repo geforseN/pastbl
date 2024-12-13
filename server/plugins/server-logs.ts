@@ -1,4 +1,4 @@
-import { log } from "../../shared/utils/dev-only";
+import { log } from "~~/shared/utils/dev-only";
 
 export default defineNitroPlugin((nitroApp) => {
   if (import.meta.dev) {

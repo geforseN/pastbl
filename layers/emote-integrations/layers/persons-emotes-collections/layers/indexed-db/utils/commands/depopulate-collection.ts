@@ -1,8 +1,5 @@
-import type * as TEmoteIntegrations from "../../../../../../shared/types";
-import { isEmotesIntegrationReady, isEmotesIntegrationFailed } from "../../../../../../utils/guards";
-import { flatGroupBySource } from "../../../../../emote-sources/utils/flat-group-by-source";
-import { Default } from "../../../../shared/types/namespace";
-import type * as TPersonEmoteCollection from "../../../../shared/types/namespace";
+import { isEmotesIntegrationReady, isEmotesIntegrationFailed } from "$/emote-integrations/utils/guards";
+import { flatGroupBySource } from "$/emote-integrations/layers/emote-sources/utils/flat-group-by-source";
 
 export class PersonIndexedDBEmoteCollectionDepopulation {
   constructor(private readonly collection: TPersonEmoteCollection.Default) {}

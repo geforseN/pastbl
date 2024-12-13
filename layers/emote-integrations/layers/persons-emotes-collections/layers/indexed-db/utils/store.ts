@@ -1,7 +1,5 @@
-import { SettledIndexedDB } from "../../../shared/types/namespace";
-import type * as TPersonEmoteCollection from "../../../shared/types/namespace";
-import { assert } from "../../../../../../../app/utils/assert";
-import type { WithEmoteIntegrationsIndexedDB } from "../../../../indexed-db/utils/with";
+import { assert } from "~/utils/assert";
+import type { WithEmoteIntegrationsIndexedDB } from "$/emote-integrations/layers/indexed-db/utils/with";
 
 export class PersonsEmoteCollectionsIndexedDBStore {
   constructor(private readonly withDatabase: WithEmoteIntegrationsIndexedDB) {}

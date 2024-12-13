@@ -1,8 +1,6 @@
-import { isEmotesIntegrationReady } from "../../../../../../utils/guards";
-import { objectValues } from "../../../../../../../../app/utils/object";
-import type { EmoteSource } from "../../../../../emote-sources/utils/external";
-import { SettledIndexedDB } from "../../../../shared/types/namespace";
-import type * as TPersonEmoteCollection from "../../../../shared/types/namespace";
+import { objectValues } from "~/utils/object";
+import type { EmoteSource } from "$/emote-integrations/layers/emote-sources/utils/external";
+import { isEmotesIntegrationReady } from "$/emote-integrations/utils/guards";
 import type { PersonsEmotesIndexedDBStore } from "$persons-emotes-collections/layers/emotes/utils/indexed-db-store";
 
 type __IS__ = TPersonEmoteCollection.SettledIndexedDB["integrations"];
