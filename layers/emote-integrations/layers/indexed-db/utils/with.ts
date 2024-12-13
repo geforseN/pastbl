@@ -1,5 +1,5 @@
-import { withIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db";
-import type { WithIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db";
+import { withIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db.with";
+import type { WithIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db.with";
 import { openEmoteIntegrationsIndexedDBDatabase } from "./open";
 import type { EmoteIntegrationsIndexedDBSchema } from "./schema";
 
