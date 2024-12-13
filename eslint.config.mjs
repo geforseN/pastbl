@@ -63,7 +63,7 @@ export default createConfigForNuxt({
     plugins: {
       "no-relative-import-paths": noRelativeImportPaths,
     },
-    files: ['app/**/*'],
+    files: ["app/**/*"],
     rules: {
       "no-relative-import-paths/no-relative-import-paths": [
         "error",
@@ -74,7 +74,7 @@ export default createConfigForNuxt({
       ],
     },
   })
-  .prepend({ignores: ['']})
+  .prepend({ ignores: ["browser-extension/**/*"] })
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
     rules: vueMacros.rules,
