@@ -24,7 +24,6 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@formkit/auto-animate/nuxt",
     "@nuxt/eslint",
-    "nuxt-eslint-auto-explicit-import",
     "@nuxt/icon",
     "@nuxt/test-utils/module",
     "@pinia/nuxt",
