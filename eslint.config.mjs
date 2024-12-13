@@ -63,16 +63,18 @@ export default createConfigForNuxt({
     plugins: {
       "no-relative-import-paths": noRelativeImportPaths,
     },
+    files: ['app/**/*'],
     rules: {
       "no-relative-import-paths/no-relative-import-paths": [
         "error",
         {
-          rootDir: "src",
-          prefix: "@",
+          rootDir: "app",
+          prefix: "~",
         },
       ],
     },
   })
+  .prepend({ignores: ['']})
   .prepend(includeIgnoreFile(path.resolve(__dirname, ".gitignore")))
   .prepend({
     rules: vueMacros.rules,

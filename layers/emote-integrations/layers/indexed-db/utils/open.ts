@@ -1,4 +1,4 @@
-import { openIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db";
+import { openIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db.open";
 import type { EmoteIntegrationsIndexedDBSchema } from "./schema";
 
 export async function openEmoteIntegrationsIndexedDBDatabase() {
