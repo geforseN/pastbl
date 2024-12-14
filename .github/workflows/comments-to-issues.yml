@@ -19,7 +19,7 @@ jobs:
           CLOSE_ISSUES: true
           IDENTIFIERS: |
             [
-              {"name": "TODO", "labels": []}
+              {"name": "TODO", "labels": []},
               {"name": "FIXME", "labels": ["bug"]}
             ]
       
