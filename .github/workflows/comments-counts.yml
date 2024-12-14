@@ -53,7 +53,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: Summary of Comments
 
-      - name: Create Comment
+      - name: Create Or Update Comment
         if: steps.check-file.outputs.file_exists == 'true'
         uses: peter-evans/create-or-update-comment@v4.0.0
         with:
