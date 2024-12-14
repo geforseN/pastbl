@@ -1,0 +1,32 @@
+name: Run TODO to Issue
+
+on: 
+  push: 
+    branches: main
+
+permissions: 
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: TODO to Issue
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          INSERT_ISSUE_URLS: true
+          CLOSE_ISSUES: true
+          IDENTIFIERS: '[{"name": "TODO", "labels": []}, {"name": "FIXME", "labels": ["bug"]}]'
+      
+      - name: Commit and Push Changes
+        run: |
+          git add -A
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: add issue links to TODOs"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
