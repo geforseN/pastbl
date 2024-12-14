@@ -19,6 +19,14 @@ jobs:
       
       - name: "TODO to Issue"
         uses: "alstr/todo-to-issue-action@master"
+        with:
+          INSERT_ISSUE_URLS: "true"
+          CLOSE_ISSUES: "true"
+          IDENTIFIERS: |
+            [
+              {"name": "TODO", "labels": []},
+              {"name": "FIXME", "labels": ["bug"]}
+            ]
         env:
           MANUAL_COMMIT_REF:
             ${{ inputs.MANUAL_COMMIT_REF }}
