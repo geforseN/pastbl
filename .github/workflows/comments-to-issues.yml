@@ -1,30 +1,26 @@
-name: Run TODO to Issue
+name: "Run TODO to Issue"
 
-on: 
-  pull_request:
-    branches: main
-  push: 
-    branches: main
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      MANUAL_COMMIT_REF:
+        description: "The SHA of the commit to get the diff for"
+        required: true
+      MANUAL_BASE_REF:
+        description: "By default, the commit entered above is compared to the one directly before it; to go back further, enter an earlier SHA here"
+        required: false
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v4
+      - uses: "actions/checkout@v4"
       
-      - name: TODO to Issue
-        uses: alstr/todo-to-issue-action@v5.1.9
+      - name: "TODO to Issue"
+        uses: "alstr/todo-to-issue-action@master"
         env:
-          INPUT_GITHUB_URL: https://api.github.com/repos
-
-      - name: Commit and Push Changes
-        run: |
-          git add -A
-          if [[ `git status --porcelain` ]]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git commit -m "chore: add issue links to TODOs"
-            git push origin main
-          else
-            echo "No changes to commit"
-          fi
+          MANUAL_COMMIT_REF:
+            ${{ inputs.MANUAL_COMMIT_REF }}
+          MANUAL_BASE_REF:
+            ${{ inputs.MANUAL_BASE_REF }}
