@@ -15,6 +15,7 @@ jobs:
       - name: TODO to Issue
         uses: alstr/todo-to-issue-action@v5
         with:
+          GITHUB_URL: https://github.com
           PROJECT: user/geforseN/pastbl
           PROJECTS_SECRET: ${{ secrets.TODO_TO_ISSUE_PROJECTS_SECRET }}
           INSERT_ISSUE_URLS: true
