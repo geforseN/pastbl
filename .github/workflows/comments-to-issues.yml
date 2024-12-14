@@ -13,13 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: TODO to Issue
-        uses: alstr/todo-to-issue-action@v5
-        with:
-          GITHUB_URL: https://github.com
-          PROJECT: user/geforseN/pastbl
-          PROJECTS_SECRET: ${{ secrets.TODO_TO_ISSUE_PROJECTS_SECRET }}
-          INSERT_ISSUE_URLS: true
-          CLOSE_ISSUES: true
+        uses: alstr/todo-to-issue-action@v5.1.9
       
       - name: Commit and Push Changes
         run: |
