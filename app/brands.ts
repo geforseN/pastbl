@@ -1,4 +1,5 @@
 import type { Primitive, Scalars } from "zod";
+import { assert } from "~/utils/assert";
 
 // https://egghead.io/blog/using-branded-types-in-typescript
 declare const __brand: unique symbol;

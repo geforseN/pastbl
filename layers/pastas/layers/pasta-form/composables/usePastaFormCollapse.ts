@@ -1,3 +1,5 @@
+import { useIndexedDBKeyValue } from "../../../../key-value/indexed-db/composables/useIndexedDBKeyValue";
+
 export function usePastaFormCollapse() {
   const isOpen = useIndexedDBKeyValue("pasta-form:is-open", false);
 

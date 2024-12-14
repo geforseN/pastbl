@@ -1,3 +1,4 @@
+import { isStringifiedNumber } from "../../../../../app/utils/guards";
 import { twitchConfig } from "$/twitch/app.config";
 
 export async function requireUserTwitchIdFromSession(event: H3Event) {

@@ -19,6 +19,8 @@
   />
 </template>
 <script lang="ts">
+import type { EmoteSource } from "../../layers/emote-sources/utils/external";
+
 const dataRecord = {
   BetterTTV: {
     src: "/img/bttv-logo-32.png",

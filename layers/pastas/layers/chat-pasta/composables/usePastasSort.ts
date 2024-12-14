@@ -1,3 +1,6 @@
+import { useIndexedDBKeyValue } from "../../../../key-value/indexed-db/composables/useIndexedDBKeyValue";
+import type { OmegaPasta } from "../utils/pasta";
+
 export type PastaSortStrategy =
   | "newest-first"
   | "oldest-first"

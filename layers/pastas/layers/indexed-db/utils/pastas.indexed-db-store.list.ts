@@ -1,3 +1,6 @@
+import type { MegaPasta, OmegaPasta } from "../../chat-pasta/utils/pasta";
+import type { WithPastasIndexedDB } from "./pastas-db-types";
+
 export class PastasListIndexedDBStore {
   constructor(private readonly withDatabase: WithPastasIndexedDB) {}
 

@@ -1,3 +1,12 @@
+import { watchOnce } from "@vueuse/core";
+import { useOutdatedGlobalEmotesIntegrations } from "../../layers/emote-integrations/layers/global-emotes-integrations/composables/useOutdatedGlobalEmotesIntegrations";
+import { useEmoteIntegrationsLoad } from "../../layers/emote-integrations/composables/useEmoteIntegrationsLoad";
+import { useGlobalEmotesIntegrationsCheckedSources } from "../../layers/emote-integrations/layers/global-emotes-integrations/composables/useGlobalEmotesIntegrationsCheckedSources";
+import { globalEmotesIntegrationsService } from "../../layers/emote-integrations/layers/global-emotes-integrations/utils/service/singleton";
+import { useGlobalEmotesIntegrationsState } from "../../layers/emote-integrations/layers/global-emotes-integrations/composables/useGlobalEmotesIntegrationsState";
+import { allEmoteSources } from "../../layers/emote-integrations/layers/emote-sources/utils/external";
+import type { SettledEmoteIntegrationsRecord } from "../../layers/emote-integrations/shared/abstract/types";
+
 function findFailedEmoteIntegrationsSources(
   integrations: SettledEmoteIntegrationsRecord,
 ) {

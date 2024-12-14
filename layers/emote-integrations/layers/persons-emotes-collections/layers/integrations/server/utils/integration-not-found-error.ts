@@ -1,3 +1,5 @@
+import type { EmoteSource } from "../../../../../emote-sources/utils/external";
+
 export class PersonEmotesIntegrationNotFoundError extends Error {
   constructor(
     private readonly integrationSource: EmoteSource,

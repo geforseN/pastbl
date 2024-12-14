@@ -1,3 +1,5 @@
+import { flatGroupBySource } from "../../../../../emote-sources/utils/flat-group-by-source";
+import type { EmoteSource } from "../../../../../emote-sources/utils/external";
 import { personEmoteIntegrations } from "./-record.ts";
 
 export async function getPersonEmoteIntegrations<S extends EmoteSource>(

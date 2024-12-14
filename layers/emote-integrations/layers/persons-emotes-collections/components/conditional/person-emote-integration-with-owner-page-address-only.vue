@@ -12,6 +12,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import { injectEmoteIntegration } from "../../../../utils/provide-inject";
+
 const integration = injectEmoteIntegration();
 
 const pageAddress = computed(

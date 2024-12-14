@@ -1,3 +1,6 @@
+import { pastasAPI } from "../utils/pastas.api";
+import { useIndexedDBKeyValue } from "../../../../key-value/indexed-db/composables/useIndexedDBKeyValue";
+
 export function usePublishPasta(pasta: {
   tags: Ref<string[]>;
   text: Ref<string>;

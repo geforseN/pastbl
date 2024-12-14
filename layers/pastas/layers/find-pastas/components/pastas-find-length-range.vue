@@ -61,6 +61,8 @@
   </section>
 </template>
 <script setup lang="ts">
+import { range } from "../../../../../app/utils/array";
+
 const range = defineModel<number[]>({ required: true });
 
 const min = defineModel<number>("min", { required: true });

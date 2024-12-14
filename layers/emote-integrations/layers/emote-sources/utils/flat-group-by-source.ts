@@ -1,3 +1,4 @@
+import type { EmoteSource } from "./external";
 import { flatGroupBy } from "~/utils/object.ts";
 
 export function flatGroupBySource<T extends { source: EmoteSource }, V = T>(

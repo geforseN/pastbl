@@ -1,3 +1,5 @@
+import { usePastaTags } from "./usePastaTags";
+
 type UsePastaStateProperties = {
   tag?: Ref<string>;
   tags?: Ref<string[]>;

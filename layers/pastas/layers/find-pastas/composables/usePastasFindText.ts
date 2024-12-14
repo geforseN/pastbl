@@ -1,3 +1,6 @@
+import { refDebounced } from "@vueuse/core";
+import type { OmegaPasta } from "../../chat-pasta/utils/pasta";
+
 function isPastaHasTextOccurrence(this: Ref<string>, pasta: OmegaPasta) {
   return pasta.text.toLowerCase().includes(this.value.toLowerCase());
 }

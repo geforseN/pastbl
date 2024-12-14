@@ -16,6 +16,8 @@
   </span>
 </template>
 <script setup lang="ts">
+import type { EmoteOnHover } from "../utils/emote-on-hover";
+
 defineProps<{
   emote: InstanceType<typeof EmoteOnHover>;
 }>();

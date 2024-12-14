@@ -197,6 +197,9 @@ importers:
       eslint-plugin-import-x:
         specifier: ^4.4.2
         version: 4.4.3(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)
+      eslint-plugin-no-relative-import-paths:
+        specifier: ^1.5.5
+        version: 1.5.5
       eslint-plugin-playwright:
         specifier: ^2.1.0
         version: 2.1.0(eslint@9.15.0(jiti@2.4.0))
@@ -239,6 +242,9 @@ importers:
       nuxt-auth-utils:
         specifier: ^0.5.5
         version: 0.5.5(magicast@0.3.5)(rollup@4.27.4)
+      nuxt-eslint-auto-explicit-import:
+        specifier: ^0.1.1
+        version: 0.1.1(eslint@9.15.0(jiti@2.4.0))(magicast@0.3.5)(rollup@4.27.4)(typescript@5.6.3)
       playwright:
         specifier: ^1.49.0
         version: 1.49.0
@@ -4503,6 +4509,9 @@ packages:
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
 
+  eslint-plugin-no-relative-import-paths@1.5.5:
+    resolution: {integrity: sha512-UjudFFdBbv93v0CsVdEKcMLbBzRIjeK2PubTctX57tgnHxZcMj1Jm8lDBWoETnPxk0S5g5QLSltEM+511yL4+w==}
+
   eslint-plugin-playwright@2.1.0:
     resolution: {integrity: sha512-wMbHOehofSB1cBdzz2CLaCYaKNLeTQ0YnOW+7AHa281TJqlpEJUBgTHbRUYOUxiXphfWwOyTPvgr6vvEmArbSA==}
     engines: {node: '>=16.6.0'}
@@ -4530,6 +4539,11 @@ packages:
     engines: {node: '>=18.18'}
     peerDependencies:
       eslint: '>=8.56.0'
+
+  eslint-plugin-unimport@0.1.2:
+    resolution: {integrity: sha512-C021i+pdXLZXlXwS9QGyRjxYo4PAB7QiOT89GgwwtvcBOhiQpfZFCCLya7iH1ALBICgrKM7GqRSKhUUNTXWALA==}
+    peerDependencies:
+      eslint: ^9.0.0 || ^8.45.0
 
   eslint-plugin-vue@9.31.0:
     resolution: {integrity: sha512-aYMUCgivhz1o4tLkRHj5oq9YgYPM4/EJc0M7TAKRLCUA5OYxRLAhYEVD2nLtTwLyixEFI+/QXSvKU9ESZFgqjQ==}
@@ -6087,6 +6101,9 @@ packages:
         optional: true
       '@simplewebauthn/server':
         optional: true
+
+  nuxt-eslint-auto-explicit-import@0.1.1:
+    resolution: {integrity: sha512-Oi/ldgnzQKpUgOUgP3TgWm11gK4AsG2MuBhBFjxszo1acv7YO7ZQrfFsxUFLY2CVNPD+jR2Eldd/BrVN59nBXQ==}
 
   nuxt@3.14.1592:
     resolution: {integrity: sha512-roWAQH4Mb6WY72cNos+YVw0DgTCNAhNygiAMCedM7hbX6ESTR2n3VH7tU0yIWDPe/hfFdii4M4wWTTNHOtS44g==}
@@ -12762,6 +12779,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  eslint-plugin-no-relative-import-paths@1.5.5: {}
+
   eslint-plugin-playwright@2.1.0(eslint@9.15.0(jiti@2.4.0)):
     dependencies:
       eslint: 9.15.0(jiti@2.4.0)
@@ -12807,6 +12826,19 @@ snapshots:
       regjsparser: 0.10.0
       semver: 7.6.3
       strip-indent: 3.0.0
+
+  eslint-plugin-unimport@0.1.2(eslint@9.15.0(jiti@2.4.0))(rollup@4.27.4)(typescript@5.6.3):
+    dependencies:
+      '@typescript-eslint/scope-manager': 8.15.0
+      '@typescript-eslint/utils': 8.15.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)
+      debug: 4.3.7(supports-color@9.4.0)
+      eslint: 9.15.0(jiti@2.4.0)
+      pathe: 1.1.2
+      unimport: 3.13.3(rollup@4.27.4)
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - typescript
 
   eslint-plugin-vue@9.31.0(eslint@9.15.0(jiti@2.4.0)):
     dependencies:
@@ -14486,6 +14518,17 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+
+  nuxt-eslint-auto-explicit-import@0.1.1(eslint@9.15.0(jiti@2.4.0))(magicast@0.3.5)(rollup@4.27.4)(typescript@5.6.3):
+    dependencies:
+      '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.27.4)
+      eslint-plugin-unimport: 0.1.2(eslint@9.15.0(jiti@2.4.0))(rollup@4.27.4)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - eslint
+      - magicast
+      - rollup
+      - supports-color
+      - typescript
 
   nuxt@3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.3)(drizzle-orm@0.36.4(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.4)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.3)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3)):
     dependencies:

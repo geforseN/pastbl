@@ -1,3 +1,6 @@
+import type { WithEmoteIntegrationsIndexedDB } from "../../../indexed-db/utils/with";
+import type { GlobalEmotesIntegrationsIndexedDBSchema } from "./schema";
+
 type IndexedDBGlobalEmotesIntegration =
   GlobalEmotesIntegrationsIndexedDBSchema["global-integrations"]["value"];
 

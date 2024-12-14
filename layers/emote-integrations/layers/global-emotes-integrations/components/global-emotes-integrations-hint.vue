@@ -36,6 +36,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { allEmoteSources } from "../../emote-sources/utils/external";
 import { useGlobalEmotesIntegrationsStore } from "~/stores/useGlobalEmotesIntegrationsStore";
 
 const globalEmotesIntegrationsStore = useGlobalEmotesIntegrationsStore();

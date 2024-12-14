@@ -23,6 +23,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThemes } from "~/composables/useThemes";
+
 const themes = reactive(useThemes());
 
 const id = useId();

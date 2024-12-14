@@ -1,3 +1,6 @@
+import { allEmoteSources } from "../layers/emote-sources/utils/external";
+import { assert } from "../../../app/utils/assert";
+
 export class EmoteIntegrationContainer {
   constructor(private readonly element: HTMLElement) {}
 

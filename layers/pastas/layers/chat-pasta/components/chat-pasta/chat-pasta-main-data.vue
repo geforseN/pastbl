@@ -28,6 +28,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { assert } from "../../../../../../app/utils/assert";
 import { ClampedPastaTag } from "$ui";
 
 defineProps<{

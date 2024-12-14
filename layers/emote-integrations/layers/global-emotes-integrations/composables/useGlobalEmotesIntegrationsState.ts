@@ -1,3 +1,12 @@
+import { assert } from "../../../../../app/utils/assert";
+import { flatGroupBySource } from "../../emote-sources/utils/flat-group-by-source";
+import { objectSorted } from "../../../../../app/utils/object";
+import { raise } from "../../../../../app/utils/raise";
+import type { EmoteSource } from "../../emote-sources/utils/external";
+import type { SettledEmoteIntegrationsRecord } from "../../../shared/abstract/types";
+import { useAsyncObject } from "../../../../../app/composables/useAsync";
+import type * as TEmoteIntegrations from "../../../shared/types";
+
 export function useGlobalEmotesIntegrationsState(
   getIntegrations: () => Promise<TEmoteIntegrations.Global.SettledRecord>,
 ) {

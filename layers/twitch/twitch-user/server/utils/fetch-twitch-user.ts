@@ -1,3 +1,5 @@
+import { assert } from "~/utils/assert";
+
 export async function fetchTwitchUser(login: TwitchUserLogin) {
   const { data } = await fetchTwitchApi<TTwitch.Api.GetUsersResponse>(
     "/users",

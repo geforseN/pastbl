@@ -29,6 +29,14 @@
   </article>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { injectEmoteOnHover } from "../../../../../emote-on-hover/composables/useEmoteOnHover";
+import { populatePasta } from "../../utils/pasta-dom";
+import { makeValidPastaTokens } from "../../utils/pasta";
+import type { MaybePromise } from "../../../../../../app/utils/types";
+import { useEmotesStore } from "../../../../../../app/stores/useEmotesStore";
+import { useUserStore } from "../../../../../../app/stores/useUserStore";
+
 const pastaTextContainerRef = ref();
 
 const userStore = useUserStore();

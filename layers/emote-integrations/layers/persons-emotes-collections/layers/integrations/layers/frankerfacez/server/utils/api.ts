@@ -1,5 +1,7 @@
 // LINK: https://api.frankerfacez.com/docs/?urls.primaryName=API%20v1
 
+import { assert } from "~/utils/assert";
+
 export async function fetchFrankerFaceZUser(
   id: TwitchUserId,
   login: TwitchUserLogin,

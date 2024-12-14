@@ -1,3 +1,11 @@
+import type { MyTimeString } from "../../../app/utils/my-time-string";
+import type { EmoteSource } from "../../emote-integrations/layers/emote-sources/utils/external";
+import type { PastaShowStrategy } from "../../pastas/layers/chat-pasta/composables/usePastasShow";
+import type { PastaSortStrategy } from "../../pastas/layers/chat-pasta/composables/usePastasSort";
+import type { SelectedLogin } from "../../emote-integrations/layers/persons-emotes-collections/utils/get-person-login";
+import type { PastasWorkMode } from "../../pastas/layers/pastas-work-mode/composables/usePastasWorkMode";
+import type { AppTheme } from "../../../app/composables/useThemes";
+
 export type KeyValueSchema = {
   "app:daisyui-theme": AppTheme;
   "app:selected-tab-key": PastasWorkMode;

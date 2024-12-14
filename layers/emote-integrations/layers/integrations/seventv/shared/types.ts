@@ -1,3 +1,5 @@
+import type { IEmote } from "../../../../shared/abstract/types";
+
 export interface __Emote extends IEmote {
   source: "SevenTV";
   type: "global" | "channel";

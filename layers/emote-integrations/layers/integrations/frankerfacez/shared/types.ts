@@ -1,3 +1,5 @@
+import type { IEmoteSet, IEmote } from "../../../../shared/abstract/types";
+
 type _EmoteType = "global" | "specific" | "channel";
 
 interface __Emote<T extends _EmoteType> extends IEmote {

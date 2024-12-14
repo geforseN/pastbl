@@ -1,3 +1,7 @@
+import { objectEntries } from "~/utils/object";
+import { raise } from "~/utils/raise";
+import { isEmotesIntegrationReady } from "$/emote-integrations/utils/guards";
+
 type I = TPersonEmoteCollection.SettledIndexedDB["integrations"][EmoteSource];
 
 export class PersonIndexedDBEmoteCollectionDeletePreparation {

@@ -12,6 +12,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { toLowerCase } from "../../../../../../app/utils/string";
+import { injectEmoteSource } from "../../../emote-sources/utils/provide-inject-emote-source";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+
 const checkedSources = defineModel<EmoteSource[]>();
 
 const source = injectEmoteSource();

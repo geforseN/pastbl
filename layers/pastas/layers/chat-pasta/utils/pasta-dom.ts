@@ -1,4 +1,7 @@
 import { emojify, has as hasEmoji } from "node-emoji";
+import { makeEmoteAsStringWithModifiersWrapper, makeWrappedEmoteAsString } from "../../../../emote-integrations/utils/emotes-dom";
+import type { IEmote } from "../../../../emote-integrations/shared/abstract/types";
+import type { OmegaPasta } from "./pasta";
 import { assert } from "~/utils/assert.ts";
 
 export interface FindEmote {

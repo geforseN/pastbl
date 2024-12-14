@@ -1,5 +1,5 @@
 import { describe, expect, it, suite } from "vitest";
-import * as guards from "./guards.ts";
+import * as guards from "~/utils/guards.ts";
 
 suite("utils", () => {
   suite("guard", () => {

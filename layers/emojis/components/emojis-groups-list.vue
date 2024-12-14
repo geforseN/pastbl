@@ -12,7 +12,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
 import emoteDataByGroup from "unicode-emoji-json/data-by-group.json";
+import { injectEmoteOnHover } from "../../emote-on-hover/composables/useEmoteOnHover";
 
 const { t } = useI18n();
 

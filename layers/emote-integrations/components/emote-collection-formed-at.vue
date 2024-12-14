@@ -32,6 +32,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useI18nTimeAgo } from "../../../app/utils/i18n";
+
 const props = withDefaults(
   defineProps<{
     time: Date | number | string;

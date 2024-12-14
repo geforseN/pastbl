@@ -1,3 +1,6 @@
+import { useEventListener } from "@vueuse/core";
+import { defineNuxtPlugin } from "#app/nuxt";
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive<HTMLElement, () => (event: Event) => Promise<void>>(
     "on-mouseover",

@@ -1,3 +1,7 @@
+import type { FailedIntegration, ReadyIntegration, IEmoteIntegrationOwner } from "../../../../shared/abstract/types";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type * as TFrankerFaceZ from "#t_frankerfacez";
+
 export interface IntegrationOwner extends IEmoteIntegrationOwner {
   id: number;
   twitchId: number | null;

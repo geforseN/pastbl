@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { allEmoteSources } from "../../utils/external";
 import {
   EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH,
   EMOTE_SOURCES_MIN_QUERY_STRING_LENGTH,

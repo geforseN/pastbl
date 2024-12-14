@@ -37,6 +37,8 @@
   </section>
 </template>
 <script setup lang="ts">
+import { useUserStore } from "../../../app/stores/useUserStore";
+
 const userStore = useUserStore();
 </script>
 <style scoped>

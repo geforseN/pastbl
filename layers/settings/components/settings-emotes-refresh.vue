@@ -32,6 +32,10 @@
   </article>
 </template>
 <script setup lang="ts">
+import { assert } from "../../../app/utils/assert";
+import type { VueI18n } from "../../toast/utils/types";
+import type { MyTimeString } from "../../../app/utils/my-time-string";
+
 const selectedTime = defineModel<MyTimeString>({ required: true });
 
 defineProps<{

@@ -1,3 +1,10 @@
+import { useEmotesWithInitialReady, useEmotes } from "../../layers/emote-integrations/composables/useEmotes";
+import type { IEmote } from "../../layers/emote-integrations/shared/abstract/types";
+import { EmotesCache } from "../../layers/emote-integrations/utils/emotes-cache";
+import { useGlobalEmotesIntegrationsStore } from "~/stores/useGlobalEmotesIntegrationsStore";
+import { usePersonsEmoteCollectionsStore } from "~/stores/usePersonsEmoteCollectionsStore";
+import { usePastasStore } from "~/stores/usePastasStore";
+
 export const useEmotesStore = defineStore("emotes", () => {
   const emotesCache = new EmotesCache<IEmote>();
 

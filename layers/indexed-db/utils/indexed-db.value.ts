@@ -1,3 +1,6 @@
+import type { IKeyValueRepository } from "../../key-value/utils/abstract";
+import type { KeyValueSchema } from "../../key-value/utils/schema";
+
 export class IndexedDBValue<K extends keyof KeyValueSchema> {
   constructor(
     readonly key: K,

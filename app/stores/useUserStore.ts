@@ -1,3 +1,11 @@
+import { refDebounced } from "@vueuse/core";
+import { handlePreferences } from "../../layers/settings/utils/handle-preferences";
+import { useCopyPastaToasts } from "../../layers/pastas/layers/chat-pasta/utils/actions/copy-pasta";
+import type * as TEmoteIntegrations from "../../layers/emote-integrations/shared/types";
+import { useIndexedDBKeyValue } from "../../layers/key-value/indexed-db/composables/useIndexedDBKeyValue";
+import { formatMyTimeStringToMilliseconds } from "~/utils/my-time-string";
+import { useCopyTextToasts } from "~/composables/useCopyText";
+
 function useEmotesIntegrationsRefreshInterval() {
   const emotesIntegrationsRefreshInterval = useIndexedDBKeyValue(
     "emotes-integrations:refresh-interval",

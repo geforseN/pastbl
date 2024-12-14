@@ -1,3 +1,6 @@
+import type * as TEmoteIntegrations from "../../../../../shared/types";
+import type { EmoteSource } from "../../../../emote-sources/utils/external";
+
 export class PersonsEmoteIntegrationsApi {
   constructor(private readonly fetch: typeof $fetch) {}
 

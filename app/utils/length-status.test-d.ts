@@ -1,9 +1,9 @@
-import { expectTypeOf } from "vitest";
+import { expectTypeOf, test } from "vitest";
 import {
   makeLengthStatusGetter,
   type LengthStatus,
   type LengthStatusWithWarning,
-} from "./length-status";
+} from "~/utils/length-status";
 
 test("makeLengthStatusGetter types are correct", () => {
   const noWarningChecker = makeLengthStatusGetter({

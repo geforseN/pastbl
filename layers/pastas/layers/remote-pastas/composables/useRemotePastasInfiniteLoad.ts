@@ -1,3 +1,8 @@
+import { useInfiniteScroll } from "@vueuse/core";
+import { assert } from "../../../../../app/utils/assert";
+import { log } from "../../../../../shared/utils/dev-only";
+import type { MaybePromise, Nullish } from "../../../../../app/utils/types";
+
 export function useRemotePastasInfiniteLoad<C>(
   container: MaybeRefOrGetter<Nullish<HTMLElement>>,
   onLoadMore: (cursor: Nullish<C>) => MaybePromise<{ cursor: Nullish<C> }>,

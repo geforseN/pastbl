@@ -1,3 +1,4 @@
+import type * as TEmoteIntegrations from "../../../../shared/types";
 import type { GlobalEmotesIntegrationsIndexedDBStore } from "./store.ts";
 
 export class GlobalEmotesIntegrationsIndexedDBRepository {

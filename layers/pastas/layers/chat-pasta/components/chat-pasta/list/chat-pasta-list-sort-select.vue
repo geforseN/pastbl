@@ -23,6 +23,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { PastaSortStrategy } from "../../../composables/usePastasSort";
+
 const selectedSortStrategy = defineModel<PastaSortStrategy>({ required: true });
 
 const { t } = useI18n();

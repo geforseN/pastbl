@@ -1,4 +1,5 @@
-import { groupBy } from "./object.ts";
+import type { MaybePromise } from "~/utils/types";
+import { groupBy } from "~/utils/object.ts";
 
 export async function groupAsync<T>(values: MaybePromise<T>[]) {
   const settled = await Promise.allSettled(values);

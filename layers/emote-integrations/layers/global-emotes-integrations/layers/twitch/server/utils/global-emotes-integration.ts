@@ -1,5 +1,3 @@
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
-
 export class TwitchGlobalEmotesIntegration {
   constructor(
     private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,
