@@ -17,11 +17,6 @@ jobs:
         with:
           INSERT_ISSUE_URLS: true
           CLOSE_ISSUES: true
-          IDENTIFIERS: |
-            [
-              {"name": "TODO", "labels": []},
-              {"name": "FIXME", "labels": ["bug"]}
-            ]
       
       - name: Commit and Push Changes
         run: |
