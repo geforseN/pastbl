@@ -16,16 +16,16 @@ onErrorCaptured((error) => {
   const error_
     = error instanceof NotFoundPastaError
       ? createError({
-        statusCode: 404,
-        statusMessage: "Local pasta not found",
-        message: `Local pasta with id=${pastaId} not found`,
-        fatal: true,
-      })
+          statusCode: 404,
+          statusMessage: "Local pasta not found",
+          message: `Local pasta with id=${pastaId} not found`,
+          fatal: true,
+        })
       : createError({
-        statusCode: 404,
-        ...error,
-        fatal: true,
-      });
+          statusCode: 404,
+          ...error,
+          fatal: true,
+        });
   throw error_;
 });
 </script>

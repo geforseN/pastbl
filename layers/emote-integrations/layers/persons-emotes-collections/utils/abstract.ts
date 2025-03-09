@@ -7,7 +7,7 @@ export interface IPersonsEmoteCollectionsRepository<
   // getAll(): Promise<
   //   TPersonEmoteCollection.Default[] /* TPersonEmoteCollection.SettledIndexedDB[] */
   // >;
-  getAllRaw(): Promise<C[] /* TPersonEmoteCollection.SettledIndexedDB[] */>;
+  getAllRaw(): Promise<C[]>;
 
   getAllLogins(): Promise<TwitchUserLogin[]>;
 
