@@ -15,7 +15,7 @@ export interface ChatEmotesResponse {
 export interface GetUsersResponse {
   data: {
     broadcaster_type: "affiliate" | "partner" | "";
-    created_at: string /*  "____-__-__T__:__:__Z" */;
+    created_at: string;
     description: string;
     display_name: string;
     id: `${number}`;

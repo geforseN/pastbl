@@ -27,7 +27,7 @@ export const personEmoteIntegrations = {
   of<S extends EmoteSource>(source: S) {
     return this[source] || raise();
   },
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.BetterTTV;
     yield this.FrankerFaceZ;
     yield this.SevenTV;
@@ -38,7 +38,7 @@ export const personEmoteIntegrations = {
 export class PersonEmoteIntegrations {
   constructor(private readonly personTwitch: PersonTwitch) {}
 
-  async *[Symbol.asyncIterator]() {
+  async* [Symbol.asyncIterator]() {
     for (const integration of personEmoteIntegrations) {
       yield await integration.get(this.personTwitch);
     }

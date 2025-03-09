@@ -9,8 +9,8 @@ export class EmoteSources<T extends string> {
     return this.#set.size;
   }
 
-  *[Symbol.iterator]() {
-    yield * this.values;
+  * [Symbol.iterator]() {
+    yield* this.values;
   }
 
   has(value: unknown): value is T {

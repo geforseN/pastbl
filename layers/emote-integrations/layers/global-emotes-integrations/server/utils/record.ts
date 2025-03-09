@@ -14,7 +14,7 @@ export const globalEmotesIntegrations = {
   of<T extends EmoteSource>(source: T) {
     return this[source] || raise();
   },
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.BetterTTV;
     yield this.FrankerFaceZ;
     yield this.SevenTV;

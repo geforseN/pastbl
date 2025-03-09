@@ -6,8 +6,8 @@ export function useGlobalEmotesIntegrationsState(
 
   return {
     ...integrations_,
-    *[Symbol.iterator]() {
-      yield * this.values;
+    * [Symbol.iterator]() {
+      yield* this.values;
     },
     get values() {
       return Object.values(integrations_.state.value || {});

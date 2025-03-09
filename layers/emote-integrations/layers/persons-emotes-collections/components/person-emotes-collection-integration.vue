@@ -77,7 +77,7 @@
 <script setup generic="Source extends EmoteSource">
 const props = defineProps<{
   // TODO: use Source generic for integration prop
-  integration: TEmoteIntegrations.__Some__ ;
+  integration: TEmoteIntegrations.__Some__;
   twitch: PersonTwitch;
 }>();
 
