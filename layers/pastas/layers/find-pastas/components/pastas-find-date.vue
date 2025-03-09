@@ -1,11 +1,11 @@
 <template>
-  <section class="collapse collapse-arrow border">
+  <section class="collapse-arrow collapse border">
     <input type="checkbox" />
     <h2 class="collapse-title text-xl font-bold">
       {{ $t("pasta.find.date.heading") }}
     </h2>
     <div class="collapse-content !p-2 !py-0">
-      <section class="mb-2 rounded-btn border border-secondary py-2">
+      <section class="rounded-btn border-secondary mb-2 border py-2">
         <h3 class="px-2 text-xl">
           {{ $t("pasta.find.date.createdAt") }}
         </h3>

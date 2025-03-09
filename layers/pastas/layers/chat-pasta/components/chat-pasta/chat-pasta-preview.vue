@@ -1,9 +1,9 @@
 <template>
-  <article class="flex flex-col rounded-box border p-3">
+  <article class="rounded-box flex flex-col border p-3">
     <h3 class="mb-1 ml-1 text-2xl font-bold">
       {{ $t("pasta.preview") }}
     </h3>
-    <span class="w-[342px] grow border border-secondary">
+    <span class="border-secondary w-[342px] grow border">
       <span class="block w-full px-[10px] py-[5px]">
         <chat-pasta-creator-data
           :badges-count="userStore.user.badges.count.state"

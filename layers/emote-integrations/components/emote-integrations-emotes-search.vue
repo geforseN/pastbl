@@ -1,5 +1,5 @@
 <template>
-  <div class="form-control rounded-btn border-2 border-accent p-2">
+  <div class="form-control rounded-btn border-accent border-2 p-2">
     <label
       for="find-user-emote"
       class="ml-1 cursor-pointer text-xl"

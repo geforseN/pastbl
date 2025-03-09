@@ -5,7 +5,7 @@
         id="add-tag"
         v-model="modelValue"
         data-testid="add-pasta-tag-input"
-        class="input join-item input-bordered box-content w-full border-base-content placeholder:text-base-content/80 empty:pr-0 xl:w-auto xl:min-w-[320px]"
+        class="input join-item input-bordered border-base-content placeholder:text-base-content/80 box-content w-full empty:pr-0 xl:w-auto xl:min-w-[320px]"
         :class="isTagTooLong && 'border-error focus:outline-error'"
         type="text"
         :placeholder="$t('pasta-form-tags-input.placeholder')"
@@ -41,7 +41,7 @@
     <!-- TODO: show note that tags.length > pastaTagsCount.max -->
     <span
       v-if="isTagTooLong"
-      class="max-w-xs text-wrap break-words underline decoration-error"
+      class="decoration-error max-w-xs text-wrap break-words underline"
     >
       {{ $t("toast.addTag.fail.tooLongMessage", appConfig.pastaTag.length) }}
     </span>

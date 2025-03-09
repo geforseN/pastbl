@@ -18,7 +18,7 @@
         class="drawer-overlay"
       />
       <ul
-        class="menu min-h-full w-80 space-y-2 bg-base-100 p-4 pt-1 text-base-content"
+        class="menu bg-base-100 text-base-content min-h-full w-80 space-y-2 p-4 pt-1"
       >
         <li class="mt-1">
           <label
@@ -32,7 +32,7 @@
         <li>
           <auth-logged-in-dropdown
             v-if="userSession.loggedIn && userSession.user"
-            class="border bg-base-100"
+            class="bg-base-100 border"
             :user="userSession.user"
             @logout="userSession.clear"
           />

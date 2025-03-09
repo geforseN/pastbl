@@ -1,7 +1,7 @@
 <template>
-  <div class="pointer-events-auto absolute inset-4 bottom-14 rounded bg-neutral p-2 text-xl">
-    <fieldset class="flex justify-between gap-1 bg-base-200 p-2">
-      <legend class="rounded bg-base-100 px-1 text-xl text-base-content">
+  <div class="bg-neutral pointer-events-auto absolute inset-4 bottom-14 rounded p-2 text-xl">
+    <fieldset class="bg-base-200 flex justify-between gap-1 p-2">
+      <legend class="bg-base-100 text-base-content rounded px-1 text-xl">
         Pastbl Button Colors
       </legend>
       <settings-color-form-control

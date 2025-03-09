@@ -3,7 +3,7 @@
     href="/auth/twitch"
     target="_blank"
     data-testid="auth-twitch-login-link-button"
-    class="group btn btn-ghost w-fit flex-nowrap bg-twitch-accent text-base-300 xs:w-auto"
+    class="btn btn-ghost bg-twitch-accent text-base-300 xs:w-auto group w-fit flex-nowrap"
   >
     <span
       class="text-lg/1 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"

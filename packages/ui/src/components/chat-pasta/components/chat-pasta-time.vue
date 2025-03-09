@@ -17,7 +17,7 @@
     </div>
     <template #content>
       <div
-        class="card dropdown-content z-10 w-max border border-base-content bg-base-100 text-base-content"
+        class="card dropdown-content border-base-content bg-base-100 text-base-content z-10 w-max border"
       >
         <div class="card-body !px-3 !py-2 font-bold">
           {{ time.toLocaleString() }}

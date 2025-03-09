@@ -1,7 +1,7 @@
 <template>
   <!-- NOTE: w-[25rem] is required, otherwise pastas related components will have x-scroll  -->
   <div
-    class="w-[25rem] space-y-2 rounded-box border-2 border-twitch-accent p-2"
+    class="rounded-box border-twitch-accent w-[25rem] space-y-2 border-2 p-2"
     :class="
       isRefreshing
         && 'animate-pulse bg-gradient-to-t from-base-300 to-twitch-accent/50'
@@ -62,7 +62,7 @@
     </div>
     <div
       v-if="collection.state.value"
-      class="space-y-2 bg-base-200"
+      class="bg-base-200 space-y-2"
       @mouseover="throttledMouseover"
     >
       <person-emotes-collection-tagged-pastas

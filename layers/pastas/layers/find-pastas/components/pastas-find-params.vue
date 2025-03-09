@@ -1,8 +1,8 @@
 <template>
-  <section class="w-full space-y-1 rounded-box border-2 p-2">
+  <section class="rounded-box w-full space-y-1 border-2 p-2">
     <h2
       id="heading"
-      class="p-2 text-2xl font-bold xs:text-3xl"
+      class="xs:text-3xl p-2 text-2xl font-bold"
     >
       {{ $t("pasta.find.heading") }}
     </h2>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="divide h-fit divide-y-2 rounded-r border border-primary bg-base-100"
+    class="divide border-primary bg-base-100 h-fit divide-y-2 rounded-r border"
   >
     <div
       v-for="(modifier, i) of emoteModifiers"

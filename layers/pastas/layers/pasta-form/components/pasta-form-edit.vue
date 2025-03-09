@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-1 rounded-box border p-2">
+  <div class="rounded-box space-y-1 border p-2">
     <h2 class="p-1 text-3xl font-bold">
       {{ $t("pasta.edit") }}
     </h2>

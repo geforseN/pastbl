@@ -4,7 +4,7 @@
       <el-tabs
         v-model="userStore.selectedTabName"
         v-on-mouseover="showEmoteCard"
-        class="scrollbar-gutter-stable !space-y-0 border border-base-content"
+        class="scrollbar-gutter-stable border-base-content !space-y-0 border"
       >
         <el-tab-pane
           :label="$t('local')"

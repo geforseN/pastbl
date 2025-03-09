@@ -3,10 +3,10 @@
     <nuxt-link-locale
       target="_blank"
       :to
-      class="rounded-full border border-twitch-accent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-twitch-accent"
+      class="border-twitch-accent focus:outline-twitch-accent rounded-full border focus:outline focus:outline-2 focus:outline-offset-2"
     >
       <img
-        class="rounded-full bg-twitch-accent/20"
+        class="bg-twitch-accent/20 rounded-full"
         :width="size"
         :height="size"
         :src="twitch.avatarUrl"

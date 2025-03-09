@@ -1,7 +1,7 @@
 <template>
   <div
     data-testid="pasta-form-collapse"
-    class="collapse collapse-arrow border-2"
+    class="collapse-arrow collapse border-2"
     :class="
       !$formCollapse.isOpen
         ? null
@@ -48,7 +48,7 @@
       </header>
     </div>
     <div
-      class="collapse-content space-y-2 px-1 xs:px-3"
+      class="collapse-content xs:px-3 space-y-2 px-1"
       @keyup.escape="$formCollapse.close"
       @keyup.stop="
         () => {

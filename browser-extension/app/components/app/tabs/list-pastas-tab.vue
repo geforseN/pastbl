@@ -48,13 +48,13 @@
           <template #top>
             <div
               v-if="status === 'finished'"
-              class="w-full bg-base-100 text-center text-accent"
+              class="bg-base-100 text-accent w-full text-center"
             >
               {{ $t('noMorePastas') }}
             </div>
             <div
               v-else-if="status === 'loading'"
-              class="w-full bg-base-100 text-center text-accent"
+              class="bg-base-100 text-accent w-full text-center"
             >
               {{ $t('loading') }}
             </div>

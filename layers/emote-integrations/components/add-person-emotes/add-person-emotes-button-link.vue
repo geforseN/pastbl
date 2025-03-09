@@ -1,7 +1,7 @@
 <template>
   <nuxt-link-locale
     to="/collections?focus=fetch#heading"
-    class="btn btn-accent btn-sm items-center gap-1.5 bg-base-200 text-base-content"
+    class="btn btn-accent btn-sm bg-base-200 text-base-content items-center gap-1.5"
   >
     {{ $t("emotes.add") }}
     <icon

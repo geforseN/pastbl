@@ -9,7 +9,7 @@
         v-model="text"
         placeholder="Pasta text i18n"
         name="text"
-        class="min-h-60 w-full resize-none bg-base-100 p-2 text-base-content caret-purple-900"
+        class="bg-base-100 text-base-content min-h-60 w-full resize-none p-2 caret-purple-900"
       />
       <pasta-is-public-checkbox-control
         class="flex items-center justify-between px-2 py-1"
@@ -19,7 +19,7 @@
         <input
           id="pasta-tag"
           v-model="tag"
-          class="input min-w-0 grow bg-base-100 text-2xl text-base-content"
+          class="input bg-base-100 text-base-content min-w-0 grow text-2xl"
           placeholder="Tag i18n"
           type="text"
           @keypress.enter.prevent="addTag"
@@ -60,7 +60,7 @@
 
       <div
         v-if="error"
-        class="rounded border border-error bg-error p-2 font-bold text-error-content"
+        class="border-error bg-error text-error-content rounded border p-2 font-bold"
       >
         {{ error }}
       </div>

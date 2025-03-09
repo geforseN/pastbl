@@ -7,7 +7,7 @@
       &lt;&lt;
     </button>
     <div
-      class="join-item mx-auto flex w-64 items-center justify-center border border-secondary text-center"
+      class="join-item border-secondary mx-auto flex w-64 items-center justify-center border text-center"
     >
       <input
         id="current-pasta-number"
@@ -16,7 +16,7 @@
         inputmode="numeric"
         pattern="\d*"
         data-test="found-pastas:selected-number"
-        class="input-xs w-12 rounded border-0 bg-base-100 text-end text-base text-base-content underline decoration-secondary underline-offset-2 hover:outline hover:outline-1"
+        class="input-xs bg-base-100 text-base-content decoration-secondary w-12 rounded border-0 text-end text-base underline underline-offset-2 hover:outline hover:outline-1"
         name="found-pasta-number"
         min="0"
         :max="pastasCount > 0 ? pastasCount : 0"

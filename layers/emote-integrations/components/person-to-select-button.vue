@@ -1,8 +1,8 @@
 <template>
   <button
-    class="btn btn-outline btn-sm my-0.5 justify-start p-0 hover:border-secondary"
+    class="btn btn-outline btn-sm hover:border-secondary my-0.5 justify-start p-0"
   >
-    <div class="flex items-center gap-1 rounded-btn p-0.5">
+    <div class="rounded-btn flex items-center gap-1 p-0.5">
       <twitch-user-avatar
         :twitch
         :size="24"

@@ -34,7 +34,7 @@
       <chat-pasta-list-skeleton v-if="pastasStore.pastas.isLoading" />
       <div
         v-else-if="pastasStore.pastas.isReady"
-        class="divide-y-2 rounded-btn rounded-t-none border-2"
+        class="rounded-btn divide-y-2 rounded-t-none border-2"
       >
         <div
           v-if="
@@ -58,7 +58,7 @@
         />
         <template v-if="pastasStore.selectedShowStrategy !== 'none'">
           <div
-            class="my-0.5 flex max-w-[342px] flex-col empty:m-0 empty:border-0 sm:max-w-screen-xs"
+            class="sm:max-w-screen-xs my-0.5 flex max-w-[342px] flex-col empty:m-0 empty:border-0"
           >
             <persons-emotes-collections-hint />
             <global-emotes-integrations-hint />

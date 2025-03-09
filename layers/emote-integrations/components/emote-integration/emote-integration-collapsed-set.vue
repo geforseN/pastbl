@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2"
+    class="collapse-arrow collapse border-2"
     :class="styles.borderAccent"
   >
     <input
@@ -35,7 +35,7 @@
         name="emoteList"
       >
         <div
-          class="flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2 scrollbar"
+          class="scrollbar flex max-h-60 flex-wrap gap-1 overflow-y-auto border-t-2 p-2"
           :class="[styles.borderAccent, styles.scrollbar]"
           tabindex="0"
         >

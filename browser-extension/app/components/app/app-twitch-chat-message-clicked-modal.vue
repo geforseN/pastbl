@@ -3,7 +3,7 @@
     v-show="show"
     ref="container"
     v-on-click-outside="() => (show = false)"
-    class="pointer-events-auto absolute z-10 flex flex-col items-center gap-1 rounded bg-base-100 p-2 text-base-content"
+    class="bg-base-100 text-base-content pointer-events-auto absolute z-10 flex flex-col items-center gap-1 rounded p-2"
     :style
   >
     <button

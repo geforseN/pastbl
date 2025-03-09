@@ -55,7 +55,7 @@
         </ul>
         <div
           :class="styles.borderAccent"
-          class="flex justify-between rounded-box border-2 p-1 px-2"
+          class="rounded-box flex justify-between border-2 p-1 px-2"
         >
           <ready-emote-integration-only #="{ integration }">
             <emote-collection-formed-at :time="integration.formedAt" />

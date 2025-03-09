@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
+    class="bg-base-100 flex flex-col items-center gap-1 rounded-lg border p-2"
   >
     <emote-on-hover-card-close-button @click="$emit('close')" />
     <span class="text-6xl">{{ emoji }}</span>

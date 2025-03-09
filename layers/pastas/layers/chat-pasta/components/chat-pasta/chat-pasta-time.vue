@@ -13,9 +13,9 @@
       </span>
     </div>
     <div
-      class="card dropdown-content compact z-10 w-max rounded-box border bg-base-100 shadow"
+      class="card dropdown-content compact rounded-box bg-base-100 z-10 w-max border shadow"
     >
-      <div class="card-body !px-3 !py-2 font-bold text-base-content">
+      <div class="card-body text-base-content !px-3 !py-2 font-bold">
         {{ time.toLocaleString() }}
       </div>
     </div>

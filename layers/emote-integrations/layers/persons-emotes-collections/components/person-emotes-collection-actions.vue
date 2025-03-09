@@ -1,5 +1,5 @@
 <template>
-  <div class="divide-y rounded-btn border-2 border-info">
+  <div class="rounded-btn border-info divide-y border-2">
     <div class="flex justify-between p-1">
       <refresh-button
         :is-in-process="isCollectionRefreshing"
@@ -15,7 +15,7 @@
         <person-emotes-collection-delete-button
           :disabled="dialog.isRevealed"
           size="sm"
-          class="gap-0.5 border border-error-content"
+          class="border-error-content gap-0.5 border"
           @click="dialog.reveal"
         />
       </person-emotes-collection-delete-button-dialog>

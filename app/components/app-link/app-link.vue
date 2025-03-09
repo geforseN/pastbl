@@ -1,10 +1,10 @@
 <template>
   <nuxt-link-locale
     :to="path"
-    class="group block rounded-box border-2 px-4 py-2 hover:border-base-content hover:bg-base-300"
+    class="rounded-box hover:border-base-content hover:bg-base-300 group block border-2 px-4 py-2"
   >
     <span
-      class="flex items-center justify-between gap-2 text-lg font-bold xs:text-2xl"
+      class="xs:text-2xl flex items-center justify-between gap-2 text-lg font-bold"
     >
       <span class="flex items-center gap-2">
         <slot name="left"><icon name="carbon:link" /></slot>

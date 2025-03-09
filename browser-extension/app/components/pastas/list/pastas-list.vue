@@ -2,7 +2,7 @@
   <div
     ref="container"
     :class="remotePastas.isLoading && loadingClass"
-    class="flex flex-col divide-y overflow-y-auto border bg-base-100 text-base-content"
+    class="bg-base-100 text-base-content flex flex-col divide-y overflow-y-auto border"
     @contextmenu="onContextMenu"
   >
     <slot name="top" />
