@@ -105,7 +105,7 @@ export function useEmoteOnHover(container: ComputedRef<HTMLElement>) {
         }
         const isWrappedEmoji
           = target instanceof HTMLElement
-          && typeof target.dataset.emojiToken === "string";
+            && typeof target.dataset.emojiToken === "string";
         if (isWrappedEmoji) {
           return updateHoveredEmoji(target.innerHTML, event);
         }
