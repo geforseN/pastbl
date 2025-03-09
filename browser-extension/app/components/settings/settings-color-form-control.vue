@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line @stylistic/max-len -->
-  <div class="flex items-center justify-between gap-1 rounded border border-base-content/50 bg-base-100 px-3 py-1 text-base-content">
+  <div class="border-base-content/50 bg-base-100 text-base-content flex items-center justify-between gap-1 rounded border px-3 py-1">
     <label
       :for="id"
       class="cursor-pointer"

@@ -6,7 +6,7 @@
     <Body>
       <app-drawer class="z-50">
         <div class="relative grid">
-          <app-top-nav class="sticky top-0 z-40 bg-base-100/90" />
+          <app-top-nav class="bg-base-100/90 sticky top-0 z-40" />
           <nuxt-loading-indicator />
           <nuxt-layout>
             <nuxt-page />

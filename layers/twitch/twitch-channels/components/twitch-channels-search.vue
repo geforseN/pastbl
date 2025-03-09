@@ -3,7 +3,7 @@
     ref="container"
     v-auto-animate
     data-testid="twitch-channels-search"
-    class="max-h-60 divide-y divide-accent/50 overflow-y-auto rounded"
+    class="divide-accent/50 max-h-60 divide-y overflow-y-auto rounded"
     :class="mustShow && channels.length > 0 && 'border border-accent'"
   >
     <template v-if="mustShow">

@@ -1,5 +1,5 @@
 <template>
-  <section class="collapse collapse-arrow border">
+  <section class="collapse-arrow collapse border">
     <input type="checkbox" />
     <h3 class="collapse-title text-xl font-bold">
       {{ $t("pasta.find.range.heading") }}

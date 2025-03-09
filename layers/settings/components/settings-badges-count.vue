@@ -4,7 +4,7 @@
       <input
         id="badges-count"
         v-model.number="badgesCount"
-        class="input input-secondary w-full rounded-r-none border-r-0 text-lg out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300"
+        class="input input-secondary out-of-range:!bg-error/10 hover:bg-base-300 focus:bg-base-300 w-full rounded-r-none border-r-0 text-lg"
         min="0"
         max="10"
         type="number"
@@ -16,17 +16,17 @@
         class="label"
         for="badges-count"
       >
-        <span class="label-text font-bold text-error">{{ errorMessage }}</span>
+        <span class="label-text text-error font-bold">{{ errorMessage }}</span>
       </label>
     </div>
     <button
-      class="btn btn-square join-item border border-secondary pb-1 text-2xl font-medium focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
+      class="btn btn-square join-item border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary border pb-1 text-2xl font-medium"
       @click="badgesCount--"
     >
       -
     </button>
     <button
-      class="btn btn-square join-item border border-secondary text-2xl font-medium focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary"
+      class="btn btn-square join-item border-secondary focus-within:bg-secondary focus-within:outline-secondary hover:bg-secondary border text-2xl font-medium"
       @click="badgesCount++"
     >
       +

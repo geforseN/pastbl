@@ -6,7 +6,7 @@
     <div
       tabindex="0"
       role="button"
-      class="btn btn-sm flex-nowrap border-twitch-accent text-base-content hover:bg-twitch-accent"
+      class="btn btn-sm border-twitch-accent text-base-content hover:bg-twitch-accent flex-nowrap"
     >
       {{ $t("emotes.select") }}
       <icon
@@ -17,7 +17,7 @@
     </div>
     <ul
       tabindex="0"
-      class="menu dropdown-content z-10 grid max-h-52 w-max overflow-y-auto rounded-btn border-2 bg-base-100 shadow"
+      class="menu dropdown-content rounded-btn bg-base-100 z-10 grid max-h-52 w-max overflow-y-auto border-2 shadow"
     >
       <li>
         <button

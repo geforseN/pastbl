@@ -6,7 +6,7 @@
     <person-emotes-collection-chip
       v-for="collection of personsEmoteCollections.collectionsToSelect.state"
       :key="collection.person.twitch.login"
-      class="border border-base-content"
+      class="border-base-content border"
       :formed-at="collection.formedAt"
       :login="collection.person.twitch.login"
       :nickname="collection.person.twitch.nickname"

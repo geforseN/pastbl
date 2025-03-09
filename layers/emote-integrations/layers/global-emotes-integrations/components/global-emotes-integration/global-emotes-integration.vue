@@ -52,7 +52,7 @@
             <no-state-emote-integration-only #="{ integration, isLoading }">
               <load-button
                 size="xs"
-                class="w-fit gap-0.5 text-white hover:text-secondary-content"
+                class="hover:text-secondary-content w-fit gap-0.5 text-white"
                 :class="[styles.backgroundBase, styles.borderAccent]"
                 :is-in-process="isLoading(integration)"
                 @click="$emit('update' /* TODO: ? load */)"

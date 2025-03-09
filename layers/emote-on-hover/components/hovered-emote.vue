@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="emote"
-    class="flex max-w-xs flex-col items-center gap-1 rounded-lg border bg-base-100 p-2"
+    class="bg-base-100 flex max-w-xs flex-col items-center gap-1 rounded-lg border p-2"
     :class="[styles!.backgroundBase]"
   >
     <emote-on-hover-card-close-button @click="$emit('close')" />
@@ -10,7 +10,7 @@
       :emote
     />
     <div
-      class="flex flex-wrap justify-center gap-1 text-center text-base-content"
+      class="text-base-content flex flex-wrap justify-center gap-1 text-center"
     >
       <hovered-emote-token :emote />
       <div>
@@ -21,7 +21,7 @@
         />
         {{ emote.source }}
       </div>
-      <span class="inline-flex items-baseline text-base-content">
+      <span class="text-base-content inline-flex items-baseline">
         {{ $t(`emote.${emote.type}`) }}
       </span>
     </div>

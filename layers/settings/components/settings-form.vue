@@ -1,5 +1,5 @@
 <template>
-  <section class="divide-y-2 rounded-box border-2 p-2">
+  <section class="rounded-box divide-y-2 border-2 p-2">
     <h2
       id="heading"
       class="p-2 text-3xl font-bold"

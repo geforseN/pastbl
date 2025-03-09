@@ -8,7 +8,7 @@
       v-bind="propsToTest_[19]"
     />
     <div
-      class="grid grid-cols-3 items-center gap-12 bg-base-100"
+      class="bg-base-100 grid grid-cols-3 items-center gap-12"
     >
       <chat-pasta
         v-for="(props, i) of propsToTest_"

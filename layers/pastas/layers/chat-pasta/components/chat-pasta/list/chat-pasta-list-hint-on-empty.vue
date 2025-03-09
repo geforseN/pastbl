@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center bg-warning font-bold text-warning-content">
+  <div class="bg-warning text-warning-content flex justify-center font-bold">
     {{ $t("chat-pasta-list-hint-on-empty") }}
   </div>
 </template>

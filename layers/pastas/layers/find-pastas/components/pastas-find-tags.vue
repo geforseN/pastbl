@@ -1,5 +1,5 @@
 <template>
-  <section class="collapse collapse-arrow border">
+  <section class="collapse-arrow collapse border">
     <input type="checkbox" />
     <h2 class="collapse-title text-xl font-bold">
       {{ $t("pasta.find.tags.heading") }}
@@ -32,13 +32,13 @@
             v-for="tag of tagsToSelect"
             :key="tag"
             :value="tag"
-            class="h-6 p-1 odd:bg-base-300"
+            class="odd:bg-base-300 h-6 p-1"
           >
             {{ tag }}
           </option>
         </select>
         <div class="px-1">
-          <span class="font-bold text-warning">{{ $t("note") }}: </span>
+          <span class="text-warning font-bold">{{ $t("note") }}: </span>
           <i18n-t
             keypath="pasta.find.tags.select-hint"
             tag="span"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-fit gap-1 rounded-btn border border-twitch-accent p-1">
+  <div class="rounded-btn border-twitch-accent flex w-fit gap-1 border p-1">
     <twitch-user-avatar
       :twitch
       :size="24"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2 bg-base-200 p-1">
+  <div class="bg-base-200 flex items-center gap-2 p-1">
     <twitch-user-avatar
       :twitch="{ avatarUrl: thumbnailUrl, login, nickname }"
       :size="24"
@@ -13,7 +13,7 @@
     <div class="ml-auto flex items-center gap-1">
       <span
         v-if="isExact"
-        class="badge text-nowrap rounded-md border-0 bg-success font-bold uppercase"
+        class="badge bg-success text-nowrap rounded-md border-0 font-bold uppercase"
       >
         {{ $t("exact") }}
       </span>

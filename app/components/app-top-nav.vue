@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar border-b-2 border-b-secondary/50 p-1">
+  <nav class="navbar border-b-secondary/50 border-b-2 p-1">
     <ul class="contents space-x-2">
       <li
-        class="bg-hero-graph-paper border-2 border-neutral bg-secondary/95 p-1 text-5xl font-bold text-base-content"
+        class="bg-hero-graph-paper border-neutral bg-secondary/95 text-base-content border-2 p-1 text-5xl font-bold"
       >
         <nuxt-link-locale
           class="pastbl__logo relative bottom-px text-5xl"
@@ -11,7 +11,7 @@
           pastbl
         </nuxt-link-locale>
       </li>
-      <li class="hidden go-brr:block">
+      <li class="go-brr:block hidden">
         <emotes-and-emojis-button-link />
       </li>
       <li class="hidden xl:block">
@@ -20,14 +20,14 @@
       <li class="hidden xl:block">
         <settings-button-link />
       </li>
-      <li class="!ml-auto hidden go-brr:block" />
+      <li class="go-brr:block !ml-auto hidden" />
       <li class="hidden sm:block">
         <app-locale-select />
       </li>
       <li class="hidden sm:block">
         <app-theme-select />
       </li>
-      <li class="!ml-auto go-brr:hidden" />
+      <li class="go-brr:hidden !ml-auto" />
       <li class="hidden min-[380px]:block">
         <auth-logged-in-dropdown
           v-if="userSession.loggedIn && userSession.user"

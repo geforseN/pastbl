@@ -1,5 +1,5 @@
 <template>
-  <div class="w-96 rounded-box border-2 p-2">
+  <div class="rounded-box w-96 border-2 p-2">
     <div class="flex justify-between p-2">
       <h2
         id="heading"

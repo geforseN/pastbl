@@ -1,5 +1,5 @@
 <template>
-  <section class="space-y-2 rounded-box border-2 p-2">
+  <section class="rounded-box space-y-2 border-2 p-2">
     <h2 class="p-2 text-3xl font-bold">
       {{ $t("collections.users.select.heading") }}
     </h2>

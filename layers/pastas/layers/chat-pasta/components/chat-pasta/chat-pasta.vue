@@ -1,7 +1,7 @@
 <template>
   <div
     data-testid="chat-pasta"
-    class="chat-pasta flex border-secondary"
+    class="chat-pasta border-secondary flex"
     :class="compact ? 'flex-col' : 'flex-row'"
   >
     <chat-pasta-main-data

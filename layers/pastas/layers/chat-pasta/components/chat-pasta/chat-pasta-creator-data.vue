@@ -5,7 +5,7 @@
     <div
       v-for="badgeNumber of badgesCount"
       :key="badgeNumber"
-      class="mr-[1.5px] inline-flex size-twitch-badge items-center justify-center bg-red-600 align-middle text-base"
+      class="size-twitch-badge mr-[1.5px] inline-flex items-center justify-center bg-red-600 align-middle text-base"
     >
       {{ badgeNumber }}
     </div>

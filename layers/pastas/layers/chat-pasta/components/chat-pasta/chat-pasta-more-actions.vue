@@ -5,12 +5,12 @@
   >
     <div
       data-testid="chat-pasta-more-actions__dropdown"
-      class="dropdown dropdown-left dropdown-top dropdown-hover !h-8 xs:h-auto"
+      class="dropdown dropdown-left dropdown-top dropdown-hover xs:h-auto !h-8"
     >
       <div
         tabindex="0"
         role="button"
-        class="chat-pasta__sidebar-more-actions-button btn btn-square btn-primary btn-md w-8 border-2 border-primary-content"
+        class="chat-pasta__sidebar-more-actions-button btn btn-square btn-primary btn-md border-primary-content w-8 border-2"
       >
         <span class="more-vert-icon block">
           <icon name="ic:baseline-more-vert" />
@@ -21,7 +21,7 @@
       </div>
       <ul
         tabindex="0"
-        class="chat-pasta__sidebar-more-actions-list menu dropdown-content z-[1] flex w-max translate-x-[18%] flex-row flex-wrap gap-1 rounded-btn border border-base-content bg-base-100 p-2 shadow *:w-min"
+        class="chat-pasta__sidebar-more-actions-list menu dropdown-content rounded-btn border-base-content bg-base-100 z-[1] flex w-max translate-x-[18%] flex-row flex-wrap gap-1 border p-2 shadow *:w-min"
       >
         <!-- eslint-disable vue/no-v-html -->
         <li>

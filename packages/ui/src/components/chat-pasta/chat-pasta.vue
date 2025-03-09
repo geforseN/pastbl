@@ -15,7 +15,7 @@
     >
       <div
         :class="bem.element('main')"
-        class="border-b border-b-twitch-accent px-5 py-2"
+        class="border-b-twitch-accent border-b px-5 py-2"
       >
         <chat-pasta-chatter v-bind="chatter" />
         <span aria-hidden="true">{{ ": " }}</span>

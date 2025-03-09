@@ -1,7 +1,7 @@
 <template>
   <div class="chat-pasta__main">
     <div
-      class="chat-pasta__main-123 w-[342px] border-b border-twitch-accent px-5 py-2"
+      class="chat-pasta__main-123 border-twitch-accent w-[342px] border-b px-5 py-2"
     >
       <slot name="beforeColon" />
       <span aria-hidden="true">{{ ": " }}</span>

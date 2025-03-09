@@ -22,7 +22,7 @@
     <input
       id="nickname"
       v-model="nickname"
-      class="input input-bordered input-secondary text-lg hover:bg-base-300 focus:bg-base-300"
+      class="input input-bordered input-secondary hover:bg-base-300 focus:bg-base-300 text-lg"
       spellcheck="false"
       name="nickname"
       :maxlength="appConfig.nickname.length.max"

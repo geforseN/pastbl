@@ -1,5 +1,5 @@
 <template>
-  <div class="collapse collapse-arrow border-2 bg-base-200 text-2xl">
+  <div class="collapse-arrow bg-base-200 collapse border-2 text-2xl">
     <input
       v-model="isOpen"
       type="checkbox"

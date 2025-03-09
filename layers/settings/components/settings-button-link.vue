@@ -1,7 +1,7 @@
 <template>
   <nuxt-link-locale
     to="/settings#heading"
-    class="btn btn-outline flex-nowrap bg-base-100"
+    class="btn btn-outline bg-base-100 flex-nowrap"
   >
     <strong>{{ $t("settings._") }}</strong>
     ⚙️

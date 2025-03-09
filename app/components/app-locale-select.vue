@@ -2,7 +2,7 @@
   <div class="relative">
     <label
       :for="id"
-      class="absolute -top-1.5 left-2.5 block rounded-md bg-base-100/95 px-1 py-0 text-sm/tight xs:-top-2 xs:left-3 xs:text-sm/tight"
+      class="bg-base-100/95 xs:-top-2 xs:left-3 xs:text-sm/tight absolute -top-1.5 left-2.5 block rounded-md px-1 py-0 text-sm/tight"
     >
       {{ $t("language") }}
     </label>

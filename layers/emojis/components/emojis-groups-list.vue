@@ -1,7 +1,7 @@
 <template>
   <div
     v-on-mouseover="showEmoteCard"
-    class="space-y-1.5 rounded-btn border-2 p-2"
+    class="rounded-btn space-y-1.5 border-2 p-2"
   >
     <emojis-group
       v-for="[title, group] of emojisGroupsEntries"

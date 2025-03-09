@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col rounded-btn border-2 bg-base-300 p-2 text-center"
+    class="rounded-btn bg-base-300 flex flex-col border-2 p-2 text-center"
     :class="
       userStore.pastasWorkMode.isRemote
         ? 'border-secondary'
@@ -18,7 +18,7 @@
         "
         name="pastas-work-mode"
         type="checkbox"
-        class="toggle border-secondary bg-secondary [--tglbg:black] hover:bg-secondary/50"
+        class="toggle border-secondary bg-secondary hover:bg-secondary/50 [--tglbg:black]"
       />
       {{ $t("local-mode") }}
     </div>

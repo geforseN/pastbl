@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="menu dropdown-content z-[1] flex w-max flex-row flex-wrap gap-1 rounded-btn border border-base-content bg-base-100 p-2 shadow"
+    class="menu dropdown-content rounded-btn border-base-content bg-base-100 z-[1] flex w-max flex-row flex-wrap gap-1 border p-2 shadow"
   >
     <li>
       <chat-pasta-edit-button-link

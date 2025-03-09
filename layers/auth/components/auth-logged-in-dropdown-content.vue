@@ -1,12 +1,12 @@
 <template>
   <menu
-    class="menu dropdown-content z-20 w-36 rounded-btn border border-base-content bg-base-100 p-2"
+    class="menu dropdown-content rounded-btn border-base-content bg-base-100 z-20 w-36 border p-2"
   >
     <ul class="m-0 space-y-1 p-0">
       <li class="w-fit">
         <person-emotes-collection-link
           :login
-          class="btn btn-outline btn-sm h-fit flex-nowrap justify-between text-wrap text-start hover:bg-primary"
+          class="btn btn-outline btn-sm hover:bg-primary h-fit flex-nowrap justify-between text-wrap text-start"
         >
           {{ $t("collection.my") }}
           <icon

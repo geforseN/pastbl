@@ -4,7 +4,7 @@
       isRefreshing
         && 'animate-pulse bg-gradient-to-r from-base-300 to-twitch-accent'
     "
-    class="grid grid-cols-[minmax(0,5fr),minmax(0,2fr)] gap-1 rounded-btn p-2"
+    class="rounded-btn grid grid-cols-[minmax(0,5fr),minmax(0,2fr)] gap-1 p-2"
   >
     <div class="space-y-0.5">
       <div class="flex items-end gap-1">
@@ -48,7 +48,7 @@
       </person-emotes-collection-delete-button-dialog>
       <person-emotes-collection-link
         :login
-        class="btn btn-info link btn-xs w-full text-nowrap focus:outline-twitch-accent"
+        class="btn btn-info link btn-xs focus:outline-twitch-accent w-full text-nowrap"
       >
         {{ $t("show-more") }}
       </person-emotes-collection-link>
