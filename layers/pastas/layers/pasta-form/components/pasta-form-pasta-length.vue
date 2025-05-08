@@ -11,6 +11,8 @@
   </span>
 </template>
 <script setup lang="ts">
+import { getTextStatus } from "../../chat-pasta/utils/pasta";
+
 defineOptions({
   inheritAttrs: false,
 });

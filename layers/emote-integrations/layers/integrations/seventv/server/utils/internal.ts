@@ -1,3 +1,5 @@
+import { assert } from "~/utils/assert";
+
 export function defineSevenTVEmoteMaker<T extends string>(type: T) {
   return function (emote: TSevenTV.Api.Emote) {
     const {

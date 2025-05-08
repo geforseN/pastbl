@@ -1,3 +1,6 @@
+import { assert } from "~/utils/assert";
+import type { RaiseReason } from "~/utils/assert";
+
 export function withRemoved<T>(
   array: MaybeRef<T[]>,
   refOrPredicate:

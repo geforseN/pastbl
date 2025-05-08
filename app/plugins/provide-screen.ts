@@ -1,3 +1,6 @@
+import { useBreakpoints, useMediaQuery } from "@vueuse/core";
+import { defineNuxtPlugin } from "#app/nuxt";
+
 export default defineNuxtPlugin(() => {
   const isScreenDidBrr = useMediaQuery(
     `(min-width: ${tailwindTheme.screens["go-brr"]})`,

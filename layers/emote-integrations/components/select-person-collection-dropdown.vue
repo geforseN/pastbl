@@ -41,6 +41,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { LoginSource } from "../layers/persons-emotes-collections/utils/get-person-login";
+import type * as TPersonEmoteCollection from "../layers/persons-emotes-collections/shared/types/namespace";
+
 defineProps<{
   collections: TPersonEmoteCollection.Default[];
 }>();

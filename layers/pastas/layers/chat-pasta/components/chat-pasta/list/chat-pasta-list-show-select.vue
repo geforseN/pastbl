@@ -29,6 +29,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { SelectedLogin } from "../../../../../../emote-integrations/layers/persons-emotes-collections/utils/get-person-login";
+import type { PastaShowStrategy } from "../../../composables/usePastasShow";
+
 const selectedShowStrategy = defineModel<PastaShowStrategy>({ required: true });
 
 const props = defineProps<{

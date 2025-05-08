@@ -1,3 +1,5 @@
+import { log } from "../../../shared/utils/dev-only";
+import { assert } from "../../../app/utils/assert";
 import {
   isRaisePropertyName,
   raiseToastMethod,
@@ -10,6 +12,7 @@ import type {
   RawActionToastMaker,
   RawActionToastsMethods,
 } from "../internal/types";
+import type { INotification, ActionToastsThis, VueI18n } from "./types";
 
 class RawActionToast<N extends string, M extends RawActionToastsMethods> {
   constructor(

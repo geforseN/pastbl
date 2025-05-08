@@ -1,4 +1,7 @@
+import { tryDispatchEvent } from "../../../app/utils/dom";
+import type * as TEmoteIntegrations from "../shared/types";
 import { objectValues } from "../../../app/utils/object.ts";
+import { isEmotesIntegrationReady } from "./guards";
 
 export type EmoteToken = string;
 

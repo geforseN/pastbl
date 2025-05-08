@@ -23,5 +23,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import { usePersonsEmoteCollectionsStore } from "../../../../../../app/stores/usePersonsEmoteCollectionsStore";
+
 const personsEmoteCollections = usePersonsEmoteCollectionsStore();
 </script>

@@ -26,6 +26,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
+import type { OmegaPasta } from "../../../../pastas/layers/chat-pasta/utils/pasta";
 import { PastaTag } from "$ui";
 
 defineProps<{

@@ -1,3 +1,6 @@
+import { allEmoteSources } from "../layers/emote-sources/utils/external";
+import type { EmoteSource } from "../layers/emote-sources/utils/external";
+
 export function useEmoteIntegrationsLoad<
   I extends { source: EmoteSource },
   IRecord extends Record<EmoteSource, I>,

@@ -23,6 +23,8 @@
   />
 </template>
 <script setup lang="ts">
+import { useTextareaAutosize, usePrevious } from "@vueuse/core";
+
 const modelValue = defineModel<string>({ required: true });
 const previousValue = usePrevious(modelValue);
 

@@ -1,3 +1,5 @@
+import type { IPersonEmoteCollection } from "../../shared/types/index";
+
 export async function getPersonEmoteCollection(login: TwitchUserLogin) {
   const twitchUser = await getTwitchUser(login);
   const integrations = await getPersonAllEmoteIntegrations(twitchUser);

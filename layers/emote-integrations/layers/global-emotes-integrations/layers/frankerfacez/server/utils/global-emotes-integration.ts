@@ -1,5 +1,3 @@
-import type { GlobalEmotesIntegrationWithFailControl } from "$global-emotes-integrations/server/utils/make-integration";
-
 export class FrankerFaceZGlobalEmotesIntegration {
   constructor(
     private readonly withFailControl: GlobalEmotesIntegrationWithFailControl,

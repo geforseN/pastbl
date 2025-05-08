@@ -39,6 +39,14 @@
 </template>
 <script setup lang="ts">
 import { z } from "zod";
+import { withRemoved } from "../../../../../app/utils/array";
+import { useActionToasts } from "../../../../toast/composables/useActionToasts";
+import { pastasAPI } from "../utils/pastas.api";
+import { useRemotePastasInfiniteLoad } from "../composables/useRemotePastasInfiniteLoad";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";
+import { useUserStore } from "../../../../../app/stores/useUserStore";
+import { useAppConfig } from "#app/config";
 import { assertIsRemotePastasPaginationCursor } from "~/brands";
 
 const appConfig = useAppConfig();

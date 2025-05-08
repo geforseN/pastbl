@@ -1,3 +1,8 @@
+import { makeSevenTVWrappedEmoteString } from "../layers/integrations/seventv/utils/html";
+import type { IEmote } from "../shared/abstract/types";
+import { isString } from "../../../app/utils/guards";
+import { assert } from "../../../app/utils/assert";
+
 export class EmoteContainer {
   constructor(private readonly element: HTMLImageElement) {}
 

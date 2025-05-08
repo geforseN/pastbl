@@ -20,6 +20,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { isNotNullable } from "../../../../../app/utils/guards";
+import { getEmoteToken } from "../../../utils/emotes-dom";
+import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
+import type { OmegaPasta } from "../../../../pastas/layers/chat-pasta/utils/pasta";
+import type { IEmote } from "../../../shared/abstract/types";
+
 type Props = {
   findEmote: (token: string) => IEmote | undefined;
   canShowPastas: boolean;

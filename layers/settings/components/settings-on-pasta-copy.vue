@@ -23,6 +23,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { KeyValueSchema } from "../../key-value/utils/schema";
+
 const oncopy = defineModel<string>({ required: true });
 
 defineProps<{

@@ -1,4 +1,5 @@
 import { expect } from "vitest";
+import { assert } from "../../../../../../../app/utils/assert";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeShortFrankerFaceZGlobalSet(set: any) {

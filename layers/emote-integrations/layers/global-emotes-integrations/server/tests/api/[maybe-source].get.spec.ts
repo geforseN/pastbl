@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { toLowerCase } from "../../../../../../../app/utils/string";
+import { allEmoteSources } from "../../../../emote-sources/utils/external";
 import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,

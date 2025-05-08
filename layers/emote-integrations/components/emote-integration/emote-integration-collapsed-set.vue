@@ -64,6 +64,9 @@
   </div>
 </template>
 <script setup generic="EmoteSetT extends IEmoteSet">
+import { dasherize } from "../../../../app/utils/string";
+import type { EmoteIntegrationStyle } from "../../utils/styles";
+
 const isOpen = ref(false);
 const mustRenderContent = ref(false);
 

@@ -1,3 +1,7 @@
+import { uniqueValues } from "../../../../../app/utils/array";
+import { makeLengthStatusGetter } from "../../../../../app/utils/length-status";
+import { megaTrim } from "../../../../../app/utils/string";
+import { BadPastaTextLengthError } from "./pasta-errors";
 import { pastasConfig } from "$/pastas/app.config";
 
 export type PastaText = string;

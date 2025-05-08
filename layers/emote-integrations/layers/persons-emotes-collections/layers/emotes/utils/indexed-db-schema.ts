@@ -1,4 +1,5 @@
 import type { DBSchema } from "idb";
+import type { EmoteId, IEmote } from "../../../../../shared/abstract/types";
 
 export interface PersonsEmotesIndexedDBSchema extends DBSchema {
   "persons-emotes": {

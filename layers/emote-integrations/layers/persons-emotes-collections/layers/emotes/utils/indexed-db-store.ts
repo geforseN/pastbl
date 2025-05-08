@@ -1,3 +1,8 @@
+import type { IEmote, EmoteId } from "../../../../../shared/abstract/types";
+import { assert } from "../../../../../../../app/utils/assert";
+import type { EmoteSource } from "../../../../emote-sources/utils/external";
+import type { WithEmoteIntegrationsIndexedDB } from "../../../../indexed-db/utils/with";
+
 export class PersonsEmotesIndexedDBStore {
   constructor(private readonly withDatabase: WithEmoteIntegrationsIndexedDB) {}
 

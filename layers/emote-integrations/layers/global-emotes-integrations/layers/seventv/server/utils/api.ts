@@ -1,3 +1,6 @@
+import { isArray } from "../../../../../../../../app/utils/guards";
+import { assert } from "../../../../../../../../app/utils/assert";
+
 export async function fetchSevenTVGlobalEmotesSet() {
   const response = await fetch("https://7tv.io/v3/emote-sets/global");
   assert.response.ok(

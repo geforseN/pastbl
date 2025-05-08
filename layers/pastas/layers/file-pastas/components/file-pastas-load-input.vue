@@ -16,6 +16,12 @@
   </article>
 </template>
 <script setup lang="ts">
+import { pastasService } from "../../../utils/service/singleton";
+import { groupAsync } from "../../../../../app/utils/promise";
+import { parseMegaPastas, parseFileContent } from "../utils/file-pastas";
+import { useLoadPastasFromFileToast } from "../utils/toasts";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+
 const pastasStore = usePastasStore();
 
 const toast = useLoadPastasFromFileToast();

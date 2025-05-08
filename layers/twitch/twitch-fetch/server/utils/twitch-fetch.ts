@@ -1,4 +1,5 @@
 import { $fetch, type FetchOptions, type FetchRequest } from "ofetch";
+import { assert } from "../../../../../app/utils/assert";
 
 const { TWITCH_APP_CLIENT_ID } = process.env;
 assert.ok(TWITCH_APP_CLIENT_ID);

@@ -1,3 +1,7 @@
+import { isStringifiedNumber } from "~/utils/guards";
+import { isLowercase } from "~/utils/string";
+import { assert } from "~/utils/assert";
+
 export type FrankerFaceZMappedEmoteSet = Unwrap<
   Omit<TFrankerFaceZ.Api.EmoteSet, "id"> & { id: `${number}` }
 >;

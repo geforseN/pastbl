@@ -1,3 +1,6 @@
+import { isEmotesIntegrationReady, isEmotesIntegrationFailed } from "$/emote-integrations/utils/guards";
+import { flatGroupBySource } from "$/emote-integrations/layers/emote-sources/utils/flat-group-by-source";
+
 export class PersonIndexedDBEmoteCollectionDepopulation {
   constructor(private readonly collection: TPersonEmoteCollection.Default) {}
 

@@ -34,6 +34,13 @@
 <script setup lang="ts">
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { vOnClickOutside } from "@vueuse/components";
+import { useExtendedEmoteOnHover } from "$/emote-on-hover/composables/useEmoteOnHover";
+import { savePastasInFile } from "$/pastas/layers/file-pastas/utils/file-pastas";
+import { raise } from "~/utils/raise";
+import { useThemes } from "~/composables/useThemes";
+import { useKeysListenWithAlt } from "~/composables/useKeysListen";
+import { usePastasStore } from "~/stores/usePastasStore";
+import { useLogRocket } from "~/composables/useLogRocket";
 
 const localeHead = useLocaleHead({});
 

@@ -1,3 +1,11 @@
+import { PersonsEmotesCollectionsIndexedDBTransactions } from "../layers/indexed-db/utils/transactions-store";
+import { PersonsEmotesIndexedDBStore } from "../layers/emotes/utils/indexed-db-store";
+import { withEmoteIntegrationsIndexedDB } from "../../indexed-db/utils/with";
+import { PersonsEmoteCollectionsIndexedDBStore } from "../layers/indexed-db/utils/store";
+import { PersonsEmoteCollectionsIndexedDBRepository } from "../layers/indexed-db/utils/repository";
+import { PersonsEmotesCollectionsApi } from "./api";
+import { PersonsEmotesCollectionsService } from "./service";
+
 export const personsEmotesCollectionsService
   = new PersonsEmotesCollectionsService(
     new PersonsEmoteCollectionsIndexedDBRepository(

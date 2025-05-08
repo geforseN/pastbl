@@ -1,4 +1,5 @@
 import type { IDBPDatabase } from "idb";
+import type { WithIndexedDBDatabase } from "../../../../indexed-db/utils/indexed-db.with.ts";
 import type { PastasIndexedDBSchema } from "./pastas.indexed-db-schema.ts";
 
 export type PastasIndexedDBDatabase = IDBPDatabase<PastasIndexedDBSchema>;

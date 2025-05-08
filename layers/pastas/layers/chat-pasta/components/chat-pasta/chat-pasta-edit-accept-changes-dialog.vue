@@ -34,6 +34,11 @@
   </dialog>
 </template>
 <script setup lang="ts">
+import { until } from "@vueuse/core";
+import { assert } from "../../../../../../app/utils/assert";
+import type { OmegaPasta, isPastaTagsSame, isPastaTextSame } from "../../utils/pasta";
+import type { MaybePromise } from "../../../../../../app/utils/types";
+
 const mustAcceptChanges = ref<boolean | null>(null);
 const dialogRef = useTemplateRef("dialog");
 

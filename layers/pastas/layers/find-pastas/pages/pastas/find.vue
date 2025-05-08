@@ -11,6 +11,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useHead } from "@unhead/vue";
+
 definePageMeta({
   layout: false,
 });

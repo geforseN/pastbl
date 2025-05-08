@@ -58,6 +58,14 @@
   </div>
 </template>
 <script setup lang="ts">
+import { watchDebounced } from "@vueuse/core";
+import { writableComputedForKey } from "../../../../../../app/utils/reactive";
+import { usePasta } from "../../composables/usePasta";
+import { createMegaPasta } from "../../utils/pasta";
+import type { OmegaPasta } from "../../utils/pasta";
+import { usePastasStore } from "../../../../../../app/stores/usePastasStore";
+import { useEmotesStore } from "../../../../../../app/stores/useEmotesStore";
+
 const { pastaId } = defineProps<{
   pastaId: number;
 }>();

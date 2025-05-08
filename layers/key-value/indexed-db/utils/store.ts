@@ -1,3 +1,7 @@
+import { assert } from "../../../../app/utils/assert";
+import type { KeyValueSchema } from "../../utils/schema";
+import type { WithAppIndexedDB } from "./types";
+
 export class KeyValueIndexedDBStore {
   constructor(private readonly withDatabase: WithAppIndexedDB) {}
 

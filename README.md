@@ -66,3 +66,7 @@ Locally preview production build:
 ```bash
 pnpm preview
 ```
+
+# Troubleshooting
+
+ [Dev server](https://vite.dev/guide/troubleshooting.html#dev-server)

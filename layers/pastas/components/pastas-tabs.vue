@@ -28,6 +28,11 @@
   </chat-pasta-list-hints>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { injectEmoteOnHover } from "../../emote-on-hover/composables/useEmoteOnHover";
+import { usePastasStore } from "../../../app/stores/usePastasStore";
+import { useUserStore } from "../../../app/stores/useUserStore";
+
 const userStore = useUserStore();
 const pastasStore = usePastasStore();
 

@@ -23,6 +23,8 @@
   </article>
 </template>
 <script setup lang="ts">
+import { useAppConfig } from "#app/config";
+
 const appConfig = useAppConfig();
 
 const badgesCount = defineModel<number>({ required: true });

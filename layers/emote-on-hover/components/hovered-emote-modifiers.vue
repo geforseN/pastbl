@@ -35,6 +35,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { EmoteOnHover } from "../utils/emote-on-hover";
+import type { IEmote } from "../../emote-integrations/shared/abstract/types";
+
 const props = defineProps<{
   emoteModifiers: IEmote[];
 }>();

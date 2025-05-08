@@ -1,3 +1,7 @@
+import type { IEmote } from "$/emote-integrations/shared/abstract/types";
+import type { EmoteSource } from "$/emote-integrations/layers/emote-sources/utils/external";
+import type { WithEmoteIntegrationsIndexedDB } from "$/emote-integrations/layers/indexed-db/utils/with";
+
 export class PersonsEmotesCollectionsIndexedDBTransactions {
   constructor(private readonly withDatabase: WithEmoteIntegrationsIndexedDB) {}
 

@@ -1,3 +1,4 @@
+import type { MegaPasta, OmegaPasta } from "../../layers/chat-pasta/utils/pasta";
 import type { IPastasRepository } from "../abstract.ts";
 
 export class PastasService {

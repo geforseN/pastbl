@@ -93,6 +93,16 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useThrottleFn } from "@vueuse/core";
+import { withEmoteIntegrationsIndexedDB } from "../../indexed-db/utils/with";
+import { EmoteContainer } from "../../../utils/emotes-dom";
+import { EmoteIntegrationContainer } from "../../../utils/integrations-dom";
+import { injectEmoteOnHover } from "../../../../emote-on-hover/composables/useEmoteOnHover";
+import type { OmegaPasta } from "../../../../pastas/layers/chat-pasta/utils/pasta";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+import { usePersonCollection } from "../composables/usePersonCollection";
+import { isError } from "../../../../../app/utils/guards";
+
 const { login } = defineProps<{
   login: TwitchUserLogin;
 }>();

@@ -1,3 +1,5 @@
+import type * as TEmoteIntegrations from "../shared/types";
+
 export {
   isEmotesIntegrationReady,
   isEmotesIntegrationFailed,

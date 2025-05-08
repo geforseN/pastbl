@@ -79,6 +79,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { usePersonsEmoteCollectionsStore } from "../../../../../../../app/stores/usePersonsEmoteCollectionsStore";
+import { usePastasStore } from "../../../../../../../app/stores/usePastasStore";
+import { useUserStore } from "../../../../../../../app/stores/useUserStore";
 import { PastaTag } from "$ui";
 
 defineSlots<{

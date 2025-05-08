@@ -1,3 +1,7 @@
+import type { FailedIntegration, ReadyIntegration, IEmoteIntegrationOwner, IEmoteSet } from "../../../../shared/abstract/types";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type * as TSevenTV from "#t_seventv";
+
 export interface ChannelSet extends IEmoteSet {
   emotes: TSevenTV.ChannelEmote[];
 }

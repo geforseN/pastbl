@@ -1,3 +1,7 @@
+import type { FailedIntegration, ReadyIntegration, IEmoteIntegrationOwner, IEmoteSet } from "../../../../shared/abstract/types";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type * as TBetterTTV from "#t_betterttv";
+
 export interface SharedSet extends IEmoteSet {
   emotes: SharedEmote[];
 }

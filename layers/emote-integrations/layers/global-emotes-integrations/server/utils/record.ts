@@ -1,3 +1,6 @@
+import { raise } from "../../../../../../app/utils/raise";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+
 export const globalEmotesIntegrations = {
   BetterTTV: new BetterTTVGlobalEmotesIntegration(
     new GlobalEmotesIntegrationWithFailControl("BetterTTV"),

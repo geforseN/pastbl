@@ -1,3 +1,5 @@
+import { allEmoteSources } from "../../utils/external";
+
 export const EMOTE_SOURCES_MAX_QUERY_STRING_LENGTH = allEmoteSources.reduce(
   (length, source) => length + source.length,
   allEmoteSources.count,

@@ -1,3 +1,11 @@
+import type { IEmote } from "../../emote-integrations/shared/abstract/types";
+import type { Nullish } from "../../../app/utils/types";
+import { isNotNullable } from "../../../app/utils/guards";
+import { assert } from "../../../app/utils/assert";
+import { getEmoteToken } from "../../emote-integrations/utils/emotes-dom";
+import { useEmotesStore } from "../../../app/stores/useEmotesStore";
+import { raise } from "../../../app/utils/raise";
+
 export function injectEmoteOnHover() {
   return (
     inject<ReturnType<typeof useExtendedEmoteOnHover>>("emoteOnHover")

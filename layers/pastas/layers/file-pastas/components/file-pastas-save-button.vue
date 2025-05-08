@@ -20,5 +20,7 @@
   </button>
 </template>
 <script setup lang="ts">
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+
 const pastasStore = usePastasStore();
 </script>

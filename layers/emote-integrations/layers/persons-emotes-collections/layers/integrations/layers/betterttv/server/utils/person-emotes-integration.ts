@@ -1,5 +1,3 @@
-import type { PersonEmotesIntegrationWithFailControl } from "$persons-emotes-collections/server/utils/make-integration";
-
 export class PersonBetterTTVEmoteIntegration {
   constructor(
     private readonly withFailControl: PersonEmotesIntegrationWithFailControl,

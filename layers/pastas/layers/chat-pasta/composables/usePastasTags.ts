@@ -1,3 +1,6 @@
+import { countAppearances } from "../../../../../app/utils/map";
+import type { OmegaPasta } from "../utils/pasta";
+
 export function usePastasTags(pastas: Ref<OmegaPasta[]>) {
   const allTags = computed(() => pastas.value.flatMap((pasta) => pasta.tags));
 

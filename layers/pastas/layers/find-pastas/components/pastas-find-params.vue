@@ -40,5 +40,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import { usePastaFindStore } from "../../../../../app/stores/usePastaFindStore";
+
 const pastaFindStore = usePastaFindStore();
 </script>

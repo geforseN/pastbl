@@ -1,4 +1,5 @@
 import type { DBSchema } from "idb";
+import type { OmegaPasta } from "../../chat-pasta/utils/pasta";
 
 export interface PastasIndexedDBSchema extends DBSchema {
   list: {

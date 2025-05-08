@@ -49,7 +49,12 @@
   </dynamic-scroller>
 </template>
 <script setup lang="ts">
+import { useEmotesStore } from "../../../../../app/stores/useEmotesStore";
+import type { OmegaPasta } from "../utils/pasta";
+import { usePastasStore } from "../../../../../app/stores/usePastasStore";
+import { useUserStore } from "../../../../../app/stores/useUserStore";
 import type { CanFindEmote } from "../utils/pasta-dom.ts";
+import { useNuxtApp } from "#app/nuxt";
 
 const userStore = useUserStore();
 const pastasStore = usePastasStore();

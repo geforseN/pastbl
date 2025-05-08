@@ -1,3 +1,7 @@
+import { findErrorMessage } from "../../../../../../app/utils/error";
+import type { FailedIntegration } from "../../../../shared/abstract/types";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+import type * as TEmoteIntegrations from "../../../../shared/types";
 import { EmotesIntegrationWithFailControl } from "$/emote-integrations/server/utils/fail-control";
 
 export function definePersonEmoteIntegrationMaker<

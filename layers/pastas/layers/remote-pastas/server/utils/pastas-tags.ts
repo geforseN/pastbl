@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { megaTrim } from "../../../../../../app/utils/string";
 import { transformPastaTag } from "../../../chat-pasta/utils/pasta-tag.ts";
 import { pastasConfig } from "../../../../config.ts";
 

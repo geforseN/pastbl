@@ -1,3 +1,5 @@
+import { log } from "../../../shared/utils/dev-only";
+import type { INotification, ActionToastsContext } from "../utils/types";
 import { revertedAliases } from "../internal/utils.ts";
 import type { RawActionToastsMethods, AdditionalMethodName } from "./types.ts";
 

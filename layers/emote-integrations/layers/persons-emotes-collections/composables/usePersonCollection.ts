@@ -1,3 +1,11 @@
+import type { IPersonEmoteCollection } from "../shared/types/index";
+import type { IEmoteIntegration } from "$/emote-integrations/shared/abstract/types";
+import { useMyAsyncState } from "~/composables/useAsync";
+import { usePersonsEmoteCollectionsStore } from "~/stores/usePersonsEmoteCollectionsStore";
+import type { EmoteToken, getEmotesMapInEmotesIntegrations } from "$/emote-integrations/utils/emotes";
+import { log } from "~~/shared/utils/dev-only";
+import type { Nullish } from "~/utils/types";
+
 function __updateIntegration__(
   collection: IPersonEmoteCollection,
   integration: IEmoteIntegration,

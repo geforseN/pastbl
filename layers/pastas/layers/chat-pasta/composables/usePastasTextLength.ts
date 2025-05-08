@@ -1,3 +1,5 @@
+import type { OmegaPasta } from "../utils/pasta";
+
 export function usePastasTextLength(pastas: Ref<OmegaPasta[]>) {
   const pastasTextLength = computed(() =>
     pastas.value.map((pasta) => pasta.text.length),

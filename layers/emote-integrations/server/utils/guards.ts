@@ -1,3 +1,5 @@
+import type * as TEmoteIntegrations from "../../shared/types";
+
 export function isEmotesIntegrationReady(
   integration: TEmoteIntegrations.Global.Settled,
 ): integration is TEmoteIntegrations.Global.Ready;

@@ -1,3 +1,7 @@
+import type { EmoteSource } from "../layers/emote-sources/utils/external";
+import { raise } from "../../../app/utils/raise";
+import type * as TEmoteIntegrations from "../shared/types";
+
 function getEmotesIntegrationStatusAsEmoji(
   integration: TEmoteIntegrations.Settled,
 ) {

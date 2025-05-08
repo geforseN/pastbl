@@ -1,4 +1,6 @@
 import type { PiniaPluginContext } from "pinia";
+import { log } from "../../shared/utils/dev-only";
+import { defineNuxtPlugin } from "#app/nuxt";
 
 function piniaLogPlugin({ store }: PiniaPluginContext) {
   if (import.meta.dev) {

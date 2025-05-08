@@ -72,6 +72,12 @@
   </article>
 </template>
 <script setup generic="Source extends EmoteSource">
+import { useEmoteIntegration } from "../../../../composables/useEmoteIntegration";
+import { provideEmoteIntegration } from "../../../../utils/provide-inject";
+import { provideEmoteSource } from "../../../emote-sources/utils/provide-inject-emote-source";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+
 const checkedSources = defineModel<EmoteSource[]>("checkedSources", {
   required: true,
 });

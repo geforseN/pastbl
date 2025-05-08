@@ -1,4 +1,6 @@
 import { expectTypeOf, describe, test, it } from "vitest";
+import { createActionToasts } from "../utils/create-raw-action-toasts";
+import type { VueI18n } from "../utils/types";
 import { useActionToasts } from "./useActionToasts.ts";
 
 const actionsToastsOptions = {

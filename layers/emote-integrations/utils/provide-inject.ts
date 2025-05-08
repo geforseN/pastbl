@@ -1,3 +1,6 @@
+import { assert } from "../../../app/utils/assert";
+import type * as TEmoteIntegrations from "../shared/types";
+
 const emoteIntegrationSymbol = Symbol("emoteIntegration");
 
 export function provideEmoteIntegration(

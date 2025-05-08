@@ -1,3 +1,4 @@
+import type { EmoteSource } from "../../../../../emote-sources/utils/external";
 import {
   personEmoteIntegrations,
   type PersonEmoteIntegrationRecord,

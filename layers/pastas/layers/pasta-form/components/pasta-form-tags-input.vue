@@ -48,6 +48,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { assert } from "../../../../../app/utils/assert";
+import { useAppConfig } from "#app/config";
+
 const appConfig = useAppConfig();
 
 const modelValue = defineModel<string>({ required: true });

@@ -1,3 +1,8 @@
+import type { EmoteSource } from "../../../emote-sources/utils/external";
+import type { EmoteId } from "../../../../shared/abstract/types";
+import type * as TEmoteIntegrations from "../../../../shared/types";
+import type { IPersonEmoteCollection } from "./index";
+
 export type Default = IPersonEmoteCollection;
 
 export interface Minimal {
@@ -11,14 +16,14 @@ export interface Minimal {
 type MakeIndexedDBPersonEmoteIntegration<
   I extends TEmoteIntegrations.Person.Settled,
 > = I extends TEmoteIntegrations.Person.Ready
-  ? // eslint-disable-next-line
-    I & {
-      sets: Array<
-        Omit<I["sets"][number], "emotes"> & {
-          emotesIds: EmoteId[];
-        }
-      >;
+  ?
+I & {
+  sets: Array<
+    Omit<I["sets"][number], "emotes"> & {
+      emotesIds: EmoteId[];
     }
+  >;
+}
   : I extends TEmoteIntegrations.Person.Failed
     ? I & { sets: never }
     : never;

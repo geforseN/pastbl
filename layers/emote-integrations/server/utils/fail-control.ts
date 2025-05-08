@@ -1,3 +1,6 @@
+import type { ReadyIntegration, FailedIntegration } from "../../shared/abstract/types";
+import type { EmoteSource } from "../../layers/emote-sources/utils/external";
+
 export abstract class EmotesIntegrationWithFailControl {
   abstract source: EmoteSource;
 

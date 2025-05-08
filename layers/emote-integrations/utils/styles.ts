@@ -1,3 +1,5 @@
+import type { EmoteSource } from "../layers/emote-sources/utils/external";
+
 export type EmoteIntegrationStyle = {
   borderAccent: string;
   backgroundBase: string;

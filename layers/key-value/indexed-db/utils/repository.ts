@@ -1,3 +1,5 @@
+import type { KeyValueSchema } from "../../utils/schema";
+import type { IKeyValueRepository } from "../../utils/abstract";
 import type { KeyValueIndexedDBStore } from "$/key-value/indexed-db/utils/store.ts";
 
 export class KeyValueIndexedDBRepository implements IKeyValueRepository {

@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { allEmoteSources } from "../../../../emote-sources/utils/external";
+import { isArray } from "../../../../../../../app/utils/guards";
 import {
   integrationWithAnyFormedAtNumber,
   makeShortFrankerFaceZGlobalSet,

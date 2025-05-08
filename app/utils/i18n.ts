@@ -5,8 +5,8 @@ import {
   type UseTimeAgoOptions,
   type UseTimeAgoUnitNamesDefault,
 } from "@vueuse/core";
-import { objectKeys } from "./object.ts";
-import { assert } from "./assert.ts";
+import { objectKeys } from "~/utils/object.ts";
+import { assert } from "~/utils/assert.ts";
 
 const numberInRegex = /\d/;
 
